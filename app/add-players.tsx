@@ -57,7 +57,7 @@ export default function AddPlayersScreen() {
             >
                 <View style={styles.header}>
                     <Text style={styles.title}>ADD PLAYERS</Text>
-                    <Text style={styles.count}>{players.length} / {MAX_PLAYERS}</Text>
+                    <Text style={styles.count}>{players.length} / {MAX_PLAYERS}  </Text>
                 </View>
 
                 <View style={styles.inputRow}>
@@ -86,7 +86,7 @@ export default function AddPlayersScreen() {
                     {players.length === 0 ? (
                         <View style={styles.empty}>
                             <Ionicons name="people-outline" size={40} color={Colors.grayMedium} />
-                            <Text style={styles.emptyText}>Add at least {MIN_PLAYERS} players</Text>
+                            <Text style={styles.emptyText}>Add at least {MIN_PLAYERS} players </Text>
                         </View>
                     ) : (
                         players.map((p, i) => (
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
 
     list: { gap: 12 },
     empty: { alignItems: 'center', paddingVertical: 20, gap: 12 },
-    emptyText: { fontSize: 14, color: Colors.grayMedium },
+    emptyText: { fontSize: 14, color: Colors.grayMedium, paddingHorizontal: 16, textAlign: 'center', flexShrink: 0 },
 
     footer: { gap: 10, paddingTop: 8 },
     warn: { textAlign: 'center', color: Colors.warning, fontSize: 12 },

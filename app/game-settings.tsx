@@ -45,7 +45,7 @@ export default function GameSettingsScreen() {
             >
                 <View style={styles.header}>
                     <Text style={styles.title}>SETTINGS</Text>
-                    <Text style={styles.subtitle}>Customize your game</Text>
+                    <Text style={styles.subtitle}>Customize your game  </Text>
                 </View>
 
                 <View style={styles.settingsGroup}>
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24, gap: 32 },
     header: { alignItems: 'center', gap: 4 },
     title: { fontSize: 24, fontWeight: '800', color: Colors.white, letterSpacing: 4 },
-    subtitle: { fontSize: 13, color: Colors.grayLight },
+    subtitle: { fontSize: 13, color: Colors.grayLight, flexShrink: 0, paddingHorizontal: 4 },
     settingsGroup: { gap: 24, width: '100%', maxWidth: 400, alignSelf: 'center' },
     footer: { alignItems: 'center' },
 });

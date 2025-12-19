@@ -40,7 +40,7 @@ export default function ResultsScreen() {
                 <Animated.View style={[styles.resultCard, animStyle]}>
                     <Ionicons name={impostersCaught ? "trophy" : "skull"} size={48} color={impostersCaught ? Colors.success : Colors.imposter} />
                     <Text style={styles.resultTitle}>{impostersCaught ? 'CREWMATES WIN!' : 'IMPOSTER ESCAPED!'}</Text>
-                    <Text style={styles.resultSub}>{impostersCaught ? 'The imposter was caught' : 'Fooled everyone'}</Text>
+                    <Text style={styles.resultSub}>{impostersCaught ? 'The imposter was caught  ' : 'Fooled everyone  '}</Text>
                 </Animated.View>
 
                 <View style={styles.section}>
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
 
     resultCard: { alignItems: 'center', padding: 24, backgroundColor: Colors.grayDark, borderRadius: 16, gap: 8, borderWidth: 1, borderColor: Colors.gray },
     resultTitle: { fontSize: 22, fontWeight: '800', color: Colors.white },
-    resultSub: { fontSize: 13, color: Colors.grayLight },
+    resultSub: { fontSize: 13, color: Colors.grayLight, flexShrink: 0, paddingHorizontal: 4 },
 
     section: { gap: 8 },
     sectionTitle: { fontSize: 10, fontWeight: '700', color: Colors.grayMedium, letterSpacing: 2 },

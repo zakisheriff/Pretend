@@ -55,9 +55,9 @@ export default function StartGameScreen() {
             <View style={styles.center}>
                 <Ionicons name="search" size={28} color={Colors.white} />
                 <Text style={styles.title}>INVESTIGATION</Text>
-                <Text style={styles.subtitle}>Get ready to find the imposter</Text>
+                <Text style={styles.subtitle}>Get ready to find the imposter  </Text>
                 <View style={styles.infoBox}>
-                    <Text style={styles.infoText}>{players.length} players • {settings.imposterCount} imposter{settings.imposterCount > 1 ? 's' : ''} • {formatTime(settings.discussionTime)}</Text>
+                    <Text style={styles.infoText}>{players.length} players • {settings.imposterCount} imposter{settings.imposterCount > 1 ? 's' : ''} • {formatTime(settings.discussionTime)} </Text>
                 </View>
             </View>
         </View>
@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
     center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 },
     title: { fontSize: 24, fontWeight: '700', color: Colors.white, letterSpacing: 1 },
     subtitle: { fontSize: 14, color: Colors.grayLight },
-    infoBox: { backgroundColor: Colors.grayDark, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 12, marginTop: 8, borderWidth: 1, borderColor: Colors.gray },
-    infoText: { fontSize: 12, color: Colors.grayLight },
+    infoBox: { backgroundColor: Colors.grayDark, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 12, marginTop: 8, borderWidth: 1, borderColor: Colors.gray, flexShrink: 0 },
+    infoText: { fontSize: 12, color: Colors.grayLight, flexShrink: 0 },
     countCircle: { width: 140, height: 140, borderRadius: 70, backgroundColor: Colors.grayDark, borderWidth: 3, borderColor: Colors.white, alignItems: 'center', justifyContent: 'center' },
     countText: { fontSize: 56, fontWeight: '800', color: Colors.white },
 });

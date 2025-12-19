@@ -28,7 +28,7 @@ export const GameSetting: React.FC<GameSettingProps> = ({
                     <Text style={styles.label}>{label}</Text>
                 </View>
                 <Text style={styles.currentValue}>
-                    {formatLabel ? formatLabel(value) : value}
+                    {formatLabel ? formatLabel(value) : value}{' '}
                 </Text>
             </View>
 
@@ -42,7 +42,7 @@ export const GameSetting: React.FC<GameSettingProps> = ({
                             onPress={() => onChange(opt)}
                         >
                             <Text style={[styles.optionText, isSelected && styles.optionTextSelected]}>
-                                {formatLabel ? formatLabel(opt) : opt}
+                                {formatLabel ? formatLabel(opt) : opt}{' '}
                             </Text>
                         </TouchableOpacity>
                     );
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: Colors.grayLight,
         letterSpacing: 2,
+        flexShrink: 0,
     },
     currentValue: {
         fontSize: 14,

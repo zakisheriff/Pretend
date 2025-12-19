@@ -77,7 +77,7 @@ export default function RoleRevealScreen() {
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + 16 }]}>
             <View style={styles.progress}>
-                <Text style={styles.progressText}>Player {currentRevealIndex + 1} of {players.length}</Text>
+                <Text style={styles.progressText}>Player {currentRevealIndex + 1} of {players.length}  </Text>
                 <View style={styles.progressBar}>
                     <View style={[styles.progressFill, { width: `${((currentRevealIndex + 1) / players.length) * 100}%` }]} />
                 </View>
@@ -99,8 +99,8 @@ export default function RoleRevealScreen() {
             {hasRevealed && (
                 <View style={styles.footer}>
                     <View style={styles.passRow}>
-                        <Ionicons name="phone-portrait-outline" size={14} color={Colors.grayLight} />
-                        <Text style={styles.passText}>Pass phone to {isLast ? 'start discussion' : 'next player'}</Text>
+                        <Ionicons name="phone-portrait-outline" size={14} color={Colors.grayLight} style={styles.passIcon} />
+                        <Text style={styles.passText}>Pass phone to {isLast ? 'start discussion' : 'next player'} </Text>
                     </View>
                     <Button
                         title={isLast ? "EVERYONE'S READY" : "NEXT PLAYER"}
@@ -118,13 +118,14 @@ export default function RoleRevealScreen() {
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.black, paddingHorizontal: 16 },
     progress: { paddingHorizontal: 16, paddingVertical: 12, alignItems: 'center' },
-    progressText: { fontSize: 12, color: Colors.grayLight, marginBottom: 6 },
+    progressText: { fontSize: 12, color: Colors.grayLight, marginBottom: 6, flexShrink: 0 },
     progressBar: { width: '100%', height: 3, backgroundColor: Colors.gray, borderRadius: 2 },
     progressFill: { height: '100%', backgroundColor: Colors.white, borderRadius: 2 },
     cardArea: { flex: 1, justifyContent: 'center', paddingVertical: 20 },
-    footer: { paddingHorizontal: 16, paddingTop: 12, gap: 10 },
-    passRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
-    passText: { fontSize: 12, color: Colors.grayLight, fontStyle: 'italic' },
+    footer: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 10, marginBottom: 10 },
+    passRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+    passIcon: { marginRight: 8 },
+    passText: { fontSize: 13, color: Colors.grayLight },
     doneContent: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24, gap: 8 },
     doneTitle: { fontSize: 24, fontWeight: '700', color: Colors.white, letterSpacing: 1 },
     doneSub: { fontSize: 14, color: Colors.grayLight },

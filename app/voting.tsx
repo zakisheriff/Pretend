@@ -40,7 +40,7 @@ export default function VotingScreen() {
         return (
             <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
                 <View style={[styles.centeredContent]}>
-                    <Text style={styles.voterLabel}>VOTER {voterIdx + 1} / {players.length}</Text>
+                    <Text style={styles.voterLabel}>VOTER {voterIdx + 1} / {players.length}  </Text>
                     <View style={styles.voterAvatar}>
                         <Text style={styles.voterInitial}>{voter?.name.charAt(0).toUpperCase()}</Text>
                     </View>
@@ -104,7 +104,7 @@ export default function VotingScreen() {
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.black },
     centeredContent: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-    voterLabel: { fontSize: 11, color: Colors.grayLight, letterSpacing: 2, marginBottom: 16 },
+    voterLabel: { fontSize: 11, color: Colors.grayLight, letterSpacing: 2, marginBottom: 16, flexShrink: 0 },
     voterAvatar: { width: 80, height: 80, borderRadius: 40, backgroundColor: Colors.grayDark, borderWidth: 2, borderColor: Colors.white, alignItems: 'center', justifyContent: 'center' },
     voterInitial: { fontSize: 32, fontWeight: '700', color: Colors.white },
     voterName: { fontSize: 22, fontWeight: '700', color: Colors.white, marginTop: 12 },

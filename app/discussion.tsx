@@ -67,8 +67,8 @@ export default function DiscussionScreen() {
             )}
 
             <View style={styles.footerRow}>
-                <Ionicons name="phone-portrait-outline" size={12} color={Colors.grayMedium} />
-                <Text style={styles.footerText}>{done ? 'Everyone vote now' : 'Place phone in center'}</Text>
+                <Ionicons name="phone-portrait-outline" size={12} color={Colors.grayMedium} style={styles.footerIcon} />
+                <Text style={styles.footerText}>{done ? 'Everyone vote now ' : 'Place phone in center '}</Text>
             </View>
         </View>
     );
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     pausedBadge: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.85)', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8 },
     pausedText: { fontSize: 14, fontWeight: '700', color: Colors.warning, letterSpacing: 2 },
     controls: { flexDirection: 'row', gap: 12, marginBottom: 16 },
-    footerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
-    footerText: { fontSize: 11, color: Colors.grayMedium, fontStyle: 'italic' },
+    footerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+    footerIcon: { marginRight: 8 },
+    footerText: { fontSize: 13, color: Colors.grayMedium }, // Removed italic/size 11 which was too small/clipped
 });

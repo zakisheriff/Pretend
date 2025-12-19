@@ -23,7 +23,7 @@ export default function HomeScreen() {
                     <AnimatedLogo size={100} />
                     <View style={styles.titleBox}>
                         <Text style={styles.title}>IMPOSTER</Text>
-                        <Text style={styles.subtitle}>THE GAME</Text>
+                        <Text style={styles.subtitle}>THE GAME  </Text>
                     </View>
                     <View style={styles.tagline}>
                         <Text style={styles.taglineText}>One phone. Many secrets.</Text>
@@ -38,8 +38,8 @@ export default function HomeScreen() {
                 </View>
 
                 <View style={styles.footer}>
-                    <Ionicons name="cloud-offline-outline" size={12} color={Colors.grayMedium} />
-                    <Text style={styles.footerText}>Offline Party Game</Text>
+                    <Ionicons name="cloud-offline-outline" size={12} color={Colors.grayMedium} style={styles.footerIcon} />
+                    <Text style={styles.footerText}>Offline Party Game </Text>
                 </View>
             </View>
         </LinearGradient>
@@ -54,8 +54,9 @@ const styles = StyleSheet.create({
     title: { fontSize: 36, fontWeight: '800', color: Colors.white, letterSpacing: 4 },
     subtitle: { fontSize: 16, fontWeight: '500', color: Colors.grayLight, letterSpacing: 2, marginTop: -4 },
     tagline: { paddingHorizontal: 16, paddingVertical: 8, backgroundColor: Colors.grayDark, borderRadius: 16, borderWidth: 1, borderColor: Colors.gray },
-    taglineText: { fontSize: 12, color: Colors.grayLight, fontStyle: 'italic' },
+    taglineText: { fontSize: 12, color: Colors.grayLight, fontStyle: 'italic', paddingHorizontal: 2 },
     buttons: { gap: 12, marginBottom: 16 },
-    footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
-    footerText: { fontSize: 11, color: Colors.grayMedium },
+    footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+    footerIcon: { marginRight: 8 },
+    footerText: { fontSize: 13, color: Colors.grayMedium, flexShrink: 0 },
 });

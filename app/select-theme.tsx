@@ -36,7 +36,7 @@ export default function SelectThemeScreen() {
             >
                 <View style={styles.header}>
                     <Text style={styles.title}>SELECT THEME</Text>
-                    <Text style={styles.subtitle}>Choose a word category</Text>
+                    <Text style={styles.subtitle}>Choose a word category  </Text>
                 </View>
 
                 <View style={styles.grid}>
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 20, gap: 24 },
     header: { alignItems: 'center' },
     title: { fontSize: 22, fontWeight: '700', color: Colors.white, letterSpacing: 1 },
-    subtitle: { fontSize: 13, color: Colors.grayLight, marginTop: 4 },
+    subtitle: { fontSize: 13, color: Colors.grayLight, marginTop: 4, flexShrink: 0 },
     grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 12 },
     footer: { alignItems: 'center', paddingTop: 8 },
 });

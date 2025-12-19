@@ -1,50 +1,73 @@
-# Welcome to your Expo app 👋
+# IMPOSTER - The Game
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> **"One phone. Many secrets."**
 
-## Get started
+Imposter is a high-stakes local multiplayer party game of deduction, deception, and trust. Gather your friends, pass the phone, and find out who among you is lying!
 
-1. Install dependencies
+![Imposter Banner](assets/images/icon.png)
 
-   ```bash
-   npm install
-   ```
+## 🎮 How to Play
 
-2. Start the app
+1.  **Gather Players:** 3 to 10 players needed.
+2.  **Pass the Phone:** Each player secretly sees their role.
+    *   **Crewmates** see the secret word.
+    *   **Imposter(s)** see nothing (or a tricky hint!).
+3.  **Discussion:** A timer starts. Ask questions, describe the word, but don't give it away!
+4.  **Voting:** Time's up! clear the room and vote for who you think the Imposter is.
+5.  **Results:** Did the Crewmates win? Or did the Imposter blend in?
 
-   ```bash
-   npx expo start
-   ```
+## ✨ Features
 
-In the output, you'll find options to open the app in a
+*   **📱 Single Device Multiplayer:** Seamless pass-and-play flow.
+*   **🎨 Dynamic Themes:** Choose from categories like Food, Places, Tech, and more.
+*   **⚙️ Custom Game Settings:**
+    *   Adjust **Imposter Count**.
+    *   Set **Discussion Time**.
+    *   **Hint Difficulty:** Give Imposters no help (Hard) or a subtle clue (Easy).
+*   **🗳️ Interactive Voting:** Drag-and-tap voting system.
+*   **⚡ Smooth Animations:** Built with Reanimated for a premium feel.
+*   **💾 Auto-Save:** Players are saved between rounds for quick replays.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🛠️ Tech Stack
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+*   **Framework:** [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/) (Expo Router).
+*   **State Management:** [Zustand](https://github.com/pmndrs/zustand) for robust game logic.
+*   **Animations:** [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/).
+*   **Gestures:** [React Native Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/).
+*   **Design:** Custom component library with a dark, cinematic UI.
 
-## Get a fresh project
+## 🚀 Getting Started
 
-When you're ready, run:
+1.  **Clone the repo:**
+    ```bash
+    git clone https://github.com/zakisheriff/Imposter.git
+    cd Imposter
+    ```
 
-```bash
-npm run reset-project
-```
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+3.  **Run the app:**
+    ```bash
+    npx expo start
+    ```
 
-## Learn more
+4.  **Scan & Play:** Scan the QR code with the Expo Go app on your phone (Android/iOS).
 
-To learn more about developing your project with Expo, look at the following resources:
+## 📂 Project Structure
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+*   `app/`: Screens and navigation (Expo Router).
+*   `components/game/`: Reusable UI components (PlayerCard, Timer, etc.).
+*   `store/`: Zustand store (`gameStore.ts`) managing game state.
+*   `data/`: Word lists and theme data.
+*   `constants/`: App-wide styles and colors.
 
-## Join the community
+## 🤝 Contributing
 
-Join our community of developers creating universal apps.
+Contributions are welcome! Feel free to open an issue or submit a pull request.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+Made with ❤️ by [Zaki Sheriff](https://github.com/zakisheriff)
