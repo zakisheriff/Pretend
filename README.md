@@ -126,5 +126,5 @@ MIT License
 ---
 
 <p align="center">
-Made with ❤️ by <strong>Zaki Sheriff</strong>
+Made by <strong>Zaki Sheriff</strong>
 </p>
