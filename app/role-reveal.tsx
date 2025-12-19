@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     progressFill: { height: '100%', backgroundColor: Colors.white, borderRadius: 2 },
     cardArea: { flex: 1, justifyContent: 'center', paddingVertical: 20 },
     footer: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 10, marginBottom: 10 },
-    passRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+    passRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 16 },
     passIcon: { marginRight: 8 },
     passText: { fontSize: 13, color: Colors.grayLight },
     doneContent: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24, gap: 8 },

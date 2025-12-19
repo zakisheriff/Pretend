@@ -61,7 +61,7 @@ export default function GameSettingsScreen() {
                         label="HINT STRENGTH"
                         value={['none', 'low', 'medium', 'high'].indexOf(settings.hintStrength)}
                         options={[0, 1, 2, 3]}
-                        formatLabel={(v) => ['NONE', 'EASY', 'MEDIUM', 'HARD'][v]}
+                        formatLabel={(v) => ['NONE', 'LOW', 'MEDIUM', 'HIGH'][v]}
                         onChange={(v) => { haptics.selection(); updateSettings({ hintStrength: ['none', 'low', 'medium', 'high'][v] as any }); }}
                         icon="bulb-outline"
                     />

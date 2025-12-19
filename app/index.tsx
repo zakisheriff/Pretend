@@ -22,8 +22,8 @@ export default function HomeScreen() {
                 <View style={styles.content}>
                     <AnimatedLogo size={100} />
                     <View style={styles.titleBox}>
-                        <Text style={styles.title}>IMPOSTER</Text>
-                        <Text style={styles.subtitle}>THE GAME  </Text>
+                        <Text style={styles.title}>Pretend</Text>
+                        <Text style={styles.subtitle}>The Game  </Text>
                     </View>
                     <View style={styles.tagline}>
                         <Text style={styles.taglineText}>One phone. Many secrets.</Text>

@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Imposter",
-    "slug": "imposter",
+    "name": "Pretend",
+    "slug": "pretend",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "imposter",
+    "scheme": "pretend",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "ios": {
