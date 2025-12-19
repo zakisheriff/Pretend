@@ -1,73 +1,130 @@
-# IMPOSTER - The Game
+# <div align="center">Pretend</div>
 
-> **"One phone. Many secrets."**
+<div align="center">
+<strong>The Ultimate Offline Party Game of Deception</strong>
+</div>
 
-Imposter is a high-stakes local multiplayer party game of deduction, deception, and trust. Gather your friends, pass the phone, and find out who among you is lying!
+<br />
 
-![Imposter Banner](assets/images/icon.png)
+<div align="center">
 
-## 🎮 How to Play
+![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-1.  **Gather Players:** 3 to 10 players needed.
-2.  **Pass the Phone:** Each player secretly sees their role.
-    *   **Crewmates** see the secret word.
-    *   **Imposter(s)** see nothing (or a tricky hint!).
-3.  **Discussion:** A timer starts. Ask questions, describe the word, but don't give it away!
-4.  **Voting:** Time's up! clear the room and vote for who you think the Imposter is.
-5.  **Results:** Did the Crewmates win? Or did the Imposter blend in?
+<br />
+<br />
 
-## ✨ Features
+<img src="assets/images/icon.png" width="140" height="140" style="border-radius: 20%;" />
 
-*   **📱 Single Device Multiplayer:** Seamless pass-and-play flow.
-*   **🎨 Dynamic Themes:** Choose from categories like Food, Places, Tech, and more.
-*   **⚙️ Custom Game Settings:**
-    *   Adjust **Imposter Count**.
-    *   Set **Discussion Time**.
-    *   **Hint Difficulty:** Give Imposters no help (Hard) or a subtle clue (Easy).
-*   **🗳️ Interactive Voting:** Drag-and-tap voting system.
-*   **⚡ Smooth Animations:** Built with Reanimated for a premium feel.
-*   **💾 Auto-Save:** Players are saved between rounds for quick replays.
+<br />
+<br />
 
-## 🛠️ Tech Stack
+**One Phone. Many Secrets.**
 
-*   **Framework:** [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/) (Expo Router).
-*   **State Management:** [Zustand](https://github.com/pmndrs/zustand) for robust game logic.
-*   **Animations:** [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/).
-*   **Gestures:** [React Native Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/).
-*   **Design:** Custom component library with a dark, cinematic UI.
+</div>
 
-## 🚀 Getting Started
+<br />
 
-1.  **Clone the repo:**
-    ```bash
-    git clone https://github.com/zakisheriff/Imposter.git
-    cd Imposter
-    ```
-
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-
-3.  **Run the app:**
-    ```bash
-    npx expo start
-    ```
-
-4.  **Scan & Play:** Scan the QR code with the Expo Go app on your phone (Android/iOS).
-
-## 📂 Project Structure
-
-*   `app/`: Screens and navigation (Expo Router).
-*   `components/game/`: Reusable UI components (PlayerCard, Timer, etc.).
-*   `store/`: Zustand store (`gameStore.ts`) managing game state.
-*   `data/`: Word lists and theme data.
-*   `constants/`: App-wide styles and colors.
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to open an issue or submit a pull request.
+> **"Trust No One."**
+>
+> Pretend (formerly Imposter) is a high-stakes local multiplayer party game.
+> Gather your friends, pass the phone, and find out who among you is lying!
 
 ---
 
-Made with ❤️ by [Zaki Sheriff](https://github.com/zakisheriff)
+## 🌟 The Game
+
+Pretend is designed to be the perfect icebreaker and party starter:
+
+- **Pass & Play** — Single device multiplayer experience
+- **Seamless Flow** — Smooth animations and intuitive gestures
+- **Cinematic Feel** — Immersive dark UI with "Nano Banana" aesthetics
+
+---
+
+## ✨ Features
+
+- **3 to 10 Players** — Perfect for small groups or house parties
+- **Dynamic Themes** — Food, Places, Tech, and more
+- **Adjustable Difficulty** — Control Imposter count and hint levels
+- **Interactive Voting** — Drag-and-tap voting system
+- **Auto-Save** — Never lose your player list between rounds
+
+---
+
+## 🎨 Design Philosophy
+
+- **Dark Mode First**  
+  Sleek blacks and grays (`#000000`, `#1C1C1E`) for a premium OLED-friendly look.
+
+- **Minimalist UI**  
+  Clean typography and subtle gradients focus on the gameplay.
+
+- **Micro-Interactions**  
+  Haptic feedback and Reanimated transitions make every action feel responsive.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** React Native + Expo (Expo Router)
+- **Language:** TypeScript
+- **State:** Zustand
+- **Animations:** React Native Reanimated
+- **Gestures:** React Native Gesture Handler
+
+---
+
+## 📂 Project Structure
+
+```
+Pretend/
+├── app/                  # Screens (Expo Router)
+├── components/           # Reusable UI (Game, Common)
+├── store/                # Zustand Game State
+├── data/                 # Word Lists & Themes
+├── constants/            # Colors, Typos, Layout
+└── assets/               # Icons & Images
+```
+
+---
+
+## 🚀 Quick Start
+
+### 1. Clone & Install
+
+```bash
+git clone https://github.com/zakisheriff/Imposter.git
+cd Imposter
+npm install
+```
+
+### 2. Run
+
+```bash
+npx expo start
+```
+
+### 3. Play
+
+Scan the QR code with your phone (Expo Go) and start pretending!
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+## 📄 License
+
+MIT License
+
+---
+
+<p align="center">
+Made with ❤️ by <strong>Zaki Sheriff</strong>
+</p>
