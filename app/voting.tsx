@@ -4,8 +4,8 @@ import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { BackHandler, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function VotingScreen() {
@@ -21,6 +21,12 @@ export default function VotingScreen() {
 
     const voter = players[voterIdx];
     const isLast = voterIdx === players.length - 1;
+
+    // Block back navigation during voting
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
+        return () => backHandler.remove();
+    }, []);
 
     const handleTapVote = () => { haptics.medium(); setShowVoter(false); };
     const handleSelect = (id: string) => { haptics.light(); setSelected(id); };

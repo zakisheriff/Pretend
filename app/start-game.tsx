@@ -2,7 +2,7 @@ import { Colors } from '@/constants/colors';
 import { haptics } from '@/utils/haptics';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { BackHandler, StyleSheet, Text, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withDelay, withSequence, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -13,6 +13,12 @@ export default function StartGameScreen() {
 
     const scale = useSharedValue(1);
     const opacity = useSharedValue(1);
+
+    // Block back navigation during countdown
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
+        return () => backHandler.remove();
+    }, []);
 
     useEffect(() => {
         // Start countdown immediately - no delay, no intermediate screen

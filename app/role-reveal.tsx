@@ -5,7 +5,7 @@ import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { BackHandler, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function RoleRevealScreen() {
@@ -22,6 +22,12 @@ export default function RoleRevealScreen() {
 
     const currentPlayer = getCurrentPlayer();
     const isLast = currentRevealIndex === players.length - 1;
+
+    // Block back navigation during role reveal
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
+        return () => backHandler.remove();
+    }, []);
 
     useEffect(() => {
         setHasRevealed(currentPlayer?.hasRevealed || false);

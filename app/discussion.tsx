@@ -5,7 +5,7 @@ import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { BackHandler, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function DiscussionScreen() {
@@ -17,6 +17,12 @@ export default function DiscussionScreen() {
     const startVoting = useGameStore((s) => s.startVoting);
     const [time, setTime] = useState(settings.discussionTime);
     const [paused, setPaused] = useState(false);
+
+    // Block back navigation during discussion
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
+        return () => backHandler.remove();
+    }, []);
 
     useEffect(() => {
         if (!paused && time > 0) {
