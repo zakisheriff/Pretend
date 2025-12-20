@@ -46,7 +46,7 @@ export default function RoleRevealScreen() {
             // Last player done - go DIRECTLY to countdown
             nextReveal();
             haptics.gameStart();
-            router.push('/start-game');
+            router.push('/first-player');
         } else {
             setHasRevealed(false);
             nextReveal();

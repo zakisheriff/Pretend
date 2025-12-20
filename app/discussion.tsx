@@ -40,7 +40,7 @@ export default function DiscussionScreen() {
 
     const handlePause = () => { haptics.medium(); setPaused(!paused); };
     const handleSkip = () => { haptics.medium(); if (intervalRef.current) clearInterval(intervalRef.current); setTime(0); };
-    const handleVote = () => { haptics.heavy(); startVoting(); router.push('/voting'); };
+    const handleVote = () => { haptics.heavy(); startVoting(); router.push('/vote-mode'); };
 
     const done = time === 0;
 

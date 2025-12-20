@@ -5,7 +5,8 @@ import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const MIN_PLAYERS = 3;
@@ -19,6 +20,7 @@ export default function AddPlayersScreen() {
     const addPlayer = useGameStore((s) => s.addPlayer);
     const removePlayer = useGameStore((s) => s.removePlayer);
     const updatePlayerName = useGameStore((s) => s.updatePlayerName);
+    const reorderPlayers = useGameStore((s) => s.reorderPlayers);
 
     const handleAdd = () => {
         const trimmedName = name.trim();
@@ -58,79 +60,83 @@ export default function AddPlayersScreen() {
                 </TouchableOpacity>
             </View>
 
-            <ScrollView
-                style={styles.scroll}
+            <DraggableFlatList
+                data={players}
+                onDragEnd={({ data }) => reorderPlayers(data)}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item, drag, isActive, getIndex }) => (
+                    <PlayerCard
+                        name={item.name}
+                        index={getIndex() ?? 0}
+                        onDelete={() => removePlayer(item.id)}
+                        onRename={(val) => updatePlayerName(item.id, val)}
+                        drag={drag}
+                        isActive={isActive}
+                    />
+                )}
+                ListHeaderComponent={
+                    <View style={styles.headerContent}>
+                        <View style={styles.header}>
+                            <View style={styles.titleRow}>
+                                <Ionicons name="search" size={22} color={Colors.parchment} />
+                                <Text style={styles.title}>INVESTIGATORS</Text>
+                            </View>
+                            <Text style={styles.count}>{players.length} / {MAX_PLAYERS}</Text>
+                        </View>
+
+                        <View style={styles.inputRow}>
+                            <TextInput
+                                style={styles.input}
+                                value={name}
+                                onChangeText={setName}
+                                placeholder="Investigator name"
+                                placeholderTextColor={Colors.grayMedium}
+                                autoCapitalize="words"
+                                autoCorrect={false}
+                                onSubmitEditing={handleAdd}
+                                returnKeyType="go"
+                                blurOnSubmit={false}
+                                maxLength={16}
+                            />
+                            <TouchableOpacity
+                                style={[styles.addBtn, !name.trim() && styles.addBtnDisabled]}
+                                onPress={handleAdd}
+                                disabled={!name.trim()}
+                            >
+                                <Ionicons name="add" size={22} color={Colors.victorianBlack} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                }
+                ListEmptyComponent={
+                    <View style={styles.empty}>
+                        <Ionicons name="people-outline" size={48} color={Colors.candlelight} />
+                        <Text style={styles.emptyText}>Gather at least {MIN_PLAYERS} investigators</Text>
+                    </View>
+                }
+                ListFooterComponent={
+                    <View style={styles.footer}>
+                        {!canContinue && players.length > 0 && (
+                            <Text style={styles.warn}>Need {MIN_PLAYERS - players.length} more investigator{MIN_PLAYERS - players.length > 1 ? 's' : ''}</Text>
+                        )}
+                        <Button
+                            title="PROCEED TO CASE"
+                            onPress={handleContinue}
+                            variant="primary"
+                            size="large"
+                            disabled={!canContinue}
+                            icon={<Ionicons name="arrow-forward" size={18} color={canContinue ? Colors.victorianBlack : Colors.grayMedium} />}
+                        />
+                    </View>
+                }
+                containerStyle={styles.scroll}
                 contentContainerStyle={[
                     styles.scrollContent,
                     { paddingBottom: insets.bottom + 20 }
                 ]}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
-            >
-                <View style={styles.header}>
-                    <View style={styles.titleRow}>
-                        <Ionicons name="search" size={22} color={Colors.parchment} />
-                        <Text style={styles.title}>INVESTIGATORS</Text>
-                    </View>
-                    <Text style={styles.count}>{players.length} / {MAX_PLAYERS}</Text>
-                </View>
-
-                <View style={styles.inputRow}>
-                    <TextInput
-                        style={styles.input}
-                        value={name}
-                        onChangeText={setName}
-                        placeholder="Investigator name"
-                        placeholderTextColor={Colors.grayMedium}
-                        autoCapitalize="words"
-                        autoCorrect={false}
-                        onSubmitEditing={handleAdd}
-                        returnKeyType="go"
-                        blurOnSubmit={false}
-                        maxLength={16}
-                    />
-                    <TouchableOpacity
-                        style={[styles.addBtn, !name.trim() && styles.addBtnDisabled]}
-                        onPress={handleAdd}
-                        disabled={!name.trim()}
-                    >
-                        <Ionicons name="add" size={22} color={Colors.victorianBlack} />
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.list}>
-                    {players.length === 0 ? (
-                        <View style={styles.empty}>
-                            <Ionicons name="people-outline" size={48} color={Colors.candlelight} />
-                            <Text style={styles.emptyText}>Gather at least {MIN_PLAYERS} investigators</Text>
-                        </View>
-                    ) : (
-                        players.map((p, i) => (
-                            <PlayerCard
-                                key={p.id}
-                                name={p.name}
-                                index={i}
-                                onDelete={() => removePlayer(p.id)}
-                                onRename={(val) => updatePlayerName(p.id, val)}
-                            />
-                        ))
-                    )}
-                </View>
-
-                <View style={styles.footer}>
-                    {!canContinue && players.length > 0 && (
-                        <Text style={styles.warn}>Need {MIN_PLAYERS - players.length} more investigator{MIN_PLAYERS - players.length > 1 ? 's' : ''}</Text>
-                    )}
-                    <Button
-                        title="PROCEED TO CASE"
-                        onPress={handleContinue}
-                        variant="primary"
-                        size="large"
-                        disabled={!canContinue}
-                        icon={<Ionicons name="arrow-forward" size={18} color={canContinue ? Colors.victorianBlack : Colors.grayMedium} />}
-                    />
-                </View>
-            </ScrollView>
+            />
         </KeyboardAvoidingView>
     );
 }
@@ -141,7 +147,8 @@ const styles = StyleSheet.create({
     backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: 20, gap: 26, paddingTop: 20 },
+    scrollContent: { flexGrow: 1, paddingHorizontal: 20, paddingTop: 20 },
+    headerContent: { gap: 26, marginBottom: 14 },
 
     header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
     titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },

@@ -25,7 +25,7 @@ export default function HomeScreen() {
                 <View style={styles.content}>
                     <AnimatedLogo size={110} />
                     <View style={styles.titleBox}>
-                        <Text style={styles.title}>THE CASE</Text>
+                        <Text style={styles.title}>Pretend</Text>
                         <Text style={styles.subtitle}>A Detective Mystery</Text>
                     </View>
                     <View style={styles.tagline}>

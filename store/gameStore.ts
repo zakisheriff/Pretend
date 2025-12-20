@@ -7,6 +7,7 @@ interface GameStore extends GameState {
     addPlayer: (name: string) => void;
     removePlayer: (id: string) => void;
     updatePlayerName: (id: string, name: string) => void;
+    reorderPlayers: (players: Player[]) => void;
     clearPlayers: () => void;
 
     // Theme and word
@@ -24,6 +25,7 @@ interface GameStore extends GameState {
     startDiscussion: () => void;
     startVoting: () => void;
     castVote: (voterId: string, votedForId: string) => void;
+    forceEndGame: (eliminatedPlayerId: string) => void;
     endGame: () => void;
 
     // Reset
@@ -84,6 +86,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
         set((state) => ({
             players: state.players.map((p) => (p.id === id ? { ...p, name: trimmed } : p)),
         }));
+    },
+
+    reorderPlayers: (players: Player[]) => {
+        // Create new object references to ensure proper re-render
+        set({ players: players.map(p => ({ ...p })) });
     },
 
     clearPlayers: () => {
@@ -150,10 +157,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
         // Keep players in their original order, but randomly select imposters
         const imposterCount = Math.min(settings.imposterCount, Math.floor(players.length / 2));
 
-        // Create array of indices and shuffle to randomly select imposter indices
+        // Fisher-Yates shuffle for truly random selection
         const playerIndices = players.map((_, index) => index);
-        const shuffledIndices = [...playerIndices].sort(() => Math.random() - 0.5);
-        const imposterIndices = new Set(shuffledIndices.slice(0, imposterCount));
+        for (let i = playerIndices.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [playerIndices[i], playerIndices[j]] = [playerIndices[j], playerIndices[i]];
+        }
+        const imposterIndices = new Set(playerIndices.slice(0, imposterCount));
 
         // Assign imposter role randomly while keeping original order
         const assignedPlayers = players.map((player, index) => ({
@@ -208,6 +218,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 p.id === voterId ? { ...p, vote: votedForId } : p
             ),
         }));
+    },
+
+    forceEndGame: (eliminatedPlayerId: string) => {
+        const state = get();
+        const eliminatedPlayer = state.players.find((p) => p.id === eliminatedPlayerId);
+        const impostersCaught = eliminatedPlayer?.isImposter ?? false;
+
+        set({
+            phase: 'results',
+            impostersCaught,
+        });
     },
 
     endGame: () => {

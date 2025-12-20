@@ -20,9 +20,11 @@ interface PlayerCardProps {
     index: number;
     onDelete: () => void;
     onRename: (newName: string) => void;
+    drag?: () => void;
+    isActive?: boolean;
 }
 
-export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, onRename }) => {
+export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, onRename, drag, isActive }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editName, setEditName] = useState(name);
 
@@ -30,6 +32,13 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, o
     const itemHeight = useSharedValue(56);
     const opacity = useSharedValue(1);
     const marginBottom = useSharedValue(10);
+
+    // Scale effect when active (dragging)
+    const scale = useSharedValue(1);
+
+    React.useEffect(() => {
+        scale.value = withSpring(isActive ? 1.05 : 1);
+    }, [isActive]);
 
     const doDelete = () => {
         haptics.medium();
@@ -58,7 +67,11 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, o
         });
 
     const cardStyle = useAnimatedStyle(() => ({
-        transform: [{ translateX: translateX.value }],
+        transform: [
+            { translateX: translateX.value },
+            { scale: scale.value }
+        ],
+        zIndex: isActive ? 1000 : 1,
     }));
 
     const containerStyle = useAnimatedStyle(() => ({
@@ -92,7 +105,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, o
                 <Ionicons name="trash" size={18} color={Colors.parchmentLight} />
             </Animated.View>
             <GestureDetector gesture={panGesture}>
-                <Animated.View style={[styles.card, cardStyle]}>
+                <Animated.View style={[styles.card, cardStyle, isActive && styles.cardActive]}>
                     <Text style={styles.index}>{index + 1}</Text>
 
                     {isEditing ? (
@@ -111,9 +124,21 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, o
                             style={styles.nameContainer}
                             onPress={handleStartEdit}
                             activeOpacity={0.7}
+                            onLongPress={drag}
+                            delayLongPress={200}
                         >
                             <Text style={styles.nameText}>{name}</Text>
                             <Ionicons name="pencil" size={12} color={Colors.candlelight} />
+                        </TouchableOpacity>
+                    )}
+
+                    {!isEditing && (
+                        <TouchableOpacity
+                            onPressIn={drag}
+                            style={styles.dragHandle}
+                            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                        >
+                            <Ionicons name="menu" size={20} color={Colors.gray} />
                         </TouchableOpacity>
                     )}
                 </Animated.View>
@@ -123,7 +148,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, o
 };
 
 const styles = StyleSheet.create({
-    container: { position: 'relative', overflow: 'hidden' },
+    container: { position: 'relative', overflow: 'visible' },
     deleteBtn: {
         position: 'absolute', right: 0, top: 0, bottom: 0,
         width: 80, backgroundColor: Colors.suspect, borderRadius: 12,
@@ -135,6 +160,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 18, gap: 14,
         borderWidth: 1.5, borderColor: Colors.grayMedium,
     },
+    cardActive: {
+        borderColor: Colors.candlelight,
+        backgroundColor: Colors.grayMedium,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4.65,
+        elevation: 8,
+    },
     index: { fontSize: 14, fontWeight: '700', color: Colors.candlelight, width: 22 },
     nameContainer: {
         flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8,
@@ -142,4 +176,5 @@ const styles = StyleSheet.create({
     },
     nameText: { flex: 1, fontSize: 16, fontWeight: '500', color: Colors.parchment, letterSpacing: 0.5 },
     nameInput: { flex: 1, fontSize: 16, fontWeight: '500', color: Colors.parchment, paddingVertical: 8, letterSpacing: 0.5 },
+    dragHandle: { padding: 4 },
 });
