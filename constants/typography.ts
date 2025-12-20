@@ -35,13 +35,14 @@ export const Typography = {
         relaxed: 1.6,
     },
 
-    // Letter spacing
+    // Letter spacing (Victorian dramatic effect)
     letterSpacing: {
-        tight: -0.5,
+        tight: 0,
         normal: 0,
-        wide: 1,
-        wider: 2,
-        widest: 4,
+        wide: 2,
+        wider: 4,
+        widest: 6,
+        mystery: 8,           // For dramatic titles like "THE CASE"
     },
 };
 

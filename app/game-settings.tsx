@@ -15,17 +15,16 @@ export default function GameSettingsScreen() {
     const updateSettings = useGameStore((s) => s.updateSettings);
     const startGame = useGameStore((s) => s.startGame);
 
-    // Calculate max imposters (approx 40% of players, max 3)
     const players = useGameStore((s) => s.players);
-    const maxImposters = Math.min(3, Math.max(1, Math.floor(players.length * 0.4)));
+    const maxSuspects = Math.min(3, Math.max(1, Math.floor(players.length * 0.4)));
 
     React.useEffect(() => {
-        if (settings.imposterCount > maxImposters) {
-            updateSettings({ imposterCount: maxImposters });
+        if (settings.imposterCount > maxSuspects) {
+            updateSettings({ imposterCount: maxSuspects });
         }
-    }, [maxImposters, settings.imposterCount]);
+    }, [maxSuspects, settings.imposterCount]);
 
-    const handleImposterChange = (v: number) => { haptics.selection(); updateSettings({ imposterCount: v }); };
+    const handleSuspectChange = (v: number) => { haptics.selection(); updateSettings({ imposterCount: v }); };
     const handleTimeChange = (v: number) => { haptics.selection(); updateSettings({ discussionTime: v }); };
 
     const handleStart = () => { startGame(); haptics.heavy(); router.push('/role-reveal'); };
@@ -34,7 +33,7 @@ export default function GameSettingsScreen() {
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             <View style={styles.headerBar}>
                 <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
-                    <Ionicons name="arrow-back" size={24} color={Colors.white} />
+                    <Ionicons name="arrow-back" size={24} color={Colors.parchment} />
                 </TouchableOpacity>
             </View>
 
@@ -44,21 +43,24 @@ export default function GameSettingsScreen() {
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.header}>
-                    <Text style={styles.title}>SETTINGS</Text>
-                    <Text style={styles.subtitle}>Customize your game  </Text>
+                    <View style={styles.titleRow}>
+                        <Ionicons name="clipboard-outline" size={24} color={Colors.parchment} />
+                        <Text style={styles.title}>CASE BRIEFING</Text>
+                    </View>
+                    <Text style={styles.subtitle}>Configure your investigation</Text>
                 </View>
 
                 <View style={styles.settingsGroup}>
                     <GameSetting
-                        label="IMPOSTERS"
+                        label="SUSPECTS"
                         value={settings.imposterCount}
-                        options={Array.from({ length: maxImposters }, (_, i) => i + 1)}
-                        onChange={handleImposterChange}
+                        options={Array.from({ length: maxSuspects }, (_, i) => i + 1)}
+                        onChange={handleSuspectChange}
                         icon="skull-outline"
                     />
 
                     <GameSetting
-                        label="HINT STRENGTH"
+                        label="CLUE STRENGTH"
                         value={['none', 'low', 'medium', 'high'].indexOf(settings.hintStrength)}
                         options={[0, 1, 2, 3]}
                         formatLabel={(v) => ['NONE', 'LOW', 'MEDIUM', 'HIGH'][v]}
@@ -67,7 +69,7 @@ export default function GameSettingsScreen() {
                     />
 
                     <GameSetting
-                        label="TIME LIMIT"
+                        label="INVESTIGATION TIME"
                         value={settings.discussionTime}
                         options={[60, 120, 180, 240, 300]}
                         formatLabel={(v) => `${v / 60}m`}
@@ -78,11 +80,11 @@ export default function GameSettingsScreen() {
 
                 <View style={styles.footer}>
                     <Button
-                        title="START GAME"
+                        title="BEGIN CASE"
                         onPress={handleStart}
                         variant="primary"
                         size="large"
-                        icon={<Ionicons name="play" size={18} color={Colors.black} />}
+                        icon={<Ionicons name="search" size={18} color={Colors.victorianBlack} />}
                     />
                 </View>
             </ScrollView>
@@ -91,15 +93,16 @@ export default function GameSettingsScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: Colors.black },
+    container: { flex: 1, backgroundColor: Colors.victorianBlack },
     headerBar: { paddingHorizontal: 20, paddingTop: 10, zIndex: 10 },
-    backBtn: { width: 40, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 20, backgroundColor: Colors.grayDark },
+    backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24, gap: 32 },
-    header: { alignItems: 'center', gap: 4 },
-    title: { fontSize: 24, fontWeight: '800', color: Colors.white, letterSpacing: 4 },
-    subtitle: { fontSize: 13, color: Colors.grayLight, flexShrink: 0, paddingHorizontal: 4 },
-    settingsGroup: { gap: 24, width: '100%', maxWidth: 400, alignSelf: 'center' },
+    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24, gap: 34 },
+    header: { alignItems: 'center', gap: 6 },
+    titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+    title: { fontSize: 24, fontWeight: '900', color: Colors.parchment, letterSpacing: 3 },
+    subtitle: { fontSize: 13, color: Colors.candlelight, fontStyle: 'italic' },
+    settingsGroup: { gap: 26, width: '100%', maxWidth: 400, alignSelf: 'center' },
     footer: { alignItems: 'center' },
 });

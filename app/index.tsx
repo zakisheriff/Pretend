@@ -17,29 +17,43 @@ export default function HomeScreen() {
     const handleHowToPlay = () => { router.push('/how-to-play'); };
 
     return (
-        <LinearGradient colors={[Colors.black, Colors.grayDark, Colors.black]} style={styles.gradient}>
+        <LinearGradient
+            colors={[Colors.victorianBlack, Colors.grayDark, Colors.victorianBlack]}
+            style={styles.gradient}
+        >
             <View style={[styles.container, { paddingTop: insets.top + 20, paddingBottom: insets.bottom + 20 }]}>
                 <View style={styles.content}>
-                    <AnimatedLogo size={100} />
+                    <AnimatedLogo size={110} />
                     <View style={styles.titleBox}>
-                        <Text style={styles.title}>Pretend</Text>
-                        <Text style={styles.subtitle}>The Game  </Text>
+                        <Text style={styles.title}>THE CASE</Text>
+                        <Text style={styles.subtitle}>A Detective Mystery</Text>
                     </View>
                     <View style={styles.tagline}>
-                        <Text style={styles.taglineText}>One phone. Many secrets.</Text>
+                        <Text style={styles.taglineText}>One phone. One mystery.</Text>
                     </View>
                 </View>
 
                 <View style={styles.buttons}>
-                    <Button title="NEW GAME" onPress={handleNewGame} variant="primary" size="large" hapticType="medium"
-                        icon={<Ionicons name="play" size={18} color={Colors.black} />} />
-                    <Button title="HOW TO PLAY" onPress={handleHowToPlay} variant="outline" size="medium"
-                        icon={<Ionicons name="book-outline" size={16} color={Colors.white} />} />
+                    <Button
+                        title="NEW CASE"
+                        onPress={handleNewGame}
+                        variant="primary"
+                        size="large"
+                        hapticType="medium"
+                        icon={<Ionicons name="search" size={18} color={Colors.victorianBlack} />}
+                    />
+                    <Button
+                        title="THE ART OF DEDUCTION"
+                        onPress={handleHowToPlay}
+                        variant="outline"
+                        size="medium"
+                        icon={<Ionicons name="book-outline" size={16} color={Colors.candlelight} />}
+                    />
                 </View>
 
                 <View style={styles.footer}>
-                    <Ionicons name="cloud-offline-outline" size={12} color={Colors.grayMedium} style={styles.footerIcon} />
-                    <Text style={styles.footerText}>Offline Party Game </Text>
+                    <Ionicons name="home" size={14} color={Colors.grayMedium} />
+                    <Text style={styles.footerText}>221B Baker Street Experience</Text>
                 </View>
             </View>
         </LinearGradient>
@@ -49,14 +63,38 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     gradient: { flex: 1 },
     container: { flex: 1, paddingHorizontal: 24 },
-    content: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 20 },
+    content: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 24 },
     titleBox: { alignItems: 'center' },
-    title: { fontSize: 36, fontWeight: '800', color: Colors.white, letterSpacing: 4 },
-    subtitle: { fontSize: 16, fontWeight: '500', color: Colors.grayLight, letterSpacing: 2, marginTop: -4 },
-    tagline: { paddingHorizontal: 16, paddingVertical: 8, backgroundColor: Colors.grayDark, borderRadius: 16, borderWidth: 1, borderColor: Colors.gray },
-    taglineText: { fontSize: 12, color: Colors.grayLight, fontStyle: 'italic', paddingHorizontal: 2 },
-    buttons: { gap: 12, marginBottom: 16 },
-    footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
-    footerIcon: { marginRight: 8 },
-    footerText: { fontSize: 13, color: Colors.grayMedium, flexShrink: 0 },
+    title: {
+        fontSize: 40,
+        fontWeight: '900',
+        color: Colors.parchment,
+        letterSpacing: 8,
+    },
+    subtitle: {
+        fontSize: 14,
+        fontWeight: '500',
+        color: Colors.candlelight,
+        letterSpacing: 4,
+        marginTop: 4,
+    },
+    tagline: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        backgroundColor: Colors.grayDark,
+        borderRadius: 12,
+        borderWidth: 1.5,
+        borderColor: Colors.grayMedium,
+    },
+    taglineText: {
+        fontSize: 13,
+        color: Colors.grayLight,
+        fontStyle: 'italic',
+        paddingHorizontal: 4,
+        letterSpacing: 1,
+    },
+    buttons: { gap: 14, marginBottom: 20 },
+    footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 },
+
+    footerText: { fontSize: 12, color: Colors.grayMedium, letterSpacing: 1 },
 });

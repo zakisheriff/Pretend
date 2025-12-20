@@ -8,6 +8,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-na
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const CARD_SIZE = (SCREEN_WIDTH - 64) / 2;
 
+// Victorian themed icons for categories
 const THEME_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
     'tamil-movies': 'film-outline',
     'actors': 'person-outline',
@@ -40,11 +41,11 @@ export const ThemeCard: React.FC<ThemeCardProps> = ({ id, name, isSelected, onSe
     return (
         <TouchableOpacity onPress={handlePress} activeOpacity={0.9}>
             <Animated.View style={[styles.card, isSelected && styles.cardSelected, animatedStyle]}>
-                <Ionicons name={iconName} size={28} color={isSelected ? Colors.black : Colors.grayLight} />
+                <Ionicons name={iconName} size={28} color={isSelected ? Colors.victorianBlack : Colors.candlelight} />
                 <Text style={[styles.name, isSelected && styles.nameSelected]}>{name}</Text>
                 {isSelected && (
                     <View style={styles.check}>
-                        <Ionicons name="checkmark" size={14} color={Colors.black} />
+                        <Ionicons name="checkmark" size={14} color={Colors.parchmentLight} />
                     </View>
                 )}
             </Animated.View>
@@ -55,16 +56,19 @@ export const ThemeCard: React.FC<ThemeCardProps> = ({ id, name, isSelected, onSe
 const styles = StyleSheet.create({
     card: {
         width: CARD_SIZE, height: CARD_SIZE * 0.7,
-        backgroundColor: Colors.grayDark, borderRadius: 16,
-        alignItems: 'center', justifyContent: 'center', gap: 8,
-        borderWidth: 1.5, borderColor: Colors.gray,
+        backgroundColor: Colors.grayDark, borderRadius: 14,
+        alignItems: 'center', justifyContent: 'center', gap: 10,
+        borderWidth: 2, borderColor: Colors.grayMedium,
     },
-    cardSelected: { borderColor: Colors.white, backgroundColor: Colors.white },
-    name: { fontSize: 13, fontWeight: '600', color: Colors.grayLight },
-    nameSelected: { color: Colors.black },
+    cardSelected: {
+        borderColor: Colors.candlelight,
+        backgroundColor: Colors.parchment,
+    },
+    name: { fontSize: 13, fontWeight: '700', color: Colors.candlelight, letterSpacing: 1 },
+    nameSelected: { color: Colors.victorianBlack },
     check: {
         position: 'absolute', top: 8, right: 8,
-        width: 20, height: 20, borderRadius: 10,
-        backgroundColor: Colors.success, alignItems: 'center', justifyContent: 'center',
+        width: 22, height: 22, borderRadius: 11,
+        backgroundColor: Colors.detective, alignItems: 'center', justifyContent: 'center',
     },
 });

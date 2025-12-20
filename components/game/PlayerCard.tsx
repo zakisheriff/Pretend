@@ -24,9 +24,9 @@ interface PlayerCardProps {
 
 export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, onRename }) => {
     const translateX = useSharedValue(0);
-    const itemHeight = useSharedValue(52);
+    const itemHeight = useSharedValue(56);
     const opacity = useSharedValue(1);
-    const marginBottom = useSharedValue(8);
+    const marginBottom = useSharedValue(10);
 
     const doDelete = () => {
         haptics.medium();
@@ -71,7 +71,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, o
     return (
         <Animated.View style={[styles.container, containerStyle]}>
             <Animated.View style={[styles.deleteBtn, deleteStyle]}>
-                <Ionicons name="trash" size={18} color={Colors.white} />
+                <Ionicons name="trash" size={18} color={Colors.parchmentLight} />
             </Animated.View>
             <GestureDetector gesture={panGesture}>
                 <Animated.View style={[styles.card, cardStyle]}>
@@ -82,9 +82,9 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, o
                         onChangeText={onRename}
                         maxLength={16}
                         returnKeyType="done"
-                        placeholderTextColor={Colors.gray}
+                        placeholderTextColor={Colors.grayMedium}
                     />
-                    <Ionicons name="pencil" size={12} color={Colors.gray} />
+                    <Ionicons name="pencil" size={12} color={Colors.candlelight} />
                 </Animated.View>
             </GestureDetector>
         </Animated.View>
@@ -95,15 +95,15 @@ const styles = StyleSheet.create({
     container: { position: 'relative', overflow: 'hidden' },
     deleteBtn: {
         position: 'absolute', right: 0, top: 0, bottom: 0,
-        width: 80, backgroundColor: Colors.danger, borderRadius: 12,
+        width: 80, backgroundColor: Colors.suspect, borderRadius: 12,
         alignItems: 'center', justifyContent: 'center',
     },
     card: {
         flexDirection: 'row', alignItems: 'center',
-        backgroundColor: Colors.grayDark, borderRadius: 12, height: 52,
-        paddingHorizontal: 16, gap: 12,
-        borderWidth: 1, borderColor: Colors.gray,
+        backgroundColor: Colors.grayDark, borderRadius: 12, height: 56,
+        paddingHorizontal: 18, gap: 14,
+        borderWidth: 1.5, borderColor: Colors.grayMedium,
     },
-    index: { fontSize: 13, fontWeight: '600', color: Colors.grayLight, width: 20 },
-    nameInput: { flex: 1, fontSize: 15, fontWeight: '500', color: Colors.white, paddingVertical: 8 },
+    index: { fontSize: 14, fontWeight: '700', color: Colors.candlelight, width: 22 },
+    nameInput: { flex: 1, fontSize: 16, fontWeight: '500', color: Colors.parchment, paddingVertical: 8, letterSpacing: 0.5 },
 });

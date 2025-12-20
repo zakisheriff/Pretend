@@ -22,10 +22,6 @@ export default function VotingScreen() {
     const voter = players[voterIdx];
     const isLast = voterIdx === players.length - 1;
 
-
-
-    // Phase guard removed to prevent navigation bugs
-
     const handleTapVote = () => { haptics.medium(); setShowVoter(false); };
     const handleSelect = (id: string) => { haptics.light(); setSelected(id); };
     const handleConfirm = () => {
@@ -40,18 +36,18 @@ export default function VotingScreen() {
         return (
             <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
                 <View style={[styles.centeredContent]}>
-                    <Text style={styles.voterLabel}>VOTER {voterIdx + 1} / {players.length}  </Text>
+                    <Text style={styles.voterLabel}>ACCUSATION {voterIdx + 1} / {players.length}</Text>
                     <View style={styles.voterAvatar}>
                         <Text style={styles.voterInitial}>{voter?.name.charAt(0).toUpperCase()}</Text>
                     </View>
                     <Text style={styles.voterName}>{voter?.name}</Text>
                     <Button
-                        title="TAP TO VOTE"
+                        title="MAKE YOUR ACCUSATION"
                         onPress={handleTapVote}
                         variant="primary"
                         size="large"
                         style={{ marginTop: 24 }}
-                        icon={<Ionicons name="checkbox-outline" size={18} color={Colors.black} />}
+                        icon={<Ionicons name="hand-left" size={18} color={Colors.victorianBlack} />}
                     />
                 </View>
             </View>
@@ -66,8 +62,9 @@ export default function VotingScreen() {
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.header}>
-                    <Text style={styles.title}>Who is the imposter?</Text>
-                    <Text style={styles.subtitle}>{voter?.name}'s vote</Text>
+                    <Ionicons name="skull-outline" size={24} color={Colors.suspect} />
+                    <Text style={styles.title}>Who is the suspect?</Text>
+                    <Text style={styles.subtitle}>{voter?.name}'s accusation</Text>
                 </View>
 
                 <View style={styles.list}>
@@ -77,23 +74,23 @@ export default function VotingScreen() {
                             style={[styles.option, selected === p.id && styles.optionSelected]}
                             onPress={() => handleSelect(p.id)}
                         >
-                            <View style={styles.optAvatar}>
+                            <View style={[styles.optAvatar, selected === p.id && styles.optAvatarSelected]}>
                                 <Text style={styles.optInitial}>{p.name.charAt(0).toUpperCase()}</Text>
                             </View>
                             <Text style={[styles.optName, selected === p.id && styles.optNameSelected]}>{p.name}</Text>
-                            {selected === p.id && <Ionicons name="checkmark-circle" size={20} color={Colors.white} />}
+                            {selected === p.id && <Ionicons name="checkmark-circle" size={22} color={Colors.parchment} />}
                         </TouchableOpacity>
                     ))}
                 </View>
 
                 <View style={styles.footer}>
                     <Button
-                        title="CONFIRM"
+                        title="CONFIRM ACCUSATION"
                         onPress={handleConfirm}
                         variant="primary"
                         size="large"
                         disabled={!selected}
-                        icon={<Ionicons name="checkmark" size={18} color={selected ? Colors.black : Colors.grayMedium} />}
+                        icon={<Ionicons name="checkmark" size={18} color={selected ? Colors.victorianBlack : Colors.grayMedium} />}
                     />
                 </View>
             </ScrollView>
@@ -102,28 +99,30 @@ export default function VotingScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: Colors.black },
+    container: { flex: 1, backgroundColor: Colors.victorianBlack },
     centeredContent: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-    voterLabel: { fontSize: 11, color: Colors.grayLight, letterSpacing: 2, marginBottom: 16, flexShrink: 0 },
-    voterAvatar: { width: 80, height: 80, borderRadius: 40, backgroundColor: Colors.grayDark, borderWidth: 2, borderColor: Colors.white, alignItems: 'center', justifyContent: 'center' },
-    voterInitial: { fontSize: 32, fontWeight: '700', color: Colors.white },
-    voterName: { fontSize: 22, fontWeight: '700', color: Colors.white, marginTop: 12 },
+    voterLabel: { fontSize: 11, color: Colors.candlelight, letterSpacing: 3, marginBottom: 18, fontWeight: '600' },
+    voterAvatar: { width: 88, height: 88, borderRadius: 44, backgroundColor: Colors.waxSeal, borderWidth: 3, borderColor: Colors.suspect, alignItems: 'center', justifyContent: 'center' },
+    voterInitial: { fontSize: 36, fontWeight: '700', color: Colors.parchmentLight },
+    voterName: { fontSize: 24, fontWeight: '700', color: Colors.parchment, marginTop: 14, letterSpacing: 1 },
 
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 20, gap: 24 },
+    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 20, gap: 26 },
 
-    header: { alignItems: 'center' },
-    title: { fontSize: 18, fontWeight: '700', color: Colors.white },
-    subtitle: { fontSize: 12, color: Colors.grayLight, marginTop: 4 },
+    header: { alignItems: 'center', gap: 4 },
+    headerEmoji: { fontSize: 24, marginBottom: 8 },
+    title: { fontSize: 20, fontWeight: '800', color: Colors.parchment, letterSpacing: 1 },
+    subtitle: { fontSize: 12, color: Colors.candlelight, fontStyle: 'italic' },
 
-    list: { width: '100%', gap: 8, maxWidth: 400, alignSelf: 'center' },
+    list: { width: '100%', gap: 10, maxWidth: 400, alignSelf: 'center' },
 
-    option: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.grayDark, borderRadius: 12, padding: 12, gap: 12, borderWidth: 1.5, borderColor: Colors.gray },
-    optionSelected: { borderColor: Colors.white, backgroundColor: Colors.gray },
-    optAvatar: { width: 40, height: 40, borderRadius: 20, backgroundColor: Colors.gray, alignItems: 'center', justifyContent: 'center' },
-    optInitial: { fontSize: 16, fontWeight: '700', color: Colors.white },
-    optName: { flex: 1, fontSize: 15, color: Colors.grayLight },
-    optNameSelected: { color: Colors.white, fontWeight: '600' },
+    option: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.grayDark, borderRadius: 14, padding: 14, gap: 14, borderWidth: 2, borderColor: Colors.grayMedium },
+    optionSelected: { borderColor: Colors.candlelight, backgroundColor: Colors.gray },
+    optAvatar: { width: 44, height: 44, borderRadius: 22, backgroundColor: Colors.gray, alignItems: 'center', justifyContent: 'center' },
+    optAvatarSelected: { backgroundColor: Colors.waxSeal },
+    optInitial: { fontSize: 18, fontWeight: '700', color: Colors.parchmentLight },
+    optName: { flex: 1, fontSize: 15, color: Colors.grayLight, letterSpacing: 0.5 },
+    optNameSelected: { color: Colors.parchment, fontWeight: '600' },
 
-    footer: { alignItems: 'center', paddingTop: 8 },
+    footer: { alignItems: 'center', paddingTop: 10 },
 });

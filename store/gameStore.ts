@@ -147,23 +147,25 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
         if (!selectedWord) return;
 
-        // Shuffle players and assign imposters
-        const shuffledPlayers = [...players].sort(() => Math.random() - 0.5);
+        // Keep players in their original order, but randomly select imposters
         const imposterCount = Math.min(settings.imposterCount, Math.floor(players.length / 2));
 
-        const assignedPlayers = shuffledPlayers.map((player, index) => ({
+        // Create array of indices and shuffle to randomly select imposter indices
+        const playerIndices = players.map((_, index) => index);
+        const shuffledIndices = [...playerIndices].sort(() => Math.random() - 0.5);
+        const imposterIndices = new Set(shuffledIndices.slice(0, imposterCount));
+
+        // Assign imposter role randomly while keeping original order
+        const assignedPlayers = players.map((player, index) => ({
             ...player,
-            isImposter: index < imposterCount,
+            isImposter: imposterIndices.has(index),
             hasRevealed: false,
             vote: undefined,
         }));
 
-        // Shuffle again so imposters aren't at the start
-        const finalPlayers = assignedPlayers.sort(() => Math.random() - 0.5);
-
         set({
             phase: 'reveal',
-            players: finalPlayers,
+            players: assignedPlayers,
             selectedWord,
             currentRevealIndex: 0,
             votes: {},

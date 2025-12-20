@@ -40,10 +40,10 @@ export const Button: React.FC<ButtonProps> = ({
             ]}
             onPress={handlePress}
             disabled={disabled || loading}
-            activeOpacity={0.8}
+            activeOpacity={0.85}
         >
             {loading ? (
-                <ActivityIndicator color={isOutline ? Colors.white : Colors.black} size="small" />
+                <ActivityIndicator color={isOutline ? Colors.parchment : Colors.victorianBlack} size="small" />
             ) : (
                 <View style={styles.content}>
                     {icon}
@@ -57,27 +57,50 @@ export const Button: React.FC<ButtonProps> = ({
 };
 
 const styles = StyleSheet.create({
-    button: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: 14 },
-    content: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+    button: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        // Victorian brass border effect
+        borderWidth: 1.5,
+    },
+    content: { flexDirection: 'row', alignItems: 'center', gap: 10 },
 
-    btn_primary: { backgroundColor: Colors.white },
-    btn_secondary: { backgroundColor: Colors.gray },
-    btn_outline: { backgroundColor: 'transparent', borderWidth: 1.5, borderColor: Colors.grayLight },
-    btn_danger: { backgroundColor: Colors.danger },
+    // Primary: Parchment background, mahogany text - like an aged letter
+    btn_primary: {
+        backgroundColor: Colors.parchment,
+        borderColor: Colors.candlelight,
+    },
+    // Secondary: Dark leather button
+    btn_secondary: {
+        backgroundColor: Colors.gray,
+        borderColor: Colors.grayMedium,
+    },
+    // Outline: Brass border like gaslight fixtures
+    btn_outline: {
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        borderColor: Colors.candlelight,
+    },
+    // Danger: Wax seal red
+    btn_danger: {
+        backgroundColor: Colors.waxSeal,
+        borderColor: Colors.suspect,
+    },
 
-    btn_small: { paddingVertical: 8, paddingHorizontal: 14 },
-    btn_medium: { paddingVertical: 12, paddingHorizontal: 20 },
-    btn_large: { paddingVertical: 14, paddingHorizontal: 24 },
+    btn_small: { paddingVertical: 10, paddingHorizontal: 18, borderRadius: 20 },
+    btn_medium: { paddingVertical: 14, paddingHorizontal: 24, borderRadius: 24 },
+    btn_large: { paddingVertical: 18, paddingHorizontal: 32, borderRadius: 28 },
 
-    disabled: { opacity: 0.4 },
+    disabled: { opacity: 0.35 },
 
-    text: { fontWeight: '600', letterSpacing: 0.5 },
-    text_primary: { color: Colors.black },
-    text_secondary: { color: Colors.white },
-    text_outline: { color: Colors.white },
-    text_danger: { color: Colors.white },
+    text: { fontWeight: '700', letterSpacing: 1.5 },
+    text_primary: { color: Colors.victorianBlack },
+    text_secondary: { color: Colors.parchment },
+    text_outline: { color: Colors.candlelight },
+    text_danger: { color: Colors.parchmentLight },
     text_small: { fontSize: 12 },
     text_medium: { fontSize: 14 },
     text_large: { fontSize: 15 },
-    textDisabled: { opacity: 0.6 },
+    textDisabled: { opacity: 0.5 },
 });

@@ -18,8 +18,6 @@ export default function DiscussionScreen() {
     const [time, setTime] = useState(settings.discussionTime);
     const [paused, setPaused] = useState(false);
 
-    // Guard removed
-
     useEffect(() => {
         if (!paused && time > 0) {
             intervalRef.current = setInterval(() => {
@@ -43,8 +41,8 @@ export default function DiscussionScreen() {
     return (
         <View style={[styles.container, { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 16 }]}>
             <View style={styles.header}>
-                <Ionicons name={done ? "alarm" : "chatbubbles"} size={20} color={Colors.white} />
-                <Text style={styles.title}>{done ? "TIME'S UP" : 'DISCUSSION'}</Text>
+                <Ionicons name={done ? "alarm" : "search"} size={22} color={Colors.parchment} />
+                <Text style={styles.title}>{done ? "TIME'S UP" : 'THE INVESTIGATION'}</Text>
             </View>
 
             <View style={styles.timerArea}>
@@ -55,34 +53,35 @@ export default function DiscussionScreen() {
             {!done && (
                 <View style={styles.controls}>
                     <Button title={paused ? 'RESUME' : 'PAUSE'} onPress={handlePause} variant="outline" size="medium" style={{ flex: 1 }}
-                        icon={<Ionicons name={paused ? "play" : "pause"} size={16} color={Colors.white} />} />
+                        icon={<Ionicons name={paused ? "play" : "pause"} size={16} color={Colors.candlelight} />} />
                     <Button title="SKIP" onPress={handleSkip} variant="secondary" size="medium" style={{ flex: 1 }}
-                        icon={<Ionicons name="play-forward" size={16} color={Colors.white} />} />
+                        icon={<Ionicons name="play-forward" size={16} color={Colors.parchment} />} />
                 </View>
             )}
 
             {done && (
-                <Button title="START VOTING" onPress={handleVote} variant="primary" size="large"
-                    icon={<Ionicons name="checkbox" size={18} color={Colors.black} />} />
+                <Button title="MAKE YOUR ACCUSATION" onPress={handleVote} variant="primary" size="large"
+                    icon={<Ionicons name="hand-left" size={18} color={Colors.victorianBlack} />} />
             )}
 
             <View style={styles.footerRow}>
-                <Ionicons name="phone-portrait-outline" size={12} color={Colors.grayMedium} style={styles.footerIcon} />
-                <Text style={styles.footerText}>{done ? 'Everyone vote now ' : 'Place phone in center '}</Text>
+                <Ionicons name="flame" size={14} color={Colors.candlelight} />
+                <Text style={styles.footerText}>{done ? 'Time to accuse the suspect' : 'Gather evidence and deduce'}</Text>
             </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: Colors.black, paddingHorizontal: 20, justifyContent: 'space-between' },
-    header: { flexDirection: 'row', alignItems: 'center', gap: 8, justifyContent: 'center' },
-    title: { fontSize: 20, fontWeight: '700', color: Colors.white, letterSpacing: 1 },
+    container: { flex: 1, backgroundColor: Colors.victorianBlack, paddingHorizontal: 20, justifyContent: 'space-between' },
+    header: { flexDirection: 'row', alignItems: 'center', gap: 10, justifyContent: 'center' },
+    headerEmoji: { fontSize: 20 },
+    title: { fontSize: 20, fontWeight: '800', color: Colors.parchment, letterSpacing: 2 },
     timerArea: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-    pausedBadge: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.85)', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8 },
-    pausedText: { fontSize: 14, fontWeight: '700', color: Colors.warning, letterSpacing: 2 },
+    pausedBadge: { position: 'absolute', backgroundColor: 'rgba(26,20,16,0.9)', paddingHorizontal: 18, paddingVertical: 10, borderRadius: 10, borderWidth: 1, borderColor: Colors.candlelight },
+    pausedText: { fontSize: 14, fontWeight: '800', color: Colors.gaslightAmber, letterSpacing: 3 },
     controls: { flexDirection: 'row', gap: 12, marginBottom: 16 },
-    footerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
-    footerIcon: { marginRight: 8 },
-    footerText: { fontSize: 13, color: Colors.grayMedium }, // Removed italic/size 11 which was too small/clipped
+    footerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
+
+    footerText: { fontSize: 12, color: Colors.candlelight, letterSpacing: 0.5 },
 });

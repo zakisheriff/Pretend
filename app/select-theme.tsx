@@ -25,7 +25,7 @@ export default function SelectThemeScreen() {
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             <View style={styles.headerBar}>
                 <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
-                    <Ionicons name="arrow-back" size={24} color={Colors.white} />
+                    <Ionicons name="arrow-back" size={24} color={Colors.parchment} />
                 </TouchableOpacity>
             </View>
 
@@ -35,8 +35,11 @@ export default function SelectThemeScreen() {
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.header}>
-                    <Text style={styles.title}>SELECT THEME</Text>
-                    <Text style={styles.subtitle}>Choose a word category  </Text>
+                    <View style={styles.titleRow}>
+                        <Ionicons name="folder-open-outline" size={24} color={Colors.parchment} />
+                        <Text style={styles.title}>SELECT CASE FILE</Text>
+                    </View>
+                    <Text style={styles.subtitle}>Choose your evidence category</Text>
                 </View>
 
                 <View style={styles.grid}>
@@ -54,12 +57,12 @@ export default function SelectThemeScreen() {
 
                 <View style={styles.footer}>
                     <Button
-                        title="CONTINUE"
+                        title="PROCEED TO BRIEFING"
                         onPress={handleContinue}
                         variant="primary"
                         size="large"
                         disabled={!selectedThemeId}
-                        icon={<Ionicons name="arrow-forward" size={18} color={selectedThemeId ? Colors.black : Colors.grayMedium} />}
+                        icon={<Ionicons name="arrow-forward" size={18} color={selectedThemeId ? Colors.victorianBlack : Colors.grayMedium} />}
                     />
                 </View>
             </ScrollView>
@@ -68,15 +71,16 @@ export default function SelectThemeScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: Colors.black },
+    container: { flex: 1, backgroundColor: Colors.victorianBlack },
     headerBar: { paddingHorizontal: 20, paddingTop: 10, zIndex: 10 },
-    backBtn: { width: 40, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 20, backgroundColor: Colors.grayDark },
+    backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 20, gap: 24 },
-    header: { alignItems: 'center' },
-    title: { fontSize: 22, fontWeight: '700', color: Colors.white, letterSpacing: 1 },
-    subtitle: { fontSize: 13, color: Colors.grayLight, marginTop: 4, flexShrink: 0 },
-    grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 12 },
-    footer: { alignItems: 'center', paddingTop: 8 },
+    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 20, gap: 26 },
+    header: { alignItems: 'center', gap: 4 },
+    titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+    title: { fontSize: 22, fontWeight: '800', color: Colors.parchment, letterSpacing: 2 },
+    subtitle: { fontSize: 13, color: Colors.candlelight, fontStyle: 'italic' },
+    grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 14 },
+    footer: { alignItems: 'center', paddingTop: 10 },
 });

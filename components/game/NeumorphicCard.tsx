@@ -25,10 +25,11 @@ export const NeumorphicCard: React.FC<NeumorphicCardProps> = ({
 
     return (
         <View style={cardStyles}>
+            {/* Victorian parchment edge effects */}
             {variant === 'raised' && (
                 <>
-                    <View style={styles.shadowTop} />
-                    <View style={styles.shadowBottom} />
+                    <View style={styles.edgeTop} />
+                    <View style={styles.edgeBottom} />
                 </>
             )}
             <View style={styles.content}>{children}</View>
@@ -42,20 +43,24 @@ const styles = StyleSheet.create({
         borderRadius: BorderRadius.lg,
         position: 'relative',
         overflow: 'hidden',
+        // Victorian border
+        borderWidth: 1,
+        borderColor: Colors.grayMedium,
     },
 
-    // Variants
+    // Variants - Victorian styled
     card_raised: {
-        borderWidth: 1,
-        borderColor: Colors.shadowLight,
+        backgroundColor: Colors.grayDark,
+        borderColor: Colors.candlelight,
+        borderWidth: 1.5,
     },
     card_inset: {
-        borderWidth: 1,
-        borderColor: Colors.shadowDark,
-        backgroundColor: Colors.black,
+        borderColor: Colors.gray,
+        backgroundColor: Colors.victorianBlack,
     },
     card_flat: {
         backgroundColor: Colors.gray,
+        borderColor: Colors.grayMedium,
     },
 
     // Padding
@@ -72,24 +77,24 @@ const styles = StyleSheet.create({
         padding: Spacing.lg,
     },
 
-    // Shadow elements for 3D effect
-    shadowTop: {
+    // Edge effects - like aged parchment
+    edgeTop: {
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
         height: 2,
-        backgroundColor: Colors.shadowLight,
-        opacity: 0.3,
+        backgroundColor: Colors.candlelight,
+        opacity: 0.2,
     },
-    shadowBottom: {
+    edgeBottom: {
         position: 'absolute',
         bottom: 0,
         left: 0,
         right: 0,
         height: 2,
-        backgroundColor: Colors.shadowDark,
-        opacity: 0.5,
+        backgroundColor: Colors.victorianBlack,
+        opacity: 0.6,
     },
 
     content: {

@@ -54,22 +54,22 @@ export const CircularTimer: React.FC<CircularTimerProps> = ({
     return (
         <View style={[styles.container, { width: size, height: size }]}>
             <Svg width={size} height={size} style={styles.svg}>
-                {/* Background circle */}
+                {/* Background circle - Victorian brass */}
                 <Circle
                     cx={size / 2}
                     cy={size / 2}
                     r={radius}
-                    stroke={Colors.gray}
+                    stroke={Colors.grayMedium}
                     strokeWidth={strokeWidth}
                     fill="transparent"
                 />
 
-                {/* Progress circle */}
+                {/* Progress circle - Gaslight colors */}
                 <AnimatedCircle
                     cx={size / 2}
                     cy={size / 2}
                     r={radius}
-                    stroke={isCriticalTime ? Colors.danger : isLowTime ? Colors.warning : Colors.white}
+                    stroke={isCriticalTime ? Colors.suspect : isLowTime ? Colors.gaslightAmber : Colors.candlelight}
                     strokeWidth={strokeWidth}
                     fill="transparent"
                     strokeDasharray={circumference}
@@ -90,7 +90,7 @@ export const CircularTimer: React.FC<CircularTimerProps> = ({
                     {formatTime(timeRemaining)}
                 </Text>
                 <Text style={styles.label}>
-                    {isCriticalTime ? 'HURRY!' : isLowTime ? 'TIME RUNNING OUT' : 'DISCUSSION TIME'}
+                    {isCriticalTime ? 'TIME CRITICAL!' : isLowTime ? 'HURRY, DETECTIVE!' : 'INVESTIGATION TIME'}
                 </Text>
             </View>
         </View>
@@ -111,20 +111,20 @@ const styles = StyleSheet.create({
     timeText: {
         fontSize: Typography.sizes.massive,
         fontWeight: Typography.weights.bold,
-        color: Colors.white,
+        color: Colors.parchment,
         fontVariant: ['tabular-nums'],
     },
     lowTimeText: {
-        color: Colors.warning,
+        color: Colors.gaslightAmber,
     },
     criticalText: {
-        color: Colors.danger,
+        color: Colors.suspect,
     },
     label: {
         fontSize: Typography.sizes.sm,
-        fontWeight: Typography.weights.medium,
-        color: Colors.grayLight,
-        letterSpacing: Typography.letterSpacing.wider,
+        fontWeight: Typography.weights.semibold,
+        color: Colors.candlelight,
+        letterSpacing: 1,
         marginTop: Spacing.sm,
     },
 });

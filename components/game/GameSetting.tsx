@@ -24,11 +24,11 @@ export const GameSetting: React.FC<GameSettingProps> = ({
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.labelRow}>
-                    <Ionicons name={icon} size={16} color={Colors.grayLight} />
+                    <Ionicons name={icon} size={16} color={Colors.candlelight} />
                     <Text style={styles.label}>{label}</Text>
                 </View>
                 <Text style={styles.currentValue}>
-                    {formatLabel ? formatLabel(value) : value}{' '}
+                    {formatLabel ? formatLabel(value) : value}
                 </Text>
             </View>
 
@@ -42,7 +42,7 @@ export const GameSetting: React.FC<GameSettingProps> = ({
                             onPress={() => onChange(opt)}
                         >
                             <Text style={[styles.optionText, isSelected && styles.optionTextSelected]}>
-                                {formatLabel ? formatLabel(opt) : opt}{' '}
+                                {formatLabel ? formatLabel(opt) : opt}
                             </Text>
                         </TouchableOpacity>
                     );
@@ -56,9 +56,9 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.grayDark,
         borderRadius: 16,
-        padding: 16,
-        borderWidth: 1,
-        borderColor: Colors.gray,
+        padding: 18,
+        borderWidth: 1.5,
+        borderColor: Colors.grayMedium,
         gap: 16,
     },
     header: {
@@ -69,36 +69,35 @@ const styles = StyleSheet.create({
     labelRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 8,
+        gap: 10,
     },
     label: {
         fontSize: 12,
         fontWeight: '700',
-        color: Colors.grayLight,
+        color: Colors.candlelight,
         letterSpacing: 2,
-        flexShrink: 0,
     },
     currentValue: {
         fontSize: 14,
         fontWeight: '700',
-        color: Colors.white,
+        color: Colors.parchment,
     },
     optionsContainer: {
         flexDirection: 'row',
-        backgroundColor: Colors.black,
-        padding: 4,
+        backgroundColor: Colors.victorianBlack,
+        padding: 5,
         borderRadius: 12,
-        gap: 4,
+        gap: 5,
     },
     optionBtn: {
         flex: 1,
-        paddingVertical: 10,
+        paddingVertical: 11,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 8,
     },
     optionBtnSelected: {
-        backgroundColor: Colors.gray,
+        backgroundColor: Colors.candlelight,
     },
     optionText: {
         fontSize: 14,
@@ -106,7 +105,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     optionTextSelected: {
-        color: Colors.white,
-        fontWeight: 'bold',
+        color: Colors.victorianBlack,
+        fontWeight: '800',
     },
 });
