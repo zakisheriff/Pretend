@@ -107,28 +107,28 @@ export default function VotingScreen() {
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack },
     centeredContent: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-    voterLabel: { fontSize: 11, color: Colors.candlelight, letterSpacing: 3, marginBottom: 18, fontWeight: '600' },
-    voterAvatar: { width: 88, height: 88, borderRadius: 44, backgroundColor: Colors.waxSeal, borderWidth: 3, borderColor: Colors.suspect, alignItems: 'center', justifyContent: 'center' },
-    voterInitial: { fontSize: 36, fontWeight: '700', color: Colors.parchmentLight },
-    voterName: { fontSize: 24, fontWeight: '700', color: Colors.parchment, marginTop: 14, letterSpacing: 1 },
+    voterLabel: { fontSize: 10, color: Colors.candlelight, letterSpacing: 2, marginBottom: 14, fontWeight: '600' },
+    voterAvatar: { width: 72, height: 72, borderRadius: 36, backgroundColor: Colors.waxSeal, borderWidth: 2.5, borderColor: Colors.suspect, alignItems: 'center', justifyContent: 'center' },
+    voterInitial: { fontSize: 28, fontWeight: '700', color: Colors.parchmentLight },
+    voterName: { fontSize: 20, fontWeight: '700', color: Colors.parchment, marginTop: 12, letterSpacing: 1 },
 
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 20, gap: 26 },
+    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 18, gap: 20 },
 
-    header: { alignItems: 'center', gap: 4 },
-    headerEmoji: { fontSize: 24, marginBottom: 8 },
-    title: { fontSize: 20, fontWeight: '800', color: Colors.parchment, letterSpacing: 1 },
-    subtitle: { fontSize: 12, color: Colors.candlelight, fontStyle: 'italic' },
+    header: { alignItems: 'center', gap: 3 },
+    headerEmoji: { fontSize: 20, marginBottom: 6 },
+    title: { fontSize: 17, fontWeight: '800', color: Colors.parchment, letterSpacing: 1 },
+    subtitle: { fontSize: 11, color: Colors.candlelight, fontStyle: 'italic' },
 
-    list: { width: '100%', gap: 10, maxWidth: 400, alignSelf: 'center' },
+    list: { width: '100%', gap: 8, maxWidth: 360, alignSelf: 'center' },
 
-    option: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.grayDark, borderRadius: 14, padding: 14, gap: 14, borderWidth: 2, borderColor: Colors.grayMedium },
+    option: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.grayDark, borderRadius: 12, padding: 12, gap: 12, borderWidth: 1.5, borderColor: Colors.grayMedium },
     optionSelected: { borderColor: Colors.candlelight, backgroundColor: Colors.gray },
-    optAvatar: { width: 44, height: 44, borderRadius: 22, backgroundColor: Colors.gray, alignItems: 'center', justifyContent: 'center' },
+    optAvatar: { width: 38, height: 38, borderRadius: 19, backgroundColor: Colors.gray, alignItems: 'center', justifyContent: 'center' },
     optAvatarSelected: { backgroundColor: Colors.waxSeal },
-    optInitial: { fontSize: 18, fontWeight: '700', color: Colors.parchmentLight },
-    optName: { flex: 1, fontSize: 15, color: Colors.grayLight, letterSpacing: 0.5 },
+    optInitial: { fontSize: 15, fontWeight: '700', color: Colors.parchmentLight },
+    optName: { flex: 1, fontSize: 14, color: Colors.grayLight, letterSpacing: 0.5 },
     optNameSelected: { color: Colors.parchment, fontWeight: '600' },
 
-    footer: { alignItems: 'center', paddingTop: 10 },
+    footer: { alignItems: 'center', paddingTop: 8 },
 });

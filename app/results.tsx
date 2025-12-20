@@ -62,7 +62,7 @@ export default function ResultsScreen() {
                             <View key={r.playerId} style={styles.voteRow}>
                                 <Text style={styles.voteRank}>{i + 1}.</Text>
                                 <Text style={[styles.voteName, p?.isImposter && { color: Colors.suspect }]}>{p?.name}</Text>
-                                <Text style={styles.voteCount}>{r.votes} vote{r.votes !== 1 ? 's' : ''}</Text>
+                                <Text style={styles.voteCount}>{r.votes} vote{r.votes !== 1 ? 's ' : ' '}</Text>
                             </View>
                         );
                     })}
@@ -92,27 +92,27 @@ export default function ResultsScreen() {
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack },
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24, gap: 26 },
+    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 16, gap: 16 },
 
-    resultCard: { alignItems: 'center', padding: 28, backgroundColor: Colors.grayDark, borderRadius: 18, gap: 10, borderWidth: 2, borderColor: Colors.candlelight },
-    resultEmoji: { fontSize: 44, marginBottom: 6 },
-    resultTitle: { fontSize: 24, fontWeight: '900', color: Colors.parchment, letterSpacing: 2 },
-    resultSub: { fontSize: 13, color: Colors.candlelight, fontStyle: 'italic' },
+    resultCard: { alignItems: 'center', padding: 20, backgroundColor: Colors.grayDark, borderRadius: 14, gap: 6, borderWidth: 1.5, borderColor: Colors.candlelight },
+    resultEmoji: { fontSize: 36, marginBottom: 4 },
+    resultTitle: { fontSize: 20, fontWeight: '900', color: Colors.parchment, letterSpacing: 1.5 },
+    resultSub: { fontSize: 12, color: Colors.candlelight, fontStyle: 'italic' },
 
-    section: { gap: 10 },
-    sectionTitle: { fontSize: 11, fontWeight: '700', color: Colors.candlelight, letterSpacing: 3 },
+    section: { gap: 8 },
+    sectionTitle: { fontSize: 10, fontWeight: '700', color: Colors.candlelight, letterSpacing: 2 },
 
-    suspectRow: { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: 'rgba(160,32,32,0.15)', padding: 14, borderRadius: 12, borderWidth: 1.5, borderColor: Colors.suspect },
-    suspectEmoji: { fontSize: 16 },
-    suspectName: { fontSize: 16, fontWeight: '700', color: Colors.suspect, letterSpacing: 0.5 },
+    suspectRow: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: 'rgba(160,32,32,0.15)', padding: 10, borderRadius: 10, borderWidth: 1.5, borderColor: Colors.suspect },
+    suspectEmoji: { fontSize: 14 },
+    suspectName: { fontSize: 14, fontWeight: '700', color: Colors.suspect, letterSpacing: 0.5 },
 
-    wordBox: { backgroundColor: Colors.grayDark, padding: 18, borderRadius: 14, alignItems: 'center', borderWidth: 1.5, borderColor: Colors.candlelight },
-    wordText: { fontSize: 22, fontWeight: '700', color: Colors.parchment, letterSpacing: 1 },
+    wordBox: { backgroundColor: Colors.grayDark, padding: 14, borderRadius: 12, alignItems: 'center', borderWidth: 1.5, borderColor: Colors.candlelight },
+    wordText: { fontSize: 18, fontWeight: '700', color: Colors.parchment, letterSpacing: 1 },
 
-    voteRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.grayMedium },
-    voteRank: { width: 28, fontSize: 13, color: Colors.grayLight, fontWeight: '600' },
-    voteName: { flex: 1, fontSize: 15, color: Colors.parchment },
-    voteCount: { fontSize: 13, color: Colors.candlelight },
+    voteRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: Colors.grayMedium },
+    voteRank: { width: 24, fontSize: 12, color: Colors.grayLight, fontWeight: '600' },
+    voteName: { flex: 1, fontSize: 13, color: Colors.parchment },
+    voteCount: { fontSize: 12, color: Colors.candlelight },
 
-    buttons: { gap: 12, marginTop: 20 },
+    buttons: { gap: 10, marginTop: 12 },
 });

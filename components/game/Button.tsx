@@ -1,7 +1,9 @@
 import { Colors } from '@/constants/colors';
 import { haptics } from '@/utils/haptics';
 import React from 'react';
-import { ActivityIndicator, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native';
+
+const isAndroid = Platform.OS === 'android';
 
 interface ButtonProps {
     title: string;
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
         // Victorian brass border effect
         borderWidth: 1.5,
     },
-    content: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+    content: { flexDirection: 'row', alignItems: 'center', gap: isAndroid ? 8 : 10 },
 
     // Primary: Parchment background, mahogany text - like an aged letter
     btn_primary: {
@@ -88,19 +90,33 @@ const styles = StyleSheet.create({
         borderColor: Colors.suspect,
     },
 
-    btn_small: { paddingVertical: 10, paddingHorizontal: 18, borderRadius: 20 },
-    btn_medium: { paddingVertical: 14, paddingHorizontal: 22, borderRadius: 24 },
-    btn_large: { paddingVertical: 18, paddingHorizontal: 24, borderRadius: 28 },
+    // Android gets smaller padding
+    btn_small: {
+        paddingVertical: isAndroid ? 8 : 10,
+        paddingHorizontal: isAndroid ? 14 : 18,
+        borderRadius: 20
+    },
+    btn_medium: {
+        paddingVertical: isAndroid ? 10 : 14,
+        paddingHorizontal: isAndroid ? 18 : 22,
+        borderRadius: 24
+    },
+    btn_large: {
+        paddingVertical: isAndroid ? 12 : 18,
+        paddingHorizontal: isAndroid ? 20 : 24,
+        borderRadius: 28
+    },
 
     disabled: { opacity: 0.35 },
 
-    text: { fontWeight: '700', letterSpacing: 1.5 },
+    text: { fontWeight: '700', letterSpacing: isAndroid ? 1 : 1.5 },
     text_primary: { color: Colors.victorianBlack },
     text_secondary: { color: Colors.parchment },
     text_outline: { color: Colors.candlelight },
     text_danger: { color: Colors.parchmentLight },
-    text_small: { fontSize: 12 },
-    text_medium: { fontSize: 14 },
-    text_large: { fontSize: 15 },
+    // Android gets smaller fonts
+    text_small: { fontSize: isAndroid ? 11 : 12 },
+    text_medium: { fontSize: isAndroid ? 12 : 14 },
+    text_large: { fontSize: isAndroid ? 13 : 15 },
     textDisabled: { opacity: 0.5 },
 });
