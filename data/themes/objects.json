@@ -1,0 +1,87 @@
+{
+    "id": "objects",
+    "name": "Objects",
+    "icon": "🧠",
+    "words": [
+        {
+            "word": "Filter Coffee",
+            "hints": {
+                "low": "A beverage",
+                "medium": "South Indian drink",
+                "high": "Made with chicory and decoction"
+            }
+        },
+        {
+            "word": "Lungi",
+            "hints": {
+                "low": "Traditional wear",
+                "medium": "South Indian men's clothing",
+                "high": "Wrapped around waist, colorful"
+            }
+        },
+        {
+            "word": "Auto Rickshaw",
+            "hints": {
+                "low": "Transportation",
+                "medium": "Three-wheeler",
+                "high": "Yellow-black in Chennai"
+            }
+        },
+        {
+            "word": "Banana Leaf",
+            "hints": {
+                "low": "Used for eating",
+                "medium": "Natural plate",
+                "high": "Sadya served on this"
+            }
+        },
+        {
+            "word": "Kolam",
+            "hints": {
+                "low": "Art form",
+                "medium": "Floor decoration",
+                "high": "Rice powder rangoli at entrance"
+            }
+        },
+        {
+            "word": "Veena",
+            "hints": {
+                "low": "Musical instrument",
+                "medium": "String instrument",
+                "high": "Carnatic music, Saraswati holds it"
+            }
+        },
+        {
+            "word": "Brass Lamp",
+            "hints": {
+                "low": "Lighting item",
+                "medium": "Traditional lamp",
+                "high": "Vilakku, lit during puja"
+            }
+        },
+        {
+            "word": "Mridangam",
+            "hints": {
+                "low": "Musical instrument",
+                "medium": "Percussion instrument",
+                "high": "Used in Carnatic concerts"
+            }
+        },
+        {
+            "word": "Jasmine Flowers",
+            "hints": {
+                "low": "Fragrant flowers",
+                "medium": "Worn in hair",
+                "high": "Madurai famous for this, called Malli"
+            }
+        },
+        {
+            "word": "Tiffin Box",
+            "hints": {
+                "low": "Container",
+                "medium": "Lunch carrier",
+                "high": "Steel dabba for office food"
+            }
+        }
+    ]
+}

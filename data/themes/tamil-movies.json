@@ -1,0 +1,167 @@
+{
+    "id": "tamil-movies",
+    "name": "Tamil Movies",
+    "icon": "🎬",
+    "words": [
+        {
+            "word": "Vikram",
+            "hints": {
+                "low": "A Kollywood action film",
+                "medium": "Kamal Haasan action thriller",
+                "high": "Lokesh Kanagaraj 2022 film with Kamal"
+            }
+        },
+        {
+            "word": "Kaithi",
+            "hints": {
+                "low": "A Tamil action movie",
+                "medium": "Karthi plays an ex-convict",
+                "high": "Lokesh film about a father finding his daughter"
+            }
+        },
+        {
+            "word": "Ghajini",
+            "hints": {
+                "low": "A revenge thriller",
+                "medium": "Memory loss revenge story",
+                "high": "Suriya film remade with Aamir Khan"
+            }
+        },
+        {
+            "word": "Anniyan",
+            "hints": {
+                "low": "A Shankar film",
+                "medium": "Multiple personality disorder",
+                "high": "Vikram as Ambi, Remo, and Anniyan"
+            }
+        },
+        {
+            "word": "Leo",
+            "hints": {
+                "low": "A 2023 action film",
+                "medium": "Vijay in a violent avatar",
+                "high": "LCU film with Vijay as a cafe owner"
+            }
+        },
+        {
+            "word": "Master",
+            "hints": {
+                "low": "A Vijay film",
+                "medium": "Vijay vs Vijay Sethupathi",
+                "high": "Lokesh film set in a juvenile home"
+            }
+        },
+        {
+            "word": "Vettaiyan",
+            "hints": {
+                "low": "A Rajini film",
+                "medium": "2024 Rajinikanth action",
+                "high": "TJ Gnanavel film with Superstar"
+            }
+        },
+        {
+            "word": "Jailer",
+            "hints": {
+                "low": "A Rajini blockbuster",
+                "medium": "Retired cop seeks revenge",
+                "high": "Nelson film with Rajini and Mohanlal"
+            }
+        },
+        {
+            "word": "Ponniyin Selvan",
+            "hints": {
+                "low": "A historical epic",
+                "medium": "Chola dynasty story",
+                "high": "Mani Ratnam film based on Kalki novel"
+            }
+        },
+        {
+            "word": "Viduthalai",
+            "hints": {
+                "low": "A Vetrimaaran film",
+                "medium": "Vijay Sethupathi as a rebel",
+                "high": "Two-part film about Naxalite movement"
+            }
+        },
+        {
+            "word": "96",
+            "hints": {
+                "low": "A romantic drama",
+                "medium": "School reunion love story",
+                "high": "Vijay Sethupathi and Trisha meet after years"
+            }
+        },
+        {
+            "word": "Jai Bhim",
+            "hints": {
+                "low": "A courtroom drama",
+                "medium": "Suriya fights for justice",
+                "high": "Based on true case about tribal rights"
+            }
+        },
+        {
+            "word": "Soorarai Pottru",
+            "hints": {
+                "low": "An inspirational film",
+                "medium": "Suriya as an entrepreneur",
+                "high": "Based on Captain Gopinath's story"
+            }
+        },
+        {
+            "word": "Theri",
+            "hints": {
+                "low": "A Vijay action film",
+                "medium": "Cop protects his family",
+                "high": "Atlee film with Vijay in dual role"
+            }
+        },
+        {
+            "word": "Kaththi",
+            "hints": {
+                "low": "A Vijay film",
+                "medium": "Farmer and lookalike",
+                "high": "AR Murugadoss film about water crisis"
+            }
+        },
+        {
+            "word": "Rocketry",
+            "hints": {
+                "low": "A biographical film",
+                "medium": "R Madhavan directed and acted",
+                "high": "Story of ISRO scientist Nambi Narayanan"
+            }
+        },
+        {
+            "word": "Asuran",
+            "hints": {
+                "low": "A Vetrimaaran film",
+                "medium": "Dhanush in dual role",
+                "high": "Based on Poomani novel Vekkai"
+            }
+        },
+        {
+            "word": "Karnan",
+            "hints": {
+                "low": "A Mari Selvaraj film",
+                "medium": "Dhanush fights for village",
+                "high": "Based on Kodiyankulam violence"
+            }
+        },
+        {
+            "word": "Beast",
+            "hints": {
+                "low": "A Vijay action film",
+                "medium": "Mall hijack situation",
+                "high": "Nelson film with Arabic Kuthu song"
+            }
+        },
+        {
+            "word": "Varisu",
+            "hints": {
+                "low": "A Vijay family drama",
+                "medium": "Business family story",
+                "high": "Vamshi Paidipally film about inheritance"
+            }
+        }
+    ]
+}

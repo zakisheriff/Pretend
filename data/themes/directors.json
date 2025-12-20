@@ -1,0 +1,87 @@
+{
+    "id": "directors",
+    "name": "Directors",
+    "icon": "🎥",
+    "words": [
+        {
+            "word": "Mani Ratnam",
+            "hints": {
+                "low": "Legendary director",
+                "medium": "Madras Talkies",
+                "high": "Ponniyin Selvan, Nayakan, Roja"
+            }
+        },
+        {
+            "word": "Shankar",
+            "hints": {
+                "low": "Grandeur films",
+                "medium": "High budget director",
+                "high": "Robot, Indian, Sivaji"
+            }
+        },
+        {
+            "word": "Lokesh Kanagaraj",
+            "hints": {
+                "low": "LCU creator",
+                "medium": "Action thriller specialist",
+                "high": "Vikram, Leo, Kaithi"
+            }
+        },
+        {
+            "word": "Vetrimaaran",
+            "hints": {
+                "low": "Raw and gritty",
+                "medium": "Dhanush combo",
+                "high": "Asuran, Vada Chennai, Viduthalai"
+            }
+        },
+        {
+            "word": "Atlee",
+            "hints": {
+                "low": "Commercial hits",
+                "medium": "Vijay combo",
+                "high": "Theri, Mersal, Jawan"
+            }
+        },
+        {
+            "word": "Nelson Dilipkumar",
+            "hints": {
+                "low": "Dark humor",
+                "medium": "Doctor, Beast",
+                "high": "Jailer with Rajinikanth"
+            }
+        },
+        {
+            "word": "Bala",
+            "hints": {
+                "low": "Intense films",
+                "medium": "Tragic endings often",
+                "high": "Sethu, Pithamagan, Naan Kadavul"
+            }
+        },
+        {
+            "word": "Mysskin",
+            "hints": {
+                "low": "Unique visual style",
+                "medium": "Low angle shots",
+                "high": "Anjathe, Pisasu, Thupparivaalan"
+            }
+        },
+        {
+            "word": "Pa. Ranjith",
+            "hints": {
+                "low": "Socially conscious",
+                "medium": "Dalit empowerment themes",
+                "high": "Madras, Kabali, Kaala"
+            }
+        },
+        {
+            "word": "Bharathiraja",
+            "hints": {
+                "low": "Iyakkunar Imayam",
+                "medium": "Village stories",
+                "high": "16 Vayathinile, Muthal Mariyathai"
+            }
+        }
+    ]
+}

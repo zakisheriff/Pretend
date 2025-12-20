@@ -1,0 +1,87 @@
+{
+    "id": "places",
+    "name": "Places",
+    "icon": "🌍",
+    "words": [
+        {
+            "word": "Marina Beach",
+            "hints": {
+                "low": "A beach",
+                "medium": "Chennai landmark",
+                "high": "Second longest urban beach in world"
+            }
+        },
+        {
+            "word": "Meenakshi Temple",
+            "hints": {
+                "low": "A temple",
+                "medium": "Famous in Madurai",
+                "high": "Colorful gopurams, Sundareswarar shrine"
+            }
+        },
+        {
+            "word": "Ooty",
+            "hints": {
+                "low": "Hill station",
+                "medium": "Queen of hill stations",
+                "high": "Nilgiri mountains, toy train"
+            }
+        },
+        {
+            "word": "Kodaikanal",
+            "hints": {
+                "low": "Tourist spot",
+                "medium": "Tamil Nadu hill station",
+                "high": "Princess of hill stations, star-shaped lake"
+            }
+        },
+        {
+            "word": "Mahabalipuram",
+            "hints": {
+                "low": "Historical site",
+                "medium": "Near Chennai",
+                "high": "Shore temple, Arjuna's Penance"
+            }
+        },
+        {
+            "word": "Thanjavur",
+            "hints": {
+                "low": "Tamil Nadu city",
+                "medium": "Known for temple",
+                "high": "Big Temple, Chola capital"
+            }
+        },
+        {
+            "word": "Rameshwaram",
+            "hints": {
+                "low": "Pilgrimage spot",
+                "medium": "Island temple town",
+                "high": "Pamban Bridge, Ramanathaswamy Temple"
+            }
+        },
+        {
+            "word": "Kanyakumari",
+            "hints": {
+                "low": "Southern tip",
+                "medium": "Three seas meet",
+                "high": "Vivekananda Rock, sunrise-sunset point"
+            }
+        },
+        {
+            "word": "Chettinad",
+            "hints": {
+                "low": "Region in TN",
+                "medium": "Known for food and mansions",
+                "high": "Karaikudi, Athangudi tiles"
+            }
+        },
+        {
+            "word": "Pondicherry",
+            "hints": {
+                "low": "Union Territory",
+                "medium": "French colony feel",
+                "high": "Auroville, white town, beach promenade"
+            }
+        }
+    ]
+}

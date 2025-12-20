@@ -1,0 +1,87 @@
+{
+    "id": "foods",
+    "name": "Foods",
+    "icon": "🍱",
+    "words": [
+        {
+            "word": "Idli",
+            "hints": {
+                "low": "Breakfast staple",
+                "medium": "Steamed rice cake",
+                "high": "Served with chutney/sambar, healthy"
+            }
+        },
+        {
+            "word": "Dosa",
+            "hints": {
+                "low": "Crispy breakfast",
+                "medium": "Thin crepe",
+                "high": "Masala, Onion, Ghee Roast varieties"
+            }
+        },
+        {
+            "word": "Pongal",
+            "hints": {
+                "low": "Rice dish",
+                "medium": "Ven Pongal or Sakkarai Pongal",
+                "high": "Harvest festival named after this"
+            }
+        },
+        {
+            "word": "Biryani",
+            "hints": {
+                "low": "Spiced rice",
+                "medium": "Party food favorite",
+                "high": "Ambur, Dindigul, Thalappakatti styles"
+            }
+        },
+        {
+            "word": "Parotta",
+            "hints": {
+                "low": "Layered bread",
+                "medium": "Made with maida",
+                "high": "Famous in Madurai, eaten with salna"
+            }
+        },
+        {
+            "word": "Vada",
+            "hints": {
+                "low": "Fried snack",
+                "medium": "Donut shaped or flat",
+                "high": "Medhu vada or Masala vada"
+            }
+        },
+        {
+            "word": "Sambar",
+            "hints": {
+                "low": "Lentil curry",
+                "medium": "Vegetable stew",
+                "high": "Crucial side dish for Idli/Dosa/Rice"
+            }
+        },
+        {
+            "word": "Rasam",
+            "hints": {
+                "low": "Tangy soup",
+                "medium": "Digestive aid",
+                "high": "Tomato, Pepper, Lemon varieties"
+            }
+        },
+        {
+            "word": "Payasam",
+            "hints": {
+                "low": "Dessert",
+                "medium": "Sweet pudding",
+                "high": "Served first in feasts, Semiya or Paruppu"
+            }
+        },
+        {
+            "word": "Jigarthanda",
+            "hints": {
+                "low": "Cold drink",
+                "medium": "Famous in Madurai",
+                "high": "Means 'cool heart', milk based"
+            }
+        }
+    ]
+}

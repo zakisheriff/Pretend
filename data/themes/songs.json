@@ -1,0 +1,87 @@
+{
+    "id": "songs",
+    "name": "Songs",
+    "icon": "🎵",
+    "words": [
+        {
+            "word": "Kolaveri Di",
+            "hints": {
+                "low": "Viral Tamil song",
+                "medium": "Why this... why this...",
+                "high": "Dhanush soup song from 3"
+            }
+        },
+        {
+            "word": "Arabic Kuthu",
+            "hints": {
+                "low": "Dance number",
+                "medium": "From Beast movie",
+                "high": "Halamithi Habibo, Vijay song"
+            }
+        },
+        {
+            "word": "Vaathi Coming",
+            "hints": {
+                "low": "Vijay song",
+                "medium": "From Master",
+                "high": "Anirudh composition, viral dance"
+            }
+        },
+        {
+            "word": "Rowdy Baby",
+            "hints": {
+                "low": "Dance song",
+                "medium": "Most viewed Indian song",
+                "high": "Dhanush-Sai Pallavi from Maari 2"
+            }
+        },
+        {
+            "word": "Oo Antava",
+            "hints": {
+                "low": "Item song",
+                "medium": "Samantha dance number",
+                "high": "From Pushpa, viral moves"
+            }
+        },
+        {
+            "word": "Roja Kadhal",
+            "hints": {
+                "low": "AR Rahman song",
+                "medium": "From Roja movie",
+                "high": "Chinna Chinna Aasai, national integration"
+            }
+        },
+        {
+            "word": "Nenjukkul Peidhidum",
+            "hints": {
+                "low": "Romantic song",
+                "medium": "Harris Jayaraj",
+                "high": "From Vaaranam Aayiram"
+            }
+        },
+        {
+            "word": "Kandukondain",
+            "hints": {
+                "low": "AR Rahman melody",
+                "medium": "Two heroines film",
+                "high": "Aishwarya-Tabu movie song"
+            }
+        },
+        {
+            "word": "Mersalaayitten",
+            "hints": {
+                "low": "Dance number",
+                "medium": "Vijay-Kajal song",
+                "high": "From Thuppakki, remix popular"
+            }
+        },
+        {
+            "word": "Appadi Podu",
+            "hints": {
+                "low": "Kuthu song",
+                "medium": "Vijay song",
+                "high": "From Ghilli, Vijay-Trisha"
+            }
+        }
+    ]
+}

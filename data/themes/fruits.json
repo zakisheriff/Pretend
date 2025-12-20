@@ -1,0 +1,87 @@
+{
+    "id": "fruits",
+    "name": "Fruits",
+    "icon": "🍎",
+    "words": [
+        {
+            "word": "Apple",
+            "hints": {
+                "low": "Red or green fruit",
+                "medium": "Keeps the doctor away",
+                "high": "Newton discovered gravity with this"
+            }
+        },
+        {
+            "word": "Banana",
+            "hints": {
+                "low": "Yellow curved fruit",
+                "medium": "Rich in potassium",
+                "high": "Minions love this"
+            }
+        },
+        {
+            "word": "Mango",
+            "hints": {
+                "low": "King of fruits",
+                "medium": "Yellow and sweet",
+                "high": "National fruit of India"
+            }
+        },
+        {
+            "word": "Orange",
+            "hints": {
+                "low": "Citrus fruit",
+                "medium": "Same name as its color",
+                "high": "High in Vitamin C"
+            }
+        },
+        {
+            "word": "Grapes",
+            "hints": {
+                "low": "Small round berries",
+                "medium": "Wine is made from this",
+                "high": "Can be green, red, or purple bunches"
+            }
+        },
+        {
+            "word": "Strawberry",
+            "hints": {
+                "low": "Red berry",
+                "medium": "Seeds on the outside",
+                "high": "Often paired with cream"
+            }
+        },
+        {
+            "word": "Watermelon",
+            "hints": {
+                "low": "Summer fruit",
+                "medium": "Green outside, red inside",
+                "high": "High water content"
+            }
+        },
+        {
+            "word": "Pineapple",
+            "hints": {
+                "low": "Tropical fruit",
+                "medium": "Spiky outside",
+                "high": "Controversial pizza topping"
+            }
+        },
+        {
+            "word": "Jackfruit",
+            "hints": {
+                "low": "Large fruit",
+                "medium": "Sticky sap inside",
+                "high": "State fruit of Kerala and TN"
+            }
+        },
+        {
+            "word": "Pomegranate",
+            "hints": {
+                "low": "Red seeds inside",
+                "medium": "Hard red skin",
+                "high": "Name means seeded apple"
+            }
+        }
+    ]
+}

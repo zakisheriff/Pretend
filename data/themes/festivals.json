@@ -1,0 +1,87 @@
+{
+    "id": "festivals",
+    "name": "Festivals",
+    "icon": "🎉",
+    "words": [
+        {
+            "word": "Pongal",
+            "hints": {
+                "low": "Harvest festival",
+                "medium": "Four day celebration",
+                "high": "Bhogi, Surya, Maattu, Kaanum"
+            }
+        },
+        {
+            "word": "Deepavali",
+            "hints": {
+                "low": "Festival of lights",
+                "medium": "Fireworks and sweets",
+                "high": "Narakasura defeated by Krishna"
+            }
+        },
+        {
+            "word": "Jallikattu",
+            "hints": {
+                "low": "Bull sport",
+                "medium": "Held during Pongal",
+                "high": "Alanganallur is famous for this"
+            }
+        },
+        {
+            "word": "Karthigai Deepam",
+            "hints": {
+                "low": "Lights festival",
+                "medium": "Oil lamps everywhere",
+                "high": "Huge fire lit on Thiruvannamalai hill"
+            }
+        },
+        {
+            "word": "Tamil New Year",
+            "hints": {
+                "low": "Puthandu",
+                "medium": "First day of Chithirai",
+                "high": "Neem flowers and mango pachadi"
+            }
+        },
+        {
+            "word": "Aadi Perukku",
+            "hints": {
+                "low": "Monsoon festival",
+                "medium": "Water worship",
+                "high": "Picnics by river banks"
+            }
+        },
+        {
+            "word": "Vinayagar Chaturthi",
+            "hints": {
+                "low": "Elephant God festival",
+                "medium": "Kozhukattai is special",
+                "high": "Idol immersion in sea"
+            }
+        },
+        {
+            "word": "Navaratri",
+            "hints": {
+                "low": "Nine nights",
+                "medium": "Golu dolls display",
+                "high": "Saraswati Puja and Vijayadashami"
+            }
+        },
+        {
+            "word": "Thaipusam",
+            "hints": {
+                "low": "Murugan festival",
+                "medium": "Kavadi carrying",
+                "high": "Yellow clothes, piercing rituals"
+            }
+        },
+        {
+            "word": "Chithirai Thiruvizha",
+            "hints": {
+                "low": "Madurai festival",
+                "medium": "Meenakshi Wedding",
+                "high": "Kallazhagar entering river Vaigai"
+            }
+        }
+    ]
+}

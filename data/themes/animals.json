@@ -1,0 +1,87 @@
+{
+    "id": "animals",
+    "name": "Animals",
+    "icon": "🐾",
+    "words": [
+        {
+            "word": "Lion",
+            "hints": {
+                "low": "King of jungle",
+                "medium": "Big cat with mane",
+                "high": "Roars loudly"
+            }
+        },
+        {
+            "word": "Elephant",
+            "hints": {
+                "low": "Largest land animal",
+                "medium": "Has a trunk",
+                "high": "Tusks and big ears"
+            }
+        },
+        {
+            "word": "Tiger",
+            "hints": {
+                "low": "Big striped cat",
+                "medium": "National animal of India",
+                "high": "Roams in jungles"
+            }
+        },
+        {
+            "word": "Dog",
+            "hints": {
+                "low": "Man's best friend",
+                "medium": "Pet animal",
+                "high": "Barks and wags tail"
+            }
+        },
+        {
+            "word": "Cat",
+            "hints": {
+                "low": "Small feline",
+                "medium": "Pet animal",
+                "high": "Meows and purrs"
+            }
+        },
+        {
+            "word": "Monkey",
+            "hints": {
+                "low": "Tree dweller",
+                "medium": "Closely related to humans",
+                "high": "Loves bananas"
+            }
+        },
+        {
+            "word": "Snake",
+            "hints": {
+                "low": "Reptile",
+                "medium": "No legs",
+                "high": "Hisses and sheds skin"
+            }
+        },
+        {
+            "word": "Peacock",
+            "hints": {
+                "low": "Colorful bird",
+                "medium": "National bird of India",
+                "high": "Dances in rain"
+            }
+        },
+        {
+            "word": "Giraffe",
+            "hints": {
+                "low": "Tallest animal",
+                "medium": "Long neck",
+                "high": "Eats leaves from tall trees"
+            }
+        },
+        {
+            "word": "Penguin",
+            "hints": {
+                "low": "Flightless bird",
+                "medium": "Lives in Antarctica",
+                "high": "Waddles and swims"
+            }
+        }
+    ]
+}

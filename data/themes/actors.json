@@ -1,0 +1,103 @@
+{
+    "id": "actors",
+    "name": "Actors",
+    "icon": "🎭",
+    "words": [
+        {
+            "word": "Rajinikanth",
+            "hints": {
+                "low": "Tamil cinema legend",
+                "medium": "Superstar of Kollywood",
+                "high": "Annaatthe, Jailer, Coolie star"
+            }
+        },
+        {
+            "word": "Kamal Haasan",
+            "hints": {
+                "low": "Versatile Tamil actor",
+                "medium": "Ulaganayagan",
+                "high": "Vikram, Hey Ram, Indian star"
+            }
+        },
+        {
+            "word": "Vijay",
+            "hints": {
+                "low": "Popular Tamil hero",
+                "medium": "Thalapathy",
+                "high": "Leo, GOAT, Master star"
+            }
+        },
+        {
+            "word": "Ajith Kumar",
+            "hints": {
+                "low": "Top Tamil star",
+                "medium": "Thala",
+                "high": "Thunivu, Valimai, Mankatha star"
+            }
+        },
+        {
+            "word": "Suriya",
+            "hints": {
+                "low": "Tamil action hero",
+                "medium": "Known for fitness",
+                "high": "Jai Bhim, Soorarai Pottru star"
+            }
+        },
+        {
+            "word": "Vijay Sethupathi",
+            "hints": {
+                "low": "Versatile Tamil actor",
+                "medium": "Makkal Selvan",
+                "high": "96, Master, Vikram Vedha star"
+            }
+        },
+        {
+            "word": "Dhanush",
+            "hints": {
+                "low": "Singer and actor",
+                "medium": "Kolaveri Di fame",
+                "high": "Asuran, Karnan, Raayan star"
+            }
+        },
+        {
+            "word": "Karthi",
+            "hints": {
+                "low": "Tamil actor",
+                "medium": "Suriya's brother",
+                "high": "Kaithi, PS-1, Sardar star"
+            }
+        },
+        {
+            "word": "Sivakarthikeyan",
+            "hints": {
+                "low": "Tamil actor-singer",
+                "medium": "Started as VJ",
+                "high": "Doctor, Prince, Maaveeran star"
+            }
+        },
+        {
+            "word": "Nayanthara",
+            "hints": {
+                "low": "Top Tamil actress",
+                "medium": "Lady Superstar",
+                "high": "Married to Vignesh Shivan"
+            }
+        },
+        {
+            "word": "Samantha",
+            "hints": {
+                "low": "Tamil-Telugu actress",
+                "medium": "Oo Antava fame",
+                "high": "Theri, Super Deluxe star"
+            }
+        },
+        {
+            "word": "Trisha",
+            "hints": {
+                "low": "Tamil actress",
+                "medium": "South Queen",
+                "high": "96, PS-1, Leo star"
+            }
+        }
+    ]
+}

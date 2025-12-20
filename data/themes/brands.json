@@ -1,0 +1,87 @@
+{
+    "id": "brands",
+    "name": "Brands",
+    "icon": "🏢",
+    "words": [
+        {
+            "word": "Apple",
+            "hints": {
+                "low": "Tech giant",
+                "medium": "iPhone maker",
+                "high": "Steve Jobs company"
+            }
+        },
+        {
+            "word": "Nike",
+            "hints": {
+                "low": "Sportswear brand",
+                "medium": "Swoosh logo",
+                "high": "Just Do It"
+            }
+        },
+        {
+            "word": "Google",
+            "hints": {
+                "low": "Search engine",
+                "medium": "Android creator",
+                "high": "Parent company is Alphabet"
+            }
+        },
+        {
+            "word": "Coca-Cola",
+            "hints": {
+                "low": "Soft drink",
+                "medium": "Red and white label",
+                "high": "Invented by John Pemberton"
+            }
+        },
+        {
+            "word": "McDonald's",
+            "hints": {
+                "low": "Fast food chain",
+                "medium": "Golden Arches",
+                "high": "Big Mac, Happy Meal"
+            }
+        },
+        {
+            "word": "Amazon",
+            "hints": {
+                "low": "E-commerce giant",
+                "medium": "A to Z smile logo",
+                "high": "Jeff Bezos company"
+            }
+        },
+        {
+            "word": "Starbucks",
+            "hints": {
+                "low": "Coffee chain",
+                "medium": "Mermaid logo",
+                "high": "Frappuccino fame"
+            }
+        },
+        {
+            "word": "Adidas",
+            "hints": {
+                "low": "Sportswear brand",
+                "medium": "Three stripes",
+                "high": "German company, Yeezy (formerly)"
+            }
+        },
+        {
+            "word": "Netflix",
+            "hints": {
+                "low": "Streaming service",
+                "medium": "Tudum sound",
+                "high": "Started as DVD rental"
+            }
+        },
+        {
+            "word": "Disney",
+            "hints": {
+                "low": "Entertainment giant",
+                "medium": "Mickey Mouse home",
+                "high": "Theme parks and movies"
+            }
+        }
+    ]
+}

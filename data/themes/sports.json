@@ -1,0 +1,87 @@
+{
+    "id": "sports",
+    "name": "Sports",
+    "icon": "⚽",
+    "words": [
+        {
+            "word": "Cricket",
+            "hints": {
+                "low": "Bat and ball game",
+                "medium": "11 players per team",
+                "high": "Wickets, overs, runs"
+            }
+        },
+        {
+            "word": "Football",
+            "hints": {
+                "low": "Soccer",
+                "medium": "Most popular sport",
+                "high": "FIFA World Cup"
+            }
+        },
+        {
+            "word": "Tennis",
+            "hints": {
+                "low": "Racket sport",
+                "medium": "Wimbledon",
+                "high": "Federer, Nadal, Djokovic"
+            }
+        },
+        {
+            "word": "Basketball",
+            "hints": {
+                "low": "Hoop and ball",
+                "medium": "NBA",
+                "high": "Jordan, LeBron, Kobe"
+            }
+        },
+        {
+            "word": "Kabaddi",
+            "hints": {
+                "low": "Contact team sport",
+                "medium": "Pro Kabaddi League",
+                "high": "Origin in India, raid and cant"
+            }
+        },
+        {
+            "word": "Badminton",
+            "hints": {
+                "low": "Racket and shuttlecock",
+                "medium": "PV Sindhu sport",
+                "high": "Fastest racket sport"
+            }
+        },
+        {
+            "word": "Hockey",
+            "hints": {
+                "low": "Stick and ball",
+                "medium": "Played on grass or ice",
+                "high": "National sport of India (unofficially)"
+            }
+        },
+        {
+            "word": "Volleyball",
+            "hints": {
+                "low": "Net game",
+                "medium": "Spike and block",
+                "high": "Played on court or beach"
+            }
+        },
+        {
+            "word": "Chess",
+            "hints": {
+                "low": "Board game",
+                "medium": "Checkmate",
+                "high": "Grandmasters, Viswanathan Anand"
+            }
+        },
+        {
+            "word": "F1 Racing",
+            "hints": {
+                "low": "Car racing",
+                "medium": "Fastest cars",
+                "high": "Grand Prix, Hamilton, Verstappen"
+            }
+        }
+    ]
+}

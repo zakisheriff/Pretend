@@ -1,0 +1,87 @@
+{
+    "id": "cars",
+    "name": "Cars",
+    "icon": "🏎️",
+    "words": [
+        {
+            "word": "Ferrari",
+            "hints": {
+                "low": "Italian sports car",
+                "medium": "Prancing Horse logo",
+                "high": "Famous for Red color"
+            }
+        },
+        {
+            "word": "Tesla",
+            "hints": {
+                "low": "Electric car",
+                "medium": "Elon Musk company",
+                "high": "Models S, 3, X, Y"
+            }
+        },
+        {
+            "word": "BMW",
+            "hints": {
+                "low": "German luxury car",
+                "medium": "Kidney grille",
+                "high": "The Ultimate Driving Machine"
+            }
+        },
+        {
+            "word": "Mercedes-Benz",
+            "hints": {
+                "low": "Luxury car maker",
+                "medium": "Three-pointed star",
+                "high": "Invented the first car"
+            }
+        },
+        {
+            "word": "Toyota",
+            "hints": {
+                "low": "Japanese car maker",
+                "medium": "Most reliable brand",
+                "high": "Corolla is best selling car ever"
+            }
+        },
+        {
+            "word": "Lamborghini",
+            "hints": {
+                "low": "Supercar brand",
+                "medium": "Bull logo",
+                "high": "Rival to Ferrari, started with tractors"
+            }
+        },
+        {
+            "word": "Ford",
+            "hints": {
+                "low": "American car brand",
+                "medium": "Mustang maker",
+                "high": "Henry Ford, Model T"
+            }
+        },
+        {
+            "word": "Audi",
+            "hints": {
+                "low": "German car brand",
+                "medium": "Four rings logo",
+                "high": "Part of Volkswagen Group"
+            }
+        },
+        {
+            "word": "Porsche",
+            "hints": {
+                "low": "German sports car",
+                "medium": "911 model",
+                "high": "Horse on crest, rear engine"
+            }
+        },
+        {
+            "word": "Rolls-Royce",
+            "hints": {
+                "low": "Ultra luxury car",
+                "medium": "Spirit of Ecstasy",
+                "high": "Phantom, Ghost models"
+            }
+        }
+    ]
+}
