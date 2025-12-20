@@ -85,7 +85,8 @@ export default function AddPlayersScreen() {
                         autoCapitalize="words"
                         autoCorrect={false}
                         onSubmitEditing={handleAdd}
-                        returnKeyType="done"
+                        returnKeyType="go"
+                        blurOnSubmit={false}
                         maxLength={16}
                     />
                     <TouchableOpacity

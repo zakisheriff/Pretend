@@ -4,163 +4,1443 @@
     "icon": "🎬",
     "words": [
         {
-            "word": "Vikram",
+            "word": "Vikram (2022)",
             "hints": {
-                "low": "A Kollywood action film",
-                "medium": "Kamal Haasan action thriller",
-                "high": "Lokesh Kanagaraj 2022 film with Kamal"
+                "low": "A milk bottle for a baby",
+                "medium": "The basement has a secret door",
+                "high": "Burning the drug factory"
             }
         },
         {
             "word": "Kaithi",
             "hints": {
-                "low": "A Tamil action movie",
-                "medium": "Karthi plays an ex-convict",
-                "high": "Lokesh film about a father finding his daughter"
-            }
-        },
-        {
-            "word": "Ghajini",
-            "hints": {
-                "low": "A revenge thriller",
-                "medium": "Memory loss revenge story",
-                "high": "Suriya film remade with Aamir Khan"
-            }
-        },
-        {
-            "word": "Anniyan",
-            "hints": {
-                "low": "A Shankar film",
-                "medium": "Multiple personality disorder",
-                "high": "Vikram as Ambi, Remo, and Anniyan"
+                "low": "A bucket of biryani",
+                "medium": "A student drives the lorry",
+                "high": "Gold jewelry saved for a life"
             }
         },
         {
             "word": "Leo",
             "hints": {
-                "low": "A 2023 action film",
-                "medium": "Vijay in a violent avatar",
-                "high": "LCU film with Vijay as a cafe owner"
-            }
-        },
-        {
-            "word": "Master",
-            "hints": {
-                "low": "A Vijay film",
-                "medium": "Vijay vs Vijay Sethupathi",
-                "high": "Lokesh film set in a juvenile home"
-            }
-        },
-        {
-            "word": "Vettaiyan",
-            "hints": {
-                "low": "A Rajini film",
-                "medium": "2024 Rajinikanth action",
-                "high": "TJ Gnanavel film with Superstar"
+                "low": "A coffee shop in Kashmir",
+                "medium": "A fake confession video",
+                "high": "The teeth are fake"
             }
         },
         {
             "word": "Jailer",
             "hints": {
-                "low": "A Rajini blockbuster",
-                "medium": "Retired cop seeks revenge",
-                "high": "Nelson film with Rajini and Mohanlal"
+                "low": "Polishing shoes",
+                "medium": "A sniper in the bushes",
+                "high": "The crown is stolen"
             }
         },
         {
-            "word": "Ponniyin Selvan",
+            "word": "Master",
             "hints": {
-                "low": "A historical epic",
-                "medium": "Chola dynasty story",
-                "high": "Mani Ratnam film based on Kalki novel"
+                "low": "A broken bracelet",
+                "medium": "A cat named after the hero",
+                "high": "Hanging from the truck"
             }
         },
         {
-            "word": "Viduthalai",
+            "word": "Ponniyin Selvan 1",
             "hints": {
-                "low": "A Vetrimaaran film",
-                "medium": "Vijay Sethupathi as a rebel",
-                "high": "Two-part film about Naxalite movement"
+                "low": "A sword with a fish emblem",
+                "medium": "A message sent via scroll",
+                "high": "The elephant saves the prince"
+            }
+        },
+        {
+            "word": "Viduthalai Part 1",
+            "hints": {
+                "low": "A letter written on a leaf",
+                "medium": "Rice cooked in the forest",
+                "high": "The butterfly effect of a checkpoint"
+            }
+        },
+        {
+            "word": "Kantara",
+            "hints": {
+                "low": "A scream in the dark",
+                "medium": "Buffalo racing mud",
+                "high": "Trading land for peace"
+            }
+        },
+        {
+            "word": "KGF Chapter 1",
+            "hints": {
+                "low": "A mother's promise",
+                "medium": "The hammer is the tool",
+                "high": "Turning off the streetlights"
+            }
+        },
+        {
+            "word": "Baahubali 1",
+            "hints": {
+                "low": "A hand holding a baby in water",
+                "medium": "Climbing a waterfall",
+                "high": "The statue's shoulder strap"
             }
         },
         {
             "word": "96",
             "hints": {
-                "low": "A romantic drama",
-                "medium": "School reunion love story",
-                "high": "Vijay Sethupathi and Trisha meet after years"
-            }
-        },
-        {
-            "word": "Jai Bhim",
-            "hints": {
-                "low": "A courtroom drama",
-                "medium": "Suriya fights for justice",
-                "high": "Based on true case about tribal rights"
+                "low": "A box of ink pens",
+                "medium": "The electricity goes out",
+                "high": "Folding a yellow dupatta"
             }
         },
         {
             "word": "Soorarai Pottru",
             "hints": {
-                "low": "An inspirational film",
-                "medium": "Suriya as an entrepreneur",
-                "high": "Based on Captain Gopinath's story"
+                "low": "Begging for money at the counter",
+                "medium": "A bakery business failed",
+                "high": "Landing on an unpaved road"
             }
         },
         {
-            "word": "Theri",
+            "word": "Jai Bhim",
             "hints": {
-                "low": "A Vijay action film",
-                "medium": "Cop protects his family",
-                "high": "Atlee film with Vijay in dual role"
-            }
-        },
-        {
-            "word": "Kaththi",
-            "hints": {
-                "low": "A Vijay film",
-                "medium": "Farmer and lookalike",
-                "high": "AR Murugadoss film about water crisis"
-            }
-        },
-        {
-            "word": "Rocketry",
-            "hints": {
-                "low": "A biographical film",
-                "medium": "R Madhavan directed and acted",
-                "high": "Story of ISRO scientist Nambi Narayanan"
+                "low": "A snake catcher's skill",
+                "medium": "A calendar date missing",
+                "high": "Throwing rice on the road"
             }
         },
         {
             "word": "Asuran",
             "hints": {
-                "low": "A Vetrimaaran film",
-                "medium": "Dhanush in dual role",
-                "high": "Based on Poomani novel Vekkai"
+                "low": "A pair of slippers",
+                "medium": "A bomb made of country materials",
+                "high": "Falling at the feet of the rich"
             }
         },
         {
             "word": "Karnan",
             "hints": {
-                "low": "A Mari Selvaraj film",
-                "medium": "Dhanush fights for village",
-                "high": "Based on Kodiyankulam violence"
+                "low": "A fish cut in half",
+                "medium": "Smashing the bus window",
+                "high": "A horse without a rider"
+            }
+        },
+        {
+            "word": "Sarpatta Parambarai",
+            "hints": {
+                "low": "Cycling to the harbour",
+                "medium": "Drinking tea before a fight",
+                "high": "Knocked out in the first round"
+            }
+        },
+        {
+            "word": "Vada Chennai",
+            "hints": {
+                "low": "A binoculars view",
+                "medium": "A sewing machine",
+                "high": "The cycle chain weapon"
+            }
+        },
+        {
+            "word": "Super Deluxe",
+            "hints": {
+                "low": "A TV falling down",
+                "medium": "Five friends and a dead body",
+                "high": "Aliens and blue paint"
+            }
+        },
+        {
+            "word": "Aandavan Kattalai",
+            "hints": {
+                "low": "A fake passport name",
+                "medium": "Rent agreement issues",
+                "high": "The mute drama artist"
+            }
+        },
+        {
+            "word": "Jigarthanda",
+            "hints": {
+                "low": "A dictaphone recording",
+                "medium": "Eating crab curry",
+                "high": "Acting class in the rain"
+            }
+        },
+        {
+            "word": "Soodhu Kavvum",
+            "hints": {
+                "low": "A rule book for crimes",
+                "medium": "Speaking to empty air",
+                "high": "The car bumper is filled with cash"
+            }
+        },
+        {
+            "word": "Pizza",
+            "hints": {
+                "low": "A fridge with names",
+                "medium": "Diamonds in the box",
+                "high": "The house was empty all along"
+            }
+        },
+        {
+            "word": "Ratsasan",
+            "hints": {
+                "low": "A magic trick gift",
+                "medium": "A hearing aid",
+                "high": "The piano wire"
+            }
+        },
+        {
+            "word": "Thani Oruvan",
+            "hints": {
+                "low": "A hidden bug in a locket",
+                "medium": "The bulletproof vest test",
+                "high": "Coordinates sent by SMS"
+            }
+        },
+        {
+            "word": "Mankatha",
+            "hints": {
+                "low": "A chess game metaphor",
+                "medium": "Plastic masks",
+                "high": "Burning the van"
+            }
+        },
+        {
+            "word": "Thuppakki",
+            "hints": {
+                "low": "A Rubik's cube",
+                "medium": "A dog squad failure",
+                "high": "Twelve locations at once"
+            }
+        },
+        {
+            "word": "Kaththi",
+            "hints": {
+                "low": "A diagram on the arm",
+                "medium": "Turning off the city water",
+                "high": "Press meet with tears"
+            }
+        },
+        {
+            "word": "Mersal",
+            "hints": {
+                "low": "A spinning top (pambaram)",
+                "medium": "Five rupees for treatment",
+                "high": "A magician's cabinet"
+            }
+        },
+        {
+            "word": "Bigil",
+            "hints": {
+                "low": "A cup of tea on the field",
+                "medium": "Acid on the face",
+                "high": "The stadium roof walk"
+            }
+        },
+        {
+            "word": "Sarkar",
+            "hints": {
+                "low": "A missing vote",
+                "medium": "Throwing the mixer grinder",
+                "high": "A challenge to the CM"
             }
         },
         {
             "word": "Beast",
             "hints": {
-                "low": "A Vijay action film",
-                "medium": "Mall hijack situation",
-                "high": "Nelson film with Arabic Kuthu song"
+                "low": "A roller skate escape",
+                "medium": "A car inside a building",
+                "high": "The jet pilot license"
             }
         },
         {
             "word": "Varisu",
             "hints": {
-                "low": "A Vijay family drama",
-                "medium": "Business family story",
-                "high": "Vamshi Paidipally film about inheritance"
+                "low": "A food truck",
+                "medium": "Board meeting chair",
+                "high": "The port deal"
+            }
+        },
+        {
+            "word": "Baasha",
+            "hints": {
+                "low": "A medical college seat",
+                "medium": "The lamp post",
+                "high": "The vibration of a walk"
+            }
+        },
+        {
+            "word": "Padayappa",
+            "hints": {
+                "low": "A granite hill",
+                "medium": "Kick the pot of water",
+                "high": "The swing descends"
+            }
+        },
+        {
+            "word": "Arunachalam",
+            "hints": {
+                "low": "A rudraksha mala",
+                "medium": "30 days deadline",
+                "high": "Spending money to lose it"
+            }
+        },
+        {
+            "word": "Muthu",
+            "hints": {
+                "low": "A white horse carriage",
+                "medium": "The letter in the box",
+                "high": "Replacing the actor on stage"
+            }
+        },
+        {
+            "word": "Annamalai",
+            "hints": {
+                "low": "A demolished hut",
+                "medium": "The escalator scene",
+                "high": "Challenge calendar date"
+            }
+        },
+        {
+            "word": "Sivaji",
+            "hints": {
+                "low": "A one rupee coin",
+                "medium": "Typewriter laptop",
+                "high": "Counting black money"
+            }
+        },
+        {
+            "word": "Enthiran",
+            "hints": {
+                "low": "A mosquito bite",
+                "medium": "Scanning a book in seconds",
+                "high": "Disassembling the formation"
+            }
+        },
+        {
+            "word": "2.0",
+            "hints": {
+                "low": "Birds falling from sky",
+                "medium": "A room full of cellphones",
+                "high": "The stadium is surrounded"
+            }
+        },
+        {
+            "word": "Indian",
+            "hints": {
+                "low": "A paralyzing finger touch",
+                "medium": "Bribery at the RTO",
+                "high": "Exploding the jeep"
+            }
+        },
+        {
+            "word": "Mudhalvan",
+            "hints": {
+                "low": "A stick covered in mud",
+                "medium": "One day challenge",
+                "high": "The interview chair"
+            }
+        },
+        {
+            "word": "Gentleman",
+            "hints": {
+                "low": "A Brahmin hotel",
+                "medium": "Pocket money coins",
+                "high": "Running on the train roof"
+            }
+        },
+        {
+            "word": "Jeans",
+            "hints": {
+                "low": "A catering contract",
+                "medium": "Fake brain scan",
+                "high": "Identifying the brother by a scar"
+            }
+        },
+        {
+            "word": "Boys",
+            "hints": {
+                "low": "A temple visit",
+                "medium": "Living on a terrace",
+                "high": "Running naked"
+            }
+        },
+        {
+            "word": "Anniyan",
+            "hints": {
+                "low": "A website loading screen",
+                "medium": "A jar of leeches",
+                "high": "Hair falling on the face"
+            }
+        },
+        {
+            "word": "I",
+            "hints": {
+                "low": "A weightlifting gym",
+                "medium": "Advertising shoot in China",
+                "high": "The injection needle"
+            }
+        },
+        {
+            "word": "Nayakan",
+            "hints": {
+                "low": "A small hut in Mumbai",
+                "medium": "A police inspector's daughter",
+                "high": "The verdict in court"
+            }
+        },
+        {
+            "word": "Thalapathi",
+            "hints": {
+                "low": "A yellow shawl",
+                "medium": "A train whistle",
+                "high": "The collector is the brother"
+            }
+        },
+        {
+            "word": "Roja",
+            "hints": {
+                "low": "A burning flag",
+                "medium": "A coded message",
+                "high": "Snow in the climax"
+            }
+        },
+        {
+            "word": "Bombay",
+            "hints": {
+                "low": "A heavy rainstorm",
+                "medium": "Twin boys lost",
+                "high": "Holding hands in the fire"
+            }
+        },
+        {
+            "word": "Alaipayuthey",
+            "hints": {
+                "low": "A local train schedule",
+                "medium": "A medical camp tent",
+                "high": "The unfinished house"
+            }
+        },
+        {
+            "word": "Kannathil Muthamittal",
+            "hints": {
+                "low": "A book reading session",
+                "medium": "A park in Colombo",
+                "high": "Red dust explosion"
+            }
+        },
+        {
+            "word": "Aayutha Ezhuthu",
+            "hints": {
+                "low": "A traffic signal",
+                "medium": "Campaign pamphlets",
+                "high": "The bridge accident"
+            }
+        },
+        {
+            "word": "Mouna Ragam",
+            "hints": {
+                "low": "A divorce notice",
+                "medium": "Silver anklets (Golusu)",
+                "high": "Waiting at the station"
+            }
+        },
+        {
+            "word": "Ghilli",
+            "hints": {
+                "low": "A lighthouse staircase",
+                "medium": "A heavy gold chain",
+                "high": "Hiding in the truck"
+            }
+        },
+        {
+            "word": "Pokkiri",
+            "hints": {
+                "low": "A lift with a mirror",
+                "medium": "A tape recorder",
+                "high": "The police ID card"
+            }
+        },
+        {
+            "word": "Sivakasi",
+            "hints": {
+                "low": "A parrot astrologer",
+                "medium": "Calling from a coin booth",
+                "high": "The mother's saree"
+            }
+        },
+        {
+            "word": "Thirumalai",
+            "hints": {
+                "low": "A mechanic shed",
+                "medium": "A cigarette flip",
+                "high": "The bike race"
+            }
+        },
+        {
+            "word": "Sachein",
+            "hints": {
+                "low": "A betting challenge",
+                "medium": "Graffiti on the wall",
+                "high": "Waiting in the rain"
+            }
+        },
+        {
+            "word": "Kushi",
+            "hints": {
+                "low": "A newborn baby comparison",
+                "medium": "A magician's show",
+                "high": "Counting the letters"
+            }
+        },
+        {
+            "word": "Vaali",
+            "hints": {
+                "low": "A hearing aid battery",
+                "medium": "Lip reading",
+                "high": "A twin reflection"
+            }
+        },
+        {
+            "word": "Citizen",
+            "hints": {
+                "low": "A map of a village",
+                "medium": "A district collector's office",
+                "high": "Digging the sea shore"
+            }
+        },
+        {
+            "word": "Varalaru",
+            "hints": {
+                "low": "A wheelchair",
+                "medium": "Classical dance bells",
+                "high": "The third son"
+            }
+        },
+        {
+            "word": "Billa (2007)",
+            "hints": {
+                "low": "A pen drive",
+                "medium": "Malaysia twin towers",
+                "high": "A hidden scar"
+            }
+        },
+        {
+            "word": "Arambham",
+            "hints": {
+                "low": "A hacker's tablet",
+                "medium": "A bulletproof jacket test",
+                "high": "The boat escape"
+            }
+        },
+        {
+            "word": "Viswasam",
+            "hints": {
+                "low": "A mustache twirl",
+                "medium": "A school sports day",
+                "high": "The car door lock"
+            }
+        },
+        {
+            "word": "Veeram",
+            "hints": {
+                "low": "A sculpture of a bull",
+                "medium": "A train shaking",
+                "high": "White shirt and dhoti"
+            }
+        },
+        {
+            "word": "Vedalam",
+            "hints": {
+                "low": "A sketch artist",
+                "medium": "Red paint splash",
+                "high": "The transformation walk"
+            }
+        },
+        {
+            "word": "Vivegam",
+            "hints": {
+                "low": "Morse code with coins",
+                "medium": "A holographic map",
+                "high": "The dam detonation"
+            }
+        },
+        {
+            "word": "Thunivu",
+            "hints": {
+                "low": "A bank vault",
+                "medium": "Plastic masks and guns",
+                "high": "A boat in the ocean"
+            }
+        },
+        {
+            "word": "Valimai",
+            "hints": {
+                "low": "A biker helmet",
+                "medium": "A chain snatching",
+                "high": "The bus chase"
+            }
+        },
+        {
+            "word": "Pithamagan",
+            "hints": {
+                "low": "A graveyard shovel",
+                "medium": "Dried fish (Karuvadu)",
+                "high": "Running backwards"
+            }
+        },
+        {
+            "word": "Sethu",
+            "hints": {
+                "low": "A head injury bandage",
+                "medium": "A dark cell",
+                "high": "The swami's cave"
+            }
+        },
+        {
+            "word": "Nanda",
+            "hints": {
+                "low": "A juvenile home gate",
+                "medium": "A plate of rice",
+                "high": "Poison in the food"
+            }
+        },
+        {
+            "word": "Saamy",
+            "hints": {
+                "low": "Idli and beer",
+                "medium": "A barricade check",
+                "high": "Burning the effigy"
+            }
+        },
+        {
+            "word": "Dhool",
+            "hints": {
+                "low": "A water pump",
+                "medium": "Chilli powder spray",
+                "high": "A rooster fight (symbolic)"
+            }
+        },
+        {
+            "word": "Ghajini",
+            "hints": {
+                "low": "A polaroid camera",
+                "medium": "Tattoos on the chest",
+                "high": "Two diaries"
+            }
+        },
+        {
+            "word": "Ayan",
+            "hints": {
+                "low": "A pirated CD",
+                "medium": "Diamonds in the stomach",
+                "high": "Customs officer's betrayal"
+            }
+        },
+        {
+            "word": "Kaakha Kaakha",
+            "hints": {
+                "low": "A wooden cabin",
+                "medium": "A teacher's notebook",
+                "high": "The lakeside ending"
+            }
+        },
+        {
+            "word": "Vettaiyaadu Vilaiyaadu",
+            "hints": {
+                "low": "A glass eye",
+                "medium": "A yellow raincoat",
+                "high": "Buried in the sand"
+            }
+        },
+        {
+            "word": "Singam 1",
+            "hints": {
+                "low": "A transfer order",
+                "medium": "A slap in the station",
+                "high": "Running barefoot"
+            }
+        },
+        {
+            "word": "24",
+            "hints": {
+                "low": "A wrist watch",
+                "medium": "A laboratory key",
+                "high": "Freezing a water drop"
+            }
+        },
+        {
+            "word": "Polladhavan",
+            "hints": {
+                "low": "A bike key",
+                "medium": "A mechanic shop",
+                "high": "The drug packet"
+            }
+        },
+        {
+            "word": "Aadukalam",
+            "hints": {
+                "low": "A rooster's blade",
+                "medium": "An Anglo-Indian party",
+                "high": "The betrayal by the guru"
+            }
+        },
+        {
+            "word": "Vada Chennai",
+            "hints": {
+                "low": "A carrom board",
+                "medium": "A jail feast",
+                "high": "The murder on the boat"
+            }
+        },
+        {
+            "word": "Asuran",
+            "hints": {
+                "low": "A flashlight at night",
+                "medium": "A country bomb",
+                "high": "Prostrating on the ground"
+            }
+        },
+        {
+            "word": "Karnan",
+            "hints": {
+                "low": "A bus stop sign",
+                "medium": "A donkey with tied legs",
+                "high": "A sword in the wall"
+            }
+        },
+        {
+            "word": "Maari",
+            "hints": {
+                "low": "Pigeons in a cage",
+                "medium": "A gold chain",
+                "high": "Burning the auto"
+            }
+        },
+        {
+            "word": "VIP (Velaiilla Pattadhari)",
+            "hints": {
+                "low": "A moped (TVS 50)",
+                "medium": "A lungi fold",
+                "high": "The construction site model"
+            }
+        },
+        {
+            "word": "Pudhupettai",
+            "hints": {
+                "low": "A red light district",
+                "medium": "A machete wrapped in cloth",
+                "high": "The politician's stage"
+            }
+        },
+        {
+            "word": "Mayakkam Enna",
+            "hints": {
+                "low": "A camera lens",
+                "medium": "A dead bird",
+                "high": "Cleaning the floor"
+            }
+        },
+        {
+            "word": "Aayirathil Oruvan",
+            "hints": {
+                "low": "A shadowed trap",
+                "medium": "Ancient paintings",
+                "high": "The little prince"
+            }
+        },
+        {
+            "word": "Madras",
+            "hints": {
+                "low": "A blue wall",
+                "medium": "A football match",
+                "high": "Throwing the paint"
+            }
+        },
+        {
+            "word": "Kaala",
+            "hints": {
+                "low": "A black umbrella",
+                "medium": "Blue powder",
+                "high": "The land survey map"
+            }
+        },
+        {
+            "word": "Kabali",
+            "hints": {
+                "low": "A fancy suit",
+                "medium": "A bird cage",
+                "high": "The graduation ceremony"
+            }
+        },
+        {
+            "word": "Attakathi",
+            "hints": {
+                "low": "A blue bus",
+                "medium": "Love letters",
+                "high": "The route thala"
+            }
+        },
+        {
+            "word": "Pizza 2: Villa",
+            "hints": {
+                "low": "Paintings in a basement",
+                "medium": "A psychic connection",
+                "high": "The loop continues"
+            }
+        },
+        {
+            "word": "Indru Netru Naalai",
+            "hints": {
+                "low": "A broken spectacle",
+                "medium": "A stock market page",
+                "high": "The grandfather paradox"
+            }
+        },
+        {
+            "word": "Maanagaram",
+            "hints": {
+                "low": "An HR interview",
+                "medium": "Acid in a bottle",
+                "high": "Mistaken identity kidnap"
+            }
+        },
+        {
+            "word": "Kaithi",
+            "hints": {
+                "low": "A poisoned drink",
+                "medium": "A police station siege",
+                "high": "The Gatling gun"
+            }
+        },
+        {
+            "word": "Vikram Vedha",
+            "hints": {
+                "low": "A story narration",
+                "medium": "A lost gun",
+                "high": "Money hidden in the tire"
+            }
+        },
+        {
+            "word": "96",
+            "hints": {
+                "low": "A school uniform",
+                "medium": "A janitor's watch",
+                "high": "The untouched lipstick"
+            }
+        },
+        {
+            "word": "Super Deluxe",
+            "hints": {
+                "low": "A blue film",
+                "medium": "A freezer box",
+                "high": "The tsunami"
+            }
+        },
+        {
+            "word": "Kadaisi Vivasayi",
+            "hints": {
+                "low": "A peacock feather",
+                "medium": "A police charge sheet",
+                "high": "Planting the crop in court"
+            }
+        },
+        {
+            "word": "Merku Thodarchi Malai",
+            "hints": {
+                "low": "Cardamom sacks",
+                "medium": "Walking uphill",
+                "high": "Land ownership papers"
+            }
+        },
+        {
+            "word": "Pariyerum Perumal",
+            "hints": {
+                "low": "A blue tea cup",
+                "medium": "A law college class",
+                "high": "The dog on the track"
+            }
+        },
+        {
+            "word": "Mandela",
+            "hints": {
+                "low": "A voter ID card",
+                "medium": "A barber's mirror",
+                "high": "The tie vote"
+            }
+        },
+        {
+            "word": "Doctor",
+            "hints": {
+                "low": "A metro train map",
+                "medium": "Handkerchief chloroform",
+                "high": "Volleyball game"
+            }
+        },
+        {
+            "word": "Don",
+            "hints": {
+                "low": "A slap mark",
+                "medium": "A short film CD",
+                "high": "The father's shoes"
+            }
+        },
+        {
+            "word": "Maanaadu",
+            "hints": {
+                "low": "A political rally stage",
+                "medium": "A gunshot sound loop",
+                "high": "The fingerprint on the gun"
+            }
+        },
+        {
+            "word": "Love Today",
+            "hints": {
+                "low": "Exchanged smartphones",
+                "medium": "A mango sapling",
+                "high": "The fake Instagram account"
+            }
+        },
+        {
+            "word": "Good Night",
+            "hints": {
+                "low": "A water filter",
+                "medium": "Separate bedrooms",
+                "high": "The sleep study"
+            }
+        },
+        {
+            "word": "Dada",
+            "hints": {
+                "low": "A baby carrier",
+                "medium": "Working in an IT office",
+                "high": "The orphanage visit"
+            }
+        },
+        {
+            "word": "Por Thozhil",
+            "hints": {
+                "low": "A tape recorder voice",
+                "medium": "A heavy flashlight",
+                "high": "The scarecrow in the field"
+            }
+        },
+        {
+            "word": "Chithha",
+            "hints": {
+                "low": "A school bag",
+                "medium": "Burning the trash",
+                "high": "The tricycle"
+            }
+        },
+        {
+            "word": "Jigarthanda DoubleX",
+            "hints": {
+                "low": "A film camera",
+                "medium": "An elephant tusk",
+                "high": "The fire in the theater"
+            }
+        },
+        {
+            "word": "Mark Antony",
+            "hints": {
+                "low": "A telephone receiver",
+                "medium": "A golden skeleton",
+                "high": "The double decker bus"
+            }
+        },
+        {
+            "word": "Ayalaan",
+            "hints": {
+                "low": "Green gas smoke",
+                "medium": "Floating rocks",
+                "high": "The spaceship launch"
+            }
+        },
+        {
+            "word": "Captain Miller",
+            "hints": {
+                "low": "A temple procession",
+                "medium": "A stolen idol",
+                "high": "The bridge explosion"
+            }
+        },
+        {
+            "word": "Lal Salaam",
+            "hints": {
+                "low": "A cricket bat",
+                "medium": "A religious chariot",
+                "high": "The village pond"
+            }
+        },
+        {
+            "word": "Maharaja",
+            "hints": {
+                "low": "A dustbin",
+                "medium": "A sports shop",
+                "high": "The snake in the house"
+            }
+        },
+        {
+            "word": "Indian 2",
+            "hints": {
+                "low": "A golden unicycle",
+                "medium": "Social media hashtags",
+                "high": "The airport escape"
+            }
+        },
+        {
+            "word": "Raayan",
+            "hints": {
+                "low": "A food truck kitchen",
+                "medium": "A wolf statue",
+                "high": "The harbor fight"
+            }
+        },
+        {
+            "word": "Goat (The Greatest of All Time)",
+            "hints": {
+                "low": "A parachute jump",
+                "medium": "Cricket stadium lights",
+                "high": "The clone's face"
+            }
+        },
+        {
+            "word": "Kanguva",
+            "hints": {
+                "low": "A crocodile tooth",
+                "medium": "A tribal mask",
+                "high": "The plane crash in the past"
+            }
+        },
+        {
+            "word": "Vettaiyan",
+            "hints": {
+                "low": "An encounter specialist's gun",
+                "medium": "Online education tablets",
+                "high": "The blindfold justice"
+            }
+        },
+        {
+            "word": "Amaran",
+            "hints": {
+                "low": "An apple orchard",
+                "medium": "A daughter's drawing",
+                "high": "The final grenade"
+            }
+        },
+        {
+            "word": "Lubber Pandhu",
+            "hints": {
+                "low": "A rubber ball",
+                "medium": "A moped chase",
+                "high": "The final six"
+            }
+        },
+        {
+            "word": "Nanban",
+            "hints": {
+                "low": "A vacuum cleaner",
+                "medium": "A drone camera",
+                "high": "The pencil definition"
+            }
+        },
+        {
+            "word": "Raja Rani",
+            "hints": {
+                "low": "A church wedding",
+                "medium": "Epileptic seizure",
+                "high": "The mirror reflection"
+            }
+        },
+        {
+            "word": "Theri",
+            "hints": {
+                "low": "A bakery apron",
+                "medium": "A ghostly classroom",
+                "high": "The bridge fall"
+            }
+        },
+        {
+            "word": "Friends",
+            "hints": {
+                "low": "A gold watch",
+                "medium": "A hammer falling",
+                "high": "The painting contract"
+            }
+        },
+        {
+            "word": "Panchathanthiram",
+            "hints": {
+                "low": "A diamond necklace",
+                "medium": "Bangalore flight ticket",
+                "high": "The dead body in the car"
+            }
+        },
+        {
+            "word": "Vasool Raja MBBS",
+            "hints": {
+                "low": "A carrom board strike",
+                "medium": "A hug (Kattipudi)",
+                "high": "The anatomy hall"
+            }
+        },
+        {
+            "word": "Pammal K. Sambandam",
+            "hints": {
+                "low": "A wrist watch containing a Chit",
+                "medium": "A surgery video",
+                "high": "The stunt scene"
+            }
+        },
+        {
+            "word": "Thenali",
+            "hints": {
+                "low": "A mouse in the house",
+                "medium": "A picnic fear",
+                "high": "The tree explosion"
+            }
+        },
+        {
+            "word": "Avvai Shanmugi",
+            "hints": {
+                "low": "An old woman's saree",
+                "medium": "A bath tub struggle",
+                "high": "The Iyer disguise"
+            }
+        },
+        {
+            "word": "Michael Madana Kama Rajan",
+            "hints": {
+                "low": "A falling safe",
+                "medium": "A fish recipe",
+                "high": "The fire service truck"
+            }
+        },
+        {
+            "word": "Apoorva Sagodharargal",
+            "hints": {
+                "low": "A dwarf circus clown",
+                "medium": "A tiger in a cage",
+                "high": "The Rube Goldberg machine kill"
+            }
+        },
+        {
+            "word": "Sathileelavathi",
+            "hints": {
+                "low": "A stolen car",
+                "medium": "Weight loss treatment",
+                "high": "The Coimbatore slang"
+            }
+        },
+        {
+            "word": "Magalir Mattum (1994)",
+            "hints": {
+                "low": "A fashion export company",
+                "medium": "A tied-up boss",
+                "high": "The bomb scare"
+            }
+        },
+        {
+            "word": "Suryavamsam",
+            "hints": {
+                "low": "A bus conductor's bag",
+                "medium": "Idli with paya",
+                "high": "The poisoned kheer"
+            }
+        },
+        {
+            "word": "Nattamai",
+            "hints": {
+                "low": "A village banyan tree",
+                "medium": "A teacher's slate",
+                "high": "The brother's betrayal"
+            }
+        },
+        {
+            "word": "Chinna Gounder",
+            "hints": {
+                "low": "A spinning top",
+                "medium": "A false accusation",
+                "high": "The goat's testimony"
+            }
+        },
+        {
+            "word": "Ejamaan",
+            "hints": {
+                "low": "A poisoned fertility medicine",
+                "medium": "A bullock cart race",
+                "high": "The wife's sacrifice"
+            }
+        },
+        {
+            "word": "Walter Vetrivel",
+            "hints": {
+                "low": "A police uniform",
+                "medium": "A blind brother",
+                "high": "The encounter list"
+            }
+        },
+        {
+            "word": "Amaithipadai",
+            "hints": {
+                "low": "A coconut grove",
+                "medium": "A politician's white dress",
+                "high": "The illegitimate son"
+            }
+        },
+        {
+            "word": "Amaidhi Padai 2 (Nagaraja Cholan MA, MLA)",
+            "hints": {
+                "low": "A forest clearing",
+                "medium": "CBI investigation",
+                "high": "The tree plantation scam"
+            }
+        },
+        {
+            "word": "Karagattakaran",
+            "hints": {
+                "low": "A decorated car",
+                "medium": "A banana comedy",
+                "high": "The drum dance competition"
+            }
+        },
+        {
+            "word": "Chinna Thambi",
+            "hints": {
+                "low": "Singing in the hills",
+                "medium": "Three brothers with sticks",
+                "high": "The shackles in the temple"
+            }
+        },
+        {
+            "word": "Kizhakku Cheemayile",
+            "hints": {
+                "low": "A basket of sweets",
+                "medium": "A brother-sister bond",
+                "high": "The cockfight bet"
+            }
+        },
+        {
+            "word": "Pasamalar",
+            "hints": {
+                "low": "A factory siren",
+                "medium": "Firecrackers in the hand",
+                "high": "Holding hands in death"
+            }
+        },
+        {
+            "word": "Thiruvilayadal",
+            "hints": {
+                "low": "A golden mango",
+                "medium": "A net fisherman",
+                "high": "Questioning the poet"
+            }
+        },
+        {
+            "word": "Karnan (Old)",
+            "hints": {
+                "low": "A chariot wheel stuck",
+                "medium": "Giving away the armor",
+                "high": "The sun god's son"
+            }
+        },
+        {
+            "word": "Veerapandiya Kattabomman",
+            "hints": {
+                "low": "A tax demand",
+                "medium": "Rice and turmeric debate",
+                "high": "The hanging tree"
+            }
+        },
+        {
+            "word": "Thillana Mohanambal",
+            "hints": {
+                "low": "A Nadaswaram instrument",
+                "medium": "A train performance",
+                "high": "The hidden knife in the instrument"
+            }
+        },
+        {
+            "word": "Samsaram Adhu Minsaram",
+            "hints": {
+                "low": "A joint family line",
+                "medium": "A father's armchair",
+                "high": "The separation line in the house"
+            }
+        },
+        {
+            "word": "Visu's Manal Kayiru",
+            "hints": {
+                "low": "A marriage broker's kit",
+                "medium": "Conditions for the groom",
+                "high": "Breaking the conditions"
+            }
+        },
+        {
+            "word": "Velaikkaran (Old)",
+            "hints": {
+                "low": "A loyal servant",
+                "medium": "A golden statue",
+                "high": "The master's will"
+            }
+        },
+        {
+            "word": "Server Sundaram",
+            "hints": {
+                "low": "A hotel waiter's uniform",
+                "medium": "An audition script",
+                "high": "The mother's death during success"
+            }
+        },
+        {
+            "word": "Kadhalikka Neramillai",
+            "hints": {
+                "low": "A camping tent",
+                "medium": "A horror story narration",
+                "high": "The rich father's approval"
+            }
+        },
+        {
+            "word": "Bama Vijayam",
+            "hints": {
+                "low": "A movie star neighbour",
+                "medium": "Buying new furniture",
+                "high": "The fake lifestyle"
+            }
+        },
+        {
+            "word": "Ethir Neechal",
+            "hints": {
+                "low": "A shared housing complex",
+                "medium": "Stolen items",
+                "high": "The ladder success"
+            }
+        },
+        {
+            "word": "Moondram Pirai",
+            "hints": {
+                "low": "A railway station platform",
+                "medium": "A lullaby song",
+                "high": "The monkey performance"
+            }
+        },
+        {
+            "word": "16 Vayathinile",
+            "hints": {
+                "low": "A village doctor",
+                "medium": "A limp walk",
+                "high": "The veterinarian arrives"
+            }
+        },
+        {
+            "word": "Sigappu Rojakkal",
+            "hints": {
+                "low": "A garden of roses",
+                "medium": "A buried cat",
+                "high": "The diary reveal"
+            }
+        },
+        {
+            "word": "Tik Tik Tik (Old)",
+            "hints": {
+                "low": "A fashion show",
+                "medium": "A series of murders",
+                "high": "The diamond smuggling"
+            }
+        },
+        {
+            "word": "Netrikann",
+            "hints": {
+                "low": "A playboy father",
+                "medium": "A wheelchair bound son",
+                "high": "The mirror confrontation"
+            }
+        },
+        {
+            "word": "Johnny",
+            "hints": {
+                "low": "A singer and a thief",
+                "medium": "A broken glass",
+                "high": "The rain encounter"
+            }
+        },
+        {
+            "word": "Mullum Malarum",
+            "hints": {
+                "low": "A winch operator's lever",
+                "medium": "A lost arm",
+                "high": "The marriage procession stop"
+            }
+        },
+        {
+            "word": "Uthiri Pookkal",
+            "hints": {
+                "low": "A river crossing",
+                "medium": "A cruel village head",
+                "high": "The final walk into the water"
+            }
+        },
+        {
+            "word": "Aval Appadithan",
+            "hints": {
+                "low": "A documentary camera",
+                "medium": "Feminist dialogue",
+                "high": "The rejection"
+            }
+        },
+        {
+            "word": "Ninaithale Inikkum",
+            "hints": {
+                "low": "A music band tour",
+                "medium": "Singapore scenery",
+                "high": "The terminally ill secret"
+            }
+        },
+        {
+            "word": "Varumayin Niram Sivappu",
+            "hints": {
+                "low": "An empty job interview room",
+                "medium": "A barber shop haircut",
+                "high": "The upside down philosophy"
+            }
+        },
+        {
+            "word": "Sindhu Bhairavi",
+            "hints": {
+                "low": "A Carnatic concert stage",
+                "medium": "Alcohol addiction",
+                "high": "The illegitimate child accepted"
+            }
+        },
+        {
+            "word": "Salangai Oli",
+            "hints": {
+                "low": "Ankle bells in a well",
+                "medium": "A dance magazine photo",
+                "high": "Death during the performance"
+            }
+        },
+        {
+            "word": "Sagara Sangamam",
+            "hints": {
+                "low": "An alcoholic critic",
+                "medium": "A well flashback",
+                "high": "The dance festival invite"
+            }
+        },
+        {
+            "word": "Punnagai Mannan",
+            "hints": {
+                "low": "A suicide point cliff",
+                "medium": "A dance studio",
+                "high": "The ticking bomb"
+            }
+        },
+        {
+            "word": "Apoorva Raagangal",
+            "hints": {
+                "low": "A father and son relationship",
+                "medium": "A musical duel",
+                "high": "The age gap puzzle"
             }
         }
     ]

@@ -15,6 +15,14 @@ const THEME_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
     'objects': 'cube-outline',
     'places': 'location-outline',
     'songs': 'musical-notes-outline',
+    'foods': 'restaurant-outline',
+    'festivals': 'sparkles-outline',
+    'directors': 'videocam-outline',
+    'fruits': 'nutrition-outline',
+    'cars': 'car-sport-outline',
+    'brands': 'pricetag-outline',
+    'sports': 'football-outline',
+    'animals': 'paw-outline',
     'custom': 'create-outline',
 };
 

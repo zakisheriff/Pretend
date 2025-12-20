@@ -4,83 +4,403 @@
     "icon": "🎵",
     "words": [
         {
-            "word": "Kolaveri Di",
+            "word": "Mukkala Mukkabla",
             "hints": {
-                "low": "Viral Tamil song",
-                "medium": "Why this... why this...",
-                "high": "Dhanush soup song from 3"
+                "low": "Cowboy hat and coat",
+                "medium": "The dancer becomes invisible",
+                "high": "Detachable limbs visual effects"
             }
         },
         {
-            "word": "Arabic Kuthu",
+            "word": "Chaiyya Chaiyya",
             "hints": {
-                "low": "Dance number",
-                "medium": "From Beast movie",
-                "high": "Halamithi Habibo, Vijay song"
+                "low": "Steam engine smoke",
+                "medium": "Dancing on top of a train",
+                "high": "Red jacket and bells"
             }
         },
         {
-            "word": "Vaathi Coming",
+            "word": "Urvasi Urvasi",
             "hints": {
-                "low": "Vijay song",
-                "medium": "From Master",
-                "high": "Anirudh composition, viral dance"
+                "low": "Take it easy policy",
+                "medium": "Glass bus at night",
+                "high": "Pharmacy is necessary if you fail"
             }
         },
         {
-            "word": "Rowdy Baby",
+            "word": "Mustafa Mustafa",
             "hints": {
-                "low": "Dance song",
-                "medium": "Most viewed Indian song",
-                "high": "Dhanush-Sai Pallavi from Maari 2"
+                "low": "College farewell anthem",
+                "medium": "Friendship forever",
+                "high": "Cycling with a group of friends"
             }
         },
         {
-            "word": "Oo Antava",
+            "word": "Chikku Bukku Rayile",
             "hints": {
-                "low": "Item song",
-                "medium": "Samantha dance number",
-                "high": "From Pushpa, viral moves"
+                "low": "Sounds like a train",
+                "medium": "Animated cat in the video",
+                "high": "Umbrellas and rain dance"
             }
         },
         {
-            "word": "Roja Kadhal",
+            "word": "Kannalane",
             "hints": {
-                "low": "AR Rahman song",
-                "medium": "From Roja movie",
-                "high": "Chinna Chinna Aasai, national integration"
+                "low": "Kept in a cage",
+                "medium": "Wedding ritual scene",
+                "high": "Henna on the hands"
             }
         },
         {
-            "word": "Nenjukkul Peidhidum",
+            "word": "Thillana Thillana",
             "hints": {
-                "low": "Romantic song",
-                "medium": "Harris Jayaraj",
-                "high": "From Vaaranam Aayiram"
+                "low": "Blue painted bodies",
+                "medium": "Belly dancing style",
+                "high": "Seven wonders theme"
             }
         },
         {
-            "word": "Kandukondain",
+            "word": "Ooh La La La",
             "hints": {
-                "low": "AR Rahman melody",
-                "medium": "Two heroines film",
-                "high": "Aishwarya-Tabu movie song"
+                "low": "School classroom setting",
+                "medium": "Hairbrush as a microphone",
+                "high": "Dreaming during a lecture"
             }
         },
         {
-            "word": "Mersalaayitten",
+            "word": "Nila Kaigirathu",
             "hints": {
-                "low": "Dance number",
-                "medium": "Vijay-Kajal song",
-                "high": "From Thuppakki, remix popular"
+                "low": "Walking in a garden",
+                "medium": "Solo female singing",
+                "high": "Piano in the rain"
+            }
+        },
+        {
+            "word": "Malargale",
+            "hints": {
+                "low": "Dancing with an ostrich",
+                "medium": "Kicking water in a fountain",
+                "high": "Transparent raincoat"
+            }
+        },
+        {
+            "word": "Vaseegara",
+            "hints": {
+                "low": "Soft whisper vocals",
+                "medium": "Playing with a glass of water",
+                "high": "Cuddling in a sweater"
             }
         },
         {
             "word": "Appadi Podu",
             "hints": {
-                "low": "Kuthu song",
-                "medium": "Vijay song",
-                "high": "From Ghilli, Vijay-Trisha"
+                "low": "Feeding a snack gesture",
+                "medium": "Fast-paced folk beat",
+                "high": "Running towards the camera"
+            }
+        },
+        {
+            "word": "New York Nagaram",
+            "hints": {
+                "low": "Lost in a foreign city",
+                "medium": "Crumpling a piece of paper",
+                "high": "Winter coats and snow"
+            }
+        },
+        {
+            "word": "Nakka Mukka",
+            "hints": {
+                "low": "High energy trumpet",
+                "medium": "Street anthem",
+                "high": "Used in many cricket ads"
+            }
+        },
+        {
+            "word": "Munbe Vaa",
+            "hints": {
+                "low": "Green fields and sarees",
+                "medium": "Humming intro",
+                "high": "A swing in the garden"
+            }
+        },
+        {
+            "word": "Randaka Randaka",
+            "hints": {
+                "low": "Painted highway road",
+                "medium": "Coloured powders flying",
+                "high": "Hundreds of background dancers"
+            }
+        },
+        {
+            "word": "Kangal Irandal",
+            "hints": {
+                "low": "Retro 80s vibe",
+                "medium": "Sneaking glances at each other",
+                "high": "School uniform love"
+            }
+        },
+        {
+            "word": "Hosanna",
+            "hints": {
+                "low": "Angelic title",
+                "medium": "Red pants and glasses",
+                "high": "Dancing at the gate"
+            }
+        },
+        {
+            "word": "Uyirin Uyire",
+            "hints": {
+                "low": "Standing on a cliff edge",
+                "medium": "Walking on water illusion",
+                "high": "Blue tint filter"
+            }
+        },
+        {
+            "word": "Aadungada",
+            "hints": {
+                "low": "Group dance in a circle",
+                "medium": "Local slang lyrics",
+                "high": "Towel around the neck"
+            }
+        },
+        {
+            "word": "Why This Kolaveri",
+            "hints": {
+                "low": "Soup song",
+                "medium": "Studio recording video",
+                "high": "Broken English lyrics"
+            }
+        },
+        {
+            "word": "Selfie Pulla",
+            "hints": {
+                "low": "Front camera photo",
+                "medium": "Modern slang",
+                "high": "Sung by the hero himself"
+            }
+        },
+        {
+            "word": "Aaluma Doluma",
+            "hints": {
+                "low": "Heavy drum beats",
+                "medium": "Red shirt and dhoti",
+                "high": "Madras slang rap"
+            }
+        },
+        {
+            "word": "Rowdy Baby",
+            "hints": {
+                "low": "Naughty child",
+                "medium": "Guitar shape choreography",
+                "high": "Golden jacket"
+            }
+        },
+        {
+            "word": "Verithanam",
+            "hints": {
+                "low": "Pure rage or energy",
+                "medium": "Playing football in the rain",
+                "high": "Marketplace dance"
+            }
+        },
+        {
+            "word": "Pistah",
+            "hints": {
+                "low": "Nonsense lyrics",
+                "medium": "Run and chase comedy",
+                "high": "Based on an old comedian's rhyme"
+            }
+        },
+        {
+            "word": "Don-u Don-u Don-u",
+            "hints": {
+                "low": "Pop art visuals",
+                "medium": "Colourful sunglasses",
+                "high": "Birds on the shirt"
+            }
+        },
+        {
+            "word": "Guleba",
+            "hints": {
+                "low": "Flexible dance moves",
+                "medium": "Treasure hunt setting",
+                "high": "Hat trick step"
+            }
+        },
+        {
+            "word": "High On Love",
+            "hints": {
+                "low": "Animated lyric video famous",
+                "medium": "Floating in the air",
+                "high": "Black and white checkered floor"
+            }
+        },
+        {
+            "word": "Butta Bomma",
+            "hints": {
+                "low": "Rolling hand gesture",
+                "medium": "White suit",
+                "high": "Beautiful doll"
+            }
+        },
+        {
+            "word": "Vaathi Coming",
+            "hints": {
+                "low": "Shoulder drop step",
+                "medium": "Blow the whistle",
+                "high": "Professor arrives"
+            }
+        },
+        {
+            "word": "Arabic Kuthu",
+            "hints": {
+                "low": "Desert fusion",
+                "medium": "Handcuff gesture",
+                "high": "Gibberish fusion lyrics"
+            }
+        },
+        {
+            "word": "Oo Antava",
+            "hints": {
+                "low": "A bold question",
+                "medium": "Men are crooked",
+                "high": "Beard pulling move"
+            }
+        },
+        {
+            "word": "Mallipoo",
+            "hints": {
+                "low": "Fragrant flower",
+                "medium": "Video call scene",
+                "high": "Sleeping in a truck"
+            }
+        },
+        {
+            "word": "Ranjithame",
+            "hints": {
+                "low": "Kissing sound in lyrics",
+                "medium": "Holding one leg up",
+                "high": "Neon background lights"
+            }
+        },
+        {
+            "word": "Kaavaalaa",
+            "hints": {
+                "low": "Forest setting",
+                "medium": "Vibrating hip shake",
+                "high": "Flute instrument prominent"
+            }
+        },
+        {
+            "word": "Hukum",
+            "hints": {
+                "low": "Tiger on the prowl",
+                "medium": "Absolute command",
+                "high": "Bursting crackers in a jail"
+            }
+        },
+        {
+            "word": "Naa Ready",
+            "hints": {
+                "low": "Cigarette in mouth",
+                "medium": "Thumb on the chin",
+                "high": "Scorpions in the video"
+            }
+        },
+        {
+            "word": "Badass",
+            "hints": {
+                "low": "Comic book style video",
+                "medium": "Eating chocolate",
+                "high": "Destroying a bakery"
+            }
+        },
+        {
+            "word": "Enjoy Enjaami",
+            "hints": {
+                "low": "Tribute to ancestors",
+                "medium": "Sitting on a throne in nature",
+                "high": "Cuckoo Cuckoo"
+            }
+        },
+        {
+            "word": "Manasilaayo",
+            "hints": {
+                "low": "Do you understand?",
+                "medium": "Red and black theme",
+                "high": "Tribute to a late singer's voice"
+            }
+        },
+        {
+            "word": "Illuminati",
+            "hints": {
+                "low": "Secret society title",
+                "medium": "Funny dance in a white shirt",
+                "high": "Drinking milk at a bar"
+            }
+        },
+        {
+            "word": "Aasa Kooda",
+            "hints": {
+                "low": "Desire increases",
+                "medium": "Jazzy vibe",
+                "high": "Animated couple in reel"
+            }
+        },
+        {
+            "word": "Whistle Podu",
+            "hints": {
+                "low": "Party election anthem",
+                "medium": "Four friends dancing",
+                "high": "Finger in the belt loop"
+            }
+        },
+        {
+            "word": "Matta",
+            "hints": {
+                "low": "Drunk dance",
+                "medium": "Spinning on the floor",
+                "high": "Sparkly colourful shirt"
+            }
+        },
+        {
+            "word": "Pushpa Pushpa",
+            "hints": {
+                "low": "Shoe drop step",
+                "medium": "Chai glass gesture",
+                "high": "Repeating the name often"
+            }
+        },
+        {
+            "word": "Kissik",
+            "hints": {
+                "low": "Couple dance",
+                "medium": "Holding the collar",
+                "high": "Fast footwork in a hall"
+            }
+        },
+        {
+            "word": "Chuttamalle",
+            "hints": {
+                "low": "Like a jasmine flower",
+                "medium": "Underwater shots",
+                "high": "Rolling on the sand"
+            }
+        },
+        {
+            "word": "Fear Song",
+            "hints": {
+                "low": "Don't get scared",
+                "medium": "Red dust everywhere",
+                "high": "Aggressive English lyrics"
+            }
+        },
+        {
+            "word": "Ta Takkara",
+            "hints": {
+                "low": "Travel vibe",
+                "medium": "Driving a fancy car",
+                "high": "Bridge architecture"
             }
         }
     ]

@@ -6,81 +6,481 @@
         {
             "word": "Idli",
             "hints": {
-                "low": "Breakfast staple",
-                "medium": "Steamed rice cake",
-                "high": "Served with chutney/sambar, healthy"
+                "low": "Steamed white circles",
+                "medium": "Soft and fluffy",
+                "high": "Fermented batter result"
             }
         },
         {
             "word": "Dosa",
             "hints": {
-                "low": "Crispy breakfast",
-                "medium": "Thin crepe",
-                "high": "Masala, Onion, Ghee Roast varieties"
+                "low": "Spread in concentric circles",
+                "medium": "Paper thin and crispy",
+                "high": "Needs a flat iron pan"
             }
         },
         {
             "word": "Pongal",
             "hints": {
-                "low": "Rice dish",
-                "medium": "Ven Pongal or Sakkarai Pongal",
-                "high": "Harvest festival named after this"
+                "low": "Sleep inducing breakfast",
+                "medium": "Pepper and cashews hidden inside",
+                "high": "Harvest festival namesake"
             }
         },
         {
             "word": "Biryani",
             "hints": {
-                "low": "Spiced rice",
-                "medium": "Party food favorite",
-                "high": "Ambur, Dindigul, Thalappakatti styles"
+                "low": "Arguments over which city makes it best",
+                "medium": "Layered aromatic rice",
+                "high": "Finding a bay leaf or cardamom"
             }
         },
         {
             "word": "Parotta",
             "hints": {
-                "low": "Layered bread",
-                "medium": "Made with maida",
-                "high": "Famous in Madurai, eaten with salna"
+                "low": "Beating it with hands to separate layers",
+                "medium": "Flaky and oily",
+                "high": "Made of refined wheat flour"
             }
         },
         {
             "word": "Vada",
             "hints": {
-                "low": "Fried snack",
-                "medium": "Donut shaped or flat",
-                "high": "Medhu vada or Masala vada"
+                "low": "Donut shape but savory",
+                "medium": "Crispy outside, soft inside",
+                "high": "Hole in the center"
             }
         },
         {
             "word": "Sambar",
             "hints": {
-                "low": "Lentil curry",
-                "medium": "Vegetable stew",
-                "high": "Crucial side dish for Idli/Dosa/Rice"
+                "low": "Drumsticks often float in it",
+                "medium": "Yellow lentil stew",
+                "high": "Soulmate of rice and breakfast"
             }
         },
         {
             "word": "Rasam",
             "hints": {
-                "low": "Tangy soup",
-                "medium": "Digestive aid",
-                "high": "Tomato, Pepper, Lemon varieties"
+                "low": "Drank as a soup or with rice",
+                "medium": "Very watery and tangy",
+                "high": "Pepper and tamarind base"
             }
         },
         {
             "word": "Payasam",
             "hints": {
-                "low": "Dessert",
-                "medium": "Sweet pudding",
-                "high": "Served first in feasts, Semiya or Paruppu"
+                "low": "Served first on a banana leaf",
+                "medium": "Liquid dessert",
+                "high": "Contains vermicelli or lentils"
             }
         },
         {
             "word": "Jigarthanda",
             "hints": {
-                "low": "Cold drink",
+                "low": "Cool heart translation",
                 "medium": "Famous in Madurai",
-                "high": "Means 'cool heart', milk based"
+                "high": "Almond gum and sarsaparilla root"
+            }
+        },
+        {
+            "word": "Pani Puri",
+            "hints": {
+                "low": "Eaten in one bite",
+                "medium": "Hollow crispy sphere",
+                "high": "Filled with minty water"
+            }
+        },
+        {
+            "word": "Samosa",
+            "hints": {
+                "low": "Triangular pockets",
+                "medium": "Tea time companion",
+                "high": "Potato hiding inside"
+            }
+        },
+        {
+            "word": "Chapati",
+            "hints": {
+                "low": "Daily staple in North",
+                "medium": "Flattened dough circle",
+                "high": "Cooked on a tava, no oil sometimes"
+            }
+        },
+        {
+            "word": "Poori",
+            "hints": {
+                "low": "Puffs up like a balloon",
+                "medium": "Deep fried golden circle",
+                "high": "Deflates if you poke it"
+            }
+        },
+        {
+            "word": "Noodles",
+            "hints": {
+                "low": "Long stringy food",
+                "medium": "Slurping noise",
+                "high": "Two minutes to cook (allegedly)"
+            }
+        },
+        {
+            "word": "Pizza",
+            "hints": {
+                "low": "Triangles from a circle in a square box",
+                "medium": "Melty cheese layer",
+                "high": "Crust is often left behind"
+            }
+        },
+        {
+            "word": "Burger",
+            "hints": {
+                "low": "Held with two hands",
+                "medium": "Bun on top and bottom",
+                "high": "Patty in the middle"
+            }
+        },
+        {
+            "word": "Ice Cream",
+            "hints": {
+                "low": "Melts if you wait",
+                "medium": "Brain freeze risk",
+                "high": "Served in scoops"
+            }
+        },
+        {
+            "word": "Chocolate",
+            "hints": {
+                "low": "Wrapped in foil",
+                "medium": "Dark or Milk varieties",
+                "high": "Made from cocoa beans"
+            }
+        },
+        {
+            "word": "Tea",
+            "hints": {
+                "low": "Morning fuel",
+                "medium": "Boiled with leaves and sugar",
+                "high": "Served in glass or clay cups"
+            }
+        },
+        {
+            "word": "Coffee",
+            "hints": {
+                "low": "Roasted bean brew",
+                "medium": "Instant or Filter",
+                "high": "Caffeine kick"
+            }
+        },
+        {
+            "word": "French Fries",
+            "hints": {
+                "low": "Potato sticks",
+                "medium": "Deep fried and salted",
+                "high": "Side dish for burgers"
+            }
+        },
+        {
+            "word": "Sandwich",
+            "hints": {
+                "low": "Stuffing between slices",
+                "medium": "Triangle or square cut",
+                "high": "Named after an Earl"
+            }
+        },
+        {
+            "word": "Bajji",
+            "hints": {
+                "low": "Rainy day snack",
+                "medium": "Vegetable dipped in batter",
+                "high": "Chilli or Banana varieties"
+            }
+        },
+        {
+            "word": "Gulab Jamun",
+            "hints": {
+                "low": "Soaked in sugar syrup",
+                "medium": "Soft brown balls",
+                "high": "Milk solid dessert"
+            }
+        },
+        {
+            "word": "Mysore Pak",
+            "hints": {
+                "low": "Melts in the mouth",
+                "medium": "Made of gram flour and ghee",
+                "high": "Named after a royal city"
+            }
+        },
+        {
+            "word": "Halwa",
+            "hints": {
+                "low": "Slippery texture",
+                "medium": "Tirunelveli is famous for it",
+                "high": "Made from wheat milk"
+            }
+        },
+        {
+            "word": "Pickle",
+            "hints": {
+                "low": "Preserved in oil",
+                "medium": "Spicy and sour",
+                "high": "Mango or Lime chunks"
+            }
+        },
+        {
+            "word": "Curd Rice",
+            "hints": {
+                "low": "The final course",
+                "medium": "Cooling effect",
+                "high": "White mushy comfort"
+            }
+        },
+        {
+            "word": "Fish Fry",
+            "hints": {
+                "low": "Seafood delicacy",
+                "medium": "Marinated and pan cooked",
+                "high": "Beware of bones"
+            }
+        },
+        {
+            "word": "Omelette",
+            "hints": {
+                "low": "Beaten eggs",
+                "medium": "Breakfast protein",
+                "high": "Folded over fillings"
+            }
+        },
+        {
+            "word": "Popcorn",
+            "hints": {
+                "low": "Movie theater smell",
+                "medium": "Exploded corn kernels",
+                "high": "Gets stuck in teeth"
+            }
+        },
+        {
+            "word": "Shawarma",
+            "hints": {
+                "low": "Rotating meat stack",
+                "medium": "Wrapped in flatbread",
+                "high": "Middle eastern street food"
+            }
+        },
+        {
+            "word": "Momos",
+            "hints": {
+                "low": "Steamed dumplings",
+                "medium": "Served with spicy red chutney",
+                "high": "Himalayan origin"
+            }
+        },
+        {
+            "word": "Pasta",
+            "hints": {
+                "low": "Italian staple",
+                "medium": "Boiled dough shapes",
+                "high": "Penne or Spaghetti"
+            }
+        },
+        {
+            "word": "Upma",
+            "hints": {
+                "low": "Most hated breakfast",
+                "medium": "Semolina porridge",
+                "high": "Rava cooked with veggies"
+            }
+        },
+        {
+            "word": "Puttu",
+            "hints": {
+                "low": "Cylindrical shape",
+                "medium": "Steamed rice flour",
+                "high": "Layers of coconut"
+            }
+        },
+        {
+            "word": "Appam",
+            "hints": {
+                "low": "Bowl shaped pancake",
+                "medium": "Soft center, crispy edges",
+                "high": "Fermented with toddy or yeast"
+            }
+        },
+        {
+            "word": "Idiyappam",
+            "hints": {
+                "low": "String hoppers",
+                "medium": "Steamed rice noodles",
+                "high": "Pressed through a mold"
+            }
+        },
+        {
+            "word": "Murukku",
+            "hints": {
+                "low": "Twisted crunchy snack",
+                "medium": "Festival savory",
+                "high": "Coils of fried dough"
+            }
+        },
+        {
+            "word": "Ladoo",
+            "hints": {
+                "low": "Sphere sweet",
+                "medium": "Temple prasad often",
+                "high": "Boondi or Besan varieties"
+            }
+        },
+        {
+            "word": "Jalebi",
+            "hints": {
+                "low": "Orange spirals",
+                "medium": "Sticky and sugary",
+                "high": "Deep fried batter in syrup"
+            }
+        },
+        {
+            "word": "Kulfi",
+            "hints": {
+                "low": "Frozen dairy dessert",
+                "medium": "Indian ice cream",
+                "high": "Served on a stick"
+            }
+        },
+        {
+            "word": "Lassi",
+            "hints": {
+                "low": "Yogurt drink",
+                "medium": "Sweet or salty",
+                "high": "Punjab famous"
+            }
+        },
+        {
+            "word": "Coconut Water",
+            "hints": {
+                "low": "Nature's drink",
+                "medium": "Hard green shell",
+                "high": "Electrolyte rich"
+            }
+        },
+        {
+            "word": "Soup",
+            "hints": {
+                "low": "Liquid starter",
+                "medium": "Served hot in a bowl",
+                "high": "Slurped with a spoon"
+            }
+        },
+        {
+            "word": "Salad",
+            "hints": {
+                "low": "Diet food",
+                "medium": "Raw vegetables",
+                "high": "Dressing is poured over"
+            }
+        },
+        {
+            "word": "Bread",
+            "hints": {
+                "low": "Loaf with slices",
+                "medium": "Toast it for breakfast",
+                "high": "Baker's dozen"
+            }
+        },
+        {
+            "word": "Biscuits",
+            "hints": {
+                "low": "Dipped in tea",
+                "medium": "Crunchy disc",
+                "high": "Sweet or salt varieties"
+            }
+        },
+        {
+            "word": "Chips",
+            "hints": {
+                "low": "Bag of air (mostly)",
+                "medium": "Fried potato slices",
+                "high": "Crunchy snack"
+            }
+        },
+        {
+            "word": "Ketchup",
+            "hints": {
+                "low": "Tomato sauce",
+                "medium": "Red condiment",
+                "high": "Hard to get out of glass bottle"
+            }
+        },
+        {
+            "word": "Honey",
+            "hints": {
+                "low": "Made by insects",
+                "medium": "Never spoils",
+                "high": "Golden sweet liquid"
+            }
+        },
+        {
+            "word": "Butter",
+            "hints": {
+                "low": "Yellow block",
+                "medium": "Melts on hot toast",
+                "high": "Churned from milk cream"
+            }
+        },
+        {
+            "word": "Cheese",
+            "hints": {
+                "low": "Mouse favorite (myth)",
+                "medium": "Aged milk solid",
+                "high": "Stretchy when melted"
+            }
+        },
+        {
+            "word": "Egg Puff",
+            "hints": {
+                "low": "Bakery snack",
+                "medium": "Flaky pastry",
+                "high": "Boiled egg inside"
+            }
+        },
+        {
+            "word": "Bonda",
+            "hints": {
+                "low": "Fried ball",
+                "medium": "Potato filling usually",
+                "high": "Besan batter coating"
+            }
+        },
+        {
+            "word": "Naan",
+            "hints": {
+                "low": "Tandoor baked bread",
+                "medium": "Teardrop shape",
+                "high": "Butter or Garlic topping"
+            }
+        },
+        {
+            "word": "Tandoori Chicken",
+            "hints": {
+                "low": "Red roasted meat",
+                "medium": "Clay oven cooked",
+                "high": "Smoky flavor"
+            }
+        },
+        {
+            "word": "Falooda",
+            "hints": {
+                "low": "Layered cold dessert",
+                "medium": "Vermicelli and basil seeds",
+                "high": "Rose syrup milk"
+            }
+        },
+        {
+            "word": "Sushi",
+            "hints": {
+                "low": "Raw fish",
+                "medium": "Wrapped in seaweed",
+                "high": "Served with wasabi"
             }
         }
     ]

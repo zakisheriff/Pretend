@@ -6,81 +6,401 @@
         {
             "word": "Lion",
             "hints": {
-                "low": "King of jungle",
-                "medium": "Big cat with mane",
-                "high": "Roars loudly"
-            }
-        },
-        {
-            "word": "Elephant",
-            "hints": {
-                "low": "Largest land animal",
-                "medium": "Has a trunk",
-                "high": "Tusks and big ears"
+                "low": "The females do the hunting",
+                "medium": "Sleeps 20 hours a day",
+                "high": "Symbol of MGM studios"
             }
         },
         {
             "word": "Tiger",
             "hints": {
-                "low": "Big striped cat",
-                "medium": "National animal of India",
-                "high": "Roams in jungles"
+                "low": "Solitary hunter",
+                "medium": "Skin is striped, not just fur",
+                "high": "Loves to swim unlike others"
+            }
+        },
+        {
+            "word": "Elephant",
+            "hints": {
+                "low": "Memory is legendary",
+                "medium": "Afraid of bees",
+                "high": "Cannot jump"
             }
         },
         {
             "word": "Dog",
             "hints": {
-                "low": "Man's best friend",
-                "medium": "Pet animal",
-                "high": "Barks and wags tail"
+                "low": "Pavlov's subject",
+                "medium": "Sweats through paws",
+                "high": "Chases its own tail"
             }
         },
         {
             "word": "Cat",
             "hints": {
-                "low": "Small feline",
-                "medium": "Pet animal",
-                "high": "Meows and purrs"
+                "low": "Internet's favorite subject",
+                "medium": "Solid and liquid properties",
+                "high": "Landing gear always works"
             }
         },
         {
             "word": "Monkey",
             "hints": {
-                "low": "Tree dweller",
-                "medium": "Closely related to humans",
-                "high": "Loves bananas"
+                "low": "Mischief maker",
+                "medium": "Opposable thumbs (sort of)",
+                "high": "Often confused with apes"
             }
         },
         {
             "word": "Snake",
             "hints": {
-                "low": "Reptile",
-                "medium": "No legs",
-                "high": "Hisses and sheds skin"
+                "low": "Smells with its tongue",
+                "medium": "Unhinges jaw to eat",
+                "high": "No eyelids"
             }
         },
         {
             "word": "Peacock",
             "hints": {
-                "low": "Colorful bird",
-                "medium": "National bird of India",
-                "high": "Dances in rain"
+                "low": "Vanity symbol",
+                "medium": "Only the male is beautiful",
+                "high": "Eats snakes"
             }
         },
         {
             "word": "Giraffe",
             "hints": {
-                "low": "Tallest animal",
-                "medium": "Long neck",
-                "high": "Eats leaves from tall trees"
+                "low": "Purple tongue",
+                "medium": "Same neck bones as humans",
+                "high": "Gives birth standing up"
             }
         },
         {
             "word": "Penguin",
             "hints": {
-                "low": "Flightless bird",
-                "medium": "Lives in Antarctica",
-                "high": "Waddles and swims"
+                "low": "Formal wear appearance",
+                "medium": "Proposes with a pebble",
+                "high": "Only found south of equator"
+            }
+        },
+        {
+            "word": "Cheetah",
+            "hints": {
+                "low": "Acceleration expert",
+                "medium": "Tear marks on face",
+                "high": "Cannot roar, only chirp"
+            }
+        },
+        {
+            "word": "Kangaroo",
+            "hints": {
+                "low": "Pocket parent",
+                "medium": "Cannot walk backwards",
+                "high": "Boxer of the outback"
+            }
+        },
+        {
+            "word": "Octopus",
+            "hints": {
+                "low": "Blue blood",
+                "medium": "Three hearts",
+                "high": "Escape artist with ink"
+            }
+        },
+        {
+            "word": "Shark",
+            "hints": {
+                "low": "Never stops moving",
+                "medium": "Detects electricity",
+                "high": "Bones made of cartilage"
+            }
+        },
+        {
+            "word": "Dolphin",
+            "hints": {
+                "low": "Sleeps with one eye open",
+                "medium": "Uses echolocation",
+                "high": "Known to save humans"
+            }
+        },
+        {
+            "word": "Whale",
+            "hints": {
+                "low": "Largest heart on earth",
+                "medium": "Mammal of the ocean",
+                "high": "Sings songs underwater"
+            }
+        },
+        {
+            "word": "Bat",
+            "hints": {
+                "low": "Only flying mammal",
+                "medium": "Sleeps upside down",
+                "high": "Associated with vampires"
+            }
+        },
+        {
+            "word": "Owl",
+            "hints": {
+                "low": "Wisdom symbol",
+                "medium": "Silent flight",
+                "high": "Head rotates 270 degrees"
+            }
+        },
+        {
+            "word": "Crocodile",
+            "hints": {
+                "low": "Living fossil",
+                "medium": "Strongest bite force",
+                "high": "Cries fake tears"
+            }
+        },
+        {
+            "word": "Chameleon",
+            "hints": {
+                "low": "Master of disguise",
+                "medium": "Eyes move independently",
+                "high": "Sticky projectile tongue"
+            }
+        },
+        {
+            "word": "Sloth",
+            "hints": {
+                "low": "Sinfully lazy",
+                "medium": "Algae grows on fur",
+                "high": "Poops once a week"
+            }
+        },
+        {
+            "word": "Polar Bear",
+            "hints": {
+                "low": "Black skin, white fur",
+                "medium": "Left-handed myth",
+                "high": "Marine mammal technically"
+            }
+        },
+        {
+            "word": "Panda",
+            "hints": {
+                "low": "Diplomatic gift",
+                "medium": "Bamboo diet exclusively",
+                "high": "Terrible at reproduction"
+            }
+        },
+        {
+            "word": "Zebra",
+            "hints": {
+                "low": "Black with white stripes",
+                "medium": "Unique fingerprint pattern",
+                "high": "Refuses to be tamed"
+            }
+        },
+        {
+            "word": "Hippo",
+            "hints": {
+                "low": "Deadliest in Africa",
+                "medium": "Sweats red liquid",
+                "high": "Runs underwater"
+            }
+        },
+        {
+            "word": "Rhino",
+            "hints": {
+                "low": "Living tank",
+                "medium": "Horn made of hair (keratin)",
+                "high": "Poor eyesight, great smell"
+            }
+        },
+        {
+            "word": "Wolf",
+            "hints": {
+                "low": "Pack mentality",
+                "medium": "Ancestor of pugs",
+                "high": "Howls at the moon"
+            }
+        },
+        {
+            "word": "Fox",
+            "hints": {
+                "low": "Cunning trickster",
+                "medium": "Cat software in dog hardware",
+                "high": "What does it say?"
+            }
+        },
+        {
+            "word": "Rabbit",
+            "hints": {
+                "low": "Luck's foot",
+                "medium": "Eats its own poop (sometimes)",
+                "high": "Teeth never stop growing"
+            }
+        },
+        {
+            "word": "Tortoise",
+            "hints": {
+                "low": "Slow and steady wins",
+                "medium": "Carries home on back",
+                "high": "Outlives humans easily"
+            }
+        },
+        {
+            "word": "Frog",
+            "hints": {
+                "low": "Start as a swimmer",
+                "medium": "Drinks through skin",
+                "high": "Prince in disguise"
+            }
+        },
+        {
+            "word": "Spider",
+            "hints": {
+                "low": "Eight legged artist",
+                "medium": "Silk strong as steel",
+                "high": "Not an insect"
+            }
+        },
+        {
+            "word": "Butterfly",
+            "hints": {
+                "low": "Effect causes chaos",
+                "medium": "Tastes with feet",
+                "high": "Liquid diet only"
+            }
+        },
+        {
+            "word": "Bee",
+            "hints": {
+                "low": "Geometric architect",
+                "medium": "Dance communication",
+                "high": "Dies after stinging"
+            }
+        },
+        {
+            "word": "Ant",
+            "hints": {
+                "low": "Super strength lifter",
+                "medium": "Colony mind",
+                "high": "Farmers and soldiers"
+            }
+        },
+        {
+            "word": "Mosquito",
+            "hints": {
+                "low": "World's deadliest animal",
+                "medium": "Only females bite",
+                "high": "Attracted to CO2"
+            }
+        },
+        {
+            "word": "Crow",
+            "hints": {
+                "low": "Recognizes human faces",
+                "medium": "Uses tools",
+                "high": "Funeral gathering behavior"
+            }
+        },
+        {
+            "word": "Parrot",
+            "hints": {
+                "low": "Pirate's companion",
+                "medium": "Mimicry expert",
+                "high": "Live over 80 years"
+            }
+        },
+        {
+            "word": "Eagle",
+            "hints": {
+                "low": "American symbol",
+                "medium": "Incredible eyesight",
+                "high": "Nests on high cliffs"
+            }
+        },
+        {
+            "word": "Ostrich",
+            "hints": {
+                "low": "Eye bigger than brain",
+                "medium": "Fastest runner on two legs",
+                "high": "Kicks can kill lions"
+            }
+        },
+        {
+            "word": "Flamingo",
+            "hints": {
+                "low": "Pink due to diet",
+                "medium": "Stands on one leg",
+                "high": "Milk is red"
+            }
+        },
+        {
+            "word": "Platypus",
+            "hints": {
+                "low": "Nature's mistake",
+                "medium": "Egg laying mammal",
+                "high": "Venomous spurs on ankles"
+            }
+        },
+        {
+            "word": "Koala",
+            "hints": {
+                "low": "Eucalyptus addict",
+                "medium": "Fingerprints like humans",
+                "high": "Sleeps most of the day"
+            }
+        },
+        {
+            "word": "Camel",
+            "hints": {
+                "low": "Ship of the desert",
+                "medium": "Stores fat, not water",
+                "high": "Three eyelids"
+            }
+        },
+        {
+            "word": "Horse",
+            "hints": {
+                "low": "Measured in hands",
+                "medium": "Shoes usually required",
+                "high": "Sleeps standing up"
+            }
+        },
+        {
+            "word": "Cow",
+            "hints": {
+                "low": "Sacred in some cultures",
+                "medium": "Four stomach compartments",
+                "high": "Best friends exist"
+            }
+        },
+        {
+            "word": "Pig",
+            "hints": {
+                "low": "Cleanest farm animal",
+                "medium": "No sweat glands",
+                "high": "Smarter than dogs"
+            }
+        },
+        {
+            "word": "Rat",
+            "hints": {
+                "low": "Lab subject",
+                "medium": "Laughs when tickled",
+                "high": "First to leave sinking ship"
+            }
+        },
+        {
+            "word": "Squirrel",
+            "hints": {
+                "low": "Forgets where nuts are",
+                "medium": "Forest gardener",
+                "high": "Tail is a blanket"
+            }
+        },
+        {
+            "word": "Goat",
+            "hints": {
+                "low": "Greatest of all time",
+                "medium": "Rectangular pupils",
+                "high": "Discovered coffee (legend)"
             }
         }
     ]

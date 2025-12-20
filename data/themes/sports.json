@@ -6,81 +6,129 @@
         {
             "word": "Cricket",
             "hints": {
-                "low": "Bat and ball game",
-                "medium": "11 players per team",
-                "high": "Wickets, overs, runs"
+                "low": "Matches can last days",
+                "medium": "Breaks for lunch and tea",
+                "high": "Aiming for wooden sticks"
             }
         },
         {
             "word": "Football",
             "hints": {
-                "low": "Soccer",
-                "medium": "Most popular sport",
-                "high": "FIFA World Cup"
+                "low": "No hands allowed",
+                "medium": "Offside rule is confusing",
+                "high": "A nil-nil draw happens often"
             }
         },
         {
             "word": "Tennis",
             "hints": {
-                "low": "Racket sport",
-                "medium": "Wimbledon",
-                "high": "Federer, Nadal, Djokovic"
+                "low": "Grunting is common",
+                "medium": "Scoring terms are strange",
+                "high": "Yellow fuzz on the equipment"
             }
         },
         {
             "word": "Basketball",
             "hints": {
-                "low": "Hoop and ball",
-                "medium": "NBA",
-                "high": "Jordan, LeBron, Kobe"
+                "low": "Squeaky floor sounds",
+                "medium": "Tall people have an advantage",
+                "high": "The shot clock is ticking"
             }
         },
         {
             "word": "Kabaddi",
             "hints": {
-                "low": "Contact team sport",
-                "medium": "Pro Kabaddi League",
-                "high": "Origin in India, raid and cant"
+                "low": "Hold your breath",
+                "medium": "Seven against one",
+                "high": "Chanting is required"
             }
         },
         {
             "word": "Badminton",
             "hints": {
-                "low": "Racket and shuttlecock",
-                "medium": "PV Sindhu sport",
-                "high": "Fastest racket sport"
+                "low": "Backyard or Olympics",
+                "medium": "Projectile doesn't roll",
+                "high": "Fastest smash speed"
             }
         },
         {
             "word": "Hockey",
             "hints": {
-                "low": "Stick and ball",
-                "medium": "Played on grass or ice",
-                "high": "National sport of India (unofficially)"
+                "low": "Mouthguards are mandatory",
+                "medium": "Played on ice or turf",
+                "high": "Bully-off to start"
             }
         },
         {
             "word": "Volleyball",
             "hints": {
-                "low": "Net game",
-                "medium": "Spike and block",
-                "high": "Played on court or beach"
+                "low": "Keep it off the floor",
+                "medium": "Three touches maximum",
+                "high": "One player wears different colors"
             }
         },
         {
             "word": "Chess",
             "hints": {
-                "low": "Board game",
-                "medium": "Checkmate",
-                "high": "Grandmasters, Viswanathan Anand"
+                "low": "Clock hitting is loud",
+                "medium": "Protect the King",
+                "high": "Knights move in L-shapes"
             }
         },
         {
             "word": "F1 Racing",
             "hints": {
-                "low": "Car racing",
-                "medium": "Fastest cars",
-                "high": "Grand Prix, Hamilton, Verstappen"
+                "low": "Loud engines",
+                "medium": "Tire changes determine the winner",
+                "high": "Heavy G-force on the neck"
+            }
+        },
+        {
+            "word": "Golf",
+            "hints": {
+                "low": "A quiet walk",
+                "medium": "Lowest score wins",
+                "high": "Sand is a hazard"
+            }
+        },
+        {
+            "word": "Boxing",
+            "hints": {
+                "low": "Four corners ring",
+                "medium": "Hugging to rest",
+                "high": "Weigh-in is crucial"
+            }
+        },
+        {
+            "word": "Swimming",
+            "hints": {
+                "low": "Smells like chemicals",
+                "medium": "Shaved bodies",
+                "high": "Flip turns at the wall"
+            }
+        },
+        {
+            "word": "Table Tennis",
+            "hints": {
+                "low": "Plastic ball",
+                "medium": "Basement pastime",
+                "high": "Spin determines the bounce"
+            }
+        },
+        {
+            "word": "Baseball",
+            "hints": {
+                "low": "Chewing seeds or gum",
+                "medium": "No time limit",
+                "high": "Seventh inning stretch"
+            }
+        },
+        {
+            "word": "Rugby",
+            "hints": {
+                "low": "Egg-shaped ball",
+                "medium": "Pass backward to go forward",
+                "high": "No pads, full contact"
             }
         }
     ]

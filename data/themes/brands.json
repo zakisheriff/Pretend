@@ -6,81 +6,393 @@
         {
             "word": "Apple",
             "hints": {
-                "low": "Tech giant",
-                "medium": "iPhone maker",
-                "high": "Steve Jobs company"
+                "low": "Named after a fruit",
+                "medium": "Charger sold separately",
+                "high": "Designed in California"
             }
         },
         {
             "word": "Nike",
             "hints": {
-                "low": "Sportswear brand",
-                "medium": "Swoosh logo",
-                "high": "Just Do It"
+                "low": "Goddess of victory",
+                "medium": "A simple tick mark",
+                "high": "Waffle iron sole origin"
             }
         },
         {
             "word": "Google",
             "hints": {
-                "low": "Search engine",
-                "medium": "Android creator",
-                "high": "Parent company is Alphabet"
+                "low": "Knows everything about you",
+                "medium": "Four primary colors",
+                "high": "Used as a verb often"
             }
         },
         {
             "word": "Coca-Cola",
             "hints": {
-                "low": "Soft drink",
-                "medium": "Red and white label",
-                "high": "Invented by John Pemberton"
+                "low": "Secret black liquid",
+                "medium": "Santa Claus wears their colors",
+                "high": "Originally contained a drug"
             }
         },
         {
             "word": "McDonald's",
             "hints": {
-                "low": "Fast food chain",
-                "medium": "Golden Arches",
-                "high": "Big Mac, Happy Meal"
+                "low": "Clown mascot",
+                "medium": "Broken ice cream machine",
+                "high": "Two golden curves"
             }
         },
         {
             "word": "Amazon",
             "hints": {
-                "low": "E-commerce giant",
-                "medium": "A to Z smile logo",
-                "high": "Jeff Bezos company"
+                "low": "Everything from A to Z",
+                "medium": "Smile arrow logo",
+                "high": "Started as a bookstore"
             }
         },
         {
             "word": "Starbucks",
             "hints": {
-                "low": "Coffee chain",
-                "medium": "Mermaid logo",
-                "high": "Frappuccino fame"
+                "low": "Expensive bean water",
+                "medium": "Green mermaid siren",
+                "high": "They spell your name wrong"
             }
         },
         {
             "word": "Adidas",
             "hints": {
-                "low": "Sportswear brand",
-                "medium": "Three stripes",
-                "high": "German company, Yeezy (formerly)"
+                "low": "Three stripes life",
+                "medium": "Run DMC song",
+                "high": "Brother of Puma's founder"
             }
         },
         {
             "word": "Netflix",
             "hints": {
-                "low": "Streaming service",
-                "medium": "Tudum sound",
-                "high": "Started as DVD rental"
+                "low": "Are you still watching?",
+                "medium": "Tudum sound effect",
+                "high": "Killed the video rental store"
             }
         },
         {
             "word": "Disney",
             "hints": {
-                "low": "Entertainment giant",
-                "medium": "Mickey Mouse home",
-                "high": "Theme parks and movies"
+                "low": "Happiest place on earth",
+                "medium": "Mouse ears silhouette",
+                "high": "Frozen head rumor"
+            }
+        },
+        {
+            "word": "Microsoft",
+            "hints": {
+                "low": "Blue screen of death",
+                "medium": "Four colored window panes",
+                "high": "Paperclip assistant (retired)"
+            }
+        },
+        {
+            "word": "Samsung",
+            "hints": {
+                "low": "Korean giant",
+                "medium": "Exploding phones (once)",
+                "high": "Makes tanks and ships too"
+            }
+        },
+        {
+            "word": "Tesla",
+            "hints": {
+                "low": "Silent cars",
+                "medium": "T logo looks like a nose",
+                "high": "Sent a car to space"
+            }
+        },
+        {
+            "word": "Instagram",
+            "hints": {
+                "low": "Double tap to like",
+                "medium": "Filters and reels",
+                "high": "Started as a check-in app"
+            }
+        },
+        {
+            "word": "YouTube",
+            "hints": {
+                "low": "Broadcast yourself",
+                "medium": "Skip ad in 5 seconds",
+                "high": "First video was at a zoo"
+            }
+        },
+        {
+            "word": "WhatsApp",
+            "hints": {
+                "low": "Green bubble chat",
+                "medium": "Blue ticks cause fights",
+                "high": "End-to-end encryption"
+            }
+        },
+        {
+            "word": "Spotify",
+            "hints": {
+                "low": "Green circle with waves",
+                "medium": "Wrapped at year end",
+                "high": "Joe Rogan platform"
+            }
+        },
+        {
+            "word": "Pepsi",
+            "hints": {
+                "low": "Is okay?",
+                "medium": "Red, white, and blue globe",
+                "high": "Once had the 6th largest navy"
+            }
+        },
+        {
+            "word": "KFC",
+            "hints": {
+                "low": "Finger lickin' good",
+                "medium": "White suit and glasses",
+                "high": "11 herbs and spices"
+            }
+        },
+        {
+            "word": "Domino's",
+            "hints": {
+                "low": "30 minutes or free",
+                "medium": "Red and blue dice",
+                "high": "Oregano packets hoarding"
+            }
+        },
+        {
+            "word": "Maggi",
+            "hints": {
+                "low": "Two minute lie",
+                "medium": "Hostel survival food",
+                "high": "Yellow packet nostalgia"
+            }
+        },
+        {
+            "word": "Red Bull",
+            "hints": {
+                "low": "Gives you wings",
+                "medium": "Silver and blue can",
+                "high": "Owns two F1 teams"
+            }
+        },
+        {
+            "word": "Lays",
+            "hints": {
+                "low": "Selling air in bags",
+                "medium": "Yellow sunshine logo",
+                "high": "Bet you can't eat just one"
+            }
+        },
+        {
+            "word": "Cadbury",
+            "hints": {
+                "low": "Purple packaging",
+                "medium": "Glass and a half of milk",
+                "high": "Dairy Milk fame"
+            }
+        },
+        {
+            "word": "KitKat",
+            "hints": {
+                "low": "Have a break",
+                "medium": "Four fingers wafer",
+                "high": "Snap sound is iconic"
+            }
+        },
+        {
+            "word": "Amul",
+            "hints": {
+                "low": "Taste of India",
+                "medium": "Polka dot dress girl",
+                "high": "Utterly butterly"
+            }
+        },
+        {
+            "word": "Jio",
+            "hints": {
+                "low": "Data revolution",
+                "medium": "Free internet initially",
+                "high": "Ambani's pet project"
+            }
+        },
+        {
+            "word": "Swiggy",
+            "hints": {
+                "low": "Orange delivery guys",
+                "medium": "Live tracking anxiety",
+                "high": "Instamart is faster"
+            }
+        },
+        {
+            "word": "Zomato",
+            "hints": {
+                "low": "Red delivery guys",
+                "medium": "Funny notifications",
+                "high": "IPO was huge"
+            }
+        },
+        {
+            "word": "Ola",
+            "hints": {
+                "low": "Indian ride hailing",
+                "medium": "Electric scooters now",
+                "high": "Driver cancels the ride"
+            }
+        },
+        {
+            "word": "Tata",
+            "hints": {
+                "low": "Salt to Software",
+                "medium": "Trust of the nation",
+                "high": "Owns Jaguar Land Rover"
+            }
+        },
+        {
+            "word": "Maruti Suzuki",
+            "hints": {
+                "low": "Family car of India",
+                "medium": "Kitna deti hai?",
+                "high": "800 changed the roads"
+            }
+        },
+        {
+            "word": "Royal Enfield",
+            "hints": {
+                "low": "Thump sound",
+                "medium": "Bullet for the road",
+                "high": "Made like a gun"
+            }
+        },
+        {
+            "word": "BMW",
+            "hints": {
+                "low": "The ultimate driving machine",
+                "medium": "Kidney grill",
+                "high": "Blue and white propeller myth"
+            }
+        },
+        {
+            "word": "Ferrari",
+            "hints": {
+                "low": "Prancing horse",
+                "medium": "Red is the only color",
+                "high": "Enzo's legacy"
+            }
+        },
+        {
+            "word": "Lamborghini",
+            "hints": {
+                "low": "Raging bull",
+                "medium": "Started with tractors",
+                "high": "Named after fighting bulls"
+            }
+        },
+        {
+            "word": "Puma",
+            "hints": {
+                "low": "Leaping cat",
+                "medium": "Usain Bolt's sponsor",
+                "high": "Brother of Adidas founder"
+            }
+        },
+        {
+            "word": "Bata",
+            "hints": {
+                "low": "School shoes",
+                "medium": "Surprisingly not Indian",
+                "high": "Prices end in 99"
+            }
+        },
+        {
+            "word": "Britannia",
+            "hints": {
+                "low": "Eat healthy think better",
+                "medium": "Biscuit king",
+                "high": "Tiger and Good Day"
+            }
+        },
+        {
+            "word": "Parle-G",
+            "hints": {
+                "low": "National biscuit of India",
+                "medium": "Baby on the packet",
+                "high": "Dipped in tea since 1929"
+            }
+        },
+        {
+            "word": "Nokia",
+            "hints": {
+                "low": "Connecting people",
+                "medium": "Indestructible brick phone",
+                "high": "Snake game fame"
+            }
+        },
+        {
+            "word": "X (Twitter)",
+            "hints": {
+                "low": "Blue bird is dead",
+                "medium": "Character limit rant",
+                "high": "Elon's playground"
+            }
+        },
+        {
+            "word": "IKEA",
+            "hints": {
+                "low": "Swedish maze",
+                "medium": "DIY furniture",
+                "high": "Meatballs in the cafeteria"
+            }
+        },
+        {
+            "word": "Lego",
+            "hints": {
+                "low": "Plastic bricks",
+                "medium": "Painful to step on",
+                "high": "Danish toy giant"
+            }
+        },
+        {
+            "word": "Rolex",
+            "hints": {
+                "low": "Luxury crown",
+                "medium": "Rappers wear it",
+                "high": "Doesn't tick, it glides"
+            }
+        },
+        {
+            "word": "PlayStation",
+            "hints": {
+                "low": "Triangle Circle Cross Square",
+                "medium": "Console wars winner",
+                "high": "Sony's gaming arm"
+            }
+        },
+        {
+            "word": "Redmi (Xiaomi)",
+            "hints": {
+                "low": "Budget king",
+                "medium": "Ads in the OS",
+                "high": "Apple of China originally"
+            }
+        },
+        {
+            "word": "Thums Up",
+            "hints": {
+                "low": "Taste the thunder",
+                "medium": "Stronger than Coke",
+                "high": "Bought by Coca-Cola"
+            }
+        },
+        {
+            "word": "Paper Boat",
+            "hints": {
+                "low": "Drinks and memories",
+                "medium": "Traditional Indian juices",
+                "high": "Childhood nostalgia marketing"
             }
         }
     ]

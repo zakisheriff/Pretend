@@ -4,83 +4,403 @@
     "icon": "🌍",
     "words": [
         {
-            "word": "Marina Beach",
+            "word": "India",
             "hints": {
-                "low": "A beach",
-                "medium": "Chennai landmark",
-                "high": "Second longest urban beach in world"
+                "low": "Unity in diversity",
+                "medium": "Head wobble means yes and no",
+                "high": "Cricket is a religion here"
             }
         },
         {
-            "word": "Meenakshi Temple",
+            "word": "United States",
             "hints": {
-                "low": "A temple",
-                "medium": "Famous in Madurai",
-                "high": "Colorful gopurams, Sundareswarar shrine"
+                "low": "Land of the free",
+                "medium": "Hollywood and Silicon Valley",
+                "high": "Measurements are not in metric"
             }
         },
         {
-            "word": "Ooty",
+            "word": "China",
             "hints": {
-                "low": "Hill station",
-                "medium": "Queen of hill stations",
-                "high": "Nilgiri mountains, toy train"
+                "low": "Red dragon symbolism",
+                "medium": "A wall visible from space (myth)",
+                "high": "Tea originated here"
             }
         },
         {
-            "word": "Kodaikanal",
+            "word": "Japan",
             "hints": {
-                "low": "Tourist spot",
-                "medium": "Tamil Nadu hill station",
-                "high": "Princess of hill stations, star-shaped lake"
+                "low": "Sun rises here first",
+                "medium": "Vending machines everywhere",
+                "high": "Trains are never late"
             }
         },
         {
-            "word": "Mahabalipuram",
+            "word": "United Kingdom",
             "hints": {
-                "low": "Historical site",
-                "medium": "Near Chennai",
-                "high": "Shore temple, Arjuna's Penance"
+                "low": "Tea time is sacred",
+                "medium": "Driving on the left (island)",
+                "high": "The monarch lives here"
             }
         },
         {
-            "word": "Thanjavur",
+            "word": "France",
             "hints": {
-                "low": "Tamil Nadu city",
-                "medium": "Known for temple",
-                "high": "Big Temple, Chola capital"
+                "low": "Romance capital",
+                "medium": "Eating snails is fancy",
+                "high": "Iron tower was once hated"
             }
         },
         {
-            "word": "Rameshwaram",
+            "word": "Italy",
             "hints": {
-                "low": "Pilgrimage spot",
-                "medium": "Island temple town",
-                "high": "Pamban Bridge, Ramanathaswamy Temple"
+                "low": "Boot shaped map",
+                "medium": "Hand gestures while talking",
+                "high": "Coliseum stands here"
             }
         },
         {
-            "word": "Kanyakumari",
+            "word": "Brazil",
             "hints": {
-                "low": "Southern tip",
-                "medium": "Three seas meet",
-                "high": "Vivekananda Rock, sunrise-sunset point"
+                "low": "Carnival and Samba",
+                "medium": "Football wizards",
+                "high": "Giant statue on a mountain"
             }
         },
         {
-            "word": "Chettinad",
+            "word": "Egypt",
             "hints": {
-                "low": "Region in TN",
-                "medium": "Known for food and mansions",
-                "high": "Karaikudi, Athangudi tiles"
+                "low": "Sand and Pharaohs",
+                "medium": "Cats were worshipped here",
+                "high": "River flows north"
             }
         },
         {
-            "word": "Pondicherry",
+            "word": "Australia",
             "hints": {
-                "low": "Union Territory",
-                "medium": "French colony feel",
-                "high": "Auroville, white town, beach promenade"
+                "low": "Land Down Under",
+                "medium": "Dangerous spiders and snakes",
+                "high": "Christmas is in summer"
+            }
+        },
+        {
+            "word": "Russia",
+            "hints": {
+                "low": "Largest country by area",
+                "medium": "Vodka and cold winters",
+                "high": "Nine time zones"
+            }
+        },
+        {
+            "word": "Germany",
+            "hints": {
+                "low": "Engineering excellence",
+                "medium": "Oktoberfest beer",
+                "high": "No speed limit on some roads"
+            }
+        },
+        {
+            "word": "Canada",
+            "hints": {
+                "low": "Maple leaf flag",
+                "medium": "Apologizing politely often",
+                "high": "Ice hockey nation"
+            }
+        },
+        {
+            "word": "Switzerland",
+            "hints": {
+                "low": "Neutral in wars",
+                "medium": "Watches and Chocolate",
+                "high": "Bank accounts for the rich"
+            }
+        },
+        {
+            "word": "Mexico",
+            "hints": {
+                "low": "Tacos and Sombreros",
+                "medium": "Day of the Dead",
+                "high": "Ancient Aztec ruins"
+            }
+        },
+        {
+            "word": "Saudi Arabia",
+            "hints": {
+                "low": "Desert kingdom",
+                "medium": "Oil rich",
+                "high": "Mecca is located here"
+            }
+        },
+        {
+            "word": "Thailand",
+            "hints": {
+                "low": "Land of smiles",
+                "medium": "Street food paradise",
+                "high": "Tuk-tuks and elephants"
+            }
+        },
+        {
+            "word": "South Korea",
+            "hints": {
+                "low": "K-Pop and Kimchi",
+                "medium": "Plastic surgery hub",
+                "high": "Gaming is a serious sport"
+            }
+        },
+        {
+            "word": "Singapore",
+            "hints": {
+                "low": "Fine city (literally)",
+                "medium": "Chewing gum is banned",
+                "high": "Merlion statue"
+            }
+        },
+        {
+            "word": "New Zealand",
+            "hints": {
+                "low": "Middle Earth filming",
+                "medium": "More sheep than people",
+                "high": "Haka dance"
+            }
+        },
+        {
+            "word": "Sigiriya",
+            "hints": {
+                "low": "Rock fortress",
+                "medium": "Lion's paws entrance",
+                "high": "Palace in the sky"
+            }
+        },
+        {
+            "word": "Colombo",
+            "hints": {
+                "low": "Commercial capital",
+                "medium": "Lotus Tower skyline",
+                "high": "Galle Face Green sunset"
+            }
+        },
+        {
+            "word": "Kandy",
+            "hints": {
+                "low": "Hill capital",
+                "medium": "Lake in the center",
+                "high": "Home of the Tooth Relic"
+            }
+        },
+        {
+            "word": "Galle",
+            "hints": {
+                "low": "Southern coast gem",
+                "medium": "Dutch Fort ramparts",
+                "high": "Cricket stadium near the sea"
+            }
+        },
+        {
+            "word": "Nuwara Eliya",
+            "hints": {
+                "low": "Little England",
+                "medium": "Tea plantations everywhere",
+                "high": "Pink post office"
+            }
+        },
+        {
+            "word": "Ella",
+            "hints": {
+                "low": "Backpacker paradise",
+                "medium": "Nine Arch Bridge",
+                "high": "Hiking Little Adam's Peak"
+            }
+        },
+        {
+            "word": "Anuradhapura",
+            "hints": {
+                "low": "Ancient kingdom",
+                "medium": "Giant white stupas",
+                "high": "Sacred Bodhi tree"
+            }
+        },
+        {
+            "word": "Yala",
+            "hints": {
+                "low": "Safari hotspot",
+                "medium": "Leopard spotting",
+                "high": "Closed for drought sometimes"
+            }
+        },
+        {
+            "word": "Jaffna",
+            "hints": {
+                "low": "Northern peninsula",
+                "medium": "Palmyrah trees",
+                "high": "Nallur Kandaswamy Kovil"
+            }
+        },
+        {
+            "word": "Trincomalee",
+            "hints": {
+                "low": "Deep water harbor",
+                "medium": "Deer roaming the streets",
+                "high": "Koneswaram Temple on a cliff"
+            }
+        },
+        {
+            "word": "Polonnaruwa",
+            "hints": {
+                "low": "Second ancient capital",
+                "medium": "Gal Vihara statues",
+                "high": "Monkeys (Toque Macaque) everywhere"
+            }
+        },
+        {
+            "word": "Mirissa",
+            "hints": {
+                "low": "Whale watching",
+                "medium": "Coconut tree hill",
+                "high": "Surfing vibe"
+            }
+        },
+        {
+            "word": "Adam's Peak",
+            "hints": {
+                "low": "Sri Pada",
+                "medium": "Pilgrimage climb at night",
+                "high": "Shadow is a perfect triangle"
+            }
+        },
+        {
+            "word": "Arugam Bay",
+            "hints": {
+                "low": "Surfer's dream",
+                "medium": "East coast vibe",
+                "high": "Peanut Farm beach"
+            }
+        },
+        {
+            "word": "Dambulla",
+            "hints": {
+                "low": "Cave temple",
+                "medium": "Golden Buddha statue",
+                "high": "Painted ceilings inside rocks"
+            }
+        },
+        {
+            "word": "Bentota",
+            "hints": {
+                "low": "Water sports hub",
+                "medium": "River meets sea",
+                "high": "Luxury resorts strip"
+            }
+        },
+        {
+            "word": "Pinnawala",
+            "hints": {
+                "low": "Elephant orphanage",
+                "medium": "Bathing in the river",
+                "high": "Bottle feeding babies"
+            }
+        },
+        {
+            "word": "Horton Plains",
+            "hints": {
+                "low": "World's End",
+                "medium": "Baker's Falls",
+                "high": "Sambar deer in mist"
+            }
+        },
+        {
+            "word": "Unawatuna",
+            "hints": {
+                "low": "Horseshoe shaped beach",
+                "medium": "Japanese Peace Pagoda",
+                "high": "Jungle Beach nearby"
+            }
+        },
+        {
+            "word": "Negombo",
+            "hints": {
+                "low": "Little Rome",
+                "medium": "Fish market smells",
+                "high": "Closest beach to airport"
+            }
+        },
+        {
+            "word": "Pasikudah",
+            "hints": {
+                "low": "Shallow calm sea",
+                "medium": "Walk far into the water",
+                "high": "East coast luxury"
+            }
+        },
+        {
+            "word": "Kataragama",
+            "hints": {
+                "low": "Multi-religious site",
+                "medium": "God Skanda",
+                "high": "Fire walking festival"
+            }
+        },
+        {
+            "word": "Hikkaduwa",
+            "hints": {
+                "low": "Coral reef sanctuary",
+                "medium": "Party beach",
+                "high": "Giant sea turtles"
+            }
+        },
+        {
+            "word": "Sinharaja",
+            "hints": {
+                "low": "Rainforest",
+                "medium": "Leeches everywhere",
+                "high": "Lion King heritage name"
+            }
+        },
+        {
+            "word": "Kitulgala",
+            "hints": {
+                "low": "White water rafting",
+                "medium": "Kelani River",
+                "high": "Bridge on the River Kwai filmed here"
+            }
+        },
+        {
+            "word": "Kalpitiya",
+            "hints": {
+                "low": "Kitesurfing spot",
+                "medium": "Dolphin watching",
+                "high": "Lagoon and ocean mix"
+            }
+        },
+        {
+            "word": "Batticaloa",
+            "hints": {
+                "low": "Singing fish legend",
+                "medium": "Lagoon city",
+                "high": "Kallady Bridge"
+            }
+        },
+        {
+            "word": "Matara",
+            "hints": {
+                "low": "Southern city",
+                "medium": "Pigeon Island (Paravi Duwa)",
+                "high": "Star Fort"
+            }
+        },
+        {
+            "word": "Kurunegala",
+            "hints": {
+                "low": "City of rocks",
+                "medium": "Elephant rock (Ethagala)",
+                "high": "Transit hub"
+            }
+        },
+        {
+            "word": "Badulla",
+            "hints": {
+                "low": "End of the line (train)",
+                "medium": "Dunhinda Falls",
+                "high": "Uva province capital"
             }
         }
     ]

@@ -6,81 +6,401 @@
         {
             "word": "Mani Ratnam",
             "hints": {
-                "low": "Legendary director",
-                "medium": "Madras Talkies",
-                "high": "Ponniyin Selvan, Nayakan, Roja"
+                "low": "Soft dialogue delivery",
+                "medium": "Mirror reflections and silhouettes",
+                "high": "Trains appear in almost every love story"
             }
         },
         {
             "word": "Shankar",
             "hints": {
-                "low": "Grandeur films",
-                "medium": "High budget director",
-                "high": "Robot, Indian, Sivaji"
+                "low": "Vigilante fighting corruption",
+                "medium": "Songs filmed in 7 wonders of the world",
+                "high": "Grandeur and heavy prosthetics"
             }
         },
         {
             "word": "Lokesh Kanagaraj",
             "hints": {
-                "low": "LCU creator",
-                "medium": "Action thriller specialist",
-                "high": "Vikram, Leo, Kaithi"
+                "low": "Night shoots mostly",
+                "medium": "Drug busts and biryani",
+                "high": "Connecting films into a universe"
             }
         },
         {
             "word": "Vetrimaaran",
             "hints": {
-                "low": "Raw and gritty",
-                "medium": "Dhanush combo",
-                "high": "Asuran, Vada Chennai, Viduthalai"
+                "low": "Raw dust and soil",
+                "medium": "Revenge spanning generations",
+                "high": "Chasing scenes in fields or forests"
             }
         },
         {
             "word": "Atlee",
             "hints": {
-                "low": "Commercial hits",
-                "medium": "Vijay combo",
-                "high": "Theri, Mersal, Jawan"
+                "low": "Hero plays multiple roles",
+                "medium": "Flashback determines the motive",
+                "high": "Rich lighting and slow-motion walking"
             }
         },
         {
             "word": "Nelson Dilipkumar",
             "hints": {
-                "low": "Dark humor",
-                "medium": "Doctor, Beast",
-                "high": "Jailer with Rajinikanth"
+                "low": "Deadpan comedy",
+                "medium": "Characters don't react to chaos",
+                "high": "Breaking the fourth wall subtly"
             }
         },
         {
             "word": "Bala",
             "hints": {
-                "low": "Intense films",
-                "medium": "Tragic endings often",
-                "high": "Sethu, Pithamagan, Naan Kadavul"
+                "low": "Intense suffering",
+                "medium": "Characters on the fringes of society",
+                "high": "Tragic endings are guaranteed"
             }
         },
         {
             "word": "Mysskin",
             "hints": {
-                "low": "Unique visual style",
-                "medium": "Low angle shots",
-                "high": "Anjathe, Pisasu, Thupparivaalan"
+                "low": "Yellow street lights",
+                "medium": "Knee-level camera angles",
+                "high": "Characters rarely blink"
             }
         },
         {
             "word": "Pa. Ranjith",
             "hints": {
-                "low": "Socially conscious",
-                "medium": "Dalit empowerment themes",
-                "high": "Madras, Kabali, Kaala"
+                "low": "Blue color symbolism",
+                "medium": "Walls speak politics",
+                "high": "Social empowerment themes"
             }
         },
         {
             "word": "Bharathiraja",
             "hints": {
-                "low": "Iyakkunar Imayam",
-                "medium": "Village stories",
-                "high": "16 Vayathinile, Muthal Mariyathai"
+                "low": "Earthly smell",
+                "medium": "Village romance pioneer",
+                "high": "Realistic portrayals of rural life"
+            }
+        },
+        {
+            "word": "Gautham Vasudev Menon",
+            "hints": {
+                "low": "Guitar strumming background",
+                "medium": "English speaking police officers",
+                "high": "Protagonist narrates via voiceover"
+            }
+        },
+        {
+            "word": "S. S. Rajamouli",
+            "hints": {
+                "low": "Physics defying action",
+                "medium": "Mythological grandeur",
+                "high": "Hero creates a weapon from surroundings"
+            }
+        },
+        {
+            "word": "Sandeep Reddy Vanga",
+            "hints": {
+                "low": "Toxic intensity",
+                "medium": "Alpha male protagonists",
+                "high": "Background score is deafeningly bold"
+            }
+        },
+        {
+            "word": "Prashanth Neel",
+            "hints": {
+                "low": "Coal mines and dust",
+                "medium": "Dark grey color palette",
+                "high": "Editing is extremely fast-paced"
+            }
+        },
+        {
+            "word": "Christopher Nolan",
+            "hints": {
+                "low": "Time is non-linear",
+                "medium": "Practical effects over CGI",
+                "high": "Audio mixing makes dialogue hard to hear"
+            }
+        },
+        {
+            "word": "Quentin Tarantino",
+            "hints": {
+                "low": "Dialogues about food or pop culture",
+                "medium": "Chapters out of order",
+                "high": "Lots of shots of feet"
+            }
+        },
+        {
+            "word": "Selvaraghavan",
+            "hints": {
+                "low": "Psychological depth",
+                "medium": "Introverted genius protagonist",
+                "high": "Unique dance movements"
+            }
+        },
+        {
+            "word": "Venkat Prabhu",
+            "hints": {
+                "low": "Boys having fun",
+                "medium": "Unexpected plot twists",
+                "high": "Bloopers during end credits"
+            }
+        },
+        {
+            "word": "K. S. Ravikumar",
+            "hints": {
+                "low": "Commercial entertainment",
+                "medium": "Sentiment and comedy mix",
+                "high": "Director always makes a cameo appearance"
+            }
+        },
+        {
+            "word": "Hari",
+            "hints": {
+                "low": "Cars flying in air",
+                "medium": "Fastest editing cuts",
+                "high": "Cops chasing sumos"
+            }
+        },
+        {
+            "word": "Karthik Subbaraj",
+            "hints": {
+                "low": "Gangster noir style",
+                "medium": "Clever use of light and shadow",
+                "high": "Twists inspired by Tarantino"
+            }
+        },
+        {
+            "word": "Sundar C",
+            "hints": {
+                "low": "Slapstick comedy",
+                "medium": "Haunted mansion themes",
+                "high": "Large ensemble cast in a house"
+            }
+        },
+        {
+            "word": "H. Vinoth",
+            "hints": {
+                "low": "Detailed research",
+                "medium": "Scams and heist breakdown",
+                "high": "Grey characters doing good things"
+            }
+        },
+        {
+            "word": "Mari Selvaraj",
+            "hints": {
+                "low": "Animals as metaphors",
+                "medium": "Oppression and uprising",
+                "high": "Visually stunning rural landscapes"
+            }
+        },
+        {
+            "word": "Kamal Haasan",
+            "hints": {
+                "low": "Ahead of his time",
+                "medium": "Complex screenplay writing",
+                "high": "Technical wizardry in makeup"
+            }
+        },
+        {
+            "word": "S. J. Suryah",
+            "hints": {
+                "low": "Eccentric acting style",
+                "medium": "Bold adult themes",
+                "high": "Protagonist talks to himself"
+            }
+        },
+        {
+            "word": "Murugadoss",
+            "hints": {
+                "low": "Social message with action",
+                "medium": "Hero has a medical condition",
+                "high": "Mind games against the villain"
+            }
+        },
+        {
+            "word": "Trivikram Srinivas",
+            "hints": {
+                "low": "Rhyming dialogues",
+                "medium": "Family drama in a rich house",
+                "high": "Philosophical punchlines"
+            }
+        },
+        {
+            "word": "Sukumar",
+            "hints": {
+                "low": "Complex logic",
+                "medium": "Hero has a slight defect or quirk",
+                "high": "Non-linear revenge screenplay"
+            }
+        },
+        {
+            "word": "Alphonse Puthren",
+            "hints": {
+                "low": "Butterflies and nature",
+                "medium": "Editing with text on screen",
+                "high": "Realistic college romance"
+            }
+        },
+        {
+            "word": "Lijo Jose Pellissery",
+            "hints": {
+                "low": "Chaos on screen",
+                "medium": "Long continuous shots",
+                "high": "Food and violence mix"
+            }
+        },
+        {
+            "word": "Sanjay Leela Bhansali",
+            "hints": {
+                "low": "Every frame is a painting",
+                "medium": "Grand sets and costumes",
+                "high": "Tragic love stories"
+            }
+        },
+        {
+            "word": "Rohit Shetty",
+            "hints": {
+                "low": "Flying cars",
+                "medium": "Cop universe",
+                "high": "Bright yellow color grading"
+            }
+        },
+        {
+            "word": "Rajkumar Hirani",
+            "hints": {
+                "low": "Feel good cinema",
+                "medium": "Social issue explained simply",
+                "high": "Tears and laughter balance"
+            }
+        },
+        {
+            "word": "Anurag Kashyap",
+            "hints": {
+                "low": "Dark underworld",
+                "medium": "Strong language usage",
+                "high": "Realistic lighting and grit"
+            }
+        },
+        {
+            "word": "James Cameron",
+            "hints": {
+                "low": "King of the world",
+                "medium": "Water obsession",
+                "high": "Decades between releases"
+            }
+        },
+        {
+            "word": "Steven Spielberg",
+            "hints": {
+                "low": "Wonder and magic",
+                "medium": "Dinosaurs or Aliens",
+                "high": "The 'Spielberg Face' zoom in"
+            }
+        },
+        {
+            "word": "Martin Scorsese",
+            "hints": {
+                "low": "Gangster life",
+                "medium": "Voiceover narration",
+                "high": "Long tracking shots"
+            }
+        },
+        {
+            "word": "Alfred Hitchcock",
+            "hints": {
+                "low": "Master of suspense",
+                "medium": "Birds attacking",
+                "high": "Shower scene silhouette"
+            }
+        },
+        {
+            "word": "Wes Anderson",
+            "hints": {
+                "low": "Pastel colors",
+                "medium": "Perfect symmetry",
+                "high": "Quirky characters looking at camera"
+            }
+        },
+        {
+            "word": "Priyadarshan",
+            "hints": {
+                "low": "Confusion comedy",
+                "medium": "Ending in a chaotic chase",
+                "high": "Remakes often better than originals"
+            }
+        },
+        {
+            "word": "Ram Gopal Varma",
+            "hints": {
+                "low": "Horror and Gangsters",
+                "medium": "Weird camera angles",
+                "high": "Controversial tweets"
+            }
+        },
+        {
+            "word": "Upendra",
+            "hints": {
+                "low": "Breaking the fourth wall",
+                "medium": "Confusing titles",
+                "high": "Philosophical madness"
+            }
+        },
+        {
+            "word": "Rishab Shetty",
+            "hints": {
+                "low": "Folklore and tradition",
+                "medium": "Screaming at the climax",
+                "high": "Man vs Nature conflict"
+            }
+        },
+        {
+            "word": "P. Vasu",
+            "hints": {
+                "low": "Family sentiments",
+                "medium": "Possessed characters",
+                "high": "Remakes of psychological thrillers"
+            }
+        },
+        {
+            "word": "Vikraman",
+            "hints": {
+                "low": "Feel good family drama",
+                "medium": "Sacrificing for others",
+                "high": "Songs with motivational lyrics"
+            }
+        },
+        {
+            "word": "Cheran",
+            "hints": {
+                "low": "Nostalgia heavy",
+                "medium": "Autograph memories",
+                "high": "Social messages about relationships"
+            }
+        },
+        {
+            "word": "T. Rajendar",
+            "hints": {
+                "low": "All-rounder",
+                "medium": "Rhyming speech",
+                "high": "Does music, direction, and acting"
+            }
+        },
+        {
+            "word": "Perarasu",
+            "hints": {
+                "low": "City names as titles",
+                "medium": "Sister sentiment",
+                "high": "Appears in his own songs"
+            }
+        },
+        {
+            "word": "Siruthai Siva",
+            "hints": {
+                "low": "Brother-sister sentiment",
+                "medium": "High voltage action",
+                "high": "Hero is a village savior"
             }
         }
     ]

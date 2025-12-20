@@ -4,83 +4,483 @@
     "icon": "🧠",
     "words": [
         {
-            "word": "Filter Coffee",
+            "word": "Pen",
             "hints": {
-                "low": "A beverage",
-                "medium": "South Indian drink",
-                "high": "Made with chicory and decoction"
+                "low": "Mightier than a sword",
+                "medium": "Clicks or twists to start",
+                "high": "Leaves a permanent trail"
             }
         },
         {
-            "word": "Lungi",
+            "word": "Pencil",
             "hints": {
-                "low": "Traditional wear",
-                "medium": "South Indian men's clothing",
-                "high": "Wrapped around waist, colorful"
+                "low": "Wood and graphite",
+                "medium": "Mistakes are forgivable",
+                "high": "needs sharpening often"
             }
         },
         {
-            "word": "Auto Rickshaw",
+            "word": "Eraser",
             "hints": {
-                "low": "Transportation",
-                "medium": "Three-wheeler",
-                "high": "Yellow-black in Chennai"
+                "low": "The second chance",
+                "medium": "Rubbing it makes dust",
+                "high": "Gets smaller as you use it"
             }
         },
         {
-            "word": "Banana Leaf",
+            "word": "Book",
             "hints": {
-                "low": "Used for eating",
-                "medium": "Natural plate",
-                "high": "Sadya served on this"
+                "low": "Don't judge by the cover",
+                "medium": "Dead trees with tattoos",
+                "high": "Smells good when old"
             }
         },
         {
-            "word": "Kolam",
+            "word": "Laptop",
             "hints": {
-                "low": "Art form",
-                "medium": "Floor decoration",
-                "high": "Rice powder rangoli at entrance"
+                "low": "Portable office",
+                "medium": "Clamshell design",
+                "high": "Gets hot on your knees"
             }
         },
         {
-            "word": "Veena",
+            "word": "Clock",
             "hints": {
-                "low": "Musical instrument",
-                "medium": "String instrument",
-                "high": "Carnatic music, Saraswati holds it"
+                "low": "Has a face but no eyes",
+                "medium": "Hands moving in circles",
+                "high": "Tells you you're late"
             }
         },
         {
-            "word": "Brass Lamp",
+            "word": "Chair",
             "hints": {
-                "low": "Lighting item",
-                "medium": "Traditional lamp",
-                "high": "Vilakku, lit during puja"
+                "low": "Has four legs but can't walk",
+                "medium": "Back support is key",
+                "high": "Musical game involves this"
             }
         },
         {
-            "word": "Mridangam",
+            "word": "Table",
             "hints": {
-                "low": "Musical instrument",
-                "medium": "Percussion instrument",
-                "high": "Used in Carnatic concerts"
+                "low": "Flat surface furniture",
+                "medium": "You put your elbows on it",
+                "high": "Often needs a coaster"
             }
         },
         {
-            "word": "Jasmine Flowers",
+            "word": "Key",
             "hints": {
-                "low": "Fragrant flowers",
-                "medium": "Worn in hair",
-                "high": "Madurai famous for this, called Malli"
+                "low": "Symbol of access",
+                "medium": "Jingles in the pocket",
+                "high": "Has metal teeth"
             }
         },
         {
-            "word": "Tiffin Box",
+            "word": "Wallet",
             "hints": {
-                "low": "Container",
-                "medium": "Lunch carrier",
-                "high": "Steel dabba for office food"
+                "low": "Pocket safe",
+                "medium": "Leather fold",
+                "high": "Holds plastic and paper"
+            }
+        },
+        {
+            "word": "Smartphone",
+            "hints": {
+                "low": "Black mirror",
+                "medium": "Swipe to unlock",
+                "high": "Panic if battery dies"
+            }
+        },
+        {
+            "word": "Headphones",
+            "hints": {
+                "low": "Personal concert",
+                "medium": "Over the ears",
+                "high": "Cancels the outside world"
+            }
+        },
+        {
+            "word": "Water Bottle",
+            "hints": {
+                "low": "Hydration station",
+                "medium": "Refillable cylinder",
+                "high": "Often made of steel or plastic"
+            }
+        },
+        {
+            "word": "Spectacles",
+            "hints": {
+                "low": "Four eyes",
+                "medium": "Sits on the nose bridge",
+                "high": "Fogs up with hot tea"
+            }
+        },
+        {
+            "word": "Umbrella",
+            "hints": {
+                "low": "Bad luck to open indoors",
+                "medium": "Portable roof",
+                "high": "Useless in strong wind"
+            }
+        },
+        {
+            "word": "Shoe",
+            "hints": {
+                "low": "Soul protector",
+                "medium": "Comes in a pair",
+                "high": "Tying the knot is required"
+            }
+        },
+        {
+            "word": "Sock",
+            "hints": {
+                "low": "Disappears in the laundry",
+                "medium": "Worn inside another object",
+                "high": "Protects from blisters"
+            }
+        },
+        {
+            "word": "Scissors",
+            "hints": {
+                "low": "Rock beats it",
+                "medium": "Two blades pivoting",
+                "high": "Don't run with these"
+            }
+        },
+        {
+            "word": "Tape",
+            "hints": {
+                "low": "Invisible fix",
+                "medium": "Sticky on one side",
+                "high": "Hard to find the end"
+            }
+        },
+        {
+            "word": "Stapler",
+            "hints": {
+                "low": "Metal fastener",
+                "medium": "Looks like a crocodile mouth",
+                "high": "Joins papers permanently"
+            }
+        },
+        {
+            "word": "Mirror",
+            "hints": {
+                "low": "Reflects reality",
+                "medium": "Silver backed glass",
+                "high": "Reverses left and right"
+            }
+        },
+        {
+            "word": "Comb",
+            "hints": {
+                "low": "Has teeth but doesn't bite",
+                "medium": "Tame the mane",
+                "high": "Static electricity generator"
+            }
+        },
+        {
+            "word": "Toothbrush",
+            "hints": {
+                "low": "Morning routine stick",
+                "medium": "Bristles against enamel",
+                "high": "Needs paste to work"
+            }
+        },
+        {
+            "word": "Soap",
+            "hints": {
+                "low": "Slippery when wet",
+                "medium": "Creates bubbles",
+                "high": "Kill 99.9% germs"
+            }
+        },
+        {
+            "word": "Towel",
+            "hints": {
+                "low": "Gets wet while drying",
+                "medium": "Made of cotton loops",
+                "high": "Don't panic (Hitchhiker reference)"
+            }
+        },
+        {
+            "word": "Pillow",
+            "hints": {
+                "low": "Head rest",
+                "medium": "Soft and fluffy",
+                "high": "Cold side is better"
+            }
+        },
+        {
+            "word": "Blanket",
+            "hints": {
+                "low": "Security object",
+                "medium": "Traps body heat",
+                "high": "Shield against monsters"
+            }
+        },
+        {
+            "word": "Fan",
+            "hints": {
+                "low": "Circular wind maker",
+                "medium": "Blades chopping air",
+                "high": "Robot voice when speaking into it"
+            }
+        },
+        {
+            "word": "Remote",
+            "hints": {
+                "low": "Power in your hand",
+                "medium": "Lost in the sofa",
+                "high": "Change the channel"
+            }
+        },
+        {
+            "word": "Battery",
+            "hints": {
+                "low": "Stored energy",
+                "medium": "Positive and negative ends",
+                "high": "Double A or Triple A"
+            }
+        },
+        {
+            "word": "Candle",
+            "hints": {
+                "low": "Wax and wick",
+                "medium": "Melts away its life",
+                "high": "Source of light before electricity"
+            }
+        },
+        {
+            "word": "Matchbox",
+            "hints": {
+                "low": "Fire starter",
+                "medium": "Strike to ignite",
+                "high": "Red phosphorous strip"
+            }
+        },
+        {
+            "word": "Spoon",
+            "hints": {
+                "low": "Liquid lifter",
+                "medium": "Concave metal",
+                "high": "Used for soup or cereal"
+            }
+        },
+        {
+            "word": "Knife",
+            "hints": {
+                "low": "Kitchen weapon",
+                "medium": "Serrated edge",
+                "high": "Spreads butter or cuts steak"
+            }
+        },
+        {
+            "word": "Plate",
+            "hints": {
+                "low": "Ceramic disc",
+                "medium": "Food stage",
+                "high": "Breaks if dropped"
+            }
+        },
+        {
+            "word": "Mug",
+            "hints": {
+                "low": "Handle on a cup",
+                "medium": "Holds hot liquid",
+                "high": "Often has funny quotes printed"
+            }
+        },
+        {
+            "word": "Charger",
+            "hints": {
+                "low": "Life support for tech",
+                "medium": "Wire and block",
+                "high": "Wall to device connection"
+            }
+        },
+        {
+            "word": "Backpack",
+            "hints": {
+                "low": "Turtle shell for humans",
+                "medium": "Two straps over shoulders",
+                "high": "Carries books or laptop"
+            }
+        },
+        {
+            "word": "Hat",
+            "hints": {
+                "low": "Head covering",
+                "medium": "Shade for the eyes",
+                "high": "Bad hair day solution"
+            }
+        },
+        {
+            "word": "Watch",
+            "hints": {
+                "low": "Time on wrist",
+                "medium": "Tick tock accessory",
+                "high": "Smart or Analog"
+            }
+        },
+        {
+            "word": "Ring",
+            "hints": {
+                "low": "Circle of commitment",
+                "medium": "Worn on a digit",
+                "high": "Precious metal band"
+            }
+        },
+        {
+            "word": "Coin",
+            "hints": {
+                "low": "Metal currency",
+                "medium": "Heads or tails",
+                "high": "Used for scratching cards"
+            }
+        },
+        {
+            "word": "Credit Card",
+            "hints": {
+                "low": "Plastic money",
+                "medium": "Chip and pin",
+                "high": "Buy now pay later"
+            }
+        },
+        {
+            "word": "Lamp",
+            "hints": {
+                "low": "Genie's home (myth)",
+                "medium": "Artificial sun",
+                "high": "Has a shade to diffuse"
+            }
+        },
+        {
+            "word": "Calendar",
+            "hints": {
+                "low": "Recorder of days",
+                "medium": "Twelve pages usually",
+                "high": "Circle the date"
+            }
+        },
+        {
+            "word": "Calculator",
+            "hints": {
+                "low": "Math helper",
+                "medium": "Solar powered usually",
+                "high": "Type 5318005 for a joke"
+            }
+        },
+        {
+            "word": "Camera",
+            "hints": {
+                "low": "Memory catcher",
+                "medium": "Shutter sound",
+                "high": "Say cheese"
+            }
+        },
+        {
+            "word": "Mouse",
+            "hints": {
+                "low": "Not the animal",
+                "medium": "Clicks and scrolls",
+                "high": "Needs a pad to work well"
+            }
+        },
+        {
+            "word": "Keyboard",
+            "hints": {
+                "low": "QWERTY layout",
+                "medium": "Spacebar is the biggest",
+                "high": "Input device for typing"
+            }
+        },
+        {
+            "word": "Printer",
+            "hints": {
+                "low": "Jamming expert",
+                "medium": "Ink on paper",
+                "high": "Cyan is always low"
+            }
+        },
+        {
+            "word": "Microwave",
+            "hints": {
+                "low": "Reheater",
+                "medium": "Spinning plate inside",
+                "high": "Beeps when done"
+            }
+        },
+        {
+            "word": "Fridge",
+            "hints": {
+                "low": "Cold box",
+                "medium": "Preserves food",
+                "high": "Light turns on when opened"
+            }
+        },
+        {
+            "word": "Broom",
+            "hints": {
+                "low": "Witch's vehicle",
+                "medium": "Sweeps the floor",
+                "high": "Collects dust"
+            }
+        },
+        {
+            "word": "Bucket",
+            "hints": {
+                "low": "Water carrier",
+                "medium": "Plastic cylinder with handle",
+                "high": "Kicked the..."
+            }
+        },
+        {
+            "word": "Paper Clip",
+            "hints": {
+                "low": "Bent wire",
+                "medium": "Temporary binder",
+                "high": "Holds sheets together without holes"
+            }
+        },
+        {
+            "word": "Envelope",
+            "hints": {
+                "low": "Letter carrier",
+                "medium": "Lick to seal",
+                "high": "Contains a message"
+            }
+        },
+        {
+            "word": "Ladder",
+            "hints": {
+                "low": "Steps to the sky",
+                "medium": "Don't walk under it",
+                "high": "Climbing tool"
+            }
+        },
+        {
+            "word": "Hammer",
+            "hints": {
+                "low": "Thor's accessory",
+                "medium": "Hits the nail",
+                "high": "Claw on the back"
+            }
+        },
+        {
+            "word": "Lock",
+            "hints": {
+                "low": "Security device",
+                "medium": "Needs a key or code",
+                "high": "Clicks when secured"
+            }
+        },
+        {
+            "word": "Belt",
+            "hints": {
+                "low": "Waist hugger",
+                "medium": "Holds pants up",
+                "high": "Leather strip with a buckle"
             }
         }
     ]

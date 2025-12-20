@@ -6,81 +6,401 @@
         {
             "word": "Ferrari",
             "hints": {
-                "low": "Italian sports car",
-                "medium": "Prancing Horse logo",
-                "high": "Famous for Red color"
+                "low": "Red is the default color",
+                "medium": "Enzo's legacy",
+                "high": "Prancing animal on yellow background"
+            }
+        },
+        {
+            "word": "Lamborghini",
+            "hints": {
+                "low": "Doors open upwards",
+                "medium": "Started by making tractors",
+                "high": "Named after fighting bulls"
             }
         },
         {
             "word": "Tesla",
             "hints": {
-                "low": "Electric car",
-                "medium": "Elon Musk company",
-                "high": "Models S, 3, X, Y"
+                "low": "No engine noise",
+                "medium": "Giant iPad on the dashboard",
+                "high": "S3XY model lineup"
             }
         },
         {
             "word": "BMW",
             "hints": {
-                "low": "German luxury car",
-                "medium": "Kidney grille",
+                "low": "Drivers never use turn signals",
+                "medium": "Kidney shaped grille",
                 "high": "The Ultimate Driving Machine"
             }
         },
         {
             "word": "Mercedes-Benz",
             "hints": {
-                "low": "Luxury car maker",
+                "low": "Symbol of luxury status",
                 "medium": "Three-pointed star",
-                "high": "Invented the first car"
-            }
-        },
-        {
-            "word": "Toyota",
-            "hints": {
-                "low": "Japanese car maker",
-                "medium": "Most reliable brand",
-                "high": "Corolla is best selling car ever"
-            }
-        },
-        {
-            "word": "Lamborghini",
-            "hints": {
-                "low": "Supercar brand",
-                "medium": "Bull logo",
-                "high": "Rival to Ferrari, started with tractors"
-            }
-        },
-        {
-            "word": "Ford",
-            "hints": {
-                "low": "American car brand",
-                "medium": "Mustang maker",
-                "high": "Henry Ford, Model T"
+                "high": "Invented the first automobile"
             }
         },
         {
             "word": "Audi",
             "hints": {
-                "low": "German car brand",
-                "medium": "Four rings logo",
-                "high": "Part of Volkswagen Group"
+                "low": "Olympic rings logo (almost)",
+                "medium": "Quattro system",
+                "high": "Iron Man's daily driver"
+            }
+        },
+        {
+            "word": "Toyota",
+            "hints": {
+                "low": "It will outlive you",
+                "medium": "Hybrid technology pioneer",
+                "high": "Started as a loom company"
+            }
+        },
+        {
+            "word": "Honda",
+            "hints": {
+                "low": "VTEC kicked in",
+                "medium": "Makes lawnmowers and jets too",
+                "high": "Red badge means racing type"
+            }
+        },
+        {
+            "word": "Ford",
+            "hints": {
+                "low": "Built for the masses",
+                "medium": "Invented the assembly line",
+                "high": "Blue Oval"
+            }
+        },
+        {
+            "word": "Chevrolet",
+            "hints": {
+                "low": "American heartbeat",
+                "medium": "Plus sign logo",
+                "high": "Bumblebee in Transformers"
             }
         },
         {
             "word": "Porsche",
             "hints": {
-                "low": "German sports car",
-                "medium": "911 model",
-                "high": "Horse on crest, rear engine"
+                "low": "Beetle on steroids",
+                "medium": "Ignition key on the left",
+                "high": "Rear-mounted engine"
             }
         },
         {
             "word": "Rolls-Royce",
             "hints": {
-                "low": "Ultra luxury car",
-                "medium": "Spirit of Ecstasy",
-                "high": "Phantom, Ghost models"
+                "low": "Umbrella in the door",
+                "medium": "Spirit of Ecstasy hood ornament",
+                "high": "The roof has stars"
+            }
+        },
+        {
+            "word": "Bentley",
+            "hints": {
+                "low": "British luxury yacht on wheels",
+                "medium": "Flying B logo",
+                "high": "Diamond quilted leather"
+            }
+        },
+        {
+            "word": "Volkswagen",
+            "hints": {
+                "low": "People's Car",
+                "medium": "Dieselgate scandal",
+                "high": "Owners of Bugatti and Audi"
+            }
+        },
+        {
+            "word": "Volvo",
+            "hints": {
+                "low": "Safest car in the world",
+                "medium": "Invented the 3-point seatbelt",
+                "high": "Swedish tank"
+            }
+        },
+        {
+            "word": "Land Rover",
+            "hints": {
+                "low": "Go anywhere luxury",
+                "medium": "Queen's favorite off-roader",
+                "high": "Green oval badge"
+            }
+        },
+        {
+            "word": "Jaguar",
+            "hints": {
+                "low": "Leaping cat hood ornament",
+                "medium": "British villains drive these",
+                "high": "J-turn maneuver fame"
+            }
+        },
+        {
+            "word": "Mini",
+            "hints": {
+                "low": "Mr. Bean's ride",
+                "medium": "Go-kart handling",
+                "high": "Giant speedometer in center"
+            }
+        },
+        {
+            "word": "Aston Martin",
+            "hints": {
+                "low": "James Bond's choice",
+                "medium": "Swan wing doors",
+                "high": "British grand tourer"
+            }
+        },
+        {
+            "word": "Bugatti",
+            "hints": {
+                "low": "Fastest in the world (often)",
+                "medium": "W16 engine",
+                "high": "Costs millions for an oil change"
+            }
+        },
+        {
+            "word": "Nissan",
+            "hints": {
+                "low": "Godzilla (GT-R)",
+                "medium": "CVT transmissions",
+                "high": "Formerly Datsun"
+            }
+        },
+        {
+            "word": "Subaru",
+            "hints": {
+                "low": "Rally racing blue",
+                "medium": "Boxer engine rumble",
+                "high": "Symmetrical All-Wheel Drive"
+            }
+        },
+        {
+            "word": "Mazda",
+            "hints": {
+                "low": "Zoom Zoom",
+                "medium": "Rotary engine fame",
+                "high": "Miata is always the answer"
+            }
+        },
+        {
+            "word": "Mitsubishi",
+            "hints": {
+                "low": "Evolution vs Impreza",
+                "medium": "Three diamonds logo",
+                "high": "Makes ACs and pencils too"
+            }
+        },
+        {
+            "word": "Suzuki",
+            "hints": {
+                "low": "Small car specialist",
+                "medium": "Hayabusa bike maker",
+                "high": "Partnered with Maruti in India"
+            }
+        },
+        {
+            "word": "Hyundai",
+            "hints": {
+                "low": "Korean giant",
+                "medium": "Italics H logo",
+                "high": "N division for performance"
+            }
+        },
+        {
+            "word": "Kia",
+            "hints": {
+                "low": "Tiger nose grille",
+                "medium": "Sister brand of Hyundai",
+                "high": "7 year warranty fame"
+            }
+        },
+        {
+            "word": "Tata Motors",
+            "hints": {
+                "low": "Salt to Software group",
+                "medium": "Made the cheapest car (Nano)",
+                "high": "Owns Jaguar Land Rover"
+            }
+        },
+        {
+            "word": "Mahindra",
+            "hints": {
+                "low": "King of SUVs in India",
+                "medium": "Tractor giant",
+                "high": "Thar is a Jeep lookalike"
+            }
+        },
+        {
+            "word": "Jeep",
+            "hints": {
+                "low": "Seven slot grille",
+                "medium": "WW2 origin",
+                "high": "Rubber duck culture"
+            }
+        },
+        {
+            "word": "Dodge",
+            "hints": {
+                "low": "American muscle",
+                "medium": "Hellcat engine",
+                "high": "Two red stripes"
+            }
+        },
+        {
+            "word": "Cadillac",
+            "hints": {
+                "low": "President's limo (The Beast)",
+                "medium": "American luxury standard",
+                "high": "Vertical tail lights"
+            }
+        },
+        {
+            "word": "Lexus",
+            "hints": {
+                "low": "Japanese Mercedes",
+                "medium": "Spindle grille (hourglass)",
+                "high": "Luxury division of Toyota"
+            }
+        },
+        {
+            "word": "Acura",
+            "hints": {
+                "low": "Luxury Honda",
+                "medium": "NSX supercar",
+                "high": "Caliper logo"
+            }
+        },
+        {
+            "word": "Infiniti",
+            "hints": {
+                "low": "Luxury Nissan",
+                "medium": "G35 exhaust note",
+                "high": "Logo is a road into distance"
+            }
+        },
+        {
+            "word": "Fiat",
+            "hints": {
+                "low": "Fix It Again Tony",
+                "medium": "Tiny Italian cars",
+                "high": "500 model"
+            }
+        },
+        {
+            "word": "Alfa Romeo",
+            "hints": {
+                "low": "Beautiful but breaks down",
+                "medium": "Snake eating a man logo",
+                "high": "Triangle grille"
+            }
+        },
+        {
+            "word": "Maserati",
+            "hints": {
+                "low": "Trident logo",
+                "medium": "Ferrari engines in sedans",
+                "high": "Named after winds"
+            }
+        },
+        {
+            "word": "McLaren",
+            "hints": {
+                "low": "F1 team pedigree",
+                "medium": "Orange papaya color",
+                "high": "Center seat in the F1 road car"
+            }
+        },
+        {
+            "word": "Lotus",
+            "hints": {
+                "low": "Simplify and add lightness",
+                "medium": "Handling over power",
+                "high": "Bond's submarine car"
+            }
+        },
+        {
+            "word": "Peugeot",
+            "hints": {
+                "low": "French Lion",
+                "medium": "Steering wheel blocks the dials",
+                "high": "Pepper grinder maker originally"
+            }
+        },
+        {
+            "word": "Renault",
+            "hints": {
+                "low": "Diamond logo",
+                "medium": "Yellow F1 cars",
+                "high": "Invented the MPV (Espace)"
+            }
+        },
+        {
+            "word": "Citroën",
+            "hints": {
+                "low": "Quirky French design",
+                "medium": "Hydraulic suspension",
+                "high": "Double chevron logo"
+            }
+        },
+        {
+            "word": "Saab",
+            "hints": {
+                "low": "Born from jets",
+                "medium": "Night panel button",
+                "high": "Defunct Swedish brand"
+            }
+        },
+        {
+            "word": "Koenigsegg",
+            "hints": {
+                "low": "Swedish hypercar",
+                "medium": "Ghost logo on engine",
+                "high": "Doors rotate forward and up"
+            }
+        },
+        {
+            "word": "Pagani",
+            "hints": {
+                "low": "Art on wheels",
+                "medium": "Quad exhaust pipes in circle",
+                "high": "Leaf shaped mirrors"
+            }
+        },
+        {
+            "word": "Vauxhall / Opel",
+            "hints": {
+                "low": "Generic European car",
+                "medium": "Griffin or Lightning logo",
+                "high": "Corsa and Astra"
+            }
+        },
+        {
+            "word": "Skoda",
+            "hints": {
+                "low": "Simply Clever",
+                "medium": "Umbrella in the door (budget version)",
+                "high": "Winged arrow logo"
+            }
+        },
+        {
+            "word": "Datsun",
+            "hints": {
+                "low": "Budget retro brand",
+                "medium": "240Z classic",
+                "high": "Revived and killed by Nissan"
+            }
+        },
+        {
+            "word": "DeLorean",
+            "hints": {
+                "low": "Time machine",
+                "medium": "Flux capacitor included",
+                "high": "Stainless steel body"
             }
         }
     ]

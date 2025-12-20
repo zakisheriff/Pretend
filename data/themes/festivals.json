@@ -4,83 +4,403 @@
     "icon": "🎉",
     "words": [
         {
-            "word": "Pongal",
+            "word": "Christmas",
             "hints": {
-                "low": "Harvest festival",
-                "medium": "Four day celebration",
-                "high": "Bhogi, Surya, Maattu, Kaanum"
+                "low": "Red and green everywhere",
+                "medium": "Tree inside the house",
+                "high": "Socks hung by the fireplace"
+            }
+        },
+        {
+            "word": "Eid al-Fitr",
+            "hints": {
+                "low": "End of a long fast",
+                "medium": "Sighting the new moon",
+                "high": "Sweet vermicelli is a staple"
             }
         },
         {
             "word": "Deepavali",
             "hints": {
-                "low": "Festival of lights",
-                "medium": "Fireworks and sweets",
-                "high": "Narakasura defeated by Krishna"
+                "low": "Triumph of light over darkness",
+                "medium": "Oil lamps and noise",
+                "high": "New clothes and oil bath early morning"
             }
         },
         {
-            "word": "Jallikattu",
+            "word": "Holi",
             "hints": {
-                "low": "Bull sport",
-                "medium": "Held during Pongal",
-                "high": "Alanganallur is famous for this"
+                "low": "Spring celebration",
+                "medium": "Don't wear your best clothes",
+                "high": "Powder and water guns"
             }
         },
         {
-            "word": "Karthigai Deepam",
+            "word": "Easter",
             "hints": {
-                "low": "Lights festival",
-                "medium": "Oil lamps everywhere",
-                "high": "Huge fire lit on Thiruvannamalai hill"
+                "low": "Springtime Sunday",
+                "medium": "Hunting for painted eggs",
+                "high": "Resurrection celebration"
             }
         },
         {
-            "word": "Tamil New Year",
+            "word": "Pongal",
             "hints": {
-                "low": "Puthandu",
-                "medium": "First day of Chithirai",
-                "high": "Neem flowers and mango pachadi"
+                "low": "Harvest gratitude",
+                "medium": "Pot boiling over",
+                "high": "Cattle are worshipped on day three"
             }
         },
         {
-            "word": "Aadi Perukku",
+            "word": "Onam",
             "hints": {
-                "low": "Monsoon festival",
-                "medium": "Water worship",
-                "high": "Picnics by river banks"
-            }
-        },
-        {
-            "word": "Vinayagar Chaturthi",
-            "hints": {
-                "low": "Elephant God festival",
-                "medium": "Kozhukattai is special",
-                "high": "Idol immersion in sea"
+                "low": "Welcome back the King",
+                "medium": "Flower carpets on floor",
+                "high": "Grand feast on a banana leaf"
             }
         },
         {
             "word": "Navaratri",
             "hints": {
                 "low": "Nine nights",
-                "medium": "Golu dolls display",
-                "high": "Saraswati Puja and Vijayadashami"
+                "medium": "Dolls on steps",
+                "high": "Three goddesses worshipped"
             }
         },
         {
-            "word": "Thaipusam",
+            "word": "Eid al-Adha",
             "hints": {
-                "low": "Murugan festival",
-                "medium": "Kavadi carrying",
-                "high": "Yellow clothes, piercing rituals"
+                "low": "Festival of Sacrifice",
+                "medium": "Meat shared with poor",
+                "high": "Commemorates Abraham's test"
             }
         },
         {
-            "word": "Chithirai Thiruvizha",
+            "word": "Halloween",
             "hints": {
-                "low": "Madurai festival",
-                "medium": "Meenakshi Wedding",
-                "high": "Kallazhagar entering river Vaigai"
+                "low": "Spooky season",
+                "medium": "Carved pumpkins",
+                "high": "Trick or treat"
+            }
+        },
+        {
+            "word": "Thanksgiving",
+            "hints": {
+                "low": "Gratitude feast",
+                "medium": "Turkey is the main course",
+                "high": "Fourth Thursday in November"
+            }
+        },
+        {
+            "word": "Raksha Bandhan",
+            "hints": {
+                "low": "Sibling bond",
+                "medium": "Tying a thread on wrist",
+                "high": "Promise of protection"
+            }
+        },
+        {
+            "word": "Ganesh Chaturthi",
+            "hints": {
+                "low": "Elephant god arrival",
+                "medium": "Clay idols at home",
+                "high": "Immersion in water at the end"
+            }
+        },
+        {
+            "word": "Vesak",
+            "hints": {
+                "low": "Full moon in May",
+                "medium": "Colorful lanterns and pandals",
+                "high": "Birth, Enlightenment, and Death"
+            }
+        },
+        {
+            "word": "Chinese New Year",
+            "hints": {
+                "low": "Red envelopes",
+                "medium": "Year of a specific animal",
+                "high": "Lantern festival finale"
+            }
+        },
+        {
+            "word": "Valentine's Day",
+            "hints": {
+                "low": "Day of romance",
+                "medium": "Roses and chocolates",
+                "high": "Named after a martyred saint"
+            }
+        },
+        {
+            "word": "Oktoberfest",
+            "hints": {
+                "low": "German tradition",
+                "medium": "Giant mugs of brew",
+                "high": "Held in Munich mostly"
+            }
+        },
+        {
+            "word": "St. Patrick's Day",
+            "hints": {
+                "low": "Wear green or get pinched",
+                "medium": "Shamrock symbol",
+                "high": "Snakes driven out of Ireland"
+            }
+        },
+        {
+            "word": "Maha Shivaratri",
+            "hints": {
+                "low": "Night of the Destroyer",
+                "medium": "Staying awake all night",
+                "high": "Fasting and meditation"
+            }
+        },
+        {
+            "word": "Ramadan",
+            "hints": {
+                "low": "Holy month",
+                "medium": "No food or water sunrise to sunset",
+                "high": "Dates to break the fast"
+            }
+        },
+        {
+            "word": "Durga Puja",
+            "hints": {
+                "low": "Victory of Goddess",
+                "medium": "Pandals with artistic idols",
+                "high": "Sindoor Khela on last day"
+            }
+        },
+        {
+            "word": "Janmashtami",
+            "hints": {
+                "low": "Birth of the playful god",
+                "medium": "Breaking a pot of butter",
+                "high": "Human pyramid sport"
+            }
+        },
+        {
+            "word": "Karthigai Deepam",
+            "hints": {
+                "low": "Festival of lights (South)",
+                "medium": "Rows of oil lamps",
+                "high": "Giant bonfire on a hill"
+            }
+        },
+        {
+            "word": "Tamil New Year",
+            "hints": {
+                "low": "Mid-April beginning",
+                "medium": "Neem flowers and raw mango",
+                "high": "Reading the almanac (Panchangam)"
+            }
+        },
+        {
+            "word": "Thai Pusam",
+            "hints": {
+                "low": "Devotion and penance",
+                "medium": "Piercing the skin",
+                "high": "Carrying the Kavadi"
+            }
+        },
+        {
+            "word": "Karva Chauth",
+            "hints": {
+                "low": "Wife's prayer for husband",
+                "medium": "Fasting until moonrise",
+                "high": "Looking through a sieve"
+            }
+        },
+        {
+            "word": "Baisakhi",
+            "hints": {
+                "low": "Harvest in Punjab",
+                "medium": "Bhangra dance",
+                "high": "Formation of Khalsa"
+            }
+        },
+        {
+            "word": "Lohri",
+            "hints": {
+                "low": "Winter solstice end",
+                "medium": "Bonfire and popcorn",
+                "high": "Sugarcane harvest celebration"
+            }
+        },
+        {
+            "word": "Makar Sankranti",
+            "hints": {
+                "low": "Sun changes direction",
+                "medium": "Flying kites",
+                "high": "Sesame and jaggery sweets"
+            }
+        },
+        {
+            "word": "Good Friday",
+            "hints": {
+                "low": "Solemn remembrance",
+                "medium": "Hot cross buns",
+                "high": "Crucifixion commemoration"
+            }
+        },
+        {
+            "word": "Hanukkah",
+            "hints": {
+                "low": "Festival of Lights (Jewish)",
+                "medium": "Lighting the Menorah",
+                "high": "Eight nights long"
+            }
+        },
+        {
+            "word": "April Fools' Day",
+            "hints": {
+                "low": "Trust no one",
+                "medium": "Pranks and jokes",
+                "high": "Ends at noon traditionally"
+            }
+        },
+        {
+            "word": "New Year's Eve",
+            "hints": {
+                "low": "Counting down",
+                "medium": "Ball drop at midnight",
+                "high": "Resolutions made and broken"
+            }
+        },
+        {
+            "word": "Independence Day",
+            "hints": {
+                "low": "National pride",
+                "medium": "Flag hoisting",
+                "high": "Freedom from colonial rule"
+            }
+        },
+        {
+            "word": "Republic Day",
+            "hints": {
+                "low": "Constitution adopted",
+                "medium": "Grand parade in capital",
+                "high": "Military strength display"
+            }
+        },
+        {
+            "word": "Teacher's Day",
+            "hints": {
+                "low": "Honoring mentors",
+                "medium": "Students act as staff",
+                "high": "Birthday of a President"
+            }
+        },
+        {
+            "word": "Children's Day",
+            "hints": {
+                "low": "No uniform in school",
+                "medium": "Chacha Nehru",
+                "high": "Rose on the jacket"
+            }
+        },
+        {
+            "word": "Mother's Day",
+            "hints": {
+                "low": "Breakfast in bed",
+                "medium": "Flowers for mom",
+                "high": "Second Sunday in May"
+            }
+        },
+        {
+            "word": "Father's Day",
+            "hints": {
+                "low": "Dad jokes allowed",
+                "medium": "Socks or tie as gift",
+                "high": "Third Sunday in June"
+            }
+        },
+        {
+            "word": "Women's Day",
+            "hints": {
+                "low": "March 8th",
+                "medium": "Purple ribbons",
+                "high": "Celebrating gender equality"
+            }
+        },
+        {
+            "word": "Earth Day",
+            "hints": {
+                "low": "Love the planet",
+                "medium": "Planting trees",
+                "high": "April 22nd"
+            }
+        },
+        {
+            "word": "Yoga Day",
+            "hints": {
+                "low": "Stretch and breathe",
+                "medium": "Sun salutations",
+                "high": "June 21st"
+            }
+        },
+        {
+            "word": "Carnival",
+            "hints": {
+                "low": "Rio de Janeiro",
+                "medium": "Samba parades",
+                "high": "Masks and feathers"
+            }
+        },
+        {
+            "word": "Tomorrowland",
+            "hints": {
+                "low": "EDM music",
+                "medium": "Held in Belgium",
+                "high": "Fantasy decorations"
+            }
+        },
+        {
+            "word": "Black Friday",
+            "hints": {
+                "low": "Shopping madness",
+                "medium": "Huge discounts",
+                "high": "Day after Thanksgiving"
+            }
+        },
+        {
+            "word": "Poson Poya",
+            "hints": {
+                "low": "Arrival of Buddhism",
+                "medium": "Mihintale climb",
+                "high": "Arahat Mahinda"
+            }
+        },
+        {
+            "word": "Esala Perahera",
+            "hints": {
+                "low": "Kandy procession",
+                "medium": "Decorated elephants",
+                "high": "Sacred Tooth Relic casket"
+            }
+        },
+        {
+            "word": "Kandy Esala",
+            "hints": {
+                "low": "Grand procession",
+                "medium": "Whips cracking",
+                "high": "Water cutting ceremony"
+            }
+        },
+        {
+            "word": "Madurai Chithirai",
+            "hints": {
+                "low": "Celestial wedding",
+                "medium": "Gold horse vahana",
+                "high": "Lord entering the river"
+            }
+        },
+        {
+            "word": "Thrissur Pooram",
+            "hints": {
+                "low": "Kerala temple festival",
+                "medium": "Elephant lineup face-off",
+                "high": "Changing of colorful umbrellas"
             }
         }
     ]

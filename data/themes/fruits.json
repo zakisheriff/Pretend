@@ -6,81 +6,401 @@
         {
             "word": "Apple",
             "hints": {
-                "low": "Red or green fruit",
-                "medium": "Keeps the doctor away",
-                "high": "Newton discovered gravity with this"
+                "low": "Forbidden snack",
+                "medium": "Keeps the medical professional away",
+                "high": "Cyanide in the seeds"
             }
         },
         {
             "word": "Banana",
             "hints": {
-                "low": "Yellow curved fruit",
-                "medium": "Rich in potassium",
-                "high": "Minions love this"
+                "low": "Cartoon slip hazard",
+                "medium": "Radioactive due to Potassium",
+                "high": "Opened from the bottom by monkeys"
             }
         },
         {
             "word": "Mango",
             "hints": {
-                "low": "King of fruits",
-                "medium": "Yellow and sweet",
-                "high": "National fruit of India"
+                "low": "Summer obsession",
+                "medium": "Sticky fingers guaranteed",
+                "high": "Pickled when green, sweet when yellow"
             }
         },
         {
             "word": "Orange",
             "hints": {
-                "low": "Citrus fruit",
-                "medium": "Same name as its color",
-                "high": "High in Vitamin C"
+                "low": "Named after its color",
+                "medium": "Peel sprays flammable oil",
+                "high": "Divided into carpels (segments)"
             }
         },
         {
             "word": "Grapes",
             "hints": {
-                "low": "Small round berries",
-                "medium": "Wine is made from this",
-                "high": "Can be green, red, or purple bunches"
+                "low": "Fox couldn't reach them",
+                "medium": "Stomped by feet for a drink",
+                "high": "Dried to make raisins"
             }
         },
         {
             "word": "Strawberry",
             "hints": {
-                "low": "Red berry",
-                "medium": "Seeds on the outside",
-                "high": "Often paired with cream"
+                "low": "Wimbeldon treat",
+                "medium": "Seeds are on the outside",
+                "high": "Not technically a berry"
             }
         },
         {
             "word": "Watermelon",
             "hints": {
-                "low": "Summer fruit",
-                "medium": "Green outside, red inside",
-                "high": "High water content"
+                "low": "Heavy summer sphere",
+                "medium": "Spitting contest with seeds",
+                "high": "92% liquid content"
             }
         },
         {
             "word": "Pineapple",
             "hints": {
-                "low": "Tropical fruit",
-                "medium": "Spiky outside",
+                "low": "Sponge's house",
+                "medium": "Eating it eats you back (enzymes)",
                 "high": "Controversial pizza topping"
             }
         },
         {
             "word": "Jackfruit",
             "hints": {
-                "low": "Large fruit",
-                "medium": "Sticky sap inside",
-                "high": "State fruit of Kerala and TN"
+                "low": "Vegan pulled pork",
+                "medium": "Sticky white sap",
+                "high": "Largest tree-borne fruit"
             }
         },
         {
             "word": "Pomegranate",
             "hints": {
-                "low": "Red seeds inside",
-                "medium": "Hard red skin",
-                "high": "Name means seeded apple"
+                "low": "Exploding hand grenade name",
+                "medium": "Stains clothes permanently",
+                "high": "Eating only the arils"
+            }
+        },
+        {
+            "word": "Lemon",
+            "hints": {
+                "low": "Makes a sour face",
+                "medium": "Invisible ink",
+                "high": "Battery science experiment"
+            }
+        },
+        {
+            "word": "Coconut",
+            "hints": {
+                "low": "Hard nut to crack",
+                "medium": "Has three eyes",
+                "high": "Water inside, hair outside"
+            }
+        },
+        {
+            "word": "Avocado",
+            "hints": {
+                "low": "Millennial toast topping",
+                "medium": "Giant pit in the center",
+                "high": "Ripens for 5 minutes then rots"
+            }
+        },
+        {
+            "word": "Tomato",
+            "hints": {
+                "low": "Identity crisis (Fruit or Veg?)",
+                "medium": "Ketchup origin",
+                "high": "Knowledge is not putting it in fruit salad"
+            }
+        },
+        {
+            "word": "Durian",
+            "hints": {
+                "low": "Banned in hotels",
+                "medium": "Spiky football",
+                "high": "Smells like gym socks, tastes like custard"
+            }
+        },
+        {
+            "word": "Papaya",
+            "hints": {
+                "low": "Easy to scoop",
+                "medium": "Black peppery seeds",
+                "high": "Skin turns from green to orange"
+            }
+        },
+        {
+            "word": "Guava",
+            "hints": {
+                "low": "Hard seeds hurt teeth",
+                "medium": "Sprinkled with chili powder",
+                "high": "Pink or white inside"
+            }
+        },
+        {
+            "word": "Kiwi",
+            "hints": {
+                "low": "Named after a bird",
+                "medium": "Fuzzy brown skin",
+                "high": "Green flesh with black specs"
+            }
+        },
+        {
+            "word": "Cherry",
+            "hints": {
+                "low": "Top of the sundae",
+                "medium": "Tied into a knot with tongue",
+                "high": "Pits are poisonous"
+            }
+        },
+        {
+            "word": "Peach",
+            "hints": {
+                "low": "Emoji meaning",
+                "medium": "Velvet fuzzy skin",
+                "high": "James and the Giant..."
+            }
+        },
+        {
+            "word": "Pear",
+            "hints": {
+                "low": "Body shape description",
+                "medium": "Grainy texture",
+                "high": "Poached in wine"
+            }
+        },
+        {
+            "word": "Blueberry",
+            "hints": {
+                "low": "Muffin favorite",
+                "medium": "Stains tongue purple",
+                "high": "Superfood antioxidant"
+            }
+        },
+        {
+            "word": "Raspberry",
+            "hints": {
+                "low": "Blow a sound",
+                "medium": "Hollow in the middle",
+                "high": "Made of many drupelets"
+            }
+        },
+        {
+            "word": "Dragon Fruit",
+            "hints": {
+                "low": "Mythical creature name",
+                "medium": "Pink skin, white flesh",
+                "high": "Cactus species"
+            }
+        },
+        {
+            "word": "Lychee",
+            "hints": {
+                "low": "Reptile skin look",
+                "medium": "Translucent white flesh",
+                "high": "Floral scent"
+            }
+        },
+        {
+            "word": "Fig",
+            "hints": {
+                "low": "Religious leaf covering",
+                "medium": "Crunchy seeds inside",
+                "high": "Wasps die inside it (pollination)"
+            }
+        },
+        {
+            "word": "Date",
+            "hints": {
+                "low": "Calendar word",
+                "medium": "Desert staple",
+                "high": "Sticky brown sweetness"
+            }
+        },
+        {
+            "word": "Lime",
+            "hints": {
+                "low": "Put in the coconut",
+                "medium": "Green citrus",
+                "high": "Prevents scurvy"
+            }
+        },
+        {
+            "word": "Plum",
+            "hints": {
+                "low": "Little Jack Horner",
+                "medium": "Purple skin",
+                "high": "Becomes a prune when dried"
+            }
+        },
+        {
+            "word": "Apricot",
+            "hints": {
+                "low": "Smaller peach lookalike",
+                "medium": "Smooth stone inside",
+                "high": "Orange-yellow color"
+            }
+        },
+        {
+            "word": "Cantaloupe",
+            "hints": {
+                "low": "Orange melon",
+                "medium": "Net-like skin",
+                "high": "Served with prosciutto"
+            }
+        },
+        {
+            "word": "Honeydew",
+            "hints": {
+                "low": "Pale green melon",
+                "medium": "Smooth wax skin",
+                "high": "Filler fruit in salads"
+            }
+        },
+        {
+            "word": "Blackberry",
+            "hints": {
+                "low": "Phone brand name",
+                "medium": "Thorny bush",
+                "high": "Dark purple cluster"
+            }
+        },
+        {
+            "word": "Passion Fruit",
+            "hints": {
+                "low": "Strong emotion name",
+                "medium": "Wrinkly purple shell",
+                "high": "Slurpy yellow seeds"
+            }
+        },
+        {
+            "word": "Star Fruit",
+            "hints": {
+                "low": "Cut crosswise shape",
+                "medium": "Waxy skin",
+                "high": "Carambola"
+            }
+        },
+        {
+            "word": "Cranberry",
+            "hints": {
+                "low": "Thanksgiving sauce",
+                "medium": "Grows in water bogs",
+                "high": "Good for UTIs"
+            }
+        },
+        {
+            "word": "Grapefruit",
+            "hints": {
+                "low": "Bitter breakfast",
+                "medium": "Requires a special spoon",
+                "high": "Interferes with medication"
+            }
+        },
+        {
+            "word": "Olive",
+            "hints": {
+                "low": "Martini garnish",
+                "medium": "Press for oil",
+                "high": "Black or Green varieties"
+            }
+        },
+        {
+            "word": "Tamarind",
+            "hints": {
+                "low": "Sour pod",
+                "medium": "Sticky brown pulp",
+                "high": "Base for Sambar"
+            }
+        },
+        {
+            "word": "Gooseberry",
+            "hints": {
+                "low": "Amla",
+                "medium": "Sour and bitter",
+                "high": "Water tastes sweet after eating"
+            }
+        },
+        {
+            "word": "Custard Apple",
+            "hints": {
+                "low": "Sitaphal",
+                "medium": "Lumpy green skin",
+                "high": "Creamy sweet segments"
+            }
+        },
+        {
+            "word": "Sapota",
+            "hints": {
+                "low": "Chikoo",
+                "medium": "Brown skin like a potato",
+                "high": "Grainy sweet flesh"
+            }
+        },
+        {
+            "word": "Mangosteen",
+            "hints": {
+                "low": "Queen of fruits",
+                "medium": "Purple armor",
+                "high": "Garlic clove lookalike inside"
+            }
+        },
+        {
+            "word": "Rambutan",
+            "hints": {
+                "low": "Hairy lychee",
+                "medium": "Red sea urchin look",
+                "high": "Translucent flesh"
+            }
+        },
+        {
+            "word": "Persimmon",
+            "hints": {
+                "low": "Looks like a tomato",
+                "medium": "Chalky if unripe",
+                "high": "Jelly-like when ripe"
+            }
+        },
+        {
+            "word": "Mulberry",
+            "hints": {
+                "low": "Silkworm food",
+                "medium": "Stains hands red/purple",
+                "high": "Elongated berry"
+            }
+        },
+        {
+            "word": "Pomelo",
+            "hints": {
+                "low": "Grandfather of grapefruit",
+                "medium": "Thick pith layer",
+                "high": "Largest citrus"
+            }
+        },
+        {
+            "word": "Quince",
+            "hints": {
+                "low": "Hard yellow pear",
+                "medium": "Must be cooked to eat",
+                "high": "Made into membrillo paste"
+            }
+        },
+        {
+            "word": "Elderberry",
+            "hints": {
+                "low": "Monty Python insult",
+                "medium": "Immune system syrup",
+                "high": "Poisonous if raw"
+            }
+        },
+        {
+            "word": "Plantain",
+            "hints": {
+                "low": "Cooking banana",
+                "medium": "Starchy not sweet",
+                "high": "Fried into chips"
             }
         }
     ]
