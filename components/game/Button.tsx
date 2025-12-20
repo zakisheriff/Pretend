@@ -89,8 +89,8 @@ const styles = StyleSheet.create({
     },
 
     btn_small: { paddingVertical: 10, paddingHorizontal: 18, borderRadius: 20 },
-    btn_medium: { paddingVertical: 14, paddingHorizontal: 24, borderRadius: 24 },
-    btn_large: { paddingVertical: 18, paddingHorizontal: 32, borderRadius: 28 },
+    btn_medium: { paddingVertical: 14, paddingHorizontal: 22, borderRadius: 24 },
+    btn_large: { paddingVertical: 18, paddingHorizontal: 24, borderRadius: 28 },
 
     disabled: { opacity: 0.35 },
 

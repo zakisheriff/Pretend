@@ -21,9 +21,21 @@ export default function AddPlayersScreen() {
     const updatePlayerName = useGameStore((s) => s.updatePlayerName);
 
     const handleAdd = () => {
-        if (!name.trim() || players.length >= MAX_PLAYERS) return;
+        const trimmedName = name.trim();
+        if (!trimmedName || players.length >= MAX_PLAYERS) return;
+
+        // Check for duplicate names (case-insensitive)
+        const isDuplicate = players.some(
+            p => p.name.toLowerCase() === trimmedName.toLowerCase()
+        );
+
+        if (isDuplicate) {
+            haptics.warning();
+            return;
+        }
+
         haptics.light();
-        addPlayer(name);
+        addPlayer(trimmedName);
         setName('');
     };
 

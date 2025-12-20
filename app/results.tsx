@@ -80,7 +80,7 @@ export default function ResultsScreen() {
                         title="RETURN TO 221B"
                         onPress={handleHome}
                         variant="outline"
-                        size="medium"
+                        size="large"
                         icon={<Ionicons name="home-outline" size={16} color={Colors.candlelight} />}
                     />
                 </View>

@@ -52,9 +52,9 @@ export default function DiscussionScreen() {
 
             {!done && (
                 <View style={styles.controls}>
-                    <Button title={paused ? 'RESUME' : 'PAUSE'} onPress={handlePause} variant="outline" size="medium" style={{ flex: 1 }}
+                    <Button title={paused ? 'RESUME' : 'PAUSE'} onPress={handlePause} variant="outline" size="large" style={{ flex: 1 }}
                         icon={<Ionicons name={paused ? "play" : "pause"} size={16} color={Colors.candlelight} />} />
-                    <Button title="SKIP" onPress={handleSkip} variant="secondary" size="medium" style={{ flex: 1 }}
+                    <Button title="SKIP" onPress={handleSkip} variant="secondary" size="large" style={{ flex: 1 }}
                         icon={<Ionicons name="play-forward" size={16} color={Colors.parchment} />} />
                 </View>
             )}
@@ -66,7 +66,7 @@ export default function DiscussionScreen() {
 
             <View style={styles.footerRow}>
                 <Ionicons name="flame" size={14} color={Colors.candlelight} />
-                <Text style={styles.footerText}>{done ? 'Time to accuse the suspect' : 'Gather evidence and deduce'}</Text>
+                <Text style={styles.footerText}>{done ? 'Time to accuse the suspect ' : 'Gather evidence and deduce '}</Text>
             </View>
         </View>
     );
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     pausedBadge: { position: 'absolute', backgroundColor: 'rgba(26,20,16,0.9)', paddingHorizontal: 18, paddingVertical: 10, borderRadius: 10, borderWidth: 1, borderColor: Colors.candlelight },
     pausedText: { fontSize: 14, fontWeight: '800', color: Colors.gaslightAmber, letterSpacing: 3 },
     controls: { flexDirection: 'row', gap: 12, marginBottom: 16 },
-    footerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
+    footerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 10 },
 
     footerText: { fontSize: 12, color: Colors.candlelight, letterSpacing: 0.5 },
 });

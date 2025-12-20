@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
         fontSize: Typography.sizes.sm,
         fontWeight: Typography.weights.semibold,
         color: Colors.candlelight,
-        letterSpacing: 1,
         marginTop: Spacing.sm,
     },
 });

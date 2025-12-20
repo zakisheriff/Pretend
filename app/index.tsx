@@ -46,14 +46,14 @@ export default function HomeScreen() {
                         title="THE ART OF DEDUCTION"
                         onPress={handleHowToPlay}
                         variant="outline"
-                        size="medium"
+                        size="large"
                         icon={<Ionicons name="book-outline" size={16} color={Colors.candlelight} />}
                     />
                 </View>
 
                 <View style={styles.footer}>
                     <Ionicons name="home" size={14} color={Colors.grayMedium} />
-                    <Text style={styles.footerText}>221B Baker Street Experience</Text>
+                    <Text style={styles.footerText}>221B Baker Street Experience </Text>
                 </View>
             </View>
         </LinearGradient>

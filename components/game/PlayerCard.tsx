@@ -1,8 +1,8 @@
 import { Colors } from '@/constants/colors';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
-import { Dimensions, StyleSheet, Text, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
     runOnJS,
@@ -23,6 +23,9 @@ interface PlayerCardProps {
 }
 
 export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, onRename }) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [editName, setEditName] = useState(name);
+
     const translateX = useSharedValue(0);
     const itemHeight = useSharedValue(56);
     const opacity = useSharedValue(1);
@@ -35,6 +38,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, o
 
     const panGesture = Gesture.Pan()
         .activeOffsetX([-10, 10])
+        .enabled(!isEditing) // Disable swipe when editing
         .onUpdate((e) => {
             if (e.translationX < 0) {
                 translateX.value = Math.max(e.translationX, -SCREEN_WIDTH * 0.4);
@@ -68,6 +72,20 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, o
         return { opacity: show ? 1 : 0 };
     });
 
+    const handleStartEdit = () => {
+        setEditName(name);
+        setIsEditing(true);
+    };
+
+    const handleEndEdit = () => {
+        setIsEditing(false);
+        if (editName.trim() && editName.trim() !== name) {
+            onRename(editName.trim());
+        } else {
+            setEditName(name);
+        }
+    };
+
     return (
         <Animated.View style={[styles.container, containerStyle]}>
             <Animated.View style={[styles.deleteBtn, deleteStyle]}>
@@ -76,15 +94,28 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, o
             <GestureDetector gesture={panGesture}>
                 <Animated.View style={[styles.card, cardStyle]}>
                     <Text style={styles.index}>{index + 1}</Text>
-                    <TextInput
-                        style={styles.nameInput}
-                        value={name}
-                        onChangeText={onRename}
-                        maxLength={16}
-                        returnKeyType="done"
-                        placeholderTextColor={Colors.grayMedium}
-                    />
-                    <Ionicons name="pencil" size={12} color={Colors.candlelight} />
+
+                    {isEditing ? (
+                        <TextInput
+                            style={styles.nameInput}
+                            value={editName}
+                            onChangeText={setEditName}
+                            maxLength={16}
+                            autoFocus
+                            onBlur={handleEndEdit}
+                            onSubmitEditing={handleEndEdit}
+                            returnKeyType="done"
+                        />
+                    ) : (
+                        <TouchableOpacity
+                            style={styles.nameContainer}
+                            onPress={handleStartEdit}
+                            activeOpacity={0.7}
+                        >
+                            <Text style={styles.nameText}>{name}</Text>
+                            <Ionicons name="pencil" size={12} color={Colors.candlelight} />
+                        </TouchableOpacity>
+                    )}
                 </Animated.View>
             </GestureDetector>
         </Animated.View>
@@ -105,5 +136,10 @@ const styles = StyleSheet.create({
         borderWidth: 1.5, borderColor: Colors.grayMedium,
     },
     index: { fontSize: 14, fontWeight: '700', color: Colors.candlelight, width: 22 },
+    nameContainer: {
+        flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8,
+        paddingVertical: 8,
+    },
+    nameText: { flex: 1, fontSize: 16, fontWeight: '500', color: Colors.parchment, letterSpacing: 0.5 },
     nameInput: { flex: 1, fontSize: 16, fontWeight: '500', color: Colors.parchment, paddingVertical: 8, letterSpacing: 0.5 },
 });
