@@ -525,8 +525,8 @@ export const themes: Theme[] = [
             {
                 word: 'Appadi Podu',
                 hints: {
-                    low: 'Galatta song',
-                    medium: 'Simbu dance number',
+                    low: 'Kuthu song',
+                    medium: 'Vijay song',
                     high: 'From Ghilli, Vijay-Trisha',
                 },
             },
