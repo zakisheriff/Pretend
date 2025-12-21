@@ -1,7 +1,6 @@
 import { Colors } from '@/constants/colors';
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 
 interface AnimatedLogoProps {
@@ -36,35 +35,16 @@ export const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ size = 100 }) => {
     return (
         <View style={[styles.container, { width: size, height: size }]}>
             {/* Gaslight glow effect */}
-            <Animated.View style={[styles.glow, { width: size * 1.5, height: size * 1.5 }, glowStyle]} />
+            <Animated.View style={[styles.glow, { width: size * 1.3, height: size * 1.3 }, glowStyle]} />
 
-            {/* Main magnifying glass circle */}
-            <Animated.View style={[styles.circle, { width: size, height: size, borderRadius: size / 2 }, pulseStyle]}>
-                {/* Magnifying glass lens */}
-                <View style={[styles.lens, {
-                    width: size * 0.55,
-                    height: size * 0.55,
-                    borderRadius: size * 0.275,
-                    borderWidth: size * 0.04,
-                }]}>
-                    {/* Mystery question mark in lens */}
-                    <Text style={[styles.mystery, { fontSize: size * 0.25 }]}>?</Text>
-                </View>
-
-                {/* Magnifying glass handle */}
-                <View style={[styles.handle, {
-                    width: size * 0.12,
-                    height: size * 0.35,
-                    bottom: -size * 0.12,
-                    right: size * 0.08,
-                    borderRadius: size * 0.06,
-                }]} />
+            {/* Main logo image */}
+            <Animated.View style={[styles.logoContainer, { width: size, height: size, borderRadius: size / 2 }, pulseStyle]}>
+                <Image
+                    source={require('@/assets/images/new_logo.jpeg')}
+                    style={[styles.logo, { width: size * 0.9, height: size * 0.9, borderRadius: (size * 0.9) / 2 }]}
+                    resizeMode="cover"
+                />
             </Animated.View>
-
-            {/* Decorative icon */}
-            <View style={[styles.decorLeft, { left: size * 0.05, top: size * 0.5 }]}>
-                <Ionicons name="eye" size={16} color={Colors.candlelight} style={{ opacity: 0.7 }} />
-            </View>
         </View>
     );
 };
@@ -79,30 +59,13 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.gaslightAmber,
         borderRadius: 9999,
     },
-    circle: {
-        backgroundColor: Colors.grayDark,
+    logoContainer: {
         alignItems: 'center',
         justifyContent: 'center',
+        overflow: 'hidden',
+    },
+    logo: {
         borderWidth: 3,
         borderColor: Colors.candlelight,
-    },
-    lens: {
-        backgroundColor: 'rgba(232, 220, 196, 0.1)',
-        borderColor: Colors.candlelight,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    mystery: {
-        color: Colors.parchment,
-        fontWeight: '700',
-        opacity: 0.7,
-    },
-    handle: {
-        position: 'absolute',
-        backgroundColor: Colors.candlelight,
-        transform: [{ rotate: '45deg' }],
-    },
-    decorLeft: {
-        position: 'absolute',
     },
 });
