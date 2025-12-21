@@ -40,8 +40,8 @@ export const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ size = 100 }) => {
             {/* Main logo image */}
             <Animated.View style={[styles.logoContainer, { width: size, height: size, borderRadius: size / 2 }, pulseStyle]}>
                 <Image
-                    source={require('@/assets/images/new_logo.jpeg')}
-                    style={[styles.logo, { width: size * 0.9, height: size * 0.9, borderRadius: (size * 0.9) / 2 }]}
+                    source={require('@/assets/images/new_logo.png')}
+                    style={[styles.logo, { width: size*1.1, height: size*1.1, borderRadius: size / 2 }]}
                     resizeMode="cover"
                 />
             </Animated.View>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     logo: {
-        borderWidth: 3,
-        borderColor: Colors.candlelight,
+        // No border - logo fills the entire circle
     },
 });
+

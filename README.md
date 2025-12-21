@@ -16,7 +16,7 @@
 
 <br />
 
-<img src="assets/images/new_logo.jpeg" width="160" height="160" style="border-radius: 50%;" />
+<img src="assets/images/new_logo.png" width="160" height="160" style="border-radius: 50%;" />
 
 <br />
 <br />
