@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/common/BackButton';
 import { Button } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
@@ -56,9 +57,7 @@ export default function SelectModeScreen() {
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             <View style={styles.headerBar}>
-                <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
-                    <Ionicons name="arrow-back" size={24} color={Colors.parchment} />
-                </TouchableOpacity>
+                <BackButton />
             </View>
 
             <ScrollView

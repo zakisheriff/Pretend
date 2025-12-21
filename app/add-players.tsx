@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/common/BackButton';
 import { Button, PlayerCard } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
@@ -62,9 +63,7 @@ export default function AddPlayersScreen() {
             style={styles.container}
         >
             <View style={[styles.headerBar, { paddingTop: insets.top + 10 }]}>
-                <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
-                    <Ionicons name="arrow-back" size={24} color={Colors.parchment} />
-                </TouchableOpacity>
+                <BackButton />
             </View>
 
             <DraggableFlatList

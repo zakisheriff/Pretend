@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/common/BackButton';
 import { Button, ThemeCard } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { themes } from '@/data/themes';
@@ -6,7 +7,7 @@ import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function SelectThemeScreen() {
@@ -24,9 +25,7 @@ export default function SelectThemeScreen() {
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             <View style={styles.headerBar}>
-                <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
-                    <Ionicons name="arrow-back" size={24} color={Colors.parchment} />
-                </TouchableOpacity>
+                <BackButton />
             </View>
 
             <ScrollView
