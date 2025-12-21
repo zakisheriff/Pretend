@@ -1,35 +1,112 @@
 import { Colors } from '@/constants/colors';
+import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withSequence, withSpring } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const STEPS = [
-    { icon: 'people-outline', title: 'Gather Investigators', desc: '3-10 players on one phone' },
-    { icon: 'albums-outline', title: 'Choose Your Case', desc: 'Pick an evidence category' },
-    { icon: 'document-text-outline', title: 'Unseal Identities', desc: 'Each player drags up to see their role' },
-    { icon: 'search-outline', title: 'Detectives', desc: 'See the SECRET EVIDENCE. Describe without saying it' },
-    { icon: 'skull-outline', title: 'Suspects', desc: 'Only get a CLUE. Fake it and blend in' },
-    { icon: 'chatbubbles-outline', title: 'Investigate', desc: 'Discuss the evidence. Find the imposter' },
-    { icon: 'hand-left-outline', title: 'Accuse', desc: 'Vote who you think is the suspect' },
-    { icon: 'trophy-outline', title: 'Case Closed', desc: 'Detectives win if they apprehend the suspect' },
-] as const;
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
+const GAME_MODES_INFO = [
+    {
+        id: 'classic',
+        name: 'Classic Imposter',
+        icon: 'people-outline',
+        color: Colors.detective,
+        steps: [
+            { icon: 'eye-outline', role: 'Crewmates', desc: 'See the SECRET WORD and describe it' },
+            { icon: 'skull-outline', role: 'Imposter', desc: 'Only gets a CLUE - fake it and blend in!' },
+        ],
+        tip: 'Watch for vague descriptions and hesitation',
+    },
+    {
+        id: 'directors',
+        name: "Director's Cut",
+        icon: 'videocam-outline',
+        color: Colors.gaslightAmber,
+        steps: [
+            { icon: 'film-outline', role: 'Director', desc: 'Knows the MOVIE - answer yes/no questions' },
+            { icon: 'eye-outline', role: 'Viewers', desc: 'Get hints and ask questions to guess the movie' },
+        ],
+        tip: 'Ask clever yes/no questions to narrow it down',
+    },
+    {
+        id: 'mindsync',
+        name: 'Mind Sync',
+        icon: 'git-compare-outline',
+        color: Colors.candlelight,
+        steps: [
+            { icon: 'sync-outline', role: 'In Sync', desc: 'Answer the question - find who has a different one' },
+            { icon: 'flash-outline', role: 'Outlier', desc: 'Has a different question - give a believable answer!' },
+        ],
+        tip: 'Compare answers carefully - spot inconsistencies',
+    },
+    {
+        id: 'undercover',
+        name: 'Undercover',
+        icon: 'search-outline',
+        color: Colors.suspect,
+        steps: [
+            { icon: 'person-outline', role: 'Players', desc: 'Everyone gets a word - describe without revealing' },
+            { icon: 'help-outline', role: 'Undercover', desc: 'Has a DIFFERENT word from the same theme!' },
+        ],
+        tip: 'Your word might be similar but not the same - be careful!',
+    },
+];
+
+const COMMON_STEPS = [
+    { icon: 'people-outline', title: 'Gather Players', desc: '3-10 players on one phone' },
+    { icon: 'game-controller-outline', title: 'Choose Mode', desc: 'Pick your game style' },
+    { icon: 'finger-print-outline', title: 'Reveal Roles', desc: 'Drag up to see your secret role' },
+    { icon: 'chatbubbles-outline', title: 'Discuss', desc: 'Talk, question, and deduce' },
+    { icon: 'hand-left-outline', title: 'Vote', desc: 'Eliminate who you suspect' },
+    { icon: 'trophy-outline', title: 'Win', desc: 'Find the odd one out to win!' },
+];
+
+function CloseButton({ onPress }: { onPress: () => void }) {
+    const scale = useSharedValue(1);
+    const rotation = useSharedValue(0);
+
+    const handlePress = () => {
+        haptics.light();
+        scale.value = withSequence(
+            withSpring(0.85, { damping: 10, stiffness: 400 }),
+            withSpring(1.05, { damping: 8, stiffness: 300 }),
+            withSpring(1, { damping: 10, stiffness: 400 })
+        );
+        rotation.value = withSequence(
+            withSpring(90, { damping: 10, stiffness: 400 }),
+            withSpring(0, { damping: 10, stiffness: 400 })
+        );
+        setTimeout(onPress, 100);
+    };
+
+    const animatedStyle = useAnimatedStyle(() => ({
+        transform: [{ scale: scale.value }, { rotate: `${rotation.value}deg` }],
+    }));
+
+    return (
+        <AnimatedPressable onPress={handlePress} style={[styles.closeBtn, animatedStyle]}>
+            <Ionicons name="close" size={20} color={Colors.parchment} />
+        </AnimatedPressable>
+    );
+}
 
 export default function HowToPlayScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
+    const [selectedMode, setSelectedMode] = useState<string | null>(null);
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             <View style={styles.header}>
                 <View style={styles.titleRow}>
-                    <Ionicons name="search" size={20} color={Colors.parchment} />
-                    <Text style={styles.title}>THE ART OF DEDUCTION</Text>
+                    <Ionicons name="book-outline" size={20} color={Colors.parchment} />
+                    <Text style={styles.title}>HOW TO PLAY</Text>
                 </View>
-                <TouchableOpacity onPress={() => router.back()} style={styles.closeBtn}>
-                    <Ionicons name="close" size={20} color={Colors.parchment} />
-                </TouchableOpacity>
+                <CloseButton onPress={() => router.back()} />
             </View>
 
             <ScrollView
@@ -37,29 +114,88 @@ export default function HowToPlayScreen() {
                 contentContainerStyle={styles.scrollContent}
                 showsVerticalScrollIndicator={false}
             >
-                <View style={styles.steps}>
-                    {STEPS.map((s, i) => (
-                        <View key={i} style={styles.step}>
-                            <View style={styles.stepNum}><Text style={styles.stepNumText}>{i + 1}</Text></View>
-                            <View style={styles.stepBody}>
-                                <View style={styles.stepHeader}>
-                                    <Ionicons name={s.icon as any} size={16} color={Colors.candlelight} />
-                                    <Text style={styles.stepTitle}>{s.title}</Text>
+                {/* Common Steps */}
+                <View style={styles.section}>
+                    <Text style={styles.sectionTitle}>THE BASICS</Text>
+                    <View style={styles.steps}>
+                        {COMMON_STEPS.map((s, i) => (
+                            <View key={i} style={styles.step}>
+                                <View style={styles.stepNum}><Text style={styles.stepNumText}>{i + 1}</Text></View>
+                                <View style={styles.stepBody}>
+                                    <View style={styles.stepHeader}>
+                                        <Ionicons name={s.icon as any} size={14} color={Colors.candlelight} />
+                                        <Text style={styles.stepTitle}>{s.title}</Text>
+                                    </View>
+                                    <Text style={styles.stepDesc}>{s.desc}</Text>
                                 </View>
-                                <Text style={styles.stepDesc}>{s.desc}</Text>
                             </View>
-                        </View>
-                    ))}
+                        ))}
+                    </View>
                 </View>
 
+                {/* Game Modes */}
+                <View style={styles.section}>
+                    <Text style={styles.sectionTitle}>GAME MODES</Text>
+                    <Text style={styles.sectionSubtitle}>Tap a mode to learn more</Text>
+                    <View style={styles.modesGrid}>
+                        {GAME_MODES_INFO.map((mode) => (
+                            <Pressable
+                                key={mode.id}
+                                style={[
+                                    styles.modeCard,
+                                    selectedMode === mode.id && { borderColor: mode.color, backgroundColor: 'rgba(196,167,108,0.1)' }
+                                ]}
+                                onPress={() => {
+                                    haptics.light();
+                                    setSelectedMode(selectedMode === mode.id ? null : mode.id);
+                                }}
+                            >
+                                <Ionicons name={mode.icon as any} size={24} color={mode.color} />
+                                <Text style={[styles.modeName, selectedMode === mode.id && { color: mode.color }]}>
+                                    {mode.name}
+                                </Text>
+                            </Pressable>
+                        ))}
+                    </View>
+
+                    {/* Selected Mode Details */}
+                    {selectedMode && (
+                        <View style={styles.modeDetails}>
+                            {GAME_MODES_INFO.filter(m => m.id === selectedMode).map(mode => (
+                                <View key={mode.id}>
+                                    <View style={styles.rolesList}>
+                                        {mode.steps.map((step, i) => (
+                                            <View key={i} style={styles.roleItem}>
+                                                <View style={[styles.roleIcon, { backgroundColor: mode.color }]}>
+                                                    <Ionicons name={step.icon as any} size={16} color={Colors.victorianBlack} />
+                                                </View>
+                                                <View style={styles.roleBody}>
+                                                    <Text style={[styles.roleName, { color: mode.color }]}>{step.role}</Text>
+                                                    <Text style={styles.roleDesc}>{step.desc}</Text>
+                                                </View>
+                                            </View>
+                                        ))}
+                                    </View>
+                                    <View style={styles.modeTip}>
+                                        <Ionicons name="bulb" size={14} color={Colors.candlelight} />
+                                        <Text style={styles.modeTipText}>{mode.tip}</Text>
+                                    </View>
+                                </View>
+                            ))}
+                        </View>
+                    )}
+                </View>
+
+                {/* Pro Tips */}
                 <View style={styles.tipBox}>
                     <View style={styles.tipTitleRow}>
-                        <Ionicons name="bulb" size={16} color={Colors.candlelight} />
-                        <Text style={styles.tipTitle}>SHERLOCK'S TIPS</Text>
+                        <Ionicons name="sparkles" size={16} color={Colors.candlelight} />
+                        <Text style={styles.tipTitle}>PRO TIPS</Text>
                     </View>
-                    <Text style={styles.tip}>• Observe carefully, deduce wisely</Text>
-                    <Text style={styles.tip}>• Watch for hesitation and confusion</Text>
-                    <Text style={styles.tip}>• Suspects: match the group's energy</Text>
+                    <Text style={styles.tip}>• Watch for hesitation and vague answers</Text>
+                    <Text style={styles.tip}>• Ask follow-up questions to catch liars</Text>
+                    <Text style={styles.tip}>• Imposters: match the group's energy!</Text>
+                    <Text style={styles.tip}>• Don't be too specific or too vague</Text>
                 </View>
             </ScrollView>
         </View>
@@ -74,19 +210,37 @@ const styles = StyleSheet.create({
     closeBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: Colors.grayDark, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: 20, paddingBottom: 20, gap: 18 },
+    scrollContent: { paddingHorizontal: 20, paddingBottom: 30, gap: 24 },
 
-    steps: { gap: 12 },
-    step: { flexDirection: 'row', backgroundColor: Colors.grayDark, borderRadius: 14, padding: 14, gap: 14, borderWidth: 1.5, borderColor: Colors.grayMedium },
-    stepNum: { width: 26, height: 26, borderRadius: 13, backgroundColor: Colors.candlelight, alignItems: 'center', justifyContent: 'center' },
-    stepNumText: { fontSize: 12, fontWeight: '800', color: Colors.victorianBlack },
-    stepBody: { flex: 1, gap: 4 },
-    stepHeader: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-    stepTitle: { fontSize: 14, fontWeight: '700', color: Colors.parchment, letterSpacing: 0.5 },
-    stepDesc: { fontSize: 12, color: Colors.grayLight, lineHeight: 18 },
+    section: { gap: 12 },
+    sectionTitle: { fontSize: 12, fontWeight: '800', color: Colors.candlelight, letterSpacing: 2 },
+    sectionSubtitle: { fontSize: 11, color: Colors.grayLight, marginTop: -8 },
+
+    steps: { gap: 8 },
+    step: { flexDirection: 'row', backgroundColor: Colors.grayDark, borderRadius: 12, padding: 12, gap: 12, borderWidth: 1, borderColor: Colors.grayMedium },
+    stepNum: { width: 24, height: 24, borderRadius: 12, backgroundColor: Colors.candlelight, alignItems: 'center', justifyContent: 'center' },
+    stepNumText: { fontSize: 11, fontWeight: '800', color: Colors.victorianBlack },
+    stepBody: { flex: 1, gap: 2 },
+    stepHeader: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+    stepTitle: { fontSize: 13, fontWeight: '700', color: Colors.parchment },
+    stepDesc: { fontSize: 11, color: Colors.grayLight },
+
+    modesGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+    modeCard: { width: '48%', backgroundColor: Colors.grayDark, borderRadius: 12, padding: 14, alignItems: 'center', gap: 8, borderWidth: 1.5, borderColor: Colors.grayMedium },
+    modeName: { fontSize: 11, fontWeight: '700', color: Colors.parchment, textAlign: 'center' },
+
+    modeDetails: { backgroundColor: Colors.grayDark, borderRadius: 12, padding: 14, borderWidth: 1, borderColor: Colors.grayMedium },
+    rolesList: { gap: 10 },
+    roleItem: { flexDirection: 'row', gap: 10, alignItems: 'flex-start' },
+    roleIcon: { width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+    roleBody: { flex: 1 },
+    roleName: { fontSize: 12, fontWeight: '700' },
+    roleDesc: { fontSize: 11, color: Colors.grayLight, marginTop: 2 },
+    modeTip: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 12, paddingTop: 10, borderTopWidth: 1, borderTopColor: Colors.grayMedium },
+    modeTipText: { fontSize: 11, color: Colors.candlelight, fontStyle: 'italic', flex: 1 },
 
     tipBox: { backgroundColor: 'rgba(196,167,108,0.12)', borderRadius: 14, padding: 16, borderWidth: 1.5, borderColor: Colors.candlelight },
     tipTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
     tipTitle: { fontSize: 12, fontWeight: '800', color: Colors.candlelight, letterSpacing: 1 },
-    tip: { fontSize: 12, color: Colors.grayLight, marginBottom: 5 },
+    tip: { fontSize: 11, color: Colors.grayLight, marginBottom: 4 },
 });
