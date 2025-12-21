@@ -11,12 +11,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function DiscussionScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
-    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const settings = useGameStore((s) => s.settings);
-    const phase = useGameStore((s) => s.phase);
+    const gameMode = useGameStore((s) => s.gameMode);
+    const getModeDisplayInfo = useGameStore((s) => s.getModeDisplayInfo);
     const startVoting = useGameStore((s) => s.startVoting);
     const [time, setTime] = useState(settings.discussionTime);
     const [paused, setPaused] = useState(false);
+
+    const { specialRoleName } = getModeDisplayInfo();
 
     // Block back navigation during discussion
     useEffect(() => {
@@ -66,13 +69,24 @@ export default function DiscussionScreen() {
             )}
 
             {done && (
-                <Button title="MAKE YOUR ACCUSATION" onPress={handleVote} variant="primary" size="large"
+                <Button title={`FIND THE ${specialRoleName.toUpperCase()}`} onPress={handleVote} variant="primary" size="large"
                     icon={<Ionicons name="hand-left" size={18} color={Colors.victorianBlack} />} />
             )}
 
             <View style={styles.footerRow}>
                 <Ionicons name="flame" size={14} color={Colors.candlelight} />
-                <Text style={styles.footerText}>{done ? 'Time to accuse the suspect ' : 'Gather evidence and deduce '}</Text>
+                <Text style={styles.footerText}>
+                    {done
+                        ? `Time to find the ${specialRoleName.toLowerCase()}!`
+                        : gameMode === 'directors-cut'
+                            ? 'Ask yes/no questions to guess the movie'
+                            : gameMode === 'mind-sync'
+                                ? 'Compare answers - find who is out of sync'
+                                : gameMode === 'classic-imposter'
+                                    ? 'Describe your word - spot who has a different one!'
+                                    : 'Discuss and deduce who has a different word'
+                    }
+                </Text>
             </View>
         </View>
     );

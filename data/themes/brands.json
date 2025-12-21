@@ -1,7 +1,7 @@
 {
     "id": "brands",
     "name": "Brands",
-    "icon": "🏢",
+    "icon": "business-outline",
     "words": [
         {
             "word": "Apple",
@@ -150,9 +150,9 @@
         {
             "word": "KFC",
             "hints": {
-                "low": "Finger lickin' good",
+                "low": "11 herbs and spices",
                 "medium": "White suit and glasses",
-                "high": "11 herbs and spices"
+                "high": "Finger lickin' good"
             }
         },
         {
@@ -182,9 +182,9 @@
         {
             "word": "Lays",
             "hints": {
-                "low": "Selling air in bags",
+                "low": "Bet you can't eat just one",
                 "medium": "Yellow sunshine logo",
-                "high": "Bet you can't eat just one"
+                "high": "Selling air in bags"
             }
         },
         {

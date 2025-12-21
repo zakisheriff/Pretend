@@ -1,6 +1,22 @@
+import { getRandomMindSyncQuestion, getRandomMovie, getRandomUndercoverWord } from '@/data/game-modes';
 import { getRandomWord, getThemeById } from '@/data/themes';
-import { DEFAULT_SETTINGS, GameSettings, GameState, Player, Word } from '@/types/game';
+import { DEFAULT_SETTINGS, GameData, GameMode, GameSettings, GameState, Player, Word } from '@/types/game';
 import { create } from 'zustand';
+
+// Extended player role info to support all game modes
+interface PlayerRoleInfo {
+    isImposter: boolean;
+    word: string | null;
+    hint: string | null;
+    // Director's Cut specific
+    movie?: string | null;
+    genre?: string | null;
+    movieHint?: string | null;
+    isDirector?: boolean;
+    // Mind Sync specific
+    question?: string | null;
+    isOutlier?: boolean;
+}
 
 interface GameStore extends GameState {
     // Player management
@@ -9,6 +25,9 @@ interface GameStore extends GameState {
     updatePlayerName: (id: string, name: string) => void;
     reorderPlayers: (players: Player[]) => void;
     clearPlayers: () => void;
+
+    // Game mode selection
+    selectGameMode: (mode: GameMode) => void;
 
     // Theme and word
     selectTheme: (themeId: string) => void;
@@ -34,20 +53,23 @@ interface GameStore extends GameState {
 
     // Getters
     getCurrentPlayer: () => Player | null;
-    getPlayerRole: (playerId: string) => { isImposter: boolean; word: string | null; hint: string | null };
+    getPlayerRole: (playerId: string) => PlayerRoleInfo;
     getVoteResults: () => { playerId: string; votes: number }[];
     getMostVotedPlayer: () => Player | null;
+    getModeDisplayInfo: () => { specialRoleName: string; specialRoleIcon: string; normalRoleName: string };
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
 
 const initialState: GameState = {
+    gameMode: null,
     phase: 'setup',
     players: [],
     currentRevealIndex: 0,
     selectedThemeId: null,
     selectedWord: null,
     customWords: [],
+    gameData: null,
     settings: DEFAULT_SETTINGS,
     votes: {},
     impostersCaught: false,
@@ -97,6 +119,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
         set({ players: [] });
     },
 
+    // Game mode selection
+    selectGameMode: (mode: GameMode) => {
+        set({ gameMode: mode });
+    },
+
     // Theme and word
     selectTheme: (themeId: string) => {
         set({ selectedThemeId: themeId });
@@ -127,56 +154,95 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // Game flow
     startGame: () => {
         const state = get();
-        const { players, selectedThemeId, settings, customWords } = state;
+        const { players, gameMode, selectedThemeId, settings, customWords } = state;
 
         if (players.length < 3) return;
-        if (!selectedThemeId) return;
+        if (!gameMode) return;
 
-        // Get the theme and select a random word
+        let gameData: GameData = null;
         let selectedWord: Word | null = null;
 
-        if (selectedThemeId === 'custom') {
-            if (customWords.length === 0) return;
-            const randomCustomWord = customWords[Math.floor(Math.random() * customWords.length)];
-            selectedWord = {
-                word: randomCustomWord,
-                hints: {
-                    low: 'A custom word',
-                    medium: 'A custom word from your list',
-                    high: 'A custom word you added',
-                },
-            };
-        } else {
-            const theme = getThemeById(selectedThemeId);
-            if (!theme) return;
-            selectedWord = getRandomWord(theme);
+        // Select exactly 1 "imposter" (special role player)
+        const specialPlayerIndex = Math.floor(Math.random() * players.length);
+
+        switch (gameMode) {
+            case 'undercover-word': {
+                // For undercover-word, we can use themes OR the new undercover words
+                if (selectedThemeId && selectedThemeId !== 'undercover') {
+                    // Use traditional theme-based word (backward compatible)
+                    if (selectedThemeId === 'custom') {
+                        if (customWords.length === 0) return;
+                        const randomCustomWord = customWords[Math.floor(Math.random() * customWords.length)];
+                        selectedWord = {
+                            word: randomCustomWord,
+                            hints: {
+                                low: 'A custom word',
+                                medium: 'A custom word from your list',
+                                high: 'A custom word you added',
+                            },
+                        };
+                    } else {
+                        const theme = getThemeById(selectedThemeId);
+                        if (!theme) return;
+                        selectedWord = getRandomWord(theme);
+                    }
+                } else {
+                    // Use new undercover word pairs
+                    const wordPair = getRandomUndercoverWord();
+                    if (!wordPair) return;
+                    gameData = { type: 'undercover-word', data: wordPair };
+                    selectedWord = {
+                        word: wordPair.mainWord,
+                        hints: wordPair.hints,
+                    };
+                }
+                break;
+            }
+            case 'directors-cut': {
+                const movie = getRandomMovie();
+                if (!movie) return;
+                gameData = { type: 'directors-cut', data: movie };
+                break;
+            }
+            case 'mind-sync': {
+                const question = getRandomMindSyncQuestion();
+                if (!question) return;
+                gameData = { type: 'mind-sync', data: question };
+                break;
+            }
+            case 'classic-imposter': {
+                // Requires a theme to be selected
+                if (!selectedThemeId || selectedThemeId === 'custom') return;
+                const theme = getThemeById(selectedThemeId);
+                if (!theme || theme.words.length < 2) return;
+
+                // Pick two different random words from the theme
+                const shuffled = [...theme.words].sort(() => Math.random() - 0.5);
+                const crewmateWord = shuffled[0].word;
+                const imposterWord = shuffled[1].word;
+
+                gameData = {
+                    type: 'classic-imposter',
+                    data: { crewmateWord, imposterWord, themeName: theme.name },
+                };
+                break;
+            }
         }
 
-        if (!selectedWord) return;
-
-        // Keep players in their original order, but randomly select imposters
-        const imposterCount = Math.min(settings.imposterCount, Math.floor(players.length / 2));
-
-        // Fisher-Yates shuffle for truly random selection
-        const playerIndices = players.map((_, index) => index);
-        for (let i = playerIndices.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [playerIndices[i], playerIndices[j]] = [playerIndices[j], playerIndices[i]];
-        }
-        const imposterIndices = new Set(playerIndices.slice(0, imposterCount));
-
-        // Assign imposter role randomly while keeping original order
+        // Assign special role
         const assignedPlayers = players.map((player, index) => ({
             ...player,
-            isImposter: imposterIndices.has(index),
+            isImposter: index === specialPlayerIndex,
             hasRevealed: false,
             vote: undefined,
+            answer: undefined,
         }));
 
         set({
             phase: 'reveal',
             players: assignedPlayers,
             selectedWord,
+            gameData,
             currentRevealIndex: 0,
             votes: {},
             impostersCaught: false,
@@ -232,7 +298,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
 
     endGame: () => {
-        const state = get();
         const mostVoted = get().getMostVotedPlayer();
         const impostersCaught = mostVoted?.isImposter ?? false;
 
@@ -245,11 +310,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // Reset
     resetGame: () => {
         const state = get();
-        // Keep players and settings, reset game state
+        // Keep players, settings, and game mode - reset game state
         set({
             phase: 'setup',
             currentRevealIndex: 0,
             selectedWord: null,
+            gameData: null,
             votes: {},
             impostersCaught: false,
             players: state.players.map((p) => ({
@@ -257,6 +323,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 isImposter: false,
                 hasRevealed: false,
                 vote: undefined,
+                answer: undefined,
             })),
         });
     },
@@ -272,7 +339,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         return state.players[state.currentRevealIndex];
     },
 
-    getPlayerRole: (playerId: string) => {
+    getPlayerRole: (playerId: string): PlayerRoleInfo => {
         const state = get();
         const player = state.players.find((p) => p.id === playerId);
 
@@ -280,19 +347,117 @@ export const useGameStore = create<GameStore>((set, get) => ({
             return { isImposter: false, word: null, hint: null };
         }
 
-        if (player.isImposter) {
-            if (state.settings.hintStrength === 'none') {
-                return { isImposter: true, word: null, hint: null };
-            }
-            const hint = state.selectedWord?.hints[state.settings.hintStrength] ?? null;
-            return { isImposter: true, word: null, hint };
-        }
+        const { gameMode, gameData, selectedWord, settings } = state;
 
-        return {
-            isImposter: false,
-            word: state.selectedWord?.word ?? null,
-            hint: null,
-        };
+        switch (gameMode) {
+            case 'undercover-word': {
+                if (gameData?.type === 'undercover-word') {
+                    // Using new undercover word pairs
+                    const { mainWord, undercoverWord, hints } = gameData.data;
+                    if (player.isImposter) {
+                        // Undercover player gets the different word
+                        return {
+                            isImposter: true,
+                            word: undercoverWord,
+                            hint: null,
+                        };
+                    }
+                    return {
+                        isImposter: false,
+                        word: mainWord,
+                        hint: null,
+                    };
+                }
+                // Fallback to traditional theme-based (imposter gets hint only)
+                if (player.isImposter) {
+                    if (settings.hintStrength === 'none') {
+                        return { isImposter: true, word: null, hint: null };
+                    }
+                    const hint = selectedWord?.hints[settings.hintStrength] ?? null;
+                    return { isImposter: true, word: null, hint };
+                }
+                return {
+                    isImposter: false,
+                    word: selectedWord?.word ?? null,
+                    hint: null,
+                };
+            }
+
+            case 'directors-cut': {
+                if (gameData?.type !== 'directors-cut') {
+                    return { isImposter: false, word: null, hint: null };
+                }
+                const { movie, genre, hint } = gameData.data;
+                if (player.isImposter) {
+                    // Director knows the movie
+                    return {
+                        isImposter: true,
+                        isDirector: true,
+                        word: null,
+                        hint: null,
+                        movie,
+                        genre,
+                        movieHint: null,
+                    };
+                }
+                // Others get genre and hint
+                return {
+                    isImposter: false,
+                    isDirector: false,
+                    word: null,
+                    hint: null,
+                    movie: null,
+                    genre,
+                    movieHint: hint,
+                };
+            }
+
+            case 'mind-sync': {
+                if (gameData?.type !== 'mind-sync') {
+                    return { isImposter: false, word: null, hint: null };
+                }
+                const { mainQuestion, outlierQuestion } = gameData.data;
+                if (player.isImposter) {
+                    // Outlier gets different question
+                    return {
+                        isImposter: true,
+                        isOutlier: true,
+                        word: null,
+                        hint: null,
+                        question: outlierQuestion,
+                    };
+                }
+                return {
+                    isImposter: false,
+                    isOutlier: false,
+                    word: null,
+                    hint: null,
+                    question: mainQuestion,
+                };
+            }
+
+            case 'classic-imposter': {
+                if (gameData?.type !== 'classic-imposter') {
+                    return { isImposter: false, word: null, hint: null };
+                }
+                const { crewmateWord, imposterWord } = gameData.data;
+                if (player.isImposter) {
+                    return {
+                        isImposter: true,
+                        word: imposterWord,
+                        hint: null,
+                    };
+                }
+                return {
+                    isImposter: false,
+                    word: crewmateWord,
+                    hint: null,
+                };
+            }
+
+            default:
+                return { isImposter: false, word: null, hint: null };
+        }
     },
 
     getVoteResults: () => {
@@ -316,5 +481,24 @@ export const useGameStore = create<GameStore>((set, get) => ({
         if (results.length === 0 || results[0].votes === 0) return null;
 
         return state.players.find((p) => p.id === results[0].playerId) ?? null;
+    },
+
+    getModeDisplayInfo: () => {
+        const { gameMode } = get();
+        switch (gameMode) {
+            case 'undercover-word':
+                // Classic Imposter - Role is shown (Imposter vs Crewmate)
+                return { specialRoleName: 'Imposter', specialRoleIcon: 'person', normalRoleName: 'Crewmate' };
+            case 'directors-cut':
+                return { specialRoleName: 'Director', specialRoleIcon: 'videocam', normalRoleName: 'Viewer' };
+            case 'mind-sync':
+                // Mind Sync - Role is hidden during reveal, everyone is just "Player"
+                return { specialRoleName: 'Outlier', specialRoleIcon: 'flash', normalRoleName: 'Player' };
+            case 'classic-imposter':
+                // Undercover - Role is hidden, everyone is just "Player" during reveal
+                return { specialRoleName: 'Undercover', specialRoleIcon: 'search', normalRoleName: 'Player' };
+            default:
+                return { specialRoleName: 'Imposter', specialRoleIcon: 'person', normalRoleName: 'Crewmate' };
+        }
     },
 }));

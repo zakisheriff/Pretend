@@ -1,7 +1,7 @@
 {
     "id": "cars",
     "name": "Cars",
-    "icon": "🏎️",
+    "icon": "car-sport-outline",
     "words": [
         {
             "word": "Ferrari",

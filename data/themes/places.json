@@ -1,7 +1,7 @@
 {
     "id": "places",
     "name": "Places",
-    "icon": "🌍",
+    "icon": "globe-outline",
     "words": [
         {
             "word": "India",

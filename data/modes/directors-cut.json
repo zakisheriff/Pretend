@@ -1,0 +1,182 @@
+[
+    {
+        "movie": "Titanic",
+        "genre": "Romance / Drama",
+        "year": 1997,
+        "hint": "A tragic love story that ends in cold waters"
+    },
+    {
+        "movie": "The Dark Knight",
+        "genre": "Action / Superhero",
+        "year": 2008,
+        "hint": "A hero fights a chaotic villain who just wants to watch the world burn"
+    },
+    {
+        "movie": "Inception",
+        "genre": "Sci-Fi / Thriller",
+        "year": 2010,
+        "hint": "Dreams within dreams within dreams"
+    },
+    {
+        "movie": "Avatar",
+        "genre": "Sci-Fi / Adventure",
+        "year": 2009,
+        "hint": "Humans invade an alien world for resources"
+    },
+    {
+        "movie": "The Avengers",
+        "genre": "Action / Superhero",
+        "year": 2012,
+        "hint": "Earth's mightiest heroes team up"
+    },
+    {
+        "movie": "Frozen",
+        "genre": "Animation / Musical",
+        "year": 2013,
+        "hint": "Let it go, let it go..."
+    },
+    {
+        "movie": "Jurassic Park",
+        "genre": "Sci-Fi / Adventure",
+        "year": 1993,
+        "hint": "Life finds a way on an island"
+    },
+    {
+        "movie": "The Lion King",
+        "genre": "Animation / Drama",
+        "year": 1994,
+        "hint": "A young prince must reclaim his throne in the savanna"
+    },
+    {
+        "movie": "Forrest Gump",
+        "genre": "Drama / Comedy",
+        "year": 1994,
+        "hint": "Life is like a box of chocolates"
+    },
+    {
+        "movie": "The Matrix",
+        "genre": "Sci-Fi / Action",
+        "year": 1999,
+        "hint": "What if reality is just a simulation?"
+    },
+    {
+        "movie": "Harry Potter",
+        "genre": "Fantasy / Adventure",
+        "year": 2001,
+        "hint": "A boy wizard goes to magic school"
+    },
+    {
+        "movie": "Spider-Man",
+        "genre": "Action / Superhero",
+        "year": 2002,
+        "hint": "With great power comes great responsibility"
+    },
+    {
+        "movie": "Pirates of the Caribbean",
+        "genre": "Action / Adventure",
+        "year": 2003,
+        "hint": "Why is the rum always gone?"
+    },
+    {
+        "movie": "Finding Nemo",
+        "genre": "Animation / Adventure",
+        "year": 2003,
+        "hint": "A father searches the ocean for his lost son"
+    },
+    {
+        "movie": "Interstellar",
+        "genre": "Sci-Fi / Drama",
+        "year": 2014,
+        "hint": "Love transcends time and space... literally"
+    },
+    {
+        "movie": "3 Idiots",
+        "genre": "Comedy / Drama",
+        "year": 2009,
+        "hint": "All is well at an engineering college"
+    },
+    {
+        "movie": "Dangal",
+        "genre": "Sports / Drama",
+        "year": 2016,
+        "hint": "A father trains his daughters to be champions"
+    },
+    {
+        "movie": "Bahubali",
+        "genre": "Action / Epic",
+        "year": 2015,
+        "hint": "Why did he kill him? The answer spans kingdoms"
+    },
+    {
+        "movie": "KGF",
+        "genre": "Action / Crime",
+        "year": 2018,
+        "hint": "A man rises to rule the gold mines"
+    },
+    {
+        "movie": "Vikram",
+        "genre": "Action / Thriller",
+        "year": 2022,
+        "hint": "A masked vigilante hunts criminals"
+    },
+    {
+        "movie": "Pushpa",
+        "genre": "Action / Crime",
+        "year": 2021,
+        "hint": "The rise of a red sandalwood smuggler"
+    },
+    {
+        "movie": "RRR",
+        "genre": "Action / Drama",
+        "year": 2022,
+        "hint": "Two revolutionary friends fight the British"
+    },
+    {
+        "movie": "Sholay",
+        "genre": "Action / Drama",
+        "year": 1975,
+        "hint": "Kitne aadmi the? Classic villain confrontation"
+    },
+    {
+        "movie": "DDLJ",
+        "genre": "Romance",
+        "year": 1995,
+        "hint": "Ja Simran ja, jee le apni zindagi"
+    },
+    {
+        "movie": "The Shawshank Redemption",
+        "genre": "Drama",
+        "year": 1994,
+        "hint": "Hope can set you free from any prison"
+    },
+    {
+        "movie": "Gladiator",
+        "genre": "Action / Drama",
+        "year": 2000,
+        "hint": "A general becomes a slave becomes a legend"
+    },
+    {
+        "movie": "Fight Club",
+        "genre": "Drama / Thriller",
+        "year": 1999,
+        "hint": "The first rule is you do not talk about it"
+    },
+    {
+        "movie": "The Godfather",
+        "genre": "Crime / Drama",
+        "year": 1972,
+        "hint": "An offer you cannot refuse"
+    },
+    {
+        "movie": "Joker",
+        "genre": "Drama / Thriller",
+        "year": 2019,
+        "hint": "The origin of a clown prince of crime"
+    },
+    {
+        "movie": "Toy Story",
+        "genre": "Animation / Comedy",
+        "year": 1995,
+        "hint": "To infinity and beyond!"
+    }
+]

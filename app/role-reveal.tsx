@@ -54,12 +54,12 @@ export default function RoleRevealScreen() {
     };
 
     if (!currentPlayer) return null;
-    const { isImposter, word, hint } = getPlayerRole(currentPlayer.id);
+    const playerRole = getPlayerRole(currentPlayer.id);
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + 16 }]}>
             <View style={styles.progress}>
-                <Text style={styles.progressText}>Investigator {currentRevealIndex + 1} of {players.length}</Text>
+                <Text style={styles.progressText}>Player {currentRevealIndex + 1} of {players.length}</Text>
                 <View style={styles.progressBar}>
                     <View style={[styles.progressFill, { width: `${((currentRevealIndex + 1) / players.length) * 100}%` }]} />
                 </View>
@@ -69,11 +69,17 @@ export default function RoleRevealScreen() {
                 <RoleRevealCard
                     key={currentPlayer.id}
                     playerName={currentPlayer.name}
-                    isImposter={isImposter}
-                    word={word}
-                    hint={hint}
+                    isImposter={playerRole.isImposter}
+                    word={playerRole.word}
+                    hint={playerRole.hint}
                     hasRevealed={hasRevealed}
                     onReveal={handleReveal}
+                    movie={playerRole.movie}
+                    genre={playerRole.genre}
+                    movieHint={playerRole.movieHint}
+                    isDirector={playerRole.isDirector}
+                    question={playerRole.question}
+                    isOutlier={playerRole.isOutlier}
                 />
             </View>
 

@@ -13,7 +13,7 @@ export default function HomeScreen() {
     const insets = useSafeAreaInsets();
     const resetToHome = useGameStore((state) => state.resetToHome);
 
-    const handleNewGame = () => { resetToHome(); router.push('/add-players'); };
+    const handleNewGame = () => { resetToHome(); router.push('/select-mode'); };
     const handleHowToPlay = () => { router.push('/how-to-play'); };
 
     return (

@@ -14,19 +14,143 @@ export default function ResultsScreen() {
     const insets = useSafeAreaInsets();
     const players = useGameStore((s) => s.players);
     const selectedWord = useGameStore((s) => s.selectedWord);
+    const gameData = useGameStore((s) => s.gameData);
+    const gameMode = useGameStore((s) => s.gameMode);
     const impostersCaught = useGameStore((s) => s.impostersCaught);
     const getVoteResults = useGameStore((s) => s.getVoteResults);
+    const getModeDisplayInfo = useGameStore((s) => s.getModeDisplayInfo);
     const resetGame = useGameStore((s) => s.resetGame);
     const resetToHome = useGameStore((s) => s.resetToHome);
 
     const voteResults = getVoteResults();
-    const imposters = players.filter((p) => p.isImposter);
+    const specialPlayers = players.filter((p) => p.isImposter);
     const hasVotes = voteResults.some((r) => r.votes > 0);
+    const { specialRoleName, specialRoleIcon, normalRoleName } = getModeDisplayInfo();
 
     useEffect(() => { haptics.success(); }, []);
 
     const handleAgain = () => { haptics.medium(); resetGame(); router.push('/add-players'); };
     const handleHome = () => { haptics.medium(); resetToHome(); router.dismissAll(); router.replace('/'); };
+
+    // Mode-specific content
+    const getWinnerText = () => {
+        switch (gameMode) {
+            case 'undercover-word':
+                // Classic Imposter
+                return impostersCaught
+                    ? { title: 'CREWMATES WIN!', subtitle: 'The imposter was caught!' }
+                    : { title: 'IMPOSTER WINS!', subtitle: 'The imposter escaped justice!' };
+            case 'directors-cut':
+                return impostersCaught
+                    ? { title: 'VIEWERS WIN!', subtitle: 'The Director was identified!' }
+                    : { title: 'DIRECTOR WINS!', subtitle: 'The Director stayed hidden!' };
+            case 'mind-sync':
+                return impostersCaught
+                    ? { title: 'IN SYNC WINS!', subtitle: 'The outlier was spotted!' }
+                    : { title: 'OUTLIER WINS!', subtitle: 'The outlier stayed undetected!' };
+            case 'classic-imposter':
+                // Undercover
+                return impostersCaught
+                    ? { title: 'PLAYERS WIN!', subtitle: 'The undercover was found!' }
+                    : { title: 'UNDERCOVER WINS!', subtitle: 'The undercover blended in perfectly!' };
+            default:
+                return impostersCaught
+                    ? { title: 'INVESTIGATORS WIN!', subtitle: 'The suspect has been caught!' }
+                    : { title: 'IMPOSTER WINS!', subtitle: 'The imposter escaped justice!' };
+        }
+    };
+
+    const getRevealContent = () => {
+        switch (gameMode) {
+            case 'undercover-word':
+                if (gameData?.type === 'undercover-word') {
+                    return {
+                        label: 'THE WORDS WERE',
+                        content: (
+                            <View style={styles.wordCompare}>
+                                <View style={styles.wordBox}>
+                                    <Text style={styles.wordLabel}>CREWMATES</Text>
+                                    <Text style={styles.wordTextBig}>{gameData.data.mainWord}</Text>
+                                </View>
+                                <Text style={styles.vsText}>vs</Text>
+                                <View style={[styles.wordBox, styles.wordBoxDanger]}>
+                                    <Text style={styles.wordLabel}>UNDERCOVER</Text>
+                                    <Text style={[styles.wordTextBig, styles.dangerText]}>{gameData.data.undercoverWord}</Text>
+                                </View>
+                            </View>
+                        ),
+                    };
+                }
+                return {
+                    label: 'THE SECRET WORD WAS',
+                    content: <Text style={styles.wordText}>{selectedWord?.word}</Text>,
+                };
+
+            case 'directors-cut':
+                if (gameData?.type === 'directors-cut') {
+                    return {
+                        label: 'THE MOVIE WAS',
+                        content: (
+                            <View style={styles.movieReveal}>
+                                <Text style={styles.wordText}>{gameData.data.movie}</Text>
+                                <Text style={styles.genreText}>Genre: {gameData.data.genre}</Text>
+                            </View>
+                        ),
+                    };
+                }
+                return null;
+
+            case 'mind-sync':
+                if (gameData?.type === 'mind-sync') {
+                    return {
+                        label: 'THE QUESTIONS WERE',
+                        content: (
+                            <View style={styles.questionCompare}>
+                                <View style={styles.questionBox}>
+                                    <Text style={styles.questionLabel}>MAJORITY</Text>
+                                    <Text style={styles.questionText}>{gameData.data.mainQuestion}</Text>
+                                </View>
+                                <View style={[styles.questionBox, styles.questionBoxDanger]}>
+                                    <Text style={styles.questionLabel}>OUTLIER</Text>
+                                    <Text style={[styles.questionText, styles.dangerText]}>{gameData.data.outlierQuestion}</Text>
+                                </View>
+                            </View>
+                        ),
+                    };
+                }
+                return null;
+
+            case 'classic-imposter':
+                if (gameData?.type === 'classic-imposter') {
+                    return {
+                        label: `THE ${gameData.data.themeName.toUpperCase()} WERE`,
+                        content: (
+                            <View style={styles.wordCompare}>
+                                <View style={styles.wordBox}>
+                                    <Text style={styles.wordLabel}>CREWMATES</Text>
+                                    <Text style={styles.wordTextBig}>{gameData.data.crewmateWord}</Text>
+                                </View>
+                                <Text style={styles.vsText}>vs</Text>
+                                <View style={[styles.wordBox, styles.wordBoxDanger]}>
+                                    <Text style={styles.wordLabel}>IMPOSTER</Text>
+                                    <Text style={[styles.wordTextBig, styles.dangerText]}>{gameData.data.imposterWord}</Text>
+                                </View>
+                            </View>
+                        ),
+                    };
+                }
+                return null;
+
+            default:
+                return {
+                    label: 'THE SECRET WORD WAS',
+                    content: <Text style={styles.wordText}>{selectedWord?.word}</Text>,
+                };
+        }
+    };
+
+    const winnerText = getWinnerText();
+    const revealContent = getRevealContent();
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
@@ -49,44 +173,45 @@ export default function ResultsScreen() {
                         color={impostersCaught ? Colors.detective : Colors.suspect}
                     />
                     <Text style={[styles.winnerTitle, impostersCaught ? styles.winnerTitleInvestigators : styles.winnerTitleImposter]}>
-                        {impostersCaught ? 'INVESTIGATORS WIN!' : 'IMPOSTER WINS!'}
+                        {winnerText.title}
                     </Text>
                     <Text style={styles.winnerSubtitle}>
-                        {impostersCaught ? 'The suspect has been caught!' : 'The imposter escaped justice!'}
+                        {winnerText.subtitle}
                     </Text>
                 </Animated.View>
 
-                {/* Imposter Reveal */}
+                {/* Special Player Reveal */}
                 <Animated.View entering={FadeInUp.delay(400).springify()} style={styles.section}>
-                    <Text style={styles.sectionLabel}>THE IMPOSTER{imposters.length > 1 ? 'S' : ''}</Text>
+                    <Text style={styles.sectionLabel}>THE {specialRoleName.toUpperCase()}{specialPlayers.length > 1 ? 'S' : ''}</Text>
                     <View style={styles.imposterGrid}>
-                        {imposters.map((imposter) => (
-                            <View key={imposter.id} style={styles.imposterCard}>
+                        {specialPlayers.map((player) => (
+                            <View key={player.id} style={styles.imposterCard}>
                                 <View style={styles.imposterAvatar}>
-                                    <Ionicons name="skull" size={32} color={Colors.parchmentLight} />
+                                    <Ionicons name={specialRoleIcon as any} size={28} color={Colors.parchmentLight} />
                                 </View>
-                                <Text style={styles.imposterName}>{imposter.name}</Text>
-                                <Text style={styles.imposterRole}>Imposter</Text>
+                                <Text style={styles.imposterName}>{player.name}</Text>
+                                <Text style={styles.imposterRole}>{specialRoleName}</Text>
                             </View>
                         ))}
                     </View>
                 </Animated.View>
 
-                {/* Secret Word */}
-                <Animated.View entering={FadeInUp.delay(600).springify()} style={styles.section}>
-                    <Text style={styles.sectionLabel}>THE SECRET WORD WAS</Text>
-                    <View style={styles.wordCard}>
-                        <Ionicons name="eye" size={24} color={Colors.candlelight} style={{ marginBottom: 8 }} />
-                        <Text style={styles.wordText}>{selectedWord?.word}</Text>
-                    </View>
-                </Animated.View>
+                {/* Reveal Content */}
+                {revealContent && (
+                    <Animated.View entering={FadeInUp.delay(600).springify()} style={styles.section}>
+                        <Text style={styles.sectionLabel}>{revealContent.label}</Text>
+                        <View style={styles.wordCard}>
+                            {revealContent.content}
+                        </View>
+                    </Animated.View>
+                )}
 
                 {/* Vote Results (Only show if there were votes) */}
                 {hasVotes && (
                     <Animated.View entering={FadeInUp.delay(800).springify()} style={styles.section}>
                         <Text style={styles.sectionLabel}>VOTING RESULTS</Text>
                         <View style={styles.votesList}>
-                            {voteResults.map((r, i) => {
+                            {voteResults.map((r) => {
                                 const p = players.find((x) => x.id === r.playerId);
                                 if (r.votes === 0) return null;
                                 return (
@@ -99,7 +224,7 @@ export default function ResultsScreen() {
                                             <Text style={styles.voteCount}>{r.votes}</Text>
                                         </View>
                                         {p?.isImposter && (
-                                            <Ionicons name="skull" size={16} color={Colors.suspect} style={{ marginLeft: 6 }} />
+                                            <Ionicons name={specialRoleIcon as any} size={16} color={Colors.suspect} style={{ marginLeft: 4 }} />
                                         )}
                                     </View>
                                 );
@@ -152,7 +277,7 @@ const styles = StyleSheet.create({
         borderColor: Colors.suspect,
     },
     winnerTitle: {
-        fontSize: 28,
+        fontSize: 24,
         fontWeight: '900',
         letterSpacing: 2,
         textAlign: 'center',
@@ -200,6 +325,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 12,
     },
+    specialIcon: { fontSize: 28 },
     imposterName: {
         fontSize: 18,
         fontWeight: '700',
@@ -223,11 +349,83 @@ const styles = StyleSheet.create({
         borderColor: Colors.candlelight,
     },
     wordText: {
-        fontSize: 32,
+        fontSize: 28,
         fontWeight: '800',
         color: Colors.candlelight,
         letterSpacing: 2,
         textTransform: 'uppercase',
+        textAlign: 'center',
+    },
+
+    // Word Compare (for Undercover Word)
+    wordCompare: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+    },
+    wordBox: {
+        flex: 1,
+        alignItems: 'center',
+        gap: 6,
+    },
+    wordBoxDanger: {},
+    wordLabel: {
+        fontSize: 10,
+        fontWeight: '600',
+        color: Colors.grayLight,
+        letterSpacing: 2,
+    },
+    wordTextBig: {
+        fontSize: 18,
+        fontWeight: '700',
+        color: Colors.parchment,
+        textAlign: 'center',
+    },
+    vsText: {
+        fontSize: 14,
+        color: Colors.grayMedium,
+        fontWeight: '600',
+    },
+    dangerText: { color: Colors.suspect },
+
+    // Movie Reveal
+    movieReveal: {
+        alignItems: 'center',
+        gap: 8,
+    },
+    genreText: {
+        fontSize: 13,
+        color: Colors.grayLight,
+        fontStyle: 'italic',
+    },
+
+    // Question Compare
+    questionCompare: {
+        gap: 16,
+        width: '100%',
+    },
+    questionBox: {
+        padding: 16,
+        backgroundColor: 'rgba(196, 167, 108, 0.1)',
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: Colors.candlelight,
+    },
+    questionBoxDanger: {
+        backgroundColor: 'rgba(160, 32, 32, 0.1)',
+        borderColor: Colors.suspect,
+    },
+    questionLabel: {
+        fontSize: 10,
+        fontWeight: '600',
+        color: Colors.grayLight,
+        letterSpacing: 2,
+        marginBottom: 8,
+    },
+    questionText: {
+        fontSize: 15,
+        color: Colors.parchment,
+        lineHeight: 22,
     },
 
     // Vote Results
@@ -265,6 +463,7 @@ const styles = StyleSheet.create({
         borderRadius: 12,
     },
     voteCount: { fontSize: 13, fontWeight: '700', color: Colors.victorianBlack },
+    specialBadgeSmall: { fontSize: 16, marginLeft: 4 },
 
     // Buttons
     buttons: { gap: 12, marginTop: 8 },

@@ -1,0 +1,302 @@
+[
+    {
+        "mainWord": "Apple",
+        "undercoverWord": "Pear",
+        "category": "fruits",
+        "hints": {
+            "low": "Food",
+            "medium": "A type of fruit",
+            "high": "Grows on trees"
+        }
+    },
+    {
+        "mainWord": "Pizza",
+        "undercoverWord": "Burger",
+        "category": "food",
+        "hints": {
+            "low": "Food",
+            "medium": "Fast food",
+            "high": "Popular Western food"
+        }
+    },
+    {
+        "mainWord": "Coffee",
+        "undercoverWord": "Tea",
+        "category": "beverages",
+        "hints": {
+            "low": "Drink",
+            "medium": "Hot beverage",
+            "high": "Popular morning drink"
+        }
+    },
+    {
+        "mainWord": "Cat",
+        "undercoverWord": "Dog",
+        "category": "animals",
+        "hints": {
+            "low": "Living thing",
+            "medium": "Pet animal",
+            "high": "Common household pet"
+        }
+    },
+    {
+        "mainWord": "Football",
+        "undercoverWord": "Cricket",
+        "category": "sports",
+        "hints": {
+            "low": "Activity",
+            "medium": "Sport",
+            "high": "Popular outdoor game"
+        }
+    },
+    {
+        "mainWord": "Beach",
+        "undercoverWord": "Pool",
+        "category": "places",
+        "hints": {
+            "low": "Location",
+            "medium": "Place with water",
+            "high": "Swimming spot"
+        }
+    },
+    {
+        "mainWord": "Guitar",
+        "undercoverWord": "Violin",
+        "category": "instruments",
+        "hints": {
+            "low": "Object",
+            "medium": "Musical instrument",
+            "high": "String instrument"
+        }
+    },
+    {
+        "mainWord": "Summer",
+        "undercoverWord": "Spring",
+        "category": "seasons",
+        "hints": {
+            "low": "Time",
+            "medium": "Season",
+            "high": "Warm weather season"
+        }
+    },
+    {
+        "mainWord": "Harry Potter",
+        "undercoverWord": "Lord of the Rings",
+        "category": "movies",
+        "hints": {
+            "low": "Entertainment",
+            "medium": "Fantasy movie",
+            "high": "Epic fantasy series"
+        }
+    },
+    {
+        "mainWord": "Instagram",
+        "undercoverWord": "TikTok",
+        "category": "apps",
+        "hints": {
+            "low": "Technology",
+            "medium": "App",
+            "high": "Social media platform"
+        }
+    },
+    {
+        "mainWord": "Paris",
+        "undercoverWord": "London",
+        "category": "cities",
+        "hints": {
+            "low": "Place",
+            "medium": "City",
+            "high": "European capital"
+        }
+    },
+    {
+        "mainWord": "Doctor",
+        "undercoverWord": "Nurse",
+        "category": "professions",
+        "hints": {
+            "low": "Person",
+            "medium": "Profession",
+            "high": "Healthcare worker"
+        }
+    },
+    {
+        "mainWord": "Lion",
+        "undercoverWord": "Tiger",
+        "category": "animals",
+        "hints": {
+            "low": "Animal",
+            "medium": "Wild animal",
+            "high": "Big cat"
+        }
+    },
+    {
+        "mainWord": "Bicycle",
+        "undercoverWord": "Motorcycle",
+        "category": "vehicles",
+        "hints": {
+            "low": "Object",
+            "medium": "Vehicle",
+            "high": "Two-wheeled transport"
+        }
+    },
+    {
+        "mainWord": "Chocolate",
+        "undercoverWord": "Vanilla",
+        "category": "flavors",
+        "hints": {
+            "low": "Taste",
+            "medium": "Flavor",
+            "high": "Ice cream flavor"
+        }
+    },
+    {
+        "mainWord": "Rain",
+        "undercoverWord": "Snow",
+        "category": "weather",
+        "hints": {
+            "low": "Nature",
+            "medium": "Weather",
+            "high": "Precipitation"
+        }
+    },
+    {
+        "mainWord": "King",
+        "undercoverWord": "Queen",
+        "category": "royalty",
+        "hints": {
+            "low": "Person",
+            "medium": "Ruler",
+            "high": "Royal title"
+        }
+    },
+    {
+        "mainWord": "Mountain",
+        "undercoverWord": "Hill",
+        "category": "landforms",
+        "hints": {
+            "low": "Nature",
+            "medium": "Landform",
+            "high": "Elevated terrain"
+        }
+    },
+    {
+        "mainWord": "Burger",
+        "undercoverWord": "Sandwich",
+        "category": "food",
+        "hints": {
+            "low": "Food",
+            "medium": "Snack",
+            "high": "Bread-based meal"
+        }
+    },
+    {
+        "mainWord": "Batman",
+        "undercoverWord": "Spider-Man",
+        "category": "superheroes",
+        "hints": {
+            "low": "Character",
+            "medium": "Hero",
+            "high": "Superhero"
+        }
+    },
+    {
+        "mainWord": "iPhone",
+        "undercoverWord": "Samsung",
+        "category": "phones",
+        "hints": {
+            "low": "Device",
+            "medium": "Phone",
+            "high": "Smartphone brand"
+        }
+    },
+    {
+        "mainWord": "Cake",
+        "undercoverWord": "Pastry",
+        "category": "desserts",
+        "hints": {
+            "low": "Food",
+            "medium": "Dessert",
+            "high": "Sweet baked item"
+        }
+    },
+    {
+        "mainWord": "Titanic",
+        "undercoverWord": "Avatar",
+        "category": "movies",
+        "hints": {
+            "low": "Entertainment",
+            "medium": "Movie",
+            "high": "James Cameron film"
+        }
+    },
+    {
+        "mainWord": "Biryani",
+        "undercoverWord": "Pulao",
+        "category": "food",
+        "hints": {
+            "low": "Food",
+            "medium": "Rice dish",
+            "high": "Indian rice preparation"
+        }
+    },
+    {
+        "mainWord": "Dosa",
+        "undercoverWord": "Idli",
+        "category": "food",
+        "hints": {
+            "low": "Food",
+            "medium": "South Indian",
+            "high": "Breakfast item"
+        }
+    },
+    {
+        "mainWord": "Sachin Tendulkar",
+        "undercoverWord": "Virat Kohli",
+        "category": "sports",
+        "hints": {
+            "low": "Person",
+            "medium": "Sportsperson",
+            "high": "Indian cricketer"
+        }
+    },
+    {
+        "mainWord": "MS Dhoni",
+        "undercoverWord": "Rohit Sharma",
+        "category": "sports",
+        "hints": {
+            "low": "Person",
+            "medium": "Captain",
+            "high": "Indian cricket captain"
+        }
+    },
+    {
+        "mainWord": "Rajinikanth",
+        "undercoverWord": "Kamal Haasan",
+        "category": "actors",
+        "hints": {
+            "low": "Person",
+            "medium": "Actor",
+            "high": "Tamil superstar"
+        }
+    },
+    {
+        "mainWord": "Shah Rukh Khan",
+        "undercoverWord": "Salman Khan",
+        "category": "actors",
+        "hints": {
+            "low": "Person",
+            "medium": "Actor",
+            "high": "Bollywood star"
+        }
+    },
+    {
+        "mainWord": "Messi",
+        "undercoverWord": "Ronaldo",
+        "category": "sports",
+        "hints": {
+            "low": "Person",
+            "medium": "Athlete",
+            "high": "Football legend"
+        }
+    }
+]

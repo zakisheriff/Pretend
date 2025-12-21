@@ -1,7 +1,7 @@
 {
     "id": "fruits",
     "name": "Fruits",
-    "icon": "🍎",
+    "icon": "nutrition-outline",
     "words": [
         {
             "word": "Apple",

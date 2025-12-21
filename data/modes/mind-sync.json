@@ -1,0 +1,262 @@
+[
+    {
+        "mainQuestion": "Name a type of pizza you love",
+        "outlierQuestion": "Name a pizza topping you hate",
+        "category": "food"
+    },
+    {
+        "mainQuestion": "Name your favorite animal sound",
+        "outlierQuestion": "Name an animal sound you dislike",
+        "category": "animals"
+    },
+    {
+        "mainQuestion": "Name a childhood game you loved",
+        "outlierQuestion": "Name a game you disliked as a child",
+        "category": "activities"
+    },
+    {
+        "mainQuestion": "Name a movie character you relate to",
+        "outlierQuestion": "Name a character you cannot relate to",
+        "category": "movies"
+    },
+    {
+        "mainQuestion": "Name a festival you enjoy",
+        "outlierQuestion": "Name a festival you avoid",
+        "category": "events"
+    },
+    {
+        "mainQuestion": "Name a type of fruit you love",
+        "outlierQuestion": "Name a fruit you hate",
+        "category": "food"
+    },
+    {
+        "mainQuestion": "Name a song that makes you emotional",
+        "outlierQuestion": "Name a song that annoys you",
+        "category": "music"
+    },
+    {
+        "mainQuestion": "Name a thing you do for fun outdoors",
+        "outlierQuestion": "Name an indoor activity you dislike",
+        "category": "activities"
+    },
+    {
+        "mainQuestion": "Name a language you want to learn",
+        "outlierQuestion": "Name a language you don’t want to learn",
+        "category": "education"
+    },
+    {
+        "mainQuestion": "Name your favorite social media platform",
+        "outlierQuestion": "Name a platform you dislike",
+        "category": "technology"
+    },
+    {
+        "mainQuestion": "Name a food you crave at night",
+        "outlierQuestion": "Name a food you’d never eat at night",
+        "category": "food"
+    },
+    {
+        "mainQuestion": "Name a famous actor you like",
+        "outlierQuestion": "Name an actor you dislike",
+        "category": "movies"
+    },
+    {
+        "mainQuestion": "Name your favorite type of candy",
+        "outlierQuestion": "Name a candy you dislike",
+        "category": "food"
+    },
+    {
+        "mainQuestion": "Name something that makes you laugh",
+        "outlierQuestion": "Name something that annoys you",
+        "category": "emotions"
+    },
+    {
+        "mainQuestion": "Name a city you want to live in",
+        "outlierQuestion": "Name a city you would never live in",
+        "category": "travel"
+    },
+    {
+        "mainQuestion": "Name a color that makes you happy",
+        "outlierQuestion": "Name a color that makes you sad",
+        "category": "preferences"
+    },
+    {
+        "mainQuestion": "Name a dessert you crave often",
+        "outlierQuestion": "Name a dessert you dislike",
+        "category": "food"
+    },
+    {
+        "mainQuestion": "Name a game you play often",
+        "outlierQuestion": "Name a game you never play",
+        "category": "activities"
+    },
+    {
+        "mainQuestion": "Name a type of tea or coffee you like",
+        "outlierQuestion": "Name a drink you dislike",
+        "category": "drinks"
+    },
+    {
+        "mainQuestion": "Name a fictional world you’d love to visit",
+        "outlierQuestion": "Name a fictional world you’d avoid",
+        "category": "movies"
+    },
+    {
+        "mainQuestion": "Name a person you admire",
+        "outlierQuestion": "Name someone you don’t like",
+        "category": "people"
+    },
+    {
+        "mainQuestion": "Name a childhood toy you loved",
+        "outlierQuestion": "Name a toy you disliked",
+        "category": "childhood"
+    },
+    {
+        "mainQuestion": "Name a hobby you enjoy indoors",
+        "outlierQuestion": "Name a hobby you dislike outdoors",
+        "category": "activities"
+    },
+    {
+        "mainQuestion": "Name a subject you excel in",
+        "outlierQuestion": "Name a subject you struggle with",
+        "category": "education"
+    },
+    {
+        "mainQuestion": "Name a scent you love",
+        "outlierQuestion": "Name a scent you hate",
+        "category": "preferences"
+    },
+    {
+        "mainQuestion": "Name a book that inspired you",
+        "outlierQuestion": "Name a book that bored you",
+        "category": "media"
+    },
+    {
+        "mainQuestion": "Name a favorite comfort food",
+        "outlierQuestion": "Name a food you dislike eating",
+        "category": "food"
+    },
+    {
+        "mainQuestion": "Name a type of music you enjoy",
+        "outlierQuestion": "Name a music genre you dislike",
+        "category": "music"
+    },
+    {
+        "mainQuestion": "Name a social activity you enjoy",
+        "outlierQuestion": "Name a social activity you avoid",
+        "category": "activities"
+    },
+    {
+        "mainQuestion": "Name a piece of clothing you wear often",
+        "outlierQuestion": "Name a piece of clothing you avoid",
+        "category": "clothing"
+    },
+    {
+        "mainQuestion": "Name a fast food you like",
+        "outlierQuestion": "Name a fast food you dislike",
+        "category": "food"
+    },
+    {
+        "mainQuestion": "Name a vacation activity you enjoy",
+        "outlierQuestion": "Name a vacation activity you dislike",
+        "category": "travel"
+    },
+    {
+        "mainQuestion": "Name a technology gadget you love",
+        "outlierQuestion": "Name a technology you hate",
+        "category": "technology"
+    },
+    {
+        "mainQuestion": "Name a TV show that made you cry",
+        "outlierQuestion": "Name a TV show that annoyed you",
+        "category": "media"
+    },
+    {
+        "mainQuestion": "Name a city you find romantic",
+        "outlierQuestion": "Name a city you find boring",
+        "category": "travel"
+    },
+    {
+        "mainQuestion": "Name a celebrity you admire",
+        "outlierQuestion": "Name a celebrity you dislike",
+        "category": "people"
+    },
+    {
+        "mainQuestion": "Name a type of fruit juice you enjoy",
+        "outlierQuestion": "Name a drink you cannot drink",
+        "category": "drinks"
+    },
+    {
+        "mainQuestion": "Name a game show or reality show you enjoy",
+        "outlierQuestion": "Name a show you never watch",
+        "category": "media"
+    },
+    {
+        "mainQuestion": "Name a snack you eat on the go",
+        "outlierQuestion": "Name a snack you dislike on the go",
+        "category": "food"
+    },
+    {
+        "mainQuestion": "Name a place that relaxes you",
+        "outlierQuestion": "Name a place that stresses you out",
+        "category": "emotions"
+    },
+    {
+        "mainQuestion": "Name a childhood memory that makes you happy",
+        "outlierQuestion": "Name a childhood memory that upsets you",
+        "category": "childhood"
+    },
+    {
+        "mainQuestion": "Name a sport you enjoy watching",
+        "outlierQuestion": "Name a sport you dislike watching",
+        "category": "sports"
+    },
+    {
+        "mainQuestion": "Name a vacation destination you love",
+        "outlierQuestion": "Name a destination you’d never visit",
+        "category": "travel"
+    },
+    {
+        "mainQuestion": "Name a guilty pleasure TV show",
+        "outlierQuestion": "Name a show you’re embarrassed to like",
+        "category": "media"
+    },
+    {
+        "mainQuestion": "Name a flavor of ice cream you dislike",
+        "outlierQuestion": "Name a flavor you love",
+        "category": "food"
+    },
+    {
+        "mainQuestion": "Name a smell that reminds you of home",
+        "outlierQuestion": "Name a smell that repulses you",
+        "category": "preferences"
+    },
+    {
+        "mainQuestion": "Name a famous singer you love",
+        "outlierQuestion": "Name a famous singer you dislike",
+        "category": "music"
+    },
+    {
+        "mainQuestion": "Name a sport you’d like to try",
+        "outlierQuestion": "Name a sport you’d never try",
+        "category": "sports"
+    },
+    {
+        "mainQuestion": "Name a childhood snack you loved",
+        "outlierQuestion": "Name a snack you disliked as a child",
+        "category": "childhood"
+    },
+    {
+        "mainQuestion": "Name a board game you enjoy",
+        "outlierQuestion": "Name a board game you dislike",
+        "category": "activities"
+    },
+    {
+        "mainQuestion": "Name a type of movie you avoid",
+        "outlierQuestion": "Name a movie you’d watch repeatedly",
+        "category": "movies"
+    },
+    {
+        "mainQuestion": "Name a talent you admire",
+        "outlierQuestion": "Name a talent you wish you had",
+        "category": "self-improvement"
+    }
+]

@@ -41,10 +41,17 @@ export default function AddPlayersScreen() {
         setName('');
     };
 
+    const gameMode = useGameStore((s) => s.gameMode);
+
     const handleContinue = () => {
         if (players.length < MIN_PLAYERS) { haptics.warning(); return; }
         haptics.medium();
-        router.push('/select-theme');
+        // These modes need theme selection
+        if (gameMode === 'undercover-word' || gameMode === 'classic-imposter') {
+            router.push('/select-theme');
+        } else {
+            router.push('/game-settings');
+        }
     };
 
     const canContinue = players.length >= MIN_PLAYERS;

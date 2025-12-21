@@ -1,4 +1,5 @@
 import { Colors } from '@/constants/colors';
+import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
@@ -14,6 +15,13 @@ interface RoleRevealCardProps {
     hint: string | null;
     hasRevealed: boolean;
     onReveal: () => void;
+    // Extended props for all modes
+    movie?: string | null;
+    genre?: string | null;
+    movieHint?: string | null;
+    isDirector?: boolean;
+    question?: string | null;
+    isOutlier?: boolean;
 }
 
 export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
@@ -23,9 +31,19 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
     hint,
     hasRevealed,
     onReveal,
+    movie,
+    genre,
+    movieHint,
+    isDirector,
+    question,
+    isOutlier,
 }) => {
     const [peekAmount, setPeekAmount] = useState(0);
     const [hasPeeked, setHasPeeked] = useState(hasRevealed);
+
+    const gameMode = useGameStore((s) => s.gameMode);
+    const getModeDisplayInfo = useGameStore((s) => s.getModeDisplayInfo);
+    const { specialRoleName, specialRoleIcon, normalRoleName } = getModeDisplayInfo();
 
     // Animated values for smooth transitions
     const coverTranslateY = useSharedValue(hasRevealed ? -500 : 0);
@@ -76,40 +94,170 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
         return 'Release to reveal!';
     };
 
+    // Get role display based on game mode
+    const getRoleDisplay = () => {
+        switch (gameMode) {
+            case 'undercover-word':
+                // Classic Imposter - Show role (imposter vs crewmate)
+                return {
+                    icon: isImposter ? 'skull' : 'search',
+                    label: isImposter ? 'IMPOSTER' : 'CREWMATE',
+                    color: isImposter ? Colors.suspect : Colors.detective,
+                };
+            case 'directors-cut':
+                return {
+                    icon: isDirector ? 'film' : 'eye',
+                    label: isDirector ? 'DIRECTOR' : 'VIEWER',
+                    color: isDirector ? Colors.gaslightAmber : Colors.detective,
+                };
+            case 'mind-sync':
+                // Mind Sync - Don't reveal role! Everyone just sees their question
+                return {
+                    icon: 'person',
+                    label: 'PLAYER',
+                    color: Colors.candlelight,
+                    hideRole: true, // Flag to hide the role section entirely
+                };
+            case 'classic-imposter':
+                // Undercover - Don't reveal role! Everyone sees the same label
+                return {
+                    icon: 'person',
+                    label: 'PLAYER',
+                    color: Colors.candlelight,
+                    hideRole: true, // Flag to hide the role section entirely
+                };
+            default:
+                return {
+                    icon: isImposter ? 'skull' : 'search',
+                    label: isImposter ? 'SUSPECT' : 'DETECTIVE',
+                    color: isImposter ? Colors.suspect : Colors.detective,
+                };
+        }
+    };
+
+    // Get content display based on game mode
+    const getContentDisplay = () => {
+        switch (gameMode) {
+            case 'undercover-word':
+                // Classic Imposter - Imposter gets clue, crewmates get word
+                if (isImposter) {
+                    return {
+                        label: 'YOUR CLUE',
+                        content: hint || 'No clue available',
+                        isLarge: false,
+                        warningText: 'Deceive wisely. Blend in with others!',
+                    };
+                }
+                return {
+                    label: 'SECRET EVIDENCE',
+                    content: word,
+                    isLarge: true,
+                    warningText: null,
+                };
+
+            case 'directors-cut':
+                if (isDirector) {
+                    return {
+                        label: 'THE MOVIE',
+                        content: movie,
+                        isLarge: true,
+                        sublabel: genre ? `Genre: ${genre}` : null,
+                        warningText: 'Answer yes/no questions. Don\'t give it away!',
+                    };
+                }
+                return {
+                    label: 'YOUR HINT',
+                    content: movieHint,
+                    isLarge: false,
+                    sublabel: genre ? `Genre: ${genre}` : null,
+                    warningText: null,
+                };
+
+            case 'mind-sync':
+                // Mind Sync - Just show the question, no role hints (role is hidden)
+                return {
+                    label: 'YOUR QUESTION',
+                    content: question,
+                    isLarge: false,
+                    warningText: 'Answer this question. Find who has a different one!',
+                };
+
+            case 'classic-imposter':
+                // Undercover - Just show the word, no role hints (role is hidden)
+                return {
+                    label: 'YOUR WORD',
+                    content: word,
+                    isLarge: true,
+                    warningText: 'Describe your word. Find who has a different one!',
+                };
+
+            default:
+                return {
+                    label: isImposter ? 'YOUR CLUE' : 'SECRET EVIDENCE',
+                    content: isImposter ? hint : word,
+                    isLarge: !isImposter,
+                    warningText: isImposter ? 'Deceive wisely. Avoid detection.' : null,
+                };
+        }
+    };
+
+    const roleDisplay = getRoleDisplay();
+    const contentDisplay = getContentDisplay();
+
     return (
         <View style={styles.container}>
             {/* Role content - Victorian case file underneath */}
             <View style={styles.revealCard}>
-                <View style={styles.roleContainer}>
-                    <Text style={styles.roleLabel}>YOUR IDENTITY</Text>
-                    <View style={styles.roleRow}>
-                        <Ionicons name={isImposter ? "skull" : "search"} size={24} color={isImposter ? Colors.suspect : Colors.detective} />
-                        <Text style={[styles.roleText, isImposter ? styles.suspectText : styles.detectiveText]}>
-                            {isImposter ? 'SUSPECT' : 'DETECTIVE'}
-                        </Text>
-                    </View>
-                </View>
+                {/* Hide role section for Mind Sync and Undercover modes */}
+                {gameMode !== 'classic-imposter' && gameMode !== 'mind-sync' && (
+                    <>
+                        <View style={styles.roleContainer}>
+                            <Text style={styles.roleLabel}>YOUR IDENTITY</Text>
+                            <View style={styles.roleRow}>
+                                <Ionicons name={roleDisplay.icon as any} size={24} color={roleDisplay.color} />
+                                <Text style={[styles.roleText, { color: roleDisplay.color }]}>
+                                    {roleDisplay.label}
+                                </Text>
+                            </View>
+                        </View>
+                        <View style={styles.divider} />
+                    </>
+                )}
 
-                <View style={styles.divider} />
-
-                {(isImposter && !hint) ? (
+                {!contentDisplay.content ? (
                     <View style={[styles.infoContainer, { opacity: 0.5 }]}>
-                        <Text style={styles.infoLabel}>YOUR CLUE</Text>
+                        <Text style={styles.infoLabel}>{contentDisplay.label}</Text>
                         <Text style={[styles.hintText, { fontStyle: 'italic' }]}>No clue available</Text>
                     </View>
                 ) : (
                     <View style={styles.infoContainer}>
-                        <Text style={styles.infoLabel}>{isImposter ? 'YOUR CLUE' : 'SECRET EVIDENCE'}</Text>
-                        <Text style={isImposter ? styles.hintText : styles.wordText}>
-                            {isImposter ? hint : word}
+                        <Text style={styles.infoLabel}>{contentDisplay.label}</Text>
+                        <Text style={contentDisplay.isLarge ? styles.wordText : styles.hintText}>
+                            {contentDisplay.content}
                         </Text>
+                        {contentDisplay.sublabel && (
+                            <Text style={styles.sublabelText}>{contentDisplay.sublabel}</Text>
+                        )}
                     </View>
                 )}
 
-                {isImposter && (
-                    <View style={styles.warningBox}>
-                        <Ionicons name="skull-outline" size={16} color={Colors.suspect} />
-                        <Text style={styles.warningText}>Deceive wisely. Avoid detection.</Text>
+                {contentDisplay.warningText && (
+                    <View style={[
+                        styles.warningBox,
+                        // For hidden-role modes, always use info style (don't reveal who is special)
+                        (gameMode === 'classic-imposter' || gameMode === 'mind-sync' || (!isImposter && !isDirector && !isOutlier)) && styles.infoBox
+                    ]}>
+                        <Ionicons
+                            name={(gameMode === 'classic-imposter' || gameMode === 'mind-sync' || (!isImposter && !isDirector && !isOutlier)) ? 'information-circle' : 'warning'}
+                            size={16}
+                            color={(gameMode === 'classic-imposter' || gameMode === 'mind-sync' || (!isImposter && !isDirector && !isOutlier)) ? Colors.candlelight : Colors.suspect}
+                        />
+                        <Text style={[
+                            styles.warningText,
+                            (gameMode === 'classic-imposter' || gameMode === 'mind-sync' || (!isImposter && !isDirector && !isOutlier)) && styles.infoText
+                        ]}>
+                            {contentDisplay.warningText}
+                        </Text>
                     </View>
                 )}
 
@@ -216,19 +364,23 @@ const styles = StyleSheet.create({
     roleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
     roleLabel: { fontSize: 11, fontWeight: '600', color: Colors.grayLight, letterSpacing: 4, marginBottom: 10 },
     roleText: { fontSize: 26, fontWeight: '800', letterSpacing: 3 },
-    suspectText: { color: Colors.suspect },
-    detectiveText: { color: Colors.detective },
     divider: { width: 80, height: 2, backgroundColor: Colors.candlelight, marginVertical: 20, opacity: 0.4 },
     infoContainer: { alignItems: 'center', marginBottom: 20 },
     infoLabel: { fontSize: 11, fontWeight: '600', color: Colors.grayLight, letterSpacing: 4, marginBottom: 10 },
-    hintText: { fontSize: 16, color: Colors.parchment, textAlign: 'center', fontStyle: 'italic', paddingHorizontal: 16 },
+    hintText: { fontSize: 16, color: Colors.parchment, textAlign: 'center', fontStyle: 'italic', paddingHorizontal: 16, lineHeight: 24 },
     wordText: { fontSize: 24, fontWeight: '700', color: Colors.parchment, textAlign: 'center', letterSpacing: 1 },
+    sublabelText: { fontSize: 12, color: Colors.candlelight, marginTop: 8, fontStyle: 'italic' },
     warningBox: {
         flexDirection: 'row', alignItems: 'center', gap: 10,
         backgroundColor: 'rgba(160,32,32,0.15)', padding: 14, borderRadius: 12,
         borderWidth: 1.5, borderColor: Colors.suspect, marginTop: 8,
     },
-    warningText: { fontSize: 13, color: Colors.suspect, fontWeight: '600', letterSpacing: 0.5 },
+    infoBox: {
+        backgroundColor: 'rgba(196,167,108,0.15)',
+        borderColor: Colors.candlelight,
+    },
+    warningText: { fontSize: 13, color: Colors.suspect, fontWeight: '600', letterSpacing: 0.5, flex: 1 },
+    infoText: { color: Colors.candlelight },
     seenBadge: {
         position: 'absolute', bottom: 20,
         flexDirection: 'row', alignItems: 'center', gap: 8,

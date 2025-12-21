@@ -1,7 +1,7 @@
 {
     "id": "animals",
     "name": "Animals",
-    "icon": "🐾",
+    "icon": "paw-outline",
     "words": [
         {
             "word": "Lion",
