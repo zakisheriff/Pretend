@@ -90,7 +90,8 @@ export interface Player {
     hasRevealed: boolean;
     vote?: string; // Player ID they voted for
     answer?: string; // For Mind Sync: player's secret answer
-    isEliminated?: boolean;
+    isEliminated?: boolean; // For "Among Us" style multi-round logic
+    imposterCount: number; // For "Smart Shuffle" logic to prevent streaks
     score: number;
 }
 

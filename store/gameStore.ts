@@ -101,6 +101,54 @@ const initialState: GameState = {
     isNewTournamentPending: false,
 };
 
+// Smart Shuffle: Weighted random selection
+const selectImposterIndices = (players: Player[], count: number, lastImposterIndices: number[] = []): number[] => {
+    // 1. Calculate weights
+    // Base weight = 100
+    // Each previous imposter turn reduces weight by 20 (min 10)
+    // Being imposter LAST turn reduces weight by 80%
+
+    let candidates = players.map((p, index) => {
+        let weight = Math.max(10, 100 - (p.imposterCount * 20));
+
+        // Heavy penalty for back-to-back imposters
+        if (lastImposterIndices.includes(index)) {
+            weight = Math.floor(weight * 0.1);
+        }
+
+        return { index, weight };
+    });
+
+    const selected: number[] = [];
+
+    for (let i = 0; i < count; i++) {
+        // Calculate total weight of remaining candidates
+        const totalWeight = candidates.reduce((sum, c) => sum + c.weight, 0);
+        let random = Math.random() * totalWeight;
+
+        // Select candidate
+        let selectedIndex = -1;
+        for (let j = 0; j < candidates.length; j++) {
+            random -= candidates[j].weight;
+            if (random <= 0) {
+                selectedIndex = j;
+                break;
+            }
+        }
+
+        // Fallback for floating point errors
+        if (selectedIndex === -1) selectedIndex = candidates.length - 1;
+
+        const chosen = candidates[selectedIndex];
+        selected.push(chosen.index);
+
+        // Remove chosen from candidates for next iteration (if multiple imposters)
+        candidates.splice(selectedIndex, 1);
+    }
+
+    return selected;
+};
+
 export const useGameStore = create<GameStore>((set, get) => ({
     ...initialState,
 
@@ -118,6 +166,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     isImposter: false,
                     hasRevealed: false,
                     score: 0,
+                    imposterCount: 0,
                 },
             ],
         }));
@@ -196,9 +245,30 @@ export const useGameStore = create<GameStore>((set, get) => ({
         let selectedWord: Word | null = null;
 
         // Select multiple imposters based on settings
+        // Select multiple imposters based on settings
         const imposterCount = Math.min(settings.imposterCount, Math.floor(players.length / 2));
-        const shuffledIndices = players.map((_, i) => i).sort(() => Math.random() - 0.5);
-        const specialIndices = shuffledIndices.slice(0, imposterCount);
+
+        // SMART SHUFFLE: Use weighted selection
+        // We know who was imposter last time from the players state before we update it
+        // Check for last game data is tricky since we don't store "lastImposterId" explicitly, 
+        // but we can infer it if we tracked it. For now, just using imposterCount history is a huge improvement.
+
+        // Ideally we'd pass the previous round's imposter indices, but since we re-roll,
+        // let's rely primarily on the persistent 'imposterCount' for fairness.
+        // If needed, we can add 'wasImposterLastRound' to Player later.
+
+        const specialIndices = selectImposterIndices(players, imposterCount);
+
+        // Update imposter counts for the chosen ones
+        const playersWithUpdatedCounts = players.map((p, i) => {
+            if (specialIndices.includes(i)) {
+                return { ...p, imposterCount: p.imposterCount + 1 };
+            }
+            return p;
+        });
+
+        // Update state with new counts immediately so it persists
+        set({ players: playersWithUpdatedCounts });
 
         switch (gameMode) {
             case 'undercover-word': {
@@ -296,7 +366,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         }
 
         // Assign special roles
-        const assignedPlayers = players.map((player, index) => {
+        const assignedPlayers = playersWithUpdatedCounts.map((player, index) => {
             let isSpecial = specialIndices.includes(index);
 
             // If Director is pre-selected
@@ -539,9 +609,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
         });
 
         // Check for overall winner (first to 5)
-        const WINNING_SCORE = 2;
+        const WINNING_SCORE = 10;
         const winner = updatedPlayers.find(p => p.score >= WINNING_SCORE);
-
         set({
             players: updatedPlayers,
             overallWinner: winner || null,
