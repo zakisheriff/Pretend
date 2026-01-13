@@ -72,6 +72,10 @@ interface GameStore extends GameState {
     setDirector: (playerId: string) => void;
     setDirectorMovie: (movie: string, genre?: string, hint?: string) => void;
     setDirectorWinner: (winnerId: string | null) => void;
+
+    // Reset Flow
+    queueNewTournament: () => void;
+    isNewTournamentPending: boolean;
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
@@ -94,6 +98,7 @@ const initialState: GameState = {
     gameWinner: null,
     lastEliminatedPlayerId: null,
     overallWinner: null,
+    isNewTournamentPending: false,
 };
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -175,9 +180,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // Game flow
     startGame: () => {
         const state = get();
-        const { players, gameMode, selectedThemeId, settings, customWords } = state;
+        const { players, gameMode, selectedThemeId, settings, customWords, isNewTournamentPending } = state;
 
         if (players.length < 3) return;
+
+        // Validating new tournament reset
+        if (isNewTournamentPending) {
+            // Reset scores silently before starting
+            state.resetTournament();
+            set({ isNewTournamentPending: false });
+        }
         if (!gameMode) return;
 
         let gameData: GameData = null;
@@ -477,7 +489,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
 
     resetToHome: () => {
-        set({ ...initialState, directorId: null, directorWinnerId: null, players: [], overallWinner: null });
+        set({ ...initialState, directorId: null, directorWinnerId: null, players: [], overallWinner: null, isNewTournamentPending: false });
+    },
+
+    queueNewTournament: () => {
+        set({ isNewTournamentPending: true });
     },
 
     calculateRoundScores: () => {
@@ -528,7 +544,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
         set({
             players: updatedPlayers,
-            overallWinner: winner || null
+            overallWinner: winner || null,
         });
     },
 

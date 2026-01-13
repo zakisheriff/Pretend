@@ -36,8 +36,11 @@ export const BackButton: React.FC<BackButtonProps> = ({ onPress }) => {
         setTimeout(() => {
             if (onPress) {
                 onPress();
-            } else {
+            } else if (router.canGoBack()) {
                 router.back();
+            } else {
+                // Safety fallback: if no history, go to Home
+                router.replace('/');
             }
         }, 100);
     };

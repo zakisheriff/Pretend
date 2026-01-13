@@ -135,6 +135,7 @@ export interface GameState {
     gameWinner: 'crewmates' | 'imposters' | null;
     lastEliminatedPlayerId: string | null;
     overallWinner: Player | null;
+    isNewTournamentPending: boolean;
 }
 
 export const DEFAULT_SETTINGS: GameSettings = {

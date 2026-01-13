@@ -303,10 +303,10 @@ export default function ResultsScreen() {
                         winner={overallWinner}
                         allPlayers={players}
                         onNewGame={() => {
-                            resetTournament();
-                            // Resetting tournament means starting fresh rounds
-                            // Force a navigation or reset
-                            router.replace('/select-mode');
+                            // Queue a reset for when the next game ACTUALLY starts
+                            // This allows the user to go back to this screen if they change their mind
+                            useGameStore.getState().queueNewTournament();
+                            router.push('/select-mode');
                         }}
                         onHome={() => {
                             resetToHome();
