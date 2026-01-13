@@ -141,8 +141,8 @@ export interface GameState {
 
 export const DEFAULT_SETTINGS: GameSettings = {
     imposterCount: 1,
-    discussionTime: 120, // 2 minutes
-    hintStrength: 'low',
+    discussionTime: 300, // 5 minutes default
+    hintStrength: 'medium',
     randomizeTheme: false,
     differentHintsPerImposter: false,
     fakeHintForCrewmates: false,
