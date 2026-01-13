@@ -5,6 +5,7 @@ import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useRef, useState } from 'react';
 import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
@@ -28,6 +29,7 @@ export default function AddPlayersScreen() {
 
     // Dialog state
     const [deleteId, setDeleteId] = useState<string | null>(null);
+    const [editingId, setEditingId] = useState<string | null>(null);
 
     // Using any for the ref because strictly typing DraggableFlatList can be tricky with versions
     const listRef = useRef<any>(null);
@@ -83,7 +85,11 @@ export default function AddPlayersScreen() {
             style={styles.container}
             keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
         >
-            <View style={[styles.headerBar, { paddingTop: insets.top + 10 }]}>
+            <LinearGradient
+                colors={[Colors.victorianBlack, Colors.victorianBlack, 'transparent']}
+                locations={[0, 0.6, 1]}
+                style={[styles.headerBar, { paddingTop: insets.top + 10 }]}
+            >
                 <BackButton />
                 <Button
                     title="Next"
@@ -94,7 +100,7 @@ export default function AddPlayersScreen() {
                     icon={<Ionicons name="arrow-forward" size={16} color={canContinue ? Colors.victorianBlack : Colors.grayMedium} />}
                     style={{ borderRadius: 22, height: 44, paddingHorizontal: 16 }}
                 />
-            </View>
+            </LinearGradient>
 
             <DraggableFlatList
                 ref={listRef}
@@ -111,6 +117,9 @@ export default function AddPlayersScreen() {
                         onRequestDeleteSignal={setDeleteId}
                         drag={drag}
                         isActive={isActive}
+                        isEditing={editingId === item.id}
+                        onEditStart={() => setEditingId(item.id)}
+                        onEditEnd={() => setEditingId(null)}
                         onFocus={() => {
                             const idx = getIndex();
                             if (idx !== undefined) {
@@ -174,11 +183,13 @@ export default function AddPlayersScreen() {
                     </TouchableWithoutFeedback>
                 }
                 ListFooterComponent={
-                    <View style={styles.footer}>
-                        {!canContinue && players.length > 0 && (
-                            <Text style={styles.warn}>Need {MIN_PLAYERS - players.length} more investigator{MIN_PLAYERS - players.length > 1 ? 's' : ''}</Text>
-                        )}
-                    </View>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <View style={styles.footer}>
+                            {!canContinue && players.length > 0 && (
+                                <Text style={styles.warn}>Need {MIN_PLAYERS - players.length} more investigator{MIN_PLAYERS - players.length > 1 ? 's' : ''}</Text>
+                            )}
+                        </View>
+                    </TouchableWithoutFeedback>
                 }
                 containerStyle={styles.scroll}
                 contentContainerStyle={[
@@ -206,11 +217,22 @@ export default function AddPlayersScreen() {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack },
-    headerBar: { paddingHorizontal: 20, zIndex: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+    headerBar: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+        zIndex: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
     backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, paddingHorizontal: 20, paddingTop: 20 },
+    scrollContent: { flexGrow: 1, paddingHorizontal: 20, paddingTop: 100 },
     headerContent: { gap: 26, marginBottom: 14 },
 
     header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },

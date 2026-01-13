@@ -5,6 +5,7 @@ import { themes } from '@/data/themes';
 import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -24,7 +25,11 @@ export default function SelectThemeScreen() {
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-            <View style={styles.headerBar}>
+            <LinearGradient
+                colors={[Colors.victorianBlack, Colors.victorianBlack, 'transparent']}
+                locations={[0, 0.6, 1]}
+                style={[styles.headerBar, { paddingTop: insets.top + 10 }]}
+            >
                 <BackButton />
                 <Button
                     title="Next"
@@ -35,7 +40,7 @@ export default function SelectThemeScreen() {
                     icon={<Ionicons name="arrow-forward" size={16} color={selectedThemeId ? Colors.victorianBlack : Colors.grayMedium} />}
                     style={{ borderRadius: 22, height: 44, paddingHorizontal: 16 }}
                 />
-            </View>
+            </LinearGradient>
 
             <ScrollView
                 style={styles.scroll}
@@ -71,11 +76,22 @@ export default function SelectThemeScreen() {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack },
-    headerBar: { paddingHorizontal: 20, paddingTop: 10, zIndex: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+    headerBar: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+        zIndex: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
     backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 20, gap: 26 },
+    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 20, paddingTop: 100, gap: 26 },
     header: { alignItems: 'center', gap: 4 },
     titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
     title: { fontSize: 22, fontWeight: '800', color: Colors.parchment, letterSpacing: 2 },

@@ -7,6 +7,7 @@ import { useGameStore } from '@/store/gameStore';
 import { DirectorsCutMovie } from '@/types/game';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useMemo, useRef, useState } from 'react';
 import { Keyboard, KeyboardAvoidingView, Modal, PanResponder, Platform, ScrollView, SectionList, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
@@ -200,12 +201,16 @@ export default function SetupDirectorScreen() {
             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
             style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}
         >
-            <View style={styles.headerBar}>
+            <LinearGradient
+                colors={[Colors.victorianBlack, Colors.victorianBlack, 'transparent']}
+                locations={[0, 0.6, 1]}
+                style={[styles.headerBar, { paddingTop: insets.top + 10 }]}
+            >
                 <BackButton onPress={() => {
                     if (step === 'choose-movie') setStep('choose-director');
                     else router.back();
                 }} />
-            </View>
+            </LinearGradient>
 
             <ScrollView
                 contentContainerStyle={styles.content}
@@ -400,7 +405,15 @@ export default function SetupDirectorScreen() {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack },
-    headerBar: { paddingHorizontal: 20, paddingTop: 10, zIndex: 10 },
+    headerBar: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+        zIndex: 10,
+    },
     content: { flexGrow: 1, padding: 24, gap: 24 },
 
     header: { alignItems: 'center', gap: 8, marginBottom: 10 },

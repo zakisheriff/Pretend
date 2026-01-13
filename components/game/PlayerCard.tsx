@@ -1,8 +1,8 @@
 import { Colors } from '@/constants/colors';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
-import React, { useEffect, useState } from 'react';
-import { Dimensions, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
     runOnJS,
@@ -25,24 +25,18 @@ type PlayerCardProps = {
     drag?: () => void;
     isActive?: boolean;
     onFocus?: () => void;
+    isEditing?: boolean;
+    onEditStart?: () => void;
+    onEditEnd?: () => void;
 };
 
 const PlayerCardBase = (props: PlayerCardProps) => {
     const {
-        id,
-        name,
-        index,
-        onDelete,
-        onRename,
-        onRequestDeleteSignal,
-        drag,
-        isActive,
-        onFocus
+        id, name, index, onDelete, onRename, onRequestDeleteSignal, drag, isActive, onFocus,
+        isEditing, onEditStart, onEditEnd
     } = props;
 
-    const [isEditing, setIsEditing] = useState(false);
-    const [editName, setEditName] = useState(name);
-
+    // Animation Values
     const translateX = useSharedValue(0);
     const itemHeight = useSharedValue(56);
     const opacity = useSharedValue(1);
@@ -50,13 +44,39 @@ const PlayerCardBase = (props: PlayerCardProps) => {
     const scale = useSharedValue(1);
     const isEditingSV = useSharedValue(false);
 
+    // Editing State
+    const [editName, setEditName] = useState(name);
+    const editNameRef = useRef(name);
+    const prevEditing = useRef(isEditing);
+
+    // Sync isActive scale
     useEffect(() => {
         scale.value = withSpring(isActive ? 1.05 : 1);
     }, [isActive]);
 
+    // Sync isEditing SharedValue
     useEffect(() => {
-        isEditingSV.value = isEditing;
+        isEditingSV.value = !!isEditing;
     }, [isEditing]);
+
+    // Sync local name with prop
+    useEffect(() => {
+        setEditName(name);
+        editNameRef.current = name;
+    }, [name]);
+
+    // Save on external toggle (isEditing becomes false)
+    useEffect(() => {
+        if (prevEditing.current && !isEditing) {
+            const val = editNameRef.current.trim();
+            if (val && val !== name) {
+                onRename(id, val);
+            } else {
+                setEditName(name);
+            }
+        }
+        prevEditing.current = isEditing;
+    }, [isEditing, name, id, onRename]);
 
     const confirmDelete = () => {
         haptics.light();
@@ -91,10 +111,7 @@ const PlayerCardBase = (props: PlayerCardProps) => {
         });
 
     const cardStyle = useAnimatedStyle(() => ({
-        transform: [
-            { translateX: translateX.value },
-            { scale: scale.value }
-        ],
+        transform: [{ translateX: translateX.value }, { scale: scale.value }],
         zIndex: isActive ? 1000 : 1,
     }));
 
@@ -110,19 +127,22 @@ const PlayerCardBase = (props: PlayerCardProps) => {
     });
 
     const handleStartEdit = () => {
-        setEditName(name);
-        setIsEditing(true);
+        if (props.onEditStart) props.onEditStart();
         if (onFocus) onFocus();
     };
 
     const handleEndEdit = () => {
-        Keyboard.dismiss();
-        setIsEditing(false);
-        if (editName.trim() && editName.trim() !== name) {
-            onRename(id, editName.trim());
-        } else {
-            setEditName(name);
-        }
+        const val = editName.trim();
+        if (val && val !== name) onRename(id, val);
+        else setEditName(name);
+
+        if (props.onEditEnd) props.onEditEnd();
+    };
+
+    // Update ref on text change
+    const handleChangeText = (text: string) => {
+        setEditName(text);
+        editNameRef.current = text;
     };
 
     return (
@@ -138,7 +158,7 @@ const PlayerCardBase = (props: PlayerCardProps) => {
                         <TextInput
                             style={styles.nameInput}
                             value={editName}
-                            onChangeText={setEditName}
+                            onChangeText={handleChangeText}
                             maxLength={16}
                             autoFocus
                             onBlur={handleEndEdit}

@@ -5,6 +5,7 @@ import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -42,9 +43,13 @@ export default function DirectorVerdictScreen() {
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + 20 }]}>
-            <View style={styles.headerBar}>
+            <LinearGradient
+                colors={[Colors.victorianBlack, Colors.victorianBlack, 'transparent']}
+                locations={[0, 0.6, 1]}
+                style={[styles.headerBar, { paddingTop: insets.top + 10 }]}
+            >
                 <BackButton />
-            </View>
+            </LinearGradient>
             <View style={styles.header}>
                 <Ionicons name="trophy-outline" size={32} color={Colors.parchment} />
                 <Text style={styles.title}>Who Guessed Correctly?</Text>
@@ -115,8 +120,16 @@ export default function DirectorVerdictScreen() {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack },
-    headerBar: { paddingHorizontal: 20, paddingTop: 10, zIndex: 10 },
-    header: { alignItems: 'center', paddingVertical: 20, gap: 6 },
+    headerBar: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+        zIndex: 10,
+    },
+    header: { alignItems: 'center', paddingVertical: 20, paddingTop: 100, gap: 6 },
     title: { fontSize: 22, fontWeight: '800', color: Colors.parchment, letterSpacing: 1 },
     subtitle: { fontSize: 13, color: Colors.candlelight },
 
