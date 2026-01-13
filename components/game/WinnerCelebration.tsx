@@ -9,6 +9,7 @@ import Animated, {
     FadeInDown,
     FadeInUp,
     FadeOut,
+    FadeOutUp,
     ZoomIn as ScaleInCenter,
     useAnimatedStyle,
     withDelay,
@@ -180,15 +181,17 @@ export const WinnerCelebration = ({ winner, allPlayers, onNewGame, onHome }: Win
                         {/* Full Leaderboard Toggle */}
                         <View style={styles.othersSection}>
                             {!showFullLeaderboard ? (
-                                <TouchableOpacity
-                                    style={styles.viewAllBtn}
-                                    onPress={() => setShowFullLeaderboard(true)}
-                                >
-                                    <Ionicons name="list" size={16} color={Colors.candlelight} />
-                                    <Text style={styles.viewAllText}>View Full Leaderboard</Text>
-                                </TouchableOpacity>
+                                <Animated.View entering={FadeIn.delay(300).duration(400)} exiting={FadeOut}>
+                                    <TouchableOpacity
+                                        style={styles.viewAllBtn}
+                                        onPress={() => setShowFullLeaderboard(true)}
+                                    >
+                                        <Ionicons name="list" size={16} color={Colors.candlelight} />
+                                        <Text style={styles.viewAllText}>View Full Leaderboard</Text>
+                                    </TouchableOpacity>
+                                </Animated.View>
                             ) : (
-                                <Animated.View entering={FadeInUp} exiting={FadeOut} style={{ width: '100%' }}>
+                                <Animated.View entering={FadeInUp} exiting={FadeOutUp} style={{ width: '100%' }}>
                                     <View style={styles.othersList}>
                                         {sortedPlayers.map((p, i) => (
                                             <View key={p.id} style={styles.otherRow}>
@@ -248,14 +251,14 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        padding: 24,
     },
     revealSection: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         gap: 20,
-        width: '100%', // Ensure full width for horizontal centering
+        width: '100%',
+        padding: 24,
     },
     championTitle: {
         fontSize: 14,
@@ -277,6 +280,7 @@ const styles = StyleSheet.create({
     },
     podiumContent: {
         paddingVertical: 20,
+        paddingHorizontal: 24,
         gap: 30,
         flexGrow: 1,
         justifyContent: 'center',
