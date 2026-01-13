@@ -70,9 +70,11 @@ export const Button: React.FC<ButtonProps> = ({
             ) : (
                 <View style={styles.content}>
                     {icon}
-                    <Text style={[styles.text, styles[`text_${variant}`], styles[`text_${size}`], disabled && styles.textDisabled, textStyle]}>
-                        {title}
-                    </Text>
+                    {!!title && (
+                        <Text style={[styles.text, styles[`text_${variant}`], styles[`text_${size}`], disabled && styles.textDisabled, textStyle]}>
+                            {title}
+                        </Text>
+                    )}
                 </View>
             )}
         </AnimatedPressable>
@@ -85,7 +87,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         // Victorian brass border effect
-        borderWidth: 1.5,
+        borderWidth: 1,
     },
     content: { flexDirection: 'row', alignItems: 'center', gap: isAndroid ? 8 : 10 },
 
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
     // Outline: Brass border like gaslight fixtures
     btn_outline: {
         backgroundColor: 'transparent',
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: Colors.candlelight,
     },
     // Danger: Wax seal red

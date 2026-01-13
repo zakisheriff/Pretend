@@ -7,7 +7,7 @@ import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useRef, useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -122,52 +122,56 @@ export default function AddPlayersScreen() {
                     />
                 )}
                 ListHeaderComponent={
-                    <View style={styles.headerContent}>
-                        <View style={styles.header}>
-                            <View style={styles.titleRow}>
-                                <Ionicons name="search" size={22} color={Colors.parchment} />
-                                <Text style={styles.title}>Investigators</Text>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <View style={styles.headerContent}>
+                            <View style={styles.header}>
+                                <View style={styles.titleRow}>
+                                    <Ionicons name="search" size={22} color={Colors.parchment} />
+                                    <Text style={styles.title}>Investigators</Text>
+                                </View>
+                                <Text style={styles.count}>{players.length} / {MAX_PLAYERS}</Text>
                             </View>
-                            <Text style={styles.count}>{players.length} / {MAX_PLAYERS}</Text>
-                        </View>
-                        <View style={styles.tipContainer}>
-                            <Ionicons name="information-circle-outline" size={16} color={Colors.candlelight} />
-                            <Text style={styles.tipText}>
-                                Tip: Add players in seating order (start from your right) for smoother phone passing.
-                            </Text>
-                        </View>
+                            <View style={styles.tipContainer}>
+                                <Ionicons name="information-circle-outline" size={16} color={Colors.candlelight} />
+                                <Text style={styles.tipText}>
+                                    Tip: Add players in seating order (start from your right) for smoother phone passing.
+                                </Text>
+                            </View>
 
-                        <View style={styles.inputRow}>
-                            <TextInput
-                                style={styles.input}
-                                value={name}
-                                onChangeText={setName}
-                                placeholder="Investigator name"
-                                placeholderTextColor={Colors.grayLight}
-                                autoCapitalize="words"
-                                autoCorrect={false}
-                                onSubmitEditing={handleAdd}
-                                returnKeyType="go"
-                                blurOnSubmit={false}
-                                maxLength={16}
-                            />
-                            <Button
-                                title=""
-                                onPress={handleAdd}
-                                variant="primary"
-                                disabled={!name.trim()}
-                                icon={<Ionicons name="add" size={22} color={Colors.victorianBlack} />}
-                                style={[styles.addBtn, !name.trim() && styles.addBtnDisabled]}
-                                textStyle={{ display: 'none' }} // Hide text since title is empty but we want to be safe
-                            />
+                            <View style={styles.inputRow}>
+                                <TextInput
+                                    style={styles.input}
+                                    value={name}
+                                    onChangeText={setName}
+                                    placeholder="Investigator name"
+                                    placeholderTextColor={Colors.grayLight}
+                                    autoCapitalize="words"
+                                    autoCorrect={false}
+                                    onSubmitEditing={handleAdd}
+                                    returnKeyType="go"
+                                    blurOnSubmit={false}
+                                    maxLength={16}
+                                />
+                                <Button
+                                    title=""
+                                    onPress={handleAdd}
+                                    variant="primary"
+                                    disabled={!name.trim()}
+                                    icon={<Ionicons name="add" size={22} color={Colors.victorianBlack} />}
+                                    style={[styles.addBtn, !name.trim() && styles.addBtnDisabled]}
+                                    textStyle={{ display: 'none' }} // Hide text since title is empty but we want to be safe
+                                />
+                            </View>
                         </View>
-                    </View>
+                    </TouchableWithoutFeedback>
                 }
                 ListEmptyComponent={
-                    <View style={styles.empty}>
-                        <Ionicons name="people-outline" size={48} color={Colors.candlelight} />
-                        <Text style={styles.emptyText}>Gather at least {MIN_PLAYERS} investigators</Text>
-                    </View>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <View style={styles.empty}>
+                            <Ionicons name="people-outline" size={48} color={Colors.candlelight} />
+                            <Text style={styles.emptyText}>Gather at least {MIN_PLAYERS} investigators</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
                 }
                 ListFooterComponent={
                     <View style={styles.footer}>
@@ -183,6 +187,7 @@ export default function AddPlayersScreen() {
                 ]}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="always"
+                keyboardDismissMode="on-drag"
                 activationDistance={20}
             />
 
@@ -225,7 +230,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         color: Colors.parchment,
         fontSize: 16,
-        borderWidth: 1.5,
+        borderWidth: 1,
         borderColor: Colors.grayMedium,
     },
     addBtn: { width: 50, height: 50, borderRadius: 25, paddingHorizontal: 0, paddingVertical: 0 },

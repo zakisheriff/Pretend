@@ -9,7 +9,7 @@ import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useMemo, useRef, useState } from 'react';
-import { KeyboardAvoidingView, Modal, PanResponder, Platform, ScrollView, SectionList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Modal, PanResponder, Platform, ScrollView, SectionList, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
@@ -207,7 +207,11 @@ export default function SetupDirectorScreen() {
                 }} />
             </View>
 
-            <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+            <ScrollView
+                contentContainerStyle={styles.content}
+                keyboardShouldPersistTaps="handled"
+                keyboardDismissMode="on-drag"
+            >
                 <View style={styles.header}>
                     <Ionicons
                         name={step === 'choose-director' ? 'videocam' : 'film'}
@@ -255,109 +259,119 @@ export default function SetupDirectorScreen() {
                         />
                     </View>
                 ) : (
-                    <View style={styles.movieSection}>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Custom Movie Name</Text>
-                            <TextInput
-                                style={styles.input}
-                                value={movieName}
-                                onChangeText={setMovieName}
-                                placeholder="e.g. Inception"
-                                placeholderTextColor={Colors.grayLight}
-                                autoCapitalize="words"
-                            />
-                        </View>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <View style={styles.movieSection}>
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.label}>Custom Movie Name</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    value={movieName}
+                                    onChangeText={setMovieName}
+                                    placeholder="e.g. Inception"
+                                    placeholderTextColor={Colors.grayLight}
+                                    autoCapitalize="words"
+                                />
+                            </View>
 
-                        <View style={styles.divider}>
-                            <View style={styles.line} />
-                            <Text style={styles.or}>or</Text>
-                            <View style={styles.line} />
-                        </View>
+                            <View style={styles.divider}>
+                                <View style={styles.line} />
+                                <Text style={styles.or}>or</Text>
+                                <View style={styles.line} />
+                            </View>
 
-                        <View style={styles.buttonRow}>
-                            <Button
-                                title="Random"
-                                onPress={AppointRandomMovie}
-                                variant="secondary"
-                                style={{ flex: 1 }}
-                                icon={<Ionicons name="dice" size={20} color={Colors.parchment} />}
-                            />
-                            <Button
-                                title="Browse List"
-                                onPress={() => { haptics.light(); setShowBrowse(true); }}
-                                variant="outline"
-                                style={{ flex: 1 }}
-                                icon={<Ionicons name="list" size={20} color={Colors.candlelight} />}
-                            />
+                            <View style={styles.buttonRow}>
+                                <Button
+                                    title="Random"
+                                    onPress={AppointRandomMovie}
+                                    variant="secondary"
+                                    style={{ flex: 1 }}
+                                    icon={<Ionicons name="dice" size={20} color={Colors.parchment} />}
+                                />
+                                <Button
+                                    title="Browse List"
+                                    onPress={() => { haptics.light(); setShowBrowse(true); }}
+                                    variant="outline"
+                                    style={{ flex: 1 }}
+                                    icon={<Ionicons name="list" size={20} color={Colors.candlelight} />}
+                                />
+                            </View>
                         </View>
-                    </View>
+                    </TouchableWithoutFeedback>
                 )}
             </ScrollView>
 
             <Modal visible={showBrowse} animationType="slide" presentationStyle="fullScreen">
-                <View style={[styles.container, { paddingTop: insets.top + 10 }]}>
-                    <View style={styles.modalHeader}>
-                        <Text style={styles.modalTitle}>Select Movie</Text>
-                        <TouchableOpacity onPress={() => setShowBrowse(false)} style={styles.closeBtn}>
-                            <Ionicons name="close-circle" size={30} color={Colors.grayLight} />
-                        </TouchableOpacity>
-                    </View>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={[styles.container, { paddingTop: insets.top + 10 }]}>
+                        <View style={styles.modalHeader}>
+                            <Text style={styles.modalTitle}>Select Movie</Text>
+                            <Button
+                                title=""
+                                onPress={() => setShowBrowse(false)}
+                                variant="secondary"
+                                icon={<Ionicons name="close" size={22} color={Colors.parchment} />}
+                                style={{ width: 44, height: 44, borderRadius: 22, paddingHorizontal: 0, paddingVertical: 0, borderWidth: 1 }}
+                            />
+                        </View>
 
-                    <View style={styles.searchBar}>
-                        <Ionicons name="search" size={20} color={Colors.grayLight} />
-                        <TextInput
-                            style={styles.searchInput}
-                            placeholder="Search movies..."
-                            placeholderTextColor={Colors.grayLight}
-                            value={searchQuery}
-                            onChangeText={setSearchQuery}
-                            autoCorrect={false}
-                        />
-                    </View>
+                        <View style={styles.searchBar}>
+                            <Ionicons name="search" size={20} color={Colors.grayLight} />
+                            <TextInput
+                                style={styles.searchInput}
+                                placeholder="Search movies..."
+                                placeholderTextColor={Colors.grayLight}
+                                value={searchQuery}
+                                onChangeText={setSearchQuery}
+                                autoCorrect={false}
+                            />
+                        </View>
 
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <SectionList
-                            ref={sectionListRef}
-                            sections={sections}
-                            keyExtractor={(item) => item.movie}
-                            contentContainerStyle={styles.listContent}
-                            stickySectionHeadersEnabled={false}
-                            showsVerticalScrollIndicator={false}
-                            renderSectionHeader={({ section: { title } }) => (
-                                <View style={styles.sectionHeader}>
-                                    <Text style={styles.sectionValidation}>{title}</Text>
-                                </View>
-                            )}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity style={styles.movieItem} onPress={() => handleSelectFromBrowse(item as any)}>
-                                    <View>
-                                        <Text style={styles.movieItemTitle}>{item.movie}</Text>
-                                        <Text style={styles.movieItemGenre}>{item.genre} • {item.year}</Text>
+                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <SectionList
+                                ref={sectionListRef}
+                                sections={sections}
+                                keyExtractor={(item) => item.movie}
+                                contentContainerStyle={styles.listContent}
+                                stickySectionHeadersEnabled={false}
+                                showsVerticalScrollIndicator={false}
+                                keyboardDismissMode="on-drag"
+                                keyboardShouldPersistTaps="handled"
+                                renderSectionHeader={({ section: { title } }) => (
+                                    <View style={styles.sectionHeader}>
+                                        <Text style={styles.sectionValidation}>{title}</Text>
                                     </View>
-                                    <Ionicons name="chevron-forward" size={20} color={Colors.grayLight} />
-                                </TouchableOpacity>
-                            )}
-                        />
+                                )}
+                                renderItem={({ item }) => (
+                                    <TouchableOpacity style={styles.movieItem} onPress={() => handleSelectFromBrowse(item as any)}>
+                                        <View>
+                                            <Text style={styles.movieItemTitle}>{item.movie}</Text>
+                                            <Text style={styles.movieItemGenre}>{item.genre} • {item.year}</Text>
+                                        </View>
+                                        <Ionicons name="chevron-forward" size={20} color={Colors.grayLight} />
+                                    </TouchableOpacity>
+                                )}
+                            />
 
-                        {/* Alphabet Sidebar */}
-                        <View
-                            style={styles.sidebar}
-                            {...panResponder.panHandlers}
-                        >
+                            {/* Alphabet Sidebar */}
                             <View
-                                style={styles.sidebarContainer}
-                                ref={sidebarContainerRef}
-                                onLayout={updateLayout}
+                                style={styles.sidebar}
+                                {...panResponder.panHandlers}
                             >
-                                {alphabet.map((letter, index) => (
-                                    <View key={letter} style={styles.sidebarLetterContainer}>
-                                        <Text style={styles.sidebarLetter}>{letter}</Text>
-                                    </View>
-                                ))}
+                                <View
+                                    style={styles.sidebarContainer}
+                                    ref={sidebarContainerRef}
+                                    onLayout={updateLayout}
+                                >
+                                    {alphabet.map((letter, index) => (
+                                        <View key={letter} style={styles.sidebarLetterContainer}>
+                                            <Text style={styles.sidebarLetter}>{letter}</Text>
+                                        </View>
+                                    ))}
+                                </View>
                             </View>
                         </View>
                     </View>
-                </View>
+                </TouchableWithoutFeedback>
             </Modal>
 
             <View style={styles.footer}>
@@ -398,7 +412,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row', alignItems: 'center',
         padding: 12, borderRadius: 16,
         backgroundColor: Colors.grayDark,
-        borderWidth: 1.5, borderColor: Colors.grayMedium,
+        borderWidth: 1, borderColor: Colors.grayMedium,
         gap: 12,
     },
     playerCardSelected: {
@@ -422,7 +436,7 @@ const styles = StyleSheet.create({
     label: { color: Colors.candlelight, fontSize: 14, fontWeight: '700', letterSpacing: 1 },
     input: {
         backgroundColor: Colors.grayDark,
-        borderWidth: 1.5, borderColor: Colors.candlelight,
+        borderWidth: 1, borderColor: Colors.candlelight,
         borderRadius: 25, height: 50, paddingHorizontal: 16,
         color: Colors.parchment, fontSize: 18, fontWeight: '600'
     },
@@ -442,7 +456,7 @@ const styles = StyleSheet.create({
     searchBar: {
         flexDirection: 'row', alignItems: 'center',
         backgroundColor: Colors.grayDark, marginHorizontal: 20, marginBottom: 16,
-        paddingHorizontal: 16, borderRadius: 25, height: 50, gap: 10, borderWidth: 1.5, borderColor: Colors.grayMedium
+        paddingHorizontal: 16, borderRadius: 25, height: 50, gap: 10, borderWidth: 1, borderColor: Colors.grayMedium
     },
     searchInput: { flex: 1, color: Colors.parchment, fontSize: 16, height: '100%' },
     listContent: { paddingHorizontal: 20, paddingBottom: 40 },

@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         width: CARD_SIZE, height: CARD_SIZE * 0.7,
         backgroundColor: Colors.grayDark, borderRadius: 28,
         alignItems: 'center', justifyContent: 'center', gap: 10,
-        borderWidth: 2, borderColor: Colors.grayMedium,
+        borderWidth: 1, borderColor: Colors.grayMedium,
     },
     cardSelected: {
         borderColor: Colors.candlelight,

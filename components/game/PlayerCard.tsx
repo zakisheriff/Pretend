@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row', alignItems: 'center',
         backgroundColor: Colors.grayDark, borderRadius: 24, height: 56,
         paddingHorizontal: 18, gap: 14,
-        borderWidth: 1.5, borderColor: Colors.grayMedium,
+        borderWidth: 1, borderColor: Colors.grayMedium,
     },
     cardActive: {
         borderColor: Colors.candlelight,

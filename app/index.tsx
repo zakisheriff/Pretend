@@ -54,7 +54,7 @@ export default function HomeScreen() {
 
                 <View style={styles.footer}>
                     <Ionicons name="home" size={14} color={Colors.grayMedium} />
-                    <Text style={styles.footerText}>Trust No One.</Text>
+                    <Text style={styles.footerText}>Trust No One. </Text>
                 </View>
             </View>
         </LinearGradient>

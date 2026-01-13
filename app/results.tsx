@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
         padding: 30,
         borderRadius: 28,
         gap: 12,
-        borderWidth: 2,
+        borderWidth: 1,
     },
     winnerInvestigators: {
         backgroundColor: 'rgba(34, 139, 34, 0.15)',
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
         borderRadius: 24,
         padding: 20,
         alignItems: 'center',
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: Colors.suspect,
         minWidth: 120,
     },
@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
         padding: 24,
         borderRadius: 24,
         alignItems: 'center',
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: Colors.candlelight,
     },
     wordText: {

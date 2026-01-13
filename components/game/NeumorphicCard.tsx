@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     card_raised: {
         backgroundColor: Colors.grayDark,
         borderColor: Colors.candlelight,
-        borderWidth: 1.5,
+        borderWidth: 1,
     },
     card_inset: {
         borderColor: Colors.gray,
