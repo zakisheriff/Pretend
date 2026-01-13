@@ -52,7 +52,7 @@ const PlayerCardBase = (props: PlayerCardProps) => {
 
     // Sync isActive scale
     useEffect(() => {
-        scale.value = withSpring(isActive ? 1.05 : 1);
+        scale.value = withSpring(isActive ? 1.03 : 1, { damping: 20, stiffness: 200 });
     }, [isActive]);
 
     // Sync isEditing SharedValue
@@ -107,7 +107,7 @@ const PlayerCardBase = (props: PlayerCardProps) => {
                     runOnJS(doDelete)();
                 });
             } else {
-                translateX.value = withSpring(0, { damping: 15 });
+                translateX.value = withSpring(0, { damping: 20, stiffness: 200 });
             }
         });
 
@@ -199,7 +199,7 @@ const PlayerCardBase = (props: PlayerCardProps) => {
                                 style={styles.actionBtn}
                                 hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                             >
-                                <Ionicons name="menu" size={20} color={Colors.gray} />
+                                <Ionicons name="menu" size={20} color={Colors.grayLight} />
                             </TouchableOpacity>
                         </View>
                     )}
