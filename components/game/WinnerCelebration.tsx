@@ -3,7 +3,7 @@ import { Colors } from '@/constants/colors';
 import { Player } from '@/types/game';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { Dimensions, Platform, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import Animated, {
     FadeIn,
     FadeInDown,
@@ -288,11 +288,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24,
         gap: 30,
         flexGrow: 1,
-        justifyContent: 'center',
+        justifyContent: Platform.OS === 'android' ? 'flex-start' : 'center',
+        paddingTop: Platform.OS === 'android' ? 40 : 20,
     },
     podiumContentScrollable: {
         justifyContent: 'flex-start',
-        paddingBottom: 120, // Extra padding to ensure buttons are visible
+        paddingBottom: 120,
+        paddingTop: Platform.OS === 'android' ? 40 : 20,
     },
     finalLeaderboardTitle: {
         fontSize: 24,

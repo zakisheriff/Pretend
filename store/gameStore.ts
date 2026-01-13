@@ -231,18 +231,18 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     // Game flow
     startGame: () => {
+        // Validating new tournament reset - PROACTIVELY reset before getting state
+        if (get().isNewTournamentPending) {
+            get().resetTournament();
+            set({ isNewTournamentPending: false });
+        }
+
         const state = get();
-        const { players, gameMode, selectedThemeId, settings, customWords, isNewTournamentPending } = state;
+        const { players, gameMode, selectedThemeId, settings, customWords } = state;
 
         if (players.length < 3 && gameMode !== 'directors-cut') return;
         if (players.length < 2 && gameMode === 'directors-cut') return;
 
-        // Validating new tournament reset
-        if (isNewTournamentPending) {
-            // Reset scores silently before starting
-            state.resetTournament();
-            set({ isNewTournamentPending: false });
-        }
         if (!gameMode) return;
 
         let gameData: GameData = null;
@@ -650,7 +650,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         });
 
         // Check for overall winner (first to 10)
-        const WINNING_SCORE = 10;
+        const WINNING_SCORE = 2;
         const winner = updatedPlayers.find(p => p.score >= WINNING_SCORE);
         set({
             players: updatedPlayers,
