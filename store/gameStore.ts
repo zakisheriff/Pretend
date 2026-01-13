@@ -231,7 +231,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
         const state = get();
         const { players, gameMode, selectedThemeId, settings, customWords, isNewTournamentPending } = state;
 
-        if (players.length < 3) return;
+        if (players.length < 3 && gameMode !== 'directors-cut') return;
+        if (players.length < 2 && gameMode === 'directors-cut') return;
 
         // Validating new tournament reset
         if (isNewTournamentPending) {
@@ -246,7 +247,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
         // Select multiple imposters based on settings
         // Select multiple imposters based on settings
-        const imposterCount = Math.min(settings.imposterCount, Math.floor(players.length / 2));
+        // Ensure at least 1 imposter even if custom count is low, but respect max of half players (unless 2 players, then 1 imposter)
+        const maxImposters = players.length === 2 ? 1 : Math.floor(players.length / 2);
+        const imposterCount = Math.max(1, Math.min(settings.imposterCount, maxImposters));
 
         // SMART SHUFFLE: Use weighted selection
         // We know who was imposter last time from the players state before we update it

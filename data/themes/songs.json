@@ -402,6 +402,1622 @@
                 "medium": "Driving a fancy car",
                 "high": "Bridge architecture"
             }
+        },
+        {
+            "word": "Shape of You",
+            "hints": {
+                "low": "Boxing club",
+                "medium": "Smell of you",
+                "high": "Bar where my friends are"
+            }
+        },
+        {
+            "word": "Despacito",
+            "hints": {
+                "low": "Spanish hit",
+                "medium": "Slowly",
+                "high": "Puerto Rico beach"
+            }
+        },
+        {
+            "word": "Blinding Lights",
+            "hints": {
+                "low": "Red suit",
+                "medium": "Driving fast at night",
+                "high": "Running out of time"
+            }
+        },
+        {
+            "word": "Uptown Funk",
+            "hints": {
+                "low": "Too hot",
+                "medium": "Don't believe me just watch",
+                "high": "Pink hair rollers"
+            }
+        },
+        {
+            "word": "Shake It Off",
+            "hints": {
+                "low": "Players gonna play",
+                "medium": "Haters gonna hate",
+                "high": "Ballet dancers vs twerking"
+            }
+        },
+        {
+            "word": "Gangnam Style",
+            "hints": {
+                "low": "Horse riding dance",
+                "medium": "Elevator scene",
+                "high": "Oppa"
+            }
+        },
+        {
+            "word": "See You Again",
+            "hints": {
+                "low": "Fast and Furious",
+                "medium": "It's been a long day",
+                "high": "Two cars splitting paths"
+            }
+        },
+        {
+            "word": "Sorry",
+            "hints": {
+                "low": "Is it too late?",
+                "medium": "Colorful dancers",
+                "high": "Missing more than your body"
+            }
+        },
+        {
+            "word": "Sugar",
+            "hints": {
+                "low": "Wedding crasher",
+                "medium": "Need a little sweetness",
+                "high": "Maroon suit"
+            }
+        },
+        {
+            "word": "Roar",
+            "hints": {
+                "low": "Jungle theme",
+                "medium": "Eye of the tiger",
+                "high": "Champion"
+            }
+        },
+        {
+            "word": "Counting Stars",
+            "hints": {
+                "low": "Basement hanging lights",
+                "medium": "Lately I've been losing sleep",
+                "high": "Alligator in the room"
+            }
+        },
+        {
+            "word": "Thinking Out Loud",
+            "hints": {
+                "low": "Ballroom dancing",
+                "medium": "Legs don't work like they used to",
+                "high": "Head on my beating heart"
+            }
+        },
+        {
+            "word": "Dark Horse",
+            "hints": {
+                "low": "Egyptian theme",
+                "medium": "Magic tricks",
+                "high": "Coming at you like a..."
+            }
+        },
+        {
+            "word": "Perfect",
+            "hints": {
+                "low": "Dancing in the dark",
+                "medium": "Barefoot on the grass",
+                "high": "Listening to our favorite song"
+            }
+        },
+        {
+            "word": "Let It Go",
+            "hints": {
+                "low": "Snow queen",
+                "medium": "Cold never bothered me",
+                "high": "Building an ice castle"
+            }
+        },
+        {
+            "word": "Faded",
+            "hints": {
+                "low": "Where are you now?",
+                "medium": "Masked DJ",
+                "high": "Abandoned city"
+            }
+        },
+        {
+            "word": "Girls Like You",
+            "hints": {
+                "low": "Famous women cameos",
+                "medium": "Rotating camera",
+                "high": "Need a girl like you"
+            }
+        },
+        {
+            "word": "Lean On",
+            "hints": {
+                "low": "Indian palace",
+                "medium": "Blow a kiss, fire a gun",
+                "high": "Side to side dance"
+            }
+        },
+        {
+            "word": "Bailando",
+            "hints": {
+                "low": "Football skills",
+                "medium": "Dancing in the street",
+                "high": "I want to be with you"
+            }
+        },
+        {
+            "word": "Waka Waka",
+            "hints": {
+                "low": "This time for Africa",
+                "medium": "World Cup song",
+                "high": "Hands together prayer"
+            }
+        },
+        {
+            "word": "Hello",
+            "hints": {
+                "low": "Flip phone",
+                "medium": "It's me",
+                "high": "Sepia tone video"
+            }
+        },
+        {
+            "word": "Blank Space",
+            "hints": {
+                "low": "Cake stab",
+                "medium": "Write your name",
+                "high": "Golf club smash"
+            }
+        },
+        {
+            "word": "Cheap Thrills",
+            "hints": {
+                "low": "Faceless Wig",
+                "medium": "I love cheap thrills",
+                "high": "Don't need dollar bills"
+            }
+        },
+        {
+            "word": "Closer",
+            "hints": {
+                "low": "Rover",
+                "medium": "Hotel bar",
+                "high": "Boulder"
+            }
+        },
+        {
+            "word": "Love Me Like You Do",
+            "hints": {
+                "low": "Fifty Shades",
+                "medium": "Touch me like you do",
+                "high": "Ballroom scene"
+            }
+        },
+        {
+            "word": "We Don't Talk Anymore",
+            "hints": {
+                "low": "Split screen",
+                "medium": "Like we used to do",
+                "high": "Texting but not sending"
+            }
+        },
+        {
+            "word": "Bad Guy",
+            "hints": {
+                "low": "Yellow hoodie",
+                "medium": "Duh",
+                "high": "Bloody nose"
+            }
+        },
+        {
+            "word": "Old Town Road",
+            "hints": {
+                "low": "Cowboy hat",
+                "medium": "Horse in the back",
+                "high": "Can't tell me nothing"
+            }
+        },
+        {
+            "word": "Believer",
+            "hints": {
+                "low": "Pain",
+                "medium": "Boxing match",
+                "high": "Third things third"
+            }
+        },
+        {
+            "word": "Senorita",
+            "hints": {
+                "low": "Waitress",
+                "medium": "Motorcycle ride",
+                "high": "I love it when you call me"
+            }
+        },
+        {
+            "word": "7 Rings",
+            "hints": {
+                "low": "Pink house",
+                "medium": "I want it, I got it",
+                "high": "Champagne bottles"
+            }
+        },
+        {
+            "word": "Havana",
+            "hints": {
+                "low": "Telenovela",
+                "medium": "Half of my heart",
+                "high": "Grandma dancing"
+            }
+        },
+        {
+            "word": "New Rules",
+            "hints": {
+                "low": "Flamingo pose",
+                "medium": "Walking on water",
+                "high": "Don't pick up the phone"
+            }
+        },
+        {
+            "word": "Rockstar",
+            "hints": {
+                "low": "Samurai sword",
+                "medium": "Smashing guitar",
+                "high": "White suit blood"
+            }
+        },
+        {
+            "word": "This Is What You Came For",
+            "hints": {
+                "low": "Lightning strikes",
+                "medium": "Giant white box",
+                "high": "Looking at you"
+            }
+        },
+        {
+            "word": "Work From Home",
+            "hints": {
+                "low": "Construction site",
+                "medium": "Tyra Banks pose",
+                "high": "Sledgehammer"
+            }
+        },
+        {
+            "word": "Chandelier",
+            "hints": {
+                "low": "Young dancer",
+                "medium": "Beige leotard",
+                "high": "Swinging from the..."
+            }
+        },
+        {
+            "word": "Hotline Bling",
+            "hints": {
+                "low": "Gray sweater",
+                "medium": "Funny dance moves",
+                "high": "Call me on my cellphone"
+            }
+        },
+        {
+            "word": "Can't Stop the Feeling",
+            "hints": {
+                "low": "Grocery store dance",
+                "medium": "Trolls movie",
+                "high": "In my pocket"
+            }
+        },
+        {
+            "word": "Attention",
+            "hints": {
+                "low": "Vandalizing room",
+                "medium": "You just want attention",
+                "high": "Throwing vase"
+            }
+        },
+        {
+            "word": "Side to Side",
+            "hints": {
+                "low": "Gym class",
+                "medium": "Bicycles",
+                "high": "Sauna steam"
+            }
+        },
+        {
+            "word": "One Kiss",
+            "hints": {
+                "low": "Poolside",
+                "medium": "Retro vibe",
+                "high": "Takes me back"
+            }
+        },
+        {
+            "word": "Treat You Better",
+            "hints": {
+                "low": "Abusive boyfriend",
+                "medium": "Punching bag",
+                "high": "Better than he can"
+            }
+        },
+        {
+            "word": "Starboy",
+            "hints": {
+                "low": "Neon cross",
+                "medium": "Smashing trophies",
+                "high": "Look what you've done"
+            }
+        },
+        {
+            "word": "Dynamite",
+            "hints": {
+                "low": "Disco theme",
+                "medium": "Pastel colors",
+                "high": "Light it up"
+            }
+        },
+        {
+            "word": "Butter",
+            "hints": {
+                "low": "Smooth criminal",
+                "medium": "Mugshot",
+                "high": "Hotter, sweeter, cooler"
+            }
+        },
+        {
+            "word": "Stay",
+            "hints": {
+                "low": "Suspended in air",
+                "medium": "Time freeze",
+                "high": "I do the same thing"
+            }
+        },
+        {
+            "word": "Levitating",
+            "hints": {
+                "low": "Elevator to space",
+                "medium": "Glitter makeup",
+                "high": "Milky Way"
+            }
+        },
+        {
+            "word": "Peaches",
+            "hints": {
+                "low": "Peach suit",
+                "medium": "Driving car",
+                "high": "From Georgia"
+            }
+        },
+        {
+            "word": "Montero",
+            "hints": {
+                "low": "Garden of Eden",
+                "medium": "Pole to hell",
+                "high": "Giving devil a lap dance"
+            }
+        },
+        {
+            "word": "Industry Baby",
+            "hints": {
+                "low": "Pink prison",
+                "medium": "Shower scene",
+                "high": "Grammy trophies"
+            }
+        },
+        {
+            "word": "Kiss Me More",
+            "hints": {
+                "low": "Pink planet",
+                "medium": "Giant woman",
+                "high": "Astronaut"
+            }
+        },
+        {
+            "word": "Save Your Tears",
+            "hints": {
+                "low": "Plastic surgery face",
+                "medium": "Red jacket again",
+                "high": "Masquerade ball"
+            }
+        },
+        {
+            "word": "Drivers License",
+            "hints": {
+                "low": "Driving alone",
+                "medium": "Suburbs",
+                "high": "Should've been with him"
+            }
+        },
+        {
+            "word": "Good 4 U",
+            "hints": {
+                "low": "Cheerleader outfit",
+                "medium": "Fire in bedroom",
+                "high": "Happy and healthy"
+            }
+        },
+        {
+            "word": "Watermelon Sugar",
+            "hints": {
+                "low": "Beach picnic",
+                "medium": "Touching fruit",
+                "high": "Blue sunglasses"
+            }
+        },
+        {
+            "word": "As It Was",
+            "hints": {
+                "low": "Red spinning platform",
+                "medium": "Harry's House",
+                "high": "Same as it was"
+            }
+        },
+        {
+            "word": "Anti-Hero",
+            "hints": {
+                "low": "It's me, Hi",
+                "medium": "Giant version of self",
+                "high": "Funeral scene"
+            }
+        },
+        {
+            "word": "Flowers",
+            "hints": {
+                "low": "Buying own flowers",
+                "medium": "Gold dress workout",
+                "high": "Dancing in mansion"
+            }
+        },
+        {
+            "word": "Kill Bill",
+            "hints": {
+                "low": "Might kill my ex",
+                "medium": "Samurai sword",
+                "high": "Kitchen scene"
+            }
+        },
+        {
+            "word": "Vampire",
+            "hints": {
+                "low": "Stage accident",
+                "medium": "Bleeding out",
+                "high": "Fascist"
+            }
+        },
+        {
+            "word": "Seven",
+            "hints": {
+                "low": "Days a week",
+                "medium": "Laundromat flood",
+                "high": "Train surfing"
+            }
+        },
+        {
+            "word": "Calm Down",
+            "hints": {
+                "low": "Colorful house",
+                "medium": "Lo lo lo",
+                "high": "Selena Gomez remix"
+            }
+        },
+        {
+            "word": "Unholy",
+            "hints": {
+                "low": "Body shop",
+                "medium": "Doing something unholy",
+                "high": "Cabaret show"
+            }
+        },
+        {
+            "word": "I'm Good (Blue)",
+            "hints": {
+                "low": "Eiffel 65 sample",
+                "medium": "Yacht party",
+                "high": "Best night of my life"
+            }
+        },
+        {
+            "word": "Made You Look",
+            "hints": {
+                "low": "Gucci/Versace",
+                "medium": "Candy colored",
+                "high": "I make you look"
+            }
+        },
+        {
+            "word": "Cuff It",
+            "hints": {
+                "low": "Roller rink",
+                "medium": "Night out",
+                "high": "Falling in love"
+            }
+        },
+        {
+            "word": "About Damn Time",
+            "hints": {
+                "low": "Support group",
+                "medium": "Flute solo",
+                "high": "Running away"
+            }
+        },
+        {
+            "word": "Break My Soul",
+            "hints": {
+                "low": "House music",
+                "medium": "Quit my job",
+                "high": "Everybody charge"
+            }
+        },
+        {
+            "word": "Running Up That Hill",
+            "hints": {
+                "low": "Stranger Things",
+                "medium": "Headphones",
+                "high": "Deal with God"
+            }
+        },
+        {
+            "word": "Glimpse of Us",
+            "hints": {
+                "low": "blurry footage",
+                "medium": "Chaos at parties",
+                "high": "Thinking of her"
+            }
+        },
+        {
+            "word": "Late Night Talking",
+            "hints": {
+                "low": "Moving bed",
+                "medium": "Pajama party",
+                "high": "Art gallery"
+            }
+        },
+        {
+            "word": "Sunroof",
+            "hints": {
+                "low": "Head out the sunroof",
+                "medium": "Driving around",
+                "high": "Favorite song"
+            }
+        },
+        {
+            "word": "Heat Waves",
+            "hints": {
+                "low": "Walking alone",
+                "medium": "Late night vibe",
+                "high": "Can't make you happier"
+            }
+        },
+        {
+            "word": "Ghost",
+            "hints": {
+                "low": "Grandmother memory",
+                "medium": "Without you",
+                "high": "Testing faith"
+            }
+        },
+        {
+            "word": "Easy On Me",
+            "hints": {
+                "low": "Moving house",
+                "medium": "Wind blowing paper",
+                "high": "Black and white to color"
+            }
+        },
+        {
+            "word": "Positions",
+            "hints": {
+                "low": "Female President",
+                "medium": "Kitchen chef",
+                "high": "Switching for you"
+            }
+        },
+        {
+            "word": "WAP",
+            "hints": {
+                "low": "Mansion with tigers",
+                "medium": "Snakes everywhere",
+                "high": "Split choreography"
+            }
+        },
+        {
+            "word": "Savage",
+            "hints": {
+                "low": "Classy, bougie, ratchet",
+                "medium": "Animation video",
+                "high": "TikTok dance"
+            }
+        },
+        {
+            "word": "Say So",
+            "hints": {
+                "low": "Disco ball dress",
+                "medium": "Tiger pet",
+                "high": "Didn't say so"
+            }
+        },
+        {
+            "word": "Yummy",
+            "hints": {
+                "low": "Fancy dinner",
+                "medium": "Pink hair",
+                "high": "Yeah you got that"
+            }
+        },
+        {
+            "word": "God's Plan",
+            "hints": {
+                "low": "Giving away money",
+                "medium": "Supermarket sweep",
+                "high": "Mahbed"
+            }
+        },
+        {
+            "word": "Nice For What",
+            "hints": {
+                "low": "Roller skating",
+                "medium": "Famous women cameos",
+                "high": "Lauryn Hill sample"
+            }
+        },
+        {
+            "word": "In My Feelings",
+            "hints": {
+                "low": "Kiki do you love me",
+                "medium": "Car door challenge",
+                "high": "Teeth grill"
+            }
+        },
+        {
+            "word": "Thank U, Next",
+            "hints": {
+                "low": "Burn Book",
+                "medium": "Mean Girls reference",
+                "high": "Kris Jenner cam"
+            }
+        },
+        {
+            "word": "Sucker",
+            "hints": {
+                "low": "Castle party",
+                "medium": "Wives/Fiancees",
+                "high": "Bath tub outside"
+            }
+        },
+        {
+            "word": "Without Me",
+            "hints": {
+                "low": "Lookalike double",
+                "medium": "Abusive relationship",
+                "high": "Thinking you could live"
+            }
+        },
+        {
+            "word": "Shallow",
+            "hints": {
+                "low": "A Star Is Born",
+                "medium": "Stage duet",
+                "high": "Deep end"
+            }
+        },
+        {
+            "word": "High Hopes",
+            "hints": {
+                "low": "Walking up a building",
+                "medium": "Gravity defiance",
+                "high": "Living the dream"
+            }
+        },
+        {
+            "word": "Happier",
+            "hints": {
+                "low": "Puppy video",
+                "medium": "Balloon dog",
+                "high": "Marshmello helmet"
+            }
+        },
+        {
+            "word": "Eastside",
+            "hints": {
+                "low": "High school romance",
+                "medium": "Growing older",
+                "high": "Graffiti"
+            }
+        },
+        {
+            "word": "Better Now",
+            "hints": {
+                "low": "Face tattoos",
+                "medium": "Concert footage",
+                "high": "You only say that"
+            }
+        },
+        {
+            "word": "Psycho",
+            "hints": {
+                "low": "Tank car",
+                "medium": "Wolf fur coat",
+                "high": "Burning car"
+            }
+        },
+        {
+            "word": "Lucid Dreams",
+            "hints": {
+                "low": "Head in floor",
+                "medium": "Shadows in my room",
+                "high": "Can't replace you"
+            }
+        },
+        {
+            "word": "SICKO MODE",
+            "hints": {
+                "low": "Giant head",
+                "medium": "Out like a light",
+                "high": "Eclipse visual"
+            }
+        },
+        {
+            "word": "I Like It",
+            "hints": {
+                "low": "Colorful dresses",
+                "medium": "Spinning head wrap",
+                "high": "Dollar bills"
+            }
+        },
+        {
+            "word": "Finesse",
+            "hints": {
+                "low": "In Living Color vibe",
+                "medium": "Paint brush effect",
+                "high": "90s fashion"
+            }
+        },
+        {
+            "word": "Humble",
+            "hints": {
+                "low": "Pope outfit",
+                "medium": "Wait, hol' up",
+                "high": "Head on fire"
+            }
+        },
+        {
+            "word": "Mask Off",
+            "hints": {
+                "low": "Car driving itself",
+                "medium": "Flute loop",
+                "high": "Chase a check"
+            }
+        },
+        {
+            "word": "Bad and Boujee",
+            "hints": {
+                "low": "Chicken shop",
+                "medium": "Rain drop, drop top",
+                "high": "Chanel bag"
+            }
+        },
+        {
+            "word": "Black Beatles",
+            "hints": {
+                "low": "Mannequin challenge",
+                "medium": "Smashing guitar",
+                "high": "Crowd surfing"
+            }
+        },
+        {
+            "word": "Starboy",
+            "hints": {
+                "low": "Neon cross",
+                "medium": "Kidnapping self",
+                "high": "Panther"
+            }
+        },
+        {
+            "word": "24K Magic",
+            "hints": {
+                "low": "Private jet",
+                "medium": "Vegas lights",
+                "high": "Pinky ring"
+            }
+        },
+        {
+            "word": "Side to Side",
+            "hints": {
+                "low": "Gym class",
+                "medium": "Spin bikes",
+                "high": "Steam room"
+            }
+        },
+        {
+            "word": "Don't Let Me Down",
+            "hints": {
+                "low": "Car hydraulics",
+                "medium": "Forest road",
+                "high": "Levitating dancers"
+            }
+        },
+        {
+            "word": "Stressed Out",
+            "hints": {
+                "low": "Big wheels",
+                "medium": "Childhood bedroom",
+                "high": "Red handshake"
+            }
+        },
+        {
+            "word": "Work",
+            "hints": {
+                "low": "Dancehall club",
+                "medium": "Mesh dress",
+                "high": "Work work work"
+            }
+        },
+        {
+            "word": "Pillowtalk",
+            "hints": {
+                "low": "Kaleidoscope effect",
+                "medium": "Tears crying red",
+                "high": "Gigi Hadid"
+            }
+        },
+        {
+            "word": "Cake By The Ocean",
+            "hints": {
+                "low": "Beach food fight",
+                "medium": "Giant cake",
+                "high": "DNCE"
+            }
+        },
+        {
+            "word": "Me, Myself & I",
+            "hints": {
+                "low": "Surprise party",
+                "medium": "Multiple Bebeis",
+                "high": "Just us three"
+            }
+        },
+        {
+            "word": "Stitches",
+            "hints": {
+                "low": "Invisible punch",
+                "medium": "Parking garage",
+                "high": "Needle and thread"
+            }
+        },
+        {
+            "word": "Worth It",
+            "hints": {
+                "low": "Office strinking",
+                "medium": "Stock market ticker",
+                "high": "Give it to me"
+            }
+        },
+        {
+            "word": "Watch Me (Whip/Nae Nae)",
+            "hints": {
+                "low": "High school gym",
+                "medium": "Break your legs",
+                "high": "Stanky leg"
+            }
+        },
+        {
+            "word": "Thrift Shop",
+            "hints": {
+                "low": "Fur coat",
+                "medium": "20 dollars",
+                "high": "Pop some tags"
+            }
+        },
+        {
+            "word": "Can't Hold Us",
+            "hints": {
+                "low": "Pirate ship flag",
+                "medium": "Camel riding",
+                "high": "Ceiling can't hold us"
+            }
+        },
+        {
+            "word": "Radioactive",
+            "hints": {
+                "low": "Underground fight",
+                "medium": "Pink teddy bear",
+                "high": "New age"
+            }
+        },
+        {
+            "word": "Demons",
+            "hints": {
+                "low": "Band performing",
+                "medium": "Lost loved one",
+                "high": "Where my demons hide"
+            }
+        },
+        {
+            "word": "Pompeii",
+            "hints": {
+                "low": "Running away",
+                "medium": "Black eyes",
+                "high": "Volcano city"
+            }
+        },
+        {
+            "word": "Wake Me Up",
+            "hints": {
+                "low": "Guitar intro",
+                "medium": "Finding belonging",
+                "high": "Two triangle mark"
+            }
+        },
+        {
+            "word": "Get Lucky",
+            "hints": {
+                "low": "Sparkly suits",
+                "medium": "Sunset background",
+                "high": "Robot helmets"
+            }
+        },
+        {
+            "word": "Blurred Lines",
+            "hints": {
+                "low": "Hashtags",
+                "medium": "Models walking",
+                "high": "Hey hey hey"
+            }
+        },
+        {
+            "word": "Royals",
+            "hints": {
+                "low": "Suburban boredom",
+                "medium": "Gold teeth",
+                "high": "Queen bee"
+            }
+        },
+        {
+            "word": "Mirrors",
+            "hints": {
+                "low": "Fun house",
+                "medium": "Old couple dancing",
+                "high": "You are my reflection"
+            }
+        },
+        {
+            "word": "Locked Out Of Heaven",
+            "hints": {
+                "low": "VHS effect",
+                "medium": "House party",
+                "high": "Perform live style"
+            }
+        },
+        {
+            "word": "Titanium",
+            "hints": {
+                "low": "School hallway",
+                "medium": "Supernatural kid",
+                "high": "Bulletproof"
+            }
+        },
+        {
+            "word": "Diamonds",
+            "hints": {
+                "low": "Floating in water",
+                "medium": "Aurora borealis",
+                "high": "Shine bright"
+            }
+        },
+        {
+            "word": "We Are Young",
+            "hints": {
+                "low": "Bar fight slow motion",
+                "medium": "Smashing food",
+                "high": "Set the world on fire"
+            }
+        },
+        {
+            "word": "Call Me Maybe",
+            "hints": {
+                "low": "Car wash",
+                "medium": "Giving number",
+                "high": "Guy likes bandmate"
+            }
+        },
+        {
+            "word": "Somebody That I Used To Know",
+            "hints": {
+                "low": "Body paint",
+                "medium": "Blending into wall",
+                "high": "Kimbra verse"
+            }
+        },
+        {
+            "word": "Party Rock Anthem",
+            "hints": {
+                "low": "Shuffling",
+                "medium": "Cardboard box head",
+                "high": "Everyday I'm..."
+            }
+        },
+        {
+            "word": "Rolling in the Deep",
+            "hints": {
+                "low": "Sitting in chair",
+                "medium": "Breaking glasses",
+                "high": "Drum beat"
+            }
+        },
+        {
+            "word": "Firework",
+            "hints": {
+                "low": "Sparks from chest",
+                "medium": "Balcony scene",
+                "high": "Fourth of July"
+            }
+        },
+        {
+            "word": "Grenade",
+            "hints": {
+                "low": "Dragging piano",
+                "medium": "Catch a grenade",
+                "high": "Train tracks"
+            }
+        },
+        {
+            "word": "Just The Way You Are",
+            "hints": {
+                "low": "Cassette tape art",
+                "medium": "Drawing animation",
+                "high": "Don't change"
+            }
+        },
+        {
+            "word": "Love The Way You Lie",
+            "hints": {
+                "low": "House on fire",
+                "medium": "Megan Fox",
+                "high": "Standing in field"
+            }
+        },
+        {
+            "word": "Bad Romance",
+            "hints": {
+                "low": "White bathtub",
+                "medium": "Monster claws",
+                "high": "Sparkler bra"
+            }
+        },
+        {
+            "word": "Tik Tok",
+            "hints": {
+                "low": "Waking up in tub",
+                "medium": "Jack Daniels",
+                "high": "Glitter explosion"
+            }
+        },
+        {
+            "word": "Empire State of Mind",
+            "hints": {
+                "low": "NYC scenery",
+                "medium": "Playing piano street",
+                "high": "Concrete jungle"
+            }
+        },
+        {
+            "word": "Baby",
+            "hints": {
+                "low": "Bowling alley",
+                "medium": "Ludacris verse",
+                "high": "Like baby baby baby ooh"
+            }
+        },
+        {
+            "word": "Single Ladies",
+            "hints": {
+                "low": "Black and white",
+                "medium": "Just one hand",
+                "high": "Put a ring on it"
+            }
+        },
+        {
+            "word": "Poker Face",
+            "hints": {
+                "low": "Pool scene",
+                "medium": "Silver outfit",
+                "high": "Can't read my..."
+            }
+        },
+        {
+            "word": "I Gotta Feeling",
+            "hints": {
+                "low": "Getting ready",
+                "medium": "Club scene",
+                "high": "Good good night"
+            }
+        },
+        {
+            "word": "Boom Boom Pow",
+            "hints": {
+                "low": "Futuristic faces",
+                "medium": "Geometric shapes",
+                "high": "Gotta get that"
+            }
+        },
+        {
+            "word": "Disturbia",
+            "hints": {
+                "low": "Scary eyes",
+                "medium": "Spider cage",
+                "high": "Bum bum be-dum"
+            }
+        },
+        {
+            "word": "Viva La Vida",
+            "hints": {
+                "low": "French revolution art",
+                "medium": "Used to rule the world",
+                "high": "Rose background"
+            }
+        },
+        {
+            "word": "Bleeding Love",
+            "hints": {
+                "low": "Apartment building",
+                "medium": "Times Square",
+                "high": "Keep bleeding"
+            }
+        },
+        {
+            "word": "No One",
+            "hints": {
+                "low": "Playing keyboard",
+                "medium": "Raining on stage",
+                "high": "Everything's gonna be alright"
+            }
+        },
+        {
+            "word": "Apologize",
+            "hints": {
+                "low": "Piano looking sideways",
+                "medium": "Counting stars singer",
+                "high": "Too late"
+            }
+        },
+        {
+            "word": "Low",
+            "hints": {
+                "low": "Apple bottom jeans",
+                "medium": "Boots with the fur",
+                "high": "Club scene"
+            }
+        },
+        {
+            "word": "Umbrella",
+            "hints": {
+                "low": "Silver body paint",
+                "medium": "Sparks shower",
+                "high": "Ella ella eh eh"
+            }
+        },
+        {
+            "word": "Hey There Delilah",
+            "hints": {
+                "low": "Acoustic guitar in room",
+                "medium": "New York City",
+                "high": "Plane ride away"
+            }
+        },
+        {
+            "word": "Big Girls Don't Cry",
+            "hints": {
+                "low": "Getting tattoo",
+                "medium": "Packing bag",
+                "high": "Personal thing"
+            }
+        },
+        {
+            "word": "Stronger",
+            "hints": {
+                "low": "Daft Punk sample",
+                "medium": "Shutter shades",
+                "high": "Neon city"
+            }
+        },
+        {
+            "word": "Rehab",
+            "hints": {
+                "low": "Band in apartment",
+                "medium": "No No No",
+                "high": "Beehive hair"
+            }
+        },
+        {
+            "word": "Irreplaceable",
+            "hints": {
+                "low": "Box to the left",
+                "medium": "Another you",
+                "high": "Nail file"
+            }
+        },
+        {
+            "word": "SexyBack",
+            "hints": {
+                "low": "Spy theme",
+                "medium": "Club jumping",
+                "high": "Bringing it back"
+            }
+        },
+        {
+            "word": "Crazy",
+            "hints": {
+                "low": "Ink blot test",
+                "medium": "Rorshach",
+                "high": "Does that make me..."
+            }
+        },
+        {
+            "word": "Hips Don't Lie",
+            "hints": {
+                "low": "Orange dress",
+                "medium": "Carnival",
+                "high": "Shakira Shakira"
+            }
+        },
+        {
+            "word": "Gold Digger",
+            "hints": {
+                "low": "Pin up girls",
+                "medium": "Jamie Foxx",
+                "high": "Pre-nup"
+            }
+        },
+        {
+            "word": "Boulevard of Broken Dreams",
+            "hints": {
+                "low": "Walking down empty road",
+                "medium": "Film grain effect",
+                "high": "Walk alone"
+            }
+        },
+        {
+            "word": "Mr. Brightside",
+            "hints": {
+                "low": "Cabaret stage",
+                "medium": "Cage",
+                "high": "Coming out of my..."
+            }
+        },
+        {
+            "word": "Welcome to the Black Parade",
+            "hints": {
+                "low": "Hospital bed",
+                "medium": "Marching band",
+                "high": "Emo anthem"
+            }
+        },
+        {
+            "word": "I Write Sins Not Tragedies",
+            "hints": {
+                "low": "Circus wedding",
+                "medium": "Closing the door",
+                "high": "Top hat ringmaster"
+            }
+        },
+        {
+            "word": "Temperature",
+            "hints": {
+                "low": "Seasonal changes",
+                "medium": "Thermometer",
+                "high": "Sean Paul"
+            }
+        },
+        {
+            "word": "Ridin'",
+            "hints": {
+                "low": "Police car",
+                "medium": "Chameleon",
+                "high": "Tryin to catch me"
+            }
+        },
+        {
+            "word": "You're Beautiful",
+            "hints": {
+                "low": "Removing clothes in snow",
+                "medium": "Jump off cliff",
+                "high": "Subway saw your face"
+            }
+        },
+        {
+            "word": "Hollaback Girl",
+            "hints": {
+                "low": "Cheerleaders",
+                "medium": "Bananas B-A-N-A-N-A-S",
+                "high": "Marching band"
+            }
+        },
+        {
+            "word": "We Belong Together",
+            "hints": {
+                "low": "Wedding dress running",
+                "medium": "Wentworth Miller",
+                "high": "Come back baby"
+            }
+        },
+        {
+            "word": "Since U Been Gone",
+            "hints": {
+                "low": "Destroying apartment",
+                "medium": "Breaking picture frame",
+                "high": "Can breathe for first time"
+            }
+        },
+        {
+            "word": "Drop It Like It's Hot",
+            "hints": {
+                "low": "Black and white",
+                "medium": "Clicking tongue",
+                "high": "Snoop dance"
+            }
+        },
+        {
+            "word": "Yeah!",
+            "hints": {
+                "low": "Green laser beams",
+                "medium": "Ludacris verse",
+                "high": "Take that rewinds it back"
+            }
+        },
+        {
+            "word": "Toxic",
+            "hints": {
+                "low": "Flight attendant",
+                "medium": "Motorcycle ride",
+                "high": "Diamond suit"
+            }
+        },
+        {
+            "word": "Hey Ya!",
+            "hints": {
+                "low": "Green outfit band",
+                "medium": "Polaroid picture",
+                "high": "Shake it"
+            }
+        },
+        {
+            "word": "In Da Club",
+            "hints": {
+                "low": "Upside down gym",
+                "medium": "Shorty it's your birthday",
+                "high": "Vitamin water"
+            }
+        },
+        {
+            "word": "Crazy in Love",
+            "hints": {
+                "low": "Car blown up",
+                "medium": "Jean shorts walk",
+                "high": "Uh oh uh oh"
+            }
+        },
+        {
+            "word": "Where Is The Love?",
+            "hints": {
+                "low": "Question mark stickers",
+                "medium": "Running on street",
+                "high": "People killing people"
+            }
+        },
+        {
+            "word": "Numb",
+            "hints": {
+                "low": "Frozen girl in church",
+                "medium": "Drawing",
+                "high": "Become so numb"
+            }
+        },
+        {
+            "word": "Bring Me To Life",
+            "hints": {
+                "low": "Climbing building window",
+                "medium": "Falling nightmare",
+                "high": "Wake me up"
+            }
+        },
+        {
+            "word": "Seven Nation Army",
+            "hints": {
+                "low": "Kaleidoscope triangles",
+                "medium": "Red white black",
+                "high": "Bass riff"
+            }
+        },
+        {
+            "word": "Clocks",
+            "hints": {
+                "low": "Piano riff",
+                "medium": "Laser show",
+                "high": "Am I part of the cure"
+            }
+        },
+        {
+            "word": "Cry Me a River",
+            "hints": {
+                "low": "Breaking into house",
+                "medium": "Rain window",
+                "high": "Britney lookalike"
+            }
+        },
+        {
+            "word": "Lose Yourself",
+            "hints": {
+                "low": "Hoodie",
+                "medium": "Mom's spaghetti",
+                "high": "One shot"
+            }
+        },
+        {
+            "word": "Hot in Herre",
+            "hints": {
+                "low": "Club sweat",
+                "medium": "Take off all your clothes",
+                "high": "Bandaid on cheek"
+            }
+        },
+        {
+            "word": "Dilemma",
+            "hints": {
+                "low": "Neighborhood street",
+                "medium": "Excel spreadsheet text",
+                "high": "Kelly Rowland"
+            }
+        },
+        {
+            "word": "Without Me",
+            "hints": {
+                "low": "Robin costume",
+                "medium": "Comic book style",
+                "high": "Guess who's back"
+            }
+        },
+        {
+            "word": "Complicated",
+            "hints": {
+                "low": "Skating at mall",
+                "medium": "Tie over t-shirt",
+                "high": "Why'd you have to go"
+            }
+        },
+        {
+            "word": "A Thousand Miles",
+            "hints": {
+                "low": "Moving piano",
+                "medium": "Traveling through city",
+                "high": "Making my way downtown"
+            }
+        },
+        {
+            "word": "Get Low",
+            "hints": {
+                "low": "Need for Speed",
+                "medium": "To the window",
+                "high": "Constructicon"
+            }
+        },
+        {
+            "word": "In the End",
+            "hints": {
+                "low": "Flying whale",
+                "medium": "Statue top",
+                "high": "Doesn't even matter"
+            }
+        },
+        {
+            "word": "Chop Suey!",
+            "hints": {
+                "low": "Parking lot concert",
+                "medium": "Green screen people",
+                "high": "Wake up"
+            }
+        },
+        {
+            "word": "Last Nite",
+            "hints": {
+                "low": "Gold microphone",
+                "medium": "Retro stage",
+                "high": "Throwing mic stand"
+            }
+        },
+        {
+            "word": "Fallin'",
+            "hints": {
+                "low": "Piano in desert",
+                "medium": "Visiting prison",
+                "high": "In and out of love"
+            }
+        },
+        {
+            "word": "Survivor",
+            "hints": {
+                "low": "Shipwrecked beach",
+                "medium": "Camo outfits",
+                "high": "Not gonna give up"
+            }
+        },
+        {
+            "word": "It's My Life",
+            "hints": {
+                "low": "Running through tunnel",
+                "medium": "Highway traffic",
+                "high": "Now or never"
+            }
+        },
+        {
+            "word": "Yellow",
+            "hints": {
+                "low": "Walking on beach",
+                "medium": "Sunrise",
+                "high": "It was all yellow"
+            }
+        },
+        {
+            "word": "Stan",
+            "hints": {
+                "low": "Writing letters in basement",
+                "medium": "Dido chorus",
+                "high": "Driving off bridge"
+            }
+        },
+        {
+            "word": "Who Let The Dogs Out",
+            "hints": {
+                "low": "Dogs running",
+                "medium": "Barking",
+                "high": "Baha Men"
+            }
+        },
+        {
+            "word": "Bye Bye Bye",
+            "hints": {
+                "low": "Marionette puppets",
+                "medium": "Moving train",
+                "high": "Car chase"
+            }
+        },
+        {
+            "word": "Oops!... I Did It Again",
+            "hints": {
+                "low": "Red latex suit",
+                "medium": "Mars",
+                "high": "Astronaut gift"
+            }
+        },
+        {
+            "word": "The Real Slim Shady",
+            "hints": {
+                "low": "Hospital scene",
+                "medium": "Factory clones",
+                "high": "Please stand up"
+            }
+        },
+        {
+            "word": "Say My Name",
+            "hints": {
+                "low": "Each room changes color",
+                "medium": "Different outfits same pose",
+                "high": "No one is around you"
+            }
+        },
+        {
+            "word": "It's Gonna Be Me",
+            "hints": {
+                "low": "Toy store",
+                "medium": "Action figures",
+                "high": "Plastic faces"
+            }
         }
     ]
 }

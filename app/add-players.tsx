@@ -55,8 +55,10 @@ export default function AddPlayersScreen() {
 
     const gameMode = useGameStore((s) => s.gameMode);
 
+    const minPlayers = gameMode === 'directors-cut' ? 2 : MIN_PLAYERS;
+
     const handleContinue = () => {
-        if (players.length < MIN_PLAYERS) { haptics.warning(); return; }
+        if (players.length < minPlayers) { haptics.warning(); return; }
         haptics.medium();
         // These modes need theme selection
         if (gameMode === 'undercover-word' || gameMode === 'classic-imposter') {
@@ -68,7 +70,7 @@ export default function AddPlayersScreen() {
         }
     };
 
-    const canContinue = players.length >= MIN_PLAYERS;
+    const canContinue = players.length >= minPlayers;
     const playerToDelete = players.find(p => p.id === deleteId);
 
     const handleDeleteConfirm = () => {
