@@ -1,3 +1,4 @@
+import { Button } from '@/components/game/Button';
 import { Colors } from '@/constants/colors';
 import { Player } from '@/types/game';
 import { Ionicons } from '@expo/vector-icons';
@@ -93,6 +94,7 @@ export const WinnerCelebration = ({ winner, allPlayers, onNewGame, onHome }: Win
     const insets = useSafeAreaInsets();
     const sortedPlayers = [...allPlayers].sort((a, b) => b.score - a.score);
     const [showPodium, setShowPodium] = useState(false);
+    const [showFullLeaderboard, setShowFullLeaderboard] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => setShowPodium(true), 2500);
@@ -174,33 +176,57 @@ export const WinnerCelebration = ({ winner, allPlayers, onNewGame, onHome }: Win
                             )}
                         </View>
 
-                        {/* Rest of the players */}
-                        <View style={styles.othersList}>
-                            {sortedPlayers.slice(3).map((p, i) => (
-                                <View key={p.id} style={styles.otherRow}>
-                                    <Text style={styles.otherRank}>#{i + 4}</Text>
-                                    <Text style={styles.otherName}>{p.name}</Text>
-                                    <Text style={styles.otherScore}>{p.score} pts</Text>
-                                </View>
-                            ))}
+                        {/* Rest of the players - Toggle */}
+                        {/* Full Leaderboard Toggle */}
+                        <View style={styles.othersSection}>
+                            {!showFullLeaderboard ? (
+                                <TouchableOpacity
+                                    style={styles.viewAllBtn}
+                                    onPress={() => setShowFullLeaderboard(true)}
+                                >
+                                    <Ionicons name="list" size={16} color={Colors.candlelight} />
+                                    <Text style={styles.viewAllText}>View Full Leaderboard</Text>
+                                </TouchableOpacity>
+                            ) : (
+                                <Animated.View entering={FadeInUp} style={{ width: '100%' }}>
+                                    <View style={styles.othersList}>
+                                        {sortedPlayers.map((p, i) => (
+                                            <View key={p.id} style={styles.otherRow}>
+                                                <Text style={styles.otherRank}>#{i + 1}</Text>
+                                                <Text style={styles.otherName}>{p.name}</Text>
+                                                <Text style={styles.otherScore}>{p.score} pts</Text>
+                                            </View>
+                                        ))}
+                                    </View>
+                                    <TouchableOpacity
+                                        style={[styles.viewAllBtn, { marginTop: 12, alignSelf: 'center' }]}
+                                        onPress={() => setShowFullLeaderboard(false)}
+                                    >
+                                        <Text style={styles.viewAllText}>Hide Leaderboard</Text>
+                                    </TouchableOpacity>
+                                </Animated.View>
+                            )}
                         </View>
 
                         <View style={styles.actions}>
-                            <TouchableOpacity
-                                style={[styles.btn, styles.primaryBtn]}
+                            <Button
+                                title="Start New Tournament"
                                 onPress={onNewGame}
-                            >
-                                <Ionicons name="refresh" size={20} color={Colors.victorianBlack} />
-                                <Text style={styles.primaryBtnText}>Start New Tournament</Text>
-                            </TouchableOpacity>
+                                variant="primary"
+                                size="medium"
+                                icon={<Ionicons name="refresh" size={20} color={Colors.victorianBlack} />}
+                                style={{ backgroundColor: Colors.pureGold, borderColor: Colors.pureGold }}
+                            />
 
-                            <TouchableOpacity
-                                style={[styles.btn, styles.secondaryBtn]}
+                            <Button
+                                title="Back to Home"
                                 onPress={onHome}
-                            >
-                                <Ionicons name="home-outline" size={20} color={Colors.parchment} />
-                                <Text style={styles.secondaryBtnText}>Back to Home</Text>
-                            </TouchableOpacity>
+                                variant="outline"
+                                size="medium"
+                                icon={<Ionicons name="home-outline" size={20} color={Colors.parchment} />}
+                                textStyle={{ color: Colors.parchment }}
+                                style={{ borderColor: 'rgba(255, 255, 255, 0.2)' }}
+                            />
                         </View>
                     </Animated.ScrollView>
                 )}
@@ -341,36 +367,17 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: Colors.grayLight,
     },
+    viewAllText: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: Colors.candlelight,
+    },
     actions: {
         gap: 12,
         marginTop: 20,
         paddingBottom: 40,
     },
-    btn: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 14,
-        borderRadius: 16,
-        gap: 8,
-    },
-    primaryBtn: {
-        backgroundColor: Colors.pureGold,
-    },
-    primaryBtnText: {
-        fontSize: 14,
-        fontWeight: '800',
-        color: Colors.victorianBlack,
-    },
-    secondaryBtn: {
-        borderWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.2)',
-    },
-    secondaryBtnText: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: Colors.parchment,
-    },
+    // Restored styles
     fireworkContainer: {
         position: 'absolute',
         width: 0,
@@ -386,5 +393,20 @@ const styles = StyleSheet.create({
     confetti: {
         position: 'absolute',
         borderRadius: 2,
+    },
+    othersSection: {
+        marginTop: 20,
+        alignItems: 'center',
+    },
+    viewAllBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.1)',
     },
 });
