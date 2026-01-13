@@ -14,12 +14,12 @@ export const ScoreBoard = ({ players, title = "Leaderboard" }: ScoreBoardProps) 
     // Sort players by score descending
     const sortedPlayers = [...players].sort((a, b) => b.score - a.score);
     const topScore = sortedPlayers[0]?.score || 0;
-    const WINNING_SCORE = 5;
+    const WINNING_SCORE = 10;
     const [showRules, setShowRules] = React.useState(false);
 
     const rules = [
         { mode: 'Classic / Undercover', win: 'Imposter +3', survivors: 'Crew +1' },
-        { mode: "Director's Cut", win: 'Correct Guess +5', survivors: 'Director +3' },
+        { mode: "Director's Cut", win: 'Correct Guess +2', survivors: 'Director +2' },
         { mode: 'Mind Sync', win: 'Outlier +3', survivors: 'In-Sync +1' },
     ];
 
@@ -52,9 +52,13 @@ export const ScoreBoard = ({ players, title = "Leaderboard" }: ScoreBoardProps) 
                             </View>
                         </View>
                     ))}
-                    <Text style={styles.tournamentRule}>🏆 First to 5 points wins the match!</Text>
                 </Animated.View>
             )}
+
+            <View style={styles.tournamentBanner}>
+                <Ionicons name="flash-outline" size={14} color={Colors.candlelight} />
+                <Text style={styles.tournamentRule}>First to 10 points wins the match!</Text>
+            </View>
 
             <View style={styles.list}>
                 {sortedPlayers.map((player, index) => {
@@ -122,11 +126,10 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
     title: {
-        fontSize: 12,
-        fontWeight: '700',
-        color: Colors.candlelight,
-        letterSpacing: 2,
-        textTransform: 'uppercase',
+        fontSize: 16,
+        fontWeight: '900',
+        color: Colors.parchment,
+        letterSpacing: 1,
     },
     list: {
         gap: 10,
@@ -259,11 +262,22 @@ const styles = StyleSheet.create({
         paddingVertical: 2,
         borderRadius: 6,
     },
+    tournamentBanner: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(212, 175, 55, 0.1)',
+        paddingVertical: 8,
+        borderRadius: 12,
+        marginBottom: 16,
+        gap: 6,
+        borderWidth: 1,
+        borderColor: 'rgba(212, 175, 55, 0.2)',
+    },
     tournamentRule: {
-        fontSize: 9,
-        color: Colors.grayMedium,
-        textAlign: 'center',
-        marginTop: 4,
-        fontWeight: '500',
+        fontSize: 12,
+        color: Colors.candlelight,
+        fontWeight: '700',
+        letterSpacing: 0.5,
     },
 });

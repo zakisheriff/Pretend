@@ -24,7 +24,9 @@ export const Colors = {
 
   // === Noir Accents ===
   gaslightAmber: '#F59E0B',       // Streetlight Amber (Accent)
-  candlelight: '#D4D4D8',         // Moonlight Silver
+  candlelight: '#E5E7EB',         // Moonlight Silver
+  pureGold: '#FFD700',            // Vibrant Gold
+  crownGold: '#D4AF37',           // Metallic Gold
   waxSeal: '#DC2626',             // Blood Red
   inkBlack: '#000000',
 

@@ -469,10 +469,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
                 case 'directors-cut':
                     if (directorWinnerId) {
-                        if (player.id === directorWinnerId) pointsToAdd = 5;
+                        if (player.id === directorWinnerId) pointsToAdd = 2; // Fixed to +2
                     } else if (player.id === directorId) {
                         // Director won because no one guessed
-                        pointsToAdd = 3;
+                        pointsToAdd = 2; // Fixed to +2
                     }
                     break;
 
@@ -490,8 +490,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
             return { ...player, score: player.score + pointsToAdd };
         });
 
-        // Check for overall winner (first to 5)
-        const WINNING_SCORE = 5;
+        // Check for overall winner (first to 10)
+        const WINNING_SCORE = 10;
         const winner = updatedPlayers.find(p => p.score >= WINNING_SCORE);
 
         set({

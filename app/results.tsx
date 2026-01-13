@@ -11,7 +11,7 @@ import Animated, { FadeInDown, FadeInUp, useAnimatedStyle, withDelay, withSequen
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const PartyPopper = () => {
-    const emojis = ['🎉', '✨', '🎊', '🚀', '🔥', '💎', '⚛️'];
+    const emojis = ['🎉', '✨', '🎊', '🚀', '🔥', '💎'];
     return (
         <View style={StyleSheet.absoluteFill} pointerEvents="none">
             {Array.from({ length: 20 }).map((_, i) => {
@@ -344,7 +344,7 @@ export default function ResultsScreen() {
                         <Ionicons name="trophy" size={40} color={Colors.candlelight} />
                         <Text style={styles.overallWinnerTitle}>GRAND CHAMPION</Text>
                         <Text style={styles.overallWinnerText}>
-                            <Text style={styles.boldText}>{overallWinner.name}</Text> wins the match!
+                            <Text style={styles.boldText}>{overallWinner.name} Wins The Match!</Text>
                         </Text>
                         <View style={styles.winnerGlow} />
                         <PartyPopper />

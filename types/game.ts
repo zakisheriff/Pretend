@@ -169,8 +169,8 @@ export const GAME_MODES: GameModeInfo[] = [
         description: 'Imposter gets a clue, crewmates get the secret word',
         tagline: 'Find the imposter who only has a hint!',
         instructions: [
-            { role: 'Crewmates', icon: 'eye-outline', desc: 'See the SECRET WORD and describe it' },
-            { role: 'Imposter', icon: 'skull-outline', desc: 'Only gets a CLUE - fake it and blend in!' },
+            { role: 'Crewmates', icon: 'eye-outline', desc: 'See the SECRET WORD (+1 pt for survivors)' },
+            { role: 'Imposter', icon: 'skull-outline', desc: 'Gets a CLUE - fake it and blend in! (+3 pts for win)' },
         ],
     },
     {
@@ -180,8 +180,8 @@ export const GAME_MODES: GameModeInfo[] = [
         description: 'Everyone gets a word - one person has a different one',
         tagline: 'Find who has a different word without revealing yours!',
         instructions: [
-            { role: 'Everyone', icon: 'person-outline', desc: 'Players get a word from a shared theme' },
-            { role: 'Undercover', icon: 'help-outline', desc: 'Has a DIFFERENT word from the same theme!' },
+            { role: 'Everyone', icon: 'person-outline', desc: 'Players get a word (+1 pt for surviving crew)' },
+            { role: 'Undercover', icon: 'help-outline', desc: 'Has a DIFFERENT word (+3 pts for win)!' },
         ],
     },
     {
@@ -191,8 +191,8 @@ export const GAME_MODES: GameModeInfo[] = [
         description: 'One Director knows the movie, others only get hints',
         tagline: 'Guess the movie through yes/no questions',
         instructions: [
-            { role: 'Director', icon: 'film-outline', desc: 'Knows the MOVIE - answer yes/no questions' },
-            { role: 'Viewers', icon: 'eye-outline', desc: 'Get hints and ask questions to guess the movie' },
+            { role: 'Director', icon: 'film-outline', desc: 'Knows the MOVIE (+2 pts if no one guesses)' },
+            { role: 'Viewers', icon: 'eye-outline', desc: 'Ask questions to guess the movie (+2 pts for correct guess)' },
         ],
     },
     {
@@ -202,8 +202,8 @@ export const GAME_MODES: GameModeInfo[] = [
         description: 'One player answers a slightly different question',
         tagline: 'Find who is out of sync',
         instructions: [
-            { role: 'In Sync', icon: 'sync-outline', desc: 'Answer the question - find who has a different one' },
-            { role: 'Outlier', icon: 'flash-outline', desc: 'Has a different question - give a believable answer!' },
+            { role: 'In Sync', icon: 'sync-outline', desc: 'Answer the question (+1 pt for majority win)' },
+            { role: 'Outlier', icon: 'flash-outline', desc: 'Has a different question (+3 pts for win)!' },
         ],
     },
 ];
