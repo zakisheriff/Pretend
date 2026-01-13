@@ -2,7 +2,7 @@ import { Colors } from '@/constants/colors';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
-import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
     runOnJS,
@@ -48,6 +48,7 @@ const PlayerCardBase = (props: PlayerCardProps) => {
     const [editName, setEditName] = useState(name);
     const editNameRef = useRef(name);
     const prevEditing = useRef(isEditing);
+    const inputRef = useRef<TextInput>(null);
 
     // Sync isActive scale
     useEffect(() => {
@@ -132,6 +133,10 @@ const PlayerCardBase = (props: PlayerCardProps) => {
     };
 
     const handleEndEdit = () => {
+        // Blur and dismiss keyboard explicitly
+        inputRef.current?.blur();
+        Keyboard.dismiss();
+
         const val = editName.trim();
         if (val && val !== name) onRename(id, val);
         else setEditName(name);
@@ -156,11 +161,13 @@ const PlayerCardBase = (props: PlayerCardProps) => {
 
                     {isEditing ? (
                         <TextInput
+                            ref={inputRef}
                             style={styles.nameInput}
                             value={editName}
                             onChangeText={handleChangeText}
                             maxLength={16}
                             autoFocus
+                            blurOnSubmit={true}
                             onBlur={handleEndEdit}
                             onSubmitEditing={handleEndEdit}
                             returnKeyType="done"
