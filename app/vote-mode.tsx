@@ -42,7 +42,7 @@ export default function VoteModeScreen() {
 
                     <View style={styles.divider}>
                         <View style={styles.line} />
-                        <Text style={styles.or}>OR</Text>
+                        <Text style={styles.or}>or</Text>
                         <View style={styles.line} />
                     </View>
 
