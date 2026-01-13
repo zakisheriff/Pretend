@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         borderColor: Colors.candlelight,
         backgroundColor: Colors.parchment,
     },
-    name: { fontSize: 13, fontWeight: '700', color: Colors.candlelight, letterSpacing: 1 },
+    name: { fontSize: 13, fontWeight: '700', color: Colors.parchment, letterSpacing: 1 },
     nameSelected: { color: Colors.victorianBlack },
     check: {
         position: 'absolute', top: 8, right: 8,

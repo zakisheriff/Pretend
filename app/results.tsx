@@ -38,8 +38,8 @@ export default function ResultsScreen() {
             case 'undercover-word':
                 // Classic Imposter
                 return impostersCaught
-                    ? { title: 'Crewmates Win!', subtitle: 'The imposter was caught!' }
-                    : { title: 'Imposter Wins!', subtitle: 'The imposter escaped justice!' };
+                    ? { title: 'Crewmates Win!', subtitle: 'The Imposter was caught!' }
+                    : { title: 'Imposter Wins!', subtitle: 'The Imposter escaped justice!' };
             case 'directors-cut':
                 return impostersCaught
                     ? { title: 'Viewers Win!', subtitle: 'The Director was identified!' }
@@ -51,12 +51,12 @@ export default function ResultsScreen() {
             case 'classic-imposter':
                 // Undercover
                 return impostersCaught
-                    ? { title: 'Players Win!', subtitle: 'The undercover was found!' }
-                    : { title: 'Undercover Wins!', subtitle: 'The undercover blended in perfectly!' };
+                    ? { title: 'Players Win!', subtitle: 'The Undercover was found!' }
+                    : { title: 'Undercover Wins!', subtitle: 'The Undercover blended in perfectly!' };
             default:
                 return impostersCaught
                     ? { title: 'Investigators Win!', subtitle: 'The suspect has been caught!' }
-                    : { title: 'Imposter Wins!', subtitle: 'The imposter escaped justice!' };
+                    : { title: 'Imposter Wins!', subtitle: 'The Imposter escaped justice!' };
         }
     };
 

@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
 
     section: { gap: 12 },
     sectionTitle: { fontSize: 12, fontWeight: '800', color: Colors.candlelight, letterSpacing: 2 },
-    sectionSubtitle: { fontSize: 11, color: Colors.grayLight, marginTop: -8 },
+    sectionSubtitle: { fontSize: 11, color: Colors.candlelight, marginTop: -8 },
 
     steps: { gap: 8 },
     step: { flexDirection: 'row', backgroundColor: Colors.grayDark, borderRadius: 12, padding: 12, gap: 12, borderWidth: 1, borderColor: Colors.grayMedium },
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     stepBody: { flex: 1, gap: 2 },
     stepHeader: { flexDirection: 'row', alignItems: 'center', gap: 6 },
     stepTitle: { fontSize: 13, fontWeight: '700', color: Colors.parchment },
-    stepDesc: { fontSize: 11, color: Colors.grayLight },
+    stepDesc: { fontSize: 11, color: Colors.parchment, opacity: 0.85 },
 
     modesGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
     modeCard: { width: '48%', backgroundColor: Colors.grayDark, borderRadius: 12, padding: 14, alignItems: 'center', gap: 8, borderWidth: 1.5, borderColor: Colors.grayMedium },
@@ -235,12 +235,12 @@ const styles = StyleSheet.create({
     roleIcon: { width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
     roleBody: { flex: 1 },
     roleName: { fontSize: 12, fontWeight: '700' },
-    roleDesc: { fontSize: 11, color: Colors.grayLight, marginTop: 2 },
+    roleDesc: { fontSize: 11, color: Colors.parchment, opacity: 0.85, marginTop: 2 },
     modeTip: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 12, paddingTop: 10, borderTopWidth: 1, borderTopColor: Colors.grayMedium },
     modeTipText: { fontSize: 11, color: Colors.candlelight, fontStyle: 'italic', flex: 1 },
 
     tipBox: { backgroundColor: 'rgba(196,167,108,0.12)', borderRadius: 14, padding: 16, borderWidth: 1.5, borderColor: Colors.candlelight },
     tipTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
     tipTitle: { fontSize: 12, fontWeight: '800', color: Colors.candlelight, letterSpacing: 1 },
-    tip: { fontSize: 11, color: Colors.grayLight, marginBottom: 4 },
+    tip: { fontSize: 11, color: Colors.parchment, marginBottom: 4 },
 });
