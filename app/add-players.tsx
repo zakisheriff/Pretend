@@ -1,11 +1,12 @@
 import { BackButton } from '@/components/common/BackButton';
+import { GenericModal } from '@/components/common/GenericModal';
 import { Button, PlayerCard } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -20,8 +21,16 @@ export default function AddPlayersScreen() {
     const players = useGameStore((s) => s.players);
     const addPlayer = useGameStore((s) => s.addPlayer);
     const removePlayer = useGameStore((s) => s.removePlayer);
+
+
     const updatePlayerName = useGameStore((s) => s.updatePlayerName);
     const reorderPlayers = useGameStore((s) => s.reorderPlayers);
+
+    // Dialog state
+    const [deleteId, setDeleteId] = useState<string | null>(null);
+
+    // Using any for the ref because strictly typing DraggableFlatList can be tricky with versions
+    const listRef = useRef<any>(null);
 
     const handleAdd = () => {
         const trimmedName = name.trim();
@@ -56,28 +65,58 @@ export default function AddPlayersScreen() {
     };
 
     const canContinue = players.length >= MIN_PLAYERS;
+    const playerToDelete = players.find(p => p.id === deleteId);
+
+    const handleDeleteConfirm = () => {
+        if (deleteId) {
+            haptics.medium();
+            removePlayer(deleteId);
+            setDeleteId(null);
+        }
+    };
 
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
             style={styles.container}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
         >
             <View style={[styles.headerBar, { paddingTop: insets.top + 10 }]}>
                 <BackButton />
+                <Button
+                    title="Next"
+                    onPress={handleContinue}
+                    variant="primary"
+                    size="small"
+                    disabled={!canContinue}
+                    icon={<Ionicons name="arrow-forward" size={16} color={canContinue ? Colors.victorianBlack : Colors.grayMedium} />}
+                    style={{ borderRadius: 22, height: 44, paddingHorizontal: 16 }}
+                />
             </View>
 
             <DraggableFlatList
+                ref={listRef}
                 data={players}
                 onDragEnd={({ data }) => reorderPlayers(data)}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item, drag, isActive, getIndex }) => (
                     <PlayerCard
+                        id={item.id}
                         name={item.name}
                         index={getIndex() ?? 0}
-                        onDelete={() => removePlayer(item.id)}
-                        onRename={(val) => updatePlayerName(item.id, val)}
+                        onDelete={removePlayer}
+                        onRename={updatePlayerName}
+                        onRequestDeleteSignal={setDeleteId}
                         drag={drag}
                         isActive={isActive}
+                        onFocus={() => {
+                            const idx = getIndex();
+                            if (idx !== undefined) {
+                                setTimeout(() => {
+                                    listRef.current?.scrollToIndex({ index: idx, viewPosition: 0.25, animated: false });
+                                }, 100);
+                            }
+                        }}
                     />
                 )}
                 ListHeaderComponent={
@@ -133,23 +172,26 @@ export default function AddPlayersScreen() {
                         {!canContinue && players.length > 0 && (
                             <Text style={styles.warn}>Need {MIN_PLAYERS - players.length} more investigator{MIN_PLAYERS - players.length > 1 ? 's' : ''}</Text>
                         )}
-                        <Button
-                            title="Proceed to Case"
-                            onPress={handleContinue}
-                            variant="primary"
-                            size="large"
-                            disabled={!canContinue}
-                            icon={<Ionicons name="arrow-forward" size={18} color={canContinue ? Colors.victorianBlack : Colors.grayMedium} />}
-                        />
                     </View>
                 }
                 containerStyle={styles.scroll}
                 contentContainerStyle={[
                     styles.scrollContent,
-                    { paddingBottom: insets.bottom + 20 }
+                    { paddingBottom: insets.bottom + 350 }
                 ]}
                 showsVerticalScrollIndicator={false}
-                keyboardShouldPersistTaps="handled"
+                keyboardShouldPersistTaps="always"
+                activationDistance={20}
+            />
+
+            <GenericModal
+                visible={!!deleteId}
+                title="Remove Investigator?"
+                message={`Are you sure you want to remove ${playerToDelete?.name}?`}
+                confirmLabel="Remove"
+                isDestructive
+                onConfirm={handleDeleteConfirm}
+                onCancel={() => setDeleteId(null)}
             />
         </KeyboardAvoidingView>
     );
@@ -157,7 +199,7 @@ export default function AddPlayersScreen() {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack },
-    headerBar: { paddingHorizontal: 20, zIndex: 10 },
+    headerBar: { paddingHorizontal: 20, zIndex: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
     backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },

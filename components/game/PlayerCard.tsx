@@ -1,8 +1,8 @@
 import { Colors } from '@/constants/colors';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
     runOnJS,
@@ -15,16 +15,31 @@ import Animated, {
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const DELETE_THRESHOLD = SCREEN_WIDTH * 0.25;
 
-interface PlayerCardProps {
+type PlayerCardProps = {
+    id: string;
     name: string;
     index: number;
-    onDelete: () => void;
-    onRename: (newName: string) => void;
+    onDelete: (id: string) => void;
+    onRename: (id: string, newName: string) => void;
+    onRequestDeleteSignal: (id: string) => void;
     drag?: () => void;
     isActive?: boolean;
-}
+    onFocus?: () => void;
+};
 
-export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, onRename, drag, isActive }) => {
+const PlayerCardBase = (props: PlayerCardProps) => {
+    const {
+        id,
+        name,
+        index,
+        onDelete,
+        onRename,
+        onRequestDeleteSignal,
+        drag,
+        isActive,
+        onFocus
+    } = props;
+
     const [isEditing, setIsEditing] = useState(false);
     const [editName, setEditName] = useState(name);
 
@@ -32,28 +47,37 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, o
     const itemHeight = useSharedValue(56);
     const opacity = useSharedValue(1);
     const marginBottom = useSharedValue(10);
-
-    // Scale effect when active (dragging)
     const scale = useSharedValue(1);
+    const isEditingSV = useSharedValue(false);
 
-    React.useEffect(() => {
+    useEffect(() => {
         scale.value = withSpring(isActive ? 1.05 : 1);
     }, [isActive]);
 
+    useEffect(() => {
+        isEditingSV.value = isEditing;
+    }, [isEditing]);
+
+    const confirmDelete = () => {
+        haptics.light();
+        onRequestDeleteSignal(id);
+    };
+
     const doDelete = () => {
         haptics.medium();
-        onDelete();
+        onDelete(id);
     };
 
     const panGesture = Gesture.Pan()
         .activeOffsetX([-10, 10])
-        .enabled(!isEditing) // Disable swipe when editing
         .onUpdate((e) => {
+            if (isEditingSV.value) return;
             if (e.translationX < 0) {
                 translateX.value = Math.max(e.translationX, -SCREEN_WIDTH * 0.4);
             }
         })
         .onEnd((e) => {
+            if (isEditingSV.value) return;
             if (e.translationX < -DELETE_THRESHOLD) {
                 translateX.value = withTiming(-SCREEN_WIDTH, { duration: 200 });
                 itemHeight.value = withTiming(0, { duration: 200 });
@@ -88,12 +112,14 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, o
     const handleStartEdit = () => {
         setEditName(name);
         setIsEditing(true);
+        if (onFocus) onFocus();
     };
 
     const handleEndEdit = () => {
+        Keyboard.dismiss();
         setIsEditing(false);
         if (editName.trim() && editName.trim() !== name) {
-            onRename(editName.trim());
+            onRename(id, editName.trim());
         } else {
             setEditName(name);
         }
@@ -133,19 +159,30 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ name, index, onDelete, o
                     )}
 
                     {!isEditing && (
-                        <TouchableOpacity
-                            onPressIn={drag}
-                            style={styles.dragHandle}
-                            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                        >
-                            <Ionicons name="menu" size={20} color={Colors.gray} />
-                        </TouchableOpacity>
+                        <View style={styles.actions}>
+                            <TouchableOpacity
+                                onPress={confirmDelete}
+                                style={styles.actionBtn}
+                                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                            >
+                                <Ionicons name="trash-outline" size={20} color={Colors.suspect} />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPressIn={drag}
+                                style={styles.actionBtn}
+                                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                            >
+                                <Ionicons name="menu" size={20} color={Colors.gray} />
+                            </TouchableOpacity>
+                        </View>
                     )}
                 </Animated.View>
             </GestureDetector>
         </Animated.View>
     );
 };
+
+export const PlayerCard = PlayerCardBase;
 
 const styles = StyleSheet.create({
     container: { position: 'relative', overflow: 'visible' },
@@ -176,5 +213,6 @@ const styles = StyleSheet.create({
     },
     nameText: { flex: 1, fontSize: 16, fontWeight: '500', color: Colors.parchment, letterSpacing: 0.5 },
     nameInput: { flex: 1, fontSize: 16, fontWeight: '500', color: Colors.parchment, paddingVertical: 8, letterSpacing: 0.5 },
-    dragHandle: { padding: 4 },
+    actions: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+    actionBtn: { padding: 8 },
 });

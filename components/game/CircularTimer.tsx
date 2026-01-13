@@ -90,7 +90,7 @@ export const CircularTimer: React.FC<CircularTimerProps> = ({
                     {formatTime(timeRemaining)}
                 </Text>
                 <Text style={styles.label}>
-                    {isCriticalTime ? 'TIME CRITICAL!' : isLowTime ? 'HURRY, DETECTIVE!' : 'INVESTIGATION TIME'}
+                    {isCriticalTime ? 'Time Critical!' : isLowTime ? 'Hurry, Detective!' : 'Investigation Time'}
                 </Text>
             </View>
         </View>
