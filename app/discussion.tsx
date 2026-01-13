@@ -104,7 +104,7 @@ export default function DiscussionScreen() {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack, paddingHorizontal: 20, justifyContent: 'space-between' },
-    header: { flexDirection: 'row', alignItems: 'center', gap: 10, justifyContent: 'center' },
+    header: { flexDirection: 'row', alignItems: 'center', gap: 10, justifyContent: 'center', marginTop: 20 },
     headerEmoji: { fontSize: 20 },
     title: { fontSize: 20, fontWeight: '800', color: Colors.parchmentLight, letterSpacing: 2 },
     timerArea: { flex: 1, alignItems: 'center', justifyContent: 'center' },

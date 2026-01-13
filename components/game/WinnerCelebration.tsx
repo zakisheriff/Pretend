@@ -271,7 +271,6 @@ const styles = StyleSheet.create({
         fontWeight: '800',
         color: Colors.parchment,
         textAlign: 'center',
-        textTransform: 'uppercase',
     },
     podiumSection: {
         flex: 1,

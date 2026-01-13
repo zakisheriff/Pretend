@@ -58,7 +58,7 @@ export default function DirectorVerdictScreen() {
 
             <ScrollView
                 style={styles.scroll}
-                contentContainerStyle={[styles.scrollContent, { paddingTop: 100 }]}
+                contentContainerStyle={[styles.scrollContent, { paddingTop: 20 }]}
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.grid}>
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
         zIndex: 10,
     },
-    header: { alignItems: 'center', paddingVertical: 20, gap: 6 },
+    header: { alignItems: 'center', paddingVertical: 20, gap: 6, marginTop: 60 },
     title: { fontSize: 22, fontWeight: '800', color: Colors.parchment, letterSpacing: 1 },
     subtitle: { fontSize: 13, color: Colors.candlelight },
 
