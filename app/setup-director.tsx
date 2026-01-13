@@ -96,8 +96,8 @@ export default function SetupDirectorScreen() {
                     </Text>
                     <Text style={styles.subtitle}>
                         {step === 'choose-director'
-                            ? 'Who will know the secret movie?'
-                            : `${directorName}, pick a movie for them to guess!`}
+                            ? 'Who Will Know The Secret Movie? '
+                            : `Pick A Movie For Them To Guess! `}
                     </Text>
                 </View>
 
