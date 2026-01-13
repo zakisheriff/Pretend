@@ -31,7 +31,13 @@ export default function ResultsScreen() {
 
     useEffect(() => { haptics.success(); }, []);
 
-    const handleAgain = () => { haptics.medium(); resetGame(); router.push('/add-players'); };
+    const handleAgain = () => {
+        haptics.medium();
+        router.dismissAll();
+        router.replace('/add-players');
+        // Delay reset to prevent UI flash on results screen
+        setTimeout(() => resetGame(), 300);
+    };
     const handleHome = () => { haptics.medium(); resetToHome(); router.dismissAll(); router.replace('/'); };
 
     // Mode-specific content
