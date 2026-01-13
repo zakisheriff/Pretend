@@ -522,8 +522,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
             return { ...player, score: player.score + pointsToAdd };
         });
 
-        // Check for overall winner (first to 10)
-        const WINNING_SCORE = 10;
+        // Check for overall winner (first to 5)
+        const WINNING_SCORE = 2;
         const winner = updatedPlayers.find(p => p.score >= WINNING_SCORE);
 
         set({

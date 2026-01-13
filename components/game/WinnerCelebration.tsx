@@ -7,6 +7,7 @@ import Animated, {
     FadeIn,
     FadeInDown,
     FadeInUp,
+    FadeOut,
     ZoomIn as ScaleInCenter,
     useAnimatedStyle,
     withDelay,
@@ -111,8 +112,8 @@ export const WinnerCelebration = ({ winner, allPlayers, onNewGame, onHome }: Win
             <View style={styles.content}>
                 {!showPodium ? (
                     <Animated.View
-                        entering={FadeIn.duration(1000)}
-                        exiting={FadeIn.duration(500)}
+                        entering={FadeIn.duration(800)}
+                        exiting={FadeOut.duration(600)}
                         style={styles.revealSection}
                     >
                         <Animated.View entering={ScaleInCenter.springify()}>
@@ -228,6 +229,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 20,
+        width: '100%', // Ensure full width for horizontal centering
     },
     championTitle: {
         fontSize: 14,
@@ -251,6 +253,8 @@ const styles = StyleSheet.create({
     podiumContent: {
         paddingVertical: 20,
         gap: 30,
+        flexGrow: 1,
+        justifyContent: 'center',
     },
     finalLeaderboardTitle: {
         fontSize: 24,
