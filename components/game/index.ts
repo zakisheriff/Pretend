@@ -8,4 +8,5 @@ export { PlayerCard } from './PlayerCard';
 export { RoleRevealCard } from './RoleRevealCard';
 export { ScoreBoard } from './ScoreBoard';
 export { ThemeCard } from './ThemeCard';
+export { WinnerCelebration } from './WinnerCelebration';
 

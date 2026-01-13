@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 16,
         fontWeight: '900',
-        color: Colors.parchment,
+        color: Colors.pureGold,
         letterSpacing: 1,
     },
     list: {

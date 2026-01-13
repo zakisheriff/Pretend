@@ -1,5 +1,5 @@
 import { GenericModal } from '@/components/common/GenericModal';
-import { Button, ScoreBoard } from '@/components/game';
+import { Button, ScoreBoard, WinnerCelebration } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
@@ -7,47 +7,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import Animated, { FadeInDown, FadeInUp, useAnimatedStyle, withDelay, withSequence, withSpring, withTiming, ZoomIn } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeInUp, ZoomIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
-const PartyPopper = () => {
-    const emojis = ['🎉', '✨', '🎊', '🚀', '🔥', '💎'];
-    return (
-        <View style={StyleSheet.absoluteFill} pointerEvents="none">
-            {Array.from({ length: 20 }).map((_, i) => {
-                const angle = (i / 20) * 2 * Math.PI;
-                const distance = 100 + Math.random() * 150;
-                const x = Math.cos(angle) * distance;
-                const y = Math.sin(angle) * distance - 20;
-
-                return (
-                    <Animated.Text
-                        key={i}
-                        entering={ZoomIn.delay(i * 30).duration(600).springify()}
-                        style={[
-                            {
-                                position: 'absolute',
-                                left: '50%',
-                                top: '50%',
-                                fontSize: 20 + Math.random() * 15,
-                            },
-                            useAnimatedStyle(() => ({
-                                transform: [
-                                    { translateX: withDelay(200, withSpring(x)) },
-                                    { translateY: withDelay(200, withSpring(y)) },
-                                    { rotate: withSequence(withTiming('45deg'), withTiming('-45deg')) }
-                                ],
-                                opacity: withDelay(1500, withTiming(0))
-                            }))
-                        ]}
-                    >
-                        {emojis[i % emojis.length]}
-                    </Animated.Text>
-                );
-            })}
-        </View>
-    );
-};
 
 export default function ResultsScreen() {
     const router = useRouter();
@@ -124,7 +85,7 @@ export default function ResultsScreen() {
             if (eliminatedThisRound) {
                 return {
                     title: `${eliminatedThisRound.name} is Gone! `,
-                    subtitle: eliminatedThisRound.isImposter ? `${eliminatedThisRound.name} is an ${specialRoleName}! ` : `${eliminatedThisRound.name} is a ${normalRoleName}... `
+                    subtitle: eliminatedThisRound.isImposter ? `${eliminatedThisRound.name} is an ${specialRoleName} ! ` : `${eliminatedThisRound.name} is a ${normalRoleName}... `
                 };
             }
             return { title: 'No One Eliminated', subtitle: 'The vote was a tie!' };
@@ -337,18 +298,20 @@ export default function ResultsScreen() {
 
                 {/* Overall Winner Celebration */}
                 {overallWinner && (
-                    <Animated.View
-                        entering={ZoomIn.duration(800).springify()}
-                        style={styles.overallWinnerBanner}
-                    >
-                        <Ionicons name="trophy" size={40} color={Colors.candlelight} />
-                        <Text style={styles.overallWinnerTitle}>GRAND CHAMPION</Text>
-                        <Text style={styles.overallWinnerText}>
-                            <Text style={styles.boldText}>{overallWinner.name} Wins The Match!</Text>
-                        </Text>
-                        <View style={styles.winnerGlow} />
-                        <PartyPopper />
-                    </Animated.View>
+                    <WinnerCelebration
+                        winner={overallWinner}
+                        allPlayers={players}
+                        onNewGame={() => {
+                            resetGame();
+                            // Resetting tournament means starting fresh rounds
+                            // Force a navigation or reset
+                            router.replace('/select-mode');
+                        }}
+                        onHome={() => {
+                            resetToHome();
+                            router.replace('/');
+                        }}
+                    />
                 )}
 
                 {/* Leaderboard Section */}
