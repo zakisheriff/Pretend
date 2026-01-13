@@ -63,6 +63,7 @@ export interface Player {
     hasRevealed: boolean;
     vote?: string; // Player ID they voted for
     answer?: string; // For Mind Sync: player's secret answer
+    isEliminated?: boolean;
 }
 
 export interface GameSettings {
@@ -103,6 +104,8 @@ export interface GameState {
     impostersCaught: boolean;
     directorId: string | null;
     directorWinnerId: string | null;
+    gameWinner: 'crewmates' | 'imposters' | null;
+    lastEliminatedPlayerId: string | null;
 }
 
 export const DEFAULT_SETTINGS: GameSettings = {

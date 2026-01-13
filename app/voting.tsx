@@ -20,8 +20,9 @@ export default function VotingScreen() {
     const [selected, setSelected] = useState<string | null>(null);
     const [showVoter, setShowVoter] = useState(true);
 
-    const voter = players[voterIdx];
-    const isLast = voterIdx === players.length - 1;
+    const activePlayers = players.filter(p => !p.isEliminated);
+    const voter = activePlayers[voterIdx];
+    const isLast = voterIdx === activePlayers.length - 1;
 
     // Block back navigation during voting (except for first voter)
     useEffect(() => {
@@ -51,7 +52,7 @@ export default function VotingScreen() {
                     </View>
                 )}
                 <View style={[styles.centeredContent]}>
-                    <Text style={styles.voterLabel}>Accusation {voterIdx + 1} / {players.length}</Text>
+                    <Text style={styles.voterLabel}>Accusation {voterIdx + 1} / {activePlayers.length}</Text>
                     <View style={styles.voterAvatar}>
                         <Text style={styles.voterInitial}>{voter?.name.charAt(0).toUpperCase()}</Text>
                     </View>
@@ -83,7 +84,7 @@ export default function VotingScreen() {
                 </View>
 
                 <View style={styles.list}>
-                    {players.filter((p) => p.id !== voter?.id).map((p) => (
+                    {activePlayers.filter((p) => p.id !== voter?.id).map((p) => (
                         <TouchableOpacity
                             key={p.id}
                             style={[styles.option, selected === p.id && styles.optionSelected]}

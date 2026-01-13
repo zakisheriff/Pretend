@@ -47,7 +47,7 @@ export default function VerbalVoteScreen() {
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.grid}>
-                    {players.map((p) => (
+                    {players.filter(p => !p.isEliminated).map((p) => (
                         <TouchableOpacity
                             key={p.id}
                             style={[

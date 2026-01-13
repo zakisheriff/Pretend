@@ -23,11 +23,19 @@ export default function ResultsScreen() {
     const getModeDisplayInfo = useGameStore((s) => s.getModeDisplayInfo);
     const resetGame = useGameStore((s) => s.resetGame);
     const resetToHome = useGameStore((s) => s.resetToHome);
+    const gameWinner = useGameStore((s) => s.gameWinner);
+    const continueRound = useGameStore((s) => s.continueRound);
+    const lastEliminatedPlayerId = useGameStore((s) => s.lastEliminatedPlayerId);
 
     const voteResults = getVoteResults();
     const specialPlayers = players.filter((p) => p.isImposter);
     const hasVotes = voteResults.some((r) => r.votes > 0);
     const { specialRoleName, specialRoleIcon, normalRoleName } = getModeDisplayInfo();
+
+    const eliminatedThisRound = players.find(p => p.id === lastEliminatedPlayerId);
+    const isRoundSuccess = !!gameWinner
+        ? (gameMode === 'directors-cut' ? !!directorWinnerId : gameWinner === 'crewmates')
+        : (eliminatedThisRound?.isImposter ?? false);
 
     useEffect(() => { haptics.success(); }, []);
 
@@ -38,35 +46,44 @@ export default function ResultsScreen() {
         // Delay reset to prevent UI flash on results screen
         setTimeout(() => resetGame(), 300);
     };
+
+    const handleContinue = (newWord: boolean) => {
+        haptics.medium();
+        continueRound(newWord);
+        if (newWord) {
+            router.replace('/role-reveal');
+        } else {
+            router.replace('/discussion');
+        }
+    };
+
     const handleHome = () => { haptics.medium(); resetToHome(); router.dismissAll(); router.replace('/'); };
 
     // Mode-specific content
     const getWinnerText = () => {
-        switch (gameMode) {
-            case 'undercover-word':
-                // Classic Imposter
-                return impostersCaught
-                    ? { title: 'Crewmates Win!', subtitle: 'The Imposter was caught!' }
-                    : { title: 'Imposter Wins!', subtitle: 'The Imposter escaped justice!' };
-            case 'directors-cut':
-                if (directorWinnerId) {
-                    const winnerName = players.find(p => p.id === directorWinnerId)?.name || 'A Viewer';
-                    return { title: 'Viewers Win!', subtitle: `${winnerName} Guessed The Movie! ` };
-                }
-                return { title: 'Director Wins!', subtitle: 'No One Guessed The Movie!' };
-            case 'mind-sync':
-                return impostersCaught
-                    ? { title: 'In Sync Wins!', subtitle: 'The Outlier Was Spotted!' }
-                    : { title: 'Outlier Wins!', subtitle: 'The Outlier Stayed Undetected!' };
-            case 'classic-imposter':
-                // Undercover
-                return impostersCaught
-                    ? { title: 'Players Win!', subtitle: 'The Undercover Was Found!' }
-                    : { title: 'Undercover Wins!', subtitle: 'The Undercover Blended In Perfectly!' };
-            default:
-                return impostersCaught
-                    ? { title: 'Investigators Win!', subtitle: 'The Suspect Has Been Caught!' }
-                    : { title: 'Imposter Wins!', subtitle: 'The Imposter Escaped Justice!' };
+        // Director's Cut special handling
+        if (gameMode === 'directors-cut') {
+            if (directorWinnerId) {
+                const winnerName = players.find(p => p.id === directorWinnerId)?.name || 'A Viewer';
+                return { title: 'Viewers Win!', subtitle: `${winnerName} Guessed The Movie! ` };
+            }
+            return { title: 'Director Wins!', subtitle: 'No One Guessed The Movie!' };
+        }
+
+        if (!gameWinner) {
+            if (eliminatedThisRound) {
+                return {
+                    title: `${eliminatedThisRound.name} is Gone!`,
+                    subtitle: eliminatedThisRound.isImposter ? `${eliminatedThisRound.name} is an ${specialRoleName}! ` : `${eliminatedThisRound.name} is a ${normalRoleName}... `
+                };
+            }
+            return { title: 'No One Eliminated', subtitle: 'The vote was a tie!' };
+        }
+
+        if (gameWinner === 'crewmates') {
+            return { title: 'Crewmates Win!', subtitle: 'All Imposters have been caught! ' };
+        } else {
+            return { title: 'Imposters Win!', subtitle: 'The Imposters have successfully infiltrated!' };
         }
     };
 
@@ -174,15 +191,15 @@ export default function ResultsScreen() {
                     entering={ZoomIn.delay(200).springify()}
                     style={[
                         styles.winnerBanner,
-                        (gameMode === 'directors-cut' ? !!directorWinnerId : impostersCaught) ? styles.winnerInvestigators : styles.winnerImposter
+                        isRoundSuccess ? styles.winnerInvestigators : styles.winnerImposter
                     ]}
                 >
                     <Ionicons
-                        name={(gameMode === 'directors-cut' ? !!directorWinnerId : impostersCaught) ? "shield-checkmark" : "skull"}
+                        name={isRoundSuccess ? "shield-checkmark" : "skull"}
                         size={60}
-                        color={(gameMode === 'directors-cut' ? !!directorWinnerId : impostersCaught) ? Colors.detective : Colors.suspect}
+                        color={isRoundSuccess ? Colors.detective : Colors.suspect}
                     />
-                    <Text style={[styles.winnerTitle, (gameMode === 'directors-cut' ? !!directorWinnerId : impostersCaught) ? styles.winnerTitleInvestigators : styles.winnerTitleImposter]}>
+                    <Text style={[styles.winnerTitle, isRoundSuccess ? styles.winnerTitleInvestigators : styles.winnerTitleImposter]}>
                         {winnerText.title}
                     </Text>
                     <Text style={styles.winnerSubtitle}>
@@ -190,20 +207,37 @@ export default function ResultsScreen() {
                     </Text>
                 </Animated.View>
 
-                {/* Special Player Reveal (Skip for Director's Cut unless showing winner) */}
+                {/* Role Reveal Logic */}
                 {(gameMode !== 'directors-cut') && (
                     <Animated.View entering={FadeInUp.delay(400).springify()} style={styles.section}>
-                        <Text style={styles.sectionLabel}>The {specialRoleName}{specialPlayers.length > 1 ? 's' : ''}</Text>
+                        <Text style={styles.sectionLabel}>
+                            {!!gameWinner ? `The ${specialRoleName}${specialPlayers.length > 1 ? 's' : ''}` : 'The Identity'}
+                        </Text>
                         <View style={styles.imposterGrid}>
-                            {specialPlayers.map((player) => (
-                                <View key={player.id} style={styles.imposterCard}>
-                                    <View style={styles.imposterAvatar}>
-                                        <Ionicons name={specialRoleIcon as any} size={28} color={Colors.parchmentLight} />
+                            {/* If game is over, show ALL imposters. If not over, only show the one who was eliminated. */}
+                            {!!gameWinner ? (
+                                specialPlayers.map((player) => (
+                                    <View key={player.id} style={styles.imposterCard}>
+                                        <View style={styles.imposterAvatar}>
+                                            <Ionicons name={specialRoleIcon as any} size={28} color={Colors.parchmentLight} />
+                                        </View>
+                                        <Text style={styles.imposterName}>{player.name}</Text>
+                                        <Text style={styles.imposterRole}>{specialRoleName}</Text>
                                     </View>
-                                    <Text style={styles.imposterName}>{player.name}</Text>
-                                    <Text style={styles.imposterRole}>{specialRoleName}</Text>
-                                </View>
-                            ))}
+                                ))
+                            ) : (
+                                eliminatedThisRound && (
+                                    <View key={eliminatedThisRound.id} style={[styles.imposterCard, !eliminatedThisRound.isImposter && { borderColor: Colors.candlelight, backgroundColor: 'rgba(212, 175, 55, 0.1)' }]}>
+                                        <View style={[styles.imposterAvatar, !eliminatedThisRound.isImposter && { backgroundColor: Colors.candlelight }]}>
+                                            <Ionicons name={eliminatedThisRound.isImposter ? (specialRoleIcon as any) : "person"} size={28} color={Colors.parchmentLight} />
+                                        </View>
+                                        <Text style={styles.imposterName}>{eliminatedThisRound.name}</Text>
+                                        <Text style={[styles.imposterRole, !eliminatedThisRound.isImposter && { color: Colors.candlelight }]}>
+                                            {eliminatedThisRound.isImposter ? specialRoleName : normalRoleName}
+                                        </Text>
+                                    </View>
+                                )
+                            )}
                         </View>
                     </Animated.View>
                 )}
@@ -226,8 +260,8 @@ export default function ResultsScreen() {
                     </Animated.View>
                 )}
 
-                {/* Reveal Content */}
-                {revealContent && (
+                {/* Reveal Content (Only show if game is over) */}
+                {revealContent && !!gameWinner && (
                     <Animated.View entering={FadeInUp.delay(600).springify()} style={styles.section}>
                         <Text style={styles.sectionLabel}>{revealContent.label}</Text>
                         <View style={styles.wordCard}>
@@ -265,19 +299,38 @@ export default function ResultsScreen() {
 
                 {/* Action Buttons */}
                 <Animated.View entering={FadeInDown.delay(1000).springify()} style={styles.buttons}>
-                    <Button
-                        title="Play Again"
-                        onPress={handleAgain}
-                        variant="primary"
-                        size="large"
-                        icon={<Ionicons name="refresh" size={18} color={Colors.victorianBlack} />}
-                    />
+                    {(!gameWinner && gameMode !== 'directors-cut') ? (
+                        <>
+                            <Button
+                                title="Continue with Same Word"
+                                onPress={() => handleContinue(false)}
+                                variant="primary"
+                                size="large"
+                                icon={<Ionicons name="play-outline" size={18} color={Colors.victorianBlack} />}
+                            />
+                            <Button
+                                title="Continue with New Word"
+                                onPress={() => handleContinue(true)}
+                                variant="outline"
+                                size="large"
+                                icon={<Ionicons name="refresh-outline" size={18} color={Colors.candlelight} />}
+                            />
+                        </>
+                    ) : (
+                        <Button
+                            title="Play Again"
+                            onPress={handleAgain}
+                            variant="primary"
+                            size="large"
+                            icon={<Ionicons name="refresh" size={18} color={Colors.victorianBlack} />}
+                        />
+                    )}
                     <Button
                         title="Back to Home"
                         onPress={handleHome}
-                        variant="outline"
+                        variant="ghost"
                         size="large"
-                        icon={<Ionicons name="home-outline" size={16} color={Colors.candlelight} />}
+                        icon={<Ionicons name="home-outline" size={16} color={Colors.grayLight} />}
                     />
                 </Animated.View>
             </ScrollView>

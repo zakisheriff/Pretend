@@ -43,6 +43,7 @@ interface GameStore extends GameState {
 
     // Game flow
     startGame: () => void;
+    continueRound: (newWord: boolean) => void;
     revealRole: (playerId: string) => void;
     nextReveal: () => void;
     startDiscussion: () => void;
@@ -88,6 +89,8 @@ const initialState: GameState = {
     directorWinnerId: null,
     votes: {},
     impostersCaught: false,
+    gameWinner: null,
+    lastEliminatedPlayerId: null,
 };
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -176,8 +179,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
         let gameData: GameData = null;
         let selectedWord: Word | null = null;
 
-        // Select exactly 1 "imposter" (special role player)
-        const specialPlayerIndex = Math.floor(Math.random() * players.length);
+        // Select multiple imposters based on settings
+        const imposterCount = Math.min(settings.imposterCount, Math.floor(players.length / 2));
+        const shuffledIndices = players.map((_, i) => i).sort(() => Math.random() - 0.5);
+        const specialIndices = shuffledIndices.slice(0, imposterCount);
 
         switch (gameMode) {
             case 'undercover-word': {
@@ -248,9 +253,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
         }
 
-        // Assign special role
+        // Assign special roles
         const assignedPlayers = players.map((player, index) => {
-            let isSpecial = index === specialPlayerIndex;
+            let isSpecial = specialIndices.includes(index);
 
             // If Director is pre-selected
             if (gameMode === 'directors-cut' && state.directorId) {
@@ -261,6 +266,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 ...player,
                 isImposter: isSpecial,
                 hasRevealed: false,
+                isEliminated: false,
                 vote: undefined,
                 answer: undefined,
             };
@@ -274,6 +280,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
             currentRevealIndex: 0,
             votes: {},
             impostersCaught: false,
+            gameWinner: null,
         });
     },
 
@@ -287,10 +294,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     nextReveal: () => {
         const state = get();
-        const nextIndex = state.currentRevealIndex + 1;
+        let nextIndex = state.currentRevealIndex + 1;
+
+        // Skip eliminated players
+        while (nextIndex < state.players.length && state.players[nextIndex].isEliminated) {
+            nextIndex++;
+        }
 
         if (nextIndex >= state.players.length) {
-            // All players have revealed, move to discussion prep
+            // All active players have revealed, move to discussion prep
             set({ phase: 'discussion' });
         } else {
             set({ currentRevealIndex: nextIndex });
@@ -316,22 +328,60 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     forceEndGame: (eliminatedPlayerId: string) => {
         const state = get();
-        const eliminatedPlayer = state.players.find((p) => p.id === eliminatedPlayerId);
-        const impostersCaught = eliminatedPlayer?.isImposter ?? false;
+        const players = state.players.map(p =>
+            p.id === eliminatedPlayerId ? { ...p, isEliminated: true } : p
+        );
+
+        const activePlayers = players.filter(p => !p.isEliminated);
+        const activeImposters = activePlayers.filter(p => p.isImposter);
+        const activeCrewmates = activePlayers.filter(p => !p.isImposter);
+
+        let gameWinner: 'crewmates' | 'imposters' | null = null;
+        if (activeImposters.length === 0) {
+            gameWinner = 'crewmates';
+        } else if (activeCrewmates.length <= activeImposters.length) {
+            gameWinner = 'imposters';
+        }
 
         set({
             phase: 'results',
-            impostersCaught,
+            players,
+            impostersCaught: activeImposters.length < players.filter(p => p.isImposter).length,
+            gameWinner,
+            lastEliminatedPlayerId: eliminatedPlayerId,
         });
     },
 
     endGame: () => {
-        const mostVoted = get().getMostVotedPlayer();
-        const impostersCaught = mostVoted?.isImposter ?? false;
+        const state = get();
+        const mostVoted = state.getMostVotedPlayer();
+
+        if (!mostVoted) {
+            set({ phase: 'results', gameWinner: null });
+            return;
+        }
+
+        const players = state.players.map(p =>
+            p.id === mostVoted.id ? { ...p, isEliminated: true } : p
+        );
+
+        const activePlayers = players.filter(p => !p.isEliminated);
+        const activeImposters = activePlayers.filter(p => p.isImposter);
+        const activeCrewmates = activePlayers.filter(p => !p.isImposter);
+
+        let gameWinner: 'crewmates' | 'imposters' | null = null;
+        if (activeImposters.length === 0) {
+            gameWinner = 'crewmates';
+        } else if (activeCrewmates.length <= activeImposters.length) {
+            gameWinner = 'imposters';
+        }
 
         set({
             phase: 'results',
-            impostersCaught,
+            players,
+            impostersCaught: activeImposters.length < players.filter(p => p.isImposter).length,
+            gameWinner,
+            lastEliminatedPlayerId: mostVoted.id,
         });
     },
 
@@ -362,6 +412,79 @@ export const useGameStore = create<GameStore>((set, get) => ({
         set({ ...initialState, directorId: null, directorWinnerId: null });
     },
 
+    continueRound: (newWord: boolean) => {
+        const state = get();
+        const { players, gameMode, selectedThemeId, settings, customWords, gameData: currentData } = state;
+
+        let gameData = currentData;
+        let selectedWord = state.selectedWord;
+
+        if (newWord) {
+            // Re-roll the word/data but KEEP same roles
+            switch (gameMode) {
+                case 'undercover-word': {
+                    if (selectedThemeId && selectedThemeId !== 'undercover') {
+                        if (selectedThemeId === 'custom') {
+                            if (customWords.length > 0) {
+                                const randomCustomWord = customWords[Math.floor(Math.random() * customWords.length)];
+                                selectedWord = {
+                                    word: randomCustomWord,
+                                    hints: { low: 'A custom word', medium: 'A custom word from your list', high: 'A custom word you added' },
+                                };
+                            }
+                        } else {
+                            const theme = getThemeById(selectedThemeId!);
+                            if (theme) selectedWord = getRandomWord(theme);
+                        }
+                    } else {
+                        const wordPair = getRandomUndercoverWord();
+                        if (wordPair) {
+                            gameData = { type: 'undercover-word', data: wordPair };
+                            selectedWord = { word: wordPair.mainWord, hints: wordPair.hints };
+                        }
+                    }
+                    break;
+                }
+                case 'mind-sync': {
+                    const question = getRandomMindSyncQuestion();
+                    if (question) gameData = { type: 'mind-sync', data: question };
+                    break;
+                }
+                case 'classic-imposter': {
+                    const themeId = selectedThemeId || 'classic'; // fallback
+                    const theme = getThemeById(themeId === 'undercover' ? 'classic' : themeId);
+                    if (theme && theme.words.length >= 2) {
+                        const shuffled = [...theme.words].sort(() => Math.random() - 0.5);
+                        gameData = {
+                            type: 'classic-imposter',
+                            data: { crewmateWord: shuffled[0].word, imposterWord: shuffled[1].word, themeName: theme.name },
+                        };
+                    }
+                    break;
+                }
+            }
+        }
+
+        // Find first active player to start reveal
+        const firstActiveIndex = players.findIndex(p => !p.isEliminated);
+
+        set({
+            phase: newWord ? 'reveal' : 'discussion',
+            gameData,
+            selectedWord,
+            votes: {},
+            gameWinner: null,
+            lastEliminatedPlayerId: null,
+            players: players.map(p => ({
+                ...p,
+                hasRevealed: false,
+                vote: undefined,
+                answer: undefined,
+            })),
+            currentRevealIndex: firstActiveIndex === -1 ? 0 : firstActiveIndex,
+        });
+    },
+
     refreshTheme: () => {
         const state = get();
         const { players, gameMode, selectedThemeId, settings, customWords, currentRevealIndex } = state;
@@ -372,11 +495,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
         // 3. The first player is NOT the imposter
         // 4. Not Director's Cut mode (movie is manually selected)
         if (state.phase !== 'reveal') return;
-        if (currentRevealIndex !== 0) return;
+
+        const firstActiveIdx = players.findIndex(p => !p.isEliminated);
+        if (currentRevealIndex !== firstActiveIdx) return;
         if (gameMode === 'directors-cut') return;
 
-        const firstPlayer = players[0];
-        if (!firstPlayer || firstPlayer.isImposter) return;
+        const firstActivePlayer = players[firstActiveIdx];
+        if (!firstActivePlayer || firstActivePlayer.isImposter) return;
 
         let gameData: GameData = null;
         let selectedWord: Word | null = null;
@@ -474,8 +599,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // Getters
     getCurrentPlayer: () => {
         const state = get();
-        if (state.currentRevealIndex >= state.players.length) return null;
-        return state.players[state.currentRevealIndex];
+        const { currentRevealIndex, players } = state;
+        if (currentRevealIndex < 0 || currentRevealIndex >= players.length) return null;
+
+        const player = players[currentRevealIndex];
+        if (player.isEliminated) {
+            // If the current index points to an eliminated player, find the next active one
+            // This is a safety check as nextReveal/continueRound should handle this
+            const nextActive = players.slice(currentRevealIndex).find(p => !p.isEliminated);
+            return nextActive || null;
+        }
+        return player;
     },
 
     getPlayerRole: (playerId: string): PlayerRoleInfo => {

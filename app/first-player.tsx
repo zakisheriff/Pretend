@@ -22,16 +22,17 @@ export default function FirstPlayerScreen() {
     }, []);
 
     useEffect(() => {
-        // Randomly select a player on mount
-        if (players.length > 0) {
-            const randomIndex = Math.floor(Math.random() * players.length);
-            setFirstPlayer(players[randomIndex]);
+        // Randomly select a player from active survivors
+        const activePlayers = players.filter(p => !p.isEliminated);
+        if (activePlayers.length > 0) {
+            const randomIndex = Math.floor(Math.random() * activePlayers.length);
+            setFirstPlayer(activePlayers[randomIndex]);
         }
     }, [players]);
 
     const handleStart = () => {
         haptics.gameStart();
-        router.push('/start-game');
+        router.push('/discussion');
     };
 
     if (!firstPlayer) return null;

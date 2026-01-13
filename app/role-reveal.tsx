@@ -22,7 +22,11 @@ export default function RoleRevealScreen() {
     const [hasRevealed, setHasRevealed] = useState(false);
 
     const currentPlayer = getCurrentPlayer();
-    const isLast = currentRevealIndex === players.length - 1;
+    const activePlayers = players.filter(p => !p.isEliminated);
+    const lastActiveIdx = players.map(p => !p.isEliminated).lastIndexOf(true);
+    const isLast = currentRevealIndex === lastActiveIdx;
+
+    const activePlayerNumber = activePlayers.findIndex(p => p.id === currentPlayer?.id) + 1;
 
     // Block back navigation during role reveal
     useEffect(() => {
@@ -44,7 +48,7 @@ export default function RoleRevealScreen() {
     const handleNext = () => {
         haptics.medium();
         if (isLast) {
-            // Last player done - go DIRECTLY to countdown
+            // Last player done - go to first player selection
             nextReveal();
             haptics.gameStart();
             router.push('/first-player');
@@ -65,9 +69,9 @@ export default function RoleRevealScreen() {
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + 16 }]}>
             <View style={styles.progress}>
-                <Text style={styles.progressText}>Player {currentRevealIndex + 1} of {players.length}</Text>
+                <Text style={styles.progressText}>Player {activePlayerNumber} of {activePlayers.length}</Text>
                 <View style={styles.progressBar}>
-                    <View style={[styles.progressFill, { width: `${((currentRevealIndex + 1) / players.length) * 100}%` }]} />
+                    <View style={[styles.progressFill, { width: `${(activePlayerNumber / activePlayers.length) * 100}%` }]} />
                 </View>
             </View>
 
@@ -86,7 +90,7 @@ export default function RoleRevealScreen() {
                     isDirector={playerRole.isDirector}
                     question={playerRole.question}
                     isOutlier={playerRole.isOutlier}
-                    isFirstPlayer={currentRevealIndex === 0}
+                    isFirstPlayer={currentRevealIndex === players.findIndex(p => !p.isEliminated)}
                     onRefresh={handleRefresh}
                 />
             </View>
