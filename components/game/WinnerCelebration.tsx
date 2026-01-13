@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     },
     championName: {
         fontSize: 48,
-        fontWeight: '200',
+        fontWeight: '800',
         color: Colors.parchment,
         textAlign: 'center',
         textTransform: 'uppercase',

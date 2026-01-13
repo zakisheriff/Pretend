@@ -24,6 +24,7 @@ export default function ResultsScreen() {
     const getVoteResults = useGameStore((s) => s.getVoteResults);
     const getModeDisplayInfo = useGameStore((s) => s.getModeDisplayInfo);
     const resetGame = useGameStore((s) => s.resetGame);
+    const resetTournament = useGameStore((s) => s.resetTournament);
     const resetToHome = useGameStore((s) => s.resetToHome);
     const gameWinner = useGameStore((s) => s.gameWinner);
     const continueRound = useGameStore((s) => s.continueRound);
@@ -302,7 +303,7 @@ export default function ResultsScreen() {
                         winner={overallWinner}
                         allPlayers={players}
                         onNewGame={() => {
-                            resetGame();
+                            resetTournament();
                             // Resetting tournament means starting fresh rounds
                             // Force a navigation or reset
                             router.replace('/select-mode');
@@ -502,6 +503,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: Colors.grayLight,
         letterSpacing: 2,
+        marginBottom: 8,
     },
     wordTextBig: {
         fontSize: 18,

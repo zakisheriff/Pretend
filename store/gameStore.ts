@@ -54,6 +54,7 @@ interface GameStore extends GameState {
 
     // Reset
     resetGame: () => void;
+    resetTournament: () => void;
     resetToHome: () => void;
 
     // Theme refresh (first non-imposter player only)
@@ -433,6 +434,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
             impostersCaught: false,
             directorId: null,
             directorWinnerId: null,
+            gameWinner: null,
+            lastEliminatedPlayerId: null,
+            overallWinner: null, // Reset overall winner status only
             players: state.players.map((p) => ({
                 ...p,
                 isImposter: false,
@@ -440,6 +444,34 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 vote: undefined,
                 answer: undefined,
                 score: p.score, // Preserve score
+                isEliminated: false,
+            })),
+        });
+    },
+
+    resetTournament: () => {
+        const state = get();
+        // Keep players but reset scores
+        set({
+            phase: 'setup',
+            currentRevealIndex: 0,
+            selectedWord: null,
+            gameData: null,
+            votes: {},
+            impostersCaught: false,
+            directorId: null,
+            directorWinnerId: null,
+            gameWinner: null,
+            lastEliminatedPlayerId: null,
+            overallWinner: null,
+            players: state.players.map((p) => ({
+                ...p,
+                isImposter: false,
+                hasRevealed: false,
+                vote: undefined,
+                answer: undefined,
+                score: 0, // Reset score to 0
+                isEliminated: false,
             })),
         });
     },
