@@ -4,7 +4,7 @@
     "slug": "pretend",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/new_logo.png",
+    "icon": "./assets/images/Neo-Logo.jpeg",
     "scheme": "pretend",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
@@ -16,7 +16,7 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#000000",
-        "foregroundImage": "./assets/images/new_logo.png"
+        "foregroundImage": "./assets/images/Neo-Logo.jpeg"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -24,14 +24,14 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/new_logo.png"
+      "favicon": "./assets/images/Neo-Logo.jpeg"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/new_logo.png",
+          "image": "./assets/images/Neo-Logo.jpeg",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#000000",

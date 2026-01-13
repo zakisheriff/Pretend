@@ -19,12 +19,12 @@ export const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ size = 100 }) => {
                 withTiming(1, { duration: 2000, easing: Easing.inOut(Easing.ease) })
             ), -1, true
         );
-        // Flickering gaslight glow
+        // Flickering gaslight glow - adjusted to silver/white for Neo Noir
         glowOpacity.value = withRepeat(
             withSequence(
-                withTiming(0.6, { duration: 1500, easing: Easing.inOut(Easing.ease) }),
-                withTiming(0.3, { duration: 1000, easing: Easing.inOut(Easing.ease) }),
-                withTiming(0.5, { duration: 1200, easing: Easing.inOut(Easing.ease) })
+                withTiming(0.5, { duration: 1500, easing: Easing.inOut(Easing.ease) }),
+                withTiming(0.2, { duration: 1000, easing: Easing.inOut(Easing.ease) }),
+                withTiming(0.4, { duration: 1200, easing: Easing.inOut(Easing.ease) })
             ), -1, true
         );
     }, []);
@@ -34,13 +34,13 @@ export const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ size = 100 }) => {
 
     return (
         <View style={[styles.container, { width: size, height: size }]}>
-            {/* Gaslight glow effect */}
-            <Animated.View style={[styles.glow, { width: size * 1.3, height: size * 1.3 }, glowStyle]} />
+            {/* Gaslight glow effect - updated to pure white for neo noir */}
+            <Animated.View style={[styles.glow, { width: size * 1.3, height: size * 1.3, backgroundColor: '#FFFFFF' }, glowStyle]} />
 
             {/* Main logo image */}
             <Animated.View style={[styles.logoContainer, { width: size, height: size, borderRadius: size / 2 }, pulseStyle]}>
                 <Image
-                    source={require('@/assets/images/new_logo.png')}
+                    source={require('@/assets/images/Neo-Logo.jpeg')}
                     style={[styles.logo, { width: size * 1.1, height: size * 1.1, borderRadius: size / 2 }]}
                     resizeMode="cover"
                 />

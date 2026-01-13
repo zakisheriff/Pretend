@@ -1,4 +1,4 @@
-# <div align="center">🎭 Pretend</div>
+# <div align="center">Pretend</div>
 
 <div align="center">
 <strong>The Ultimate Offline Party Game of Deception</strong>
@@ -16,7 +16,7 @@
 
 <br />
 
-<img src="assets/images/new_logo.png" width="160" height="160" style="border-radius: 50%;" />
+<img src="assets/images/Neo-Logo.jpeg" width="160" height="160" style="border-radius: 50%;" />
 
 <br />
 <br />
