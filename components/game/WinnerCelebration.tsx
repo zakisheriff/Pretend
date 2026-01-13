@@ -188,7 +188,7 @@ export const WinnerCelebration = ({ winner, allPlayers, onNewGame, onHome }: Win
                                     <Text style={styles.viewAllText}>View Full Leaderboard</Text>
                                 </TouchableOpacity>
                             ) : (
-                                <Animated.View entering={FadeInUp} style={{ width: '100%' }}>
+                                <Animated.View entering={FadeInUp} exiting={FadeOut} style={{ width: '100%' }}>
                                     <View style={styles.othersList}>
                                         {sortedPlayers.map((p, i) => (
                                             <View key={p.id} style={styles.otherRow}>
