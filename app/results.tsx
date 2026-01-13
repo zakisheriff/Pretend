@@ -34,7 +34,7 @@ export default function ResultsScreen() {
     const handleAgain = () => {
         haptics.medium();
         router.dismissAll();
-        router.replace('/add-players');
+        router.replace('/select-mode');
         // Delay reset to prevent UI flash on results screen
         setTimeout(() => resetGame(), 300);
     };

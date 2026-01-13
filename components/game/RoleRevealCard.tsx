@@ -3,7 +3,7 @@ import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { PanResponder, StyleSheet, Text, View } from 'react-native';
+import { PanResponder, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
 
 const PEEK_THRESHOLD = 80;
@@ -22,6 +22,8 @@ interface RoleRevealCardProps {
     isDirector?: boolean;
     question?: string | null;
     isOutlier?: boolean;
+    isFirstPlayer?: boolean;
+    onRefresh?: () => void;
 }
 
 export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
@@ -37,13 +39,20 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
     isDirector,
     question,
     isOutlier,
+    isFirstPlayer = false,
+    onRefresh,
 }) => {
     const [peekAmount, setPeekAmount] = useState(0);
     const [hasPeeked, setHasPeeked] = useState(hasRevealed);
 
     const gameMode = useGameStore((s) => s.gameMode);
     const getModeDisplayInfo = useGameStore((s) => s.getModeDisplayInfo);
+    const refreshTheme = useGameStore((s) => s.refreshTheme);
     const { specialRoleName, specialRoleIcon, normalRoleName } = getModeDisplayInfo();
+
+    // Can show refresh button if:
+    // - First player AND not imposter AND already peeked AND not Director's Cut
+    const canRefresh = isFirstPlayer && !isImposter && hasPeeked && gameMode !== 'directors-cut';
 
     // Animated values for smooth transitions
     const coverTranslateY = useSharedValue(hasRevealed ? -500 : 0);
@@ -66,11 +75,7 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
                 coverTranslateY.value = withSpring(-500, { damping: 15, stiffness: 100 });
                 coverOpacity.value = withTiming(0, { duration: 300 });
 
-                if (isImposter) {
-                    haptics.imposterReveal();
-                } else {
-                    haptics.success();
-                }
+                haptics.success();
                 onReveal();
             } else {
                 // Threshold not passed - animate back to start
@@ -274,6 +279,21 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
                         <Text style={styles.seenText}>Case file reviewed</Text>
                     </View>
                 )}
+
+                {/* Refresh button for first non-imposter player */}
+                {canRefresh && onRefresh && (
+                    <TouchableOpacity
+                        style={styles.refreshBtn}
+                        onPress={() => {
+                            haptics.medium();
+                            onRefresh();
+                        }}
+                        activeOpacity={0.8}
+                    >
+                        <Ionicons name="refresh" size={16} color={Colors.parchment} />
+                        <Text style={styles.refreshText}>Seen this before? Change word </Text>
+                    </TouchableOpacity>
+                )}
             </View>
 
             {/* Cover card - Victorian envelope style with animation */}
@@ -388,4 +408,17 @@ const styles = StyleSheet.create({
         borderWidth: 1.5, borderColor: Colors.detective,
     },
     seenText: { fontSize: 11, color: Colors.detective, fontWeight: '600', letterSpacing: 0.5 },
+    refreshBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        backgroundColor: Colors.grayMedium,
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        borderRadius: 25,
+        marginTop: 16,
+        borderWidth: 1,
+        borderColor: Colors.grayLight,
+    },
+    refreshText: { fontSize: 12, color: Colors.parchment, fontWeight: '600' },
 });

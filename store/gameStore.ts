@@ -55,6 +55,9 @@ interface GameStore extends GameState {
     resetGame: () => void;
     resetToHome: () => void;
 
+    // Theme refresh (first non-imposter player only)
+    refreshTheme: () => void;
+
     // Getters
     getCurrentPlayer: () => Player | null;
     getPlayerRole: (playerId: string) => PlayerRoleInfo;
@@ -357,6 +360,98 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     resetToHome: () => {
         set({ ...initialState, directorId: null, directorWinnerId: null });
+    },
+
+    refreshTheme: () => {
+        const state = get();
+        const { players, gameMode, selectedThemeId, settings, customWords, currentRevealIndex } = state;
+
+        // Only allow refresh if:
+        // 1. We're in reveal phase
+        // 2. This is the first player (index 0)
+        // 3. The first player is NOT the imposter
+        // 4. Not Director's Cut mode (movie is manually selected)
+        if (state.phase !== 'reveal') return;
+        if (currentRevealIndex !== 0) return;
+        if (gameMode === 'directors-cut') return;
+
+        const firstPlayer = players[0];
+        if (!firstPlayer || firstPlayer.isImposter) return;
+
+        let gameData: GameData = null;
+        let selectedWord: Word | null = null;
+
+        // Re-roll the game data with a NEW random selection
+        switch (gameMode) {
+            case 'undercover-word': {
+                if (selectedThemeId && selectedThemeId !== 'undercover') {
+                    if (selectedThemeId === 'custom') {
+                        if (customWords.length === 0) return;
+                        const randomCustomWord = customWords[Math.floor(Math.random() * customWords.length)];
+                        selectedWord = {
+                            word: randomCustomWord,
+                            hints: {
+                                low: 'A custom word',
+                                medium: 'A custom word from your list',
+                                high: 'A custom word you added',
+                            },
+                        };
+                    } else {
+                        const theme = getThemeById(selectedThemeId);
+                        if (!theme) return;
+                        selectedWord = getRandomWord(theme);
+                    }
+                } else {
+                    const wordPair = getRandomUndercoverWord();
+                    if (!wordPair) return;
+                    gameData = { type: 'undercover-word', data: wordPair };
+                    selectedWord = {
+                        word: wordPair.mainWord,
+                        hints: wordPair.hints,
+                    };
+                }
+                break;
+            }
+            case 'mind-sync': {
+                const question = getRandomMindSyncQuestion();
+                if (!question) return;
+                gameData = { type: 'mind-sync', data: question };
+                break;
+            }
+            case 'classic-imposter': {
+                if (!selectedThemeId || selectedThemeId === 'custom') return;
+                const theme = getThemeById(selectedThemeId);
+                if (!theme || theme.words.length < 2) return;
+
+                const shuffled = [...theme.words].sort(() => Math.random() - 0.5);
+                const crewmateWord = shuffled[0].word;
+                const imposterWord = shuffled[1].word;
+
+                gameData = {
+                    type: 'classic-imposter',
+                    data: { crewmateWord, imposterWord, themeName: theme.name },
+                };
+                break;
+            }
+        }
+
+        // Re-roll imposter assignment starting from player at index 1 (skip first player)
+        // This prevents abuse where someone keeps refreshing to become imposter
+        const eligibleIndices = players.map((_, i) => i).filter(i => i > 0);
+        const newSpecialIndex = eligibleIndices[Math.floor(Math.random() * eligibleIndices.length)];
+
+        const reassignedPlayers = players.map((player, index) => ({
+            ...player,
+            isImposter: index === newSpecialIndex,
+            hasRevealed: false,
+        }));
+
+        set({
+            players: reassignedPlayers,
+            selectedWord,
+            gameData,
+            currentRevealIndex: 1, // Start from second player to prevent cheating
+        });
     },
 
     setDirector: (playerId: string) => {

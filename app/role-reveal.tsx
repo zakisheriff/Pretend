@@ -17,6 +17,7 @@ export default function RoleRevealScreen() {
     const getPlayerRole = useGameStore((s) => s.getPlayerRole);
     const revealRole = useGameStore((s) => s.revealRole);
     const nextReveal = useGameStore((s) => s.nextReveal);
+    const refreshTheme = useGameStore((s) => s.refreshTheme);
 
     const [hasRevealed, setHasRevealed] = useState(false);
 
@@ -53,6 +54,11 @@ export default function RoleRevealScreen() {
         }
     };
 
+    const handleRefresh = () => {
+        refreshTheme();
+        router.replace('/add-players');
+    };
+
     if (!currentPlayer) return null;
     const playerRole = getPlayerRole(currentPlayer.id);
 
@@ -80,6 +86,8 @@ export default function RoleRevealScreen() {
                     isDirector={playerRole.isDirector}
                     question={playerRole.question}
                     isOutlier={playerRole.isOutlier}
+                    isFirstPlayer={currentRevealIndex === 0}
+                    onRefresh={handleRefresh}
                 />
             </View>
 
