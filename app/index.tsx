@@ -9,47 +9,41 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown, FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const BrandSplash = ({ onFinish }: { onFinish: () => void }) => {
+const BrandSplash = ({ onFinish, isSkipping }: { onFinish: () => void; isSkipping: boolean }) => {
     React.useEffect(() => {
-        const timer = setTimeout(onFinish, 6000); // Longer duration for slow sequence
+        const timer = setTimeout(onFinish, 7500); // Cinematic sequence duration
         return () => clearTimeout(timer);
     }, [onFinish]);
 
     return (
-        <Pressable
-            style={styles.splashWrapper}
-            onPress={onFinish}
-            activeOpacity={1}
+        <Animated.View
+            key="brand-splash"
+            exiting={FadeOut.duration(isSkipping ? 300 : 1500)} // Snap exit if tapped
+            style={styles.splashContainer}
         >
-            <Animated.View
-                key="brand-splash"
-                exiting={FadeOut.duration(1500)}
-                style={styles.splashContainer}
-            >
-                <View style={styles.splashContent}>
-                    <View style={styles.brandTextContainer}>
-                        <Animated.Text
-                            entering={FadeIn.duration(2500)} // Very slow cinematic fade in
-                            style={styles.brandMain}
-                        >
-                            The One Atom
-                        </Animated.Text>
+            <View style={styles.splashContent}>
+                <View style={styles.brandTextContainer}>
+                    <Animated.Text
+                        entering={FadeIn.duration(2500)} // Slow cinematic fade in
+                        style={styles.brandMain}
+                    >
+                        The One Atom
+                    </Animated.Text>
 
-                        <Animated.View
-                            entering={FadeIn.delay(1500).duration(1200)}
-                            style={styles.brandLine}
-                        />
+                    <Animated.View
+                        entering={FadeIn.delay(2200).duration(1000)} // Build-up sequence
+                        style={styles.brandLine}
+                    />
 
-                        <Animated.Text
-                            entering={FadeIn.delay(2800).duration(1200)}
-                            style={styles.brandSub}
-                        >
-                            Atom Originals
-                        </Animated.Text>
-                    </View>
+                    <Animated.Text
+                        entering={FadeIn.delay(3500).duration(1200)} // Final tagline
+                        style={styles.brandSub}
+                    >
+                        Atom Originals
+                    </Animated.Text>
                 </View>
-            </Animated.View>
-        </Pressable>
+            </View>
+        </Animated.View>
     );
 };
 
@@ -58,6 +52,12 @@ export default function HomeScreen() {
     const insets = useSafeAreaInsets();
     const resetToHome = useGameStore((state) => state.resetToHome);
     const [isSplashing, setIsSplashing] = React.useState(true);
+    const [isSkipping, setIsSkipping] = React.useState(false);
+
+    const handleSkip = () => {
+        setIsSkipping(true);
+        setIsSplashing(false);
+    };
 
     const handleNewGame = () => {
         resetToHome();
@@ -68,7 +68,14 @@ export default function HomeScreen() {
     };
 
     if (isSplashing) {
-        return <BrandSplash onFinish={() => setIsSplashing(false)} />;
+        return (
+            <Pressable
+                style={styles.splashWrapper}
+                onPress={handleSkip}
+            >
+                <BrandSplash onFinish={() => setIsSplashing(false)} isSkipping={isSkipping} />
+            </Pressable>
+        );
     }
 
     return (
