@@ -1,10 +1,11 @@
+import { GenericModal } from '@/components/common/GenericModal';
 import { Button } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, FadeInUp, ZoomIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -12,6 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function ResultsScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
+    const [showRestartModal, setShowRestartModal] = useState(false);
     const players = useGameStore((s) => s.players);
     const selectedWord = useGameStore((s) => s.selectedWord);
     const gameData = useGameStore((s) => s.gameData);
@@ -45,6 +47,11 @@ export default function ResultsScreen() {
         router.replace('/select-mode');
         // Delay reset to prevent UI flash on results screen
         setTimeout(() => resetGame(), 300);
+    };
+
+    const handleRestartWithConfirm = () => {
+        haptics.warning();
+        setShowRestartModal(true);
     };
 
     const handleContinue = (newWord: boolean) => {
@@ -211,7 +218,7 @@ export default function ResultsScreen() {
                 {(gameMode !== 'directors-cut') && (
                     <Animated.View entering={FadeInUp.delay(400).springify()} style={styles.section}>
                         <Text style={styles.sectionLabel}>
-                            {!!gameWinner ? `The ${specialRoleName}${specialPlayers.length > 1 ? 's' : ''}` : 'The Identity'}
+                            {!!gameWinner ? `The ${specialRoleName}${specialPlayers.length > 1 ? 's' : ''} ` : 'The Identity'}
                         </Text>
                         <View style={styles.imposterGrid}>
                             {/* If game is over, show ALL imposters. If not over, only show the one who was eliminated. */}
@@ -315,6 +322,13 @@ export default function ResultsScreen() {
                                 size="large"
                                 icon={<Ionicons name="refresh-outline" size={18} color={Colors.candlelight} />}
                             />
+                            <Button
+                                title="Start New Game"
+                                onPress={handleRestartWithConfirm}
+                                variant="ghost"
+                                size="large"
+                                icon={<Ionicons name="refresh" size={18} color={Colors.candlelight} />}
+                            />
                         </>
                     ) : (
                         <Button
@@ -334,6 +348,19 @@ export default function ResultsScreen() {
                     />
                 </Animated.View>
             </ScrollView>
+
+            <GenericModal
+                visible={showRestartModal}
+                title="Start New Game?"
+                message="Are you sure you want to start from the beginning with the same players?"
+                confirmLabel="Start New"
+                isDestructive
+                onConfirm={() => {
+                    setShowRestartModal(false);
+                    handleAgain();
+                }}
+                onCancel={() => setShowRestartModal(false)}
+            />
         </View>
     );
 }
