@@ -18,7 +18,7 @@ export default function HomeScreen() {
 
     return (
         <LinearGradient
-            colors={[Colors.victorianBlack, Colors.grayDark, Colors.victorianBlack]}
+            colors={['#000000', '#0A0A0A', '#000000']}
             style={styles.gradient}
         >
             <View style={[styles.container, { paddingTop: insets.top + 20, paddingBottom: insets.bottom + 20 }]}>
@@ -54,7 +54,7 @@ export default function HomeScreen() {
 
                 <View style={styles.footer}>
                     <Ionicons name="home" size={14} color={Colors.grayMedium} />
-                    <Text style={styles.footerText}>221B Baker Street Experience </Text>
+                    <Text style={styles.footerText}>Trust No One.</Text>
                 </View>
             </View>
         </LinearGradient>

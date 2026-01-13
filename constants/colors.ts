@@ -1,75 +1,74 @@
-// Sherlock Holmes Victorian Theme - Color Palette
-// Inspired by 221B Baker Street, gaslit London, and the art of deduction
+// Neo Noir Theme - Color Palette
+// Inspired by high contrast, shadows, and modern mystery
 
 export const Colors = {
-  // === Victorian Era Primary Palette ===
-  victorianBlack: '#1A1410',      // Deep mahogany black (main background)
-  parchment: '#E8DCC4',           // Aged paper (primary light)
-  parchmentLight: '#F5F0E6',      // Light parchment (pure white replacement)
+  // === Neo Noir Primary Palette ===
+  victorianBlack: '#000000',      // True Black
+  parchment: '#E5E5E5',           // Concrete White (Text)
+  parchmentLight: '#FFFFFF',      // Pure White
 
   // Legacy aliases for compatibility
-  black: '#1A1410',               // Maps to victorianBlack
-  white: '#E8DCC4',               // Maps to parchment
-  pureWhite: '#F5F0E6',           // Maps to parchmentLight
+  black: '#000000',
+  white: '#E5E5E5',
+  pureWhite: '#FFFFFF',
 
-  // === Atmospheric Grays (London Fog) ===
-  gray: '#3D2314',                // Rich mahogany
-  grayMedium: '#5C4033',          // Worn leather
-  grayLight: '#9A8567',           // Dusty brass
-  grayDark: '#241A12',            // Deep shadow
+  // === Urban Grays ===
+  gray: '#171717',                // Dark Asphalt
+  grayMedium: '#262626',          // Dark Gray
+  grayLight: '#525252',           // Medium Gray
+  grayDark: '#0A0A0A',            // Deep Shadow
 
-  // === Shadows for Gaslight Effect ===
-  shadowLight: 'rgba(232, 220, 196, 0.12)',  // Parchment glow
-  shadowDark: 'rgba(26, 20, 16, 0.85)',      // Deep shadow
+  // === Shadows & Glows ===
+  shadowLight: 'rgba(255, 255, 255, 0.05)',
+  shadowDark: 'rgba(0, 0, 0, 0.9)',
 
-  // === Mystery Accents ===
-  gaslightAmber: '#D4A84B',       // Warm gaslight glow
-  candlelight: '#C4A76C',         // Candle flame
-  waxSeal: '#8B0000',             // Dark wax seal red
-  inkBlack: '#1A1410',            // Writing ink
+  // === Noir Accents ===
+  gaslightAmber: '#F59E0B',       // Streetlight Amber (Accent)
+  candlelight: '#D4D4D8',         // Moonlight Silver
+  waxSeal: '#DC2626',             // Blood Red
+  inkBlack: '#000000',
 
-  // === Status Colors (Victorian Styled) ===
-  danger: '#A02020',              // Crimson (darker, more Victorian)
-  success: '#6B8E23',             // Olive drab (period-appropriate green)
-  warning: '#B8860B',             // Dark goldenrod
+  // === Status Colors ===
+  danger: '#EF4444',              // Bright Red
+  success: '#10B981',             // Emerald
+  warning: '#F59E0B',             // Amber
 
-  // === Role Colors (The Game is Afoot!) ===
-  suspect: '#A02020',             // Crimson red - menacing, dangerous
-  detective: '#C4A76C',           // Brass gold - noble, observant
+  // === Role Colors ===
+  suspect: '#EF4444',             // Red
+  detective: '#3B82F6',           // Blue (Police/detective feel)
 
   // Legacy role aliases
-  imposter: '#A02020',            // Maps to suspect
-  crewmate: '#C4A76C',            // Maps to detective
+  imposter: '#EF4444',
+  crewmate: '#3B82F6',
 };
 
 export const Shadows = {
   neumorphicOuter: {
     shadowColor: Colors.parchment,
-    shadowOffset: { width: -2, height: -2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 3,
+    shadowOffset: { width: -1, height: -1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   neumorphicInner: {
-    shadowColor: Colors.victorianBlack,
+    shadowColor: '#000000',
     shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 0.9,
+    shadowOpacity: 0.8,
     shadowRadius: 6,
     elevation: 3,
   },
   card: {
-    shadowColor: Colors.candlelight,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.15,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
     shadowRadius: 12,
-    elevation: 5,
+    elevation: 8,
   },
-  // New: Gaslight glow effect
   gaslightGlow: {
     shadowColor: Colors.gaslightAmber,
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.25,
-    shadowRadius: 16,
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
     elevation: 8,
   },
 };
