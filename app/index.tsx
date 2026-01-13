@@ -5,45 +5,51 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown, FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const BrandSplash = ({ onFinish }: { onFinish: () => void }) => {
     React.useEffect(() => {
-        const timer = setTimeout(onFinish, 3000); // Sequence duration
+        const timer = setTimeout(onFinish, 6000); // Longer duration for slow sequence
         return () => clearTimeout(timer);
     }, [onFinish]);
 
     return (
-        <Animated.View
-            key="brand-splash"
-            exiting={FadeOut.duration(1000)}
-            style={styles.splashContainer}
+        <Pressable
+            style={styles.splashWrapper}
+            onPress={onFinish}
+            activeOpacity={1}
         >
-            <View style={styles.splashContent}>
-                <View style={styles.brandTextContainer}>
-                    <Animated.Text
-                        entering={FadeIn.duration(1000)}
-                        style={styles.brandMain}
-                    >
-                        The One Atom
-                    </Animated.Text>
+            <Animated.View
+                key="brand-splash"
+                exiting={FadeOut.duration(1500)}
+                style={styles.splashContainer}
+            >
+                <View style={styles.splashContent}>
+                    <View style={styles.brandTextContainer}>
+                        <Animated.Text
+                            entering={FadeIn.duration(2500)} // Very slow cinematic fade in
+                            style={styles.brandMain}
+                        >
+                            The One Atom
+                        </Animated.Text>
 
-                    <Animated.View
-                        entering={FadeIn.delay(800).duration(800)}
-                        style={styles.brandLine}
-                    />
+                        <Animated.View
+                            entering={FadeIn.delay(1500).duration(1200)}
+                            style={styles.brandLine}
+                        />
 
-                    <Animated.Text
-                        entering={FadeIn.delay(1200).duration(800)}
-                        style={styles.brandSub}
-                    >
-                        Atom Originals
-                    </Animated.Text>
+                        <Animated.Text
+                            entering={FadeIn.delay(2800).duration(1200)}
+                            style={styles.brandSub}
+                        >
+                            Atom Originals
+                        </Animated.Text>
+                    </View>
                 </View>
-            </View>
-        </Animated.View>
+            </Animated.View>
+        </Pressable>
     );
 };
 
@@ -68,7 +74,7 @@ export default function HomeScreen() {
     return (
         <Animated.View
             key="home-content"
-            entering={FadeIn.duration(1200)}
+            entering={FadeIn.duration(1500)}
             style={{ flex: 1 }}
         >
             <LinearGradient
@@ -175,9 +181,12 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
     },
     // Brand Splash Styles
-    splashContainer: {
+    splashWrapper: {
         flex: 1,
         backgroundColor: '#000000',
+    },
+    splashContainer: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
