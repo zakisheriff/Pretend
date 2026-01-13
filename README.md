@@ -2,6 +2,8 @@
 
 <div align="center">
 <strong>The Ultimate Offline Party Game of Deception</strong>
+<br />
+<i>Find the odd one out. Trust no one.</i>
 </div>
 
 <br />
@@ -12,20 +14,17 @@
 ![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![Zustand](https://img.shields.io/badge/Zustand-443E38?style=for-the-badge&logo=react&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 <br />
 
-<div align="center" style="border-radius: 25px; overflow: hidden; width: 160px; height: 160px;">
-  <img src="assets/images/Neo-Logo.jpeg" width="160" height="160" />
-</div>
+<img src="assets/images/Neo-Logo.jpeg" width="180" height="180" />
 
 <br />
 <br />
 
 **One Phone. Many Secrets. Endless Fun.**
-
-*Pass the phone, reveal your role, and find out who among you is pretending!*
+<br />
+*A Premium Social Deduction Experience with High-Contrast Neo Noir Aesthetics.*
 
 </div>
 
@@ -33,198 +32,91 @@
 
 ## 🎮 Game Modes
 
-Pretend offers **4 unique game modes**, each with its own twist on social deduction:
+Pretend features **4 distinct ways to play**, all optimized for a single-phone "pass and play" experience:
 
-### 🕵️ Classic Imposter
-> *The original spy game experience*
-
-- **Crewmates** receive the secret word
-- **Imposter** only gets a clue/hint
-- Discuss, deduce, and vote out the imposter!
-
-### 🎬 Director's Cut
-> *One knows the movie, others only get hints*
-
-- **Director** knows the full movie title
-- **Viewers** receive cryptic hints
-- Ask yes/no questions to guess the movie and identify the Director!
-
-### 🧠 Mind Sync
-> *Are your answers in sync?*
-
-- Everyone receives a question to answer
-- **One player (Outlier)** has a slightly different question
-- Compare answers and find who's out of sync!
+### 🕵️‍♂️ Classic Imposter
+The classic spy game. Crewmates receive a secret word, while the Imposter only gets a vague clue.
+- **Goal**: Crewmates must find the imposter; Imposter must blend in using the clue.
 
 ### 🔍 Undercover
-> *Everyone has a word... but one is different*
+Everyone receives a word from a shared theme, but one player has a slightly different word.
+- **Goal**: Find the player whose word doesn't quite match the group's descriptions.
 
-- All players receive a word from the same theme
-- **One player** has a different (but related) word
-- Describe your word without revealing it — spot the odd one out!
+### 🎬 Director's Cut
+One player is the Director who knows the movie title. Everyone else gets cryptic hints.
+- **Goal**: Viewers ask yes/no questions to guess the movie and identify the Director.
+
+### 🧠 Mind Sync
+Everyone answers a question, but one player received a slightly different question.
+- **Goal**: Compare answers to spot the inconsistency and find the outlier.
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
 | Feature | Description |
 |---------|-------------|
-| **3-10 Players** | Perfect for small gatherings or big parties |
-| **13+ Themes** | Movies, Actors, Foods, Places, Sports, and more |
-| **Adjustable Difficulty** | Control hint levels (Low, Medium, High) |
-| **Interactive Voting** | Smooth drag-and-tap voting system |
-| **Victorian UI** | Elegant dark theme with candlelight accents |
-| **Haptic Feedback** | Every action feels tactile and responsive |
-| **Offline Play** | No internet required — perfect for anywhere |
+| **Neo Noir UI** | Sleek black-and-white design with elegant candlelight gold accents. |
+| **Pass & Play** | Designed for 3-10 players on a single device — no internet required. |
+| **Multi-Round Logic** | Modern "Among Us" style elimination. Play until a team actually wins. |
+| **Smart Instructions** | Simplified mode selection with on-demand "How to Play" overlays. |
+| **Extensive Themes** | 13+ curated categories including Movies, Food, Sports, and more. |
+| **Haptic Immersion** | Tactile feedback for every interaction, from reveals to votes. |
 
 ---
 
-## 🎨 Design Philosophy
+## 🛠️ Technical Prowess
 
-<table>
-<tr>
-<td width="33%">
+This app is built with performance and elegance in mind:
 
-### 🌙 Dark Mode First
-Sleek blacks and warm golds for a premium OLED-friendly experience
-
-</td>
-<td width="33%">
-
-### ✨ Victorian Aesthetic
-Elegant typography, parchment textures, and candlelight accents
-
-</td>
-<td width="33%">
-
-### 🎯 Micro-Interactions
-Smooth animations and haptic feedback make every action satisfying
-
-</td>
-</tr>
-</table>
-
----
-
-## 🛠️ Tech Stack
-
-| Technology | Purpose |
-|------------|---------|
-| **React Native** | Cross-platform mobile framework |
-| **Expo** | Development platform & routing |
-| **TypeScript** | Type-safe development |
-| **Zustand** | Lightweight state management |
-| **Reanimated** | Smooth 60fps animations |
-| **Gesture Handler** | Native touch interactions |
+- **React Native & Expo**: Cross-platform core with native speed.
+- **Zustand State**: Lightweight and predictable game logic management.
+- **Reanimated**: Fluid 60fps transitions and interactive reveal animations.
+- **Dynamic Themes**: Scalable JSON-based word pairing system.
 
 ---
 
 ## 📂 Project Structure
 
-```
+```bash
 Pretend/
-├── app/                    # Screens (Expo Router)
-│   ├── index.tsx           # Home screen
-│   ├── select-mode.tsx     # Game mode selection
-│   ├── add-players.tsx     # Player management
-│   ├── select-theme.tsx    # Theme selection
-│   ├── game-settings.tsx   # Difficulty settings
-│   ├── role-reveal.tsx     # Role reveal cards
-│   ├── discussion.tsx      # Timer & discussion
-│   ├── voting.tsx          # Voting interface
-│   └── results.tsx         # Game results
-├── components/
-│   ├── game/               # Game-specific components
-│   └── common/             # Reusable UI components
-├── store/
-│   └── gameStore.ts        # Zustand game state
+├── app/                    # Expo Router Screens (Navigation Layer)
+│   ├── index.tsx           # Premium Home Screen
+│   ├── select-mode.tsx     # Simplified Mode Selection
+│   ├── add-players.tsx     # Player & Order Management
+│   └── results.tsx         # Multi-round Win Conditions
+├── store/                  # Game Engine (Zustand)
+│   └── gameStore.ts        # Assignment & Evaluation Logic
 ├── data/
-│   ├── themes/             # Word lists (13+ themes)
-│   └── modes/              # Mode-specific data
-├── constants/
-│   └── colors.ts           # Victorian color palette
-└── assets/
-    └── images/             # Icons & graphics
+│   ├── themes/             # Classic Mode Word Lists
+│   └── undercover/         # Paired Word Data (Undercover Mode)
+├── components/             # Atomic UI Components
+└── assets/                 # Neo Noir Brand Assets
 ```
 
 ---
 
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Node.js 18+
-- npm or yarn
-- Expo Go app on your phone
+## 🚀 Getting Started
 
 ### Installation
 
 ```bash
 # Clone the repository
 git clone https://github.com/zakisheriff/Pretend.git
-cd Pretend
 
 # Install dependencies
 npm install
 
-# Start the development server
+# Start the Expo development server
 npx expo start
 ```
 
-### Play
-
-1. Scan the QR code with Expo Go
-2. Select a game mode
-3. Add 3-10 players
-4. Choose a theme
-5. Pass the phone and start pretending!
-
----
-
-## 🎯 How to Play
-
-1. **Setup** — Add player names and choose a game mode
-2. **Theme** — Select from categories like Movies, Food, or Places
-3. **Reveal** — Each player secretly views their role by dragging the card
-4. **Discuss** — Talk, question, and try to find the odd one out
-5. **Vote** — Eliminate who you think is pretending
-6. **Results** — See who won and play again!
-
----
-
-## 📱 Screenshots
-
-<div align="center">
-<i>Coming soon...</i>
-</div>
-
----
-
-## 🗺️ Roadmap
-
-- [ ] Online multiplayer support
-- [ ] Custom word/theme creation
-- [ ] Achievement system
-- [ ] More game modes
-- [ ] Localization (multiple languages)
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Here's how you can help:
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+### How to Start a Match
+1. **Choose Mode**: Pick from the 4 available game styles.
+2. **Setup Players**: Add 3-10 player names (ordering matters for the pass!).
+3. **Select Theme**: Pick a category or randomize.
+4. **Pass & Reveal**: Each player drags up to see their secret role.
+5. **Deduce & Vote**: Use the built-in timer to discuss and cast your votes.
 
 ---
 
@@ -232,12 +124,8 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 ### 🎭 Trust No One. Pretend Everything.
 
-<br />
+Made by **Zaki Sheriff**
 
-Made with by **Zaki Sheriff**
-
-<br />
-
-[⭐ Star this repo](https://github.com/zakisheriff/Pretend) if you enjoyed playing!
+[⭐ Star this repo](https://github.com/zakisheriff/Pretend) if you're ready to find the imposter!
 
 </div>
