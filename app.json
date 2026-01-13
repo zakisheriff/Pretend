@@ -10,7 +10,8 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "backgroundColor": "#000000"
+      "backgroundColor": "#000000",
+      "bundleIdentifier": "com.zakisheriff.pretend"
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +19,8 @@
         "foregroundImage": "./assets/images/new_logo.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.zakisheriff.pretend"
     },
     "web": {
       "output": "static",

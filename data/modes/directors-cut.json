@@ -1,182 +1,332 @@
 [
-    {
-        "movie": "Titanic",
-        "genre": "Romance / Drama",
-        "year": 1997,
-        "hint": "A tragic love story that ends in cold waters"
-    },
-    {
-        "movie": "The Dark Knight",
-        "genre": "Action / Superhero",
-        "year": 2008,
-        "hint": "A hero fights a chaotic villain who just wants to watch the world burn"
-    },
-    {
-        "movie": "Inception",
-        "genre": "Sci-Fi / Thriller",
-        "year": 2010,
-        "hint": "Dreams within dreams within dreams"
-    },
-    {
-        "movie": "Avatar",
-        "genre": "Sci-Fi / Adventure",
-        "year": 2009,
-        "hint": "Humans invade an alien world for resources"
-    },
-    {
-        "movie": "The Avengers",
-        "genre": "Action / Superhero",
-        "year": 2012,
-        "hint": "Earth's mightiest heroes team up"
-    },
-    {
-        "movie": "Frozen",
-        "genre": "Animation / Musical",
-        "year": 2013,
-        "hint": "Let it go, let it go..."
-    },
-    {
-        "movie": "Jurassic Park",
-        "genre": "Sci-Fi / Adventure",
-        "year": 1993,
-        "hint": "Life finds a way on an island"
-    },
-    {
-        "movie": "The Lion King",
-        "genre": "Animation / Drama",
-        "year": 1994,
-        "hint": "A young prince must reclaim his throne in the savanna"
-    },
-    {
-        "movie": "Forrest Gump",
-        "genre": "Drama / Comedy",
-        "year": 1994,
-        "hint": "Life is like a box of chocolates"
-    },
-    {
-        "movie": "The Matrix",
-        "genre": "Sci-Fi / Action",
-        "year": 1999,
-        "hint": "What if reality is just a simulation?"
-    },
-    {
-        "movie": "Harry Potter",
-        "genre": "Fantasy / Adventure",
-        "year": 2001,
-        "hint": "A boy wizard goes to magic school"
-    },
-    {
-        "movie": "Spider-Man",
-        "genre": "Action / Superhero",
-        "year": 2002,
-        "hint": "With great power comes great responsibility"
-    },
-    {
-        "movie": "Pirates of the Caribbean",
-        "genre": "Action / Adventure",
-        "year": 2003,
-        "hint": "Why is the rum always gone?"
-    },
-    {
-        "movie": "Finding Nemo",
-        "genre": "Animation / Adventure",
-        "year": 2003,
-        "hint": "A father searches the ocean for his lost son"
-    },
-    {
-        "movie": "Interstellar",
-        "genre": "Sci-Fi / Drama",
-        "year": 2014,
-        "hint": "Love transcends time and space... literally"
-    },
-    {
-        "movie": "3 Idiots",
-        "genre": "Comedy / Drama",
-        "year": 2009,
-        "hint": "All is well at an engineering college"
-    },
-    {
-        "movie": "Dangal",
-        "genre": "Sports / Drama",
-        "year": 2016,
-        "hint": "A father trains his daughters to be champions"
-    },
-    {
-        "movie": "Bahubali",
-        "genre": "Action / Epic",
-        "year": 2015,
-        "hint": "Why did he kill him? The answer spans kingdoms"
-    },
-    {
-        "movie": "KGF",
-        "genre": "Action / Crime",
-        "year": 2018,
-        "hint": "A man rises to rule the gold mines"
-    },
-    {
-        "movie": "Vikram",
-        "genre": "Action / Thriller",
-        "year": 2022,
-        "hint": "A masked vigilante hunts criminals"
-    },
-    {
-        "movie": "Pushpa",
-        "genre": "Action / Crime",
-        "year": 2021,
-        "hint": "The rise of a red sandalwood smuggler"
-    },
-    {
-        "movie": "RRR",
-        "genre": "Action / Drama",
-        "year": 2022,
-        "hint": "Two revolutionary friends fight the British"
-    },
-    {
-        "movie": "Sholay",
-        "genre": "Action / Drama",
-        "year": 1975,
-        "hint": "Kitne aadmi the? Classic villain confrontation"
-    },
-    {
-        "movie": "DDLJ",
-        "genre": "Romance",
-        "year": 1995,
-        "hint": "Ja Simran ja, jee le apni zindagi"
-    },
-    {
-        "movie": "The Shawshank Redemption",
-        "genre": "Drama",
-        "year": 1994,
-        "hint": "Hope can set you free from any prison"
-    },
-    {
-        "movie": "Gladiator",
-        "genre": "Action / Drama",
-        "year": 2000,
-        "hint": "A general becomes a slave becomes a legend"
-    },
-    {
-        "movie": "Fight Club",
-        "genre": "Drama / Thriller",
-        "year": 1999,
-        "hint": "The first rule is you do not talk about it"
-    },
-    {
-        "movie": "The Godfather",
-        "genre": "Crime / Drama",
-        "year": 1972,
-        "hint": "An offer you cannot refuse"
-    },
-    {
-        "movie": "Joker",
-        "genre": "Drama / Thriller",
-        "year": 2019,
-        "hint": "The origin of a clown prince of crime"
-    },
-    {
-        "movie": "Toy Story",
-        "genre": "Animation / Comedy",
-        "year": 1995,
-        "hint": "To infinity and beyond!"
-    }
+  { "movie": "Titanic", "genre": "Romance / Drama", "year": 1997, "hint": "" },
+  {
+    "movie": "The Dark Knight",
+    "genre": "Action / Superhero",
+    "year": 2008,
+    "hint": ""
+  },
+  {
+    "movie": "Inception",
+    "genre": "Sci-Fi / Thriller",
+    "year": 2010,
+    "hint": ""
+  },
+  {
+    "movie": "Avatar",
+    "genre": "Sci-Fi / Adventure",
+    "year": 2009,
+    "hint": ""
+  },
+  {
+    "movie": "The Avengers",
+    "genre": "Action / Superhero",
+    "year": 2012,
+    "hint": ""
+  },
+  {
+    "movie": "Interstellar",
+    "genre": "Sci-Fi / Drama",
+    "year": 2014,
+    "hint": ""
+  },
+  {
+    "movie": "The Matrix",
+    "genre": "Sci-Fi / Action",
+    "year": 1999,
+    "hint": ""
+  },
+  {
+    "movie": "The Shawshank Redemption",
+    "genre": "Drama",
+    "year": 1994,
+    "hint": ""
+  },
+  {
+    "movie": "The Godfather",
+    "genre": "Crime / Drama",
+    "year": 1972,
+    "hint": ""
+  },
+  {
+    "movie": "Fight Club",
+    "genre": "Drama / Thriller",
+    "year": 1999,
+    "hint": ""
+  },
+
+  {
+    "movie": "Batman Begins",
+    "genre": "Action / Superhero",
+    "year": 2005,
+    "hint": ""
+  },
+  {
+    "movie": "The Dark Knight Rises",
+    "genre": "Action / Superhero",
+    "year": 2012,
+    "hint": ""
+  },
+  { "movie": "Dunkirk", "genre": "War / Drama", "year": 2017, "hint": "" },
+  { "movie": "Tenet", "genre": "Sci-Fi / Action", "year": 2020, "hint": "" },
+  {
+    "movie": "Oppenheimer",
+    "genre": "Biography / Drama",
+    "year": 2023,
+    "hint": ""
+  },
+  {
+    "movie": "Memento",
+    "genre": "Thriller / Mystery",
+    "year": 2000,
+    "hint": ""
+  },
+  {
+    "movie": "The Prestige",
+    "genre": "Drama / Mystery",
+    "year": 2006,
+    "hint": ""
+  },
+
+  {
+    "movie": "Pulp Fiction",
+    "genre": "Crime / Drama",
+    "year": 1994,
+    "hint": ""
+  },
+  {
+    "movie": "Django Unchained",
+    "genre": "Action / Drama",
+    "year": 2012,
+    "hint": ""
+  },
+  {
+    "movie": "Inglourious Basterds",
+    "genre": "War / Drama",
+    "year": 2009,
+    "hint": ""
+  },
+  {
+    "movie": "Kill Bill: Vol. 1",
+    "genre": "Action / Thriller",
+    "year": 2003,
+    "hint": ""
+  },
+  {
+    "movie": "Once Upon a Time in Hollywood",
+    "genre": "Drama / Comedy",
+    "year": 2019,
+    "hint": ""
+  },
+  {
+    "movie": "Reservoir Dogs",
+    "genre": "Crime / Thriller",
+    "year": 1992,
+    "hint": ""
+  },
+
+  {
+    "movie": "Iron Man",
+    "genre": "Action / Superhero",
+    "year": 2008,
+    "hint": ""
+  },
+  {
+    "movie": "Captain America: Civil War",
+    "genre": "Action / Superhero",
+    "year": 2016,
+    "hint": ""
+  },
+  {
+    "movie": "Avengers: Infinity War",
+    "genre": "Action / Superhero",
+    "year": 2018,
+    "hint": ""
+  },
+  {
+    "movie": "Avengers: Endgame",
+    "genre": "Action / Superhero",
+    "year": 2019,
+    "hint": ""
+  },
+  {
+    "movie": "Spider-Man: No Way Home",
+    "genre": "Action / Superhero",
+    "year": 2021,
+    "hint": ""
+  },
+  {
+    "movie": "Doctor Strange",
+    "genre": "Action / Fantasy",
+    "year": 2016,
+    "hint": ""
+  },
+  {
+    "movie": "Black Panther",
+    "genre": "Action / Superhero",
+    "year": 2018,
+    "hint": ""
+  },
+
+  {
+    "movie": "Man of Steel",
+    "genre": "Action / Superhero",
+    "year": 2013,
+    "hint": ""
+  },
+  {
+    "movie": "Batman v Superman",
+    "genre": "Action / Superhero",
+    "year": 2016,
+    "hint": ""
+  },
+  {
+    "movie": "Justice League (Snyder Cut)",
+    "genre": "Action / Superhero",
+    "year": 2021,
+    "hint": ""
+  },
+  {
+    "movie": "The Batman",
+    "genre": "Action / Crime",
+    "year": 2022,
+    "hint": ""
+  },
+  { "movie": "Joker", "genre": "Drama / Thriller", "year": 2019, "hint": "" },
+  {
+    "movie": "Aquaman",
+    "genre": "Action / Superhero",
+    "year": 2018,
+    "hint": ""
+  },
+
+  { "movie": "Vikram", "genre": "Action / Thriller", "year": 2022, "hint": "" },
+  { "movie": "Leo", "genre": "Action / Crime", "year": 2023, "hint": "" },
+  { "movie": "Jailer", "genre": "Action / Drama", "year": 2023, "hint": "" },
+  { "movie": "Kaithi", "genre": "Action / Thriller", "year": 2019, "hint": "" },
+  { "movie": "Master", "genre": "Action / Drama", "year": 2021, "hint": "" },
+  { "movie": "Soorarai Pottru", "genre": "Drama", "year": 2020, "hint": "" },
+  { "movie": "Jai Bhim", "genre": "Drama / Legal", "year": 2021, "hint": "" },
+  {
+    "movie": "Ponniyin Selvan: I",
+    "genre": "Historical / Drama",
+    "year": 2022,
+    "hint": ""
+  },
+  {
+    "movie": "Ponniyin Selvan: II",
+    "genre": "Historical / Drama",
+    "year": 2023,
+    "hint": ""
+  },
+  {
+    "movie": "Maaveeran",
+    "genre": "Action / Fantasy",
+    "year": 2023,
+    "hint": ""
+  },
+
+  { "movie": "Nayakan", "genre": "Crime / Drama", "year": 1987, "hint": "Velu Nayakar's rise in Mumbai" },
+  { "movie": "Thalapathi", "genre": "Action / Drama", "year": 1991, "hint": "Surya and Deva's friendship" },
+  { "movie": "Anbe Sivam", "genre": "Drama / Comedy", "year": 2003, "hint": "Love is God; journey of two men" },
+  { "movie": "Baasha", "genre": "Action / Crime", "year": 1995, "hint": "Autodriver with a deadly past" },
+  { "movie": "Mouna Ragam", "genre": "Romance / Drama", "year": 1986, "hint": "Divya's life after marriage" },
+  { "movie": "Kannathil Muthamittal", "genre": "War / Drama", "year": 2002, "hint": "A girl searches for her biological mother in Sri Lanka" },
+  { "movie": "Vada Chennai", "genre": "Action / Crime", "year": 2018, "hint": "Carrom player gets pulled into gang wars" },
+  { "movie": "Vikram Vedha", "genre": "Action / Thriller", "year": 2017, "hint": "Police vs Gangster based on Vikram-Betal" },
+  { "movie": "Asuran", "genre": "Action / Period Drama", "year": 2019, "hint": "Father protects son after a caste-based conflict" },
+  { "movie": "Pariyerum Perumal", "genre": "Drama", "year": 2018, "hint": "Law student faces caste discrimination" },
+  { "movie": "Ratsasan", "genre": "Slasher / Thriller", "year": 2018, "hint": "Cop hunts a psychopathic serial killer" },
+  { "movie": "96", "genre": "Romance / Drama", "year": 2018, "hint": "School sweethearts meet at a reunion" },
+  { "movie": "Enthiran", "genre": "Sci-Fi / Action", "year": 2010, "hint": "Scientist creates a humanoid robot named Chitti" },
+  { "movie": "Sivaji: The Boss", "genre": "Action / Drama", "year": 2007, "hint": "Man fights corruption to build free hospitals" },
+  { "movie": "Thuppakki", "genre": "Action / Thriller", "year": 2012, "hint": "Army officer hunts sleeper cells in Mumbai" },
+  { "movie": "Kaththi", "genre": "Action / Drama", "year": 2014, "hint": "Escaped convict fights for farmers' rights" },
+  { "movie": "Mankatha", "genre": "Action / Crime", "year": 2011, "hint": "Suspended cop plans a heist during IPL" },
+  { "movie": "Ghilli", "genre": "Action / Romance", "year": 2004, "hint": "Kabaddi player saves a girl from a powerful man" },
+  { "movie": "Alaipayuthey", "genre": "Romance / Drama", "year": 2000, "hint": "The reality of marriage after eloping" },
+  { "movie": "Ok Kanmani", "genre": "Romance", "year": 2015, "hint": "Live-in relationship in Mumbai" },
+  { "movie": "Sarpatta Parambarai", "genre": "Sports / Drama", "year": 2021, "hint": "Boxing culture in 1970s North Madras" },
+  { "movie": "Karnan", "genre": "Action / Drama", "year": 2021, "hint": "Youth fights for his village's dignity" },
+  { "movie": "Viduthalai Part 1", "genre": "Crime / Drama", "year": 2023, "hint": "Police recruitment vs people's army" },
+  { "movie": "Chithha", "genre": "Drama / Thriller", "year": 2023, "hint": "A man's search for his missing niece" },
+  { "movie": "Jigarthanda", "genre": "Action / Comedy", "year": 2014, "hint": "Filmmaker tries to make a movie about a gangster" },
+  { "movie": "Dhuruvangal Pathinaaru", "genre": "Mystery / Thriller", "year": 2016, "hint": "Retired cop recounts a cold case" },
+  { "movie": "Visaranai", "genre": "Crime / Drama", "year": 2015, "hint": "Police brutality and political corruption" },
+  { "movie": "Kaka Muttai", "genre": "Drama / Comedy", "year": 2014, "hint": "Two slum kids want to taste pizza" },
+  { "movie": "Iruvar", "genre": "Political Drama", "year": 1997, "hint": "Friendship between an actor and a politician" },
+  { "movie": "Thevar Magan", "genre": "Drama", "year": 1992, "hint": "Educated son takes over his father's village legacy" },
+  { "movie": "Aboorva Sagodharargal", "genre": "Action / Comedy", "year": 1989, "hint": "Dwarf brother takes revenge for his father" },
+  { "movie": "Indian", "genre": "Action / Vigilante", "year": 1996, "hint": "Freedom fighter kills corrupt officials" },
+  { "movie": "Gunaa", "genre": "Psychological / Romance", "year": 1991, "hint": "Man kidnaps a girl believing she is Abirami" },
+  { "movie": "Hey Ram", "genre": "Historical / Drama", "year": 2000, "hint": "Alternative history around Gandhi's assassination" },
+  { "movie": "Pudhupettai", "genre": "Crime / Action", "year": 2006, "hint": "Rise of Kokki Kumar in North Madras" },
+  { "movie": "Aayirathil Oruvan", "genre": "Fantasy / Adventure", "year": 2010, "hint": "Archaeological team finds the lost Chola kingdom" },
+  { "movie": "Vaaranam Aayiram", "genre": "Romance / Drama", "year": 2008, "hint": "Son's journey through love and loss, inspired by his father" },
+  { "movie": "Mahanadhi", "genre": "Drama / Crime", "year": 1994, "hint": "A man's struggle to save his family from ruins" },
+  { "movie": "Virumandi", "genre": "Action / Drama", "year": 2004, "hint": "Village rivalry told through two perspectives" },
+  { "movie": "Paruthiveeran", "genre": "Drama / Romance", "year": 2007, "hint": "Tragic love story in a rural setting" },
+  { "movie": "Subramaniapuram", "genre": "Crime / Drama", "year": 2008, "hint": "Betrayal and revenge in 1980s Madurai" },
+  { "movie": "Aruvi", "genre": "Drama / Social", "year": 2017, "hint": "A girl's rebellion against society" },
+  { "movie": "Super Deluxe", "genre": "Dark Comedy / Drama", "year": 2019, "hint": "Four stories converge on one fateful day" },
+  { "movie": "Kadaisi Vivasayi", "genre": "Drama", "year": 2022, "hint": "An old man's struggle to continue farming" },
+  { "movie": "Thani Oruvan", "genre": "Action / Thriller", "year": 2015, "hint": "Cop vs corporate mastermind Siddharth Abhimanyu" },
+  { "movie": "Jeans", "genre": "Romance / Comedy", "year": 1998, "hint": "Twins fall in love with a girl who must pretend to be two people" },
+  { "movie": "Mudhalvan", "genre": "Political / Action", "year": 1999, "hint": "Journalist becomes CM for one day" },
+  { "movie": "Anniyan", "genre": "Action / Psychological", "year": 2005, "hint": "Man with multiple personalities punishes the corrupt" },
+  { "movie": "Padayappa", "genre": "Action / Drama", "year": 1999, "hint": "Conflict between Padayappa and Neelambari" },
+  { "movie": "Bommarillu", "genre": "Romance / Family", "year": 2006, "hint": "A son's struggle against his overprotective father" },
+
+  
+  { "movie": "The Lord of the Rings: The Fellowship of the Ring", "genre": "Fantasy / Adventure", "year": 2001, "hint": "Hobbit begins journey to destroy the One Ring" },
+  { "movie": "The Lord of the Rings: The Two Towers", "genre": "Fantasy / Adventure", "year": 2002, "hint": "Frodo and Sam head to Mordor; Rohan under siege" },
+  { "movie": "The Lord of the Rings: The Return of the King", "genre": "Fantasy / Adventure", "year": 2003, "hint": "Final battle for Middle-earth" },
+  { "movie": "Forrest Gump", "genre": "Drama / Romance", "year": 1994, "hint": "Life is like a box of chocolates" },
+  { "movie": "Schindler's List", "genre": "War / Drama", "year": 1993, "hint": "Businessman saves Jews during Holocaust" },
+  { "movie": "The Silence of the Lambs", "genre": "Horror / Thriller", "year": 1991, "hint": "Clarice Starling meets Hannibal Lecter" },
+  { "movie": "Se7en", "genre": "Crime / Thriller", "year": 1995, "hint": "Serial killer based on seven deadly sins" },
+  { "movie": "Goodfellas", "genre": "Crime / Drama", "year": 1990, "hint": "Life in the mob as Henry Hill" },
+  { "movie": "The Departed", "genre": "Crime / Thriller", "year": 2006, "hint": "Mole in the police vs mole in the mob" },
+  { "movie": "Saving Private Ryan", "genre": "War / Action", "year": 1998, "hint": "Mission to find the last surviving brother" },
+  { "movie": "Gladiator", "genre": "Action / Drama", "year": 2000, "hint": "General becomes a slave and fights as a gladiator" },
+  { "movie": "The Lion King", "genre": "Animation / Adventure", "year": 1994, "hint": "Simba's journey to become King" },
+  { "movie": "Toy Story", "genre": "Animation / Adventure", "year": 1995, "hint": "Toys come to life when humans aren't looking" },
+  { "movie": "Jurassic Park", "genre": "Sci-Fi / Adventure", "year": 1993, "hint": "Theme park with cloned dinosaurs" },
+  { "movie": "Braveheart", "genre": "Historical / Drama", "year": 1995, "hint": "William Wallace leads Scottish rebellion" },
+  { "movie": "The Green Mile", "genre": "Drama / Fantasy", "year": 1999, "hint": "Death row inmate with supernatural powers" },
+  { "movie": "Eternal Sunshine of the Spotless Mind", "genre": "Sci-Fi / Romance", "year": 2004, "hint": "Couple erases memories of each other" },
+  { "movie": "The Truman Show", "genre": "Drama / Comedy", "year": 1998, "hint": "Man's life is a 24/7 reality show" },
+  { "movie": "Parasite", "genre": "Thriller / Drama", "year": 2019, "hint": "Poor family infiltrates a wealthy household" },
+  { "movie": "Mad Max: Fury Road", "genre": "Action / Sci-Fi", "year": 2015, "hint": "High-octane chase across a wasteland" },
+  { "movie": "Blade Runner 2049", "genre": "Sci-Fi / Mystery", "year": 2017, "hint": "A new blade runner unearths a long-buried secret" },
+  { "movie": "Dune", "genre": "Sci-Fi / Adventure", "year": 2021, "hint": "Paul Atreides goes to Arrakis" },
+  { "movie": "Spider-Man: Into the Spider-Verse", "genre": "Animation / Superhero", "year": 2018, "hint": "Miles Morales meets other Spider-people" },
+  { "movie": "Top Gun: Maverick", "genre": "Action / Drama", "year": 2022, "hint": "Maverick returns to train elite pilots" },
+  { "movie": "Everything Everywhere All at Once", "genre": "Sci-Fi / Action", "year": 2022, "hint": "Laundry owner saves the multiverse" },
+  { "movie": "Gone Girl", "genre": "Thriller / Mystery", "year": 2014, "hint": "Man's wife goes missing on anniversary" },
+  { "movie": "The Wolf of Wall Street", "genre": "Biography / Comedy", "year": 2013, "hint": "Rise and fall of Jordan Belfort" },
+  { "movie": "Whiplash", "genre": "Drama / Music", "year": 2014, "hint": "Drummer pushed to the limit by teacher" },
+  { "movie": "La La Land", "genre": "Romance / Musical", "year": 2016, "hint": "Jazz pianist and actress in Los Angeles" },
+  { "movie": "The Grand Budapest Hotel", "genre": "Comedy / Adventure", "year": 2014, "hint": "Concierge and lobby boy involved in art theft" },
+  { "movie": "No Country for Old Men", "genre": "Crime / Thriller", "year": 2007, "hint": "Hitman hunts man who found drug money" },
+  { "movie": "There Will Be Blood", "genre": "Drama", "year": 2007, "hint": "Ruthless oilman's rise to power" },
+  { "movie": "The Social Network", "genre": "Biography / Drama", "year": 2010, "hint": "The founding of Facebook" },
+  { "movie": "The Sixth Sense", "genre": "Thriller / Horror", "year": 1999, "hint": "I see dead people" },
+  { "movie": "The Usual Suspects", "genre": "Crime / Mystery", "year": 1995, "hint": "Who is Keyser Söze?" },
+  { "movie": "Alien", "genre": "Horror / Sci-Fi", "year": 1979, "hint": "In space, no one can hear you scream" },
+  { "movie": "Aliens", "genre": "Action / Sci-Fi", "year": 1986, "hint": "Ripley returns with marines" },
+  { "movie": "The Terminator", "genre": "Action / Sci-Fi", "year": 1984, "hint": "Cyborg sent from future to kill Sarah Connor" },
+  { "movie": "Terminator 2: Judgment Day", "genre": "Action / Sci-Fi", "year": 1991, "hint": "T-800 protects John Connor" },
+  { "movie": "Back to the Future", "genre": "Sci-Fi / Comedy", "year": 1985, "hint": "Marty McFly travels to 1955" },
+  { "movie": "Raiders of the Lost Ark", "genre": "Action / Adventure", "year": 1981, "hint": "Indiana Jones finds the Ark of the Covenant" },
+  { "movie": "Jaws", "genre": "Thriller / Adventure", "year": 1975, "hint": "Great white shark terrorizes a beach town" },
+  { "movie": "Psycho", "genre": "Horror / Thriller", "year": 1960, "hint": "Marion Crane stays at the Bates Motel" },
+  { "movie": "12 Angry Men", "genre": "Drama / Legal", "year": 1957, "hint": "Jury deliberates a murder case" },
+  { "movie": "The Shining", "genre": "Horror / Drama", "year": 1980, "hint": "Jack Torrance stays at the Overlook Hotel" },
+  { "movie": "A Clockwork Orange", "genre": "Sci-Fi / Crime", "year": 1971, "hint": "Alex and his 'droogs' in a dystopian future" },
+  { "movie": "Heat", "genre": "Action / Crime", "year": 1995, "hint": "Master thief vs obsessive detective" },
+  { "movie": "Die Hard", "genre": "Action / Thriller", "year": 1988, "hint": "Cop fights terrorists in a skyscraper" },
+  { "movie": "The Big Lebowski", "genre": "Comedy / Crime", "year": 1998, "hint": "The Dude just wants his rug back" },
+  { "movie": "Fargo", "genre": "Crime / Thriller", "year": 1996, "hint": "Kidnapping plot goes horribly wrong in Minnesota" }
+
 ]

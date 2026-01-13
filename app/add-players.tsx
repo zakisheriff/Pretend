@@ -59,7 +59,7 @@ export default function AddPlayersScreen() {
 
     return (
         <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
             style={styles.container}
         >
             <View style={[styles.headerBar, { paddingTop: insets.top + 10 }]}>
