@@ -114,7 +114,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
         // Create new object references to ensure proper re-render
         set({ players: players.map(p => ({ ...p })) });
     },
-
     clearPlayers: () => {
         set({ players: [] });
     },

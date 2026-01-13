@@ -44,14 +44,14 @@ export default function GameSettingsScreen() {
                 <View style={styles.header}>
                     <View style={styles.titleRow}>
                         <Ionicons name="clipboard-outline" size={24} color={Colors.parchment} />
-                        <Text style={styles.title}>CASE BRIEFING</Text>
+                        <Text style={styles.title}>Case Briefing</Text>
                     </View>
                     <Text style={styles.subtitle}>Configure your investigation</Text>
                 </View>
 
                 <View style={styles.settingsGroup}>
                     <GameSetting
-                        label="SUSPECTS"
+                        label="Suspects"
                         value={settings.imposterCount}
                         options={Array.from({ length: maxSuspects }, (_, i) => i + 1)}
                         onChange={handleSuspectChange}
@@ -59,16 +59,16 @@ export default function GameSettingsScreen() {
                     />
 
                     <GameSetting
-                        label="CLUE STRENGTH"
+                        label="Clue Strength"
                         value={['none', 'low', 'medium', 'high'].indexOf(settings.hintStrength)}
                         options={[0, 1, 2, 3]}
-                        formatLabel={(v) => ['NONE', 'LOW', 'MEDIUM', 'HIGH'][v]}
+                        formatLabel={(v) => ['None', 'Low', 'Medium', 'High'][v]}
                         onChange={(v) => { haptics.selection(); updateSettings({ hintStrength: ['none', 'low', 'medium', 'high'][v] as any }); }}
                         icon="bulb-outline"
                     />
 
                     <GameSetting
-                        label="INVESTIGATION TIME"
+                        label="Investigation Time"
                         value={settings.discussionTime}
                         options={[60, 120, 180, 240, 300]}
                         formatLabel={(v) => `${v / 60}m`}
@@ -79,7 +79,7 @@ export default function GameSettingsScreen() {
 
                 <View style={styles.footer}>
                     <Button
-                        title="BEGIN CASE"
+                        title="Begin Case"
                         onPress={handleStart}
                         variant="primary"
                         size="large"

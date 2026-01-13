@@ -101,20 +101,20 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
                 // Classic Imposter - Show role (imposter vs crewmate)
                 return {
                     icon: isImposter ? 'skull' : 'search',
-                    label: isImposter ? 'IMPOSTER' : 'CREWMATE',
+                    label: isImposter ? 'Imposter' : 'Crewmate',
                     color: isImposter ? Colors.suspect : Colors.detective,
                 };
             case 'directors-cut':
                 return {
                     icon: isDirector ? 'film' : 'eye',
-                    label: isDirector ? 'DIRECTOR' : 'VIEWER',
+                    label: isDirector ? 'Director' : 'Viewer',
                     color: isDirector ? Colors.gaslightAmber : Colors.detective,
                 };
             case 'mind-sync':
                 // Mind Sync - Don't reveal role! Everyone just sees their question
                 return {
                     icon: 'person',
-                    label: 'PLAYER',
+                    label: 'Player',
                     color: Colors.candlelight,
                     hideRole: true, // Flag to hide the role section entirely
                 };
@@ -122,14 +122,14 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
                 // Undercover - Don't reveal role! Everyone sees the same label
                 return {
                     icon: 'person',
-                    label: 'PLAYER',
+                    label: 'Player',
                     color: Colors.candlelight,
                     hideRole: true, // Flag to hide the role section entirely
                 };
             default:
                 return {
                     icon: isImposter ? 'skull' : 'search',
-                    label: isImposter ? 'SUSPECT' : 'DETECTIVE',
+                    label: isImposter ? 'Suspect' : 'Detective',
                     color: isImposter ? Colors.suspect : Colors.detective,
                 };
         }
@@ -142,14 +142,14 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
                 // Classic Imposter - Imposter gets clue, crewmates get word
                 if (isImposter) {
                     return {
-                        label: 'YOUR CLUE',
+                        label: 'Your Clue',
                         content: hint || 'No clue available',
                         isLarge: false,
                         warningText: 'Deceive wisely. Blend in with others!',
                     };
                 }
                 return {
-                    label: 'SECRET EVIDENCE',
+                    label: 'Secret Evidence',
                     content: word,
                     isLarge: true,
                     warningText: null,
@@ -158,7 +158,7 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
             case 'directors-cut':
                 if (isDirector) {
                     return {
-                        label: 'THE MOVIE',
+                        label: 'The Movie',
                         content: movie,
                         isLarge: true,
                         sublabel: genre ? `Genre: ${genre}` : null,
@@ -166,7 +166,7 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
                     };
                 }
                 return {
-                    label: 'YOUR HINT',
+                    label: 'Your Hint',
                     content: movieHint,
                     isLarge: false,
                     sublabel: genre ? `Genre: ${genre}` : null,
@@ -176,7 +176,7 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
             case 'mind-sync':
                 // Mind Sync - Just show the question, no role hints (role is hidden)
                 return {
-                    label: 'YOUR QUESTION',
+                    label: 'Your Question',
                     content: question,
                     isLarge: false,
                     warningText: 'Answer this question. Find who has a different one!',
@@ -185,7 +185,7 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
             case 'classic-imposter':
                 // Undercover - Just show the word, no role hints (role is hidden)
                 return {
-                    label: 'YOUR WORD',
+                    label: 'Your Word',
                     content: word,
                     isLarge: true,
                     warningText: 'Describe your word. Find who has a different one!',
@@ -193,7 +193,7 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
 
             default:
                 return {
-                    label: isImposter ? 'YOUR CLUE' : 'SECRET EVIDENCE',
+                    label: isImposter ? 'Your Clue' : 'Secret Evidence',
                     content: isImposter ? hint : word,
                     isLarge: !isImposter,
                     warningText: isImposter ? 'Deceive wisely. Avoid detection.' : null,
@@ -212,7 +212,7 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
                 {gameMode !== 'classic-imposter' && gameMode !== 'mind-sync' && (
                     <>
                         <View style={styles.roleContainer}>
-                            <Text style={styles.roleLabel}>YOUR IDENTITY</Text>
+                            <Text style={styles.roleLabel}>Your Identity</Text>
                             <View style={styles.roleRow}>
                                 <Ionicons name={roleDisplay.icon as any} size={24} color={roleDisplay.color} />
                                 <Text style={[styles.roleText, { color: roleDisplay.color }]}>
@@ -293,7 +293,7 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
 
                 <View style={styles.dragHint}>
                     <Ionicons name="chevron-up" size={20} color={Colors.candlelight} />
-                    <Text style={styles.dragText}>UNSEAL YOUR IDENTITY</Text>
+                    <Text style={styles.dragText}>Unseal Your Identity</Text>
                     <Ionicons name="chevron-up" size={20} color={Colors.candlelight} />
                 </View>
 
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     container: { flex: 1, position: 'relative' },
     revealCard: {
         position: 'absolute', top: 16, left: 16, right: 16, bottom: 16,
-        backgroundColor: Colors.victorianBlack, borderRadius: 20, padding: 24,
+        backgroundColor: Colors.victorianBlack, borderRadius: 28, padding: 24,
         alignItems: 'center', justifyContent: 'center',
         borderWidth: 2, borderColor: Colors.gray,
     },
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(196,167,108,0.15)',
         paddingVertical: 14,
         paddingHorizontal: 20,
-        borderRadius: 14,
+        borderRadius: 20,
         borderWidth: 1.5,
         borderColor: Colors.candlelight,
     },
@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
     },
     coverCard: {
         position: 'absolute', top: 16, left: 16, right: 16, bottom: 16,
-        backgroundColor: Colors.grayDark, borderRadius: 20,
+        backgroundColor: Colors.grayDark, borderRadius: 28,
         alignItems: 'center', justifyContent: 'center',
         borderWidth: 2, borderColor: Colors.candlelight,
     },
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     playerName: { fontSize: 26, fontWeight: '700', color: Colors.parchment, marginBottom: 24, letterSpacing: 2 },
     dragHint: {
         flexDirection: 'row', alignItems: 'center', gap: 10,
-        padding: 16, backgroundColor: Colors.victorianBlack, borderRadius: 12,
+        padding: 16, backgroundColor: Colors.victorianBlack, borderRadius: 20,
         borderWidth: 1, borderColor: Colors.grayMedium,
     },
     dragText: { fontSize: 11, fontWeight: '700', color: Colors.candlelight, letterSpacing: 2 },

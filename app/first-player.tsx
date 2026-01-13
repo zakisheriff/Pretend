@@ -40,7 +40,7 @@ export default function FirstPlayerScreen() {
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + 16 }]}>
             <View style={styles.content}>
                 <Animated.View entering={FadeInUp.delay(300).springify()}>
-                    <Text style={styles.title}>WHO STARTS?</Text>
+                    <Text style={styles.title}>Who Starts?</Text>
                     <Text style={styles.subtitle}>The investigation begins with...</Text>
                 </Animated.View>
 
@@ -61,7 +61,7 @@ export default function FirstPlayerScreen() {
 
             <View style={styles.footer}>
                 <Button
-                    title="START TIMER"
+                    title="Start Timer"
                     onPress={handleStart}
                     variant="primary"
                     size="large"
@@ -119,10 +119,10 @@ const styles = StyleSheet.create({
     playerName: {
         fontSize: 36,
         color: Colors.candlelight,
-        fontWeight: 'bold',
+        fontWeight: '600',
         textAlign: 'center',
-        textTransform: 'uppercase',
-        letterSpacing: 1,
+
+        letterSpacing: 2,
     },
     instructionBox: {
         flexDirection: 'row',

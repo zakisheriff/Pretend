@@ -35,19 +35,20 @@ export default function HomeScreen() {
 
                 <View style={styles.buttons}>
                     <Button
-                        title="NEW CASE"
+                        title="New Case"
                         onPress={handleNewGame}
                         variant="primary"
                         size="large"
                         hapticType="medium"
-                        icon={<Ionicons name="search" size={18} color={Colors.victorianBlack} />}
+                        icon={<Ionicons name="search" size={24} color={Colors.victorianBlack} />}
                     />
+
                     <Button
-                        title="THE ART OF DEDUCTION"
+                        title="How to Play"
                         onPress={handleHowToPlay}
                         variant="outline"
                         size="large"
-                        icon={<Ionicons name="book-outline" size={16} color={Colors.candlelight} />}
+                        icon={<Ionicons name="book-outline" size={24} color={Colors.parchment} />}
                     />
                 </View>
 

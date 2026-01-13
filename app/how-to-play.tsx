@@ -104,7 +104,7 @@ export default function HowToPlayScreen() {
             <View style={styles.header}>
                 <View style={styles.titleRow}>
                     <Ionicons name="book-outline" size={20} color={Colors.parchment} />
-                    <Text style={styles.title}>HOW TO PLAY</Text>
+                    <Text style={styles.title}>How to Play</Text>
                 </View>
                 <CloseButton onPress={() => router.back()} />
             </View>
@@ -116,7 +116,7 @@ export default function HowToPlayScreen() {
             >
                 {/* Common Steps */}
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>THE BASICS</Text>
+                    <Text style={styles.sectionTitle}>The Basics</Text>
                     <View style={styles.steps}>
                         {COMMON_STEPS.map((s, i) => (
                             <View key={i} style={styles.step}>
@@ -135,7 +135,7 @@ export default function HowToPlayScreen() {
 
                 {/* Game Modes */}
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>GAME MODES</Text>
+                    <Text style={styles.sectionTitle}>Game Modes</Text>
                     <Text style={styles.sectionSubtitle}>Tap a mode to learn more</Text>
                     <View style={styles.modesGrid}>
                         {GAME_MODES_INFO.map((mode) => (
@@ -190,7 +190,7 @@ export default function HowToPlayScreen() {
                 <View style={styles.tipBox}>
                     <View style={styles.tipTitleRow}>
                         <Ionicons name="sparkles" size={16} color={Colors.candlelight} />
-                        <Text style={styles.tipTitle}>PRO TIPS</Text>
+                        <Text style={styles.tipTitle}>Pro Tips</Text>
                     </View>
                     <Text style={styles.tip}>• Watch for hesitation and vague answers</Text>
                     <Text style={styles.tip}>• Ask follow-up questions to catch liars</Text>

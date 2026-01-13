@@ -26,6 +26,15 @@ export default function SelectThemeScreen() {
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             <View style={styles.headerBar}>
                 <BackButton />
+                <Button
+                    title="Next"
+                    onPress={handleContinue}
+                    variant="primary"
+                    size="small"
+                    disabled={!selectedThemeId}
+                    icon={<Ionicons name="arrow-forward" size={16} color={selectedThemeId ? Colors.victorianBlack : Colors.grayMedium} />}
+                    style={{ borderRadius: 22, height: 44, paddingHorizontal: 16 }}
+                />
             </View>
 
             <ScrollView
@@ -36,7 +45,7 @@ export default function SelectThemeScreen() {
                 <View style={styles.header}>
                     <View style={styles.titleRow}>
                         <Ionicons name="folder-open-outline" size={24} color={Colors.parchment} />
-                        <Text style={styles.title}>SELECT CASE FILE</Text>
+                        <Text style={styles.title}>Select Case File</Text>
                     </View>
                     <Text style={styles.subtitle}>Choose your evidence category</Text>
                 </View>
@@ -54,16 +63,7 @@ export default function SelectThemeScreen() {
                     ))}
                 </View>
 
-                <View style={styles.footer}>
-                    <Button
-                        title="PROCEED TO BRIEFING"
-                        onPress={handleContinue}
-                        variant="primary"
-                        size="large"
-                        disabled={!selectedThemeId}
-                        icon={<Ionicons name="arrow-forward" size={18} color={selectedThemeId ? Colors.victorianBlack : Colors.grayMedium} />}
-                    />
-                </View>
+
             </ScrollView>
         </View>
     );
@@ -71,7 +71,7 @@ export default function SelectThemeScreen() {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack },
-    headerBar: { paddingHorizontal: 20, paddingTop: 10, zIndex: 10 },
+    headerBar: { paddingHorizontal: 20, paddingTop: 10, zIndex: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
     backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
@@ -80,6 +80,6 @@ const styles = StyleSheet.create({
     titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
     title: { fontSize: 22, fontWeight: '800', color: Colors.parchment, letterSpacing: 2 },
     subtitle: { fontSize: 13, color: Colors.candlelight, fontStyle: 'italic' },
-    grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 14 },
-    footer: { alignItems: 'center', paddingTop: 10 },
+
+    grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 14, paddingBottom: 40 },
 });

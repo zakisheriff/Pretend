@@ -1,19 +1,22 @@
 import { Colors } from '@/constants/colors';
 import { haptics } from '@/utils/haptics';
 import React from 'react';
-import { ActivityIndicator, Platform, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { ActivityIndicator, Platform, Pressable, StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const isAndroid = Platform.OS === 'android';
 
 interface ButtonProps {
     title: string;
     onPress: () => void;
-    variant?: 'primary' | 'secondary' | 'outline' | 'danger';
+    variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost';
     size?: 'small' | 'medium' | 'large';
     disabled?: boolean;
     loading?: boolean;
     icon?: React.ReactNode;
-    style?: ViewStyle;
+    style?: StyleProp<ViewStyle>;
     textStyle?: TextStyle;
     hapticType?: 'light' | 'medium' | 'heavy';
 }
@@ -22,27 +25,45 @@ export const Button: React.FC<ButtonProps> = ({
     title, onPress, variant = 'primary', size = 'medium',
     disabled = false, loading = false, icon, style, textStyle, hapticType = 'light',
 }) => {
+    const scale = useSharedValue(1);
+
+    const handlePressIn = () => {
+        if (disabled || loading) return;
+        scale.value = withSpring(0.95, { damping: 10, stiffness: 300 });
+    };
+
+    const handlePressOut = () => {
+        if (disabled || loading) return;
+        scale.value = withSpring(1, { damping: 10, stiffness: 300 });
+    };
+
     const handlePress = () => {
         if (disabled || loading) return;
         haptics[hapticType]();
         onPress();
     };
 
+    const animatedStyle = useAnimatedStyle(() => ({
+        transform: [{ scale: scale.value }],
+    }));
+
     const isOutline = variant === 'outline';
     const isPrimary = variant === 'primary';
 
     return (
-        <TouchableOpacity
+        <AnimatedPressable
             style={[
                 styles.button,
                 styles[`btn_${variant}`],
                 styles[`btn_${size}`],
                 disabled && styles.disabled,
                 style,
+                animatedStyle,
             ]}
             onPress={handlePress}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
             disabled={disabled || loading}
-            activeOpacity={0.85}
         >
             {loading ? (
                 <ActivityIndicator color={isOutline ? Colors.parchment : Colors.victorianBlack} size="small" />
@@ -54,7 +75,7 @@ export const Button: React.FC<ButtonProps> = ({
                     </Text>
                 </View>
             )}
-        </TouchableOpacity>
+        </AnimatedPressable>
     );
 };
 
@@ -89,6 +110,12 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.waxSeal,
         borderColor: Colors.suspect,
     },
+    // Ghost: Dark button like the Back Button
+    btn_ghost: {
+        backgroundColor: Colors.grayDark,
+        borderColor: Colors.grayMedium,
+        borderWidth: 1,
+    },
 
     // Android gets smaller padding
     btn_small: {
@@ -114,6 +141,7 @@ const styles = StyleSheet.create({
     text_secondary: { color: Colors.parchment },
     text_outline: { color: Colors.candlelight },
     text_danger: { color: Colors.parchmentLight },
+    text_ghost: { color: Colors.parchment },
     // Android gets smaller fonts
     text_small: { fontSize: isAndroid ? 11 : 12 },
     text_medium: { fontSize: isAndroid ? 12 : 14 },

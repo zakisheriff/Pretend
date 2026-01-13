@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/common/BackButton';
 import { Button } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
@@ -31,9 +32,12 @@ export default function VerbalVoteScreen() {
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + 20 }]}>
+            <View style={[styles.headerBar, { top: insets.top + 10 }]}>
+                <BackButton />
+            </View>
             <View style={styles.header}>
                 <Ionicons name="people" size={28} color={Colors.parchment} />
-                <Text style={styles.title}>GROUP DECISION</Text>
+                <Text style={styles.title}>Group Decision</Text>
                 <Text style={styles.subtitle}>Who does the group accuse?</Text>
             </View>
 
@@ -71,7 +75,7 @@ export default function VerbalVoteScreen() {
 
             <View style={styles.footer}>
                 <Button
-                    title="ELIMINATE SUSPECT"
+                    title="Eliminate Suspect"
                     onPress={handleConfirm}
                     variant="primary"
                     size="large"
@@ -85,6 +89,7 @@ export default function VerbalVoteScreen() {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack },
+    headerBar: { position: 'absolute', left: 20, zIndex: 10 },
     header: { alignItems: 'center', paddingVertical: 20, gap: 6 },
     title: { fontSize: 22, fontWeight: '800', color: Colors.parchment, letterSpacing: 2 },
     subtitle: { fontSize: 14, color: Colors.candlelight },
@@ -96,7 +101,7 @@ const styles = StyleSheet.create({
     card: {
         width: '48%',
         backgroundColor: Colors.grayDark,
-        borderRadius: 16,
+        borderRadius: 24,
         padding: 16,
         alignItems: 'center',
         borderWidth: 2,

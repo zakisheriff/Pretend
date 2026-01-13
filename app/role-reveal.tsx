@@ -92,7 +92,7 @@ export default function RoleRevealScreen() {
                         </Text>
                     </View>
                     <Button
-                        title={isLast ? "BEGIN INVESTIGATION" : "NEXT INVESTIGATOR"}
+                        title={isLast ? "Begin Investigation" : "Next Investigator"}
                         onPress={handleNext}
                         variant="primary"
                         size="large"

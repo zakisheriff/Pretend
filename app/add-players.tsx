@@ -6,7 +6,7 @@ import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -85,9 +85,15 @@ export default function AddPlayersScreen() {
                         <View style={styles.header}>
                             <View style={styles.titleRow}>
                                 <Ionicons name="search" size={22} color={Colors.parchment} />
-                                <Text style={styles.title}>INVESTIGATORS</Text>
+                                <Text style={styles.title}>Investigators</Text>
                             </View>
                             <Text style={styles.count}>{players.length} / {MAX_PLAYERS}</Text>
+                        </View>
+                        <View style={styles.tipContainer}>
+                            <Ionicons name="information-circle-outline" size={16} color={Colors.candlelight} />
+                            <Text style={styles.tipText}>
+                                Tip: Add players in seating order (start from your right) for smoother phone passing.
+                            </Text>
                         </View>
 
                         <View style={styles.inputRow}>
@@ -104,13 +110,15 @@ export default function AddPlayersScreen() {
                                 blurOnSubmit={false}
                                 maxLength={16}
                             />
-                            <TouchableOpacity
-                                style={[styles.addBtn, !name.trim() && styles.addBtnDisabled]}
+                            <Button
+                                title=""
                                 onPress={handleAdd}
+                                variant="primary"
                                 disabled={!name.trim()}
-                            >
-                                <Ionicons name="add" size={22} color={Colors.victorianBlack} />
-                            </TouchableOpacity>
+                                icon={<Ionicons name="add" size={22} color={Colors.victorianBlack} />}
+                                style={[styles.addBtn, !name.trim() && styles.addBtnDisabled]}
+                                textStyle={{ display: 'none' }} // Hide text since title is empty but we want to be safe
+                            />
                         </View>
                     </View>
                 }
@@ -126,7 +134,7 @@ export default function AddPlayersScreen() {
                             <Text style={styles.warn}>Need {MIN_PLAYERS - players.length} more investigator{MIN_PLAYERS - players.length > 1 ? 's' : ''}</Text>
                         )}
                         <Button
-                            title="PROCEED TO CASE"
+                            title="Proceed to Case"
                             onPress={handleContinue}
                             variant="primary"
                             size="large"
@@ -161,11 +169,14 @@ const styles = StyleSheet.create({
     title: { fontSize: 22, fontWeight: '800', color: Colors.parchment, letterSpacing: 2 },
     count: { fontSize: 13, color: Colors.candlelight, fontWeight: '600' },
 
+    tipContainer: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: -14, paddingHorizontal: 4 },
+    tipText: { fontSize: 12, color: Colors.candlelight, fontStyle: 'italic', flex: 1, lineHeight: 16 },
+
     inputRow: { flexDirection: 'row', gap: 12 },
     input: {
         flex: 1,
         backgroundColor: Colors.grayDark,
-        borderRadius: 12,
+        borderRadius: 28,
         paddingHorizontal: 16,
         paddingVertical: 14,
         color: Colors.parchment,
@@ -173,7 +184,7 @@ const styles = StyleSheet.create({
         borderWidth: 1.5,
         borderColor: Colors.grayMedium,
     },
-    addBtn: { width: 52, height: 52, backgroundColor: Colors.parchment, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+    addBtn: { width: 52, height: 52, borderRadius: 28, paddingHorizontal: 0, paddingVertical: 0 },
     addBtnDisabled: { opacity: 0.35 },
 
     list: { gap: 14 },

@@ -38,25 +38,25 @@ export default function ResultsScreen() {
             case 'undercover-word':
                 // Classic Imposter
                 return impostersCaught
-                    ? { title: 'CREWMATES WIN!', subtitle: 'The imposter was caught!' }
-                    : { title: 'IMPOSTER WINS!', subtitle: 'The imposter escaped justice!' };
+                    ? { title: 'Crewmates Win!', subtitle: 'The imposter was caught!' }
+                    : { title: 'Imposter Wins!', subtitle: 'The imposter escaped justice!' };
             case 'directors-cut':
                 return impostersCaught
-                    ? { title: 'VIEWERS WIN!', subtitle: 'The Director was identified!' }
-                    : { title: 'DIRECTOR WINS!', subtitle: 'The Director stayed hidden!' };
+                    ? { title: 'Viewers Win!', subtitle: 'The Director was identified!' }
+                    : { title: 'Director Wins!', subtitle: 'The Director stayed hidden!' };
             case 'mind-sync':
                 return impostersCaught
-                    ? { title: 'IN SYNC WINS!', subtitle: 'The outlier was spotted!' }
-                    : { title: 'OUTLIER WINS!', subtitle: 'The outlier stayed undetected!' };
+                    ? { title: 'In Sync Wins!', subtitle: 'The outlier was spotted!' }
+                    : { title: 'Outlier Wins!', subtitle: 'The outlier stayed undetected!' };
             case 'classic-imposter':
                 // Undercover
                 return impostersCaught
-                    ? { title: 'PLAYERS WIN!', subtitle: 'The undercover was found!' }
-                    : { title: 'UNDERCOVER WINS!', subtitle: 'The undercover blended in perfectly!' };
+                    ? { title: 'Players Win!', subtitle: 'The undercover was found!' }
+                    : { title: 'Undercover Wins!', subtitle: 'The undercover blended in perfectly!' };
             default:
                 return impostersCaught
-                    ? { title: 'INVESTIGATORS WIN!', subtitle: 'The suspect has been caught!' }
-                    : { title: 'IMPOSTER WINS!', subtitle: 'The imposter escaped justice!' };
+                    ? { title: 'Investigators Win!', subtitle: 'The suspect has been caught!' }
+                    : { title: 'Imposter Wins!', subtitle: 'The imposter escaped justice!' };
         }
     };
 
@@ -65,16 +65,16 @@ export default function ResultsScreen() {
             case 'undercover-word':
                 if (gameData?.type === 'undercover-word') {
                     return {
-                        label: 'THE WORDS WERE',
+                        label: 'The Words Were',
                         content: (
                             <View style={styles.wordCompare}>
                                 <View style={styles.wordBox}>
-                                    <Text style={styles.wordLabel}>CREWMATES</Text>
+                                    <Text style={styles.wordLabel}>Crewmates</Text>
                                     <Text style={styles.wordTextBig}>{gameData.data.mainWord}</Text>
                                 </View>
                                 <Text style={styles.vsText}>vs</Text>
                                 <View style={[styles.wordBox, styles.wordBoxDanger]}>
-                                    <Text style={styles.wordLabel}>UNDERCOVER</Text>
+                                    <Text style={styles.wordLabel}>Undercover</Text>
                                     <Text style={[styles.wordTextBig, styles.dangerText]}>{gameData.data.undercoverWord}</Text>
                                 </View>
                             </View>
@@ -82,14 +82,14 @@ export default function ResultsScreen() {
                     };
                 }
                 return {
-                    label: 'THE SECRET WORD WAS',
+                    label: 'The Secret Word Was',
                     content: <Text style={styles.wordText}>{selectedWord?.word}</Text>,
                 };
 
             case 'directors-cut':
                 if (gameData?.type === 'directors-cut') {
                     return {
-                        label: 'THE MOVIE WAS',
+                        label: 'The Movie Was',
                         content: (
                             <View style={styles.movieReveal}>
                                 <Text style={styles.wordText}>{gameData.data.movie}</Text>
@@ -103,15 +103,15 @@ export default function ResultsScreen() {
             case 'mind-sync':
                 if (gameData?.type === 'mind-sync') {
                     return {
-                        label: 'THE QUESTIONS WERE',
+                        label: 'The Questions Were',
                         content: (
                             <View style={styles.questionCompare}>
                                 <View style={styles.questionBox}>
-                                    <Text style={styles.questionLabel}>MAJORITY</Text>
+                                    <Text style={styles.questionLabel}>Majority</Text>
                                     <Text style={styles.questionText}>{gameData.data.mainQuestion}</Text>
                                 </View>
                                 <View style={[styles.questionBox, styles.questionBoxDanger]}>
-                                    <Text style={styles.questionLabel}>OUTLIER</Text>
+                                    <Text style={styles.questionLabel}>Outlier</Text>
                                     <Text style={[styles.questionText, styles.dangerText]}>{gameData.data.outlierQuestion}</Text>
                                 </View>
                             </View>
@@ -123,16 +123,16 @@ export default function ResultsScreen() {
             case 'classic-imposter':
                 if (gameData?.type === 'classic-imposter') {
                     return {
-                        label: `THE ${gameData.data.themeName.toUpperCase()} WERE`,
+                        label: `The ${gameData.data.themeName} Were`,
                         content: (
                             <View style={styles.wordCompare}>
                                 <View style={styles.wordBox}>
-                                    <Text style={styles.wordLabel}>CREWMATES</Text>
+                                    <Text style={styles.wordLabel}>Crewmates</Text>
                                     <Text style={styles.wordTextBig}>{gameData.data.crewmateWord}</Text>
                                 </View>
                                 <Text style={styles.vsText}>vs</Text>
                                 <View style={[styles.wordBox, styles.wordBoxDanger]}>
-                                    <Text style={styles.wordLabel}>IMPOSTER</Text>
+                                    <Text style={styles.wordLabel}>Imposter</Text>
                                     <Text style={[styles.wordTextBig, styles.dangerText]}>{gameData.data.imposterWord}</Text>
                                 </View>
                             </View>
@@ -143,7 +143,7 @@ export default function ResultsScreen() {
 
             default:
                 return {
-                    label: 'THE SECRET WORD WAS',
+                    label: 'The Secret Word Was',
                     content: <Text style={styles.wordText}>{selectedWord?.word}</Text>,
                 };
         }
@@ -182,7 +182,7 @@ export default function ResultsScreen() {
 
                 {/* Special Player Reveal */}
                 <Animated.View entering={FadeInUp.delay(400).springify()} style={styles.section}>
-                    <Text style={styles.sectionLabel}>THE {specialRoleName.toUpperCase()}{specialPlayers.length > 1 ? 'S' : ''}</Text>
+                    <Text style={styles.sectionLabel}>The {specialRoleName}{specialPlayers.length > 1 ? 's' : ''}</Text>
                     <View style={styles.imposterGrid}>
                         {specialPlayers.map((player) => (
                             <View key={player.id} style={styles.imposterCard}>
@@ -209,7 +209,7 @@ export default function ResultsScreen() {
                 {/* Vote Results (Only show if there were votes) */}
                 {hasVotes && (
                     <Animated.View entering={FadeInUp.delay(800).springify()} style={styles.section}>
-                        <Text style={styles.sectionLabel}>VOTING RESULTS</Text>
+                        <Text style={styles.sectionLabel}>Voting Results</Text>
                         <View style={styles.votesList}>
                             {voteResults.map((r) => {
                                 const p = players.find((x) => x.id === r.playerId);
@@ -236,14 +236,14 @@ export default function ResultsScreen() {
                 {/* Action Buttons */}
                 <Animated.View entering={FadeInDown.delay(1000).springify()} style={styles.buttons}>
                     <Button
-                        title="PLAY AGAIN"
+                        title="Play Again"
                         onPress={handleAgain}
                         variant="primary"
                         size="large"
                         icon={<Ionicons name="refresh" size={18} color={Colors.victorianBlack} />}
                     />
                     <Button
-                        title="BACK TO HOME"
+                        title="Back to Home"
                         onPress={handleHome}
                         variant="outline"
                         size="large"
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     winnerBanner: {
         alignItems: 'center',
         padding: 30,
-        borderRadius: 20,
+        borderRadius: 28,
         gap: 12,
         borderWidth: 2,
     },
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
     },
     imposterCard: {
         backgroundColor: 'rgba(160, 32, 32, 0.2)',
-        borderRadius: 16,
+        borderRadius: 24,
         padding: 20,
         alignItems: 'center',
         borderWidth: 2,
@@ -343,17 +343,18 @@ const styles = StyleSheet.create({
     wordCard: {
         backgroundColor: Colors.grayDark,
         padding: 24,
-        borderRadius: 16,
+        borderRadius: 24,
         alignItems: 'center',
         borderWidth: 2,
         borderColor: Colors.candlelight,
     },
     wordText: {
         fontSize: 28,
-        fontWeight: '800',
+        fontWeight: '700',
         color: Colors.candlelight,
+        marginBottom: 8,
         letterSpacing: 2,
-        textTransform: 'uppercase',
+
         textAlign: 'center',
     },
 
@@ -407,7 +408,7 @@ const styles = StyleSheet.create({
     questionBox: {
         padding: 16,
         backgroundColor: 'rgba(196, 167, 108, 0.1)',
-        borderRadius: 12,
+        borderRadius: 20,
         borderWidth: 1,
         borderColor: Colors.candlelight,
     },
@@ -435,7 +436,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: Colors.grayDark,
         padding: 12,
-        borderRadius: 12,
+        borderRadius: 20,
         gap: 12,
         borderWidth: 1,
         borderColor: Colors.grayMedium,
@@ -460,7 +461,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.candlelight,
         paddingHorizontal: 10,
         paddingVertical: 4,
-        borderRadius: 12,
+        borderRadius: 16,
     },
     voteCount: { fontSize: 13, fontWeight: '700', color: Colors.victorianBlack },
     specialBadgeSmall: { fontSize: 16, marginLeft: 4 },

@@ -55,7 +55,7 @@ export const GameSetting: React.FC<GameSettingProps> = ({
 const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.grayDark,
-        borderRadius: 16,
+        borderRadius: 28,
         padding: 18,
         borderWidth: 1.5,
         borderColor: Colors.grayMedium,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: Colors.victorianBlack,
         padding: 5,
-        borderRadius: 12,
+        borderRadius: 20,
         gap: 5,
     },
     optionBtn: {
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         paddingVertical: 11,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 8,
+        borderRadius: 16,
     },
     optionBtnSelected: {
         backgroundColor: Colors.candlelight,

@@ -25,13 +25,13 @@ export default function VoteModeScreen() {
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + 20 }]}>
             <View style={styles.content}>
                 <Ionicons name="help-circle-outline" size={60} color={Colors.candlelight} style={{ marginBottom: 20 }} />
-                <Text style={styles.title}>HOW WILL YOU VOTE?</Text>
+                <Text style={styles.title}>How Will You Vote?</Text>
                 <Text style={styles.subtitle}>Choose how to eliminate the suspect</Text>
 
                 <View style={styles.buttonGroup}>
                     <View style={styles.optionContainer}>
                         <Button
-                            title="GROUP VOTE"
+                            title="Group Vote"
                             onPress={handleVerbal}
                             variant="primary"
                             size="large"
@@ -48,7 +48,7 @@ export default function VoteModeScreen() {
 
                     <View style={styles.optionContainer}>
                         <Button
-                            title="SECRET BALLOT"
+                            title="Secret Ballot"
                             onPress={handleDevice}
                             variant="secondary"
                             size="large"

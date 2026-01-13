@@ -1,5 +1,5 @@
 import { BackButton } from '@/components/common/BackButton';
-import { Button } from '@/components/game';
+import { Button } from '@/components/game/Button';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { GAME_MODES } from '@/types/game';
@@ -58,6 +58,15 @@ export default function SelectModeScreen() {
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             <View style={styles.headerBar}>
                 <BackButton />
+                <Button
+                    title="Next"
+                    onPress={handleContinue}
+                    variant="primary"
+                    size="small"
+                    disabled={!gameMode}
+                    icon={<Ionicons name="arrow-forward" size={16} color={gameMode ? Colors.victorianBlack : Colors.grayMedium} />}
+                    style={{ borderRadius: 22, height: 44, paddingHorizontal: 16 }}
+                />
             </View>
 
             <ScrollView
@@ -68,7 +77,7 @@ export default function SelectModeScreen() {
                 <View style={styles.header}>
                     <View style={styles.titleRow}>
                         <Ionicons name="game-controller-outline" size={24} color={Colors.parchment} />
-                        <Text style={styles.title}>SELECT MODE</Text>
+                        <Text style={styles.title}>Select Mode</Text>
                     </View>
                     <Text style={styles.subtitle}>Choose your investigation style</Text>
                 </View>
@@ -88,24 +97,18 @@ export default function SelectModeScreen() {
                     ))}
                 </View>
 
-                <View style={styles.footer}>
-                    <Button
-                        title="PROCEED"
-                        onPress={handleContinue}
-                        variant="primary"
-                        size="large"
-                        disabled={!gameMode}
-                        icon={<Ionicons name="arrow-forward" size={18} color={gameMode ? Colors.victorianBlack : Colors.grayMedium} />}
-                    />
-                </View>
             </ScrollView>
         </View>
     );
 }
 
+
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack },
-    headerBar: { paddingHorizontal: 20, paddingTop: 10, zIndex: 10 },
+    headerBar: {
+        flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+        paddingHorizontal: 20, paddingTop: 10, zIndex: 10
+    },
     backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
@@ -120,7 +123,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: Colors.grayDark,
-        borderRadius: 16,
+        borderRadius: 24,
         padding: 16,
         borderWidth: 2,
         borderColor: Colors.grayMedium,

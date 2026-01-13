@@ -51,25 +51,25 @@ export default function DiscussionScreen() {
         <View style={[styles.container, { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 16 }]}>
             <View style={styles.header}>
                 <Ionicons name={done ? "alarm" : "search"} size={22} color={Colors.parchment} />
-                <Text style={styles.title}>{done ? "TIME'S UP" : 'THE INVESTIGATION'}</Text>
+                <Text style={styles.title}>{done ? "Time's Up" : 'The Investigation'}</Text>
             </View>
 
             <View style={styles.timerArea}>
                 <CircularTimer duration={settings.discussionTime} timeRemaining={time} size={220} strokeWidth={10} />
-                {paused && !done && <View style={styles.pausedBadge}><Text style={styles.pausedText}>PAUSED</Text></View>}
+                {paused && !done && <View style={styles.pausedBadge}><Text style={styles.pausedText}>Paused</Text></View>}
             </View>
 
             {!done && (
                 <View style={styles.controls}>
-                    <Button title={paused ? 'RESUME' : 'PAUSE'} onPress={handlePause} variant="outline" size="large" style={{ flex: 1 }}
+                    <Button title={paused ? 'Resume' : 'Pause'} onPress={handlePause} variant="outline" size="large" style={{ flex: 1 }}
                         icon={<Ionicons name={paused ? "play" : "pause"} size={16} color={Colors.candlelight} />} />
-                    <Button title="SKIP" onPress={handleSkip} variant="secondary" size="large" style={{ flex: 1 }}
+                    <Button title="Skip" onPress={handleSkip} variant="secondary" size="large" style={{ flex: 1 }}
                         icon={<Ionicons name="play-forward" size={16} color={Colors.parchment} />} />
                 </View>
             )}
 
             {done && (
-                <Button title={`FIND THE ${specialRoleName.toUpperCase()}`} onPress={handleVote} variant="primary" size="large"
+                <Button title={`Find the ${specialRoleName}`} onPress={handleVote} variant="primary" size="large"
                     icon={<Ionicons name="hand-left" size={18} color={Colors.victorianBlack} />} />
             )}
 
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     headerEmoji: { fontSize: 20 },
     title: { fontSize: 20, fontWeight: '800', color: Colors.parchment, letterSpacing: 2 },
     timerArea: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-    pausedBadge: { position: 'absolute', backgroundColor: 'rgba(26,20,16,0.9)', paddingHorizontal: 18, paddingVertical: 10, borderRadius: 10, borderWidth: 1, borderColor: Colors.candlelight },
+    pausedBadge: { position: 'absolute', backgroundColor: 'rgba(26,20,16,0.9)', paddingHorizontal: 18, paddingVertical: 10, borderRadius: 20, borderWidth: 1, borderColor: Colors.candlelight },
     pausedText: { fontSize: 14, fontWeight: '800', color: Colors.gaslightAmber, letterSpacing: 3 },
     controls: { flexDirection: 'row', gap: 12, marginBottom: 16 },
     footerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 10 },

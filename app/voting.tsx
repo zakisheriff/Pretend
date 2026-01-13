@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/common/BackButton';
 import { Button } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
@@ -22,11 +23,14 @@ export default function VotingScreen() {
     const voter = players[voterIdx];
     const isLast = voterIdx === players.length - 1;
 
-    // Block back navigation during voting
+    // Block back navigation during voting (except for first voter)
     useEffect(() => {
-        const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            if (voterIdx === 0) return false; // Allow back
+            return true; // Block back
+        });
         return () => backHandler.remove();
-    }, []);
+    }, [voterIdx]);
 
     const handleTapVote = () => { haptics.medium(); setShowVoter(false); };
     const handleSelect = (id: string) => { haptics.light(); setSelected(id); };
@@ -41,14 +45,19 @@ export default function VotingScreen() {
     if (showVoter) {
         return (
             <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+                {voterIdx === 0 && (
+                    <View style={styles.headerBar}>
+                        <BackButton />
+                    </View>
+                )}
                 <View style={[styles.centeredContent]}>
-                    <Text style={styles.voterLabel}>ACCUSATION {voterIdx + 1} / {players.length}</Text>
+                    <Text style={styles.voterLabel}>Accusation {voterIdx + 1} / {players.length}</Text>
                     <View style={styles.voterAvatar}>
                         <Text style={styles.voterInitial}>{voter?.name.charAt(0).toUpperCase()}</Text>
                     </View>
                     <Text style={styles.voterName}>{voter?.name}</Text>
                     <Button
-                        title="MAKE YOUR ACCUSATION"
+                        title="Make Your Accusation"
                         onPress={handleTapVote}
                         variant="primary"
                         size="large"
@@ -91,7 +100,7 @@ export default function VotingScreen() {
 
                 <View style={styles.footer}>
                     <Button
-                        title="CONFIRM ACCUSATION"
+                        title="Confirm Accusation"
                         onPress={handleConfirm}
                         variant="primary"
                         size="large"
@@ -106,6 +115,7 @@ export default function VotingScreen() {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack },
+    headerBar: { paddingHorizontal: 20, paddingTop: 10, position: 'absolute', top: 50, zIndex: 10, width: '100%' },
     centeredContent: { flex: 1, alignItems: 'center', justifyContent: 'center' },
     voterLabel: { fontSize: 10, color: Colors.candlelight, letterSpacing: 2, marginBottom: 14, fontWeight: '600' },
     voterAvatar: { width: 72, height: 72, borderRadius: 36, backgroundColor: Colors.waxSeal, borderWidth: 2.5, borderColor: Colors.suspect, alignItems: 'center', justifyContent: 'center' },
@@ -122,7 +132,7 @@ const styles = StyleSheet.create({
 
     list: { width: '100%', gap: 8, maxWidth: 360, alignSelf: 'center' },
 
-    option: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.grayDark, borderRadius: 12, padding: 12, gap: 12, borderWidth: 1.5, borderColor: Colors.grayMedium },
+    option: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.grayDark, borderRadius: 24, padding: 12, gap: 12, borderWidth: 1.5, borderColor: Colors.grayMedium },
     optionSelected: { borderColor: Colors.candlelight, backgroundColor: Colors.gray },
     optAvatar: { width: 38, height: 38, borderRadius: 19, backgroundColor: Colors.gray, alignItems: 'center', justifyContent: 'center' },
     optAvatarSelected: { backgroundColor: Colors.waxSeal },
