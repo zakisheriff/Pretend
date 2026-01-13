@@ -90,7 +90,7 @@ export default function VotingScreen() {
                             onPress={() => handleSelect(p.id)}
                         >
                             <View style={[styles.optAvatar, selected === p.id && styles.optAvatarSelected]}>
-                                <Text style={styles.optInitial}>{p.name.charAt(0).toUpperCase()}</Text>
+                                <Text style={[styles.optInitial, selected === p.id && styles.optInitialSelected]}>{p.name.charAt(0).toUpperCase()}</Text>
                             </View>
                             <Text style={[styles.optName, selected === p.id && styles.optNameSelected]}>{p.name}</Text>
                             {selected === p.id && <Ionicons name="checkmark-circle" size={22} color={Colors.parchment} />}
@@ -135,9 +135,10 @@ const styles = StyleSheet.create({
     option: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.grayDark, borderRadius: 24, padding: 12, gap: 12, borderWidth: 1.5, borderColor: Colors.grayMedium },
     optionSelected: { borderColor: Colors.candlelight, backgroundColor: Colors.gray },
     optAvatar: { width: 38, height: 38, borderRadius: 19, backgroundColor: Colors.gray, alignItems: 'center', justifyContent: 'center' },
-    optAvatarSelected: { backgroundColor: Colors.waxSeal },
+    optAvatarSelected: { backgroundColor: Colors.parchmentLight },
     optInitial: { fontSize: 15, fontWeight: '700', color: Colors.parchmentLight },
-    optName: { flex: 1, fontSize: 14, color: Colors.grayLight, letterSpacing: 0.5 },
+    optInitialSelected: { color: Colors.victorianBlack },
+    optName: { flex: 1, fontSize: 14, color: Colors.parchment, letterSpacing: 0.5 },
     optNameSelected: { color: Colors.parchment, fontWeight: '600' },
 
     footer: { alignItems: 'center', paddingTop: 8 },

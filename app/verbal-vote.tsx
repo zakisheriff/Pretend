@@ -58,7 +58,7 @@ export default function VerbalVoteScreen() {
                             activeOpacity={0.8}
                         >
                             <View style={[styles.avatar, selected === p.id && styles.avatarSelected]}>
-                                <Text style={styles.initial}>{p.name.charAt(0).toUpperCase()}</Text>
+                                <Text style={[styles.initial, selected === p.id && styles.initialSelected]}>{p.name.charAt(0).toUpperCase()}</Text>
                             </View>
                             <Text style={[styles.name, selected === p.id && styles.nameSelected]} numberOfLines={1}>
                                 {p.name}
@@ -125,8 +125,9 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.candlelight,
     },
     initial: { fontSize: 20, fontWeight: '700', color: Colors.parchment },
+    initialSelected: { color: Colors.victorianBlack },
 
-    name: { fontSize: 16, color: Colors.grayLight, fontWeight: '600' },
+    name: { fontSize: 16, color: Colors.parchment, fontWeight: '600' },
     nameSelected: { color: Colors.parchment },
 
     check: {

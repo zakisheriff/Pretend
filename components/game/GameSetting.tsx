@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         borderRadius: 28,
         padding: 18,
         borderWidth: 1.5,
-        borderColor: Colors.grayMedium,
+        borderColor: Colors.grayLight,
         gap: 16,
     },
     header: {
@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
     },
     optionText: {
         fontSize: 14,
-        color: Colors.grayMedium,
+        color: Colors.parchment,
+        opacity: 0.9,
         fontWeight: '600',
     },
     optionTextSelected: {

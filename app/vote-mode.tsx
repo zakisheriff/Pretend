@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
     subtitle: { fontSize: 16, color: Colors.candlelight, marginBottom: 40, textAlign: 'center' },
     buttonGroup: { width: '100%', gap: 30 },
     optionContainer: { gap: 12 },
-    desc: { color: Colors.grayLight, fontSize: 13, textAlign: 'center', paddingHorizontal: 20, lineHeight: 18 },
+    desc: { color: Colors.candlelight, fontSize: 13, textAlign: 'center', paddingHorizontal: 20, lineHeight: 18 },
     divider: { flexDirection: 'row', alignItems: 'center', gap: 14 },
     line: { flex: 1, height: 1, backgroundColor: Colors.grayMedium },
-    or: { color: Colors.grayMedium, fontSize: 12, fontWeight: '700' },
+    or: { color: Colors.grayLight, fontSize: 12, fontWeight: '700' },
 });

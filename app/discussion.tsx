@@ -77,14 +77,14 @@ export default function DiscussionScreen() {
                 <Ionicons name="flame" size={14} color={Colors.candlelight} />
                 <Text style={styles.footerText}>
                     {done
-                        ? `Time to find the ${specialRoleName.toLowerCase()}!`
+                        ? `Time to find the ${specialRoleName.toLowerCase()}! `
                         : gameMode === 'directors-cut'
                             ? 'Ask yes/no questions to guess the movie'
                             : gameMode === 'mind-sync'
                                 ? 'Compare answers - find who is out of sync'
                                 : gameMode === 'classic-imposter'
-                                    ? 'Describe your word - spot who has a different one!'
-                                    : 'Discuss and deduce who has a different word'
+                                    ? 'Describe your word - spot who has a different one! '
+                                    : 'Discuss and deduce who has a different word '
                     }
                 </Text>
             </View>
@@ -96,12 +96,12 @@ const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack, paddingHorizontal: 20, justifyContent: 'space-between' },
     header: { flexDirection: 'row', alignItems: 'center', gap: 10, justifyContent: 'center' },
     headerEmoji: { fontSize: 20 },
-    title: { fontSize: 20, fontWeight: '800', color: Colors.parchment, letterSpacing: 2 },
+    title: { fontSize: 20, fontWeight: '800', color: Colors.parchmentLight, letterSpacing: 2 },
     timerArea: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-    pausedBadge: { position: 'absolute', backgroundColor: 'rgba(26,20,16,0.9)', paddingHorizontal: 18, paddingVertical: 10, borderRadius: 20, borderWidth: 1, borderColor: Colors.candlelight },
+    pausedBadge: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.9)', paddingHorizontal: 18, paddingVertical: 10, borderRadius: 20, borderWidth: 1, borderColor: Colors.candlelight },
     pausedText: { fontSize: 14, fontWeight: '800', color: Colors.gaslightAmber, letterSpacing: 3 },
     controls: { flexDirection: 'row', gap: 12, marginBottom: 16 },
     footerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 10 },
 
-    footerText: { fontSize: 12, color: Colors.candlelight, letterSpacing: 0.5 },
+    footerText: { fontSize: 12, color: Colors.parchmentLight, letterSpacing: 0.5 },
 });

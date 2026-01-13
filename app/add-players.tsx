@@ -141,7 +141,7 @@ export default function AddPlayersScreen() {
                                 value={name}
                                 onChangeText={setName}
                                 placeholder="Investigator name"
-                                placeholderTextColor={Colors.grayMedium}
+                                placeholderTextColor={Colors.grayLight}
                                 autoCapitalize="words"
                                 autoCorrect={false}
                                 onSubmitEditing={handleAdd}
