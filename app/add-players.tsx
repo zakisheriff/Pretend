@@ -180,7 +180,7 @@ export default function AddPlayersScreen() {
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.empty}>
                             <Ionicons name="people-outline" size={48} color={Colors.candlelight} />
-                            <Text style={styles.emptyText}>Gather at least {MIN_PLAYERS} investigators</Text>
+                            <Text style={styles.emptyText}>Gather at least {minPlayers} investigators</Text>
                         </View>
                     </TouchableWithoutFeedback>
                 }
@@ -188,7 +188,7 @@ export default function AddPlayersScreen() {
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.footer}>
                             {!canContinue && players.length > 0 && (
-                                <Text style={styles.warn}>Need {MIN_PLAYERS - players.length} more investigator{MIN_PLAYERS - players.length > 1 ? 's' : ''}</Text>
+                                <Text style={styles.warn}>Need {minPlayers - players.length} more investigator{minPlayers - players.length > 1 ? 's' : ''}</Text>
                             )}
                         </View>
                     </TouchableWithoutFeedback>
