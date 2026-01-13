@@ -213,10 +213,8 @@ const styles = StyleSheet.create({
     },
     brandSub: {
         fontSize: 13,
-        fontWeight: '400',
+        fontWeight: '700',
         color: Colors.grayLight,
-        letterSpacing: 2,
-        fontStyle: 'italic',
         opacity: 0.7,
     },
     brandLine: {

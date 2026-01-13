@@ -6,5 +6,6 @@ export { GlitchText } from './GlitchText';
 export { NeumorphicCard } from './NeumorphicCard';
 export { PlayerCard } from './PlayerCard';
 export { RoleRevealCard } from './RoleRevealCard';
+export { ScoreBoard } from './ScoreBoard';
 export { ThemeCard } from './ThemeCard';
 

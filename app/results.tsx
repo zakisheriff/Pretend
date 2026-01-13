@@ -1,5 +1,5 @@
 import { GenericModal } from '@/components/common/GenericModal';
-import { Button } from '@/components/game';
+import { Button, ScoreBoard } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
@@ -7,8 +7,47 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import Animated, { FadeInDown, FadeInUp, ZoomIn } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeInUp, useAnimatedStyle, withDelay, withSequence, withSpring, withTiming, ZoomIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const PartyPopper = () => {
+    const emojis = ['🎉', '✨', '🎊', '🚀', '🔥', '💎', '⚛️'];
+    return (
+        <View style={StyleSheet.absoluteFill} pointerEvents="none">
+            {Array.from({ length: 20 }).map((_, i) => {
+                const angle = (i / 20) * 2 * Math.PI;
+                const distance = 100 + Math.random() * 150;
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance - 20;
+
+                return (
+                    <Animated.Text
+                        key={i}
+                        entering={ZoomIn.delay(i * 30).duration(600).springify()}
+                        style={[
+                            {
+                                position: 'absolute',
+                                left: '50%',
+                                top: '50%',
+                                fontSize: 20 + Math.random() * 15,
+                            },
+                            useAnimatedStyle(() => ({
+                                transform: [
+                                    { translateX: withDelay(200, withSpring(x)) },
+                                    { translateY: withDelay(200, withSpring(y)) },
+                                    { rotate: withSequence(withTiming('45deg'), withTiming('-45deg')) }
+                                ],
+                                opacity: withDelay(1500, withTiming(0))
+                            }))
+                        ]}
+                    >
+                        {emojis[i % emojis.length]}
+                    </Animated.Text>
+                );
+            })}
+        </View>
+    );
+};
 
 export default function ResultsScreen() {
     const router = useRouter();
@@ -28,6 +67,8 @@ export default function ResultsScreen() {
     const gameWinner = useGameStore((s) => s.gameWinner);
     const continueRound = useGameStore((s) => s.continueRound);
     const lastEliminatedPlayerId = useGameStore((s) => s.lastEliminatedPlayerId);
+    const overallWinner = useGameStore((s) => s.overallWinner);
+    const calculateRoundScores = useGameStore((s) => s.calculateRoundScores);
 
     const voteResults = getVoteResults();
     const specialPlayers = players.filter((p) => p.isImposter);
@@ -39,7 +80,9 @@ export default function ResultsScreen() {
         ? (gameMode === 'directors-cut' ? !!directorWinnerId : gameWinner === 'crewmates')
         : (eliminatedThisRound?.isImposter ?? false);
 
-    useEffect(() => { haptics.success(); }, []);
+    useEffect(() => {
+        haptics.success();
+    }, []);
 
     const handleAgain = () => {
         haptics.medium();
@@ -71,16 +114,16 @@ export default function ResultsScreen() {
         // Director's Cut special handling
         if (gameMode === 'directors-cut') {
             if (directorWinnerId) {
-                const winnerName = players.find(p => p.id === directorWinnerId)?.name || 'A Viewer';
+                const winnerName = players.find(p => p.id === directorWinnerId)?.name || 'A Viewer ';
                 return { title: 'Viewers Win!', subtitle: `${winnerName} Guessed The Movie! ` };
             }
-            return { title: 'Director Wins!', subtitle: 'No One Guessed The Movie!' };
+            return { title: 'Director Wins! ', subtitle: 'No One Guessed The Movie! ' };
         }
 
         if (!gameWinner) {
             if (eliminatedThisRound) {
                 return {
-                    title: `${eliminatedThisRound.name} is Gone!`,
+                    title: `${eliminatedThisRound.name} is Gone! `,
                     subtitle: eliminatedThisRound.isImposter ? `${eliminatedThisRound.name} is an ${specialRoleName}! ` : `${eliminatedThisRound.name} is a ${normalRoleName}... `
                 };
             }
@@ -90,7 +133,7 @@ export default function ResultsScreen() {
         if (gameWinner === 'crewmates') {
             return { title: 'Crewmates Win!', subtitle: 'All Imposters have been caught! ' };
         } else {
-            return { title: 'Imposters Win!', subtitle: 'The Imposters have successfully infiltrated!' };
+            return { title: 'Imposters Win!', subtitle: 'The Imposters have successfully infiltrated! ' };
         }
     };
 
@@ -291,6 +334,27 @@ export default function ResultsScreen() {
                         </View>
                     </Animated.View>
                 )}
+
+                {/* Overall Winner Celebration */}
+                {overallWinner && (
+                    <Animated.View
+                        entering={ZoomIn.duration(800).springify()}
+                        style={styles.overallWinnerBanner}
+                    >
+                        <Ionicons name="trophy" size={40} color={Colors.candlelight} />
+                        <Text style={styles.overallWinnerTitle}>GRAND CHAMPION</Text>
+                        <Text style={styles.overallWinnerText}>
+                            <Text style={styles.boldText}>{overallWinner.name}</Text> wins the match!
+                        </Text>
+                        <View style={styles.winnerGlow} />
+                        <PartyPopper />
+                    </Animated.View>
+                )}
+
+                {/* Leaderboard Section */}
+                <Animated.View entering={FadeInUp.delay(900).springify()} style={styles.section}>
+                    <ScoreBoard players={players} />
+                </Animated.View>
 
                 {/* Action Buttons */}
                 <Animated.View entering={FadeInDown.delay(1000).springify()} style={styles.buttons}>
@@ -565,6 +629,48 @@ const styles = StyleSheet.create({
     },
     voteCount: { fontSize: 13, fontWeight: '700', color: Colors.victorianBlack },
     specialBadgeSmall: { fontSize: 16, marginLeft: 4 },
+
+    // Overall Winner Celebration
+    overallWinnerBanner: {
+        backgroundColor: 'rgba(212, 175, 55, 0.1)',
+        borderRadius: 24,
+        padding: 30,
+        alignItems: 'center',
+        marginVertical: 24,
+        borderWidth: 2,
+        borderColor: Colors.candlelight,
+        position: 'relative',
+        overflow: 'hidden',
+    },
+    overallWinnerTitle: {
+        fontSize: 12,
+        fontWeight: '900',
+        color: Colors.candlelight,
+        letterSpacing: 4,
+        marginTop: 12,
+        textTransform: 'uppercase',
+    },
+    overallWinnerText: {
+        fontSize: 24,
+        fontWeight: '200',
+        color: Colors.parchment,
+        textAlign: 'center',
+        marginTop: 4,
+    },
+    boldText: {
+        fontWeight: '900',
+        color: Colors.parchmentLight,
+    },
+    winnerGlow: {
+        position: 'absolute',
+        top: -100,
+        left: -100,
+        right: -100,
+        bottom: -100,
+        backgroundColor: Colors.candlelight,
+        opacity: 0.05,
+        borderRadius: 200,
+    },
 
     // Buttons
     buttons: { gap: 12, marginTop: 8 },

@@ -58,6 +58,7 @@ interface GameStore extends GameState {
 
     // Theme refresh (first non-imposter player only)
     refreshTheme: () => void;
+    calculateRoundScores: () => void;
 
     // Getters
     getCurrentPlayer: () => Player | null;
@@ -91,6 +92,7 @@ const initialState: GameState = {
     impostersCaught: false,
     gameWinner: null,
     lastEliminatedPlayerId: null,
+    overallWinner: null,
 };
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -109,6 +111,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     name: trimmedName,
                     isImposter: false,
                     hasRevealed: false,
+                    score: 0,
                 },
             ],
         }));
@@ -376,6 +379,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
             gameWinner,
             lastEliminatedPlayerId: eliminatedPlayerId,
         });
+
+        // Award points
+        get().calculateRoundScores();
     },
 
     endGame: () => {
@@ -409,6 +415,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
             gameWinner,
             lastEliminatedPlayerId: mostVoted.id,
         });
+
+        // Award points
+        get().calculateRoundScores();
     },
 
     // Reset
@@ -430,12 +439,65 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 hasRevealed: false,
                 vote: undefined,
                 answer: undefined,
+                score: p.score, // Preserve score
             })),
         });
     },
 
     resetToHome: () => {
-        set({ ...initialState, directorId: null, directorWinnerId: null });
+        set({ ...initialState, directorId: null, directorWinnerId: null, players: [], overallWinner: null });
+    },
+
+    calculateRoundScores: () => {
+        const state = get();
+        const { gameMode, gameWinner, players, directorWinnerId, directorId } = state;
+
+        if (!gameWinner && gameMode !== 'directors-cut') return;
+
+        const updatedPlayers = players.map(player => {
+            let pointsToAdd = 0;
+
+            switch (gameMode) {
+                case 'undercover-word':
+                case 'classic-imposter':
+                    if (gameWinner === 'imposters' && player.isImposter) {
+                        pointsToAdd = 3;
+                    } else if (gameWinner === 'crewmates' && !player.isImposter && !player.isEliminated) {
+                        pointsToAdd = 1;
+                    }
+                    break;
+
+                case 'directors-cut':
+                    if (directorWinnerId) {
+                        if (player.id === directorWinnerId) pointsToAdd = 5;
+                    } else if (player.id === directorId) {
+                        // Director won because no one guessed
+                        pointsToAdd = 3;
+                    }
+                    break;
+
+                case 'mind-sync':
+                    if (gameWinner === 'imposters' && player.isImposter) {
+                        // Outlier won
+                        pointsToAdd = 3;
+                    } else if (gameWinner === 'crewmates' && !player.isImposter) {
+                        // Majority won
+                        pointsToAdd = 1;
+                    }
+                    break;
+            }
+
+            return { ...player, score: player.score + pointsToAdd };
+        });
+
+        // Check for overall winner (first to 5)
+        const WINNING_SCORE = 5;
+        const winner = updatedPlayers.find(p => p.score >= WINNING_SCORE);
+
+        set({
+            players: updatedPlayers,
+            overallWinner: winner || null
+        });
     },
 
     continueRound: (newWord: boolean) => {
@@ -645,6 +707,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     setDirectorWinner: (winnerId: string | null) => {
         set({ directorWinnerId: winnerId, phase: 'results' });
+        get().calculateRoundScores();
     },
 
     // Getters
