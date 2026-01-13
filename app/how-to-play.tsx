@@ -1,6 +1,7 @@
 import { Colors } from '@/constants/colors';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -101,13 +102,17 @@ export default function HowToPlayScreen() {
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-            <View style={styles.header}>
+            <LinearGradient
+                colors={[Colors.victorianBlack, Colors.victorianBlack, 'transparent']}
+                locations={[0, 0.6, 1]}
+                style={[styles.header, { paddingTop: insets.top + 10 }]}
+            >
                 <View style={styles.titleRow}>
                     <Ionicons name="book-outline" size={20} color={Colors.parchment} />
                     <Text style={styles.title}>How to Play</Text>
                 </View>
                 <CloseButton onPress={() => router.back()} />
-            </View>
+            </LinearGradient>
 
             <ScrollView
                 style={styles.scroll}
@@ -204,13 +209,24 @@ export default function HowToPlayScreen() {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack },
-    header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 14 },
+    header: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+        zIndex: 10,
+    },
     titleRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
     title: { fontSize: 16, fontWeight: '800', color: Colors.parchment, letterSpacing: 2 },
     closeBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: Colors.grayDark, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
-    scrollContent: { paddingHorizontal: 20, paddingBottom: 30, gap: 24 },
+    scrollContent: { paddingHorizontal: 20, paddingTop: 80, paddingBottom: 30, gap: 24 },
 
     section: { gap: 12 },
     sectionTitle: { fontSize: 12, fontWeight: '800', color: Colors.candlelight, letterSpacing: 2 },
