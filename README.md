@@ -16,7 +16,7 @@
 
 <br />
 
-<img src="assets/images/Neo-Logo.jpeg" width="160" height="160" style="border-radius: 50%;" />
+<img src="assets/images/Neo-Logo.jpeg" width="160" height="160" style="border-radius: 25px;" />
 
 <br />
 <br />
@@ -232,7 +232,7 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 <br />
 
-Made with ❤️ by **Zaki Sheriff**
+Made with by **Zaki Sheriff**
 
 <br />
 
