@@ -2,14 +2,17 @@
 import { BackButton } from '@/components/common/BackButton';
 import { Button } from '@/components/game/Button';
 import { Colors } from '@/constants/colors';
-import { getRandomMovie } from '@/data/game-modes';
+import { directorsCut, getRandomMovie } from '@/data/game-modes';
 import { useGameStore } from '@/store/gameStore';
+import { DirectorsCutMovie } from '@/types/game';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useMemo, useRef, useState } from 'react';
+import { KeyboardAvoidingView, Modal, PanResponder, Platform, ScrollView, SectionList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+
 
 type Step = 'choose-director' | 'choose-movie';
 
@@ -26,6 +29,119 @@ export default function SetupDirectorScreen() {
     const [selectedDirectorId, setSelectedDirectorId] = useState<string | null>(null);
     const [movieName, setMovieName] = useState('');
     const [movieData, setMovieData] = useState<{ genre: string; hint: string } | null>(null);
+    const [showBrowse, setShowBrowse] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const sectionListRef = useRef<SectionList>(null);
+
+    // Group movies by alphabet
+    const sections = useMemo(() => {
+        let filtered = [...directorsCut];
+        if (searchQuery) {
+            const q = searchQuery.toLowerCase();
+            filtered = filtered.filter((m: any) =>
+                m.movie.toLowerCase().includes(q) || m.genre.toLowerCase().includes(q)
+            );
+        }
+
+        // Sort alphabetically
+        filtered.sort((a: any, b: any) => a.movie.localeCompare(b.movie));
+
+        // Group by first letter
+        const grouped: Record<string, any[]> = {};
+        filtered.forEach((m: any) => {
+            const letter = m.movie.charAt(0).toUpperCase();
+            const key = /[A-Z]/.test(letter) ? letter : '#';
+            if (!grouped[key]) grouped[key] = [];
+            grouped[key].push(m);
+        });
+
+        // Convert to SectionList format
+        const result = Object.keys(grouped).sort().map(key => ({
+            title: key,
+            data: grouped[key]
+        }));
+
+        // Move '#' to end if present
+        const hashIndex = result.findIndex(s => s.title === '#');
+        if (hashIndex > -1) {
+            const hashSection = result.splice(hashIndex, 1)[0];
+            result.push(hashSection);
+        }
+
+        return result;
+    }, [searchQuery]);
+
+    const alphabet = useMemo(() => sections.map(s => s.title), [sections]);
+
+    // Refs to avoid stale closures in PanResponder
+    const alphabetRef = useRef(alphabet);
+    // Keep alphabet ref in sync
+    React.useEffect(() => { alphabetRef.current = alphabet; }, [alphabet]);
+
+    const handleScrollToSection = (index: number) => {
+        if (index < 0 || index >= alphabetRef.current.length) return;
+
+        sectionListRef.current?.scrollToLocation({
+            sectionIndex: index,
+            itemIndex: 0,
+            animated: false,
+            viewPosition: 0,
+        });
+    };
+
+    // Sidebar Gesture Logic
+    const lastScrollIndex = useRef<number>(-1);
+    const sidebarContainerRef = useRef<View>(null);
+    const sidebarLayout = useRef({ pageY: 0, height: 0 });
+
+    const handleGesture = (y: number) => {
+        const { pageY, height } = sidebarLayout.current;
+        const letters = alphabetRef.current;
+
+        if (!height || letters.length === 0) return;
+
+        // Calculate relative Y from absolute screen coordinates
+        const relativeY = y - pageY;
+        const letterHeight = height / letters.length;
+
+        let index = Math.floor(relativeY / letterHeight);
+
+        // Clamp index to bounds
+        if (index < 0) index = 0;
+        if (index >= letters.length) index = letters.length - 1;
+
+        if (index !== lastScrollIndex.current) {
+            handleScrollToSection(index);
+            lastScrollIndex.current = index;
+            haptics.selection();
+        }
+    };
+
+    const updateLayout = () => {
+        sidebarContainerRef.current?.measure((x, y, width, height, pageX, pageY) => {
+            sidebarLayout.current = { pageY, height };
+        });
+    };
+
+    const panResponder = useRef(
+        PanResponder.create({
+            onStartShouldSetPanResponder: () => true,
+            onMoveShouldSetPanResponder: () => true,
+            // Prevent parent (Modal) from stealing the gesture
+            onPanResponderTerminationRequest: () => false,
+            onPanResponderGrant: (evt, gestureState) => {
+                // Ensure layout is fresh on touch start
+                updateLayout();
+                // Use moveY (absolute) or y0 if moveY is 0 initially? 
+                // grant usually provides y0. move provided moveY.
+                handleGesture(gestureState.y0);
+            },
+            onPanResponderMove: (evt, gestureState) => {
+                handleGesture(gestureState.moveY);
+            },
+        })
+    ).current;
 
     const handleSelectDirector = (id: string) => {
         haptics.light();
@@ -52,6 +168,13 @@ export default function SetupDirectorScreen() {
             setMovieName(movie.movie);
             setMovieData({ genre: movie.genre, hint: movie.hint });
         }
+    };
+
+    const handleSelectFromBrowse = (movie: DirectorsCutMovie) => {
+        haptics.medium();
+        setMovieName(movie.movie);
+        setMovieData({ genre: movie.genre, hint: movie.hint });
+        setShowBrowse(false);
     };
 
     const handleStartGame = () => {
@@ -147,19 +270,95 @@ export default function SetupDirectorScreen() {
 
                         <View style={styles.divider}>
                             <View style={styles.line} />
-                            <Text style={styles.or}>OR</Text>
+                            <Text style={styles.or}>or</Text>
                             <View style={styles.line} />
                         </View>
 
-                        <Button
-                            title="Pick Random Movie"
-                            onPress={AppointRandomMovie}
-                            variant="secondary"
-                            icon={<Ionicons name="dice" size={20} color={Colors.parchment} />}
-                        />
+                        <View style={styles.buttonRow}>
+                            <Button
+                                title="Random"
+                                onPress={AppointRandomMovie}
+                                variant="secondary"
+                                style={{ flex: 1 }}
+                                icon={<Ionicons name="dice" size={20} color={Colors.parchment} />}
+                            />
+                            <Button
+                                title="Browse List"
+                                onPress={() => { haptics.light(); setShowBrowse(true); }}
+                                variant="outline"
+                                style={{ flex: 1 }}
+                                icon={<Ionicons name="list" size={20} color={Colors.candlelight} />}
+                            />
+                        </View>
                     </View>
                 )}
             </ScrollView>
+
+            <Modal visible={showBrowse} animationType="slide" presentationStyle="fullScreen">
+                <View style={[styles.container, { paddingTop: insets.top + 10 }]}>
+                    <View style={styles.modalHeader}>
+                        <Text style={styles.modalTitle}>Select Movie</Text>
+                        <TouchableOpacity onPress={() => setShowBrowse(false)} style={styles.closeBtn}>
+                            <Ionicons name="close-circle" size={30} color={Colors.grayLight} />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.searchBar}>
+                        <Ionicons name="search" size={20} color={Colors.grayLight} />
+                        <TextInput
+                            style={styles.searchInput}
+                            placeholder="Search movies..."
+                            placeholderTextColor={Colors.grayLight}
+                            value={searchQuery}
+                            onChangeText={setSearchQuery}
+                            autoCorrect={false}
+                        />
+                    </View>
+
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                        <SectionList
+                            ref={sectionListRef}
+                            sections={sections}
+                            keyExtractor={(item) => item.movie}
+                            contentContainerStyle={styles.listContent}
+                            stickySectionHeadersEnabled={false}
+                            showsVerticalScrollIndicator={false}
+                            renderSectionHeader={({ section: { title } }) => (
+                                <View style={styles.sectionHeader}>
+                                    <Text style={styles.sectionValidation}>{title}</Text>
+                                </View>
+                            )}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity style={styles.movieItem} onPress={() => handleSelectFromBrowse(item as any)}>
+                                    <View>
+                                        <Text style={styles.movieItemTitle}>{item.movie}</Text>
+                                        <Text style={styles.movieItemGenre}>{item.genre} • {item.year}</Text>
+                                    </View>
+                                    <Ionicons name="chevron-forward" size={20} color={Colors.grayLight} />
+                                </TouchableOpacity>
+                            )}
+                        />
+
+                        {/* Alphabet Sidebar */}
+                        <View
+                            style={styles.sidebar}
+                            {...panResponder.panHandlers}
+                        >
+                            <View
+                                style={styles.sidebarContainer}
+                                ref={sidebarContainerRef}
+                                onLayout={updateLayout}
+                            >
+                                {alphabet.map((letter, index) => (
+                                    <View key={letter} style={styles.sidebarLetterContainer}>
+                                        <Text style={styles.sidebarLetter}>{letter}</Text>
+                                    </View>
+                                ))}
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
 
             <View style={styles.footer}>
                 {step === 'choose-director' ? (
@@ -224,7 +423,7 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: Colors.grayDark,
         borderWidth: 1.5, borderColor: Colors.candlelight,
-        borderRadius: 16, padding: 16,
+        borderRadius: 25, height: 50, paddingHorizontal: 16,
         color: Colors.parchment, fontSize: 18, fontWeight: '600'
     },
 
@@ -232,5 +431,41 @@ const styles = StyleSheet.create({
     line: { flex: 1, height: 1, backgroundColor: Colors.grayMedium },
     or: { color: Colors.grayLight, fontWeight: '700', fontSize: 12 },
 
+    buttonRow: { flexDirection: 'row', gap: 12 },
+
     footer: { padding: 24, paddingTop: 0 },
+
+    // Modal Styles
+    modalHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, marginBottom: 10 },
+    modalTitle: { fontSize: 20, fontWeight: '800', color: Colors.parchment },
+    closeBtn: { padding: 4 },
+    searchBar: {
+        flexDirection: 'row', alignItems: 'center',
+        backgroundColor: Colors.grayDark, marginHorizontal: 20, marginBottom: 16,
+        paddingHorizontal: 16, borderRadius: 25, height: 50, gap: 10, borderWidth: 1.5, borderColor: Colors.grayMedium
+    },
+    searchInput: { flex: 1, color: Colors.parchment, fontSize: 16, height: '100%' },
+    listContent: { paddingHorizontal: 20, paddingBottom: 40 },
+    movieItem: {
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+        paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: Colors.grayMedium
+    },
+    movieItemTitle: { fontSize: 16, color: Colors.parchment, fontWeight: '600' },
+    movieItemGenre: { fontSize: 13, color: Colors.candlelight, marginTop: 2 },
+
+    sectionHeader: {
+        backgroundColor: Colors.victorianBlack, paddingVertical: 8, marginTop: 10, marginBottom: 5,
+        borderBottomWidth: 1, borderBottomColor: Colors.grayMedium
+    },
+    sectionValidation: { fontSize: 18, fontWeight: '800', color: Colors.candlelight },
+
+    sidebar: {
+        width: 30, justifyContent: 'center', alignItems: 'center', paddingVertical: 20,
+        backgroundColor: 'transparent', height: '100%'
+    },
+    sidebarContainer: {
+        // Wrapper for actual letters to measure their height/position
+    },
+    sidebarLetterContainer: { paddingVertical: 2, paddingHorizontal: 4 },
+    sidebarLetter: { fontSize: 11, fontWeight: '700', color: Colors.candlelight },
 });
