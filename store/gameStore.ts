@@ -19,6 +19,10 @@ interface PlayerRoleInfo {
 }
 
 interface GameStore extends GameState {
+    // Director's Cut specific state
+    directorId: string | null;
+    directorWinnerId: string | null; // ID of the player who won (guessed correctly), or null if Director won
+
     // Player management
     addPlayer: (name: string) => void;
     removePlayer: (id: string) => void;
@@ -57,6 +61,11 @@ interface GameStore extends GameState {
     getVoteResults: () => { playerId: string; votes: number }[];
     getMostVotedPlayer: () => Player | null;
     getModeDisplayInfo: () => { specialRoleName: string; specialRoleIcon: string; normalRoleName: string };
+
+    // Director Mode actions
+    setDirector: (playerId: string) => void;
+    setDirectorMovie: (movie: string, genre?: string, hint?: string) => void;
+    setDirectorWinner: (winnerId: string | null) => void;
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
@@ -71,6 +80,9 @@ const initialState: GameState = {
     customWords: [],
     gameData: null,
     settings: DEFAULT_SETTINGS,
+    // Director Mode defaults
+    directorId: null,
+    directorWinnerId: null,
     votes: {},
     impostersCaught: false,
 };
@@ -198,9 +210,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 break;
             }
             case 'directors-cut': {
-                const movie = getRandomMovie();
-                if (!movie) return;
-                gameData = { type: 'directors-cut', data: movie };
+                // If gameData is already set (manual movie), keep it. Otherwise random.
+                if (state.gameData?.type === 'directors-cut') {
+                    gameData = state.gameData;
+                } else {
+                    const movie = getRandomMovie();
+                    if (!movie) return;
+                    gameData = { type: 'directors-cut', data: movie };
+                }
                 break;
             }
             case 'mind-sync': {
@@ -229,13 +246,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
         }
 
         // Assign special role
-        const assignedPlayers = players.map((player, index) => ({
-            ...player,
-            isImposter: index === specialPlayerIndex,
-            hasRevealed: false,
-            vote: undefined,
-            answer: undefined,
-        }));
+        const assignedPlayers = players.map((player, index) => {
+            let isSpecial = index === specialPlayerIndex;
+
+            // If Director is pre-selected
+            if (gameMode === 'directors-cut' && state.directorId) {
+                isSpecial = player.id === state.directorId;
+            }
+
+            return {
+                ...player,
+                isImposter: isSpecial,
+                hasRevealed: false,
+                vote: undefined,
+                answer: undefined,
+            };
+        });
 
         set({
             phase: 'reveal',
@@ -317,6 +343,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
             gameData: null,
             votes: {},
             impostersCaught: false,
+            directorId: null,
+            directorWinnerId: null,
             players: state.players.map((p) => ({
                 ...p,
                 isImposter: false,
@@ -328,7 +356,24 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
 
     resetToHome: () => {
-        set(initialState);
+        set({ ...initialState, directorId: null, directorWinnerId: null });
+    },
+
+    setDirector: (playerId: string) => {
+        set({ directorId: playerId });
+    },
+
+    setDirectorMovie: (movie: string, genre: string = 'Custom', hint: string = 'Ask the Director') => {
+        set({
+            gameData: {
+                type: 'directors-cut',
+                data: { movie, genre, hint, year: new Date().getFullYear() }
+            }
+        });
+    },
+
+    setDirectorWinner: (winnerId: string | null) => {
+        set({ directorWinnerId: winnerId, phase: 'results' });
     },
 
     // Getters

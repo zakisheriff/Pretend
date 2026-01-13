@@ -17,6 +17,8 @@ export default function ResultsScreen() {
     const gameData = useGameStore((s) => s.gameData);
     const gameMode = useGameStore((s) => s.gameMode);
     const impostersCaught = useGameStore((s) => s.impostersCaught);
+    const directorWinnerId = useGameStore((s) => s.directorWinnerId);
+    const directorId = useGameStore((s) => s.directorId);
     const getVoteResults = useGameStore((s) => s.getVoteResults);
     const getModeDisplayInfo = useGameStore((s) => s.getModeDisplayInfo);
     const resetGame = useGameStore((s) => s.resetGame);
@@ -41,22 +43,24 @@ export default function ResultsScreen() {
                     ? { title: 'Crewmates Win!', subtitle: 'The Imposter was caught!' }
                     : { title: 'Imposter Wins!', subtitle: 'The Imposter escaped justice!' };
             case 'directors-cut':
-                return impostersCaught
-                    ? { title: 'Viewers Win!', subtitle: 'The Director was identified!' }
-                    : { title: 'Director Wins!', subtitle: 'The Director stayed hidden!' };
+                if (directorWinnerId) {
+                    const winnerName = players.find(p => p.id === directorWinnerId)?.name || 'A Viewer';
+                    return { title: 'Viewers Win!', subtitle: `${winnerName} Guessed The Movie! ` };
+                }
+                return { title: 'Director Wins!', subtitle: 'No One Guessed The Movie!' };
             case 'mind-sync':
                 return impostersCaught
-                    ? { title: 'In Sync Wins!', subtitle: 'The outlier was spotted!' }
-                    : { title: 'Outlier Wins!', subtitle: 'The outlier stayed undetected!' };
+                    ? { title: 'In Sync Wins!', subtitle: 'The Outlier Was Spotted!' }
+                    : { title: 'Outlier Wins!', subtitle: 'The Outlier Stayed Undetected!' };
             case 'classic-imposter':
                 // Undercover
                 return impostersCaught
-                    ? { title: 'Players Win!', subtitle: 'The Undercover was found!' }
-                    : { title: 'Undercover Wins!', subtitle: 'The Undercover blended in perfectly!' };
+                    ? { title: 'Players Win!', subtitle: 'The Undercover Was Found!' }
+                    : { title: 'Undercover Wins!', subtitle: 'The Undercover Blended In Perfectly!' };
             default:
                 return impostersCaught
-                    ? { title: 'Investigators Win!', subtitle: 'The suspect has been caught!' }
-                    : { title: 'Imposter Wins!', subtitle: 'The Imposter escaped justice!' };
+                    ? { title: 'Investigators Win!', subtitle: 'The Suspect Has Been Caught!' }
+                    : { title: 'Imposter Wins!', subtitle: 'The Imposter Escaped Justice!' };
         }
     };
 
@@ -164,15 +168,15 @@ export default function ResultsScreen() {
                     entering={ZoomIn.delay(200).springify()}
                     style={[
                         styles.winnerBanner,
-                        impostersCaught ? styles.winnerInvestigators : styles.winnerImposter
+                        (gameMode === 'directors-cut' ? !!directorWinnerId : impostersCaught) ? styles.winnerInvestigators : styles.winnerImposter
                     ]}
                 >
                     <Ionicons
-                        name={impostersCaught ? "shield-checkmark" : "skull"}
+                        name={(gameMode === 'directors-cut' ? !!directorWinnerId : impostersCaught) ? "shield-checkmark" : "skull"}
                         size={60}
-                        color={impostersCaught ? Colors.detective : Colors.suspect}
+                        color={(gameMode === 'directors-cut' ? !!directorWinnerId : impostersCaught) ? Colors.detective : Colors.suspect}
                     />
-                    <Text style={[styles.winnerTitle, impostersCaught ? styles.winnerTitleInvestigators : styles.winnerTitleImposter]}>
+                    <Text style={[styles.winnerTitle, (gameMode === 'directors-cut' ? !!directorWinnerId : impostersCaught) ? styles.winnerTitleInvestigators : styles.winnerTitleImposter]}>
                         {winnerText.title}
                     </Text>
                     <Text style={styles.winnerSubtitle}>
@@ -180,21 +184,41 @@ export default function ResultsScreen() {
                     </Text>
                 </Animated.View>
 
-                {/* Special Player Reveal */}
-                <Animated.View entering={FadeInUp.delay(400).springify()} style={styles.section}>
-                    <Text style={styles.sectionLabel}>The {specialRoleName}{specialPlayers.length > 1 ? 's' : ''}</Text>
-                    <View style={styles.imposterGrid}>
-                        {specialPlayers.map((player) => (
-                            <View key={player.id} style={styles.imposterCard}>
-                                <View style={styles.imposterAvatar}>
-                                    <Ionicons name={specialRoleIcon as any} size={28} color={Colors.parchmentLight} />
+                {/* Special Player Reveal (Skip for Director's Cut unless showing winner) */}
+                {(gameMode !== 'directors-cut') && (
+                    <Animated.View entering={FadeInUp.delay(400).springify()} style={styles.section}>
+                        <Text style={styles.sectionLabel}>The {specialRoleName}{specialPlayers.length > 1 ? 's' : ''}</Text>
+                        <View style={styles.imposterGrid}>
+                            {specialPlayers.map((player) => (
+                                <View key={player.id} style={styles.imposterCard}>
+                                    <View style={styles.imposterAvatar}>
+                                        <Ionicons name={specialRoleIcon as any} size={28} color={Colors.parchmentLight} />
+                                    </View>
+                                    <Text style={styles.imposterName}>{player.name}</Text>
+                                    <Text style={styles.imposterRole}>{specialRoleName}</Text>
                                 </View>
-                                <Text style={styles.imposterName}>{player.name}</Text>
-                                <Text style={styles.imposterRole}>{specialRoleName}</Text>
-                            </View>
-                        ))}
-                    </View>
-                </Animated.View>
+                            ))}
+                        </View>
+                    </Animated.View>
+                )}
+
+                {/* Director's Cut Winner Spotlight */}
+                {gameMode === 'directors-cut' && directorWinnerId && (
+                    <Animated.View entering={FadeInUp.delay(400).springify()} style={styles.section}>
+                        <Text style={styles.sectionLabel}>Star Viewer</Text>
+                        <View style={styles.imposterGrid}>
+                            {players.filter(p => p.id === directorWinnerId).map((player) => (
+                                <View key={player.id} style={[styles.imposterCard, { borderColor: Colors.detective, backgroundColor: 'rgba(34, 139, 34, 0.2)' }]}>
+                                    <View style={[styles.imposterAvatar, { backgroundColor: Colors.detective }]}>
+                                        <Ionicons name="trophy" size={28} color={Colors.parchmentLight} />
+                                    </View>
+                                    <Text style={styles.imposterName}>{player.name}</Text>
+                                    <Text style={[styles.imposterRole, { color: Colors.detective }]}>Correct Guesser</Text>
+                                </View>
+                            ))}
+                        </View>
+                    </Animated.View>
+                )}
 
                 {/* Reveal Content */}
                 {revealContent && (

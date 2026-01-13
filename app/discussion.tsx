@@ -8,6 +8,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { BackHandler, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+// Helper to find director name safely
+function findDirectorName(settings: any, mode: string, players: any[]) {
+    // In directors-cut, the "imposter" is the Director
+    const director = players.find(p => p.isImposter);
+    return director ? director.name : 'Unknown';
+}
+
 export default function DiscussionScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
@@ -54,6 +61,15 @@ export default function DiscussionScreen() {
                 <Text style={styles.title}>{done ? "Time's Up" : 'The Investigation'}</Text>
             </View>
 
+            {gameMode === 'directors-cut' && (
+                <View style={styles.directorBadge}>
+                    <Ionicons name="videocam" size={14} color={Colors.victorianBlack} />
+                    <Text style={styles.directorText}>
+                        Director: {findDirectorName(settings, gameMode, useGameStore.getState().players)}
+                    </Text>
+                </View>
+            )}
+
             <View style={styles.timerArea}>
                 <CircularTimer duration={settings.discussionTime} timeRemaining={time} size={220} strokeWidth={10} />
                 {paused && !done && <View style={styles.pausedBadge}><Text style={styles.pausedText}>Paused</Text></View>}
@@ -69,25 +85,19 @@ export default function DiscussionScreen() {
             )}
 
             {done && (
-                <Button title={`Find the ${specialRoleName}`} onPress={handleVote} variant="primary" size="large"
-                    icon={<Ionicons name="hand-left" size={18} color={Colors.victorianBlack} />} />
+                gameMode === 'directors-cut' ? (
+                    <Button
+                        title="Declare Winner"
+                        onPress={() => { haptics.heavy(); router.push('/director-verdict'); }}
+                        variant="primary"
+                        size="large"
+                        icon={<Ionicons name="trophy" size={18} color={Colors.victorianBlack} />}
+                    />
+                ) : (
+                    <Button title={`Find the ${specialRoleName}`} onPress={handleVote} variant="primary" size="large"
+                        icon={<Ionicons name="hand-left" size={18} color={Colors.victorianBlack} />} />
+                )
             )}
-
-            <View style={styles.footerRow}>
-                <Ionicons name="flame" size={14} color={Colors.candlelight} />
-                <Text style={styles.footerText}>
-                    {done
-                        ? `Time to find the ${specialRoleName.toLowerCase()}! `
-                        : gameMode === 'directors-cut'
-                            ? 'Ask yes/no questions to guess the movie'
-                            : gameMode === 'mind-sync'
-                                ? 'Compare answers - find who is out of sync'
-                                : gameMode === 'classic-imposter'
-                                    ? 'Describe your word - spot who has a different one! '
-                                    : 'Discuss and deduce who has a different word '
-                    }
-                </Text>
-            </View>
         </View>
     );
 }
@@ -100,6 +110,11 @@ const styles = StyleSheet.create({
     timerArea: { flex: 1, alignItems: 'center', justifyContent: 'center' },
     pausedBadge: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.9)', paddingHorizontal: 18, paddingVertical: 10, borderRadius: 20, borderWidth: 1, borderColor: Colors.candlelight },
     pausedText: { fontSize: 14, fontWeight: '800', color: Colors.gaslightAmber, letterSpacing: 3 },
+    directorBadge: {
+        alignSelf: 'center', backgroundColor: Colors.parchment, paddingHorizontal: 12, paddingVertical: 6,
+        borderRadius: 12, flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 20, marginTop: 10
+    },
+    directorText: { fontSize: 12, fontWeight: '800', color: Colors.victorianBlack },
     controls: { flexDirection: 'row', gap: 12, marginBottom: 16 },
     footerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 10 },
 

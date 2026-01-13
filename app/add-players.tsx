@@ -59,6 +59,8 @@ export default function AddPlayersScreen() {
         // These modes need theme selection
         if (gameMode === 'undercover-word' || gameMode === 'classic-imposter') {
             router.push('/select-theme');
+        } else if (gameMode === 'directors-cut') {
+            router.push('/setup-director');
         } else {
             router.push('/game-settings');
         }

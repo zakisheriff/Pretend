@@ -101,6 +101,8 @@ export interface GameState {
 
     // Results
     impostersCaught: boolean;
+    directorId: string | null;
+    directorWinnerId: string | null;
 }
 
 export const DEFAULT_SETTINGS: GameSettings = {
