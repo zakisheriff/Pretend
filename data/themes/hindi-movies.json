@@ -130,6 +130,950 @@
                 "medium": "Durga Puja in Kolkata",
                 "high": "The prosthetic belly"
             }
+        },
+        {
+            "word": "Kanchana",
+            "hints": {
+                "low": "Correction: This is a remake",
+                "medium": "Fear of ghosts",
+                "high": "Transgender ghost possession"
+            }
+        },
+        {
+            "word": "Laxmii",
+            "hints": {
+                "low": "Akshay Kumar in a saree",
+                "medium": "Remake of Kanchana",
+                "high": "Ghost revenge story"
+            }
+        },
+        {
+            "word": "Bhool Bhulaiyaa 2",
+            "hints": {
+                "low": "Not Vidya Balan",
+                "medium": "Kartik Aaryan as Rooh Baba",
+                "high": "Manjulika returns"
+            }
+        },
+        {
+            "word": "Kabir Singh",
+            "hints": {
+                "low": "Angry medical student",
+                "medium": "Remake of Arjun Reddy",
+                "high": "Obsessive love story"
+            }
+        },
+        {
+            "word": "Animal",
+            "hints": {
+                "low": "Papa meri jaan",
+                "medium": "Ranbir Kapoor with an axe",
+                "high": "Violent son's love for father"
+            }
+        },
+        {
+            "word": "Jawan",
+            "hints": {
+                "low": "SRK in a bald look",
+                "medium": "Father and son dual role",
+                "high": "Metro hijack by girls"
+            }
+        },
+        {
+            "word": "Pathaan",
+            "hints": {
+                "low": "Spy universe began here",
+                "medium": "Besharam Rang song",
+                "high": "SRK's comeback"
+            }
+        },
+        {
+            "word": "Tiger 3",
+            "hints": {
+                "low": "Salman and Katrina spy thriller",
+                "medium": "Pakistan vs India spy spouses",
+                "high": "Emraan Hashmi as villain"
+            }
+        },
+        {
+            "word": "Gadar 2",
+            "hints": {
+                "low": "Handpump return",
+                "medium": "Tara Singh goes back to Pakistan",
+                "high": "Son is captured"
+            }
+        },
+        {
+            "word": "Dunki",
+            "hints": {
+                "low": "Role of Rajkumar Hirani",
+                "medium": "Illegal immigration",
+                "high": "Donkey flight to London"
+            }
+        },
+        {
+            "word": "Rocky Aur Rani Kii Prem Kahaani",
+            "hints": {
+                "low": "Switching households",
+                "medium": "Bengali vs Punjabi family",
+                "high": "Ranveer and Alia romance"
+            }
+        },
+        {
+            "word": "Brahmastra",
+            "hints": {
+                "low": "Astraverse begins",
+                "medium": "Shiva and Isha",
+                "high": "Part One: Shiva"
+            }
+        },
+        {
+            "word": "The Kashmir Files",
+            "hints": {
+                "low": "Exodus of Pandits",
+                "medium": "Anupam Kher's emotional role",
+                "high": "Based on true tragedy"
+            }
+        },
+        {
+            "word": "Drishyam 2",
+            "hints": {
+                "low": "October 2nd revisited",
+                "medium": "The body under the police station",
+                "high": "Vijay Salgaonkar's masterplan"
+            }
+        },
+        {
+            "word": "Gangubai Kathiawadi",
+            "hints": {
+                "low": "White saree",
+                "medium": "Madam of Kamathipura",
+                "high": "Alia Bhatt as matriarch"
+            }
+        },
+        {
+            "word": "Jersey",
+            "hints": {
+                "low": "Cricketer returns for son",
+                "medium": "Shahid Kapoor remake",
+                "high": "Buying a jersey for his kit"
+            }
+        },
+        {
+            "word": "83",
+            "hints": {
+                "low": "Cricket World Cup win",
+                "medium": "Ranveer as Kapil Dev",
+                "high": "Underdogs defeat West Indies"
+            }
+        },
+        {
+            "word": "Shershaah",
+            "hints": {
+                "low": "Vikram Batra biopic",
+                "medium": "Yeh Dil Maange More",
+                "high": "Kargil war hero"
+            }
+        },
+        {
+            "word": "Sooryavanshi",
+            "hints": {
+                "low": "Cop universe crossover",
+                "medium": "Akshay Kumar as ATS chief",
+                "high": "Simmba and Singham cameo"
+            }
+        },
+        {
+            "word": "Mimi",
+            "hints": {
+                "low": "Surrogacy gone wrong",
+                "medium": "Kriti Sanon as mother",
+                "high": "Foreign couple abandons baby"
+            }
+        },
+        {
+            "word": "Sanju",
+            "hints": {
+                "low": "Ranbir as Sanjay Dutt",
+                "medium": "Biopic of a controversial star",
+                "high": "Drug addiction and jail"
+            }
+        },
+        {
+            "word": "Padmaavat",
+            "hints": {
+                "low": "Alauddin Khilji's obsession",
+                "medium": "Jauhar scene",
+                "high": "Ranveer Singh as villain"
+            }
+        },
+        {
+            "word": "Simmba",
+            "hints": {
+                "low": "Corrupt cop turns good",
+                "medium": "Ranveer Singh as policeman",
+                "high": "Aala Re Aala"
+            }
+        },
+        {
+            "word": "Uri: The Surgical Strike",
+            "hints": {
+                "low": "How's the Josh?",
+                "medium": "Revenge for soldiers",
+                "high": "Vicky Kaushal as Major"
+            }
+        },
+        {
+            "word": "Good Newwz",
+            "hints": {
+                "low": "IVF mix-up",
+                "medium": "Two couples with same surname",
+                "high": "Sperm exchange comedy"
+            }
+        },
+        {
+            "word": "Housefull 4",
+            "hints": {
+                "low": "Reincarnation comedy",
+                "medium": "1419 to 2019",
+                "high": "Akshay Kumar as Bala"
+            }
+        },
+        {
+            "word": "War",
+            "hints": {
+                "low": "Hrithik vs Tiger",
+                "medium": "Mentor vs Protege",
+                "high": "Ghungroo toot gaye"
+            }
+        },
+        {
+            "word": "Super 30",
+            "hints": {
+                "low": "Mathematician Anand Kumar",
+                "medium": "Teaching poor students",
+                "high": "Hrithik Roshan as teacher"
+            }
+        },
+        {
+            "word": "Bala",
+            "hints": {
+                "low": "Premature balding",
+                "medium": "Ayushmann Khurrana's wig",
+                "high": "Insecurity about hair"
+            }
+        },
+        {
+            "word": "Dream Girl",
+            "hints": {
+                "low": "Female voice on phone",
+                "medium": "Ayushmann as Pooja",
+                "high": "Call center job"
+            }
+        },
+        {
+            "word": "Raazi",
+            "hints": {
+                "low": "Spy wife in Pakistan",
+                "medium": "Alia Bhatt as Sehmat",
+                "high": "Watan ke aage kuch nahi"
+            }
+        },
+        {
+            "word": "Badhaai Ho",
+            "hints": {
+                "low": "Late pregnancy of mother",
+                "medium": "Ayushmann's embarrassment",
+                "high": "Parents expecting a baby"
+            }
+        },
+        {
+            "word": "Sonu Ke Titu Ki Sweety",
+            "hints": {
+                "low": "Bromance vs Romance",
+                "medium": "Manipulative girlfriend",
+                "high": "Tera Yaar Hoon Main"
+            }
+        },
+        {
+            "word": "Pad Man",
+            "hints": {
+                "low": "Sanitary napkins",
+                "medium": "Akshay Kumar's social cause",
+                "high": "Cheap pads for women"
+            }
+        },
+        {
+            "word": "Toilet: Ek Prem Katha",
+            "hints": {
+                "low": "Building a loo for wife",
+                "medium": "Open defecation issue",
+                "high": "Fight against village tradition"
+            }
+        },
+        {
+            "word": "Secret Superstar",
+            "hints": {
+                "low": "Singing in a burqa",
+                "medium": "YouTube sensation",
+                "high": "Aamir Khan as music director"
+            }
+        },
+        {
+            "word": "Golmaal Again",
+            "hints": {
+                "low": "Horror comedy sequel",
+                "medium": "Ghosts in the orphanage",
+                "high": "Tabu joins the gang"
+            }
+        },
+        {
+            "word": "Judwaa 2",
+            "hints": {
+                "low": "Varun Dhawan double role",
+                "medium": "Remake of Salman's hit",
+                "high": "Confused twins"
+            }
+        },
+        {
+            "word": "Ae Dil Hai Mushkil",
+            "hints": {
+                "low": "Unrequited love",
+                "medium": "Ranbir and Anushka friendship",
+                "high": "Channa Mereya song"
+            }
+        },
+        {
+            "word": "Sultan",
+            "hints": {
+                "low": "Wrestler's downfall and rise",
+                "medium": "Salman and Anushka",
+                "high": "MMA fighting"
+            }
+        },
+        {
+            "word": "Neerja",
+            "hints": {
+                "low": "Hijacked flight Pan Am 73",
+                "medium": "Brave air hostess",
+                "high": "Sonam Kapoor biopic"
+            }
+        },
+        {
+            "word": "Airlift",
+            "hints": {
+                "low": "Evacuation from Kuwait",
+                "medium": "Akshay Kumar as businessman",
+                "high": "Based on true events"
+            }
+        },
+        {
+            "word": "Kapoor & Sons",
+            "hints": {
+                "low": "Dysfunctional family gathering",
+                "medium": "Grandfather's wish",
+                "high": "Two brothers and a secret"
+            }
+        },
+        {
+            "word": "Udta Punjab",
+            "hints": {
+                "low": "Drug crisis in state",
+                "medium": "Tommy Singh rockstar",
+                "high": "Kareena and Diljit cop duo"
+            }
+        },
+        {
+            "word": "Pink",
+            "hints": {
+                "low": "No means No",
+                "medium": "Amitabh Bachchan as lawyer",
+                "high": "Consent is important"
+            }
+        },
+        {
+            "word": "M.S. Dhoni: The Untold Story",
+            "hints": {
+                "low": "Captain Cool biopic",
+                "medium": "Sushant Singh Rajput",
+                "high": "Winning the World Cup"
+            }
+        },
+        {
+            "word": "Dangal",
+            "hints": {
+                "low": "Phogat sisters",
+                "medium": "Haanikark Bapu",
+                "high": "National level wrestling"
+            }
+        },
+        {
+            "word": "Hichki",
+            "hints": {
+                "low": "Teacher with Tourette syndrome",
+                "medium": "Rani Mukerji",
+                "high": "Teaching underprivileged kids"
+            }
+        },
+        {
+            "word": "Zero",
+            "hints": {
+                "low": "SRK as a dwarf",
+                "medium": "Love with a scientist",
+                "high": "Space travel ending"
+            }
+        },
+        {
+            "word": "Thugs of Hindostan",
+            "hints": {
+                "low": "Pirates of India",
+                "medium": "Aamir and Amitabh together",
+                "high": "Ship battles"
+            }
+        },
+        {
+            "word": "Kalank",
+            "hints": {
+                "low": "Pre-partition drama",
+                "medium": "Varun and Alia tragic love",
+                "high": "Bull fight scene"
+            }
+        },
+        {
+            "word": "Bharat",
+            "hints": {
+                "low": "Man's life parallels nation",
+                "medium": "Salman Khan aging",
+                "high": "Lost sister in partition"
+            }
+        },
+        {
+            "word": "English Vinglish",
+            "hints": {
+                "low": "Learning English in New York",
+                "medium": "Sridevi's comeback",
+                "high": "Making laddoos"
+            }
+        },
+        {
+            "word": "Piku",
+            "hints": {
+                "low": "Road trip with constipated father",
+                "medium": "Amitabh and Deepika",
+                "high": "Motion se hi emotion"
+            }
+        },
+        {
+            "word": "Tamasha",
+            "hints": {
+                "low": "Storytelling in Corsica",
+                "medium": "Don't be a robot",
+                "high": "Ranbir and Deepika breakup"
+            }
+        },
+        {
+            "word": "Bajirao Mastani",
+            "hints": {
+                "low": "Peshwa warrior love",
+                "medium": "Ranveer and Deepika historical",
+                "high": "Deewani Mastani"
+            }
+        },
+        {
+            "word": "Dil Dhadakne Do",
+            "hints": {
+                "low": "Rich family cruise",
+                "medium": "Dog narrates the story",
+                "high": "Dysfunctional Mehra family"
+            }
+        },
+        {
+            "word": "Baby",
+            "hints": {
+                "low": "Counter-terrorism unit",
+                "medium": "Akshay Kumar undercover",
+                "high": "Mission in Saudi Arabia"
+            }
+        },
+        {
+            "word": "Kick",
+            "hints": {
+                "low": "Devil the thief",
+                "medium": "Salman Khan gets a kick",
+                "high": "Jumme Ki Raat"
+            }
+        },
+        {
+            "word": "Happy New Year",
+            "hints": {
+                "low": "Heist during dance competition",
+                "medium": "World Dance Championship",
+                "high": "SRK and team in Dubai"
+            }
+        },
+        {
+            "word": "Bang Bang!",
+            "hints": {
+                "low": "Remake of Knight and Day",
+                "medium": "Hrithik and Katrina action",
+                "high": "Kohinoor diamond theft"
+            }
+        },
+        {
+            "word": "Haider",
+            "hints": {
+                "low": "Adaptation of Hamlet",
+                "medium": "Kashmir conflict setting",
+                "high": "Shahid Kapoor monologue"
+            }
+        },
+        {
+            "word": "2 States",
+            "hints": {
+                "low": "North vs South marriage",
+                "medium": "Chetan Bhagat adaptation",
+                "high": "Arjun and Alia college love"
+            }
+        },
+        {
+            "word": "Highway",
+            "hints": {
+                "low": "Kidnapped bride finds freedom",
+                "medium": "Alia Bhatt and Randeep Hooda",
+                "high": "Road trip across states"
+            }
+        },
+        {
+            "word": "Chennai Express",
+            "hints": {
+                "low": "Don't underestimate the power of a common man",
+                "medium": "SRK and Deepika on a train",
+                "high": "Meenamma and Rahul"
+            }
+        },
+        {
+            "word": "Dhoom 3",
+            "hints": {
+                "low": "Clown thief",
+                "medium": "Aamir Khan double role",
+                "high": "Bike chase in Chicago"
+            }
+        },
+        {
+            "word": "Krrish 3",
+            "hints": {
+                "low": "Mutants and superhero",
+                "medium": "Kaal the villain",
+                "high": "Hrithik plays father and son"
+            }
+        },
+        {
+            "word": "Ram-Leela",
+            "hints": {
+                "low": "Romeo and Juliet adaptation",
+                "medium": "Ranveer and Deepika first movie",
+                "high": "Two warring clans"
+            }
+        },
+        {
+            "word": "Bhaag Milkha Bhaag",
+            "hints": {
+                "low": "Flying Sikh biopic",
+                "medium": "Farhan Akhtar running",
+                "high": "Race against Pakistan athlete"
+            }
+        },
+        {
+            "word": "Yeh Jawaani Hai Deewani",
+            "hints": {
+                "low": "Trekking trip to Manali",
+                "medium": "Bunny and Naina",
+                "high": "Wedding in Udaipur"
+            }
+        },
+        {
+            "word": "Aashiqui 2",
+            "hints": {
+                "low": "Alcoholic singer falls for fan",
+                "medium": "Tum Hi Ho",
+                "high": "Tragic suicide ending"
+            }
+        },
+        {
+            "word": "Special 26",
+            "hints": {
+                "low": "Fake CBI raid",
+                "medium": "Akshay Kumar heist",
+                "high": "Jewelry shop robbery"
+            }
+        },
+        {
+            "word": "Kai Po Che!",
+            "hints": {
+                "low": "Three friends start a shop",
+                "medium": "Gujarat earthquake and riots",
+                "high": "Cricket academy dream"
+            }
+        },
+        {
+            "word": "Barfi!",
+            "hints": {
+                "low": "Deaf and mute protagonist",
+                "medium": "Ranbir, Priyanka, Ileana",
+                "high": "Love without words"
+            }
+        },
+        {
+            "word": "Jab Tak Hai Jaan",
+            "hints": {
+                "low": "Bomb disposal expert",
+                "medium": "SRK, Katrina, Anushka",
+                "high": "Yash Chopra's last film"
+            }
+        },
+        {
+            "word": "Talaash",
+            "hints": {
+                "low": "Car accident mystery",
+                "medium": "Aamir Khan as cop",
+                "high": "Ghost helps solve case"
+            }
+        },
+        {
+            "word": "Vicky Donor",
+            "hints": {
+                "low": "Sperm donation",
+                "medium": "Ayushmann's debut",
+                "high": "Doctor Chaddha"
+            }
+        },
+        {
+            "word": "Cocktail",
+            "hints": {
+                "low": "Three friends flatmates",
+                "medium": "Deepika as Veronica",
+                "high": "Love triangle in London"
+            }
+        },
+        {
+            "word": "Agneepath",
+            "hints": {
+                "low": "Kancha Cheena",
+                "medium": "Hrithik's revenge",
+                "high": "Mandwa village"
+            }
+        },
+        {
+            "word": "Rockstar",
+            "hints": {
+                "low": "Jordan the singer",
+                "medium": "Sadda Haq",
+                "high": "Heartbreak fuels music"
+            }
+        },
+        {
+            "word": "Don 2",
+            "hints": {
+                "low": "Don surrenders to police",
+                "medium": "Heist in German bank",
+                "high": "SRK returns as Don"
+            }
+        },
+        {
+            "word": "The Dirty Picture",
+            "hints": {
+                "low": "Silk Smitha biopic",
+                "medium": "Vidya Balan bold role",
+                "high": "Entertainment, Entertainment, Entertainment"
+            }
+        },
+        {
+            "word": "Bodyguard",
+            "hints": {
+                "low": "Protector falls for voice on phone",
+                "medium": "Salman and Kareena",
+                "high": "Lovely Singh"
+            }
+        },
+        {
+            "word": "Singham",
+            "hints": {
+                "low": "Atta Maajhi Satakli",
+                "medium": "Honest Maratha cop",
+                "high": "Ajay Devgn vs Jaikant Shikre"
+            }
+        },
+        {
+            "word": "Delhi Belly",
+            "hints": {
+                "low": "Diamonds in stool sample",
+                "medium": "Bhaag D.K. Bose",
+                "high": "Roommates in trouble"
+            }
+        },
+        {
+            "word": "Dabangg",
+            "hints": {
+                "low": "Chulbul Pandey",
+                "medium": "Robin Hood cop",
+                "high": "Munni Badnaam"
+            }
+        },
+        {
+            "word": "My Name Is Khan",
+            "hints": {
+                "low": "I am not a terrorist",
+                "medium": "Asperger's syndrome",
+                "high": "Meeting the US President"
+            }
+        },
+        {
+            "word": "Band Baaja Baaraat",
+            "hints": {
+                "low": "Wedding planners",
+                "medium": "Bread Pakora ki kasam",
+                "high": "Ranveer Singh debut"
+            }
+        },
+        {
+            "word": "Guzaarish",
+            "hints": {
+                "low": "Magician turns quadriplegic",
+                "medium": "Euthanasia plea",
+                "high": "Hrithik and Aishwarya"
+            }
+        },
+        {
+            "word": "Ra.One",
+            "hints": {
+                "low": "Video game villain comes to life",
+                "medium": "G.One superhero",
+                "high": "Chammak Challo"
+            }
+        },
+        {
+            "word": "Wanted",
+            "hints": {
+                "low": "Undercover cop as gangster",
+                "medium": "Ek baar jo maine commitment kar di",
+                "high": "Radhe Bhaiya"
+            }
+        },
+        {
+            "word": "Wake Up Sid",
+            "hints": {
+                "low": "Lazy rich boy learns responsibility",
+                "medium": "Photography passion",
+                "high": "Ranbir and Konkona"
+            }
+        },
+        {
+            "word": "Ghajini",
+            "hints": {
+                "low": "Short term memory loss",
+                "medium": "Tattoos on body",
+                "high": "Revenge for Kalpana"
+            }
+        },
+        {
+            "word": "Rab Ne Bana Di Jodi",
+            "hints": {
+                "low": "Surinder Sahni vs Raj",
+                "medium": "Husband disguises to win wife",
+                "high": "Anushka Sharma debut"
+            }
+        },
+        {
+            "word": "Singh Is Kinng",
+            "hints": {
+                "low": "Happy Sikh from village",
+                "medium": "Becomes underworld don",
+                "high": "Akshay Kumar comedy"
+            }
+        },
+        {
+            "word": "Jaane Tu... Ya Jaane Na",
+            "hints": {
+                "low": "College best friends",
+                "medium": "Ride to the airport on horse",
+                "high": "Rats and Meow"
+            }
+        },
+        {
+            "word": "Dostana",
+            "hints": {
+                "low": "Pretending to be gay couple",
+                "medium": "Miami apartment",
+                "high": "Desi Girl song"
+            }
+        },
+        {
+            "word": "Fashion",
+            "hints": {
+                "low": "Dark side of modeling",
+                "medium": "Priyanka and Kangana",
+                "high": "Small town girl becomes supermodel"
+            }
+        },
+        {
+            "word": "Race",
+            "hints": {
+                "low": "Brothers and horse racing",
+                "medium": "Betrayal and twists",
+                "high": "Saif Ali Khan"
+            }
+        },
+        {
+            "word": "Jodhaa Akbar",
+            "hints": {
+                "low": "Mughal Emperor and Rajput Princess",
+                "medium": "Hrithik and Aishwarya epic",
+                "high": "Sword practice scene"
+            }
+        },
+        {
+            "word": "Om Shanti Om",
+            "hints": {
+                "low": "Reincarnation of junior artist",
+                "medium": "Picture abhi baaki hai",
+                "high": "Deepika Padukone debut"
+            }
+        },
+        {
+            "word": "Taare Zameen Par",
+            "hints": {
+                "low": "Dyslexic child artist",
+                "medium": "Ishaan Awasthi",
+                "high": "Art teacher Nikumbh"
+            }
+        },
+        {
+            "word": "Chak De! India",
+            "hints": {
+                "low": "Women's hockey team",
+                "medium": "Coach Kabir Khan",
+                "high": "Sattar minute"
+            }
+        },
+        {
+            "word": "Jab We Met",
+            "hints": {
+                "low": "Talkative girl meets depressed businessman",
+                "medium": "Geet from Bhatinda",
+                "high": "Main apni favourite hoon"
+            }
+        },
+        {
+            "word": "Welcome",
+            "hints": {
+                "low": "Gangsters want to marry sister",
+                "medium": "Majnu Bhai's painting",
+                "high": "Uday and Majnu"
+            }
+        },
+        {
+            "word": "Bhool Bhulaiyaa",
+            "hints": {
+                "low": "Haunted ancestral palace",
+                "medium": "Avni as Manjulika",
+                "high": "Ami Je Tomar"
+            }
+        },
+        {
+            "word": "Heyy Babyy",
+            "hints": {
+                "low": "Three bachelors find a baby",
+                "medium": "Sydney apartment",
+                "high": "Finding the mother"
+            }
+        },
+        {
+            "word": "Partner",
+            "hints": {
+                "low": "Love Guru",
+                "medium": "Salman and Govinda",
+                "high": "Prem and Bhaskar"
+            }
+        },
+        {
+            "word": "Guru",
+            "hints": {
+                "low": "Villager becomes tycoon",
+                "medium": "Based on Dhirubhai Ambani",
+                "high": "Abhishek and Aishwarya"
+            }
+        },
+        {
+            "word": "Dhoom 2",
+            "hints": {
+                "low": "Mr. A the thief",
+                "medium": "Hrithik and Aishwarya",
+                "high": "Action in Brazil"
+            }
+        },
+        {
+            "word": "Lage Raho Munna Bhai",
+            "hints": {
+                "low": "Gandhigiri",
+                "medium": "Hallucinating Gandhi",
+                "high": "Get well soon flowers"
+            }
+        },
+        {
+            "word": "Don",
+            "hints": {
+                "low": "Remake of Amitabh classic",
+                "medium": "SRK as criminal mastermind",
+                "high": "Don ko pakadna mushkil hai"
+            }
+        },
+        {
+            "word": "Krrish",
+            "hints": {
+                "low": "Superhero in mask",
+                "medium": "Sequel to Koi Mil Gaya",
+                "high": "Jadoo's powers inherited"
+            }
+        },
+        {
+            "word": "Fanaa",
+            "hints": {
+                "low": "Blind girl falls for tour guide",
+                "medium": "Guide is a terrorist",
+                "high": "Aamir and Kajol"
+            }
+        },
+        {
+            "word": "Rang De Basanti",
+            "hints": {
+                "low": "Freedom fighters documentation",
+                "medium": "College students rebel",
+                "high": "Candle light march at India Gate"
+            }
+        },
+        {
+            "word": "Kabhi Alvida Naa Kehna",
+            "hints": {
+                "low": "Infidelity in New York",
+                "medium": "Broken marriages",
+                "high": "SRK and Rani"
+            }
+        },
+        {
+            "word": "Vivah",
+            "hints": {
+                "low": "Arranged marriage romance",
+                "medium": "Jal lijiye",
+                "high": "Poonam gets burnt"
+            }
+        },
+        {
+            "word": "Golmaal: Fun Unlimited",
+            "hints": {
+                "low": "Four friends hide in blind couple's house",
+                "medium": "Rohit Shetty comedy",
+                "high": "Gopal, Madhav, Lucky, Laxman"
+            }
         }
     ]
 }

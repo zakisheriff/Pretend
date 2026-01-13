@@ -62,6 +62,726 @@
         {
             "crewmateWord": "Jaws",
             "imposterWord": "Deep Blue Sea"
+        },
+        {
+            "crewmateWord": "Oppenheimer",
+            "imposterWord": "Interstellar"
+        },
+        {
+            "crewmateWord": "Barbie",
+            "imposterWord": "Legally Blonde"
+        },
+        {
+            "crewmateWord": "Dune: Part Two",
+            "imposterWord": "Star Wars"
+        },
+        {
+            "crewmateWord": "Top Gun: Maverick",
+            "imposterWord": "Independence Day"
+        },
+        {
+            "crewmateWord": "Everything Everywhere All At Once",
+            "imposterWord": "Doctor Strange in the Multiverse of Madness"
+        },
+        {
+            "crewmateWord": "The Batman",
+            "imposterWord": "The Dark Knight"
+        },
+        {
+            "crewmateWord": "Spider-Man: No Way Home",
+            "imposterWord": "Avengers: Endgame"
+        },
+        {
+            "crewmateWord": "Joker",
+            "imposterWord": "The King of Comedy"
+        },
+        {
+            "crewmateWord": "Black Panther",
+            "imposterWord": "The Lion King"
+        },
+        {
+            "crewmateWord": "La La Land",
+            "imposterWord": "Singin' in the Rain"
+        },
+        {
+            "crewmateWord": "Mad Max: Fury Road",
+            "imposterWord": "Fast & Furious"
+        },
+        {
+            "crewmateWord": "The Wolf of Wall Street",
+            "imposterWord": "Wall Street"
+        },
+        {
+            "crewmateWord": "Django Unchained",
+            "imposterWord": "The Hateful Eight"
+        },
+        {
+            "crewmateWord": "Whiplash",
+            "imposterWord": "Black Swan"
+        },
+        {
+            "crewmateWord": "Get Out",
+            "imposterWord": "Us"
+        },
+        {
+            "crewmateWord": "Hereditary",
+            "imposterWord": "The Exorcist"
+        },
+        {
+            "crewmateWord": "Midsommar",
+            "imposterWord": "The Wicker Man"
+        },
+        {
+            "crewmateWord": "Knives Out",
+            "imposterWord": "Clue"
+        },
+        {
+            "crewmateWord": "A Quiet Place",
+            "imposterWord": "Bird Box"
+        },
+        {
+            "crewmateWord": "Coco",
+            "imposterWord": "The Book of Life"
+        },
+        {
+            "crewmateWord": "Inside Out",
+            "imposterWord": "Soul"
+        },
+        {
+            "crewmateWord": "Moana",
+            "imposterWord": "The Little Mermaid"
+        },
+        {
+            "crewmateWord": "Frozen",
+            "imposterWord": "Tangled"
+        },
+        {
+            "crewmateWord": "Zootopia",
+            "imposterWord": "Sing"
+        },
+        {
+            "crewmateWord": "Poor Things",
+            "imposterWord": "Frankenstein"
+        },
+        {
+            "crewmateWord": "Killers of the Flower Moon",
+            "imposterWord": "There Will Be Blood"
+        },
+        {
+            "crewmateWord": "Elvis",
+            "imposterWord": "Bohemian Rhapsody"
+        },
+        {
+            "crewmateWord": "The Whale",
+            "imposterWord": "The Wrestler"
+        },
+        {
+            "crewmateWord": "Tár",
+            "imposterWord": "Whiplash"
+        },
+        {
+            "crewmateWord": "The Banshees of Inisherin",
+            "imposterWord": "In Bruges"
+        },
+        {
+            "crewmateWord": "Triangle of Sadness",
+            "imposterWord": "The Menu"
+        },
+        {
+            "crewmateWord": "All Quiet on the Western Front",
+            "imposterWord": "1917"
+        },
+        {
+            "crewmateWord": "CODA",
+            "imposterWord": "Sound of Metal"
+        },
+        {
+            "crewmateWord": "King Richard",
+            "imposterWord": "Moneyball"
+        },
+        {
+            "crewmateWord": "Don't Look Up",
+            "imposterWord": "Armageddon"
+        },
+        {
+            "crewmateWord": "Power of the Dog",
+            "imposterWord": "Brokeback Mountain"
+        },
+        {
+            "crewmateWord": "Nomadland",
+            "imposterWord": "Into the Wild"
+        },
+        {
+            "crewmateWord": "Minari",
+            "imposterWord": "Parasite"
+        },
+        {
+            "crewmateWord": "Promising Young Woman",
+            "imposterWord": "Kill Bill"
+        },
+        {
+            "crewmateWord": "The Father",
+            "imposterWord": "Amour"
+        },
+        {
+            "crewmateWord": "Judas and the Black Messiah",
+            "imposterWord": "BlacKkKlansman"
+        },
+        {
+            "crewmateWord": "Jojo Rabbit",
+            "imposterWord": "Life Is Beautiful"
+        },
+        {
+            "crewmateWord": "Marriage Story",
+            "imposterWord": "Kramer vs. Kramer"
+        },
+        {
+            "crewmateWord": "Little Women",
+            "imposterWord": "Pride and Prejudice"
+        },
+        {
+            "crewmateWord": "The Irishman",
+            "imposterWord": "Goodfellas"
+        },
+        {
+            "crewmateWord": "Ford v Ferrari",
+            "imposterWord": "Rush"
+        },
+        {
+            "crewmateWord": "Once Upon a Time in Hollywood",
+            "imposterWord": "Pulp Fiction"
+        },
+        {
+            "crewmateWord": "Green Book",
+            "imposterWord": "Driving Miss Daisy"
+        },
+        {
+            "crewmateWord": "Roma",
+            "imposterWord": "Y Tu Mamá También"
+        },
+        {
+            "crewmateWord": "A Star Is Born",
+            "imposterWord": "La La Land"
+        },
+        {
+            "crewmateWord": "The Favourite",
+            "imposterWord": "Marie Antoinette"
+        },
+        {
+            "crewmateWord": "Vice",
+            "imposterWord": "The Big Short"
+        },
+        {
+            "crewmateWord": "Shape of Water",
+            "imposterWord": "Splash"
+        },
+        {
+            "crewmateWord": "Three Billboards",
+            "imposterWord": "Fargo"
+        },
+        {
+            "crewmateWord": "Lady Bird",
+            "imposterWord": "Juno"
+        },
+        {
+            "crewmateWord": "Call Me by Your Name",
+            "imposterWord": "Moonlight"
+        },
+        {
+            "crewmateWord": "Dunkirk",
+            "imposterWord": "Saving Private Ryan"
+        },
+        {
+            "crewmateWord": "Manchester by the Sea",
+            "imposterWord": "Mystic River"
+        },
+        {
+            "crewmateWord": "Fences",
+            "imposterWord": "A Raisin in the Sun"
+        },
+        {
+            "crewmateWord": "Arrival",
+            "imposterWord": "Contact"
+        },
+        {
+            "crewmateWord": "Hidden Figures",
+            "imposterWord": "The Help"
+        },
+        {
+            "crewmateWord": "Lion",
+            "imposterWord": "Slumdog Millionaire"
+        },
+        {
+            "crewmateWord": "Hacksaw Ridge",
+            "imposterWord": "American Sniper"
+        },
+        {
+            "crewmateWord": "Spotlight",
+            "imposterWord": "The Post"
+        },
+        {
+            "crewmateWord": "The Revenant",
+            "imposterWord": "Cast Away"
+        },
+        {
+            "crewmateWord": "The Martian",
+            "imposterWord": "Interstellar"
+        },
+        {
+            "crewmateWord": "Room",
+            "imposterWord": "The Lovely Bones"
+        },
+        {
+            "crewmateWord": "Brooklyn",
+            "imposterWord": "An Education"
+        },
+        {
+            "crewmateWord": "Bridge of Spies",
+            "imposterWord": "Tinker Tailor Soldier Spy"
+        },
+        {
+            "crewmateWord": "Birdman",
+            "imposterWord": "Black Swan"
+        },
+        {
+            "crewmateWord": "Boyhood",
+            "imposterWord": "The Truman Show"
+        },
+        {
+            "crewmateWord": "The Grand Budapest Hotel",
+            "imposterWord": "Moonrise Kingdom"
+        },
+        {
+            "crewmateWord": "The Imitation Game",
+            "imposterWord": "A Beautiful Mind"
+        },
+        {
+            "crewmateWord": "The Theory of Everything",
+            "imposterWord": "A Beautiful Mind"
+        },
+        {
+            "crewmateWord": "Selma",
+            "imposterWord": "Malcolm X"
+        },
+        {
+            "crewmateWord": "12 Years a Slave",
+            "imposterWord": "Django Unchained"
+        },
+        {
+            "crewmateWord": "Gravity",
+            "imposterWord": "The Martian"
+        },
+        {
+            "crewmateWord": "Captain Phillips",
+            "imposterWord": "United 93"
+        },
+        {
+            "crewmateWord": "Dallas Buyers Club",
+            "imposterWord": "Philadelphia"
+        },
+        {
+            "crewmateWord": "Her",
+            "imposterWord": "Ex Machina"
+        },
+        {
+            "crewmateWord": "Nebraska",
+            "imposterWord": "The Straight Story"
+        },
+        {
+            "crewmateWord": "Argo",
+            "imposterWord": "Zero Dark Thirty"
+        },
+        {
+            "crewmateWord": "Les Misérables",
+            "imposterWord": "The Phantom of the Opera"
+        },
+        {
+            "crewmateWord": "Life of Pi",
+            "imposterWord": "Cast Away"
+        },
+        {
+            "crewmateWord": "Lincoln",
+            "imposterWord": "Darkest Hour"
+        },
+        {
+            "crewmateWord": "Silver Linings Playbook",
+            "imposterWord": "As Good as It Gets"
+        },
+        {
+            "crewmateWord": "The Artist",
+            "imposterWord": "Singin' in the Rain"
+        },
+        {
+            "crewmateWord": "The Descendants",
+            "imposterWord": "Sideways"
+        },
+        {
+            "crewmateWord": "Hugo",
+            "imposterWord": "The Polar Express"
+        },
+        {
+            "crewmateWord": "Midnight in Paris",
+            "imposterWord": "Before Sunrise"
+        },
+        {
+            "crewmateWord": "War Horse",
+            "imposterWord": "Seabiscuit"
+        },
+        {
+            "crewmateWord": "The King's Speech",
+            "imposterWord": "The Queen"
+        },
+        {
+            "crewmateWord": "The Fighter",
+            "imposterWord": "Rocky"
+        },
+        {
+            "crewmateWord": "The Social Network",
+            "imposterWord": "Steve Jobs"
+        },
+        {
+            "crewmateWord": "True Grit",
+            "imposterWord": "The Hateful Eight"
+        },
+        {
+            "crewmateWord": "Winter's Bone",
+            "imposterWord": "Leave No Trace"
+        },
+        {
+            "crewmateWord": "The Hurt Locker",
+            "imposterWord": "Zero Dark Thirty"
+        },
+        {
+            "crewmateWord": "Inglourious Basterds",
+            "imposterWord": "Django Unchained"
+        },
+        {
+            "crewmateWord": "Precious",
+            "imposterWord": "The Color Purple"
+        },
+        {
+            "crewmateWord": "Up",
+            "imposterWord": "Gran Torino"
+        },
+        {
+            "crewmateWord": "District 9",
+            "imposterWord": "E.T."
+        },
+        {
+            "crewmateWord": "The Curious Case of Benjamin Button",
+            "imposterWord": "Forrest Gump"
+        },
+        {
+            "crewmateWord": "Frost/Nixon",
+            "imposterWord": "All the President's Men"
+        },
+        {
+            "crewmateWord": "Milk",
+            "imposterWord": "Brokeback Mountain"
+        },
+        {
+            "crewmateWord": "The Reader",
+            "imposterWord": "Schindler's List"
+        },
+        {
+            "crewmateWord": "No Country for Old Men",
+            "imposterWord": "There Will Be Blood"
+        },
+        {
+            "crewmateWord": "Atonement",
+            "imposterWord": "The English Patient"
+        },
+        {
+            "crewmateWord": "Michael Clayton",
+            "imposterWord": "Erin Brockovich"
+        },
+        {
+            "crewmateWord": "The Departed",
+            "imposterWord": "Goodfellas"
+        },
+        {
+            "crewmateWord": "Babel",
+            "imposterWord": "Crash"
+        },
+        {
+            "crewmateWord": "Letters from Iwo Jima",
+            "imposterWord": "Flags of Our Fathers"
+        },
+        {
+            "crewmateWord": "Little Miss Sunshine",
+            "imposterWord": "Captain Fantastic"
+        },
+        {
+            "crewmateWord": "Crash",
+            "imposterWord": "Green Book"
+        },
+        {
+            "crewmateWord": "Capote",
+            "imposterWord": "Infamous"
+        },
+        {
+            "crewmateWord": "Good Night, and Good Luck",
+            "imposterWord": "Spotlight"
+        },
+        {
+            "crewmateWord": "Munich",
+            "imposterWord": "Argo"
+        },
+        {
+            "crewmateWord": "Million Dollar Baby",
+            "imposterWord": "Rocky"
+        },
+        {
+            "crewmateWord": "The Aviator",
+            "imposterWord": "Catch Me If You Can"
+        },
+        {
+            "crewmateWord": "Finding Neverland",
+            "imposterWord": "Saving Mr. Banks"
+        },
+        {
+            "crewmateWord": "Ray",
+            "imposterWord": "Walk the Line"
+        },
+        {
+            "crewmateWord": "Lord of the Rings: Return of the King",
+            "imposterWord": "The Hobbit"
+        },
+        {
+            "crewmateWord": "Lost in Translation",
+            "imposterWord": "Her"
+        },
+        {
+            "crewmateWord": "Master and Commander",
+            "imposterWord": "Pirates of the Caribbean"
+        },
+        {
+            "crewmateWord": "Seabiscuit",
+            "imposterWord": "Secretariat"
+        },
+        {
+            "crewmateWord": "Chicago",
+            "imposterWord": "Burlesque"
+        },
+        {
+            "crewmateWord": "Gangs of New York",
+            "imposterWord": "The Departed"
+        },
+        {
+            "crewmateWord": "The Hours",
+            "imposterWord": "The Notes on a Scandal"
+        },
+        {
+            "crewmateWord": "The Pianist",
+            "imposterWord": "Schindler's List"
+        },
+        {
+            "crewmateWord": "Gosford Park",
+            "imposterWord": "Downton Abbey"
+        },
+        {
+            "crewmateWord": "In the Bedroom",
+            "imposterWord": "Mystic River"
+        },
+        {
+            "crewmateWord": "Moulin Rouge!",
+            "imposterWord": "The Greatest Showman"
+        },
+        {
+            "crewmateWord": "Crouching Tiger, Hidden Dragon",
+            "imposterWord": "Kung Fu Hustle"
+        },
+        {
+            "crewmateWord": "Erin Brockovich",
+            "imposterWord": "Norma Rae"
+        },
+        {
+            "crewmateWord": "Traffic",
+            "imposterWord": "Sicario"
+        },
+        {
+            "crewmateWord": "Chocolat",
+            "imposterWord": "Amélie"
+        },
+        {
+            "crewmateWord": "American Beauty",
+            "imposterWord": "Fight Club"
+        },
+        {
+            "crewmateWord": "The Sixth Sense",
+            "imposterWord": "The Others"
+        },
+        {
+            "crewmateWord": "The Green Mile",
+            "imposterWord": "The Shawshank Redemption"
+        },
+        {
+            "crewmateWord": "The Insider",
+            "imposterWord": "Spotlight"
+        },
+        {
+            "crewmateWord": "Shakespeare in Love",
+            "imposterWord": "Romeo + Juliet"
+        },
+        {
+            "crewmateWord": "Saving Private Ryan",
+            "imposterWord": "Platoon"
+        },
+        {
+            "crewmateWord": "Elizabeth",
+            "imposterWord": "Mary Queen of Scots"
+        },
+        {
+            "crewmateWord": "The Thin Red Line",
+            "imposterWord": "Apocalypse Now"
+        },
+        {
+            "crewmateWord": "Good Will Hunting",
+            "imposterWord": "Dead Poets Society"
+        },
+        {
+            "crewmateWord": "As Good as It Gets",
+            "imposterWord": "Something's Gotta Give"
+        },
+        {
+            "crewmateWord": "The Full Monty",
+            "imposterWord": "Magic Mike"
+        },
+        {
+            "crewmateWord": "L.A. Confidential",
+            "imposterWord": "Chinatown"
+        },
+        {
+            "crewmateWord": "The English Patient",
+            "imposterWord": "Out of Africa"
+        },
+        {
+            "crewmateWord": "Jerry Maguire",
+            "imposterWord": "Draft Day"
+        },
+        {
+            "crewmateWord": "Shine",
+            "imposterWord": "Amadeus"
+        },
+        {
+            "crewmateWord": "Secrets & Lies",
+            "imposterWord": "Another Year"
+        },
+        {
+            "crewmateWord": "Apollo 13",
+            "imposterWord": "First Man"
+        },
+        {
+            "crewmateWord": "Babe",
+            "imposterWord": "Charlotte's Web"
+        },
+        {
+            "crewmateWord": "Sense and Sensibility",
+            "imposterWord": "Pride & Prejudice"
+        },
+        {
+            "crewmateWord": "The Postman",
+            "imposterWord": "Waterworld"
+        },
+        {
+            "crewmateWord": "Pulp Fiction",
+            "imposterWord": "Reservoir Dogs"
+        },
+        {
+            "crewmateWord": "The Shawshank Redemption",
+            "imposterWord": "The Green Mile"
+        },
+        {
+            "crewmateWord": "Forrest Gump",
+            "imposterWord": "Big Fish"
+        },
+        {
+            "crewmateWord": "Jurassic Park",
+            "imposterWord": "Jurassic World"
+        },
+        {
+            "crewmateWord": "Schindler's List",
+            "imposterWord": "The Pianist"
+        },
+        {
+            "crewmateWord": "The Lion King",
+            "imposterWord": "Madagascar"
+        },
+        {
+            "crewmateWord": "Speed",
+            "imposterWord": "The Bus That Couldn't Slow Down"
+        },
+        {
+            "crewmateWord": "Four Weddings and a Funeral",
+            "imposterWord": "Notting Hill"
+        },
+        {
+            "crewmateWord": "Quiz Show",
+            "imposterWord": "Slumdog Millionaire"
+        },
+        {
+            "crewmateWord": "Ed Wood",
+            "imposterWord": "Disaster Artist"
+        },
+        {
+            "crewmateWord": "Nobody's Fool",
+            "imposterWord": "Grumpy Old Men"
+        },
+        {
+            "crewmateWord": "Unforgiven",
+            "imposterWord": "The Good, the Bad and the Ugly"
+        },
+        {
+            "crewmateWord": "The Crying Game",
+            "imposterWord": "M. Butterfly"
+        },
+        {
+            "crewmateWord": "A Few Good Men",
+            "imposterWord": "Rules of Engagement"
+        },
+        {
+            "crewmateWord": "Howards End",
+            "imposterWord": "A Room with a View"
+        },
+        {
+            "crewmateWord": "Scent of a Woman",
+            "imposterWord": "Dead Poets Society"
+        },
+        {
+            "crewmateWord": "The Silence of the Lambs",
+            "imposterWord": "Se7en"
+        },
+        {
+            "crewmateWord": "Beauty and the Beast",
+            "imposterWord": "Cinderella"
+        },
+        {
+            "crewmateWord": "Bugsy",
+            "imposterWord": "Casino"
+        },
+        {
+            "crewmateWord": "JFK",
+            "imposterWord": "Nixon"
+        },
+        {
+            "crewmateWord": "The Prince of Tides",
+            "imposterWord": "The Fisher King"
+        },
+        {
+            "crewmateWord": "Dances with Wolves",
+            "imposterWord": "The Last of the Mohicans"
+        },
+        {
+            "crewmateWord": "Awakenings",
+            "imposterWord": "Patch Adams"
+        },
+        {
+            "crewmateWord": "Ghost",
+            "imposterWord": "Casper"
+        },
+        {
+            "crewmateWord": "Goodfellas",
+            "imposterWord": "Casino"
         }
     ]
 }

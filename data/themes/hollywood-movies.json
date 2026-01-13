@@ -122,6 +122,1454 @@
                 "medium": "I'm gonna make him an offer he can't refuse",
                 "high": "The baptism assembly"
             }
+        },
+        {
+            "word": "Oppenheimer",
+            "hints": {
+                "low": "Destroyer of worlds",
+                "medium": "The atomic bomb",
+                "high": "Cillian Murphy physicist"
+            }
+        },
+        {
+            "word": "Barbie",
+            "hints": {
+                "low": "Life in plastic",
+                "medium": "Pink world",
+                "high": "Hi Barbie!"
+            }
+        },
+        {
+            "word": "Dune: Part Two",
+            "hints": {
+                "low": "Sandworms",
+                "medium": "Lisan al Gaib",
+                "high": "Spice of Arrakis"
+            }
+        },
+        {
+            "word": "Top Gun: Maverick",
+            "hints": {
+                "low": "Need for speed",
+                "medium": "Tom Cruise in a jet",
+                "high": "Dogfight mission"
+            }
+        },
+        {
+            "word": "Everything Everywhere All At Once",
+            "hints": {
+                "low": "Googly eyes rock",
+                "medium": "Hot dog fingers",
+                "high": "Multiverse bagel"
+            }
+        },
+        {
+            "word": "The Batman",
+            "hints": {
+                "low": "I am Vengeance",
+                "medium": "Robert Pattinson detective",
+                "high": "Riddler's puzzles"
+            }
+        },
+        {
+            "word": "Spider-Man: No Way Home",
+            "hints": {
+                "low": "Three Spideys",
+                "medium": "Doctor Strange spell",
+                "high": "With great power"
+            }
+        },
+        {
+            "word": "Joker",
+            "hints": {
+                "low": "Staircase dance",
+                "medium": "Send in the clowns",
+                "high": "Joaquin Phoenix laugh"
+            }
+        },
+        {
+            "word": "Avengers: Endgame",
+            "hints": {
+                "low": "Snap your fingers",
+                "medium": "I love you 3000",
+                "high": "Time heist"
+            }
+        },
+        {
+            "word": "Black Panther",
+            "hints": {
+                "low": "Wakanda Forever",
+                "medium": "Vibranium suit",
+                "high": "T'Challa vs Killmonger"
+            }
+        },
+        {
+            "word": "La La Land",
+            "hints": {
+                "low": "City of Stars",
+                "medium": "Jazz pianist and actress",
+                "high": "Dancing in observatory"
+            }
+        },
+        {
+            "word": "Mad Max: Fury Road",
+            "hints": {
+                "low": "Shiny and chrome",
+                "medium": "Guitar flamethrower",
+                "high": "Furiosa's escape"
+            }
+        },
+        {
+            "word": "The Wolf of Wall Street",
+            "hints": {
+                "low": "Sell me this pen",
+                "medium": "Quaaludes scene",
+                "high": "Jordan Belfort money"
+            }
+        },
+        {
+            "word": "Django Unchained",
+            "hints": {
+                "low": "The D is silent",
+                "medium": "Bounty hunter dentist",
+                "high": "Candieland plantation"
+            }
+        },
+        {
+            "word": "Whiplash",
+            "hints": {
+                "low": "Not my tempo",
+                "medium": "Bleeding hands on drums",
+                "high": "Abusive jazz conductor"
+            }
+        },
+        {
+            "word": "Get Out",
+            "hints": {
+                "low": "Teacup spoon sound",
+                "medium": "The Sunken Place",
+                "high": "Brain transplant cult"
+            }
+        },
+        {
+            "word": "Hereditary",
+            "hints": {
+                "low": "A clicking sound",
+                "medium": "Head out the car window",
+                "high": "Paimon cult"
+            }
+        },
+        {
+            "word": "Midsommar",
+            "hints": {
+                "low": "Flower crown crying",
+                "medium": "Bear in a fire",
+                "high": "Swedish cult festival"
+            }
+        },
+        {
+            "word": "Knives Out",
+            "hints": {
+                "low": "Doughnut hole within a doughnut",
+                "medium": "Benoit Blanc detective",
+                "high": "Thrombey family inheritance"
+            }
+        },
+        {
+            "word": "A Quiet Place",
+            "hints": {
+                "low": "Don't make a sound",
+                "medium": "Walking on sand paths",
+                "high": "Monsters hear everything"
+            }
+        },
+        {
+            "word": "Coco",
+            "hints": {
+                "low": "Remember Me",
+                "medium": "Land of the Dead",
+                "high": "Guitar stealing boy"
+            }
+        },
+        {
+            "word": "Inside Out",
+            "hints": {
+                "low": "Core memories",
+                "medium": "Joy and Sadness",
+                "high": "Bing Bong fades away"
+            }
+        },
+        {
+            "word": "Moana",
+            "hints": {
+                "low": "How far I'll go",
+                "medium": "Maui the demigod",
+                "high": "Restoring the heart"
+            }
+        },
+        {
+            "word": "Frozen",
+            "hints": {
+                "low": "Let it go",
+                "medium": "Snowman named Olaf",
+                "high": "Ice powers sister"
+            }
+        },
+        {
+            "word": "Zootopia",
+            "hints": {
+                "low": "Sloth at DMV",
+                "medium": "A fox and a bunny cop",
+                "high": "Predators go savage"
+            }
+        },
+        {
+            "word": "Poor Things",
+            "hints": {
+                "low": "Frankenstein woman",
+                "medium": "Bella Baxter",
+                "high": "Emma Stone baby brain"
+            }
+        },
+        {
+            "word": "Killers of the Flower Moon",
+            "hints": {
+                "low": "Osage oil murders",
+                "medium": "Leo and De Niro",
+                "high": "Poisoning insulin"
+            }
+        },
+        {
+            "word": "Elvis",
+            "hints": {
+                "low": "The King of Rock",
+                "medium": "Austin Butler hips",
+                "high": "Colonel Tom Parker"
+            }
+        },
+        {
+            "word": "The Whale",
+            "hints": {
+                "low": "600 pound teacher",
+                "medium": "Brendan Fraser comeback",
+                "high": "Reconnect with daughter"
+            }
+        },
+        {
+            "word": "Tár",
+            "hints": {
+                "low": "Female conductor",
+                "medium": "Mahler's 5th symphony",
+                "high": "Cancel culture fall"
+            }
+        },
+        {
+            "word": "The Banshees of Inisherin",
+            "hints": {
+                "low": "Cutting off fingers",
+                "medium": "Donkey named Jenny",
+                "high": "Irish friends breakup"
+            }
+        },
+        {
+            "word": "Triangle of Sadness",
+            "hints": {
+                "low": "Vomiting on a yacht",
+                "medium": "Rich people stranded",
+                "high": "Cleaner becomes captain"
+            }
+        },
+        {
+            "word": "All Quiet on the Western Front",
+            "hints": {
+                "low": "WWI trenches",
+                "medium": "German soldiers perspective",
+                "high": "Anti-war tragedy"
+            }
+        },
+        {
+            "word": "CODA",
+            "hints": {
+                "low": "Deaf family hearing daughter",
+                "medium": "Singing audition",
+                "high": "Fishermen sign language"
+            }
+        },
+        {
+            "word": "King Richard",
+            "hints": {
+                "low": "Tennis sisters father",
+                "medium": "Venus and Serena",
+                "high": "Will Smith slap movie"
+            }
+        },
+        {
+            "word": "Don't Look Up",
+            "hints": {
+                "low": "Comet hitting Earth",
+                "medium": "Look up challenge",
+                "high": "Satire on denial"
+            }
+        },
+        {
+            "word": "Power of the Dog",
+            "hints": {
+                "low": "Cowboy with banjo",
+                "medium": "Paper flowers",
+                "high": "Anthrax infection"
+            }
+        },
+        {
+            "word": "Nomadland",
+            "hints": {
+                "low": "Living in a van",
+                "medium": "Amazon warehouse work",
+                "high": "Modern American nomad"
+            }
+        },
+        {
+            "word": "Minari",
+            "hints": {
+                "low": "Korean family in Arkansas",
+                "medium": "Grandma plants seeds",
+                "high": "Mountain water veg"
+            }
+        },
+        {
+            "word": "Sound of Metal",
+            "hints": {
+                "low": "Drummer loses hearing",
+                "medium": "Cochlear implants",
+                "high": "Choosing silence"
+            }
+        },
+        {
+            "word": "Promising Young Woman",
+            "hints": {
+                "low": "Nurse revenge",
+                "medium": "Pretending to be drunk",
+                "high": "Nurse costume stripper"
+            }
+        },
+        {
+            "word": "The Father",
+            "hints": {
+                "low": "Dementia confusion",
+                "medium": "Anthony Hopkins watch",
+                "high": "Losing his leaves"
+            }
+        },
+        {
+            "word": "Judas and the Black Messiah",
+            "hints": {
+                "low": "Black Panthers leader",
+                "medium": "FBI informant betrayal",
+                "high": "Fred Hampton murder"
+            }
+        },
+        {
+            "word": "1917",
+            "hints": {
+                "low": "Result of one shot",
+                "medium": "Message across enemy lines",
+                "high": "WWI continuous take"
+            }
+        },
+        {
+            "word": "Jojo Rabbit",
+            "hints": {
+                "low": "Imaginary friend Hitler",
+                "medium": "Nazi youth boy",
+                "high": "Shoes hanging in square"
+            }
+        },
+        {
+            "word": "Marriage Story",
+            "hints": {
+                "low": "Divorce lawyers",
+                "medium": "Kylo Ren punches wall",
+                "high": "Scarlett Johansson crying"
+            }
+        },
+        {
+            "word": "Little Women",
+            "hints": {
+                "low": "March sisters",
+                "medium": "Writing a book in attic",
+                "high": "Jo and Laurie"
+            }
+        },
+        {
+            "word": "The Irishman",
+            "hints": {
+                "low": "Painting houses",
+                "medium": "De-aged De Niro",
+                "high": "Jimmy Hoffa disappearance"
+            }
+        },
+        {
+            "word": "Ford v Ferrari",
+            "hints": {
+                "low": "Le Mans 24 hour race",
+                "medium": "Shelby and Miles",
+                "high": "Building a race car"
+            }
+        },
+        {
+            "word": "Once Upon a Time in Hollywood",
+            "hints": {
+                "low": "Actor and stunt double",
+                "medium": "Manson family attack",
+                "high": "Flamethrower in pool"
+            }
+        },
+        {
+            "word": "Green Book",
+            "hints": {
+                "low": "Black pianist white driver",
+                "medium": "Fried chicken in car",
+                "high": "Tour of deep south"
+            }
+        },
+        {
+            "word": "Roma",
+            "hints": {
+                "low": "Black and white Mexico",
+                "medium": "Maid saves children",
+                "high": "Plane reflection in water"
+            }
+        },
+        {
+            "word": "A Star Is Born",
+            "hints": {
+                "low": "Shallow song",
+                "medium": "Lady Gaga and Bradley Cooper",
+                "high": "Singer rises star falls"
+            }
+        },
+        {
+            "word": "The Favourite",
+            "hints": {
+                "low": "Queen Anne's bunnies",
+                "medium": "Cousins fighting for favor",
+                "high": "Mud bath treatment"
+            }
+        },
+        {
+            "word": "Bohemian Rhapsody",
+            "hints": {
+                "low": "Freddie Mercury biopic",
+                "medium": "Live Aid concert",
+                "high": "Queen band story"
+            }
+        },
+        {
+            "word": "BlacKkKlansman",
+            "hints": {
+                "low": "Black cop joins KKK",
+                "medium": "Phone call voice",
+                "high": "David Duke meeting"
+            }
+        },
+        {
+            "word": "Vice",
+            "hints": {
+                "low": "Dick Cheney biopic",
+                "medium": "Heart attack grill",
+                "high": "Powerful Vice President"
+            }
+        },
+        {
+            "word": "Shape of Water",
+            "hints": {
+                "low": "Fish man romance",
+                "medium": "Mute cleaner woman",
+                "high": "Boiled eggs gift"
+            }
+        },
+        {
+            "word": "Three Billboards",
+            "hints": {
+                "low": "Red signs with text",
+                "medium": "Mother demands justice",
+                "high": "Police station fire"
+            }
+        },
+        {
+            "word": "Lady Bird",
+            "hints": {
+                "low": "Sacramento teen",
+                "medium": "Jumping out of car",
+                "high": "Greta Gerwig director"
+            }
+        },
+        {
+            "word": "Call Me by Your Name",
+            "hints": {
+                "low": "Peach scene",
+                "medium": "Summer in Italy 80s",
+                "high": "Elio and Oliver"
+            }
+        },
+        {
+            "word": "Dunkirk",
+            "hints": {
+                "low": "Beach evacuation",
+                "medium": "Soldiers waiting for boats",
+                "high": "Tick tock soundtrack"
+            }
+        },
+        {
+            "word": "Get Out",
+            "hints": {
+                "low": "Meeting the girlfriend's parents",
+                "medium": "Hypnosis with spoon",
+                "high": "Flash photography saves"
+            }
+        },
+        {
+            "word": "Moonlight",
+            "hints": {
+                "low": "Blue light on skin",
+                "medium": "Little, Chiron, Black",
+                "high": "Gay black man growing up"
+            }
+        },
+        {
+            "word": "Manchester by the Sea",
+            "hints": {
+                "low": "Janitor becomes guardian",
+                "medium": "House fire tragedy",
+                "high": "Casey Affleck grief"
+            }
+        },
+        {
+            "word": "Fences",
+            "hints": {
+                "low": "Building a fence in backyard",
+                "medium": "Denzel Washington baseball",
+                "high": "August Wilson play"
+            }
+        },
+        {
+            "word": "Arrival",
+            "hints": {
+                "low": "Circular alien language",
+                "medium": "Heptapods ships",
+                "high": "Time is non-linear"
+            }
+        },
+        {
+            "word": "Hidden Figures",
+            "hints": {
+                "low": "NASA black women computers",
+                "medium": "John Glenn orbit",
+                "high": "Bathroom sign smashed"
+            }
+        },
+        {
+            "word": "Lion",
+            "hints": {
+                "low": "Lost on a train in India",
+                "medium": "Google Earth search home",
+                "high": "Saroo Brierley true story"
+            }
+        },
+        {
+            "word": "Hacksaw Ridge",
+            "hints": {
+                "low": "Pacifist soldier medic",
+                "medium": "Rope ladder cliff",
+                "high": "Lord help me get one more"
+            }
+        },
+        {
+            "word": "Spotlight",
+            "hints": {
+                "low": "Journalists expose church",
+                "medium": "Boston Globe team",
+                "high": "Priest scandal investigation"
+            }
+        },
+        {
+            "word": "The Revenant",
+            "hints": {
+                "low": "Bear attack survival",
+                "medium": "Sleeping inside a horse",
+                "high": "Leo finally gets Oscar"
+            }
+        },
+        {
+            "word": "The Martian",
+            "hints": {
+                "low": "Growing potatoes on Mars",
+                "medium": "Bring him home",
+                "high": "Science the shit out of this"
+            }
+        },
+        {
+            "word": "Room",
+            "hints": {
+                "low": "Mother and son captive",
+                "medium": "Old Nick the kidnapper",
+                "high": "Escape rolled in rug"
+            }
+        },
+        {
+            "word": "Brooklyn",
+            "hints": {
+                "low": "Irish immigrant in NY",
+                "medium": "Tony the plumber",
+                "high": "Homesickness vs Love"
+            }
+        },
+        {
+            "word": "Bridge of Spies",
+            "hints": {
+                "low": "Cold War prisoner exchange",
+                "medium": "Tom Hanks lawyer",
+                "high": "Standing man"
+            }
+        },
+        {
+            "word": "The Big Short",
+            "hints": {
+                "low": "Housing market crash",
+                "medium": "Margot Robbie in bubble bath",
+                "high": "Betting against economy"
+            }
+        },
+        {
+            "word": "Birdman",
+            "hints": {
+                "low": "Washed up superhero actor",
+                "medium": "One continuous shot feel",
+                "high": "Broadway play adaptation"
+            }
+        },
+        {
+            "word": "Boyhood",
+            "hints": {
+                "low": "Filmed over 12 years",
+                "medium": "Growing up real time",
+                "high": "Mason's life stages"
+            }
+        },
+        {
+            "word": "The Grand Budapest Hotel",
+            "hints": {
+                "low": "Pink hotel aesthetic",
+                "medium": "Concierge Gustave H",
+                "high": "Boy with apple painting"
+            }
+        },
+        {
+            "word": "The Imitation Game",
+            "hints": {
+                "low": "Enigma machine breaker",
+                "medium": "Alan Turing biopic",
+                "high": "Crossword puzzle rectruitment"
+            }
+        },
+        {
+            "word": "American Sniper",
+            "hints": {
+                "low": "Chris Kyle Navy SEAL",
+                "medium": "Most lethal sniper",
+                "high": "Rooftop shooting"
+            }
+        },
+        {
+            "word": "The Theory of Everything",
+            "hints": {
+                "low": "Stephen Hawking biopic",
+                "medium": "Black hole scientist",
+                "high": "ALS diagnosis struggle"
+            }
+        },
+        {
+            "word": "Selma",
+            "hints": {
+                "low": "MLK protest march",
+                "medium": "Civil rights bridge",
+                "high": "Voting rights act"
+            }
+        },
+        {
+            "word": "12 Years a Slave",
+            "hints": {
+                "low": "Free man kidnapped",
+                "medium": "Solomon Northup",
+                "high": "Cotton plantation cruelty"
+            }
+        },
+        {
+            "word": "Gravity",
+            "hints": {
+                "low": "Lost in space debris",
+                "medium": "Sandra Bullock floating",
+                "high": "Don't let go"
+            }
+        },
+        {
+            "word": "Captain Phillips",
+            "hints": {
+                "low": "I am the captain now",
+                "medium": "Somali pirates hijack",
+                "high": "Cargo ship hostage"
+            }
+        },
+        {
+            "word": "Dallas Buyers Club",
+            "hints": {
+                "low": "AIDS medication smuggling",
+                "medium": "Ron Woodroof rodeo",
+                "high": "McConaughey extreme weight loss"
+            }
+        },
+        {
+            "word": "Her",
+            "hints": {
+                "low": "Falling in love with OS",
+                "medium": "Samantha the AI",
+                "high": "High waisted pants future"
+            }
+        },
+        {
+            "word": "Nebraska",
+            "hints": {
+                "low": "Million dollar sweepstakes scam",
+                "medium": "Black and white road trip",
+                "high": "Father and son journey"
+            }
+        },
+        {
+            "word": "Argo",
+            "hints": {
+                "low": "Fake movie to save hostages",
+                "medium": "CIA extraction Iran",
+                "high": "Argo fuck yourself"
+            }
+        },
+        {
+            "word": "Les Misérables",
+            "hints": {
+                "low": "Jean Valjean prisoner 24601",
+                "medium": "Singing live on set",
+                "high": "French revolution barricade"
+            }
+        },
+        {
+            "word": "Life of Pi",
+            "hints": {
+                "low": "Tiger on a lifeboat",
+                "medium": "Richard Parker",
+                "high": "Shipwreck survivor zoo"
+            }
+        },
+        {
+            "word": "Lincoln",
+            "hints": {
+                "low": "Abe's top hat",
+                "medium": "Removing slavery amendment",
+                "high": "Daniel Day-Lewis method"
+            }
+        },
+        {
+            "word": "Silver Linings Playbook",
+            "hints": {
+                "low": "Dance competition therapy",
+                "medium": "Bipolar disorder romance",
+                "high": "Excelsior"
+            }
+        },
+        {
+            "word": "Zero Dark Thirty",
+            "hints": {
+                "low": "Bin Laden raid",
+                "medium": "CIA analyst Maya",
+                "high": "Navy SEALS night vision"
+            }
+        },
+        {
+            "word": "The Artist",
+            "hints": {
+                "low": "Silent black and white movie",
+                "medium": "Dog saves the actor",
+                "high": "Talkies take over"
+            }
+        },
+        {
+            "word": "The Descendants",
+            "hints": {
+                "low": "Hawaii land trust",
+                "medium": "Wife in coma",
+                "high": "George Clooney flip flops"
+            }
+        },
+        {
+            "word": "Hugo",
+            "hints": {
+                "low": "Automaton in train station",
+                "medium": "Clock tower boy",
+                "high": "Georges Méliès movies"
+            }
+        },
+        {
+            "word": "Midnight in Paris",
+            "hints": {
+                "low": "Time travel car at midnight",
+                "medium": "Hemingway and Dali meet",
+                "high": "Nostalgia writer"
+            }
+        },
+        {
+            "word": "Moneyball",
+            "hints": {
+                "low": "Statistics in baseball",
+                "medium": "Oakland A's winning streak",
+                "high": "Brad Pitt manager"
+            }
+        },
+        {
+            "word": "War Horse",
+            "hints": {
+                "low": "Horse in WWI",
+                "medium": "Steven Spielberg epic",
+                "high": "Joey the horse journey"
+            }
+        },
+        {
+            "word": "The King's Speech",
+            "hints": {
+                "low": "Stuttering monarch",
+                "medium": "Speech therapist Logue",
+                "high": "King George VI radio"
+            }
+        },
+        {
+            "word": "Black Swan",
+            "hints": {
+                "low": "Ballerina goes mad",
+                "medium": "Feathers growing on skin",
+                "high": "White swan vs Black swan"
+            }
+        },
+        {
+            "word": "The Fighter",
+            "hints": {
+                "low": "Boxer brothers",
+                "medium": "Mark Wahlberg and Christian Bale",
+                "high": "Crack addict trainer"
+            }
+        },
+        {
+            "word": "The Social Network",
+            "hints": {
+                "low": "Facebook creation",
+                "medium": "Mark Zuckerberg coding",
+                "high": "You don't get to 500 million friends"
+            }
+        },
+        {
+            "word": "Toy Story 3",
+            "hints": {
+                "low": "Toys in incinerator",
+                "medium": "Sunnyside daycare bear",
+                "high": "Andy goes to college"
+            }
+        },
+        {
+            "word": "True Grit",
+            "hints": {
+                "low": "Eye patch Marshal",
+                "medium": "Girl seeks father's killer",
+                "high": "Rooster Cogburn"
+            }
+        },
+        {
+            "word": "Winter's Bone",
+            "hints": {
+                "low": "Jennifer Lawrence breakout",
+                "medium": "Meth labs in Ozarks",
+                "high": "Finding missing father"
+            }
+        },
+        {
+            "word": "The Hurt Locker",
+            "hints": {
+                "low": "Bomb disposal Iraq",
+                "medium": "Adrenaline addiction",
+                "high": "Jeremy Renner suit"
+            }
+        },
+        {
+            "word": "Inglourious Basterds",
+            "hints": {
+                "low": "Scalping Nazis",
+                "medium": "Bear Jew baseball bat",
+                "high": "Cinema fire plot"
+            }
+        },
+        {
+            "word": "Precious",
+            "hints": {
+                "low": "Abused teenager pregnant",
+                "medium": "Teacher Ms. Rain",
+                "high": "Stealing bucket of chicken"
+            }
+        },
+        {
+            "word": "Up",
+            "hints": {
+                "low": "House lifted by balloons",
+                "medium": "Old man and boy scout",
+                "high": "Squirrel! Dug the dog"
+            }
+        },
+        {
+            "word": "District 9",
+            "hints": {
+                "low": "Prawn aliens in slums",
+                "medium": "Johannesburg apartheid allegory",
+                "high": "Man turns into alien"
+            }
+        },
+        {
+            "word": "Slumdog Millionaire",
+            "hints": {
+                "low": "Who Wants to be a Millionaire",
+                "medium": "Call center chai wala",
+                "high": "Jai Ho dance"
+            }
+        },
+        {
+            "word": "The Curious Case of Benjamin Button",
+            "hints": {
+                "low": "Aging backwards",
+                "medium": "Old baby",
+                "high": "Brad Pitt reverse age"
+            }
+        },
+        {
+            "word": "Frost/Nixon",
+            "hints": {
+                "low": "Presidential interview",
+                "medium": "Watergate confession",
+                "high": "I didn't break the law"
+            }
+        },
+        {
+            "word": "Milk",
+            "hints": {
+                "low": "Gay rights activist Mayor",
+                "medium": "Sean Penn biopic",
+                "high": "Assassination in City Hall"
+            }
+        },
+        {
+            "word": "The Reader",
+            "hints": {
+                "low": "Boy reads to older woman",
+                "medium": "Holocaust guard trial",
+                "high": "Illiteracy secret"
+            }
+        },
+        {
+            "word": "No Country for Old Men",
+            "hints": {
+                "low": "Cattle gun killer",
+                "medium": "Coin toss for life",
+                "high": "Bowl cut villain"
+            }
+        },
+        {
+            "word": "Atonement",
+            "hints": {
+                "low": "Child's lie destroys lives",
+                "medium": "Green dress library",
+                "high": "Dunkirk tracking shot"
+            }
+        },
+        {
+            "word": "Juno",
+            "hints": {
+                "low": "Hamburger phone",
+                "medium": "Pregnant teen",
+                "high": "Orange tic tacs"
+            }
+        },
+        {
+            "word": "Michael Clayton",
+            "hints": {
+                "low": "Law firm fixer",
+                "medium": "Car bomb escape",
+                "high": "George Clooney lawyer"
+            }
+        },
+        {
+            "word": "There Will Be Blood",
+            "hints": {
+                "low": "I drink your milkshake",
+                "medium": "Oil prospector greed",
+                "high": "Daniel Plainview"
+            }
+        },
+        {
+            "word": "The Departed",
+            "hints": {
+                "low": "Rat in the police",
+                "medium": "Boston mob undercover",
+                "high": "Everyone dies in elevator"
+            }
+        },
+        {
+            "word": "Babel",
+            "hints": {
+                "low": "Rifle shot connects stories",
+                "medium": "Brad Pitt in Morocco",
+                "high": "Deaf girl in Tokyo"
+            }
+        },
+        {
+            "word": "Letters from Iwo Jima",
+            "hints": {
+                "low": "WWII Japanese perspective",
+                "medium": "Clint Eastwood director",
+                "high": "Island defense tunnels"
+            }
+        },
+        {
+            "word": "Little Miss Sunshine",
+            "hints": {
+                "low": "Yellow VW bus push",
+                "medium": "Child beauty pageant",
+                "high": "Super Freak dance"
+            }
+        },
+        {
+            "word": "The Queen",
+            "hints": {
+                "low": "Diana's death reaction",
+                "medium": "Helen Mirren as Elizabeth",
+                "high": "Stag in the forest"
+            }
+        },
+        {
+            "word": "Crash",
+            "hints": {
+                "low": "LA race relations",
+                "medium": "Car accidents connect people",
+                "high": "Controversial Best Picture"
+            }
+        },
+        {
+            "word": "Brokeback Mountain",
+            "hints": {
+                "low": "Cowboys in a tent",
+                "medium": "I wish I knew how to quit you",
+                "high": "Shirt inside a shirt"
+            }
+        },
+        {
+            "word": "Capote",
+            "hints": {
+                "low": "In Cold Blood writer",
+                "medium": "Philip Seymour Hoffman",
+                "high": "Interviewing killers"
+            }
+        },
+        {
+            "word": "Good Night, and Good Luck",
+            "hints": {
+                "low": "Black and white newsroom",
+                "medium": "Murrow vs McCarthy",
+                "high": "Smoking on TV"
+            }
+        },
+        {
+            "word": "Munich",
+            "hints": {
+                "low": "Post-Olympic revenge",
+                "medium": "Mossad agents hunt",
+                "high": "Steven Spielberg thriller"
+            }
+        },
+        {
+            "word": "Million Dollar Baby",
+            "hints": {
+                "low": "Female boxer tragedy",
+                "medium": "Mo Cuishle",
+                "high": "Clint Eastwood trainer"
+            }
+        },
+        {
+            "word": "The Aviator",
+            "hints": {
+                "low": "Howard Hughes OCD",
+                "medium": "Building big planes",
+                "high": "Spruce Goose flight"
+            }
+        },
+        {
+            "word": "Finding Neverland",
+            "hints": {
+                "low": "Peter Pan creator",
+                "medium": "Johnny Depp as playwright",
+                "high": "Bench in the park"
+            }
+        },
+        {
+            "word": "Ray",
+            "hints": {
+                "low": "Blind piano genius",
+                "medium": "Jamie Foxx as Ray Charles",
+                "high": "Hit the road Jack"
+            }
+        },
+        {
+            "word": "Sideways",
+            "hints": {
+                "low": "No fucking Merlot",
+                "medium": "Wine tasting trip",
+                "high": "Pinot Noir obsessed"
+            }
+        },
+        {
+            "word": "Lord of the Rings: Return of the King",
+            "hints": {
+                "low": "Throw ring in volcano",
+                "medium": "Aragorn crowned",
+                "high": "Eagles are coming"
+            }
+        },
+        {
+            "word": "Lost in Translation",
+            "hints": {
+                "low": "Whiskey commercial Tokyo",
+                "medium": "Pink wig karaoke",
+                "high": "Whisper in ear ending"
+            }
+        },
+        {
+            "word": "Master and Commander",
+            "hints": {
+                "low": "Napoleonic ship battle",
+                "medium": "Russell Crowe captain",
+                "high": "Galapagos islands insects"
+            }
+        },
+        {
+            "word": "Mystic River",
+            "hints": {
+                "low": "Three childhood friends tragedy",
+                "medium": "Is that my daughter in there?",
+                "high": "Sean Penn grief"
+            }
+        },
+        {
+            "word": "Seabiscuit",
+            "hints": {
+                "low": "Small horse winning",
+                "medium": "Jockey Tobey Maguire",
+                "high": "Depression era hope"
+            }
+        },
+        {
+            "word": "Chicago",
+            "hints": {
+                "low": "Murderess musical",
+                "medium": "Cell block tango",
+                "high": "All that jazz"
+            }
+        },
+        {
+            "word": "Gangs of New York",
+            "hints": {
+                "low": "Bill the Butcher",
+                "medium": "Five Points battle",
+                "high": "Daniel Day-Lewis knife"
+            }
+        },
+        {
+            "word": "The Hours",
+            "hints": {
+                "low": "Virginia Woolf nose",
+                "medium": "Mrs. Dalloway connection",
+                "high": "Three women different times"
+            }
+        },
+        {
+            "word": "The Pianist",
+            "hints": {
+                "low": "Playing piano for Nazi",
+                "medium": "Warsaw ghetto survival",
+                "high": "Adrien Brody starving"
+            }
+        },
+        {
+            "word": "Lord of the Rings: The Two Towers",
+            "hints": {
+                "low": "Battle of Helm's Deep",
+                "medium": "Gollum and Smeagol debate",
+                "high": "Ents attack Isengard"
+            }
+        },
+        {
+            "word": "A Beautiful Mind",
+            "hints": {
+                "low": "Schizophrenic mathematician",
+                "medium": "John Nash game theory",
+                "high": "Pens ceremony"
+            }
+        },
+        {
+            "word": "Gosford Park",
+            "hints": {
+                "low": "English manor murder",
+                "medium": "Upstairs downstairs mystery",
+                "high": "Maggie Smith Countess"
+            }
+        },
+        {
+            "word": "In the Bedroom",
+            "hints": {
+                "low": "Son killed by girlfriend's ex",
+                "medium": "Lobster fisherman revenge",
+                "high": "Parents grief"
+            }
+        },
+        {
+            "word": "Lord of the Rings: Fellowship of the Ring",
+            "hints": {
+                "low": "You shall not pass",
+                "medium": "Nine companions set out",
+                "high": "One ring to rule them all"
+            }
+        },
+        {
+            "word": "Moulin Rouge!",
+            "hints": {
+                "low": "Windmill cabaret",
+                "medium": "Nicole Kidman courtesan",
+                "high": "Elephant room song"
+            }
+        },
+        {
+            "word": "Crouching Tiger, Hidden Dragon",
+            "hints": {
+                "low": "Flying sword fights",
+                "medium": "Green Destiny sword",
+                "high": "Bamboo forest battle"
+            }
+        },
+        {
+            "word": "Erin Brockovich",
+            "hints": {
+                "low": "Polluted water lawsuit",
+                "medium": "Julia Roberts legal aide",
+                "high": "Hexavalent Chromium"
+            }
+        },
+        {
+            "word": "Traffic",
+            "hints": {
+                "low": "Drug war different colors",
+                "medium": "Judge's addicted daughter",
+                "high": "Mexico border smuggling"
+            }
+        },
+        {
+            "word": "Chocolat",
+            "hints": {
+                "low": "Chocolate shop in village",
+                "medium": "Johnny Depp gypsy",
+                "high": "Vianne tempts lent"
+            }
+        },
+        {
+            "word": "American Beauty",
+            "hints": {
+                "low": "Rose petals fantasy",
+                "medium": "Plastic bag in wind",
+                "high": "Look closer"
+            }
+        },
+        {
+            "word": "The Sixth Sense",
+            "hints": {
+                "low": "I see dead people",
+                "medium": "Bruce Willis ghost",
+                "high": "The red doorknob"
+            }
+        },
+        {
+            "word": "The Green Mile",
+            "hints": {
+                "low": "Giant healer prisoner",
+                "medium": "John Coffey",
+                "high": "Electric chair tragedy"
+            }
+        },
+        {
+            "word": "The Insider",
+            "hints": {
+                "low": "Tobacco whistleblower",
+                "medium": "60 Minutes interview",
+                "high": "Russell Crowe chemist"
+            }
+        },
+        {
+            "word": "Shakespeare in Love",
+            "hints": {
+                "low": "Romeo and Juliet inspiration",
+                "medium": "Playwright writer's block",
+                "high": "Girl dressed as boy actor"
+            }
+        },
+        {
+            "word": "Saving Private Ryan",
+            "hints": {
+                "low": "Storming Omaha Beach",
+                "medium": "Searching for last brother",
+                "high": "Earn this"
+            }
+        },
+        {
+            "word": "Life Is Beautiful",
+            "hints": {
+                "low": "Concentration camp game",
+                "medium": "Buongiorno Principessa",
+                "high": "Father protects son humor"
+            }
+        },
+        {
+            "word": "Elizabeth",
+            "hints": {
+                "low": "Virgin Queen origin",
+                "medium": "Cate Blanchett ruler",
+                "high": "I am married to England"
+            }
+        },
+        {
+            "word": "The Thin Red Line",
+            "hints": {
+                "low": "WWII Guadalcanal philosophy",
+                "medium": "Tall grass battle",
+                "high": "Malick poetic war"
+            }
+        },
+        {
+            "word": "Good Will Hunting",
+            "hints": {
+                "low": "Janitor math genius",
+                "medium": "It's not your fault",
+                "high": "How do you like them apples"
+            }
+        },
+        {
+            "word": "As Good as It Gets",
+            "hints": {
+                "low": "OCD writer romance",
+                "medium": "Don't step on lines",
+                "high": "You make me want to be better"
+            }
+        },
+        {
+            "word": "The Full Monty",
+            "hints": {
+                "low": "Unemployed steel workers strip",
+                "medium": "You can leave your hat on",
+                "high": "Sheffield strippers"
+            }
+        },
+        {
+            "word": "L.A. Confidential",
+            "hints": {
+                "low": "Rollo Tomasi",
+                "medium": "Corrupt 50s cops",
+                "high": "Hollywood scandal magazine"
+            }
+        },
+        {
+            "word": "The English Patient",
+            "hints": {
+                "low": "Burned man in monastery",
+                "medium": "Affair in the desert",
+                "high": "Cave of Swimmers"
+            }
+        },
+        {
+            "word": "Jerry Maguire",
+            "hints": {
+                "low": "Show me the money",
+                "medium": "You had me at hello",
+                "high": "Sports agent redemption"
+            }
+        },
+        {
+            "word": "Fargo",
+            "hints": {
+                "low": "Wood chipper body",
+                "medium": "Pregnant police chief",
+                "high": "Fake kidnapping wrong"
+            }
+        },
+        {
+            "word": "Shine",
+            "hints": {
+                "low": "Pianist mental breakdown",
+                "medium": "Rach 3 concerto",
+                "high": "Geoffrey Rush tramopline"
+            }
+        },
+        {
+            "word": "Secrets & Lies",
+            "hints": {
+                "low": "Black daughter white mother",
+                "medium": "Mike Leigh improvisation",
+                "high": "Family reunion reveal"
+            }
+        },
+        {
+            "word": "Braveheart",
+            "hints": {
+                "low": "Freedom yell",
+                "medium": "William Wallace kilt",
+                "high": "Blue face paint battle"
+            }
+        },
+        {
+            "word": "Apollo 13",
+            "hints": {
+                "low": "Houston we have a problem",
+                "medium": "Square peg round hole",
+                "high": "Failed moon landing survival"
+            }
+        },
+        {
+            "word": "Babe",
+            "hints": {
+                "low": "Pig thinks it's a dog",
+                "medium": "That'll do pig",
+                "high": "Sheep herding contest"
+            }
+        },
+        {
+            "word": "Sense and Sensibility",
+            "hints": {
+                "low": "Dashwood sisters",
+                "medium": "Jane Austen adaptation",
+                "high": "Emma Thompson screenplay"
+            }
+        },
+        {
+            "word": "The Postman",
+            "hints": {
+                "low": "Delivering mail apocalypse",
+                "medium": "Kevin Costner director",
+                "high": "Restoring united states"
+            }
         }
     ]
 }
