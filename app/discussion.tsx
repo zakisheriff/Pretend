@@ -3,6 +3,7 @@ import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { useKeepAwake } from 'expo-keep-awake';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { BackHandler, StyleSheet, Text, View } from 'react-native';
