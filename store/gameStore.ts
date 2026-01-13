@@ -1,4 +1,4 @@
-import { getRandomMindSyncQuestion, getRandomMovie, getRandomUndercoverWord } from '@/data/game-modes';
+import { getRandomMindSyncQuestion, getRandomMovie } from '@/data/game-modes';
 import { getEffectiveTheme, getEffectiveUndercoverTheme, getRandomWord, getThemeById } from '@/data/themes';
 import { DEFAULT_SETTINGS, GameData, GameMode, GameSettings, GameState, Player, Word } from '@/types/game';
 import { create } from 'zustand';
@@ -188,7 +188,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
             case 'undercover-word': {
                 // For undercover-word, we can use themes OR the new undercover words
                 if (selectedThemeId && selectedThemeId !== 'undercover') {
-                    // Use traditional theme-based word (backward compatible)
                     if (selectedThemeId === 'custom') {
                         if (customWords.length === 0) return;
                         const randomCustomWord = customWords[Math.floor(Math.random() * customWords.length)];
@@ -205,15 +204,35 @@ export const useGameStore = create<GameStore>((set, get) => ({
                         if (!theme) return;
                         selectedWord = getRandomWord(theme);
                     }
+
+                    if (selectedWord) {
+                        gameData = {
+                            type: 'undercover-word',
+                            data: {
+                                crewmateWord: selectedWord.word,
+                                imposterWord: 'IMPOSTER', // This is just a placeholder for Classic mode
+                                category: 'General',
+                                hints: selectedWord.hints
+                            }
+                        };
+                    }
                 } else {
-                    // Use new undercover word pairs
-                    const wordPair = getRandomUndercoverWord();
-                    if (!wordPair) return;
-                    gameData = { type: 'undercover-word', data: wordPair };
-                    selectedWord = {
-                        word: wordPair.mainWord,
-                        hints: wordPair.hints,
-                    };
+                    // Fallback to random theme
+                    const theme = getEffectiveTheme('general');
+                    if (theme) {
+                        selectedWord = getRandomWord(theme);
+                        if (selectedWord) {
+                            gameData = {
+                                type: 'undercover-word',
+                                data: {
+                                    crewmateWord: selectedWord.word,
+                                    imposterWord: 'IMPOSTER',
+                                    category: theme.name,
+                                    hints: selectedWord.hints
+                                }
+                            };
+                        }
+                    }
                 }
                 break;
             }
@@ -235,19 +254,26 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 break;
             }
             case 'classic-imposter': {
-                // Requires a theme to be selected
+                // UI: "Undercover" - Requires paired words
                 if (!selectedThemeId || selectedThemeId === 'custom') return;
                 const theme = getEffectiveUndercoverTheme(selectedThemeId);
                 if (!theme || theme.pairs.length === 0) return;
 
                 // Pick a random pair from the undercover theme
                 const randomPair = theme.pairs[Math.floor(Math.random() * theme.pairs.length)];
-                const crewmateWord = randomPair.crewmateWord;
-                const imposterWord = randomPair.imposterWord;
 
                 gameData = {
                     type: 'classic-imposter',
-                    data: { crewmateWord, imposterWord, themeName: theme.name },
+                    data: {
+                        crewmateWord: randomPair.crewmateWord,
+                        imposterWord: randomPair.imposterWord,
+                        themeName: theme.name
+                    },
+                };
+
+                selectedWord = {
+                    word: randomPair.crewmateWord,
+                    hints: { low: 'Related word', medium: 'Sibling word', high: 'Conceptually similar' }
                 };
                 break;
             }
@@ -436,11 +462,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
                             const theme = getThemeById(selectedThemeId!);
                             if (theme) selectedWord = getRandomWord(theme);
                         }
-                    } else {
-                        const wordPair = getRandomUndercoverWord();
-                        if (wordPair) {
-                            gameData = { type: 'undercover-word', data: wordPair };
-                            selectedWord = { word: wordPair.mainWord, hints: wordPair.hints };
+
+                        if (selectedWord) {
+                            gameData = {
+                                type: 'undercover-word',
+                                data: {
+                                    crewmateWord: selectedWord.word,
+                                    imposterWord: 'IMPOSTER',
+                                    category: 'General',
+                                    hints: selectedWord.hints
+                                }
+                            };
                         }
                     }
                     break;
@@ -452,12 +484,20 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 }
                 case 'classic-imposter': {
                     const themeId = selectedThemeId || 'classic'; // fallback
-                    const theme = getThemeById(themeId === 'undercover' ? 'classic' : themeId);
-                    if (theme && theme.words.length >= 2) {
-                        const shuffled = [...theme.words].sort(() => Math.random() - 0.5);
+                    const theme = getEffectiveUndercoverTheme(themeId);
+                    if (theme && theme.pairs.length > 0) {
+                        const wordPair = theme.pairs[Math.floor(Math.random() * theme.pairs.length)];
                         gameData = {
                             type: 'classic-imposter',
-                            data: { crewmateWord: shuffled[0].word, imposterWord: shuffled[1].word, themeName: theme.name },
+                            data: {
+                                crewmateWord: wordPair.crewmateWord,
+                                imposterWord: wordPair.imposterWord,
+                                themeName: theme.name
+                            },
+                        };
+                        selectedWord = {
+                            word: wordPair.crewmateWord,
+                            hints: { low: 'Related word', medium: 'Sibling word', high: 'Conceptually similar' }
                         };
                     }
                     break;
@@ -526,14 +566,18 @@ export const useGameStore = create<GameStore>((set, get) => ({
                         if (!theme) return;
                         selectedWord = getRandomWord(theme);
                     }
-                } else {
-                    const wordPair = getRandomUndercoverWord();
-                    if (!wordPair) return;
-                    gameData = { type: 'undercover-word', data: wordPair };
-                    selectedWord = {
-                        word: wordPair.mainWord,
-                        hints: wordPair.hints,
-                    };
+
+                    if (selectedWord) {
+                        gameData = {
+                            type: 'undercover-word',
+                            data: {
+                                crewmateWord: selectedWord.word,
+                                imposterWord: 'IMPOSTER',
+                                category: 'General',
+                                hints: selectedWord.hints
+                            }
+                        };
+                    }
                 }
                 break;
             }
@@ -545,16 +589,23 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
             case 'classic-imposter': {
                 if (!selectedThemeId || selectedThemeId === 'custom') return;
-                const theme = getThemeById(selectedThemeId);
-                if (!theme || theme.words.length < 2) return;
+                const theme = getEffectiveUndercoverTheme(selectedThemeId);
+                if (!theme || theme.pairs.length === 0) return;
 
-                const shuffled = [...theme.words].sort(() => Math.random() - 0.5);
-                const crewmateWord = shuffled[0].word;
-                const imposterWord = shuffled[1].word;
+                const randomPair = theme.pairs[Math.floor(Math.random() * theme.pairs.length)];
 
                 gameData = {
                     type: 'classic-imposter',
-                    data: { crewmateWord, imposterWord, themeName: theme.name },
+                    data: {
+                        crewmateWord: randomPair.crewmateWord,
+                        imposterWord: randomPair.imposterWord,
+                        themeName: theme.name
+                    },
+                };
+
+                selectedWord = {
+                    word: randomPair.crewmateWord,
+                    hints: { low: 'Related word', medium: 'Sibling word', high: 'Conceptually similar' }
                 };
                 break;
             }
@@ -624,36 +675,19 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
         switch (gameMode) {
             case 'undercover-word': {
+                // This is the "Classic Imposter" mode where imposter gets a hint
                 if (gameData?.type === 'undercover-word') {
-                    // Using new undercover word pairs
-                    const { mainWord, undercoverWord, hints } = gameData.data;
+                    const { crewmateWord, hints } = gameData.data;
                     if (player.isImposter) {
-                        // Undercover player gets the different word
-                        return {
-                            isImposter: true,
-                            word: undercoverWord,
-                            hint: null,
-                        };
+                        if (settings.hintStrength === 'none') {
+                            return { isImposter: true, word: null, hint: null };
+                        }
+                        const hint = hints[settings.hintStrength] ?? null;
+                        return { isImposter: true, word: null, hint };
                     }
-                    return {
-                        isImposter: false,
-                        word: mainWord,
-                        hint: null,
-                    };
+                    return { isImposter: false, word: crewmateWord, hint: null };
                 }
-                // Fallback to traditional theme-based (imposter gets hint only)
-                if (player.isImposter) {
-                    if (settings.hintStrength === 'none') {
-                        return { isImposter: true, word: null, hint: null };
-                    }
-                    const hint = selectedWord?.hints[settings.hintStrength] ?? null;
-                    return { isImposter: true, word: null, hint };
-                }
-                return {
-                    isImposter: false,
-                    word: selectedWord?.word ?? null,
-                    hint: null,
-                };
+                return { isImposter: false, word: null, hint: null };
             }
 
             case 'directors-cut': {

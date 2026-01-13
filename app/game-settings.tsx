@@ -16,6 +16,9 @@ export default function GameSettingsScreen() {
     const settings = useGameStore((s) => s.settings);
     const updateSettings = useGameStore((s) => s.updateSettings);
     const startGame = useGameStore((s) => s.startGame);
+    const gameMode = useGameStore((s) => s.gameMode);
+    const getModeDisplayInfo = useGameStore((s) => s.getModeDisplayInfo);
+    const { specialRoleName, specialRoleIcon } = getModeDisplayInfo();
 
     const players = useGameStore((s) => s.players);
     const maxSuspects = Math.min(3, Math.max(1, Math.floor(players.length * 0.4)));
@@ -56,21 +59,23 @@ export default function GameSettingsScreen() {
 
                 <View style={styles.settingsGroup}>
                     <GameSetting
-                        label="Suspects"
+                        label={specialRoleName + (specialRoleName.endsWith('s') ? '' : 's')}
                         value={settings.imposterCount}
                         options={Array.from({ length: maxSuspects }, (_, i) => i + 1)}
                         onChange={handleSuspectChange}
-                        icon="skull-outline"
+                        icon={specialRoleIcon + '-outline' as any}
                     />
 
-                    <GameSetting
-                        label="Clue Strength"
-                        value={['none', 'low', 'medium', 'high'].indexOf(settings.hintStrength)}
-                        options={[0, 1, 2, 3]}
-                        formatLabel={(v) => ['None', 'Low', 'Medium', 'High'][v]}
-                        onChange={(v) => { haptics.selection(); updateSettings({ hintStrength: ['none', 'low', 'medium', 'high'][v] as any }); }}
-                        icon="bulb-outline"
-                    />
+                    {gameMode === 'undercover-word' && (
+                        <GameSetting
+                            label="Clue Strength"
+                            value={['none', 'low', 'medium', 'high'].indexOf(settings.hintStrength)}
+                            options={[0, 1, 2, 3]}
+                            formatLabel={(v) => ['None', 'Low', 'Medium', 'High'][v]}
+                            onChange={(v) => { haptics.selection(); updateSettings({ hintStrength: ['none', 'low', 'medium', 'high'][v] as any }); }}
+                            icon="bulb-outline"
+                        />
+                    )}
 
                     <GameSetting
                         label="Investigation Time"

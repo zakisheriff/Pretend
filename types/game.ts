@@ -50,8 +50,8 @@ export interface UndercoverCategory {
 
 // Mode-specific data structures
 export interface UndercoverWordPair {
-    mainWord: string;
-    undercoverWord: string;
+    crewmateWord: string;
+    imposterWord: string;
     category: string;
     hints: WordHints;
 }

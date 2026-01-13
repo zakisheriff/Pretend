@@ -99,20 +99,8 @@ export default function ResultsScreen() {
             case 'undercover-word':
                 if (gameData?.type === 'undercover-word') {
                     return {
-                        label: 'The Words Were',
-                        content: (
-                            <View style={styles.wordCompare}>
-                                <View style={styles.wordBox}>
-                                    <Text style={styles.wordLabel}>Crewmates</Text>
-                                    <Text style={styles.wordTextBig}>{gameData.data.mainWord}</Text>
-                                </View>
-                                <Text style={styles.vsText}>vs</Text>
-                                <View style={[styles.wordBox, styles.wordBoxDanger]}>
-                                    <Text style={styles.wordLabel}>Undercover</Text>
-                                    <Text style={[styles.wordTextBig, styles.dangerText]}>{gameData.data.undercoverWord}</Text>
-                                </View>
-                            </View>
-                        ),
+                        label: 'The Secret Word Was',
+                        content: <Text style={styles.wordText}>{gameData.data.crewmateWord}</Text>,
                     };
                 }
                 return {
@@ -365,8 +353,10 @@ export default function ResultsScreen() {
     );
 }
 
+const NoirColors = Colors;
+
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: Colors.victorianBlack },
+    container: { flex: 1, backgroundColor: NoirColors.victorianBlack },
     scroll: { flex: 1 },
     scrollContent: { flexGrow: 1, padding: 20, gap: 24 },
 
