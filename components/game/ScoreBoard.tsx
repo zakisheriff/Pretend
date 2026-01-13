@@ -57,7 +57,7 @@ export const ScoreBoard = ({ players, title = "Leaderboard" }: ScoreBoardProps) 
 
             <View style={styles.tournamentBanner}>
                 <Ionicons name="flash-outline" size={14} color={Colors.candlelight} />
-                <Text style={styles.tournamentRule}>First to 10 points wins the match!</Text>
+                <Text style={styles.tournamentRule}>First to {WINNING_SCORE} points wins the match!</Text>
             </View>
 
             <View style={styles.list}>

@@ -650,7 +650,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         });
 
         // Check for overall winner (first to 10)
-        const WINNING_SCORE = 2;
+        const WINNING_SCORE = 10;
         const winner = updatedPlayers.find(p => p.score >= WINNING_SCORE);
         set({
             players: updatedPlayers,
