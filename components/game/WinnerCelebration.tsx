@@ -3,7 +3,7 @@ import { Colors } from '@/constants/colors';
 import { Player } from '@/types/game';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import Animated, {
     FadeIn,
     FadeInDown,
@@ -56,9 +56,10 @@ const Firework = ({ delay }: { delay: number }) => {
 };
 
 const ConfettiPiece = ({ index }: { index: number }) => {
+    const { width, height } = useWindowDimensions();
     const x = Math.random() * width;
-    const startY = -20;
-    const duration = 2000 + Math.random() * 3000;
+    const startY = -50;
+    const duration = 2500 + Math.random() * 3000;
     const delay = Math.random() * 2000;
     const colors = [Colors.pureGold, Colors.crownGold, '#FFDF00', '#F97316', '#EAB308'];
 
@@ -69,13 +70,14 @@ const ConfettiPiece = ({ index }: { index: number }) => {
                 styles.confetti,
                 {
                     left: x,
+                    top: startY,
                     backgroundColor: colors[index % colors.length],
                     width: 6 + Math.random() * 6,
                     height: 6 + Math.random() * 6,
                 },
                 useAnimatedStyle(() => ({
                     transform: [
-                        { translateY: withRepeat(withTiming(height + 50, { duration }), -1, false) },
+                        { translateY: withRepeat(withTiming(height + 200, { duration }), -1, false) },
                         { rotate: withRepeat(withTiming('360deg', { duration: 1000 }), -1, false) },
                     ],
                 }))

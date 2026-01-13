@@ -14,6 +14,7 @@ export default function ResultsScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const [showRestartModal, setShowRestartModal] = useState(false);
+    const [showHomeModal, setShowHomeModal] = useState(false);
     const players = useGameStore((s) => s.players);
     const selectedWord = useGameStore((s) => s.selectedWord);
     const gameData = useGameStore((s) => s.gameData);
@@ -69,7 +70,18 @@ export default function ResultsScreen() {
         }
     };
 
-    const handleHome = () => { haptics.medium(); resetToHome(); router.dismissAll(); router.replace('/'); };
+    const handleHome = () => {
+        haptics.medium();
+        // Check if any player has score > 0
+        const hasScores = players.some(p => p.score > 0);
+        if (hasScores) {
+            setShowHomeModal(true);
+        } else {
+            resetToHome();
+            router.dismissAll();
+            router.replace('/');
+        }
+    };
 
     // Mode-specific content
     const getWinnerText = () => {
@@ -376,6 +388,21 @@ export default function ResultsScreen() {
                     handleAgain();
                 }}
                 onCancel={() => setShowRestartModal(false)}
+            />
+
+            <GenericModal
+                visible={showHomeModal}
+                title="Return to Home?"
+                message="Current match progress and scores will be lost. Are you sure?"
+                confirmLabel="Return Home"
+                isDestructive
+                onConfirm={() => {
+                    setShowHomeModal(false);
+                    resetToHome();
+                    router.dismissAll();
+                    router.replace('/');
+                }}
+                onCancel={() => setShowHomeModal(false)}
             />
         </View>
     );
