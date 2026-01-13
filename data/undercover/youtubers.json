@@ -1,0 +1,67 @@
+{
+    "id": "u-youtubers",
+    "name": "YouTubers",
+    "icon": "logo-youtube",
+    "pairs": [
+        {
+            "crewmateWord": "MrBeast",
+            "imposterWord": "Mark Rober"
+        },
+        {
+            "crewmateWord": "PewDiePie",
+            "imposterWord": "Jacksepticeye"
+        },
+        {
+            "crewmateWord": "MKBHD",
+            "imposterWord": "Unbox Therapy"
+        },
+        {
+            "crewmateWord": "CarryMinati",
+            "imposterWord": "Triggered Insaan"
+        },
+        {
+            "crewmateWord": "Flying Beast",
+            "imposterWord": "Sourav Joshi Vlogs"
+        },
+        {
+            "crewmateWord": "Technical Guruji",
+            "imposterWord": "Geekyranjit"
+        },
+        {
+            "crewmateWord": "Sidemen",
+            "imposterWord": "Amp"
+        },
+        {
+            "crewmateWord": "Dude Perfect",
+            "imposterWord": "How Ridiculous"
+        },
+        {
+            "crewmateWord": "Casey Neistat",
+            "imposterWord": "Peter McKinnon"
+        },
+        {
+            "crewmateWord": "Veritasium",
+            "imposterWord": "Vsauce"
+        },
+        {
+            "crewmateWord": "Logan Paul",
+            "imposterWord": "Jake Paul"
+        },
+        {
+            "crewmateWord": "Speed",
+            "imposterWord": "Kai Cenat"
+        },
+        {
+            "crewmateWord": "BB Ki Vines",
+            "imposterWord": "Ashish Chanchlani"
+        },
+        {
+            "crewmateWord": "Dream",
+            "imposterWord": "Technoblade"
+        },
+        {
+            "crewmateWord": "LankyBox",
+            "imposterWord": "ZHC"
+        }
+    ]
+}

@@ -1,0 +1,127 @@
+{
+    "id": "hollywood-movies",
+    "name": "Hollywood Movies",
+    "icon": "videocam-outline",
+    "words": [
+        {
+            "word": "Inception",
+            "hints": {
+                "low": "A spinning top",
+                "medium": "A dream within a dream",
+                "high": "The architect's maze"
+            }
+        },
+        {
+            "word": "The Dark Knight",
+            "hints": {
+                "low": "A bat signal",
+                "medium": "Why so serious?",
+                "high": "A coin with two heads"
+            }
+        },
+        {
+            "word": "Interstellar",
+            "hints": {
+                "low": "A dusty cornfield",
+                "medium": "A bookshelf and a watch",
+                "high": "Entering a black hole"
+            }
+        },
+        {
+            "word": "The Matrix",
+            "hints": {
+                "low": "A red or blue pill",
+                "medium": "There is no spoon",
+                "high": "Falling through digits"
+            }
+        },
+        {
+            "word": "Titanic",
+            "hints": {
+                "low": "A blue diamond necklace",
+                "medium": "I'm the king of the world!",
+                "high": "Painting on a sofa"
+            }
+        },
+        {
+            "word": "Jurassic Park",
+            "hints": {
+                "low": "A mosquito in amber",
+                "medium": "Water rippling in a cup",
+                "high": "Life finds a way"
+            }
+        },
+        {
+            "word": "Pulp Fiction",
+            "hints": {
+                "low": "A glowing briefcase",
+                "medium": "A dance at Jack Rabbit Slims",
+                "high": "The adrenaline shot"
+            }
+        },
+        {
+            "word": "The Shawshank Redemption",
+            "hints": {
+                "low": "A rock hammer",
+                "medium": "A poster of Rita Hayworth",
+                "high": "Crawl through 500 yards of filth"
+            }
+        },
+        {
+            "word": "Forrest Gump",
+            "hints": {
+                "low": "A box of chocolates",
+                "medium": "Run, Forrest, run!",
+                "high": "Shrimping boat"
+            }
+        },
+        {
+            "word": "Spiderman: Into the Spiderverse",
+            "hints": {
+                "low": "A spray paint can",
+                "medium": "Leap of faith",
+                "high": "Multiversal glitch"
+            }
+        },
+        {
+            "word": "Avatar",
+            "hints": {
+                "low": "Flying banshees",
+                "medium": "I see you",
+                "high": "Floating mountains of Pandora"
+            }
+        },
+        {
+            "word": "The Lion King",
+            "hints": {
+                "low": "A sunrise on Pride Rock",
+                "medium": "Hakuna Matata",
+                "high": "Stampede in the gorge"
+            }
+        },
+        {
+            "word": "Gladiator",
+            "hints": {
+                "low": "A hand brushing against wheat",
+                "medium": "Are you not entertained?",
+                "high": "Father to a murdered son"
+            }
+        },
+        {
+            "word": "Parasite",
+            "hints": {
+                "low": "A scholar's stone",
+                "medium": "Peach fuzz allergy",
+                "high": "Living in the basement"
+            }
+        },
+        {
+            "word": "The Godfather",
+            "hints": {
+                "low": "A horse head in bed",
+                "medium": "I'm gonna make him an offer he can't refuse",
+                "high": "The baptism assembly"
+            }
+        }
+    ]
+}

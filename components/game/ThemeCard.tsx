@@ -11,11 +11,18 @@ const CARD_SIZE = (SCREEN_WIDTH - 64) / 2;
 // Victorian themed icons for categories
 const THEME_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
     'tamil-movies': 'film-outline',
+    'hindi-movies': 'videocam-outline',
+    'hollywood-movies': 'film-outline',
+    'movies': 'videocam-outline',
+    'celebrities': 'people-outline',
+    'youtubers': 'logo-youtube',
+    'actresses': 'person-outline',
     'actors': 'person-outline',
     'objects': 'cube-outline',
     'places': 'location-outline',
     'songs': 'musical-notes-outline',
     'foods': 'restaurant-outline',
+    'lifestyle': 'cafe-outline',
     'festivals': 'sparkles-outline',
     'directors': 'videocam-outline',
     'fruits': 'nutrition-outline',
@@ -23,6 +30,7 @@ const THEME_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
     'brands': 'pricetag-outline',
     'sports': 'football-outline',
     'animals': 'paw-outline',
+    'general': 'grid-outline',
     'custom': 'create-outline',
 };
 
@@ -44,7 +52,8 @@ export const ThemeCard: React.FC<ThemeCardProps> = ({ id, name, isSelected, onSe
     };
 
     const animatedStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
-    const iconName = THEME_ICONS[id] || 'help-outline';
+    const iconId = id.startsWith('u-') ? id.substring(2) : id;
+    const iconName = THEME_ICONS[iconId] || 'help-outline';
 
     return (
         <TouchableOpacity onPress={handlePress} activeOpacity={0.9}>

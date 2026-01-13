@@ -1,5 +1,5 @@
 import { getRandomMindSyncQuestion, getRandomMovie, getRandomUndercoverWord } from '@/data/game-modes';
-import { getRandomWord, getThemeById } from '@/data/themes';
+import { getEffectiveTheme, getEffectiveUndercoverTheme, getRandomWord, getThemeById } from '@/data/themes';
 import { DEFAULT_SETTINGS, GameData, GameMode, GameSettings, GameState, Player, Word } from '@/types/game';
 import { create } from 'zustand';
 
@@ -201,7 +201,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                             },
                         };
                     } else {
-                        const theme = getThemeById(selectedThemeId);
+                        const theme = getEffectiveTheme(selectedThemeId);
                         if (!theme) return;
                         selectedWord = getRandomWord(theme);
                     }
@@ -237,13 +237,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
             case 'classic-imposter': {
                 // Requires a theme to be selected
                 if (!selectedThemeId || selectedThemeId === 'custom') return;
-                const theme = getThemeById(selectedThemeId);
-                if (!theme || theme.words.length < 2) return;
+                const theme = getEffectiveUndercoverTheme(selectedThemeId);
+                if (!theme || theme.pairs.length === 0) return;
 
-                // Pick two different random words from the theme
-                const shuffled = [...theme.words].sort(() => Math.random() - 0.5);
-                const crewmateWord = shuffled[0].word;
-                const imposterWord = shuffled[1].word;
+                // Pick a random pair from the undercover theme
+                const randomPair = theme.pairs[Math.floor(Math.random() * theme.pairs.length)];
+                const crewmateWord = randomPair.crewmateWord;
+                const imposterWord = randomPair.imposterWord;
 
                 gameData = {
                     type: 'classic-imposter',

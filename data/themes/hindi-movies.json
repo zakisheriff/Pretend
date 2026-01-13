@@ -1,0 +1,135 @@
+{
+    "id": "hindi-movies",
+    "name": "Hindi Movies",
+    "icon": "videocam-outline",
+    "words": [
+        {
+            "word": "Sholay",
+            "hints": {
+                "low": "A coin with two heads",
+                "medium": "A village named Ramgarh",
+                "high": "Gabbar Singh's whistle"
+            }
+        },
+        {
+            "word": "Dilwale Dulhania Le Jayenge",
+            "hints": {
+                "low": "A yellow mustard field",
+                "medium": "Missed the train in Europe",
+                "high": "Baauji says 'Ja Simran ja'"
+            }
+        },
+        {
+            "word": "Lagaan",
+            "hints": {
+                "low": "A game of cricket",
+                "medium": "Tax exemption bet",
+                "high": "Bhuvan's last ball six"
+            }
+        },
+        {
+            "word": "3 Idiots",
+            "hints": {
+                "low": "A pressure cooker",
+                "medium": " Rancho, Farhan, and Raju",
+                "high": "All is Well"
+            }
+        },
+        {
+            "word": "Dangal",
+            "hints": {
+                "low": "Wrestling mat",
+                "medium": "Gold medal for the country",
+                "high": "Harmonizing with the whistle"
+            }
+        },
+        {
+            "word": "Bahubali: The Conclusion",
+            "hints": {
+                "low": "A giant swan ship",
+                "medium": "Kattappa's confession",
+                "high": "Why Kattappa killed Bahubali"
+            }
+        },
+        {
+            "word": "PK",
+            "hints": {
+                "low": "A yellow helmet",
+                "medium": "A transistor radio",
+                "high": "Wrong number"
+            }
+        },
+        {
+            "word": "Bajrangi Bhaijaan",
+            "hints": {
+                "low": "A mace locket",
+                "medium": "Crossing the border without a visa",
+                "high": "A mute girl says Ma"
+            }
+        },
+        {
+            "word": "Gully Boy",
+            "hints": {
+                "low": "A graffiti wall",
+                "medium": "Rap battle in a garage",
+                "high": "Apna Time Aayega"
+            }
+        },
+        {
+            "word": "Queen",
+            "hints": {
+                "low": "A honeymoon alone",
+                "medium": "Making Gol Gappa in Paris",
+                "high": "Returning the wedding ring"
+            }
+        },
+        {
+            "word": "Zindagi Na Milegi Dobara",
+            "hints": {
+                "low": "Tomato festival",
+                "medium": "Skydiving in Spain",
+                "high": "The bag named Bagwati"
+            }
+        },
+        {
+            "word": "Gangs of Wasseypur",
+            "hints": {
+                "low": "Coal mines",
+                "medium": "Keh ke lunga",
+                "high": "Faizal Khan's revenge"
+            }
+        },
+        {
+            "word": "Andhadhun",
+            "hints": {
+                "low": "A piano and a cat",
+                "medium": "A blind pianist's secret",
+                "high": "The rabbit on the cane"
+            }
+        },
+        {
+            "word": "Stree",
+            "hints": {
+                "low": "Writing on the wall with blood",
+                "medium": "Oh Stree Kal Aana",
+                "high": "The tailor's skill"
+            }
+        },
+        {
+            "word": "Drishyam",
+            "hints": {
+                "low": "A cable TV office",
+                "medium": "October 2nd and 3rd",
+                "high": "Under the police station"
+            }
+        },
+        {
+            "word": "Kahaani",
+            "hints": {
+                "low": "A pregnant woman's search",
+                "medium": "Durga Puja in Kolkata",
+                "high": "The prosthetic belly"
+            }
+        }
+    ]
+}

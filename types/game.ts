@@ -14,11 +14,38 @@ export interface Word {
     hints: WordHints;
 }
 
+export interface UndercoverPair {
+    crewmateWord: string;
+    imposterWord: string;
+    category?: string;
+}
+
+export interface UndercoverTheme {
+    id: string;
+    name: string;
+    icon: string;
+    pairs: UndercoverPair[];
+}
+
 export interface Theme {
     id: string;
     name: string;
     icon: string;
     words: Word[];
+}
+
+export interface ThemeCategory {
+    id: string;
+    name: string;
+    icon: string;
+    themes: Theme[];
+}
+
+export interface UndercoverCategory {
+    id: string;
+    name: string;
+    icon: string;
+    themes: UndercoverTheme[];
 }
 
 // Mode-specific data structures

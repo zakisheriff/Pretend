@@ -1,0 +1,55 @@
+{
+    "id": "u-lifestyle",
+    "name": "Lifestyle",
+    "icon": "cafe-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Pizza",
+            "imposterWord": "Burger"
+        },
+        {
+            "crewmateWord": "Coffee",
+            "imposterWord": "Tea"
+        },
+        {
+            "crewmateWord": "iPhone",
+            "imposterWord": "Samsung"
+        },
+        {
+            "crewmateWord": "Instagram",
+            "imposterWord": "TikTok"
+        },
+        {
+            "crewmateWord": "Summer",
+            "imposterWord": "Winter"
+        },
+        {
+            "crewmateWord": "Beach",
+            "imposterWord": "Mountain"
+        },
+        {
+            "crewmateWord": "Netflix",
+            "imposterWord": "Prime Video"
+        },
+        {
+            "crewmateWord": "Tesla",
+            "imposterWord": "BMW"
+        },
+        {
+            "crewmateWord": "Nike",
+            "imposterWord": "Adidas"
+        },
+        {
+            "crewmateWord": "Uber",
+            "imposterWord": "Ola"
+        },
+        {
+            "crewmateWord": "Zomato",
+            "imposterWord": "Swiggy"
+        },
+        {
+            "crewmateWord": "Google",
+            "imposterWord": "ChatGPT"
+        }
+    ]
+}

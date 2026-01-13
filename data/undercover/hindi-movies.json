@@ -1,0 +1,67 @@
+{
+    "id": "u-hindi-movies",
+    "name": "Hindi Movies",
+    "icon": "videocam-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Sholay",
+            "imposterWord": "Deewaar"
+        },
+        {
+            "crewmateWord": "DDLJ",
+            "imposterWord": "Kuch Kuch Hota Hai"
+        },
+        {
+            "crewmateWord": "3 Idiots",
+            "imposterWord": "Chhichhore"
+        },
+        {
+            "crewmateWord": "Lagaan",
+            "imposterWord": "Chak De! India"
+        },
+        {
+            "crewmateWord": "Dangal",
+            "imposterWord": "Sultan"
+        },
+        {
+            "crewmateWord": "Bahubali",
+            "imposterWord": "RRR"
+        },
+        {
+            "crewmateWord": "Bajrangi Bhaijaan",
+            "imposterWord": "PK"
+        },
+        {
+            "crewmateWord": "Zindagi Na Milegi Dobara",
+            "imposterWord": "Dil Chahta Hai"
+        },
+        {
+            "crewmateWord": "Gully Boy",
+            "imposterWord": "83"
+        },
+        {
+            "crewmateWord": "Andhadhun",
+            "imposterWord": "Drishyam"
+        },
+        {
+            "crewmateWord": "Queen",
+            "imposterWord": "English Vinglish"
+        },
+        {
+            "crewmateWord": "Stree",
+            "imposterWord": "Bhediya"
+        },
+        {
+            "crewmateWord": "Gangs of Wasseypur",
+            "imposterWord": "Mirzapur"
+        },
+        {
+            "crewmateWord": "Padmaavat",
+            "imposterWord": "Bajirao Mastani"
+        },
+        {
+            "crewmateWord": "War",
+            "imposterWord": "Pathaan"
+        }
+    ]
+}

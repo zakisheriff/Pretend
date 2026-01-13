@@ -1,0 +1,111 @@
+{
+    "id": "youtubers",
+    "name": "YouTubers",
+    "icon": "logo-youtube",
+    "words": [
+        {
+            "word": "MrBeast",
+            "hints": {
+                "low": "Giving away millions",
+                "medium": "Chocolate factory challenge",
+                "high": "Planting 20 million trees"
+            }
+        },
+        {
+            "word": "PewDiePie",
+            "hints": {
+                "low": "Brofist",
+                "medium": "Floor Gang",
+                "high": "Sub to PewDiePie war"
+            }
+        },
+        {
+            "word": "Mark Rober",
+            "hints": {
+                "low": "NASA engineer",
+                "medium": "Glitter bomb for porch pirates",
+                "high": "Fluidized sand bed"
+            }
+        },
+        {
+            "word": "Casey Neistat",
+            "hints": {
+                "low": "Boosted board in NYC",
+                "medium": "Daily vlogs",
+                "high": "Beme app founder"
+            }
+        },
+        {
+            "word": "Iunboxing Therapy",
+            "hints": {
+                "low": "Opening gadgets",
+                "medium": "iPhone bend test",
+                "high": "The lateral desk setup"
+            }
+        },
+        {
+            "word": "Marques Brownlee (MKBHD)",
+            "hints": {
+                "low": "Ultimite frisbee",
+                "medium": "Matte black everything",
+                "high": "Crisp 8K video"
+            }
+        },
+        {
+            "word": "CarryMinati",
+            "hints": {
+                "low": "Toh kaise hai aap log?",
+                "medium": "Roasting TikTokers",
+                "high": "Yalgaar"
+            }
+        },
+        {
+            "word": "Technical Guruji",
+            "hints": {
+                "low": "Chaliye shuru karte hai",
+                "medium": "Tech in Hindi",
+                "high": "Gold iPhone unboxing"
+            }
+        },
+        {
+            "word": "Flying Beast",
+            "hints": {
+                "low": "Pilot vlogger",
+                "medium": "Fitness and family",
+                "high": "Suspended from airlines"
+            }
+        },
+        {
+            "word": "Dude Perfect",
+            "hints": {
+                "low": "Trick shots",
+                "medium": "Stereotypes",
+                "high": "The Panda mascot"
+            }
+        },
+        {
+            "word": "Sidemen",
+            "hints": {
+                "low": "SDMN",
+                "medium": "Charity football match",
+                "high": "20 vs 1"
+            }
+        },
+        {
+            "word": "Veritasium",
+            "hints": {
+                "low": "Science and truth",
+                "medium": "Black shade balls in reservoir",
+                "high": "The Slinky drop"
+            }
+        },
+        {
+            "word": "Vsauce",
+            "hints": {
+                "low": "Hey Vsauce, Michael here!",
+                "medium": "Raising eyebrows",
+                "high": "Where are your fingers?"
+            }
+        }
+    ]
+}

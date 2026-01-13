@@ -213,7 +213,7 @@ export default function SetupDirectorScreen() {
             </LinearGradient>
 
             <ScrollView
-                contentContainerStyle={styles.content}
+                contentContainerStyle={[styles.content, { paddingTop: 80 }]}
                 keyboardShouldPersistTaps="handled"
                 keyboardDismissMode="on-drag"
             >

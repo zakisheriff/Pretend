@@ -1,0 +1,67 @@
+{
+    "id": "u-actors",
+    "name": "Actors",
+    "icon": "person-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Shah Rukh Khan",
+            "imposterWord": "Salman Khan"
+        },
+        {
+            "crewmateWord": "Hrithik Roshan",
+            "imposterWord": "Tiger Shroff"
+        },
+        {
+            "crewmateWord": "Robert Downey Jr.",
+            "imposterWord": "Chris Evans"
+        },
+        {
+            "crewmateWord": "Tom Cruise",
+            "imposterWord": "Brad Pitt"
+        },
+        {
+            "crewmateWord": "Leonardo DiCaprio",
+            "imposterWord": "Matthew McConaughey"
+        },
+        {
+            "crewmateWord": "Rajinikanth",
+            "imposterWord": "Kamal Haasan"
+        },
+        {
+            "crewmateWord": "Vijay",
+            "imposterWord": "Ajith Kumar"
+        },
+        {
+            "crewmateWord": "Suriya",
+            "imposterWord": "Vikram"
+        },
+        {
+            "crewmateWord": "Prabhas",
+            "imposterWord": "Mahesh Babu"
+        },
+        {
+            "crewmateWord": "Allu Arjun",
+            "imposterWord": "Ram Charan"
+        },
+        {
+            "crewmateWord": "Dwayne Johnson",
+            "imposterWord": "Vin Diesel"
+        },
+        {
+            "crewmateWord": "Ryan Reynolds",
+            "imposterWord": "Hugh Jackman"
+        },
+        {
+            "crewmateWord": "Christian Bale",
+            "imposterWord": "Robert Pattinson"
+        },
+        {
+            "crewmateWord": "Vijay Sethupathi",
+            "imposterWord": "Fahadh Faasil"
+        },
+        {
+            "crewmateWord": "Dulquer Salmaan",
+            "imposterWord": "Prithviraj"
+        }
+    ]
+}

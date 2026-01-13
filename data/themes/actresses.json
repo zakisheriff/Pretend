@@ -1,0 +1,103 @@
+{
+    "id": "actresses",
+    "name": "Actresses",
+    "icon": "person-outline",
+    "words": [
+        {
+            "word": "Deepika Padukone",
+            "hints": {
+                "low": "Badminton player daughter",
+                "medium": "Om Shanti Om debut",
+                "high": "Ranveer Singh's wife"
+            }
+        },
+        {
+            "word": "Alia Bhatt",
+            "hints": {
+                "low": "Student of the Year",
+                "medium": "Gangubai Kathiawadi",
+                "high": "Raha's mother"
+            }
+        },
+        {
+            "word": "Priyanka Chopra",
+            "hints": {
+                "low": "Miss World 2000",
+                "medium": "Quantico lead",
+                "high": "Married to Nick Jonas"
+            }
+        },
+        {
+            "word": "Nayanthara",
+            "hints": {
+                "low": "Lady Superstar",
+                "medium": "Raja Rani",
+                "high": "Jawan debut in Hindi"
+            }
+        },
+        {
+            "word": "Samantha Ruth Prabhu",
+            "hints": {
+                "low": "Ye Maaya Chesave",
+                "medium": "The Family Man S2",
+                "high": "Oo Antava item song"
+            }
+        },
+        {
+            "word": "Rashmika Mandanna",
+            "hints": {
+                "low": "National Crush",
+                "medium": "Pushpa (Srivalli)",
+                "high": "Animal movie lead"
+            }
+        },
+        {
+            "word": "Scarlett Johansson",
+            "hints": {
+                "low": "Black Widow",
+                "medium": "Lost in Translation",
+                "high": "The Voice in 'Her'"
+            }
+        },
+        {
+            "word": "Margot Robbie",
+            "hints": {
+                "low": "Harley Quinn",
+                "medium": "The Wolf of Wall Street",
+                "high": "Barbie"
+            }
+        },
+        {
+            "word": "Emma Watson",
+            "hints": {
+                "low": "Hermione Granger",
+                "medium": "UN Women Goodwill Ambassador",
+                "high": "Beauty and the Beast lead"
+            }
+        },
+        {
+            "word": "Zendaya",
+            "hints": {
+                "low": "Disney Channel star",
+                "medium": "Euphoria",
+                "high": "Tom Holland's girlfriend"
+            }
+        },
+        {
+            "word": "Trisha Krishnan",
+            "hints": {
+                "low": "Miss Chennai",
+                "medium": "96 (Jaanu)",
+                "high": "Ponniyin Selvan (Kundavai)"
+            }
+        },
+        {
+            "word": "Keerthy Suresh",
+            "hints": {
+                "low": "Mahanati",
+                "medium": "National Award winner",
+                "high": "Dasara leads"
+            }
+        }
+    ]
+}

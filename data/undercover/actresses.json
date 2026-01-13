@@ -1,0 +1,55 @@
+{
+    "id": "u-actresses",
+    "name": "Actresses",
+    "icon": "person-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Deepika Padukone",
+            "imposterWord": "Alia Bhatt"
+        },
+        {
+            "crewmateWord": "Priyanka Chopra",
+            "imposterWord": "Katrina Kaif"
+        },
+        {
+            "crewmateWord": "Nayanthara",
+            "imposterWord": "Samantha"
+        },
+        {
+            "crewmateWord": "Trisha",
+            "imposterWord": "Keerthy Suresh"
+        },
+        {
+            "crewmateWord": "Scarlett Johansson",
+            "imposterWord": "Elizabeth Olsen"
+        },
+        {
+            "crewmateWord": "Margot Robbie",
+            "imposterWord": "Emma Stone"
+        },
+        {
+            "crewmateWord": "Zendaya",
+            "imposterWord": "Jenna Ortega"
+        },
+        {
+            "crewmateWord": "Rashmika Mandanna",
+            "imposterWord": "Pooja Hegde"
+        },
+        {
+            "crewmateWord": "Kareena Kapoor",
+            "imposterWord": "Karisma Kapoor"
+        },
+        {
+            "crewmateWord": "Anushka Shetty",
+            "imposterWord": "Tamannaah"
+        },
+        {
+            "crewmateWord": "Emma Watson",
+            "imposterWord": "Jennifer Lawrence"
+        },
+        {
+            "crewmateWord": "Gal Gadot",
+            "imposterWord": "Brie Larson"
+        }
+    ]
+}

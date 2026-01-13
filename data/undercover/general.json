@@ -1,0 +1,47 @@
+{
+    "id": "u-general",
+    "name": "General",
+    "icon": "grid-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Lion",
+            "imposterWord": "Tiger"
+        },
+        {
+            "crewmateWord": "Earth",
+            "imposterWord": "Mars"
+        },
+        {
+            "crewmateWord": "Football",
+            "imposterWord": "Cricket"
+        },
+        {
+            "crewmateWord": "Sun",
+            "imposterWord": "Moon"
+        },
+        {
+            "crewmateWord": "Doctor",
+            "imposterWord": "Engineer"
+        },
+        {
+            "crewmateWord": "Gold",
+            "imposterWord": "Diamond"
+        },
+        {
+            "crewmateWord": "Plane",
+            "imposterWord": "Train"
+        },
+        {
+            "crewmateWord": "Computer",
+            "imposterWord": "Mobile"
+        },
+        {
+            "crewmateWord": "School",
+            "imposterWord": "College"
+        },
+        {
+            "crewmateWord": "Spider",
+            "imposterWord": "Scorpion"
+        }
+    ]
+}

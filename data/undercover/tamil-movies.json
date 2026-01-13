@@ -1,0 +1,67 @@
+{
+    "id": "u-tamil-movies",
+    "name": "Tamil Movies",
+    "icon": "videocam-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Vikram",
+            "imposterWord": "Kaithi"
+        },
+        {
+            "crewmateWord": "Master",
+            "imposterWord": "Leo"
+        },
+        {
+            "crewmateWord": "Baasha",
+            "imposterWord": "Annamalai"
+        },
+        {
+            "crewmateWord": "Padayappa",
+            "imposterWord": "Baba"
+        },
+        {
+            "crewmateWord": "Ghilli",
+            "imposterWord": "Pokkiri"
+        },
+        {
+            "crewmateWord": "Mankatha",
+            "imposterWord": "Billa"
+        },
+        {
+            "crewmateWord": "Thuppakki",
+            "imposterWord": "Kaththi"
+        },
+        {
+            "crewmateWord": "96",
+            "imposterWord": "Vinnaithaandi Varuvaayaa"
+        },
+        {
+            "crewmateWord": "Asuran",
+            "imposterWord": "Vada Chennai"
+        },
+        {
+            "crewmateWord": "Jailer",
+            "imposterWord": "Beast"
+        },
+        {
+            "crewmateWord": "Pithamagan",
+            "imposterWord": "Nanda"
+        },
+        {
+            "crewmateWord": "Varisu",
+            "imposterWord": "Thunivu"
+        },
+        {
+            "crewmateWord": "Indian",
+            "imposterWord": "2.0"
+        },
+        {
+            "crewmateWord": "Sivaji",
+            "imposterWord": "Enthiran"
+        },
+        {
+            "crewmateWord": "Karnan",
+            "imposterWord": "Sarpatta Parambarai"
+        }
+    ]
+}

@@ -1,398 +1,118 @@
 {
     "id": "actors",
     "name": "Actors",
-    "icon": "people-outline",
+    "icon": "person-outline",
     "words": [
-        {
-            "word": "Rajinikanth",
-            "hints": {
-                "low": "Started as a bus conductor",
-                "medium": "Fastest walker on screen",
-                "high": "Flipping a cigarette or glasses"
-            }
-        },
-        {
-            "word": "Kamal Haasan",
-            "hints": {
-                "low": "Started as a child artist",
-                "medium": "Played ten roles in one film",
-                "high": "Host of a big reality show"
-            }
-        },
-        {
-            "word": "Vijay",
-            "hints": {
-                "low": "Known for dance and silence",
-                "medium": "Audio launch speeches are events",
-                "high": "Political entry at the peak"
-            }
-        },
-        {
-            "word": "Ajith Kumar",
-            "hints": {
-                "low": "No promotions for movies",
-                "medium": "Professional car racer",
-                "high": "Cooking biryani for the crew"
-            }
-        },
-        {
-            "word": "Suriya",
-            "hints": {
-                "low": "Intense eyes",
-                "medium": "Played a bodiless voice villain",
-                "high": "Six pack trendsetter in south"
-            }
-        },
-        {
-            "word": "Vijay Sethupathi",
-            "hints": {
-                "low": "Started as a background actor",
-                "medium": "Villain for top stars",
-                "high": "Casual dialogue delivery"
-            }
-        },
-        {
-            "word": "Dhanush",
-            "hints": {
-                "low": "Thin frame success",
-                "medium": "Hollywood and Bollywood entry",
-                "high": "Director and singer too"
-            }
-        },
-        {
-            "word": "Karthi",
-            "hints": {
-                "low": "Assistant director origin",
-                "medium": "Horse riding expert",
-                "high": "Eating biryani in a police station"
-            }
-        },
-        {
-            "word": "Sivakarthikeyan",
-            "hints": {
-                "low": "Mimicry artist origin",
-                "medium": "Kids' favorite",
-                "high": "Nurse disguise comedy"
-            }
-        },
-        {
-            "word": "Vikram",
-            "hints": {
-                "low": "Body transformation expert",
-                "medium": "Played a hunchback",
-                "high": "Split personality lawyer"
-            }
-        },
-        {
-            "word": "Silambarasan TR",
-            "hints": {
-                "low": "Little superstar",
-                "medium": "Multi-talented controversial figure",
-                "high": "Time loop movie comeback"
-            }
-        },
-        {
-            "word": "Jayam Ravi",
-            "hints": {
-                "low": "Remake specialist early on",
-                "medium": "Played a prince recently",
-                "high": "Zombie movie pioneer"
-            }
-        },
-        {
-            "word": "Madhavan",
-            "hints": {
-                "low": "Chocolate boy debut",
-                "medium": "Scientist in real life interest",
-                "high": "Encounter specialist cop"
-            }
-        },
-        {
-            "word": "Arya",
-            "hints": {
-                "low": "Cycling enthusiast",
-                "medium": "Played an Aghori",
-                "high": "Bride hunting reality show"
-            }
-        },
-        {
-            "word": "Vishal",
-            "hints": {
-                "low": "Tall action hero",
-                "medium": "Politics in actor's guild",
-                "high": "Detective character famous"
-            }
-        },
-        {
-            "word": "Nayanthara",
-            "hints": {
-                "low": "Doesn't attend promotions",
-                "medium": "Played a collector often",
-                "high": "Blind girl fighting a killer"
-            }
-        },
-        {
-            "word": "Samantha",
-            "hints": {
-                "low": "Fitness freak",
-                "medium": "Viral item song dancer",
-                "high": "Turned into a fly in a movie"
-            }
-        },
-        {
-            "word": "Trisha",
-            "hints": {
-                "low": "Miss Chennai origin",
-                "medium": "Yellow kurta character iconic",
-                "high": "Maintained stardom for 20 years"
-            }
-        },
-        {
-            "word": "Jyothika",
-            "hints": {
-                "low": "Expressive eyes",
-                "medium": "School teacher roles",
-                "high": "Comeback with a 36-year-old character"
-            }
-        },
-        {
-            "word": "Keerthy Suresh",
-            "hints": {
-                "low": "Biopic award winner",
-                "medium": "Violin player character",
-                "high": "Often plays sister roles to stars"
-            }
-        },
-        {
-            "word": "Sai Pallavi",
-            "hints": {
-                "low": "No makeup policy",
-                "medium": "Doctor by profession",
-                "high": "Dance moves go viral instantly"
-            }
-        },
-        {
-            "word": "Anushka Shetty",
-            "hints": {
-                "low": "Yoga instructor origin",
-                "medium": "Warrior queen roles",
-                "high": "Size zero comedy film"
-            }
-        },
-        {
-            "word": "Tamannaah",
-            "hints": {
-                "low": "Milky beauty tag",
-                "medium": "Pan-Indian item songs",
-                "high": "Warrior look in a big franchise"
-            }
-        },
-        {
-            "word": "Prabhas",
-            "hints": {
-                "low": "Shy in real life",
-                "medium": "Carried a Shivalingam",
-                "high": "Pan-Indian huge budget star"
-            }
-        },
-        {
-            "word": "Allu Arjun",
-            "hints": {
-                "low": "Stylish star tag",
-                "medium": "Shoulder drop dance step",
-                "high": "Red sandalwood smuggler role"
-            }
-        },
-        {
-            "word": "Mahesh Babu",
-            "hints": {
-                "low": "Rarely changes hairstyle",
-                "medium": "Prince tag",
-                "high": "Running style is famous"
-            }
-        },
-        {
-            "word": "Ram Charan",
-            "hints": {
-                "low": "Horse riding skill",
-                "medium": "Son of a megastar",
-                "high": "Period police role success"
-            }
-        },
-        {
-            "word": "Jr NTR",
-            "hints": {
-                "low": "Classical dancer",
-                "medium": "Powerful dialogue delivery",
-                "high": "Tiger chase scene"
-            }
-        },
-        {
-            "word": "Nani",
-            "hints": {
-                "low": "Natural star tag",
-                "medium": "Assistant director background",
-                "high": "Reincarnated as a fly"
-            }
-        },
-        {
-            "word": "Vijay Deverakonda",
-            "hints": {
-                "low": "Aggressive lover role",
-                "medium": "Owns a clothing brand",
-                "high": "Called 'The' before his name"
-            }
-        },
-        {
-            "word": "Mohanlal",
-            "hints": {
-                "low": "Shoulder tilt mannerism",
-                "medium": "The complete actor",
-                "high": "Turning a folded lungi into a weapon"
-            }
-        },
-        {
-            "word": "Mammootty",
-            "hints": {
-                "low": "Lawyer by qualification",
-                "medium": "Ageless appearance",
-                "high": "Played Ambedkar on screen"
-            }
-        },
-        {
-            "word": "Fahadh Faasil",
-            "hints": {
-                "low": "Eyes do the acting",
-                "medium": "Psychotic roles expert",
-                "high": "Wears thick glasses often in roles"
-            }
-        },
-        {
-            "word": "Dulquer Salmaan",
-            "hints": {
-                "low": "Pan-Indian romantic hero",
-                "medium": "Car enthusiast",
-                "high": "Played Gemini Ganesan"
-            }
-        },
-        {
-            "word": "Prithviraj Sukumaran",
-            "hints": {
-                "low": "Director and distributor too",
-                "medium": "Goat life transformation",
-                "high": "Played a villain in Hindi and Telugu"
-            }
-        },
-        {
-            "word": "Yash",
-            "hints": {
-                "low": "Long beard and hair",
-                "medium": "Gold mines setting",
-                "high": "Mother sentiment in action movie"
-            }
-        },
-        {
-            "word": "Sudeep",
-            "hints": {
-                "low": "Tall voice baritone",
-                "medium": "Fly movie villain",
-                "high": "Host of Kannada Bigg Boss"
-            }
-        },
-        {
-            "word": "Rishab Shetty",
-            "hints": {
-                "low": "Screaming at the climax",
-                "medium": "Director-actor combo",
-                "high": "Buffalo race tradition"
-            }
-        },
         {
             "word": "Shah Rukh Khan",
             "hints": {
-                "low": "Spreading arms pose",
-                "medium": "King of romance",
-                "high": "Comeback with an action spy role"
+                "low": "King of Bollywood",
+                "medium": "Spreading arms pose",
+                "high": "Mannat is his house name"
             }
         },
         {
-            "word": "Aamir Khan",
+            "word": "Robert Downey Jr.",
             "hints": {
-                "low": "Perfectionist",
-                "medium": "One movie every few years",
-                "high": "Body transformation for wrestler role"
+                "low": "Iron Man",
+                "medium": "I love you 3000",
+                "high": "Sherlock Holmes lead"
             }
         },
         {
-            "word": "Salman Khan",
+            "word": "Rajinikanth",
             "hints": {
-                "low": "Shirtless climax",
-                "medium": "Bracelet with blue stone",
-                "high": "Host of Hindi reality show"
+                "low": "Superstar",
+                "medium": "Flip of a cigarette",
+                "high": "Started as a bus conductor"
+            }
+        },
+        {
+            "word": "Leonardo DiCaprio",
+            "hints": {
+                "low": "Titanic lead",
+                "medium": "Finally won an Oscar for The Revenant",
+                "high": "Inception spinning top"
             }
         },
         {
             "word": "Amitabh Bachchan",
             "hints": {
-                "low": "Deep baritone voice",
-                "medium": "Angry young man era",
-                "high": "Quiz show host for decades"
+                "low": "Big B",
+                "medium": "Angry Young Man era",
+                "high": "Host of KBC"
             }
         },
         {
-            "word": "Ranbir Kapoor",
+            "word": "Tom Cruise",
             "hints": {
-                "low": "Kapoor dynasty scion",
-                "medium": "Played a deaf-mute boy",
-                "high": "Relationship with the director of his animal film"
+                "low": "Does his own stunts",
+                "medium": "Mission Impossible",
+                "high": "Top Gun pilot"
             }
         },
         {
-            "word": "Ranveer Singh",
+            "word": "Kamal Haasan",
             "hints": {
-                "low": "Eccentric fashion sense",
-                "medium": "High energy always",
-                "high": "Played a ruthless historic invader"
+                "low": "Ulaganayagan",
+                "medium": "Played 10 roles in Dasavathaaram",
+                "high": "Indian movie lead"
             }
         },
         {
-            "word": "Hrithik Roshan",
+            "word": "Brad Pitt",
             "hints": {
-                "low": "Greek God looks",
-                "medium": "Extra thumb",
-                "high": "Best dancer in Bollywood"
+                "low": "Fight Club lead",
+                "medium": "Once married to Angelina Jolie",
+                "high": "Cliff Booth in Hollywood"
             }
         },
         {
-            "word": "Deepika Padukone",
+            "word": "Aamir Khan",
             "hints": {
-                "low": "Badminton player's daughter",
-                "medium": "Depression awareness advocate",
-                "high": "Historical queen roles"
+                "low": "Mr. Perfectionist",
+                "medium": "Lagaan lead",
+                "high": "Dangal wrestler father"
             }
         },
         {
-            "word": "Alia Bhatt",
+            "word": "Johnny Depp",
             "hints": {
-                "low": "Started young in school drama",
-                "medium": "Nepotism debate target",
-                "high": "Played a spy married to a Pakistani"
+                "low": "Captain Jack Sparrow",
+                "medium": "Edward Scissorhands",
+                "high": "Legal battle with Amber Heard"
             }
         },
         {
-            "word": "Prakash Raj",
+            "word": "Vijay",
             "hints": {
-                "low": "Villain in every language",
-                "medium": "Chellam sir",
-                "high": "Versatile character artist"
+                "low": "Thalapathy",
+                "medium": "Leo and Master lead",
+                "high": "Known for his calm speeches"
             }
         },
         {
-            "word": "SJ Suryah",
+            "word": "Dwayne Johnson",
             "hints": {
-                "low": "Director turned actor",
-                "medium": "Over the top acting",
-                "high": "Time travel villain"
+                "low": "The Rock",
+                "medium": "WWE legend",
+                "high": "Fast & Furious cop"
+            }
+        },
+        {
+            "word": "Salman Khan",
+            "hints": {
+                "low": "Bhaijaan",
+                "medium": "Being Human",
+                "high": "Blue stone bracelet"
+            }
+        },
+        {
+            "word": "Christian Bale",
+            "hints": {
+                "low": "Batman (Dark Knight)",
+                "medium": "Extreme body transformations",
+                "high": "American Psycho"
             }
         }
     ]
