@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
@@ -13,49 +14,64 @@ export default function HomeScreen() {
     const insets = useSafeAreaInsets();
     const resetToHome = useGameStore((state) => state.resetToHome);
 
-    const handleNewGame = () => { resetToHome(); router.push('/select-mode'); };
-    const handleHowToPlay = () => { router.push('/how-to-play'); };
+    const handleNewGame = () => {
+        resetToHome();
+        router.push('/select-mode');
+    };
+    const handleHowToPlay = () => {
+        router.push('/how-to-play');
+    };
 
     return (
         <LinearGradient
             colors={['#000000', '#0A0A0A', '#000000']}
             style={styles.gradient}
         >
-            <View style={[styles.container, { paddingTop: insets.top + 20, paddingBottom: insets.bottom + 20 }]}>
-                <View style={styles.content}>
-                    <AnimatedLogo size={110} />
-                    <View style={styles.titleBox}>
+            <View style={[styles.container, { paddingTop: insets.top + 40, paddingBottom: insets.bottom + 20 }]}>
+                {/* Hero Section */}
+                <View style={styles.hero}>
+                    <Animated.View entering={FadeIn.delay(100).duration(600)}>
+                        <AnimatedLogo size={90} />
+                    </Animated.View>
+
+                    <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.titleGroup}>
                         <Text style={styles.title}>Pretend</Text>
                         <Text style={styles.subtitle}>A Detective Mystery</Text>
-                    </View>
-                    <View style={styles.tagline}>
-                        <Text style={styles.taglineText}>One phone. One mystery.</Text>
-                    </View>
+                    </Animated.View>
+
+                    <Animated.View entering={FadeIn.delay(400).duration(500)}>
+                        <Text style={styles.tagline}>One phone. One mystery.</Text>
+                    </Animated.View>
                 </View>
 
-                <View style={styles.buttons}>
-                    <Button
-                        title="New Case"
-                        onPress={handleNewGame}
-                        variant="primary"
-                        size="large"
-                        hapticType="medium"
-                        icon={<Ionicons name="search" size={24} color={Colors.victorianBlack} />}
-                    />
+                {/* Actions */}
+                <View style={styles.actions}>
+                    <Animated.View entering={FadeInDown.delay(500).duration(400)}>
+                        <Button
+                            title="New Case"
+                            onPress={handleNewGame}
+                            variant="primary"
+                            size="large"
+                            hapticType="medium"
+                            icon={<Ionicons name="search" size={20} color={Colors.victorianBlack} />}
+                        />
+                    </Animated.View>
 
-                    <Button
-                        title="How to Play"
-                        onPress={handleHowToPlay}
-                        variant="outline"
-                        size="large"
-                        icon={<Ionicons name="book-outline" size={24} color={Colors.parchment} />}
-                    />
+                    <Animated.View entering={FadeInDown.delay(600).duration(400)}>
+                        <Button
+                            title="How to Play"
+                            onPress={handleHowToPlay}
+                            variant="outline"
+                            size="large"
+                            icon={<Ionicons name="book-outline" size={20} color={Colors.parchment} />}
+                        />
+                    </Animated.View>
                 </View>
 
-                <View style={styles.footer}>
-                    <Ionicons name="home" size={14} color={Colors.grayMedium} />
-                    <Text style={styles.footerText}>Trust No One. </Text>
-                </View>
+                {/* Footer */}
+                <Animated.View entering={FadeIn.delay(800).duration(500)} style={styles.footer}>
+                    <Text style={styles.footerText}>Trust No One </Text>
+                </Animated.View>
             </View>
         </LinearGradient>
     );
@@ -63,39 +79,50 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
     gradient: { flex: 1 },
-    container: { flex: 1, paddingHorizontal: 24 },
-    content: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 24 },
-    titleBox: { alignItems: 'center' },
+    container: {
+        flex: 1,
+        paddingHorizontal: 24,
+    },
+    hero: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 20,
+    },
+    titleGroup: {
+        alignItems: 'center',
+        gap: 4,
+    },
     title: {
-        fontSize: 40,
-        fontWeight: '900',
+        fontSize: 38,
+        fontWeight: '800',
         color: Colors.parchment,
-        letterSpacing: 8,
+        letterSpacing: 6,
     },
     subtitle: {
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: '500',
         color: Colors.candlelight,
-        letterSpacing: 4,
-        marginTop: 4,
+        letterSpacing: 3,
     },
     tagline: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        backgroundColor: Colors.grayDark,
-        borderRadius: 12,
-        borderWidth: 1.5,
-        borderColor: Colors.grayMedium,
-    },
-    taglineText: {
         fontSize: 13,
         color: Colors.grayLight,
         fontStyle: 'italic',
-        paddingHorizontal: 4,
+        letterSpacing: 1,
+        marginTop: 8,
+    },
+    actions: {
+        gap: 12,
+        paddingBottom: 16,
+    },
+    footer: {
+        alignItems: 'center',
+        paddingVertical: 8,
+    },
+    footerText: {
+        fontSize: 11,
+        color: Colors.grayMedium,
         letterSpacing: 1,
     },
-    buttons: { gap: 14, marginBottom: 20 },
-    footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 },
-
-    footerText: { fontSize: 12, color: Colors.grayMedium, letterSpacing: 1 },
 });

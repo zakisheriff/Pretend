@@ -41,7 +41,7 @@ export const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ size = 100 }) => {
             <Animated.View style={[styles.logoContainer, { width: size, height: size, borderRadius: size / 2 }, pulseStyle]}>
                 <Image
                     source={require('@/assets/images/new_logo.png')}
-                    style={[styles.logo, { width: size*1.1, height: size*1.1, borderRadius: size / 2 }]}
+                    style={[styles.logo, { width: size * 1.1, height: size * 1.1, borderRadius: size / 2 }]}
                     resizeMode="cover"
                 />
             </Animated.View>
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     },
     glow: {
         position: 'absolute',
-        backgroundColor: Colors.gaslightAmber,
+        backgroundColor: Colors.grayMedium,
         borderRadius: 9999,
     },
     logoContainer: {
