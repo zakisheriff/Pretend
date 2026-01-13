@@ -14,7 +14,7 @@ export const ScoreBoard = ({ players, title = "Leaderboard" }: ScoreBoardProps) 
     // Sort players by score descending
     const sortedPlayers = [...players].sort((a, b) => b.score - a.score);
     const topScore = sortedPlayers[0]?.score || 0;
-    const WINNING_SCORE = 5;
+    const WINNING_SCORE = 10;
     const [showRules, setShowRules] = React.useState(false);
 
     const rules = [
@@ -57,7 +57,7 @@ export const ScoreBoard = ({ players, title = "Leaderboard" }: ScoreBoardProps) 
 
             <View style={styles.tournamentBanner}>
                 <Ionicons name="flash-outline" size={14} color={Colors.candlelight} />
-                <Text style={styles.tournamentRule}>First to 5 points wins the match!</Text>
+                <Text style={styles.tournamentRule}>First to 10 points wins the match!</Text>
             </View>
 
             <View style={styles.list}>
