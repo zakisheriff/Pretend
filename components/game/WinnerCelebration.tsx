@@ -141,7 +141,10 @@ export const WinnerCelebration = ({ winner, allPlayers, onNewGame, onHome }: Win
                     <Animated.ScrollView
                         entering={FadeInUp.duration(800)}
                         style={styles.podiumSection}
-                        contentContainerStyle={styles.podiumContent}
+                        contentContainerStyle={[
+                            styles.podiumContent,
+                            showFullLeaderboard && styles.podiumContentScrollable
+                        ]}
                     >
                         <Text style={styles.finalLeaderboardTitle}>Tournament Results</Text>
 
@@ -286,6 +289,10 @@ const styles = StyleSheet.create({
         gap: 30,
         flexGrow: 1,
         justifyContent: 'center',
+    },
+    podiumContentScrollable: {
+        justifyContent: 'flex-start',
+        paddingBottom: 120, // Extra padding to ensure buttons are visible
     },
     finalLeaderboardTitle: {
         fontSize: 24,
