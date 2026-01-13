@@ -1,0 +1,47 @@
+{
+    "id": "u-fruits",
+    "name": "Fruits",
+    "icon": "nutrition-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Apple",
+            "imposterWord": "Pear"
+        },
+        {
+            "crewmateWord": "Orange",
+            "imposterWord": "Tangerine"
+        },
+        {
+            "crewmateWord": "Banana",
+            "imposterWord": "Plantain"
+        },
+        {
+            "crewmateWord": "Mango",
+            "imposterWord": "Peach"
+        },
+        {
+            "crewmateWord": "Strawberry",
+            "imposterWord": "Raspberry"
+        },
+        {
+            "crewmateWord": "Pineapple",
+            "imposterWord": "Jackfruit"
+        },
+        {
+            "crewmateWord": "Grapes",
+            "imposterWord": "Blueberries"
+        },
+        {
+            "crewmateWord": "Watermelon",
+            "imposterWord": "Muskmelon"
+        },
+        {
+            "crewmateWord": "Lemon",
+            "imposterWord": "Lime"
+        },
+        {
+            "crewmateWord": "Kiwi",
+            "imposterWord": "Dragon Fruit"
+        }
+    ]
+}

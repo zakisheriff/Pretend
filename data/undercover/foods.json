@@ -1,0 +1,67 @@
+{
+    "id": "u-foods",
+    "name": "Foods",
+    "icon": "restaurant-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Idli",
+            "imposterWord": "Dosa"
+        },
+        {
+            "crewmateWord": "Biryani",
+            "imposterWord": "Pulao"
+        },
+        {
+            "crewmateWord": "Parotta",
+            "imposterWord": "Chapati"
+        },
+        {
+            "crewmateWord": "Vada",
+            "imposterWord": "Bonda"
+        },
+        {
+            "crewmateWord": "Pizza",
+            "imposterWord": "Burger"
+        },
+        {
+            "crewmateWord": "Pasta",
+            "imposterWord": "Noodles"
+        },
+        {
+            "crewmateWord": "Samosa",
+            "imposterWord": "Puff"
+        },
+        {
+            "crewmateWord": "Tea",
+            "imposterWord": "Coffee"
+        },
+        {
+            "crewmateWord": "Ice Cream",
+            "imposterWord": "Frozen Yogurt"
+        },
+        {
+            "crewmateWord": "Sushi",
+            "imposterWord": "Sashimi"
+        },
+        {
+            "crewmateWord": "Gulab Jamun",
+            "imposterWord": "Rasagulla"
+        },
+        {
+            "crewmateWord": "Halwa",
+            "imposterWord": "Payasam"
+        },
+        {
+            "crewmateWord": "Pepsi",
+            "imposterWord": "Coca Cola"
+        },
+        {
+            "crewmateWord": "Butter",
+            "imposterWord": "Cheese"
+        },
+        {
+            "crewmateWord": "Sandwich",
+            "imposterWord": "Taco"
+        }
+    ]
+}

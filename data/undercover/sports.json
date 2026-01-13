@@ -1,0 +1,47 @@
+{
+    "id": "u-sports",
+    "name": "Sports",
+    "icon": "trophy-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Cricket",
+            "imposterWord": "Baseball"
+        },
+        {
+            "crewmateWord": "Football",
+            "imposterWord": "Rugby"
+        },
+        {
+            "crewmateWord": "Tennis",
+            "imposterWord": "Badminton"
+        },
+        {
+            "crewmateWord": "Basketball",
+            "imposterWord": "Volleyball"
+        },
+        {
+            "crewmateWord": "Boxing",
+            "imposterWord": "Wrestling"
+        },
+        {
+            "crewmateWord": "Swimming",
+            "imposterWord": "Diving"
+        },
+        {
+            "crewmateWord": "Golf",
+            "imposterWord": "Billiards"
+        },
+        {
+            "crewmateWord": "Chess",
+            "imposterWord": "Checkers"
+        },
+        {
+            "crewmateWord": "Formula 1",
+            "imposterWord": "MotoGP"
+        },
+        {
+            "crewmateWord": "Running",
+            "imposterWord": "Walking"
+        }
+    ]
+}

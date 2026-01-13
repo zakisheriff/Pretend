@@ -1,0 +1,47 @@
+{
+    "id": "u-cars",
+    "name": "Cars",
+    "icon": "car-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Sedan",
+            "imposterWord": "Hatchback"
+        },
+        {
+            "crewmateWord": "SUV",
+            "imposterWord": "Mini Van"
+        },
+        {
+            "crewmateWord": "Tesla",
+            "imposterWord": "BYD"
+        },
+        {
+            "crewmateWord": "Fortuner",
+            "imposterWord": "Endeavour"
+        },
+        {
+            "crewmateWord": "Thar",
+            "imposterWord": "Jimny"
+        },
+        {
+            "crewmateWord": "Creta",
+            "imposterWord": "Seltos"
+        },
+        {
+            "crewmateWord": "City",
+            "imposterWord": "Verna"
+        },
+        {
+            "crewmateWord": "Range Rover",
+            "imposterWord": "Land Cruiser"
+        },
+        {
+            "crewmateWord": "Mini Cooper",
+            "imposterWord": "Volkswagen Beetle"
+        },
+        {
+            "crewmateWord": "Porsche 911",
+            "imposterWord": "Ferrari 488"
+        }
+    ]
+}

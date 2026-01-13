@@ -144,13 +144,19 @@ export const DEFAULT_SETTINGS: GameSettings = {
     fakeHintForCrewmates: false,
 };
 
-// Game mode metadata
+export interface GameModeStep {
+    role: string;
+    desc: string;
+    icon: string;
+}
+
 export interface GameModeInfo {
     id: GameMode;
     name: string;
     icon: string;
     description: string;
     tagline: string;
+    instructions: GameModeStep[];
 }
 
 export const GAME_MODES: GameModeInfo[] = [
@@ -160,20 +166,10 @@ export const GAME_MODES: GameModeInfo[] = [
         icon: 'people-outline',
         description: 'Imposter gets a clue, crewmates get the secret word',
         tagline: 'Find the imposter who only has a hint!',
-    },
-    {
-        id: 'directors-cut',
-        name: "Director's Cut",
-        icon: 'videocam-outline',
-        description: 'One Director knows the movie, others only get hints',
-        tagline: 'Guess the movie through yes/no questions',
-    },
-    {
-        id: 'mind-sync',
-        name: 'Mind Sync',
-        icon: 'git-compare-outline',
-        description: 'One player answers a slightly different question',
-        tagline: 'Find who is out of sync',
+        instructions: [
+            { role: 'Crewmates', icon: 'eye-outline', desc: 'See the SECRET WORD and describe it' },
+            { role: 'Imposter', icon: 'skull-outline', desc: 'Only gets a CLUE - fake it and blend in!' },
+        ],
     },
     {
         id: 'classic-imposter',
@@ -181,5 +177,31 @@ export const GAME_MODES: GameModeInfo[] = [
         icon: 'search-outline',
         description: 'Everyone gets a word - one person has a different one',
         tagline: 'Find who has a different word without revealing yours!',
+        instructions: [
+            { role: 'Everyone', icon: 'person-outline', desc: 'Players get a word from a shared theme' },
+            { role: 'Undercover', icon: 'help-outline', desc: 'Has a DIFFERENT word from the same theme!' },
+        ],
+    },
+    {
+        id: 'directors-cut',
+        name: "Director's Cut",
+        icon: 'videocam-outline',
+        description: 'One Director knows the movie, others only get hints',
+        tagline: 'Guess the movie through yes/no questions',
+        instructions: [
+            { role: 'Director', icon: 'film-outline', desc: 'Knows the MOVIE - answer yes/no questions' },
+            { role: 'Viewers', icon: 'eye-outline', desc: 'Get hints and ask questions to guess the movie' },
+        ],
+    },
+    {
+        id: 'mind-sync',
+        name: 'Mind Sync',
+        icon: 'git-compare-outline',
+        description: 'One player answers a slightly different question',
+        tagline: 'Find who is out of sync',
+        instructions: [
+            { role: 'In Sync', icon: 'sync-outline', desc: 'Answer the question - find who has a different one' },
+            { role: 'Outlier', icon: 'flash-outline', desc: 'Has a different question - give a believable answer!' },
+        ],
     },
 ];

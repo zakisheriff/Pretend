@@ -1,0 +1,47 @@
+{
+    "id": "u-festivals",
+    "name": "Festivals",
+    "icon": "calendar-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Diwali",
+            "imposterWord": "Holi"
+        },
+        {
+            "crewmateWord": "Christmas",
+            "imposterWord": "Easter"
+        },
+        {
+            "crewmateWord": "Eid",
+            "imposterWord": "Ramadan"
+        },
+        {
+            "crewmateWord": "Pongal",
+            "imposterWord": "Onam"
+        },
+        {
+            "crewmateWord": "Halloween",
+            "imposterWord": "Day of the Dead"
+        },
+        {
+            "crewmateWord": "New Year",
+            "imposterWord": "Lunar New Year"
+        },
+        {
+            "crewmateWord": "Ganesh Chaturthi",
+            "imposterWord": "Durga Puja"
+        },
+        {
+            "crewmateWord": "Thanksgiving",
+            "imposterWord": "Christmas"
+        },
+        {
+            "crewmateWord": "Valentine's Day",
+            "imposterWord": "Mother's Day"
+        },
+        {
+            "crewmateWord": "Carnival",
+            "imposterWord": "Mardi Gras"
+        }
+    ]
+}

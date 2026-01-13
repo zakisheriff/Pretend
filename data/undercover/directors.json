@@ -1,0 +1,47 @@
+{
+    "id": "u-directors",
+    "name": "Directors",
+    "icon": "videocam-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Christopher Nolan",
+            "imposterWord": "Denis Villeneuve"
+        },
+        {
+            "crewmateWord": "Steven Spielberg",
+            "imposterWord": "Martin Scorsese"
+        },
+        {
+            "crewmateWord": "Quentin Tarantino",
+            "imposterWord": "Guy Ritchie"
+        },
+        {
+            "crewmateWord": "Alfred Hitchcock",
+            "imposterWord": "Stanley Kubrick"
+        },
+        {
+            "crewmateWord": "James Cameron",
+            "imposterWord": "Ridley Scott"
+        },
+        {
+            "crewmateWord": "S.S. Rajamouli",
+            "imposterWord": "Prashanth Neel"
+        },
+        {
+            "crewmateWord": "Mani Ratnam",
+            "imposterWord": "Gautham Vasudev Menon"
+        },
+        {
+            "crewmateWord": "Lokesh Kanagaraj",
+            "imposterWord": "Nelson Dilipkumar"
+        },
+        {
+            "crewmateWord": "Shankar",
+            "imposterWord": "Atlee"
+        },
+        {
+            "crewmateWord": "Zack Snyder",
+            "imposterWord": "Michael Bay"
+        }
+    ]
+}

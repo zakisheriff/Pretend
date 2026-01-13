@@ -1,0 +1,47 @@
+{
+    "id": "u-objects",
+    "name": "Objects",
+    "icon": "cube-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Laptop",
+            "imposterWord": "Desktop"
+        },
+        {
+            "crewmateWord": "Pencil",
+            "imposterWord": "Pen"
+        },
+        {
+            "crewmateWord": "Watch",
+            "imposterWord": "Clock"
+        },
+        {
+            "crewmateWord": "Sunglasses",
+            "imposterWord": "Glasses"
+        },
+        {
+            "crewmateWord": "Backpack",
+            "imposterWord": "Briefcase"
+        },
+        {
+            "crewmateWord": "Headphones",
+            "imposterWord": "Earbuds"
+        },
+        {
+            "crewmateWord": "Camera",
+            "imposterWord": "Smartphone"
+        },
+        {
+            "crewmateWord": "Spoon",
+            "imposterWord": "Fork"
+        },
+        {
+            "crewmateWord": "Bicycle",
+            "imposterWord": "Motorcycle"
+        },
+        {
+            "crewmateWord": "Fan",
+            "imposterWord": "Air Conditioner"
+        }
+    ]
+}

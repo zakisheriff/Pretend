@@ -1,0 +1,47 @@
+{
+    "id": "u-songs",
+    "name": "Songs",
+    "icon": "musical-notes-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Arabic Kuthu",
+            "imposterWord": "Ranjithame"
+        },
+        {
+            "crewmateWord": "Rowdy Baby",
+            "imposterWord": "Why This Kolaveri"
+        },
+        {
+            "crewmateWord": "Chaiyya Chaiyya",
+            "imposterWord": "Mukkala Mukkabla"
+        },
+        {
+            "crewmateWord": "Vaathi Coming",
+            "imposterWord": "Enjoy Enjaami"
+        },
+        {
+            "crewmateWord": "Naa Ready",
+            "imposterWord": "Hukum"
+        },
+        {
+            "crewmateWord": "Butta Bomma",
+            "imposterWord": "Ramuloo Ramulaa"
+        },
+        {
+            "crewmateWord": "Hosanna",
+            "imposterWord": "Vaseegara"
+        },
+        {
+            "crewmateWord": "Selfie Pulla",
+            "imposterWord": "Aaluma Doluma"
+        },
+        {
+            "crewmateWord": "New York Nagaram",
+            "imposterWord": "Munbe Vaa"
+        },
+        {
+            "crewmateWord": "Urvasi Urvasi",
+            "imposterWord": "Mustafa Mustafa"
+        }
+    ]
+}

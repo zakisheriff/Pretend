@@ -22,10 +22,21 @@ import youtubers from './themes/youtubers.json';
 // Undercover Mode Themes (Paired)
 import uActors from './undercover/actors.json';
 import uActresses from './undercover/actresses.json';
+import uAnimals from './undercover/animals.json';
+import uBrands from './undercover/brands.json';
+import uCars from './undercover/cars.json';
+import uDirectors from './undercover/directors.json';
+import uFestivals from './undercover/festivals.json';
+import uFoods from './undercover/foods.json';
+import uFruits from './undercover/fruits.json';
 import uGeneral from './undercover/general.json';
 import uHindiMovies from './undercover/hindi-movies.json';
 import uHollywoodMovies from './undercover/hollywood-movies.json';
 import uLifestyle from './undercover/lifestyle.json';
+import uObjects from './undercover/objects.json';
+import uPlaces from './undercover/places.json';
+import uSongs from './undercover/songs.json';
+import uSports from './undercover/sports.json';
 import uTamilMovies from './undercover/tamil-movies.json';
 import uYoutubers from './undercover/youtubers.json';
 
@@ -61,7 +72,7 @@ export const undercoverCategories: UndercoverCategory[] = [
         id: 'movies',
         name: 'Movies',
         icon: 'videocam-outline',
-        themes: [uTamilMovies, uHindiMovies, uHollywoodMovies] as UndercoverTheme[]
+        themes: [uTamilMovies, uHindiMovies, uHollywoodMovies, uDirectors] as UndercoverTheme[]
     },
     {
         id: 'celebrities',
@@ -73,13 +84,13 @@ export const undercoverCategories: UndercoverCategory[] = [
         id: 'lifestyle',
         name: 'Lifestyle',
         icon: 'cafe-outline',
-        themes: [uLifestyle] as UndercoverTheme[]
+        themes: [uFoods, uFruits, uFestivals, uSongs, uLifestyle] as UndercoverTheme[]
     },
     {
         id: 'general',
         name: 'General',
         icon: 'grid-outline',
-        themes: [uGeneral] as UndercoverTheme[]
+        themes: [uAnimals, uPlaces, uObjects, uBrands, uSports, uCars, uGeneral] as UndercoverTheme[]
     }
 ];
 

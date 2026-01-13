@@ -1,0 +1,47 @@
+{
+    "id": "u-places",
+    "name": "Places",
+    "icon": "location-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Beach",
+            "imposterWord": "Island"
+        },
+        {
+            "crewmateWord": "Forest",
+            "imposterWord": "Jungle"
+        },
+        {
+            "crewmateWord": "Mountain",
+            "imposterWord": "Hill"
+        },
+        {
+            "crewmateWord": "Hospital",
+            "imposterWord": "Clinic"
+        },
+        {
+            "crewmateWord": "School",
+            "imposterWord": "College"
+        },
+        {
+            "crewmateWord": "Restaurant",
+            "imposterWord": "Cafe"
+        },
+        {
+            "crewmateWord": "Airport",
+            "imposterWord": "Railway Station"
+        },
+        {
+            "crewmateWord": "Cinema",
+            "imposterWord": "Theater"
+        },
+        {
+            "crewmateWord": "Library",
+            "imposterWord": "Bookstore"
+        },
+        {
+            "crewmateWord": "Zoo",
+            "imposterWord": "Aquarium"
+        }
+    ]
+}

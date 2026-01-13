@@ -1,0 +1,67 @@
+{
+    "id": "u-brands",
+    "name": "Brands",
+    "icon": "business-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Apple",
+            "imposterWord": "Samsung"
+        },
+        {
+            "crewmateWord": "Nike",
+            "imposterWord": "Adidas"
+        },
+        {
+            "crewmateWord": "Coke",
+            "imposterWord": "Pepsi"
+        },
+        {
+            "crewmateWord": "McDonald's",
+            "imposterWord": "Burger King"
+        },
+        {
+            "crewmateWord": "Ferrari",
+            "imposterWord": "Lamborghini"
+        },
+        {
+            "crewmateWord": "Visa",
+            "imposterWord": "Mastercard"
+        },
+        {
+            "crewmateWord": "Google",
+            "imposterWord": "Microsoft"
+        },
+        {
+            "crewmateWord": "Netflix",
+            "imposterWord": "Prime Video"
+        },
+        {
+            "crewmateWord": "Starbucks",
+            "imposterWord": "Dunkin'"
+        },
+        {
+            "crewmateWord": "Instagram",
+            "imposterWord": "TikTok"
+        },
+        {
+            "crewmateWord": "BMW",
+            "imposterWord": "Mercedes"
+        },
+        {
+            "crewmateWord": "Spotify",
+            "imposterWord": "YouTube Music"
+        },
+        {
+            "crewmateWord": "Zomato",
+            "imposterWord": "Swiggy"
+        },
+        {
+            "crewmateWord": "Uber",
+            "imposterWord": "Ola"
+        },
+        {
+            "crewmateWord": "Sony",
+            "imposterWord": "Panasonic"
+        }
+    ]
+}

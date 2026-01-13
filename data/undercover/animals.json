@@ -1,0 +1,87 @@
+{
+    "id": "u-animals",
+    "name": "Animals",
+    "icon": "paw-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Lion",
+            "imposterWord": "Tiger"
+        },
+        {
+            "crewmateWord": "Dog",
+            "imposterWord": "Wolf"
+        },
+        {
+            "crewmateWord": "Cat",
+            "imposterWord": "Leopard"
+        },
+        {
+            "crewmateWord": "Elephant",
+            "imposterWord": "Mammoth"
+        },
+        {
+            "crewmateWord": "Monkey",
+            "imposterWord": "Chimpanzee"
+        },
+        {
+            "crewmateWord": "Snake",
+            "imposterWord": "Lizard"
+        },
+        {
+            "crewmateWord": "Peacock",
+            "imposterWord": "Ostrich"
+        },
+        {
+            "crewmateWord": "Penguin",
+            "imposterWord": "Puffin"
+        },
+        {
+            "crewmateWord": "Shark",
+            "imposterWord": "Dolphin"
+        },
+        {
+            "crewmateWord": "Butterfly",
+            "imposterWord": "Moth"
+        },
+        {
+            "crewmateWord": "Owl",
+            "imposterWord": "Eagle"
+        },
+        {
+            "crewmateWord": "Horse",
+            "imposterWord": "Donkey"
+        },
+        {
+            "crewmateWord": "Cow",
+            "imposterWord": "Buffalo"
+        },
+        {
+            "crewmateWord": "Rat",
+            "imposterWord": "Mouse"
+        },
+        {
+            "crewmateWord": "Fox",
+            "imposterWord": "Coyote"
+        },
+        {
+            "crewmateWord": "Bee",
+            "imposterWord": "Wasp"
+        },
+        {
+            "crewmateWord": "Frog",
+            "imposterWord": "Toad"
+        },
+        {
+            "crewmateWord": "Spider",
+            "imposterWord": "Scorpion"
+        },
+        {
+            "crewmateWord": "Crow",
+            "imposterWord": "Raven"
+        },
+        {
+            "crewmateWord": "Zebra",
+            "imposterWord": "Horse"
+        }
+    ]
+}
