@@ -64,7 +64,7 @@ export const ThemeCard: React.FC<ThemeCardProps> = ({ id, name, isSelected, onSe
 const styles = StyleSheet.create({
     card: {
         width: CARD_SIZE, height: CARD_SIZE * 0.7,
-        backgroundColor: Colors.grayDark, borderRadius: 28,
+        backgroundColor: Colors.grayDark, borderRadius: 25,
         alignItems: 'center', justifyContent: 'center', gap: 10,
         borderWidth: 1, borderColor: Colors.grayMedium,
     },

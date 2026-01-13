@@ -55,7 +55,7 @@ export const GameSetting: React.FC<GameSettingProps> = ({
 const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.grayDark,
-        borderRadius: 28,
+        borderRadius: 25,
         padding: 18,
         borderWidth: 1.5,
         borderColor: Colors.grayLight,

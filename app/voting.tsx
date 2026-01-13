@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
 
     list: { width: '100%', gap: 8, maxWidth: 360, alignSelf: 'center' },
 
-    option: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.grayDark, borderRadius: 24, padding: 12, gap: 12, borderWidth: 1.5, borderColor: Colors.grayMedium },
+    option: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.grayDark, borderRadius: 25, padding: 12, gap: 12, borderWidth: 1.5, borderColor: Colors.grayMedium },
     optionSelected: { borderColor: Colors.candlelight, backgroundColor: Colors.gray },
     optAvatar: { width: 38, height: 38, borderRadius: 19, backgroundColor: Colors.gray, alignItems: 'center', justifyContent: 'center' },
     optAvatarSelected: { backgroundColor: Colors.parchmentLight },

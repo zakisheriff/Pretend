@@ -215,12 +215,12 @@ const styles = StyleSheet.create({
     container: { position: 'relative', overflow: 'visible' },
     deleteBtn: {
         position: 'absolute', right: 0, top: 0, bottom: 0,
-        width: 80, backgroundColor: Colors.suspect, borderRadius: 24,
+        width: 80, backgroundColor: Colors.suspect, borderRadius: 25,
         alignItems: 'center', justifyContent: 'center',
     },
     card: {
         flexDirection: 'row', alignItems: 'center',
-        backgroundColor: Colors.grayDark, borderRadius: 24, height: 56,
+        backgroundColor: Colors.grayDark, borderRadius: 25, height: 56,
         paddingHorizontal: 18, gap: 14,
         borderWidth: 1, borderColor: Colors.grayMedium,
     },

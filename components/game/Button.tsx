@@ -123,17 +123,17 @@ const styles = StyleSheet.create({
     btn_small: {
         paddingVertical: isAndroid ? 8 : 10,
         paddingHorizontal: isAndroid ? 14 : 18,
-        borderRadius: 20
+        borderRadius: 25
     },
     btn_medium: {
         paddingVertical: isAndroid ? 10 : 14,
         paddingHorizontal: isAndroid ? 18 : 22,
-        borderRadius: 24
+        borderRadius: 25
     },
     btn_large: {
         paddingVertical: isAndroid ? 12 : 18,
         paddingHorizontal: isAndroid ? 20 : 24,
-        borderRadius: 28
+        borderRadius: 25
     },
 
     disabled: { opacity: 0.35 },

@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     sectionSubtitle: { fontSize: 11, color: Colors.candlelight, marginTop: -8 },
 
     steps: { gap: 8 },
-    step: { flexDirection: 'row', backgroundColor: Colors.grayDark, borderRadius: 12, padding: 12, gap: 12, borderWidth: 1, borderColor: Colors.grayMedium },
+    step: { flexDirection: 'row', backgroundColor: Colors.grayDark, borderRadius: 25, padding: 12, gap: 12, borderWidth: 1, borderColor: Colors.grayMedium },
     stepNum: { width: 24, height: 24, borderRadius: 12, backgroundColor: Colors.candlelight, alignItems: 'center', justifyContent: 'center' },
     stepNumText: { fontSize: 11, fontWeight: '800', color: Colors.victorianBlack },
     stepBody: { flex: 1, gap: 2 },
@@ -242,10 +242,10 @@ const styles = StyleSheet.create({
     stepDesc: { fontSize: 11, color: Colors.parchment, opacity: 0.85 },
 
     modesGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-    modeCard: { width: '48%', backgroundColor: Colors.grayDark, borderRadius: 12, padding: 14, alignItems: 'center', gap: 8, borderWidth: 1.5, borderColor: Colors.grayMedium },
+    modeCard: { width: '48%', backgroundColor: Colors.grayDark, borderRadius: 25, padding: 14, alignItems: 'center', gap: 8, borderWidth: 1.5, borderColor: Colors.grayMedium },
     modeName: { fontSize: 11, fontWeight: '700', color: Colors.parchment, textAlign: 'center' },
 
-    modeDetails: { backgroundColor: Colors.grayDark, borderRadius: 12, padding: 14, borderWidth: 1, borderColor: Colors.grayMedium },
+    modeDetails: { backgroundColor: Colors.grayDark, borderRadius: 25, padding: 14, borderWidth: 1, borderColor: Colors.grayMedium },
     rolesList: { gap: 10 },
     roleItem: { flexDirection: 'row', gap: 10, alignItems: 'flex-start' },
     roleIcon: { width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     modeTip: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 12, paddingTop: 10, borderTopWidth: 1, borderTopColor: Colors.grayMedium },
     modeTipText: { fontSize: 11, color: Colors.candlelight, fontStyle: 'italic', flex: 1 },
 
-    tipBox: { backgroundColor: 'rgba(196,167,108,0.12)', borderRadius: 14, padding: 16, borderWidth: 1.5, borderColor: Colors.candlelight },
+    tipBox: { backgroundColor: 'rgba(196,167,108,0.12)', borderRadius: 25, padding: 16, borderWidth: 1.5, borderColor: Colors.candlelight },
     tipTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
     tipTitle: { fontSize: 12, fontWeight: '800', color: Colors.candlelight, letterSpacing: 1 },
     tip: { fontSize: 11, color: Colors.parchment, marginBottom: 4 },
