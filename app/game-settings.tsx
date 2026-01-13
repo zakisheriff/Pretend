@@ -46,7 +46,10 @@ export default function GameSettingsScreen() {
 
             <ScrollView
                 style={styles.scroll}
-                contentContainerStyle={styles.scrollContent}
+                contentContainerStyle={[
+                    styles.scrollContent,
+                    { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 100 }
+                ]}
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.header}>
@@ -118,7 +121,7 @@ const styles = StyleSheet.create({
     backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24, paddingTop: 100, gap: 34 },
+    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24, gap: 34 },
     header: { alignItems: 'center', gap: 6 },
     titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
     title: { fontSize: 24, fontWeight: '900', color: Colors.parchment, letterSpacing: 3 },

@@ -261,7 +261,7 @@ export default function ResultsScreen() {
                 )}
 
                 {/* Reveal Content (Only show if game is over) */}
-                {revealContent && !!gameWinner && (
+                {revealContent && (!!gameWinner || gameMode === 'directors-cut') && (
                     <Animated.View entering={FadeInUp.delay(600).springify()} style={styles.section}>
                         <Text style={styles.sectionLabel}>{revealContent.label}</Text>
                         <View style={styles.wordCard}>

@@ -196,7 +196,7 @@ export default function AddPlayersScreen() {
                 containerStyle={styles.scroll}
                 contentContainerStyle={[
                     styles.scrollContent,
-                    { paddingBottom: insets.bottom + 350 }
+                    { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 100 }
                 ]}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="always"
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, paddingHorizontal: 20, paddingTop: 100 },
+    scrollContent: { flexGrow: 1, paddingHorizontal: 20 },
     headerContent: { gap: 26, marginBottom: 14 },
 
     header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },

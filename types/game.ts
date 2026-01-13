@@ -137,6 +137,7 @@ export interface GameState {
     lastEliminatedPlayerId: string | null;
     overallWinner: Player | null;
     isNewTournamentPending: boolean;
+    usedWords: string[];
 }
 
 export const DEFAULT_SETTINGS: GameSettings = {

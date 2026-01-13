@@ -17,6 +17,7 @@ function findDirectorName(settings: any, mode: string, players: any[]) {
 
 export default function DiscussionScreen() {
     const router = useRouter();
+    useKeepAwake(); // Keep screen on during discussion
     const insets = useSafeAreaInsets();
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const settings = useGameStore((s) => s.settings);

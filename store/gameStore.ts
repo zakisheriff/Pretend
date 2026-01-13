@@ -1,5 +1,5 @@
 import { getRandomMindSyncQuestion, getRandomMovie } from '@/data/game-modes';
-import { getEffectiveTheme, getEffectiveUndercoverTheme, getRandomWord, getThemeById } from '@/data/themes';
+import { getEffectiveTheme, getEffectiveUndercoverTheme, getThemeById } from '@/data/themes';
 import { DEFAULT_SETTINGS, GameData, GameMode, GameSettings, GameState, Player, Word } from '@/types/game';
 import { create } from 'zustand';
 
@@ -75,7 +75,9 @@ interface GameStore extends GameState {
 
     // Reset Flow
     queueNewTournament: () => void;
-    isNewTournamentPending: boolean;
+    // Used words tracking (to prevent repetition until tournament reset)
+    usedWords: string[];
+
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
@@ -99,6 +101,7 @@ const initialState: GameState = {
     lastEliminatedPlayerId: null,
     overallWinner: null,
     isNewTournamentPending: false,
+    usedWords: [],
 };
 
 // Smart Shuffle: Weighted random selection
@@ -279,7 +282,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 if (selectedThemeId && selectedThemeId !== 'undercover') {
                     if (selectedThemeId === 'custom') {
                         if (customWords.length === 0) return;
-                        const randomCustomWord = customWords[Math.floor(Math.random() * customWords.length)];
+                        // Filter custom words
+                        const available = customWords.filter(w => !state.usedWords.includes(w));
+                        const pool = available.length > 0 ? available : customWords;
+
+                        const randomCustomWord = pool[Math.floor(Math.random() * pool.length)];
+
+                        // Add to used words
+                        set(s => ({ usedWords: [...s.usedWords, randomCustomWord] }));
+
                         selectedWord = {
                             word: randomCustomWord,
                             hints: {
@@ -291,7 +302,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     } else {
                         const theme = getEffectiveTheme(selectedThemeId);
                         if (!theme) return;
-                        selectedWord = getRandomWord(theme);
+
+                        // Filter theme words
+                        const available = theme.words.filter(w => !state.usedWords.includes(w.word));
+                        const pool = available.length > 0 ? available : theme.words;
+
+                        selectedWord = pool[Math.floor(Math.random() * pool.length)];
+
+                        // Add to used words
+                        if (selectedWord) {
+                            set(s => ({ usedWords: [...s.usedWords, selectedWord!.word] }));
+                        }
                     }
 
                     if (selectedWord) {
@@ -309,7 +330,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     // Fallback to random theme
                     const theme = getEffectiveTheme('general');
                     if (theme) {
-                        selectedWord = getRandomWord(theme);
+                        // Filter theme words
+                        const available = theme.words.filter(w => !state.usedWords.includes(w.word));
+                        const pool = available.length > 0 ? available : theme.words;
+
+                        selectedWord = pool[Math.floor(Math.random() * pool.length)];
+
+                        // Add to used words
+                        if (selectedWord) {
+                            set(s => ({ usedWords: [...s.usedWords, selectedWord!.word] }));
+                        }
+
                         if (selectedWord) {
                             gameData = {
                                 type: 'undercover-word',
@@ -349,7 +380,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 if (!theme || theme.pairs.length === 0) return;
 
                 // Pick a random pair from the undercover theme
-                const randomPair = theme.pairs[Math.floor(Math.random() * theme.pairs.length)];
+                const availablePairs = theme.pairs.filter(p => !state.usedWords.includes(p.crewmateWord));
+                const pool = availablePairs.length > 0 ? availablePairs : theme.pairs;
+
+                const randomPair = pool[Math.floor(Math.random() * pool.length)];
+
+                // Add to used words
+                set(s => ({ usedWords: [...s.usedWords, randomPair.crewmateWord] }));
 
                 gameData = {
                     type: 'classic-imposter',
@@ -558,11 +595,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 score: 0, // Reset score to 0
                 isEliminated: false,
             })),
+            usedWords: [], // Reset used words
         });
     },
 
     resetToHome: () => {
-        set({ ...initialState, directorId: null, directorWinnerId: null, players: [], overallWinner: null, isNewTournamentPending: false });
+        set({ ...initialState, directorId: null, directorWinnerId: null, players: [], overallWinner: null, isNewTournamentPending: false, usedWords: [] });
     },
 
     queueNewTournament: () => {
@@ -634,7 +672,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     if (selectedThemeId && selectedThemeId !== 'undercover') {
                         if (selectedThemeId === 'custom') {
                             if (customWords.length > 0) {
-                                const randomCustomWord = customWords[Math.floor(Math.random() * customWords.length)];
+                                const available = customWords.filter(w => !state.usedWords.includes(w));
+                                const pool = available.length > 0 ? available : customWords;
+                                const randomCustomWord = pool[Math.floor(Math.random() * pool.length)];
+                                set(s => ({ usedWords: [...s.usedWords, randomCustomWord] }));
+
                                 selectedWord = {
                                     word: randomCustomWord,
                                     hints: { low: 'A custom word', medium: 'A custom word from your list', high: 'A custom word you added' },
@@ -642,7 +684,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
                             }
                         } else {
                             const theme = getThemeById(selectedThemeId!);
-                            if (theme) selectedWord = getRandomWord(theme);
+                            if (theme) {
+                                const available = theme.words.filter(w => !state.usedWords.includes(w.word));
+                                const pool = available.length > 0 ? available : theme.words;
+                                const word = pool[Math.floor(Math.random() * pool.length)];
+
+                                if (word) {
+                                    selectedWord = word;
+                                    set(s => ({ usedWords: [...s.usedWords, word.word] }));
+                                }
+                            }
                         }
 
                         if (selectedWord) {
@@ -668,7 +719,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     const themeId = selectedThemeId || 'classic'; // fallback
                     const theme = getEffectiveUndercoverTheme(themeId);
                     if (theme && theme.pairs.length > 0) {
-                        const wordPair = theme.pairs[Math.floor(Math.random() * theme.pairs.length)];
+                        const availablePairs = theme.pairs.filter(p => !state.usedWords.includes(p.crewmateWord));
+                        const pool = availablePairs.length > 0 ? availablePairs : theme.pairs;
+                        const wordPair = pool[Math.floor(Math.random() * pool.length)];
+                        set(s => ({ usedWords: [...s.usedWords, wordPair.crewmateWord] }));
+
                         gameData = {
                             type: 'classic-imposter',
                             data: {
@@ -734,7 +789,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 if (selectedThemeId && selectedThemeId !== 'undercover') {
                     if (selectedThemeId === 'custom') {
                         if (customWords.length === 0) return;
-                        const randomCustomWord = customWords[Math.floor(Math.random() * customWords.length)];
+                        // Filter custom words
+                        const available = customWords.filter(w => !state.usedWords.includes(w));
+                        const pool = available.length > 0 ? available : customWords;
+                        const randomCustomWord = pool[Math.floor(Math.random() * pool.length)];
+                        set(s => ({ usedWords: [...s.usedWords, randomCustomWord] }));
+
                         selectedWord = {
                             word: randomCustomWord,
                             hints: {
@@ -746,7 +806,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     } else {
                         const theme = getThemeById(selectedThemeId);
                         if (!theme) return;
-                        selectedWord = getRandomWord(theme);
+
+                        // Filter theme words
+                        const available = theme.words.filter(w => !state.usedWords.includes(w.word));
+                        const pool = available.length > 0 ? available : theme.words;
+
+                        selectedWord = pool[Math.floor(Math.random() * pool.length)];
+                        if (selectedWord) {
+                            set(s => ({ usedWords: [...s.usedWords, selectedWord!.word] }));
+                        }
                     }
 
                     if (selectedWord) {
@@ -774,7 +842,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 const theme = getEffectiveUndercoverTheme(selectedThemeId);
                 if (!theme || theme.pairs.length === 0) return;
 
-                const randomPair = theme.pairs[Math.floor(Math.random() * theme.pairs.length)];
+                const availablePairs = theme.pairs.filter(p => !state.usedWords.includes(p.crewmateWord));
+                const pool = availablePairs.length > 0 ? availablePairs : theme.pairs;
+                const randomPair = pool[Math.floor(Math.random() * pool.length)];
+                set(s => ({ usedWords: [...s.usedWords, randomPair.crewmateWord] }));
 
                 gameData = {
                     type: 'classic-imposter',

@@ -48,7 +48,7 @@ export default function SelectThemeScreen() {
 
             <ScrollView
                 style={styles.scroll}
-                contentContainerStyle={styles.scrollContent}
+                contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 100 }]}
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.header}>
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, padding: 20, paddingTop: 100, gap: 10 },
+    scrollContent: { flexGrow: 1, padding: 20, gap: 10 },
     header: { alignItems: 'center', gap: 4, marginBottom: 20 },
     titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
     title: { fontSize: 22, fontWeight: '800', color: Colors.parchment, letterSpacing: 2 },
