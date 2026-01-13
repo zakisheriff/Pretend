@@ -16,7 +16,9 @@
 
 <br />
 
-<img src="assets/images/Neo-Logo.jpeg" width="160" height="160" style="border-radius: 25px;" />
+<div align="center" style="border-radius: 25px; overflow: hidden; width: 160px; height: 160px;">
+  <img src="assets/images/Neo-Logo.jpeg" width="160" height="160" />
+</div>
 
 <br />
 <br />
