@@ -227,12 +227,12 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: '700',
         color: Colors.grayLight,
-        opacity: 0.7,
+        // opacity: 0.7, // Removed opacity to fix web visibility
     },
     brandLine: {
         width: 20,
         height: 1,
         backgroundColor: Colors.candlelight,
-        opacity: 0.3,
+        // opacity: 0.3, // Removed opacity to fix web visibility
     },
 });
