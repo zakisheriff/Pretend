@@ -1,6 +1,7 @@
 import { CHARADES_WORDS } from '@/data/charades';
 import { getRandomMindSyncQuestion, getRandomMovie } from '@/data/game-modes';
-import { getEffectiveTheme, getEffectiveUndercoverTheme, getThemeById, themes, undercoverCategories } from '@/data/themes';
+import { getEffectiveTheme, getEffectiveUndercoverTheme, getThemeById, themes } from '@/data/themes';
+import thiefPoliceWords from '@/data/thief-police.json';
 import { DEFAULT_SETTINGS, GameData, GameMode, GameSettings, GameState, Player, Word } from '@/types/game';
 import { create } from 'zustand';
 
@@ -479,17 +480,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
 
             case 'thief-police': {
-                // Use undercover word pairs for thief-police mode
-                const allThemes = undercoverCategories.flatMap(cat => cat.themes);
-                const theme = allThemes[Math.floor(Math.random() * allThemes.length)];
-
-                // Pick a random pair
-                const availablePairs = theme.pairs.filter((p) => !state.usedWords.includes(p.crewmateWord));
-                const pool = availablePairs.length > 0 ? availablePairs : theme.pairs;
+                // Use dedicated Thief & Police word pairs
+                const availablePairs = thiefPoliceWords.filter((p) => !state.usedWords.includes(p.policeWord));
+                const pool = availablePairs.length > 0 ? availablePairs : thiefPoliceWords;
                 const randomPair = pool[Math.floor(Math.random() * pool.length)];
 
                 // Add to used words
-                set(s => ({ usedWords: [...s.usedWords, randomPair.crewmateWord] }));
+                set(s => ({ usedWords: [...s.usedWords, randomPair.policeWord] }));
 
                 // Randomly select Police and Thief from different players
                 const shuffledPlayers = [...players].sort(() => Math.random() - 0.5);
@@ -499,9 +496,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 gameData = {
                     type: 'thief-police',
                     data: {
-                        policeWord: randomPair.crewmateWord,
-                        thiefWord: randomPair.imposterWord,
-                        category: theme.name,
+                        policeWord: randomPair.policeWord,
+                        thiefWord: randomPair.thiefWord,
+                        category: 'Thief & Police',
                         policePlayerId: policePlayer.id,
                         thiefPlayerId: thiefPlayer.id
                     }
