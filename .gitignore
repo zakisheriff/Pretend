@@ -46,3 +46,6 @@ app-example
 *.apk
 *.aab
 .vercel
+
+# Allow public APK
+!public/pretend.apk
