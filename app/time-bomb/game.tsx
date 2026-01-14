@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -228,6 +228,7 @@ const styles = StyleSheet.create({
         fontSize: 48,
         fontWeight: '900',
         color: Colors.candlelight,
+        fontFamily: Platform.select({ ios: 'Georgia', android: 'serif', default: 'serif' }),
     },
 
     timerContainer: {

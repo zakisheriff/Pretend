@@ -415,8 +415,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
             case 'time-bomb': {
                 // Custom categories for Time Bomb
                 const bombCategories = [
-                    'Movies', 'Food', 'Games', 'Animals', 'Brands', 'Everything',
-                    'Celebrities', 'Countries', 'Songs', 'Sports', 'Cities', 'Colors'
+                    'Movie', 'Food', 'Game', 'Animal', 'Brand', 'Thing',
+                    'Celebrity', 'Country', 'Song', 'City', 'Color'
                 ];
 
                 // Pick random category
