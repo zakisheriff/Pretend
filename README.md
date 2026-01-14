@@ -32,23 +32,52 @@
 
 ## 🎮 Game Modes
 
-Pretend features **4 distinct ways to play**, all optimized for a single-phone "pass and play" experience:
+Pretend features **7 distinct ways to play**, all optimized for a single-phone "pass and play" experience:
 
-### 🕵️‍♂️ Classic Imposter
-The classic spy game. Crewmates receive a secret word, while the Imposter only gets a vague clue.
-- **Goal**: Crewmates must find the imposter; Imposter must blend in using the clue.
+### 2+ Players
 
-### 🔍 Undercover
-Everyone receives a word from a shared theme, but one player has a slightly different word.
-- **Goal**: Find the player whose word doesn't quite match the group's descriptions.
+| Mode | Description |
+|------|-------------|
+| 🎭 **Charades** | Classic act-it-out game! Tilt phone down for correct, up to pass. Device motion controls. |
+| 🎬 **Director's Cut** | One player is the Director who knows the movie. Others ask yes/no questions to guess. |
+| 💣 **Time Bomb** | Quick-fire word association under pressure. Don't be the one holding the bomb! |
 
-### 🎬 Director's Cut
-One player is the Director who knows the movie title. Everyone else gets cryptic hints.
-- **Goal**: Viewers ask yes/no questions to guess the movie and identify the Director.
+### 3+ Players
 
-### 🧠 Mind Sync
-Everyone answers a question, but one player received a slightly different question.
-- **Goal**: Compare answers to spot the inconsistency and find the outlier.
+| Mode | Description |
+|------|-------------|
+| 🕵️ **Classic Imposter** | Crewmates get a secret word, Imposter gets a vague clue. Find the impostor! |
+| 🔍 **Undercover** | Everyone gets a word, but one player has a slightly different word. Spot the difference! |
+| 🧠 **Mind Sync** | Everyone answers a question, but one player got a different question. Find the outlier! |
+
+### 4+ Players
+
+| Mode | Description |
+|------|-------------|
+| 🚨 **Thief & Police** | One Police, one Thief, rest are Civilians. Police & Civilians get the same word, Thief gets a different one. Police must identify the Thief! |
+
+---
+
+## 🚨 NEW: Thief & Police Mode
+
+A unique social deduction game requiring 4+ players:
+
+**Roles:**
+- **Police** (1 player) - Gets the crewmate word, must find the Thief
+- **Thief** (1 player) - Gets a different but related word, must blend in
+- **Civilians** (remaining players) - Get the same word as Police, help catch the Thief
+
+**Flow:**
+1. Each player sees their role (Police/Thief/Civilian) and their word
+2. 5-minute discussion with clues
+3. Police makes the arrest decision
+4. Instant reveal: Caught or Escaped!
+
+**Scoring:**
+| Outcome | Police | Thief | Civilians |
+|---------|--------|-------|-----------|
+| Thief Caught | +1 | 0 | +1 each |
+| Thief Escaped | 0 | +2 | 0 |
 
 ---
 
@@ -57,22 +86,22 @@ Everyone answers a question, but one player received a slightly different questi
 | Feature | Description |
 |---------|-------------|
 | **Neo Noir UI** | Sleek black-and-white design with elegant candlelight gold accents. |
-| **Pass & Play** | Designed for 3-10 players on a single device — no internet required. |
+| **Pass & Play** | Designed for 2-10 players on a single device — no internet required. |
 | **Multi-Round Logic** | Modern "Among Us" style elimination. Play until a team actually wins. |
 | **Smart Instructions** | Simplified mode selection with on-demand "How to Play" overlays. |
 | **Extensive Themes** | 13+ curated categories including Movies, Food, Sports, and more. |
 | **Haptic Immersion** | Tactile feedback for every interaction, from reveals to votes. |
+| **Device Motion** | Charades mode uses phone tilt for hands-free correct/pass actions. |
 
 ---
 
-## 🛠️ Technical Prowess
+## 🛠️ Technical Stack
 
-This app is built with performance and elegance in mind:
-
-- **React Native & Expo**: Cross-platform core with native speed.
-- **Zustand State**: Lightweight and predictable game logic management.
-- **Reanimated**: Fluid 60fps transitions and interactive reveal animations.
-- **Dynamic Themes**: Scalable JSON-based word pairing system.
+- **React Native & Expo** - Cross-platform core with native speed
+- **Zustand State** - Lightweight and predictable game logic management
+- **Reanimated** - Fluid 60fps transitions and interactive reveal animations
+- **Expo Sensors** - Device motion for Charades tilt detection
+- **Dynamic Themes** - Scalable JSON-based word pairing system
 
 ---
 
@@ -80,18 +109,25 @@ This app is built with performance and elegance in mind:
 
 ```bash
 Pretend/
-├── app/                    # Expo Router Screens (Navigation Layer)
-│   ├── index.tsx           # Premium Home Screen
-│   ├── select-mode.tsx     # Simplified Mode Selection
-│   ├── add-players.tsx     # Player & Order Management
-│   └── results.tsx         # Multi-round Win Conditions
-├── store/                  # Game Engine (Zustand)
-│   └── gameStore.ts        # Assignment & Evaluation Logic
+├── app/                    # Expo Router Screens
+│   ├── index.tsx           # Home Screen
+│   ├── select-mode.tsx     # Mode Selection (2+, 3+, 4+ player sections)
+│   ├── add-players.tsx     # Player Management
+│   ├── role-reveal.tsx     # Secret Role Distribution
+│   ├── discussion.tsx      # Timer & Discussion Phase
+│   ├── police-arrest.tsx   # Thief & Police Voting
+│   ├── results.tsx         # Scoring & Results
+│   └── charades/           # Charades Mode Screens
+├── store/
+│   └── gameStore.ts        # Game State & Logic
 ├── data/
 │   ├── themes/             # Classic Mode Word Lists
-│   └── undercover/         # Paired Word Data (Undercover Mode)
-├── components/             # Atomic UI Components
-└── assets/                 # Neo Noir Brand Assets
+│   ├── undercover/         # Paired Word Data
+│   └── charades.ts         # Charades Words
+├── components/             # Reusable UI Components
+├── types/
+│   └── game.ts             # TypeScript Definitions
+└── assets/                 # Brand Assets
 ```
 
 ---
@@ -112,11 +148,12 @@ npx expo start
 ```
 
 ### How to Start a Match
-1. **Choose Mode**: Pick from the 4 available game styles.
-2. **Setup Players**: Add 3-10 player names (ordering matters for the pass!).
-3. **Select Theme**: Pick a category or randomize.
-4. **Pass & Reveal**: Each player drags up to see their secret role.
-5. **Deduce & Vote**: Use the built-in timer to discuss and cast your votes.
+
+1. **Choose Mode** - Pick from 7 available game styles
+2. **Setup Players** - Add player names (minimum varies by mode)
+3. **Select Theme** - Pick a category or randomize (for word-based modes)
+4. **Pass & Reveal** - Each player drags up to see their secret role
+5. **Deduce & Vote** - Use the built-in timer to discuss and cast your votes
 
 ---
 
