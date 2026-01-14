@@ -309,23 +309,7 @@ export default function ResultsScreen() {
                     </Animated.View>
                 )}
 
-                {/* Overall Winner Celebration */}
-                {overallWinner && (
-                    <WinnerCelebration
-                        winner={overallWinner}
-                        allPlayers={players}
-                        onNewGame={() => {
-                            // Queue a reset for when the next game ACTUALLY starts
-                            // This allows the user to go back to this screen if they change their mind
-                            useGameStore.getState().queueNewTournament();
-                            router.push('/select-mode');
-                        }}
-                        onHome={() => {
-                            resetToHome();
-                            router.replace('/');
-                        }}
-                    />
-                )}
+
 
                 {/* Leaderboard Section */}
                 <Animated.View entering={FadeInUp.delay(900).springify()} style={styles.section}>
@@ -404,6 +388,22 @@ export default function ResultsScreen() {
                 }}
                 onCancel={() => setShowHomeModal(false)}
             />
+
+            {/* Overall Winner Celebration - Moved outside ScrollView for proper full-screen overlay */}
+            {overallWinner && (
+                <WinnerCelebration
+                    winner={overallWinner}
+                    allPlayers={players}
+                    onNewGame={() => {
+                        useGameStore.getState().queueNewTournament();
+                        router.push('/select-mode');
+                    }}
+                    onHome={() => {
+                        resetToHome();
+                        router.replace('/');
+                    }}
+                />
+            )}
         </View>
     );
 }
@@ -412,14 +412,16 @@ const NoirColors = Colors;
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: NoirColors.victorianBlack },
-    scroll: { flex: 1 },
+    scroll: {
+        flex: 1,
+        width: '100%',
+        maxWidth: 600,
+        alignSelf: 'center',
+    },
     scrollContent: {
         flexGrow: 1,
         padding: 20,
         gap: 24,
-        width: '100%',
-        maxWidth: 600,
-        alignSelf: 'center',
     },
 
     // Winner Banner

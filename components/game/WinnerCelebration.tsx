@@ -107,12 +107,17 @@ export const WinnerCelebration = ({ winner, allPlayers, onNewGame, onHome }: Win
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             {/* Background Decorations */}
-            {Array.from({ length: 15 }).map((_, i) => (
-                <Firework key={`fw-${i}`} delay={i * 400} />
-            ))}
-            {Array.from({ length: 40 }).map((_, i) => (
-                <ConfettiPiece key={`c-${i}`} index={i} />
-            ))}
+            {/* Background Decorations - Disable on Web to prevent glitches */}
+            {Platform.OS !== 'web' && (
+                <>
+                    {Array.from({ length: 15 }).map((_, i) => (
+                        <Firework key={`fw-${i}`} delay={i * 400} />
+                    ))}
+                    {Array.from({ length: 40 }).map((_, i) => (
+                        <ConfettiPiece key={`c-${i}`} index={i} />
+                    ))}
+                </>
+            )}
 
             <View style={styles.content}>
                 {!showPodium ? (
@@ -253,7 +258,8 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
         zIndex: 1000,
-        overflow: 'hidden', // Fixes "glitchy" confetti leaving traces on web
+        overflow: 'hidden',
+        alignItems: 'center', // Ensure content is centered
     },
     content: {
         flex: 1,
@@ -294,6 +300,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         justifyContent: Platform.OS === 'android' ? 'flex-start' : 'center',
         paddingTop: Platform.OS === 'android' ? 40 : 20,
+        alignItems: 'center', // Robust horizontal centering
     },
     podiumContentScrollable: {
         justifyContent: 'flex-start',
