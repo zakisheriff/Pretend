@@ -27,8 +27,13 @@ export default function CharadesGameScreen() {
     // Safety check for data with HARD fallback
     const charadesData = gameData?.data as CharadesData | undefined;
 
-    // Fallback list if store data fails
-    const FALLBACK_WORDS = ['Spiderman', 'Batman', 'Pizza', 'Zombie', 'Elvis', 'Robot', 'Monkey', 'Doctor', 'Teacher', 'Ninja'];
+    // Fallback list if store data fails (20 words to match expected count)
+    const FALLBACK_WORDS = [
+        'Spiderman', 'Batman', 'Pizza', 'Zombie', 'Elvis',
+        'Robot', 'Monkey', 'Doctor', 'Teacher', 'Ninja',
+        'Penguin', 'Astronaut', 'Pirate', 'Cowboy', 'Tiger',
+        'Elephant', 'Guitar', 'Dancing', 'Swimming', 'Flying'
+    ];
 
     const words = (charadesData?.words && charadesData.words.length > 0) ? charadesData.words : FALLBACK_WORDS;
     const duration = charadesData?.duration || 60;
@@ -302,6 +307,7 @@ export default function CharadesGameScreen() {
                 <View style={styles.gameContent}>
                     <View style={styles.header}>
                         <Text style={styles.timer}>{timeLeft}</Text>
+                        <Text style={styles.wordCounter}>{currentIndex + 1}/{words.length}</Text>
                         <Text style={styles.scoreCounter}>Correct: {correctCount}</Text>
                     </View>
 
@@ -414,6 +420,11 @@ const styles = StyleSheet.create({
         fontSize: 32,
         fontWeight: 'bold',
         color: Colors.success,
+    },
+    wordCounter: {
+        fontSize: 24,
+        fontWeight: '600',
+        color: Colors.grayLight,
     },
     wordContainer: {
         flex: 1,
