@@ -55,7 +55,11 @@ export default function AddPlayersScreen() {
 
     const gameMode = useGameStore((s) => s.gameMode);
 
-    const minPlayers = (gameMode === 'directors-cut' || gameMode === 'time-bomb' || gameMode === 'charades') ? 2 : MIN_PLAYERS;
+    // Minimum players per mode: 2 for some modes, 4 for thief-police, 3 default
+    const minPlayers =
+        (gameMode === 'directors-cut' || gameMode === 'time-bomb' || gameMode === 'charades') ? 2 :
+            (gameMode === 'thief-police') ? 4 :
+                MIN_PLAYERS;
 
     const handleContinue = () => {
         if (players.length < minPlayers) { haptics.warning(); return; }

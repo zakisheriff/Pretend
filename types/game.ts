@@ -1,7 +1,7 @@
 export type HintStrength = 'none' | 'low' | 'medium' | 'high';
 
 // Game mode types
-export type GameMode = 'undercover-word' | 'directors-cut' | 'mind-sync' | 'classic-imposter' | 'time-bomb' | 'charades';
+export type GameMode = 'undercover-word' | 'directors-cut' | 'mind-sync' | 'classic-imposter' | 'time-bomb' | 'charades' | 'thief-police';
 
 export interface WordHints {
     low: string;
@@ -88,6 +88,14 @@ export interface CharadesData {
     selectedPlayerId: string;
 }
 
+export interface ThiefPoliceData {
+    policeWord: string;
+    thiefWord: string;
+    category: string;
+    policePlayerId: string;
+    thiefPlayerId: string;
+}
+
 // Union type for selected game data
 export type GameData =
     | { type: 'undercover-word'; data: UndercoverWordPair }
@@ -96,6 +104,7 @@ export type GameData =
     | { type: 'classic-imposter'; data: ClassicImposterData }
     | { type: 'time-bomb'; data: TimeBombData }
     | { type: 'charades'; data: CharadesData }
+    | { type: 'thief-police'; data: ThiefPoliceData }
     | null;
 
 export interface Player {
@@ -245,6 +254,18 @@ export const GAME_MODES: GameModeInfo[] = [
         instructions: [
             { role: 'Holder', icon: 'happy-outline', desc: 'Phone on forehead. Guess based on acting!' },
             { role: 'Group', icon: 'people-outline', desc: 'Act out the word for the holder!' },
+        ],
+    },
+    {
+        id: 'thief-police',
+        name: 'Thief & Police',
+        icon: 'shield-outline',
+        description: 'Police must catch the Thief hiding among civilians!',
+        tagline: 'Can the Police spot the odd one out?',
+        instructions: [
+            { role: 'Police', icon: 'shield-checkmark-outline', desc: 'Find who has a different word (+1 pt if caught)' },
+            { role: 'Thief', icon: 'finger-print-outline', desc: 'Blend in with a DIFFERENT word (+2 pts if escaped)' },
+            { role: 'Civilians', icon: 'people-outline', desc: 'Give clues, help Police find Thief (+1 pt if caught)' },
         ],
     },
 ];

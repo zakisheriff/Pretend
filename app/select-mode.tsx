@@ -149,6 +149,32 @@ export default function SelectModeScreen() {
                     </View>
                 </View>
 
+                {/* 4+ Players Section */}
+                <View style={styles.section}>
+                    <View style={styles.sectionHeader}>
+                        <Ionicons name="git-network-outline" size={18} color={Colors.candlelight} />
+                        <Text style={styles.sectionTitle}>4+ Players</Text>
+                    </View>
+                    <View style={styles.modes}>
+                        {GAME_MODES.filter(m => ['thief-police'].includes(m.id)).map((mode, index) => (
+                            <ModeCard
+                                key={mode.id}
+                                mode={mode}
+                                isSelected={gameMode === mode.id}
+                                onSelect={() => {
+                                    haptics.light();
+                                    selectGameMode(mode.id);
+                                }}
+                                onShowHelp={(m) => {
+                                    haptics.selection();
+                                    setHelpMode(m);
+                                }}
+                                index={index + 6}
+                            />
+                        ))}
+                    </View>
+                </View>
+
                 {/* Instruction Overlay */}
                 {helpMode && (
                     <View style={StyleSheet.absoluteFill}>

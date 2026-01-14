@@ -1,6 +1,6 @@
 import { CHARADES_WORDS } from '@/data/charades';
 import { getRandomMindSyncQuestion, getRandomMovie } from '@/data/game-modes';
-import { getEffectiveTheme, getEffectiveUndercoverTheme, getThemeById, themes } from '@/data/themes';
+import { getEffectiveTheme, getEffectiveUndercoverTheme, getThemeById, themes, undercoverCategories } from '@/data/themes';
 import { DEFAULT_SETTINGS, GameData, GameMode, GameSettings, GameState, Player, Word } from '@/types/game';
 import { create } from 'zustand';
 
@@ -17,6 +17,9 @@ interface PlayerRoleInfo {
     // Mind Sync specific
     question?: string | null;
     isOutlier?: boolean;
+    // Thief & Police specific
+    isPolice?: boolean;
+    isThief?: boolean;
 }
 
 interface GameStore extends GameState {
@@ -470,6 +473,37 @@ export const useGameStore = create<GameStore>((set, get) => ({
                         words: shuffled,
                         duration: charadesDuration,
                         selectedPlayerId: targetPlayerId
+                    }
+                };
+                break;
+            }
+
+            case 'thief-police': {
+                // Use undercover word pairs for thief-police mode
+                const allThemes = undercoverCategories.flatMap(cat => cat.themes);
+                const theme = allThemes[Math.floor(Math.random() * allThemes.length)];
+
+                // Pick a random pair
+                const availablePairs = theme.pairs.filter((p) => !state.usedWords.includes(p.crewmateWord));
+                const pool = availablePairs.length > 0 ? availablePairs : theme.pairs;
+                const randomPair = pool[Math.floor(Math.random() * pool.length)];
+
+                // Add to used words
+                set(s => ({ usedWords: [...s.usedWords, randomPair.crewmateWord] }));
+
+                // Randomly select Police and Thief from different players
+                const shuffledPlayers = [...players].sort(() => Math.random() - 0.5);
+                const policePlayer = shuffledPlayers[0];
+                const thiefPlayer = shuffledPlayers[1];
+
+                gameData = {
+                    type: 'thief-police',
+                    data: {
+                        policeWord: randomPair.crewmateWord,
+                        thiefWord: randomPair.imposterWord,
+                        category: theme.name,
+                        policePlayerId: policePlayer.id,
+                        thiefPlayerId: thiefPlayer.id
                     }
                 };
                 break;
@@ -1099,6 +1133,42 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     isImposter: false,
                     word: crewmateWord,
                     hint: null,
+                };
+            }
+
+            case 'thief-police': {
+                if (gameData?.type !== 'thief-police') {
+                    return { isImposter: false, word: null, hint: null };
+                }
+                const { policeWord, thiefWord, policePlayerId, thiefPlayerId } = gameData.data;
+
+                if (player.id === policePlayerId) {
+                    // Police gets the crewmate word and knows they are Police
+                    return {
+                        isImposter: false,
+                        isPolice: true,
+                        isThief: false,
+                        word: policeWord,
+                        hint: 'You are the POLICE. Find the Thief!',
+                    };
+                }
+                if (player.id === thiefPlayerId) {
+                    // Thief gets the different word
+                    return {
+                        isImposter: true,
+                        isPolice: false,
+                        isThief: true,
+                        word: thiefWord,
+                        hint: 'You are the THIEF. Blend in!',
+                    };
+                }
+                // Civilians get the same word as Police
+                return {
+                    isImposter: false,
+                    isPolice: false,
+                    isThief: false,
+                    word: policeWord,
+                    hint: 'You are a CIVILIAN. Help the Police!',
                 };
             }
 
