@@ -1,3 +1,4 @@
+import { GenericModal } from '@/components/common/GenericModal';
 import { Button } from '@/components/game/Button';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
@@ -7,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -57,6 +58,7 @@ export default function SelectModeScreen() {
     const gameMode = useGameStore((s) => s.gameMode);
     const selectGameMode = useGameStore((s) => s.selectGameMode);
     const [helpMode, setHelpMode] = React.useState<typeof GAME_MODES[0] | null>(null);
+    const [showHomeAlert, setShowHomeAlert] = React.useState(false);
 
     const handleContinue = () => {
         if (!gameMode) { haptics.warning(); return; }
@@ -66,18 +68,7 @@ export default function SelectModeScreen() {
 
     const handleHome = () => {
         haptics.selection();
-        Alert.alert(
-            "Return Home?",
-            "Are you sure you want to go back to the main menu?",
-            [
-                { text: "Cancel", style: "cancel" },
-                {
-                    text: "Yes, Go Home",
-                    style: "destructive",
-                    onPress: () => router.push('/')
-                }
-            ]
-        );
+        setShowHomeAlert(true);
     };
 
     return (
@@ -246,6 +237,20 @@ export default function SelectModeScreen() {
                     style={{ borderRadius: 22, height: 44, paddingHorizontal: 16 }}
                 />
             </LinearGradient>
+
+            <GenericModal
+                visible={showHomeAlert}
+                title="Return Home?"
+                message="Are you sure you want to go back to the main menu?"
+                confirmLabel="Yes, Go Home"
+                cancelLabel="Cancel"
+                onConfirm={() => {
+                    setShowHomeAlert(false);
+                    router.push('/');
+                }}
+                onCancel={() => setShowHomeAlert(false)}
+                isDestructive
+            />
         </View>
     );
 }
