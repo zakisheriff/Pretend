@@ -413,7 +413,14 @@ const NoirColors = Colors;
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: NoirColors.victorianBlack },
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, padding: 20, gap: 24 },
+    scrollContent: {
+        flexGrow: 1,
+        padding: 20,
+        gap: 24,
+        width: '100%',
+        maxWidth: 600,
+        alignSelf: 'center',
+    },
 
     // Winner Banner
     winnerBanner: {

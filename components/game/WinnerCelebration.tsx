@@ -253,9 +253,13 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
         zIndex: 1000,
+        overflow: 'hidden', // Fixes "glitchy" confetti leaving traces on web
     },
     content: {
         flex: 1,
+        width: '100%',
+        maxWidth: 600,
+        alignSelf: 'center',
     },
     revealSection: {
         flex: 1,
