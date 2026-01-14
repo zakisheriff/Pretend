@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     },
     settingsButton: {
         position: 'absolute',
-        top: 20, // Relative to container padding
+        // top set dynamically
         right: 24, // Matches container horizontal padding
         zIndex: 10,
     },
