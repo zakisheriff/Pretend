@@ -36,7 +36,7 @@ const BrandSplash = ({ onFinish, onSkip, isSkipping }: { onFinish: () => void; o
     React.useEffect(() => {
         const timer = setTimeout(() => {
             if (!isSkipping) triggerExit();
-        }, 7500); // Cinematic sequence duration
+        }, 4500); // Reduced from 7500 for faster load
         return () => clearTimeout(timer);
     }, []);
 
@@ -53,19 +53,14 @@ const BrandSplash = ({ onFinish, onSkip, isSkipping }: { onFinish: () => void; o
                 <View style={styles.splashContent}>
                     <View style={styles.brandTextContainer}>
                         <Animated.Text
-                            entering={FadeIn.duration(2500)} // Slow cinematic fade in
+                            entering={FadeIn.duration(2000)} // Faster fade in
                             style={styles.brandMain}
                         >
                             The One Atom
                         </Animated.Text>
 
-                        <Animated.View
-                            entering={FadeIn.delay(2200).duration(1000)} // Build-up sequence
-                            style={styles.brandLine}
-                        />
-
                         <Animated.Text
-                            entering={FadeIn.delay(3500).duration(1200)} // Final tagline
+                            entering={FadeIn.delay(2200).duration(1000)} // Earlier tagline
                             style={styles.brandSub}
                         >
                             Atom Originals
