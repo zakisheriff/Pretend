@@ -1,0 +1,15 @@
+{
+    "short_name": "Pretend",
+    "name": "Pretend",
+    "icons": [
+        {
+            "src": "/icon.jpeg",
+            "sizes": "1024x1024",
+            "type": "image/jpeg"
+        }
+    ],
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#000000"
+}

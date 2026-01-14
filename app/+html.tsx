@@ -12,7 +12,8 @@ export default function Root({ children }: PropsWithChildren) {
                 <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 {/* Link the PWA manifest file. */}
-                {/* <link rel="manifest" href="/manifest.json" /> */}
+                <link rel="manifest" href="/manifest.json" />
+                <link rel="apple-touch-icon" href="/icon.jpeg" />
 
                 {/* Sets the browser address bar color to black */}
                 <meta name="theme-color" content="#000000" />
