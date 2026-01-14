@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -64,13 +64,38 @@ export default function SelectModeScreen() {
         router.push('/add-players');
     };
 
+    const handleHome = () => {
+        haptics.selection();
+        Alert.alert(
+            "Return Home?",
+            "Are you sure you want to go back to the main menu?",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Yes, Go Home",
+                    style: "destructive",
+                    onPress: () => router.push('/')
+                }
+            ]
+        );
+    };
+
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             <LinearGradient
                 colors={[Colors.victorianBlack, Colors.victorianBlack, 'transparent']}
                 locations={[0, 0.6, 1]}
-                style={[styles.headerBar, { paddingTop: insets.top + 10, justifyContent: 'flex-end', paddingLeft: 20 }]}
+                style={[styles.headerBar, { paddingTop: insets.top + 10, justifyContent: 'space-between', paddingLeft: 20 }]}
             >
+                <Button
+                    title=""
+                    onPress={handleHome}
+                    variant="ghost"
+                    size="small"
+                    icon={<Ionicons name="home-outline" size={20} color={Colors.parchment} />}
+                    style={{ borderRadius: 22, height: 44, width: 44, paddingHorizontal: 0 }}
+                />
+
                 <Button
                     title="Next"
                     onPress={handleContinue}
