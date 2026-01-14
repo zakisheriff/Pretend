@@ -2,7 +2,7 @@ import { Colors } from '@/constants/colors';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
-import { Dimensions, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Keyboard, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
     runOnJS,
@@ -195,8 +195,10 @@ const PlayerCardBase = (props: PlayerCardProps) => {
                                 <Ionicons name="trash-outline" size={20} color={Colors.suspect} />
                             </TouchableOpacity>
                             <TouchableOpacity
-                                onPressIn={drag}
-                                style={styles.actionBtn}
+                                onPressIn={Platform.OS === 'web' ? undefined : drag}
+                                onLongPress={Platform.OS === 'web' ? drag : undefined}
+                                delayLongPress={Platform.OS === 'web' ? 10 : undefined}
+                                style={[styles.actionBtn, Platform.OS === 'web' && { cursor: 'move', touchAction: 'none' } as any]}
                                 hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                             >
                                 <Ionicons name="menu" size={20} color={Colors.grayLight} />

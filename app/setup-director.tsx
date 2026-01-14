@@ -264,7 +264,7 @@ export default function SetupDirectorScreen() {
                         />
                     </View>
                 ) : (
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <TouchableWithoutFeedback onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()}>
                         <View style={styles.movieSection}>
                             <View style={styles.inputContainer}>
                                 <Text style={styles.label}>Custom Movie Name</Text>
@@ -306,7 +306,7 @@ export default function SetupDirectorScreen() {
             </ScrollView>
 
             <Modal visible={showBrowse} animationType="slide" presentationStyle="fullScreen">
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <TouchableWithoutFeedback onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()}>
                     <View style={[styles.container, { paddingTop: insets.top + 10 }]}>
                         <View style={styles.modalHeader}>
                             <Text style={styles.modalTitle}>Select Movie</Text>

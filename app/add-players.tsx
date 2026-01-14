@@ -133,48 +133,50 @@ export default function AddPlayersScreen() {
                     />
                 )}
                 ListHeaderComponent={
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <View style={styles.headerContent}>
-                            <View style={styles.header}>
-                                <View style={styles.titleRow}>
-                                    <Ionicons name="search" size={22} color={Colors.parchment} />
-                                    <Text style={styles.title}>Investigators</Text>
+                    <View>
+                        <TouchableWithoutFeedback onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()}>
+                            <View style={styles.headerContent}>
+                                <View style={styles.header}>
+                                    <View style={styles.titleRow}>
+                                        <Ionicons name="search" size={22} color={Colors.parchment} />
+                                        <Text style={styles.title}>Investigators</Text>
+                                    </View>
+                                    <Text style={styles.count}>{players.length} / {MAX_PLAYERS}</Text>
                                 </View>
-                                <Text style={styles.count}>{players.length} / {MAX_PLAYERS}</Text>
+                                <View style={styles.tipContainer}>
+                                    <Ionicons name="information-circle-outline" size={16} color={Colors.candlelight} />
+                                    <Text style={styles.tipText}>
+                                        Tip: Add players in seating order (start from your right) for smoother phone passing.
+                                    </Text>
+                                </View>
                             </View>
-                            <View style={styles.tipContainer}>
-                                <Ionicons name="information-circle-outline" size={16} color={Colors.candlelight} />
-                                <Text style={styles.tipText}>
-                                    Tip: Add players in seating order (start from your right) for smoother phone passing.
-                                </Text>
-                            </View>
+                        </TouchableWithoutFeedback>
 
-                            <View style={styles.inputRow}>
-                                <TextInput
-                                    style={styles.input}
-                                    value={name}
-                                    onChangeText={setName}
-                                    placeholder="Investigator name"
-                                    placeholderTextColor={Colors.grayLight}
-                                    autoCapitalize="words"
-                                    autoCorrect={false}
-                                    onSubmitEditing={handleAdd}
-                                    returnKeyType="go"
-                                    blurOnSubmit={false}
-                                    maxLength={16}
-                                />
-                                <Button
-                                    title=""
-                                    onPress={handleAdd}
-                                    variant="primary"
-                                    disabled={!name.trim()}
-                                    icon={<Ionicons name="add" size={22} color={Colors.victorianBlack} />}
-                                    style={[styles.addBtn, !name.trim() && styles.addBtnDisabled]}
-                                    textStyle={{ display: 'none' }} // Hide text since title is empty but we want to be safe
-                                />
-                            </View>
+                        <View style={styles.inputRow}>
+                            <TextInput
+                                style={styles.input}
+                                value={name}
+                                onChangeText={setName}
+                                placeholder="Investigator name"
+                                placeholderTextColor={Colors.grayLight}
+                                autoCapitalize="words"
+                                autoCorrect={false}
+                                onSubmitEditing={handleAdd}
+                                returnKeyType="go"
+                                blurOnSubmit={false}
+                                maxLength={16}
+                            />
+                            <Button
+                                title=""
+                                onPress={handleAdd}
+                                variant="primary"
+                                disabled={!name.trim()}
+                                icon={<Ionicons name="add" size={22} color={Colors.victorianBlack} />}
+                                style={[styles.addBtn, !name.trim() && styles.addBtnDisabled]}
+                                textStyle={{ display: 'none' }} // Hide text since title is empty but we want to be safe
+                            />
                         </View>
-                    </TouchableWithoutFeedback>
+                    </View>
                 }
                 ListEmptyComponent={
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
