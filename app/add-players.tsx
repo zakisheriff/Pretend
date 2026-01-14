@@ -133,7 +133,7 @@ export default function AddPlayersScreen() {
                     />
                 )}
                 ListHeaderComponent={
-                    <View>
+                    <View style={{ marginBottom: 24 }}>
                         <TouchableWithoutFeedback onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()}>
                             <View style={styles.headerContent}>
                                 <View style={styles.header}>
@@ -203,7 +203,7 @@ export default function AddPlayersScreen() {
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="always"
                 keyboardDismissMode="on-drag"
-                activationDistance={20}
+                activationDistance={Platform.OS === 'web' ? 5 : 20}
             />
 
             <GenericModal
