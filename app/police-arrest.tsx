@@ -7,7 +7,7 @@ import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, ZoomIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -304,6 +304,12 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: Colors.grayMedium,
         gap: 14,
+        ...Platform.select({
+            web: {
+                userSelect: 'none',
+                cursor: 'pointer',
+            }
+        }) as any,
     },
     playerCardSelected: {
         borderColor: Colors.detective,
@@ -324,12 +330,22 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '700',
         color: Colors.parchment,
+        ...Platform.select({
+            web: {
+                userSelect: 'none',
+            }
+        }) as any,
     },
     playerName: {
         fontSize: 16,
         fontWeight: '600',
         color: Colors.parchment,
         flex: 1,
+        ...Platform.select({
+            web: {
+                userSelect: 'none',
+            }
+        }) as any,
     },
     playerNameSelected: {
         color: Colors.detective,
