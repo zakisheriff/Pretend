@@ -178,10 +178,6 @@ export default function HomeScreen() {
                                 )}
                             </View>
 
-                            {/* Footer */}
-                            <Animated.View entering={FadeIn.delay(800).duration(500)} style={styles.footer}>
-                                <Text style={styles.footerText}>Trust No One </Text>
-                            </Animated.View>
                         </View>
                     </LinearGradient>
                 </Animated.View>
