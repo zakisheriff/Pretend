@@ -1,7 +1,9 @@
 
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
+import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import {
@@ -100,10 +102,16 @@ export default function SettingsScreen() {
     return (
         <View style={styles.container}>
             <SafeAreaView style={styles.safeArea}>
-                {/* Header */}
-                <View style={styles.header}>
+                <LinearGradient
+                    colors={[Colors.victorianBlack, Colors.victorianBlack, 'transparent']}
+                    locations={[0, 0.6, 1]}
+                    style={[styles.gradientHeader, { paddingTop: insets.top + 10 }]}
+                >
                     <Pressable
-                        onPress={() => router.back()}
+                        onPress={() => {
+                            haptics.selection();
+                            router.back();
+                        }}
                         style={({ pressed }) => [
                             styles.backButton,
                             pressed && styles.backButtonPressed,
@@ -113,9 +121,9 @@ export default function SettingsScreen() {
                     </Pressable>
                     <Text style={styles.title}>Settings</Text>
                     <View style={{ width: 40 }} />
-                </View>
+                </LinearGradient>
 
-                <ScrollView contentContainerStyle={styles.scrollContent}>
+                <ScrollView contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 80 }]}>
 
                     {/* Preferences Section */}
                     <View style={styles.section}>
@@ -232,12 +240,16 @@ const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
     },
-    header: {
+    gradientHeader: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 10,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 20,
-        paddingTop: 10,
         paddingBottom: 20,
     },
     backButton: {

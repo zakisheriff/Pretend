@@ -1,6 +1,7 @@
 import { AnimatedLogo, Button } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
+import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -114,7 +115,10 @@ export default function HomeScreen() {
                                 style={[styles.settingsButton, { top: insets.top + 10 }]}
                             >
                                 <Pressable
-                                    onPress={() => router.push('/settings')}
+                                    onPress={() => {
+                                        haptics.medium();
+                                        router.push('/settings');
+                                    }}
                                     hitSlop={20}
                                     style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}
                                 >
