@@ -32,6 +32,13 @@ export default function GameSettingsScreen() {
     const handleSuspectChange = (v: number) => { haptics.selection(); updateSettings({ imposterCount: v }); };
     const handleTimeChange = (v: number) => { haptics.selection(); updateSettings({ discussionTime: v }); };
 
+    // Set default time for Time Bomb if not set correctly (e.g. if switching from another mode with high duration)
+    React.useEffect(() => {
+        if (gameMode === 'time-bomb' && ![30, 60, 90].includes(settings.discussionTime)) {
+            updateSettings({ discussionTime: 60 });
+        }
+    }, [gameMode]);
+
     const handleStart = () => {
         startGame();
         haptics.heavy();
@@ -91,10 +98,10 @@ export default function GameSettingsScreen() {
                     )}
 
                     <GameSetting
-                        label="Investigation Time"
+                        label={gameMode === 'time-bomb' ? 'Timer Duration' : "Investigation Time"}
                         value={settings.discussionTime}
-                        options={[60, 120, 180, 240, 300]}
-                        formatLabel={(v) => `${v / 60}m`}
+                        options={gameMode === 'time-bomb' ? [30, 60, 90] : [60, 120, 180, 240, 300]}
+                        formatLabel={gameMode === 'time-bomb' ? ((v) => `${v}s`) : ((v) => `${v / 60}m`)}
                         onChange={handleTimeChange}
                         icon="timer-outline"
                     />

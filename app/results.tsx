@@ -210,6 +210,9 @@ export default function ResultsScreen() {
                 }
                 return null;
 
+            case 'time-bomb':
+                return null;
+
             default:
                 return {
                     label: 'The Secret Word Was',
