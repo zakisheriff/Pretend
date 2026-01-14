@@ -82,31 +82,6 @@ export default function SelectModeScreen() {
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-            <LinearGradient
-                colors={[Colors.victorianBlack, Colors.victorianBlack, 'transparent']}
-                locations={[0, 0.6, 1]}
-                style={[styles.headerBar, { paddingTop: insets.top + 10, justifyContent: 'space-between', paddingLeft: 20 }]}
-            >
-                <Button
-                    title=""
-                    onPress={handleHome}
-                    variant="ghost"
-                    size="small"
-                    icon={<Ionicons name="home-outline" size={20} color={Colors.parchment} />}
-                    style={{ borderRadius: 22, height: 44, width: 44, paddingHorizontal: 0 }}
-                />
-
-                <Button
-                    title="Next"
-                    onPress={handleContinue}
-                    variant="primary"
-                    size="small"
-                    disabled={!gameMode}
-                    icon={<Ionicons name="arrow-forward" size={16} color={gameMode ? Colors.victorianBlack : Colors.grayMedium} />}
-                    style={{ borderRadius: 22, height: 44, paddingHorizontal: 16 }}
-                />
-            </LinearGradient>
-
             <ScrollView
                 style={styles.scroll}
                 contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 100 }]}
@@ -245,6 +220,32 @@ export default function SelectModeScreen() {
                 )}
 
             </ScrollView>
+
+            <LinearGradient
+                colors={[Colors.victorianBlack, Colors.victorianBlack, 'transparent']}
+                locations={[0, 0.6, 1]}
+                style={[styles.headerBar, { paddingTop: insets.top + 10, justifyContent: 'space-between', paddingLeft: 20 }]}
+                pointerEvents="box-none"
+            >
+                <Button
+                    title=""
+                    onPress={handleHome}
+                    variant="ghost"
+                    size="small"
+                    icon={<Ionicons name="home-outline" size={20} color={Colors.parchment} />}
+                    style={{ borderRadius: 22, height: 44, width: 44, paddingHorizontal: 0 }}
+                />
+
+                <Button
+                    title="Next"
+                    onPress={handleContinue}
+                    variant="primary"
+                    size="small"
+                    disabled={!gameMode}
+                    icon={<Ionicons name="arrow-forward" size={16} color={gameMode ? Colors.victorianBlack : Colors.grayMedium} />}
+                    style={{ borderRadius: 22, height: 44, paddingHorizontal: 16 }}
+                />
+            </LinearGradient>
         </View>
     );
 }
