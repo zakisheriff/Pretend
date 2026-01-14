@@ -36,7 +36,7 @@ export default function PoliceArrestScreen() {
 
     const isCaught = selectedId === data.thiefPlayerId;
 
-    const handleContinue = () => {
+    const handlePlayAgain = () => {
         haptics.success();
 
         // Distribute points
@@ -55,16 +55,29 @@ export default function PoliceArrestScreen() {
 
         useGameStore.getState().reorderPlayers(updatedPlayers);
 
-        // Navigate to results with thief-police specific params
-        router.replace({
-            pathname: '/results',
-            params: {
-                mode: 'thief-police',
-                caught: isCaught ? 'true' : 'false',
-                thiefId: data.thiefPlayerId,
-                policeId: data.policePlayerId,
+        // Navigate to select mode
+        router.replace('/select-mode');
+    };
+
+    const handleHome = () => {
+        haptics.medium();
+
+        // Distribute points
+        const updatedPlayers = players.map(p => {
+            let points = 0;
+            if (isCaught) {
+                if (p.id === data.policePlayerId) points = 1;
+                else if (p.id !== data.thiefPlayerId) points = 1;
+            } else {
+                if (p.id === data.thiefPlayerId) points = 2;
             }
+            return { ...p, score: p.score + points };
         });
+
+        useGameStore.getState().reorderPlayers(updatedPlayers);
+        useGameStore.getState().resetGame();
+
+        router.replace('/');
     };
 
     return (
@@ -161,25 +174,51 @@ export default function PoliceArrestScreen() {
                         <Text style={styles.pointsTitle}>Points Awarded</Text>
                         {isCaught ? (
                             <>
-                                <Text style={styles.pointsLine}>🛡️ Police ({policePlayer?.name}): +1</Text>
-                                <Text style={styles.pointsLine}>👥 Civilians: +1 each</Text>
-                                <Text style={styles.pointsLine}>👤 Thief ({thiefPlayer?.name}): +0</Text>
+                                <View style={styles.pointsRow}>
+                                    <Ionicons name="shield-checkmark" size={16} color={Colors.detective} />
+                                    <Text style={styles.pointsLine}>Police ({policePlayer?.name}): +1</Text>
+                                </View>
+                                <View style={styles.pointsRow}>
+                                    <Ionicons name="people" size={16} color={Colors.candlelight} />
+                                    <Text style={styles.pointsLine}>Civilians: +1 each</Text>
+                                </View>
+                                <View style={styles.pointsRow}>
+                                    <Ionicons name="finger-print" size={16} color={Colors.suspect} />
+                                    <Text style={styles.pointsLine}>Thief ({thiefPlayer?.name}): +0</Text>
+                                </View>
                             </>
                         ) : (
                             <>
-                                <Text style={styles.pointsLine}>👤 Thief ({thiefPlayer?.name}): +2</Text>
-                                <Text style={styles.pointsLine}>🛡️ Police & Civilians: +0</Text>
+                                <View style={styles.pointsRow}>
+                                    <Ionicons name="finger-print" size={16} color={Colors.suspect} />
+                                    <Text style={styles.pointsLine}>Thief ({thiefPlayer?.name}): +2</Text>
+                                </View>
+                                <View style={styles.pointsRow}>
+                                    <Ionicons name="shield-checkmark" size={16} color={Colors.grayLight} />
+                                    <Text style={styles.pointsLine}>Police & Civilians: +0</Text>
+                                </View>
                             </>
                         )}
                     </View>
 
-                    <Button
-                        title="View Scoreboard"
-                        onPress={handleContinue}
-                        variant="primary"
-                        size="large"
-                        icon={<Ionicons name="trophy" size={18} color={Colors.victorianBlack} />}
-                    />
+                    <View style={styles.buttonRow}>
+                        <Button
+                            title="Play Again"
+                            onPress={handlePlayAgain}
+                            variant="primary"
+                            size="large"
+                            style={{ flex: 1 }}
+                            icon={<Ionicons name="refresh" size={18} color={Colors.victorianBlack} />}
+                        />
+                        <Button
+                            title="Home"
+                            onPress={handleHome}
+                            variant="outline"
+                            size="large"
+                            style={{ flex: 1 }}
+                            icon={<Ionicons name="home" size={18} color={Colors.candlelight} />}
+                        />
+                    </View>
                 </Animated.View>
             )}
         </View>
@@ -366,7 +405,18 @@ const styles = StyleSheet.create({
     pointsLine: {
         fontSize: 14,
         color: Colors.parchment,
-        textAlign: 'center',
+        marginVertical: 2,
+    },
+    pointsRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
         marginVertical: 4,
+    },
+    buttonRow: {
+        flexDirection: 'row',
+        gap: 12,
+        width: '100%',
     },
 });
