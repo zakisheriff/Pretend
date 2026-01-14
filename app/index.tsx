@@ -9,40 +9,45 @@ import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-nati
 import Animated, { FadeIn, FadeInDown, FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const BrandSplash = ({ onFinish, isSkipping }: { onFinish: () => void; isSkipping: boolean }) => {
+const BrandSplash = ({ onFinish, onSkip, isSkipping }: { onFinish: () => void; onSkip: () => void; isSkipping: boolean }) => {
     React.useEffect(() => {
         const timer = setTimeout(onFinish, 7500); // Cinematic sequence duration
         return () => clearTimeout(timer);
     }, [onFinish]);
 
+    // Use constant duration to prevent re-render/remount glitches on web when skipping
+    const exitDuration = 800;
+
     return (
         <Animated.View
             key="brand-splash"
-            exiting={FadeOut.duration(isSkipping ? 300 : 1500)} // Snap exit if tapped
-            style={styles.splashContainer}
+            exiting={FadeOut.duration(exitDuration)} // Constant duration for stability
+            style={[styles.splashContainer, StyleSheet.absoluteFill, { zIndex: 100, backgroundColor: 'black' }]}
         >
-            <View style={styles.splashContent}>
-                <View style={styles.brandTextContainer}>
-                    <Animated.Text
-                        entering={FadeIn.duration(2500)} // Slow cinematic fade in
-                        style={styles.brandMain}
-                    >
-                        The One Atom
-                    </Animated.Text>
+            <Pressable style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%' }} onPress={onSkip}>
+                <View style={styles.splashContent}>
+                    <View style={styles.brandTextContainer}>
+                        <Animated.Text
+                            entering={FadeIn.duration(2500)} // Slow cinematic fade in
+                            style={styles.brandMain}
+                        >
+                            The One Atom
+                        </Animated.Text>
 
-                    <Animated.View
-                        entering={FadeIn.delay(2200).duration(1000)} // Build-up sequence
-                        style={styles.brandLine}
-                    />
+                        <Animated.View
+                            entering={FadeIn.delay(2200).duration(1000)} // Build-up sequence
+                            style={styles.brandLine}
+                        />
 
-                    <Animated.Text
-                        entering={FadeIn.delay(3500).duration(1200)} // Final tagline
-                        style={styles.brandSub}
-                    >
-                        Atom Originals
-                    </Animated.Text>
+                        <Animated.Text
+                            entering={FadeIn.delay(3500).duration(1200)} // Final tagline
+                            style={styles.brandSub}
+                        >
+                            Atom Originals
+                        </Animated.Text>
+                    </View>
                 </View>
-            </View>
+            </Pressable>
         </Animated.View>
     );
 };
@@ -67,88 +72,94 @@ export default function HomeScreen() {
         router.push('/how-to-play');
     };
 
-    if (isSplashing) {
-        return (
-            <Pressable
-                style={styles.splashWrapper}
-                onPress={handleSkip}
-            >
-                <BrandSplash onFinish={() => setIsSplashing(false)} isSkipping={isSkipping} />
-            </Pressable>
-        );
-    }
+    const exitDuration = isSkipping ? 500 : 1500;
+    const entryDelay = exitDuration - 200; // Start fading in slightly before splash fully disappears for continuity
 
     return (
-        <Animated.View
-            key="home-content"
-            entering={FadeIn.duration(1500)}
-            style={{ flex: 1 }}
-        >
-            <LinearGradient
-                colors={['#000000', '#0A0A0A', '#000000']}
-                style={styles.gradient}
-            >
-                <View style={[styles.container, { paddingTop: insets.top + 40, paddingBottom: insets.bottom + 20 }]}>
-                    {/* Hero Section */}
-                    <View style={styles.hero}>
-                        <Animated.View entering={FadeIn.delay(100).duration(600)}>
-                            <AnimatedLogo size={90} />
-                        </Animated.View>
+        <View style={{ flex: 1, backgroundColor: 'black' }}>
+            {!isSplashing && (
+                <Animated.View
+                    key="home-content"
+                    entering={FadeIn.delay(entryDelay).duration(1500)}
+                    style={{ flex: 1 }}
+                >
+                    <LinearGradient
+                        colors={['#000000', '#0A0A0A', '#000000']}
+                        style={styles.gradient}
+                    >
+                        <View style={[styles.container, { paddingTop: insets.top + 40, paddingBottom: insets.bottom + 20 }]}>
+                            {/* Hero Section */}
+                            <View style={styles.hero}>
+                                <Animated.View entering={FadeIn.delay(100).duration(600)}>
+                                    <AnimatedLogo size={90} />
+                                </Animated.View>
 
-                        <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.titleGroup}>
-                            <Text style={styles.title}>Pretend</Text>
-                            <Text style={styles.subtitle}>A Detective Mystery</Text>
-                        </Animated.View>
+                                <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.titleGroup}>
+                                    <Text style={styles.title}>Pretend</Text>
+                                    <Text style={styles.subtitle}>A Detective Mystery</Text>
+                                </Animated.View>
 
-                        <Animated.View entering={FadeIn.delay(400).duration(500)}>
-                            <Text style={styles.tagline}>One phone. One mystery.</Text>
-                        </Animated.View>
-                    </View>
+                                <Animated.View entering={FadeIn.delay(400).duration(500)}>
+                                    <Text style={styles.tagline}>One phone. One mystery.</Text>
+                                </Animated.View>
+                            </View>
 
-                    {/* Actions */}
-                    <View style={styles.actions}>
-                        <Animated.View entering={FadeInDown.delay(500).duration(400)}>
-                            <Button
-                                title="New Case"
-                                onPress={handleNewGame}
-                                variant="primary"
-                                size="large"
-                                hapticType="medium"
-                                icon={<Ionicons name="search" size={20} color={Colors.victorianBlack} />}
-                            />
-                        </Animated.View>
+                            {/* Actions */}
+                            <View style={styles.actions}>
+                                <Animated.View entering={FadeInDown.delay(500).duration(400)}>
+                                    <Button
+                                        title="New Case"
+                                        onPress={handleNewGame}
+                                        variant="primary"
+                                        size="large"
+                                        hapticType="medium"
+                                        icon={<Ionicons name="search" size={20} color={Colors.victorianBlack} />}
+                                    />
+                                </Animated.View>
 
-                        <Animated.View entering={FadeInDown.delay(600).duration(400)}>
-                            <Button
-                                title="How to Play"
-                                onPress={handleHowToPlay}
-                                variant="outline"
-                                size="large"
-                                icon={<Ionicons name="book-outline" size={20} color={Colors.parchment} />}
-                            />
-                        </Animated.View>
+                                <Animated.View entering={FadeInDown.delay(600).duration(400)}>
+                                    <Button
+                                        title="How to Play"
+                                        onPress={handleHowToPlay}
+                                        variant="outline"
+                                        size="large"
+                                        icon={<Ionicons name="book-outline" size={20} color={Colors.parchment} />}
+                                    />
+                                </Animated.View>
 
-                        {Platform.OS === 'web' && (
-                            <Animated.View entering={FadeInDown.delay(700).duration(400)}>
-                                <Button
-                                    title="Download Android App"
-                                    onPress={() => Linking.openURL('/pretend.apk')}
-                                    variant="secondary"
-                                    size="large"
-                                    icon={<Ionicons name="logo-android" size={20} color={Colors.parchment} />}
-                                />
+                                {Platform.OS === 'web' && (
+                                    <Animated.View entering={FadeInDown.delay(700).duration(400)}>
+                                        <Button
+                                            title="Download Android App"
+                                            onPress={() => Linking.openURL('/pretend.apk')}
+                                            variant="secondary"
+                                            size="large"
+                                            icon={<Ionicons name="logo-android" size={20} color={Colors.parchment} />}
+                                        />
+                                    </Animated.View>
+                                )}
+                            </View>
+
+                            {/* Footer */}
+                            <Animated.View entering={FadeIn.delay(800).duration(500)} style={styles.footer}>
+                                <Text style={styles.footerText}>Trust No One </Text>
                             </Animated.View>
-                        )}
-                    </View>
+                        </View>
+                    </LinearGradient>
+                </Animated.View>
+            )}
 
-                    {/* Footer */}
-                    <Animated.View entering={FadeIn.delay(800).duration(500)} style={styles.footer}>
-                        <Text style={styles.footerText}>Trust No One </Text>
-                    </Animated.View>
-                </View>
-            </LinearGradient>
-        </Animated.View>
+            {isSplashing && (
+                <BrandSplash
+                    onFinish={() => setIsSplashing(false)}
+                    onSkip={handleSkip}
+                    isSkipping={isSkipping}
+                />
+            )}
+        </View>
     );
+
+    /* Original render logic removed/replaced */
 }
 
 const styles = StyleSheet.create({
@@ -200,10 +211,7 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
     },
     // Brand Splash Styles
-    splashWrapper: {
-        flex: 1,
-        backgroundColor: '#000000',
-    },
+    /* splashWrapper removed */
     splashContainer: {
         flex: 1,
         alignItems: 'center',

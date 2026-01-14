@@ -21,14 +21,15 @@ export default function TimeBombGameScreen() {
     const [timeLeft, setTimeLeft] = useState(duration);
     const [isActive, setIsActive] = useState(true);
     const [isExploded, setIsExploded] = useState(false);
+    const [hasStarted, setHasStarted] = useState(false);
 
     const pulseAnim = useSharedValue(1);
     const timerRef = useRef<any>(null);
 
     useEffect(() => {
-        // Start ticking sound or similar if implementing audio
-        // For now, just timer logic
-        startTimer();
+        if (hasStarted) {
+            startTimer();
+        }
 
         // Pulse animation for the bomb icon
         pulseAnim.value = withRepeat(
@@ -43,7 +44,7 @@ export default function TimeBombGameScreen() {
         return () => {
             if (timerRef.current) clearInterval(timerRef.current);
         };
-    }, []);
+    }, [hasStarted]);
 
     const startTimer = () => {
         if (timerRef.current) clearInterval(timerRef.current);
@@ -65,14 +66,16 @@ export default function TimeBombGameScreen() {
         setIsActive(false);
         setIsExploded(true);
         haptics.error(); // Long vibration
-        // Navigate shortly after? Or wait for manual proceed?
-        // User request: "when the timer finishes, whoeeve has the phone not answered will lose"
-        // Show explosion UI then button to vote
     };
 
     const handleManualExplode = () => {
         haptics.heavy();
         handleExplosion();
+    };
+
+    const handleStart = () => {
+        haptics.heavy();
+        setHasStarted(true);
     };
 
     const handleProceed = () => {
@@ -112,28 +115,38 @@ export default function TimeBombGameScreen() {
                     </View>
                 </View>
 
-                {/* Timer Section */}
-                <View style={styles.timerContainer}>
-                    <Animated.View style={[styles.bombIconContainer, !isExploded && animatedIconStyle]}>
-                        <Ionicons
-                            name={isExploded ? "skull" : "timer"}
-                            size={100}
-                            color={isExploded ? Colors.suspect : Colors.candlelight}
-                        />
-                    </Animated.View>
+                {/* Timer Section - Only show after start */}
+                {hasStarted && (
+                    <View style={styles.timerContainer}>
+                        <Animated.View style={[styles.bombIconContainer, !isExploded && animatedIconStyle]}>
+                            <Ionicons
+                                name={isExploded ? "skull" : "timer"}
+                                size={100}
+                                color={isExploded ? Colors.suspect : Colors.candlelight}
+                            />
+                        </Animated.View>
 
-                    <Text style={[styles.timerText, isExploded && styles.timerTextExploded]}>
-                        {isExploded ? "BOOM!" : formatTime(timeLeft)}
-                    </Text>
+                        <Text style={[styles.timerText, isExploded && styles.timerTextExploded]}>
+                            {isExploded ? "BOOM!" : formatTime(timeLeft)}
+                        </Text>
 
-                    {isExploded && (
-                        <Text style={styles.explodedText}>Time's Up!</Text>
-                    )}
-                </View>
+                        {isExploded && (
+                            <Text style={styles.explodedText}>Time's Up!</Text>
+                        )}
+                    </View>
+                )}
 
                 {/* Controls */}
                 <View style={styles.footer}>
-                    {!isExploded ? (
+                    {!hasStarted ? (
+                        <Button
+                            title="Start Timer"
+                            onPress={handleStart}
+                            variant="primary"
+                            size="large"
+                            icon={<Ionicons name="play" size={24} color={Colors.victorianBlack} />}
+                        />
+                    ) : !isExploded ? (
                         <Button
                             title="Explode Now"
                             onPress={handleManualExplode}

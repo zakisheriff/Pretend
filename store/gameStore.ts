@@ -413,15 +413,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
 
             case 'time-bomb': {
-                // Pick random theme from all themes
-                const theme = themes[Math.floor(Math.random() * themes.length)];
-                // Pick random letter A-Z
+                // Custom categories for Time Bomb
+                const bombCategories = [
+                    'Movies', 'Food', 'Games', 'Animals', 'Brands', 'Everything',
+                    'Celebrities', 'Countries', 'Songs', 'Sports', 'Cities', 'Colors'
+                ];
+
+                // Pick random category
+                const category = bombCategories[Math.floor(Math.random() * bombCategories.length)];
+
+                // Pick random letter A-Z (including X, Q, Z etc. as requested)
                 const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
 
                 gameData = {
                     type: 'time-bomb',
                     data: {
-                        category: theme.name,
+                        category,
                         letter,
                         duration: settings.discussionTime
                     }
