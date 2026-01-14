@@ -7,7 +7,7 @@ import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, ZoomIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -97,119 +97,127 @@ export default function PoliceArrestScreen() {
     };
 
     return (
-        <View style={[styles.container, { paddingTop: insets.top + 20, paddingBottom: insets.bottom + 20 }]}>
-            {!revealed ? (
-                <>
-                    <Animated.View entering={FadeInDown.delay(100)} style={styles.header}>
-                        <View style={styles.policeBadge}>
-                            <Ionicons name="shield-checkmark" size={28} color={Colors.detective} />
-                        </View>
-                        <Text style={styles.title}>Police Makes Arrest</Text>
-                        <Text style={styles.subtitle}>Pass to {policePlayer?.name || 'Police'}</Text>
-                    </Animated.View>
-
-                    <View style={styles.playersContainer}>
-                        <Text style={styles.sectionLabel}>SELECT SUSPECT</Text>
-                        <View style={styles.playerGrid}>
-                            {selectablePlayers.map((player, index) => (
-                                <Animated.View
-                                    key={player.id}
-                                    entering={FadeInDown.delay(200 + index * 50)}
-                                >
-                                    <Pressable
-                                        onPress={() => {
-                                            haptics.selection();
-                                            setSelectedId(player.id);
-                                        }}
-                                        style={[
-                                            styles.playerCard,
-                                            selectedId === player.id && styles.playerCardSelected
-                                        ]}
-                                    >
-                                        <View style={[
-                                            styles.playerAvatar,
-                                            selectedId === player.id && styles.playerAvatarSelected
-                                        ]}>
-                                            <Text style={styles.avatarLetter}>
-                                                {player.name.charAt(0).toUpperCase()}
-                                            </Text>
-                                        </View>
-                                        <Text style={[
-                                            styles.playerName,
-                                            selectedId === player.id && styles.playerNameSelected
-                                        ]}>
-                                            {player.name}
-                                        </Text>
-                                        {selectedId === player.id && (
-                                            <View style={styles.checkMark}>
-                                                <Ionicons name="checkmark-circle" size={20} color={Colors.detective} />
-                                            </View>
-                                        )}
-                                    </Pressable>
-                                </Animated.View>
-                            ))}
-                        </View>
-                    </View>
-
-                    <Button
-                        title="Arrest Suspect"
-                        onPress={handleArrest}
-                        variant="primary"
-                        size="large"
-                        disabled={!selectedId}
-                        icon={<Ionicons name="hand-left" size={18} color={selectedId ? Colors.victorianBlack : Colors.grayMedium} />}
-                    />
-                </>
-            ) : (
-                <Animated.View entering={ZoomIn} style={styles.revealContainer}>
-                    <View style={[styles.resultBadge, isCaught ? styles.resultSuccess : styles.resultFail]}>
-                        <Ionicons
-                            name={isCaught ? "checkmark-circle" : "close-circle"}
-                            size={48}
-                            color={isCaught ? Colors.success : Colors.suspect}
-                        />
-                    </View>
-
-                    <Text style={[styles.resultTitle, isCaught ? styles.resultTitleSuccess : styles.resultTitleFail]}>
-                        {isCaught ? "THIEF CAUGHT!" : "THIEF ESCAPED!"}
-                    </Text>
-
-                    <View style={styles.revealCard}>
-                        <Text style={styles.revealLabel}>The Thief was</Text>
-                        <View style={styles.thiefReveal}>
-                            <View style={styles.thiefAvatar}>
-                                <Text style={styles.thiefAvatarLetter}>
-                                    {thiefPlayer?.name.charAt(0).toUpperCase()}
-                                </Text>
+        <View style={styles.container}>
+            <ScrollView
+                style={styles.scroll}
+                contentContainerStyle={{
+                    paddingTop: insets.top + 20,
+                    paddingBottom: insets.bottom + 40,
+                    paddingHorizontal: 20
+                }}
+                showsVerticalScrollIndicator={false}
+            >
+                {!revealed ? (
+                    <>
+                        <Animated.View entering={FadeInDown.delay(100)} style={styles.header}>
+                            <View style={styles.policeBadge}>
+                                <Ionicons name="shield-checkmark" size={28} color={Colors.detective} />
                             </View>
-                            <Text style={styles.thiefName}>{thiefPlayer?.name}</Text>
+                            <Text style={styles.title}>Police Makes Arrest</Text>
+                            <Text style={styles.subtitle}>Pass to {policePlayer?.name || 'Police'}</Text>
+                        </Animated.View>
+
+                        <View style={styles.playersContainer}>
+                            <Text style={styles.sectionLabel}>SELECT SUSPECT</Text>
+                            <View style={styles.playerGrid}>
+                                {selectablePlayers.map((player, index) => (
+                                    <Animated.View
+                                        key={player.id}
+                                        entering={FadeInDown.delay(200 + index * 50)}
+                                    >
+                                        <Pressable
+                                            onPress={() => {
+                                                haptics.selection();
+                                                setSelectedId(player.id);
+                                            }}
+                                            style={[
+                                                styles.playerCard,
+                                                selectedId === player.id && styles.playerCardSelected
+                                            ]}
+                                        >
+                                            <View style={[
+                                                styles.playerAvatar,
+                                                selectedId === player.id && styles.playerAvatarSelected
+                                            ]}>
+                                                <Text style={styles.avatarLetter}>
+                                                    {player.name.charAt(0).toUpperCase()}
+                                                </Text>
+                                            </View>
+                                            <Text style={[
+                                                styles.playerName,
+                                                selectedId === player.id && styles.playerNameSelected
+                                            ]}>
+                                                {player.name}
+                                            </Text>
+                                            {selectedId === player.id && (
+                                                <View style={styles.checkMark}>
+                                                    <Ionicons name="checkmark-circle" size={20} color={Colors.detective} />
+                                                </View>
+                                            )}
+                                        </Pressable>
+                                    </Animated.View>
+                                ))}
+                            </View>
                         </View>
-                    </View>
 
-                    <View style={styles.pointsBox}>
-                        <ScoreBoard players={updatedPlayers} />
-                    </View>
-
-                    <View style={styles.buttonRow}>
                         <Button
-                            title="Play Again"
-                            onPress={handlePlayAgain}
+                            title="Arrest Suspect"
+                            onPress={handleArrest}
                             variant="primary"
                             size="large"
-                            style={{ flex: 1 }}
-                            icon={<Ionicons name="refresh" size={18} color={Colors.victorianBlack} />}
+                            disabled={!selectedId}
+                            icon={<Ionicons name="hand-left" size={18} color={selectedId ? Colors.victorianBlack : Colors.grayMedium} />}
                         />
-                        <Button
-                            title="Home"
-                            onPress={() => setShowHomeConfirm(true)}
-                            variant="outline"
-                            size="large"
-                            style={{ flex: 1 }}
-                            icon={<Ionicons name="home" size={18} color={Colors.candlelight} />}
-                        />
-                    </View>
-                </Animated.View>
-            )}
+                    </>
+                ) : (
+                    <Animated.View entering={ZoomIn} style={styles.revealContainer}>
+                        <View style={[styles.resultBadge, isCaught ? styles.resultSuccess : styles.resultFail]}>
+                            <Ionicons
+                                name={isCaught ? "checkmark-circle" : "close-circle"}
+                                size={48}
+                                color={isCaught ? Colors.success : Colors.suspect}
+                            />
+                        </View>
+
+                        <Text style={[styles.resultTitle, isCaught ? styles.resultTitleSuccess : styles.resultTitleFail]}>
+                            {isCaught ? "THIEF CAUGHT!" : "THIEF ESCAPED!"}
+                        </Text>
+
+                        <View style={styles.revealCard}>
+                            <Text style={styles.revealLabel}>The Thief was</Text>
+                            <View style={styles.thiefReveal}>
+                                <View style={styles.thiefAvatar}>
+                                    <Text style={styles.thiefAvatarLetter}>
+                                        {thiefPlayer?.name.charAt(0).toUpperCase()}
+                                    </Text>
+                                </View>
+                                <Text style={styles.thiefName}>{thiefPlayer?.name}</Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.pointsBox}>
+                            <ScoreBoard players={updatedPlayers} />
+                        </View>
+
+                        <View style={styles.buttonStack}>
+                            <Button
+                                title="Play Again"
+                                onPress={handlePlayAgain}
+                                variant="primary"
+                                size="large"
+                                icon={<Ionicons name="refresh" size={18} color={Colors.victorianBlack} />}
+                            />
+                            <Button
+                                title="Home"
+                                onPress={() => setShowHomeConfirm(true)}
+                                variant="outline"
+                                size="large"
+                                icon={<Ionicons name="home" size={18} color={Colors.candlelight} />}
+                            />
+                        </View>
+                    </Animated.View>
+                )}
+            </ScrollView>
 
             <GenericModal
                 visible={showHomeConfirm}
@@ -466,9 +474,13 @@ const styles = StyleSheet.create({
     playerResultPointsGained: {
         color: Colors.success,
     },
-    buttonRow: {
-        flexDirection: 'row',
+    buttonStack: {
+        flexDirection: 'column',
         gap: 12,
         width: '100%',
+        marginTop: 20,
+    },
+    scroll: {
+        flex: 1,
     },
 });
