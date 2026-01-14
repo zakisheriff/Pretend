@@ -342,8 +342,7 @@ const styles = StyleSheet.create({
         opacity: 0.8,
         marginBottom: 12,
         fontWeight: '600',
-        letterSpacing: 0.5,
-        textTransform: 'uppercase',
+        letterSpacing: 0.5
     },
     visitText: {
         fontSize: 12,
