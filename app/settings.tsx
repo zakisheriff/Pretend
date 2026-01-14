@@ -216,9 +216,10 @@ export default function SettingsScreen() {
                         >
                             <View style={styles.atomIcon}>
                             </View>
-                            <Text style={styles.atomTitle}>The One Atom</Text>
+                            <Text style={styles.atomTitle}>Atom Originals</Text>
+                            <Text style={styles.atomSubtitle}>A Sub-brand of The One Atom</Text>
                             <Text style={styles.visitText}>Tap to visit website</Text>
-                            <Text style={styles.versionText}>Version 1.0.0</Text>
+                            <Text style={styles.versionText}>Pretend v1.0.0</Text>
                         </Pressable>
                     </View>
 
@@ -335,11 +336,20 @@ const styles = StyleSheet.create({
         marginBottom: 4,
         letterSpacing: 0.5,
     },
+    atomSubtitle: {
+        fontSize: 12,
+        color: Colors.candlelight,
+        opacity: 0.8,
+        marginBottom: 12,
+        fontWeight: '600',
+        letterSpacing: 0.5,
+        textTransform: 'uppercase',
+    },
     visitText: {
         fontSize: 12,
         color: Colors.grayLight,
         marginBottom: 8,
-        fontWeight: '600',
+        fontWeight: '500',
     },
     versionText: {
         fontSize: 14,
