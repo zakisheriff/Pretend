@@ -55,6 +55,40 @@ const GAME_MODES_INFO = [
         ],
         tip: 'Your word might be similar but not the same - be careful!',
     },
+    {
+        id: 'thief-police',
+        name: 'Thief & Police',
+        icon: 'shield-checkmark-outline',
+        color: Colors.detective,
+        steps: [
+            { icon: 'shield-outline', role: 'Police', desc: 'Knows the word. Must find the Thief!' },
+            { icon: 'finger-print-outline', role: 'Thief', desc: 'Has a DIFFERENT word. Must blend in!' },
+            { icon: 'person-outline', role: 'Civilians', desc: 'Know the word. Help the Police!' },
+        ],
+        tip: 'Police decides when to arrest. Civilians help verify.',
+    },
+    {
+        id: 'time-bomb',
+        name: 'Time Bomb',
+        icon: 'timer-outline',
+        color: Colors.suspect,
+        steps: [
+            { icon: 'mic-outline', role: 'Answer', desc: 'Name a word that matches the prompt' },
+            { icon: 'play-forward-outline', role: 'Pass', desc: 'Hand the phone to the next player quickly!' },
+        ],
+        tip: "Don't be the one holding the phone when it explodes!",
+    },
+    {
+        id: 'charades',
+        name: 'Charades',
+        icon: 'happy-outline',
+        color: Colors.gaslightAmber,
+        steps: [
+            { icon: 'body-outline', role: 'Act', desc: 'Act out or describe the word on screen' },
+            { icon: 'resize-outline', role: 'Tilt', desc: 'Tilt DOWN for Correct, UP to Pass' },
+        ],
+        tip: 'Use device motion! No touching required.',
+    },
 ];
 
 const COMMON_STEPS = [
