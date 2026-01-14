@@ -321,10 +321,13 @@ const styles = StyleSheet.create({
         gap: 10,
         height: 300,
         marginTop: 40,
+        width: '100%', // Ensure flex children have space
+        maxWidth: 500, // Prevent too wide on desktop
     },
     podiumPlace: {
         flex: 1,
         alignItems: 'center',
+        minWidth: 90, // Prevent squishing
     },
     placeText: {
         fontSize: 12,
