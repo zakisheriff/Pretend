@@ -95,6 +95,14 @@ export default function DiscussionScreen() {
                         size="large"
                         icon={<Ionicons name="trophy" size={18} color={Colors.victorianBlack} />}
                     />
+                ) : gameMode === 'thief-police' ? (
+                    <Button
+                        title="Police Makes Arrest"
+                        onPress={() => { haptics.heavy(); router.push('/police-arrest' as any); }}
+                        variant="primary"
+                        size="large"
+                        icon={<Ionicons name="shield-checkmark" size={18} color={Colors.victorianBlack} />}
+                    />
                 ) : (
                     <Button title={`Find the ${specialRoleName}`} onPress={handleVote} variant="primary" size="large"
                         icon={<Ionicons name="hand-left" size={18} color={Colors.victorianBlack} />} />
