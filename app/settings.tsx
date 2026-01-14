@@ -5,10 +5,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import {
+    Alert,
+    Linking,
     Platform,
     Pressable,
     SafeAreaView,
     ScrollView,
+    Share,
     StyleSheet,
     Switch,
     Text,
@@ -28,6 +31,53 @@ export default function SettingsScreen() {
     const toggleHaptics = (value: boolean) => {
         updateSettings({ hapticsEnabled: value });
     };
+
+    const handleShare = async () => {
+        try {
+            await Share.share({
+                message: 'Check out "Pretend - A Mystery Party Game"! Download it now.',
+                url: 'https://pretend.theoneatom.com',
+            });
+        } catch (error) {
+            // Ignore share errors
+        }
+    };
+
+    const handleSupport = () => {
+        Linking.openURL('https://buymeacoffee.com/theoneatom').catch(() => {
+            Alert.alert('Error', 'Could not open link');
+        });
+    };
+
+    const handleRate = () => {
+        // Placeholder for store link
+        const url = Platform.OS === 'ios'
+            ? 'https://apps.apple.com/app/id123456789'
+            : 'https://play.google.com/store/apps/details?id=com.oneatom.pretend';
+
+        Linking.openURL(url).catch(() => {
+            Alert.alert('Error', 'Could not open store link');
+        });
+    };
+
+    const SettingItem = ({ icon, label, onPress, showChevron = true, value }: { icon: string, label: string, onPress?: () => void, showChevron?: boolean, value?: React.ReactNode }) => (
+        <Pressable
+            style={({ pressed }) => [styles.settingRow, pressed && onPress && { opacity: 0.7 }]}
+            onPress={onPress}
+            disabled={!onPress}
+        >
+            <View style={styles.settingInfo}>
+                <View style={styles.iconContainer}>
+                    <Ionicons name={icon as any} size={22} color={Colors.candlelight} />
+                </View>
+                <Text style={styles.settingLabel}>{label}</Text>
+            </View>
+            {value}
+            {showChevron && !value && (
+                <Ionicons name="chevron-forward" size={20} color={Colors.grayLight} />
+            )}
+        </Pressable>
+    );
 
     return (
         <View style={styles.container}>
@@ -53,43 +103,70 @@ export default function SettingsScreen() {
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Preferences</Text>
 
-                        <View style={styles.settingRow}>
-                            <View style={styles.settingInfo}>
-                                <View style={styles.iconContainer}>
-                                    <Ionicons name="volume-high-outline" size={22} color={Colors.candlelight} />
-                                </View>
-                                <Text style={styles.settingLabel}>Sound Effects</Text>
-                            </View>
-                            <Switch
-                                trackColor={{ false: Colors.grayMedium, true: Colors.detective }}
-                                thumbColor={Colors.parchment}
-                                ios_backgroundColor={Colors.grayMedium}
-                                onValueChange={toggleSound}
-                                value={settings.soundEnabled}
-                            />
-                        </View>
+                        <SettingItem
+                            icon="volume-high-outline"
+                            label="Sound Effects"
+                            showChevron={false}
+                            value={
+                                <Switch
+                                    trackColor={{ false: Colors.grayMedium, true: Colors.detective }}
+                                    thumbColor={Colors.parchment}
+                                    ios_backgroundColor={Colors.grayMedium}
+                                    onValueChange={toggleSound}
+                                    value={settings.soundEnabled}
+                                />
+                            }
+                        />
 
-                        <View style={styles.settingRow}>
-                            <View style={styles.settingInfo}>
-                                <View style={styles.iconContainer}>
-                                    <Ionicons name="phone-portrait-outline" size={22} color={Colors.candlelight} />
-                                </View>
-                                <Text style={styles.settingLabel}>Haptics</Text>
-                            </View>
-                            <Switch
-                                trackColor={{ false: Colors.grayMedium, true: Colors.detective }}
-                                thumbColor={Colors.parchment}
-                                ios_backgroundColor={Colors.grayMedium}
-                                onValueChange={toggleHaptics}
-                                value={settings.hapticsEnabled}
-                            />
-                        </View>
+                        <SettingItem
+                            icon="phone-portrait-outline"
+                            label="Haptics"
+                            showChevron={false}
+                            value={
+                                <Switch
+                                    trackColor={{ false: Colors.grayMedium, true: Colors.detective }}
+                                    thumbColor={Colors.parchment}
+                                    ios_backgroundColor={Colors.grayMedium}
+                                    onValueChange={toggleHaptics}
+                                    value={settings.hapticsEnabled}
+                                />
+                            }
+                        />
+                    </View>
+
+                    {/* General Section */}
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>General</Text>
+                        <SettingItem
+                            icon="book-outline"
+                            label="How to Play"
+                            onPress={() => router.push('/how-to-play')}
+                        />
+                    </View>
+
+                    {/* Support Section */}
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>Support</Text>
+                        <SettingItem
+                            icon="share-social-outline"
+                            label="Share App"
+                            onPress={handleShare}
+                        />
+                        <SettingItem
+                            icon="star-outline"
+                            label="Rate Us"
+                            onPress={handleRate}
+                        />
+                        <SettingItem
+                            icon="cafe-outline"
+                            label="Buy Me a Coffee"
+                            onPress={handleSupport}
+                        />
                     </View>
 
                     {/* About Section */}
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>About</Text>
-
                         <View style={styles.aboutCard}>
                             <View style={styles.atomIcon}>
                             </View>

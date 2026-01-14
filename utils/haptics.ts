@@ -1,12 +1,22 @@
+import { useGameStore } from '@/store/gameStore';
 import * as Haptics from 'expo-haptics';
 import { Platform } from 'react-native';
 
 const isAndroid = Platform.OS === 'android';
 
+const isHapticsEnabled = () => {
+    try {
+        return useGameStore.getState().settings.hapticsEnabled;
+    } catch (e) {
+        return true; // Fallback if store not ready
+    }
+};
+
 export const haptics = {
     // Light feedback for subtle interactions
     // On Android, use selection feedback for crisp "dip" feel (like keyboard taps)
     light: () => {
+        if (!isHapticsEnabled()) return;
         if (isAndroid) {
             return Haptics.selectionAsync();
         }
@@ -16,6 +26,7 @@ export const haptics = {
     // Medium feedback for selections
     // On Android, use selection for cleaner feel
     medium: () => {
+        if (!isHapticsEnabled()) return;
         if (isAndroid) {
             return Haptics.selectionAsync();
         }
@@ -25,6 +36,7 @@ export const haptics = {
     // Heavy feedback for important actions
     // On Android, use soft impact to avoid buzzy feel
     heavy: () => {
+        if (!isHapticsEnabled()) return;
         if (isAndroid) {
             return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }
@@ -32,15 +44,28 @@ export const haptics = {
     },
 
     // Notification feedbacks - these work well on both platforms
-    warning: () => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning),
-    success: () => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success),
-    error: () => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error),
+    warning: () => {
+        if (!isHapticsEnabled()) return;
+        return Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+    },
+    success: () => {
+        if (!isHapticsEnabled()) return;
+        return Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    },
+    error: () => {
+        if (!isHapticsEnabled()) return;
+        return Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    },
 
     // Selection feedback - already optimal for Android (like keyboard taps)
-    selection: () => Haptics.selectionAsync(),
+    selection: () => {
+        if (!isHapticsEnabled()) return;
+        return Haptics.selectionAsync();
+    },
 
     // Custom patterns - optimized for each platform
     imposterReveal: async () => {
+        if (!isHapticsEnabled()) return;
         if (isAndroid) {
             // Quick crisp taps on Android
             await Haptics.selectionAsync();
@@ -59,6 +84,7 @@ export const haptics = {
     },
 
     countdown: async () => {
+        if (!isHapticsEnabled()) return;
         // Crisp tick on both platforms
         if (isAndroid) {
             await Haptics.selectionAsync();
@@ -68,6 +94,7 @@ export const haptics = {
     },
 
     gameStart: async () => {
+        if (!isHapticsEnabled()) return;
         if (isAndroid) {
             // Quick sequence on Android
             await Haptics.selectionAsync();
