@@ -94,26 +94,59 @@ export default function SelectModeScreen() {
                         <Ionicons name="game-controller-outline" size={24} color={Colors.parchment} />
                         <Text style={styles.title}>Select Mode</Text>
                     </View>
-                    <Text style={styles.subtitle}>Choose your investigation style</Text>
+                    <Text style={styles.subtitle}>Choose Your Investigation Style</Text>
                 </View>
 
-                <View style={styles.modes}>
-                    {GAME_MODES.map((mode, index) => (
-                        <ModeCard
-                            key={mode.id}
-                            mode={mode}
-                            isSelected={gameMode === mode.id}
-                            onSelect={() => {
-                                haptics.light();
-                                selectGameMode(mode.id);
-                            }}
-                            onShowHelp={(m) => {
-                                haptics.selection();
-                                setHelpMode(m);
-                            }}
-                            index={index}
-                        />
-                    ))}
+                {/* 2+ Players Section */}
+                <View style={styles.section}>
+                    <View style={styles.sectionHeader}>
+                        <Ionicons name="people-outline" size={18} color={Colors.candlelight} />
+                        <Text style={styles.sectionTitle}>2+ Players</Text>
+                    </View>
+                    <View style={styles.modes}>
+                        {GAME_MODES.filter(m => ['charades', 'directors-cut', 'time-bomb'].includes(m.id)).map((mode, index) => (
+                            <ModeCard
+                                key={mode.id}
+                                mode={mode}
+                                isSelected={gameMode === mode.id}
+                                onSelect={() => {
+                                    haptics.light();
+                                    selectGameMode(mode.id);
+                                }}
+                                onShowHelp={(m) => {
+                                    haptics.selection();
+                                    setHelpMode(m);
+                                }}
+                                index={index}
+                            />
+                        ))}
+                    </View>
+                </View>
+
+                {/* 3+ Players Section */}
+                <View style={styles.section}>
+                    <View style={styles.sectionHeader}>
+                        <Ionicons name="people" size={18} color={Colors.candlelight} />
+                        <Text style={styles.sectionTitle}>3+ Players</Text>
+                    </View>
+                    <View style={styles.modes}>
+                        {GAME_MODES.filter(m => ['undercover-word', 'classic-imposter', 'mind-sync'].includes(m.id)).map((mode, index) => (
+                            <ModeCard
+                                key={mode.id}
+                                mode={mode}
+                                isSelected={gameMode === mode.id}
+                                onSelect={() => {
+                                    haptics.light();
+                                    selectGameMode(mode.id);
+                                }}
+                                onShowHelp={(m) => {
+                                    haptics.selection();
+                                    setHelpMode(m);
+                                }}
+                                index={index + 3}
+                            />
+                        ))}
+                    </View>
                 </View>
 
                 {/* Instruction Overlay */}
@@ -192,6 +225,22 @@ const styles = StyleSheet.create({
     subtitle: { fontSize: 13, color: Colors.candlelight, fontStyle: 'italic' },
 
     modes: { gap: 12 },
+    section: {
+        gap: 12,
+    },
+    sectionHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        marginBottom: 4,
+        paddingLeft: 4,
+    },
+    sectionTitle: {
+        fontSize: 14,
+        fontWeight: '700',
+        color: Colors.candlelight,
+        letterSpacing: 1,
+    },
     modeCard: {
         flexDirection: 'row',
         alignItems: 'center',
