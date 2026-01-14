@@ -23,9 +23,13 @@ export default function CharadesGameScreen() {
     // Wait, `calculateRoundScores` handles score updates.
     // I should create a local score, and then applying it to the player at the end.
 
-    // Safety check for data
+    // Safety check for data with HARD fallback
     const charadesData = gameData?.data as CharadesData | undefined;
-    const words = charadesData?.words || [];
+
+    // Fallback list if store data fails
+    const FALLBACK_WORDS = ['Spiderman', 'Batman', 'Pizza', 'Zombie', 'Elvis', 'Robot', 'Monkey', 'Doctor', 'Teacher', 'Ninja'];
+
+    const words = (charadesData?.words && charadesData.words.length > 0) ? charadesData.words : FALLBACK_WORDS;
     const duration = charadesData?.duration || 60;
     const playerId = charadesData?.selectedPlayerId;
 
@@ -39,25 +43,40 @@ export default function CharadesGameScreen() {
     const [phase, setPhase] = useState<'setup' | 'ready' | 'playing' | 'results'>('setup');
 
     // Feedback state
+    // Feedback state
     const [feedback, setFeedback] = useState<'none' | 'correct' | 'pass'>('none');
 
-    // Refs for sensor delay logic to prevent double triggers
+    // Refs for sensor logic
     const lastTriggerTime = useRef(0);
-    const TRIGGER_DELAY = 1000; // 1 second between triggers
+    const isGameActiveRef = useRef(false);
+    const isNeutralRef = useRef(false); // Must return to vertical to re-arm
+    const TRIGGER_DELAY = 1000;
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         // Lock to landscape for Charades
         ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
 
+        // Reset state
+        isGameActiveRef.current = false;
+        isNeutralRef.current = false;
+
         return () => {
-            // Reset to portrait on exit
+            // Cleanup handled in finishGame or unmount
+            if (timerRef.current) clearInterval(timerRef.current);
             ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
         };
     }, []);
 
     useEffect(() => {
         let timer: any;
-        if (phase === 'playing' && timeLeft > 0) {
+        if (phase === 'playing') {
+            // 3-Second buffer.
+            setTimeout(() => {
+                isGameActiveRef.current = true;
+                // We don't set neutral true here; user must physically move to neutral.
+            }, 3000);
+
             timer = setInterval(() => {
                 setTimeLeft((prev) => {
                     if (prev <= 1) {
@@ -68,8 +87,45 @@ export default function CharadesGameScreen() {
                 });
             }, 1000);
         }
-        return () => clearInterval(timer);
-    }, [phase, timeLeft]);
+        return () => clearfix(timer);
+    }, [phase]);
+
+    function clearfix(t: any) { if (t) clearInterval(t); }
+
+    // ... handleCorrect, handlePass ...
+
+    useEffect(() => {
+        if (phase !== 'playing') return;
+
+        const subscription = DeviceMotion.addListener((data) => {
+            if (!isGameActiveRef.current) return;
+            const gravityZ = data.accelerationIncludingGravity?.z;
+            if (gravityZ === undefined) return;
+
+            // NEUTRAL ZONE (Vertical / Forehead): Z between -3 and 3
+            if (gravityZ > -4 && gravityZ < 4) {
+                isNeutralRef.current = true;
+                return;
+            }
+
+            // If not neutral yet, ignore tilts
+            if (!isNeutralRef.current) return;
+
+            // CORRECT (Tilt Down/Floor): Z > 7.0
+            if (gravityZ > 7.0) {
+                handleCorrect();
+                isNeutralRef.current = false; // Disarm until neutral again
+            }
+            // PASS (Tilt Up/Ceiling): Z < -7.0
+            else if (gravityZ < -7.0) {
+                handlePass();
+                isNeutralRef.current = false; // Disarm until neutral again
+            }
+        });
+
+        DeviceMotion.setUpdateInterval(100);
+        return () => subscription.remove();
+    }, [phase, currentIndex]);
 
     const finishGame = () => {
         setPhase('results');
@@ -233,7 +289,7 @@ export default function CharadesGameScreen() {
                 <View style={styles.centerContent}>
                     <Text style={styles.gameOverTitle}>Time's Up!</Text>
                     <Text style={styles.finalCount}>{correctCount}</Text>
-                    <Text style={styles.scoreLabel}>WORDS CORRECT</Text>
+                    <Text style={styles.scoreLabel}>WORDS CORRECT </Text>
 
                     {/* Points earned message */}
                     <Text style={styles.pointsEarned}>
@@ -307,12 +363,13 @@ const styles = StyleSheet.create({
     finishLink: { padding: 10 },
     finishLinkText: { color: Colors.grayLight, fontSize: 16, textDecorationLine: 'underline' },
 
-    leaderboard: { width: '80%', maxWidth: 400, backgroundColor: 'rgba(255,255,255,0.1)', padding: 15, borderRadius: 10, marginVertical: 20 },
+    // Results are now in Portrait, so we can use standard vertical layout
+    leaderboard: { width: '100%', backgroundColor: 'rgba(255,255,255,0.1)', padding: 15, borderRadius: 10, marginVertical: 20 },
     leaderboardTitle: { color: Colors.parchment, fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' },
     leaderboardRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 },
     lbName: { color: Colors.grayLight, fontSize: 16 },
     highlightName: { color: Colors.candlelight, fontWeight: 'bold' },
     lbScore: { color: Colors.parchment, fontWeight: 'bold' },
 
-    footerButtons: { flexDirection: 'row', gap: 20, alignItems: 'center' }
+    footerButtons: { flexDirection: 'row', gap: 20, alignItems: 'center', marginTop: 10 }
 });

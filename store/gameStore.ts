@@ -1,3 +1,4 @@
+import { CHARADES_WORDS } from '@/data/charades';
 import { getRandomMindSyncQuestion, getRandomMovie } from '@/data/game-modes';
 import { getEffectiveTheme, getEffectiveUndercoverTheme, getThemeById, themes } from '@/data/themes';
 import { DEFAULT_SETTINGS, GameData, GameMode, GameSettings, GameState, Player, Word } from '@/types/game';
@@ -457,20 +458,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
 
             case 'charades': {
-                // Word list for Charades
-                const charadesWords = [
-                    'Spiderman', 'T-Rex', 'Zombie', 'Elvis', 'Robot',
-                    'Washing Machine', 'Penguin', 'Statue of Liberty', 'Sumo Wrestler',
-                    'Chicken', 'Mime', 'Vampire', 'Astronaut', 'Ballerina',
-                    'Harry Potter', 'Monkey', 'Surfer', 'Boxer', 'Kangaroo',
-                    'Ghost', 'Ninja', 'Rock Star', 'Teacher', 'Doctor',
-                    'Cat', 'Dog', 'Elephant', 'Giraffe', 'Snake',
-                    'Pikachu', 'Mario', 'Sonic', 'Batman', 'Superman'
-                ];
-
-                // Shuffle words
-                const shuffled = [...charadesWords].sort(() => Math.random() - 0.5);
-                const charadesDuration = settings.discussionTime; // Should correspond to 30 or 60 from settings
+                // Shuffle words from external data
+                const shuffled = [...CHARADES_WORDS].sort(() => Math.random() - 0.5);
+                // Sanitize duration: if not 30, default to 60. (Handles -1 from mystery mode)
+                const charadesDuration = (settings.discussionTime === 30) ? 30 : 60;
                 const targetPlayerId = state.nextRoundPlayerId || players[0].id; // Fallback to first player
 
                 gameData = {

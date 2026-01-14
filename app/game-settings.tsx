@@ -6,6 +6,7 @@ import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import * as ScreenOrientation from 'expo-screen-orientation';
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -24,6 +25,19 @@ export default function GameSettingsScreen() {
 
     const players = useGameStore((s) => s.players);
     const maxSuspects = Math.min(3, Math.max(1, Math.floor(players.length * 0.4)));
+
+    // Safety: Reset to Portrait when visiting settings (fixes stuck landscape from Charades)
+    React.useEffect(() => {
+        const restorePortrait = async () => {
+            try {
+                await ScreenOrientation.unlockAsync();
+                await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+            } catch (e) {
+                // Ignore errors on unsupported platforms
+            }
+        };
+        restorePortrait();
+    }, []);
 
     React.useEffect(() => {
         if (settings.imposterCount > maxSuspects) {
