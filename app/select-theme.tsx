@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, padding: 20, gap: 10 },
+    scrollContent: { flexGrow: 1, padding: 20, gap: 10, width: '100%', maxWidth: 500, alignSelf: 'center' },
     header: { alignItems: 'center', gap: 4, marginBottom: 20 },
     titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
     title: { fontSize: 22, fontWeight: '800', color: Colors.parchment, letterSpacing: 2 },

@@ -5,7 +5,9 @@ import React from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
+const MAX_MOBILE_WIDTH = 500;
+const SCREEN_WIDTH = Math.min(width, MAX_MOBILE_WIDTH);
 const CARD_SIZE = (SCREEN_WIDTH - 64) / 2;
 
 // Victorian themed icons for categories
