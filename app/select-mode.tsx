@@ -242,8 +242,8 @@ export default function SelectModeScreen() {
                 visible={showHomeAlert}
                 title="Return Home?"
                 message="Are you sure you want to go back to the main menu?"
-                confirmLabel="Yes, Go Home"
-                cancelLabel="Cancel"
+                confirmLabel="Yes"
+                cancelLabel="No"
                 onConfirm={() => {
                     setShowHomeAlert(false);
                     router.push('/');
