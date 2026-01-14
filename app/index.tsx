@@ -111,7 +111,7 @@ export default function HomeScreen() {
                             {/* Settings Button */}
                             <Animated.View
                                 entering={FadeIn.delay(800).duration(600)}
-                                style={styles.settingsButton}
+                                style={[styles.settingsButton, { top: insets.top + 10 }]}
                             >
                                 <Pressable
                                     onPress={() => router.push('/settings')}
