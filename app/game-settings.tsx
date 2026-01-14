@@ -76,6 +76,9 @@ export default function GameSettingsScreen() {
             router.push('/time-bomb/game' as any);
         } else if (gameMode === 'charades') {
             router.push('/charades/game' as any);
+        } else if (gameMode === 'thief-police') {
+            // Thief & Police goes to role reveal
+            router.push('/role-reveal' as any);
         } else {
             router.push('/role-reveal' as any);
         }
@@ -108,7 +111,7 @@ export default function GameSettingsScreen() {
                 </View>
 
                 <View style={styles.settingsGroup}>
-                    {gameMode !== 'time-bomb' && gameMode !== 'charades' && (
+                    {gameMode !== 'time-bomb' && gameMode !== 'charades' && gameMode !== 'thief-police' && (
                         <GameSetting
                             label={specialRoleName + (specialRoleName.endsWith('s') ? '' : 's')}
                             value={settings.imposterCount}

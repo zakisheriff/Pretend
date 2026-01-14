@@ -90,6 +90,8 @@ export default function RoleRevealScreen() {
                     isDirector={playerRole.isDirector}
                     question={playerRole.question}
                     isOutlier={playerRole.isOutlier}
+                    isPolice={playerRole.isPolice}
+                    isThief={playerRole.isThief}
                     isFirstPlayer={currentRevealIndex === players.findIndex(p => !p.isEliminated)}
                     onRefresh={handleRefresh}
                 />

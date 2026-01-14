@@ -24,6 +24,9 @@ interface RoleRevealCardProps {
     isOutlier?: boolean;
     isFirstPlayer?: boolean;
     onRefresh?: () => void;
+    // Thief & Police specific
+    isPolice?: boolean;
+    isThief?: boolean;
 }
 
 export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
@@ -41,6 +44,8 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
     isOutlier,
     isFirstPlayer = false,
     onRefresh,
+    isPolice,
+    isThief,
 }) => {
     const [peekAmount, setPeekAmount] = useState(0);
     const [hasPeeked, setHasPeeked] = useState(hasRevealed);
@@ -131,6 +136,27 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
                     color: Colors.candlelight,
                     hideRole: true, // Flag to hide the role section entirely
                 };
+            case 'thief-police':
+                // Thief & Police - Show role (Police/Thief/Civilian)
+                if (isPolice) {
+                    return {
+                        icon: 'shield-checkmark',
+                        label: 'Police',
+                        color: Colors.detective,
+                    };
+                }
+                if (isThief) {
+                    return {
+                        icon: 'finger-print',
+                        label: 'Thief',
+                        color: Colors.suspect,
+                    };
+                }
+                return {
+                    icon: 'person',
+                    label: 'Civilian',
+                    color: Colors.candlelight,
+                };
             default:
                 return {
                     icon: isImposter ? 'skull' : 'search',
@@ -194,6 +220,31 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
                     content: word,
                     isLarge: true,
                     warningText: 'Describe your word. Find who has a different one!',
+                };
+
+            case 'thief-police':
+                // Thief & Police - Show word and role-specific hint
+                if (isPolice) {
+                    return {
+                        label: 'Your Word',
+                        content: word,
+                        isLarge: true,
+                        warningText: 'You are the POLICE. Find the Thief!',
+                    };
+                }
+                if (isThief) {
+                    return {
+                        label: 'Your Word',
+                        content: word,
+                        isLarge: true,
+                        warningText: 'You are the THIEF. Blend in!',
+                    };
+                }
+                return {
+                    label: 'Your Word',
+                    content: word,
+                    isLarge: true,
+                    warningText: 'You are a CIVILIAN. Help catch the Thief!',
                 };
 
             default:

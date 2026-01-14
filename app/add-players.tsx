@@ -69,6 +69,9 @@ export default function AddPlayersScreen() {
             router.push('/select-theme');
         } else if (gameMode === 'directors-cut') {
             router.push('/setup-director');
+        } else if (gameMode === 'thief-police') {
+            // Thief & Police goes directly to game-settings which will auto-start
+            router.push('/game-settings');
         } else {
             router.push('/game-settings');
         }
