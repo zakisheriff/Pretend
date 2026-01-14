@@ -7,21 +7,21 @@ import { useRouter } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { DeviceMotion } from 'expo-sensors';
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function CharadesGameScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
-
     const gameData = useGameStore((s) => s.gameData);
     const players = useGameStore((s) => s.players);
-    const updatePlayerName = useGameStore((s) => s.updatePlayerName); // Cheaty way to update score? No, need direct set.
-    // Actually, I can't update score directly via existing mutations easily without weird hacks.
-    // But `players` in store IS the state. I can mutate it directly via `reorderPlayers` or I should add `updateScore`.
-    // Wait, `calculateRoundScores` handles score updates.
-    // I should create a local score, and then applying it to the player at the end.
+    const currentPlayer = useGameStore((s) => {
+        if (s.gameData?.type === 'charades') {
+            return s.players.find(p => p.id === (s.gameData!.data as CharadesData).selectedPlayerId);
+        }
+        return undefined;
+    });
 
     // Safety check for data with HARD fallback
     const charadesData = gameData?.data as CharadesData | undefined;
@@ -31,18 +31,14 @@ export default function CharadesGameScreen() {
 
     const words = (charadesData?.words && charadesData.words.length > 0) ? charadesData.words : FALLBACK_WORDS;
     const duration = charadesData?.duration || 60;
-    const playerId = charadesData?.selectedPlayerId;
-
-    const currentPlayer = players.find(p => p.id === playerId);
 
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [correctCount, setCorrectCount] = useState(0); // Distinct from score points
+    const [correctCount, setCorrectCount] = useState(0);
     const [timeLeft, setTimeLeft] = useState(duration);
 
-    // Phases: 'setup' -> 'ready' -> 'playing' -> 'results'
-    const [phase, setPhase] = useState<'setup' | 'ready' | 'playing' | 'results'>('setup');
+    // Phases: 'setup' -> 'ready' -> 'playing'
+    const [phase, setPhase] = useState<'setup' | 'ready' | 'playing'>('setup');
 
-    // Feedback state
     // Feedback state
     const [feedback, setFeedback] = useState<'none' | 'correct' | 'pass'>('none');
 
@@ -51,84 +47,44 @@ export default function CharadesGameScreen() {
     const isGameActiveRef = useRef(false);
     const isNeutralRef = useRef(false); // Must return to vertical to re-arm
     const TRIGGER_DELAY = 1000;
-    const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Cleanup ref to avoid state updates after unmount
+    const isMounted = useRef(true);
 
     useEffect(() => {
+        isMounted.current = true;
+
         // Lock to landscape for Charades
-        ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+        const lockLandscape = async () => {
+            try {
+                await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+            } catch (error) {
+                console.warn("Failed to lock landscape", error);
+            }
+        };
+        lockLandscape();
 
         // Reset state
         isGameActiveRef.current = false;
         isNeutralRef.current = false;
 
         return () => {
-            // Cleanup handled in finishGame or unmount
-            if (timerRef.current) clearInterval(timerRef.current);
-            ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+            isMounted.current = false;
+            // Unlock orientation on cleanup
+            ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT).catch(() => { });
         };
     }, []);
 
-    useEffect(() => {
-        let timer: any;
-        if (phase === 'playing') {
-            // 3-Second buffer.
-            setTimeout(() => {
-                isGameActiveRef.current = true;
-                // We don't set neutral true here; user must physically move to neutral.
-            }, 3000);
+    const finishGame = React.useCallback(() => {
+        // Prevent multiple calls
+        if (!isGameActiveRef.current && phase !== 'playing') return;
 
-            timer = setInterval(() => {
-                setTimeLeft((prev) => {
-                    if (prev <= 1) {
-                        finishGame();
-                        return 0;
-                    }
-                    return prev - 1;
-                });
-            }, 1000);
-        }
-        return () => clearfix(timer);
-    }, [phase]);
+        // Stop Logic
+        isGameActiveRef.current = false;
 
-    function clearfix(t: any) { if (t) clearInterval(t); }
+        // Unlock orientation BEFORE navigating
+        ScreenOrientation.unlockAsync().catch(() => { });
 
-    // ... handleCorrect, handlePass ...
-
-    useEffect(() => {
-        if (phase !== 'playing') return;
-
-        const subscription = DeviceMotion.addListener((data) => {
-            if (!isGameActiveRef.current) return;
-            const gravityZ = data.accelerationIncludingGravity?.z;
-            if (gravityZ === undefined) return;
-
-            // NEUTRAL ZONE (Vertical / Forehead): Z between -3 and 3
-            if (gravityZ > -4 && gravityZ < 4) {
-                isNeutralRef.current = true;
-                return;
-            }
-
-            // If not neutral yet, ignore tilts
-            if (!isNeutralRef.current) return;
-
-            // CORRECT (Tilt Down/Floor): Z > 7.0
-            if (gravityZ > 7.0) {
-                handleCorrect();
-                isNeutralRef.current = false; // Disarm until neutral again
-            }
-            // PASS (Tilt Up/Ceiling): Z < -7.0
-            else if (gravityZ < -7.0) {
-                handlePass();
-                isNeutralRef.current = false; // Disarm until neutral again
-            }
-        });
-
-        DeviceMotion.setUpdateInterval(100);
-        return () => subscription.remove();
-    }, [phase, currentIndex]);
-
-    const finishGame = () => {
-        setPhase('results');
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 
         // Calculate Points
@@ -136,18 +92,58 @@ export default function CharadesGameScreen() {
         if (duration === 30 && correctCount > 5) points = 1;
         if (duration === 60 && correctCount > 10) points = 2;
 
-        // We need to update the store with these points.
-        // Since I didn't add a dedicated `addScore` action, I'll use a trick or just admit I need to add that action.
-        // Wait, I can use `reorderPlayers` which replaces the whole player array.
-        // Let's effectively "update" the player in the store.
         if (currentPlayer && points > 0) {
             const updatedPlayers = players.map(p =>
                 p.id === currentPlayer.id ? { ...p, score: p.score + points } : p
             );
-            // Call reorderPlayers (which just blindly sets players)
             useGameStore.getState().reorderPlayers(updatedPlayers);
         }
-    };
+
+        // Navigate to dedicated results screen (Forces Portrait)
+        router.replace({
+            pathname: '/charades/results',
+            params: {
+                score: correctCount.toString(),
+                duration: duration.toString(),
+                playerId: currentPlayer?.id,
+                pointsEarned: points.toString()
+            }
+        });
+    }, [correctCount, duration, currentPlayer, players, phase, router]);
+
+    // Timer Logic
+    useEffect(() => {
+        let interval: any;
+        let startTimeout: any;
+
+        if (phase === 'playing') {
+            // 3-Second buffer before sensors activate
+            startTimeout = setTimeout(() => {
+                if (isMounted.current) {
+                    isGameActiveRef.current = true;
+                }
+            }, 3000);
+
+            interval = setInterval(() => {
+                setTimeLeft((prev) => {
+                    const newValue = prev - 1;
+                    return newValue < 0 ? 0 : newValue;
+                });
+            }, 1000);
+        }
+
+        return () => {
+            clearInterval(interval);
+            clearTimeout(startTimeout);
+        };
+    }, [phase]);
+
+    // Check for game end due to time
+    useEffect(() => {
+        if (phase === 'playing' && timeLeft === 0) {
+            finishGame();
+        }
+    }, [timeLeft, phase, finishGame]);
 
     const nextWord = () => {
         if (currentIndex < words.length - 1) {
@@ -168,8 +164,10 @@ export default function CharadesGameScreen() {
 
         // Show feedback then next word
         setTimeout(() => {
-            setFeedback('none');
-            nextWord();
+            if (isMounted.current) {
+                setFeedback('none');
+                nextWord();
+            }
         }, 800);
     };
 
@@ -183,8 +181,10 @@ export default function CharadesGameScreen() {
 
         // Show feedback then next word
         setTimeout(() => {
-            setFeedback('none');
-            nextWord();
+            if (isMounted.current) {
+                setFeedback('none');
+                nextWord();
+            }
         }, 800);
     };
 
@@ -192,22 +192,37 @@ export default function CharadesGameScreen() {
         if (phase !== 'playing') return;
 
         const subscription = DeviceMotion.addListener((data) => {
-            if (!data.rotation) return;
-            const { gamma } = data.rotation; // Gamma is roll (landscape title)
+            if (!isGameActiveRef.current) return;
+            const gravityZ = data.accelerationIncludingGravity?.z;
+            if (gravityZ === undefined) return;
 
-            // Tilt DOWN (Correct) -> Gamma > 2.2
-            // Tilt UP (Pass) -> Gamma < 0.8
+            // NEUTRAL ZONE (Vertical / Forehead): Z between -4 and 4
+            if (gravityZ > -4 && gravityZ < 4) {
+                isNeutralRef.current = true;
+                return;
+            }
 
-            if (gamma > 2.2) {
+            // If not neutral yet, ignore tilts
+            if (!isNeutralRef.current) return;
+
+            // CORRECT (Tilt Down/Floor): Z > 8.5
+            if (gravityZ > 8.5) {
                 handleCorrect();
-            } else if (gamma < 0.8 && gamma > -1.0) {
+                isNeutralRef.current = false; // Disarm until neutral again
+            }
+            // PASS (Tilt Up/Ceiling): Z < -8.5
+            else if (gravityZ < -8.5) {
                 handlePass();
+                isNeutralRef.current = false; // Disarm until neutral again
             }
         });
 
         DeviceMotion.setUpdateInterval(100);
         return () => subscription.remove();
-    }, [phase, currentIndex]);
+    }, [phase, currentIndex]); // Removed handleCorrect/handlePass from deps to allow them to be stable-ish, though they are not memoized. 
+    // Ideally handleCorrect/Pass should be wrapped in useCallback but currentIndex updates anyway. 
+    // Actually, `handleCorrect` calls `nextWord` which uses `currentIndex`.
+    // Since `currentIndex` changes on every word, the effect re-runs. This is acceptable for Sensor subscription.
 
     const handleReady = () => {
         Alert.alert(
@@ -249,7 +264,7 @@ export default function CharadesGameScreen() {
     );
 
     const currentWord = words[currentIndex] || "Finished!";
-    const passColor = (Colors as any).imposter || '#FF4444';
+    const passColor = Colors.imposter || '#FF4444';
     const feedbackColor = feedback === 'correct' ? Colors.success : feedback === 'pass' ? passColor : 'transparent';
 
     return (
@@ -284,92 +299,145 @@ export default function CharadesGameScreen() {
                     <Text style={styles.hintText}>Tilt DOWN for Correct • UP to Pass</Text>
                 </View>
             )}
-
-            {phase === 'results' && (
-                <View style={styles.centerContent}>
-                    <Text style={styles.gameOverTitle}>Time's Up!</Text>
-                    <Text style={styles.finalCount}>{correctCount}</Text>
-                    <Text style={styles.scoreLabel}>WORDS CORRECT </Text>
-
-                    {/* Points earned message */}
-                    <Text style={styles.pointsEarned}>
-                        {(duration === 30 && correctCount > 5) || (duration === 60 && correctCount > 10)
-                            ? `+ ${(duration === 60 && correctCount > 10) ? 2 : 1} POINTS EARNED!`
-                            : "No points earned."}
-                    </Text>
-
-                    {/* Mini Leaderboard */}
-                    <View style={styles.leaderboard}>
-                        <Text style={styles.leaderboardTitle}>Standings</Text>
-                        {players.sort((a, b) => b.score - a.score).map((p, i) => (
-                            <View key={p.id} style={styles.leaderboardRow}>
-                                <Text style={[styles.lbName, p.id === currentPlayer?.id && styles.highlightName]}>
-                                    {i + 1}. {p.name}
-                                </Text>
-                                <Text style={styles.lbScore}>{p.score}</Text>
-                            </View>
-                        ))}
-                    </View>
-
-                    <View style={styles.footerButtons}>
-                        <Pressable onPress={() => router.replace('/game-settings')} style={styles.secondaryButton}>
-                            <Text style={styles.secondaryButtonText}>Play Again</Text>
-                        </Pressable>
-                        <Pressable onPress={() => router.replace('/')} style={styles.finishLink}>
-                            <Text style={styles.finishLinkText}>Home</Text>
-                        </Pressable>
-                    </View>
-                </View>
-            )}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: 'black' },
-    centerContent: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: 10, padding: 20 },
-    gameContent: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-
-    header: { position: 'absolute', top: 20, left: 40, right: 40, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-    timer: { fontSize: 32, fontWeight: 'bold', color: Colors.candlelight, fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace' },
-    scoreCounter: { fontSize: 24, fontWeight: 'bold', color: Colors.success },
-
-    instructionText: { fontSize: 32, fontWeight: 'bold', color: Colors.parchment, textAlign: 'center' },
-    subInstruction: { fontSize: 20, color: Colors.grayLight, textAlign: 'center', fontStyle: 'italic' },
-
-    readyTapArea: { marginTop: 40, paddingHorizontal: 60, paddingVertical: 30, backgroundColor: Colors.candlelight, borderRadius: 50 },
-    readyTapText: { fontSize: 28, fontWeight: '900', color: Colors.victorianBlack },
-
-    wordContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-    wordText: { fontSize: 80, fontWeight: '900', color: Colors.white, textAlign: 'center', textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 10 },
-    feedbackText: { fontSize: 60, fontWeight: '900', textTransform: 'uppercase', textAlign: 'center' },
-    hintText: { fontSize: 16, color: 'rgba(255,255,255,0.5)', marginBottom: 20 },
-
-    gameOverTitle: { fontSize: 40, fontWeight: 'bold', color: Colors.parchment },
-    finalCount: { fontSize: 80, fontWeight: '900', color: Colors.success },
-    scoreLabel: { fontSize: 20, color: Colors.grayLight, marginBottom: 10 },
-    pointsEarned: { fontSize: 24, fontWeight: 'bold', color: Colors.candlelight, marginBottom: 30 },
-
-    title: { fontSize: 24, color: Colors.grayLight },
-    playerText: { fontSize: 48, fontWeight: '900', color: Colors.parchment, marginVertical: 10 },
-    subText: { fontSize: 18, color: Colors.grayLight, marginBottom: 30 },
-
-    primaryButton: { backgroundColor: Colors.candlelight, paddingHorizontal: 40, paddingVertical: 15, borderRadius: 30 },
-    buttonText: { fontSize: 20, fontWeight: 'bold', color: Colors.victorianBlack },
-
-    secondaryButton: { backgroundColor: Colors.grayDark, paddingHorizontal: 30, paddingVertical: 12, borderRadius: 30, borderWidth: 1, borderColor: Colors.grayMedium },
-    secondaryButtonText: { fontSize: 18, color: Colors.parchment, fontWeight: 'bold' },
-
-    finishLink: { padding: 10 },
-    finishLinkText: { color: Colors.grayLight, fontSize: 16, textDecorationLine: 'underline' },
-
-    // Results are now in Portrait, so we can use standard vertical layout
-    leaderboard: { width: '100%', backgroundColor: 'rgba(255,255,255,0.1)', padding: 15, borderRadius: 10, marginVertical: 20 },
-    leaderboardTitle: { color: Colors.parchment, fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' },
-    leaderboardRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 },
-    lbName: { color: Colors.grayLight, fontSize: 16 },
-    highlightName: { color: Colors.candlelight, fontWeight: 'bold' },
-    lbScore: { color: Colors.parchment, fontWeight: 'bold' },
-
-    footerButtons: { flexDirection: 'row', gap: 20, alignItems: 'center', marginTop: 10 }
+    container: {
+        flex: 1,
+        backgroundColor: Colors.victorianBlack,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    centerContent: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+    },
+    title: {
+        fontSize: 32,
+        color: Colors.parchment,
+        marginBottom: 20,
+        fontFamily: 'SpecialElite_400Regular',
+    },
+    playerText: {
+        fontSize: 48,
+        fontWeight: 'bold',
+        color: Colors.candlelight,
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+    subText: {
+        fontSize: 24,
+        color: Colors.grayLight,
+        marginBottom: 40,
+        fontFamily: 'SpecialElite_400Regular',
+    },
+    primaryButton: {
+        backgroundColor: Colors.candlelight,
+        paddingHorizontal: 40,
+        paddingVertical: 15,
+        borderRadius: 30,
+    },
+    buttonText: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: Colors.victorianBlack,
+    },
+    instructionText: {
+        fontSize: 36,
+        color: Colors.parchment,
+        textAlign: 'center',
+        marginBottom: 10,
+        fontWeight: 'bold',
+    },
+    subInstruction: {
+        fontSize: 24,
+        color: Colors.grayLight,
+        textAlign: 'center',
+        marginBottom: 40,
+    },
+    readyTapArea: {
+        backgroundColor: 'rgba(255,255,255,0.1)',
+        padding: 40,
+        borderRadius: 20,
+        borderWidth: 2,
+        borderColor: Colors.candlelight,
+    },
+    readyTapText: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        color: Colors.candlelight,
+        letterSpacing: 2,
+    },
+    gameContent: {
+        flex: 1,
+        width: '100%',
+        justifyContent: 'space-between',
+        paddingVertical: 20,
+        alignItems: 'center',
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '90%',
+        marginTop: 10,
+    },
+    timer: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        color: Colors.imposter,
+    },
+    scoreCounter: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        color: Colors.success,
+    },
+    wordContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    wordText: {
+        fontSize: 80, // HUGE TEXT for charades
+        fontWeight: 'bold',
+        color: Colors.parchment,
+        textAlign: 'center',
+        textShadowColor: 'rgba(0,0,0,0.75)',
+        textShadowOffset: { width: 2, height: 2 },
+        textShadowRadius: 5,
+    },
+    feedbackText: {
+        fontSize: 60,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    hintText: {
+        fontSize: 18,
+        color: 'rgba(255,255,255,0.5)',
+        marginBottom: 10,
+    },
+    gameOverTitle: {
+        fontSize: 48,
+        color: Colors.imposter,
+        marginBottom: 20,
+        fontWeight: 'bold',
+    },
+    finalCount: {
+        fontSize: 80,
+        color: Colors.success,
+        fontWeight: 'bold',
+    },
+    scoreLabel: {
+        fontSize: 24,
+        color: Colors.grayLight,
+        marginTop: 10,
+    },
+    pointsEarned: {
+        fontSize: 24,
+        color: Colors.candlelight,
+        marginTop: 20,
+        fontWeight: 'bold',
+    }
 });

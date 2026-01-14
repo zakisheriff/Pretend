@@ -17,6 +17,8 @@ export default function CharadesResultsScreen() {
     // Get data passed from game screen
     const correctCount = parseInt(params.score as string || '0');
     const duration = parseInt(params.duration as string || '60');
+    // Use passed points if available, otherwise 0 (display only)
+    const pointsEarned = params.pointsEarned ? parseInt(params.pointsEarned as string) : 0;
 
     const players = useGameStore((s) => s.players);
     const currentPlayer = useGameStore((s) => s.players.find(p => p.id === (params.playerId as string)));
@@ -53,11 +55,6 @@ export default function CharadesResultsScreen() {
         router.dismissAll();
         router.replace('/');
     };
-
-    // Calculate Points Earned (Display Logic Only - Store already updated)
-    const pointsEarned = ((duration === 30 && correctCount > 5) || (duration === 60 && correctCount > 10))
-        ? ((duration === 60 && correctCount > 10) ? 2 : 1)
-        : 0;
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
