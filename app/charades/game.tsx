@@ -1,13 +1,14 @@
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { CharadesData } from '@/types/game';
+import { haptics } from '@/utils/haptics';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { DeviceMotion } from 'expo-sensors';
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -75,6 +76,8 @@ export default function CharadesGameScreen() {
         };
     }, []);
 
+    const [showConfirm, setShowConfirm] = useState(false);
+
     const finishGame = React.useCallback(() => {
         // Prevent multiple calls
         if (!isGameActiveRef.current && phase !== 'playing') return;
@@ -88,9 +91,13 @@ export default function CharadesGameScreen() {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 
         // Calculate Points
+        // 5+ words = 1 point
+        // 10+ words = 2 points
+        // 20 words (max) = 3 points
         let points = 0;
-        if (duration === 30 && correctCount > 5) points = 1;
-        if (duration === 60 && correctCount > 10) points = 2;
+        if (correctCount >= 20) points = 3;
+        else if (correctCount >= 10) points = 2;
+        else if (correctCount >= 5) points = 1;
 
         if (currentPlayer && points > 0) {
             const updatedPlayers = players.map(p =>
@@ -162,7 +169,6 @@ export default function CharadesGameScreen() {
         setFeedback('correct');
         setCorrectCount(c => c + 1);
 
-        // Show feedback then next word
         setTimeout(() => {
             if (isMounted.current) {
                 setFeedback('none');
@@ -179,7 +185,6 @@ export default function CharadesGameScreen() {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         setFeedback('pass');
 
-        // Show feedback then next word
         setTimeout(() => {
             if (isMounted.current) {
                 setFeedback('none');
@@ -188,6 +193,7 @@ export default function CharadesGameScreen() {
         }, 800);
     };
 
+    // DeviceMotion sensor for tilt detection
     useEffect(() => {
         if (phase !== 'playing') return;
 
@@ -208,37 +214,33 @@ export default function CharadesGameScreen() {
             // CORRECT (Tilt Down/Floor): Z > 8.5
             if (gravityZ > 8.5) {
                 handleCorrect();
-                isNeutralRef.current = false; // Disarm until neutral again
+                isNeutralRef.current = false;
             }
             // PASS (Tilt Up/Ceiling): Z < -8.5
             else if (gravityZ < -8.5) {
                 handlePass();
-                isNeutralRef.current = false; // Disarm until neutral again
+                isNeutralRef.current = false;
             }
         });
 
         DeviceMotion.setUpdateInterval(100);
         return () => subscription.remove();
-    }, [phase, currentIndex]); // Removed handleCorrect/handlePass from deps to allow them to be stable-ish, though they are not memoized. 
-    // Ideally handleCorrect/Pass should be wrapped in useCallback but currentIndex updates anyway. 
-    // Actually, `handleCorrect` calls `nextWord` which uses `currentIndex`.
-    // Since `currentIndex` changes on every word, the effect re-runs. This is acceptable for Sensor subscription.
+    }, [phase, currentIndex]);
 
     const handleReady = () => {
-        Alert.alert(
-            "Ready to Start?",
-            "Tap OK when the phone is on your forehead and facing the crowd!",
-            [
-                { text: "Cancel", style: "cancel" },
-                {
-                    text: "Start Game",
-                    onPress: () => {
-                        setPhase('playing');
-                        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-                    }
-                }
-            ]
-        );
+        // Show custom confirmation overlay instead of Alert
+        haptics.selection();
+        setShowConfirm(true);
+    };
+
+    const confirmStart = () => {
+        setShowConfirm(false);
+        setPhase('playing');
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    };
+
+    const cancelStart = () => {
+        setShowConfirm(false);
     };
 
     const renderSetup = () => (
@@ -254,12 +256,31 @@ export default function CharadesGameScreen() {
 
     const renderReady = () => (
         <View style={styles.centerContent}>
-            <Text style={styles.instructionText}>Place phone on forehead</Text>
-            <Text style={styles.subInstruction}>Screen facing the crowd!</Text>
+            <Text style={styles.instructionText}>Place phone on forehead </Text>
+            <Text style={styles.subInstruction}>Screen facing the crowd! </Text>
             <View style={{ height: 40 }} />
             <Pressable onPress={handleReady} style={styles.readyTapArea}>
                 <Text style={styles.readyTapText}>TAP TO START</Text>
             </Pressable>
+
+            {/* Custom Confirmation Overlay */}
+            {showConfirm && (
+                <View style={[StyleSheet.absoluteFill, styles.confirmOverlay]}>
+                    <View style={styles.confirmBox}>
+                        <Text style={styles.confirmTitle}>Ready to Start?</Text>
+                        <Text style={styles.confirmSub}>Ensure the screen is facing the crowd!</Text>
+
+                        <View style={styles.confirmButtons}>
+                            <Pressable onPress={cancelStart} style={[styles.confirmBtn, styles.cancelBtn]}>
+                                <Text style={styles.confirmBtnText}>Cancel</Text>
+                            </Pressable>
+                            <Pressable onPress={confirmStart} style={[styles.confirmBtn, styles.startBtn]}>
+                                <Text style={[styles.confirmBtnText, { color: Colors.victorianBlack }]}>Start Game</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </View>
+            )}
         </View>
     );
 
@@ -296,7 +317,7 @@ export default function CharadesGameScreen() {
                         )}
                     </View>
 
-                    <Text style={styles.hintText}>Tilt DOWN for Correct • UP to Pass</Text>
+                    <Text style={styles.hintText}>Tilt DOWN for Correct • UP to Pass  </Text>
                 </View>
             )}
         </View>
@@ -439,5 +460,62 @@ const styles = StyleSheet.create({
         color: Colors.candlelight,
         marginTop: 20,
         fontWeight: 'bold',
+    },
+    confirmOverlay: {
+        backgroundColor: 'rgba(0,0,0,0.85)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 100,
+    },
+    confirmBox: {
+        backgroundColor: Colors.grayDark || '#0A0A0A',
+        padding: 30,
+        borderRadius: 20,
+        width: '60%',
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: Colors.candlelight,
+        shadowColor: Colors.candlelight,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.3,
+        shadowRadius: 20,
+        elevation: 10,
+    },
+    confirmTitle: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        color: Colors.parchment,
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+    confirmSub: {
+        fontSize: 20,
+        color: Colors.grayLight,
+        marginBottom: 30,
+        textAlign: 'center',
+    },
+    confirmButtons: {
+        flexDirection: 'row',
+        gap: 20,
+    },
+    confirmBtn: {
+        paddingVertical: 15,
+        paddingHorizontal: 30,
+        borderRadius: 15,
+        minWidth: 150,
+        alignItems: 'center',
+    },
+    cancelBtn: {
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        borderColor: Colors.grayLight,
+    },
+    startBtn: {
+        backgroundColor: Colors.candlelight,
+    },
+    confirmBtnText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: Colors.parchment,
     }
 });

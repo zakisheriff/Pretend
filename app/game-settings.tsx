@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24, gap: 34 },
+    scrollContent: { flexGrow: 1, padding: 24, gap: 34 },
     header: { alignItems: 'center', gap: 6 },
     titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
     title: { fontSize: 24, fontWeight: '900', color: Colors.parchment, letterSpacing: 3 },
@@ -263,6 +263,8 @@ const styles = StyleSheet.create({
     },
     section: {
         gap: 12,
+        marginBottom: 10,
+        width: '100%',
     },
     sectionTitle: {
         fontSize: 14,
@@ -275,11 +277,13 @@ const styles = StyleSheet.create({
     playerGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: 10,
+        marginHorizontal: -5, // Negative margin to offset item padding
+        width: '100%',
     },
     playerOption: {
-        flex: 1,
-        minWidth: '45%',
+        width: '45%', // Explicit width instead of minWidth/flex
+        flexGrow: 1,
+        margin: 5,
         paddingVertical: 12,
         paddingHorizontal: 16,
         backgroundColor: Colors.grayDark,
@@ -305,15 +309,16 @@ const styles = StyleSheet.create({
     },
     checkIcon: {
         position: 'absolute',
-        top: -6,
-        right: -6,
+        top: -8,
+        right: -8,
         backgroundColor: Colors.candlelight,
-        borderRadius: 10,
-        width: 20,
-        height: 20,
+        borderRadius: 12,
+        width: 24,
+        height: 24,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 2,
-        borderColor: Colors.victorianBlack
+        borderColor: Colors.victorianBlack,
+        zIndex: 5, // Ensure it sits on top
     }
 });

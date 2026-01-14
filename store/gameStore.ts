@@ -458,8 +458,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
 
             case 'charades': {
-                // Shuffle words from external data
-                const shuffled = [...CHARADES_WORDS].sort(() => Math.random() - 0.5);
+                // Shuffle words from external data and limit to 20
+                const shuffled = [...CHARADES_WORDS].sort(() => Math.random() - 0.5).slice(0, 20);
                 // Sanitize duration: if not 30, default to 60. (Handles -1 from mystery mode)
                 const charadesDuration = (settings.discussionTime === 30) ? 30 : 60;
                 const targetPlayerId = state.nextRoundPlayerId || players[0].id; // Fallback to first player

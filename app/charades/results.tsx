@@ -46,8 +46,8 @@ export default function CharadesResultsScreen() {
 
     const handlePlayAgain = () => {
         haptics.medium();
-        // Go back to settings to pick next player
-        router.replace('/game-settings');
+        // Go back to mode selection as requested
+        router.replace('/select-mode');
     };
 
     const handleHome = () => {
@@ -63,7 +63,7 @@ export default function CharadesResultsScreen() {
 
                 <View style={styles.scoreContainer}>
                     <Text style={styles.finalCount}>{correctCount}</Text>
-                    <Text style={styles.scoreLabel}>WORDS CORRECT</Text>
+                    <Text style={styles.scoreLabel}>WORDS CORRECT </Text>
                 </View>
 
                 {pointsEarned > 0 ? (
