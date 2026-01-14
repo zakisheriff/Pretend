@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function GameSettingsScreen() {
@@ -32,12 +32,23 @@ export default function GameSettingsScreen() {
     const handleSuspectChange = (v: number) => { haptics.selection(); updateSettings({ imposterCount: v }); };
     const handleTimeChange = (v: number) => { haptics.selection(); updateSettings({ discussionTime: v }); };
 
-    // Set default time for Time Bomb if not set correctly (e.g. if switching from another mode with high duration)
+    // Set default time for Time Bomb if not set correctly
     React.useEffect(() => {
         if (gameMode === 'time-bomb' && ![-1, 30, 60, 90].includes(settings.discussionTime)) {
             updateSettings({ discussionTime: 60 });
         }
     }, [gameMode]);
+
+    const isRandomTime = settings.discussionTime === -1;
+
+    const toggleRandomTime = (value: boolean) => {
+        haptics.selection();
+        if (value) {
+            updateSettings({ discussionTime: -1 });
+        } else {
+            updateSettings({ discussionTime: 60 });
+        }
+    };
 
     const handleStart = () => {
         startGame();
@@ -100,11 +111,32 @@ export default function GameSettingsScreen() {
                     <GameSetting
                         label={gameMode === 'time-bomb' ? 'Timer Duration' : "Investigation Time"}
                         value={settings.discussionTime}
-                        options={gameMode === 'time-bomb' ? [30, 60, 90, -1] : [60, 120, 180, 240, 300]}
-                        formatLabel={gameMode === 'time-bomb' ? ((v) => v === -1 ? 'Random' : `${v}s`) : ((v) => `${v / 60}m`)}
+                        options={gameMode === 'time-bomb' ? [30, 60, 90] : [60, 120, 180, 240, 300]}
+                        formatLabel={gameMode === 'time-bomb' ? ((v) => `${v}s`) : ((v) => `${v / 60}m`)}
                         onChange={handleTimeChange}
                         icon="timer-outline"
                     />
+
+                    {gameMode === 'time-bomb' && (
+                        <View style={styles.randomModeCard}>
+                            <View style={styles.randomModeHeader}>
+                                <View style={styles.randomModeTitleGroup}>
+                                    <Ionicons name="sparkles" size={20} color={Colors.candlelight} />
+                                    <Text style={styles.randomModeTitle}>Mystery Mode</Text>
+                                </View>
+                                <Switch
+                                    value={isRandomTime}
+                                    onValueChange={toggleRandomTime}
+                                    trackColor={{ false: Colors.grayDark, true: Colors.candlelight }}
+                                    thumbColor={isRandomTime ? Colors.victorianBlack : Colors.grayLight}
+                                    ios_backgroundColor={Colors.grayDark}
+                                />
+                            </View>
+                            <Text style={styles.randomModeDescription}>
+                                A more fun mode! Selects a random timer (20-90s) and hides the countdown for extra suspense.
+                            </Text>
+                        </View>
+                    )}
                 </View>
 
                 <View style={styles.footer}>
@@ -145,4 +177,33 @@ const styles = StyleSheet.create({
     subtitle: { fontSize: 13, color: Colors.candlelight, fontStyle: 'italic' },
     settingsGroup: { gap: 26, width: '100%', maxWidth: 400, alignSelf: 'center' },
     footer: { alignItems: 'center' },
+
+    randomModeCard: {
+        backgroundColor: Colors.grayDark,
+        borderRadius: 16,
+        padding: 16,
+        gap: 10,
+        borderWidth: 1,
+        borderColor: Colors.grayMedium,
+    },
+    randomModeHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    randomModeTitleGroup: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+    },
+    randomModeTitle: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: Colors.parchment,
+    },
+    randomModeDescription: {
+        fontSize: 13,
+        color: Colors.grayLight,
+        lineHeight: 18,
+    },
 });
