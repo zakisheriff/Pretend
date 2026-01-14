@@ -8,6 +8,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
+    "export:web": "expo export -p web",
     "lint": "expo lint"
   },
   "dependencies": {
@@ -41,6 +42,7 @@
     "react-native-svg": "15.12.1",
     "react-native-web": "~0.21.0",
     "react-native-worklets": "0.5.1",
+    "vercel": "^50.3.2",
     "zustand": "^5.0.9"
   },
   "devDependencies": {

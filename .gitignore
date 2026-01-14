@@ -45,3 +45,4 @@ app-example
 # Build
 *.apk
 *.aab
+.vercel
