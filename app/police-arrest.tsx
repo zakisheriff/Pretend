@@ -1,8 +1,8 @@
 import { GenericModal } from '@/components/common/GenericModal';
-import { Button } from '@/components/game';
+import { Button, WinnerCelebration } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
-import { ThiefPoliceData } from '@/types/game';
+import { Player, ThiefPoliceData } from '@/types/game';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -10,6 +10,8 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, ZoomIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const WINNING_SCORE = 10;
 
 export default function PoliceArrestScreen() {
     const router = useRouter();
@@ -19,6 +21,7 @@ export default function PoliceArrestScreen() {
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [revealed, setRevealed] = useState(false);
     const [showHomeConfirm, setShowHomeConfirm] = useState(false);
+    const [overallWinner, setOverallWinner] = useState<Player | null>(null);
 
     // Get thief-police data
     const data = gameData?.type === 'thief-police' ? gameData.data as ThiefPoliceData : null;
@@ -55,10 +58,18 @@ export default function PoliceArrestScreen() {
             return { ...p, score: p.score + points };
         });
 
+        // Check for overall winner (first to WINNING_SCORE)
+        const winner = updatedPlayers.find(p => p.score >= WINNING_SCORE);
+
         useGameStore.getState().reorderPlayers(updatedPlayers);
 
-        // Navigate to select mode
-        router.replace('/select-mode');
+        if (winner) {
+            // Someone won the tournament!
+            setOverallWinner(winner);
+        } else {
+            // Navigate to select mode
+            router.replace('/select-mode');
+        }
     };
 
     const handleHomeConfirm = () => {
@@ -240,6 +251,22 @@ export default function PoliceArrestScreen() {
                 onConfirm={handleHomeConfirm}
                 onCancel={() => setShowHomeConfirm(false)}
             />
+
+            {/* Overall Winner Celebration - when someone reaches 10 points */}
+            {overallWinner && (
+                <WinnerCelebration
+                    winner={overallWinner}
+                    allPlayers={players}
+                    onNewGame={() => {
+                        useGameStore.getState().resetTournament();
+                        router.replace('/select-mode');
+                    }}
+                    onHome={() => {
+                        useGameStore.getState().resetToHome();
+                        router.replace('/');
+                    }}
+                />
+            )}
         </View>
     );
 }
