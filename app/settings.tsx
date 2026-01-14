@@ -127,7 +127,7 @@ export default function SettingsScreen() {
                             showChevron={false}
                             value={
                                 <Switch
-                                    trackColor={{ false: Colors.grayMedium, true: Colors.detective }}
+                                    trackColor={{ false: Colors.grayMedium, true: Colors.candlelight }}
                                     thumbColor={Colors.parchment}
                                     ios_backgroundColor={Colors.grayMedium}
                                     onValueChange={toggleSound}
@@ -142,7 +142,7 @@ export default function SettingsScreen() {
                             showChevron={false}
                             value={
                                 <Switch
-                                    trackColor={{ false: Colors.grayMedium, true: Colors.detective }}
+                                    trackColor={{ false: Colors.grayMedium, true: Colors.candlelight }}
                                     thumbColor={Colors.parchment}
                                     ios_backgroundColor={Colors.grayMedium}
                                     onValueChange={toggleHaptics}
