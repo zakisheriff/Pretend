@@ -1,3 +1,4 @@
+import { GenericModal } from '@/components/common/GenericModal';
 import { Button } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
@@ -17,6 +18,7 @@ export default function PoliceArrestScreen() {
     const gameData = useGameStore((s) => s.gameData);
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [revealed, setRevealed] = useState(false);
+    const [showHomeConfirm, setShowHomeConfirm] = useState(false);
 
     // Get thief-police data
     const data = gameData?.type === 'thief-police' ? gameData.data as ThiefPoliceData : null;
@@ -59,8 +61,9 @@ export default function PoliceArrestScreen() {
         router.replace('/select-mode');
     };
 
-    const handleHome = () => {
+    const handleHomeConfirm = () => {
         haptics.medium();
+        setShowHomeConfirm(false);
 
         // Distribute points
         const updatedPlayers = players.map(p => {
@@ -171,34 +174,40 @@ export default function PoliceArrestScreen() {
                     </View>
 
                     <View style={styles.pointsBox}>
-                        <Text style={styles.pointsTitle}>Points Awarded</Text>
-                        {isCaught ? (
-                            <>
-                                <View style={styles.pointsRow}>
-                                    <Ionicons name="shield-checkmark" size={16} color={Colors.detective} />
-                                    <Text style={styles.pointsLine}>Police ({policePlayer?.name}): +1</Text>
+                        <Text style={styles.pointsTitle}>Round Results</Text>
+                        {players.map((player) => {
+                            const isPolice = player.id === data.policePlayerId;
+                            const isThief = player.id === data.thiefPlayerId;
+                            let points = 0;
+                            if (isCaught) {
+                                if (isPolice) points = 1;
+                                else if (!isThief) points = 1;
+                            } else {
+                                if (isThief) points = 2;
+                            }
+
+                            return (
+                                <View key={player.id} style={styles.playerResultRow}>
+                                    <View style={styles.playerResultLeft}>
+                                        <Ionicons
+                                            name={isPolice ? "shield-checkmark" : isThief ? "finger-print" : "person"}
+                                            size={18}
+                                            color={isPolice ? Colors.detective : isThief ? Colors.suspect : Colors.candlelight}
+                                        />
+                                        <Text style={styles.playerResultName}>{player.name}</Text>
+                                        <Text style={[styles.playerResultRole,
+                                        isPolice && { color: Colors.detective },
+                                        isThief && { color: Colors.suspect }
+                                        ]}>
+                                            {isPolice ? 'Police' : isThief ? 'Thief' : 'Civilian'}
+                                        </Text>
+                                    </View>
+                                    <Text style={[styles.playerResultPoints, points > 0 && styles.playerResultPointsGained]}>
+                                        {points > 0 ? `+${points}` : '0'}
+                                    </Text>
                                 </View>
-                                <View style={styles.pointsRow}>
-                                    <Ionicons name="people" size={16} color={Colors.candlelight} />
-                                    <Text style={styles.pointsLine}>Civilians: +1 each</Text>
-                                </View>
-                                <View style={styles.pointsRow}>
-                                    <Ionicons name="finger-print" size={16} color={Colors.suspect} />
-                                    <Text style={styles.pointsLine}>Thief ({thiefPlayer?.name}): +0</Text>
-                                </View>
-                            </>
-                        ) : (
-                            <>
-                                <View style={styles.pointsRow}>
-                                    <Ionicons name="finger-print" size={16} color={Colors.suspect} />
-                                    <Text style={styles.pointsLine}>Thief ({thiefPlayer?.name}): +2</Text>
-                                </View>
-                                <View style={styles.pointsRow}>
-                                    <Ionicons name="shield-checkmark" size={16} color={Colors.grayLight} />
-                                    <Text style={styles.pointsLine}>Police & Civilians: +0</Text>
-                                </View>
-                            </>
-                        )}
+                            );
+                        })}
                     </View>
 
                     <View style={styles.buttonRow}>
@@ -212,7 +221,7 @@ export default function PoliceArrestScreen() {
                         />
                         <Button
                             title="Home"
-                            onPress={handleHome}
+                            onPress={() => setShowHomeConfirm(true)}
                             variant="outline"
                             size="large"
                             style={{ flex: 1 }}
@@ -221,6 +230,16 @@ export default function PoliceArrestScreen() {
                     </View>
                 </Animated.View>
             )}
+
+            <GenericModal
+                visible={showHomeConfirm}
+                title="End Game?"
+                message="This will end the current game and return to home. All progress will be lost."
+                confirmLabel="Yes"
+                isDestructive
+                onConfirm={handleHomeConfirm}
+                onCancel={() => setShowHomeConfirm(false)}
+            />
         </View>
     );
 }
@@ -413,6 +432,43 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 8,
         marginVertical: 4,
+    },
+    playerResultRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingVertical: 10,
+        paddingHorizontal: 12,
+        backgroundColor: Colors.grayDark,
+        borderRadius: 12,
+        marginVertical: 4,
+    },
+    playerResultLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        flex: 1,
+    },
+    playerResultName: {
+        fontSize: 15,
+        fontWeight: '600',
+        color: Colors.parchment,
+    },
+    playerResultRole: {
+        fontSize: 11,
+        fontWeight: '500',
+        color: Colors.grayLight,
+        marginLeft: 4,
+    },
+    playerResultPoints: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: Colors.grayLight,
+        minWidth: 30,
+        textAlign: 'right',
+    },
+    playerResultPointsGained: {
+        color: Colors.success,
     },
     buttonRow: {
         flexDirection: 'row',
