@@ -252,7 +252,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.victorianBlack,
-        paddingHorizontal: 20,
     },
     header: {
         alignItems: 'center',
@@ -282,7 +281,8 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
     },
     playersContainer: {
-        flex: 1,
+        width: '100%',
+        marginBottom: 20,
     },
     sectionLabel: {
         fontSize: 11,
@@ -339,10 +339,10 @@ const styles = StyleSheet.create({
     },
     // Reveal styles
     revealContainer: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         gap: 24,
+        paddingVertical: 20,
     },
     resultBadge: {
         width: 100,
