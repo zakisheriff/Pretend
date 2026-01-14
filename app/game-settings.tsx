@@ -48,7 +48,7 @@ export default function GameSettingsScreen() {
                 style={styles.scroll}
                 contentContainerStyle={[
                     styles.scrollContent,
-                    { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 100 }
+                    { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 40 }
                 ]}
                 showsVerticalScrollIndicator={false}
             >
