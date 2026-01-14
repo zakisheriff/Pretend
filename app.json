@@ -24,7 +24,8 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/Neo-Logo.jpeg"
+      "favicon": "./assets/images/Neo-Logo.jpeg",
+      "backgroundColor": "#000000"
     },
     "plugins": [
       "expo-router",
