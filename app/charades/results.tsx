@@ -1,4 +1,4 @@
-import { Button } from '@/components/game';
+import { Button, WinnerCelebration } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
@@ -19,9 +19,11 @@ export default function CharadesResultsScreen() {
     const duration = parseInt(params.duration as string || '60');
     // Use passed points if available, otherwise 0 (display only)
     const pointsEarned = params.pointsEarned ? parseInt(params.pointsEarned as string) : 0;
+    const winnerId = params.winnerId as string || null;
 
     const players = useGameStore((s) => s.players);
     const currentPlayer = useGameStore((s) => s.players.find(p => p.id === (params.playerId as string)));
+    const winner = winnerId ? players.find(p => p.id === winnerId) : null;
 
     // STRICTLY ENFORCE PORTRAIT
     useEffect(() => {
@@ -105,6 +107,22 @@ export default function CharadesResultsScreen() {
                     />
                 </View>
             </View>
+
+            {/* Tournament Winner Celebration */}
+            {winner && (
+                <WinnerCelebration
+                    winner={winner}
+                    allPlayers={players}
+                    onNewGame={() => {
+                        useGameStore.getState().resetTournament();
+                        router.replace('/select-mode');
+                    }}
+                    onHome={() => {
+                        useGameStore.getState().resetToHome();
+                        router.replace('/');
+                    }}
+                />
+            )}
         </View>
     );
 }

@@ -104,11 +104,20 @@ export default function CharadesGameScreen() {
         else if (correctCount >= 10) points = 2;
         else if (correctCount >= 5) points = 1;
 
+        let winnerId: string | null = null;
+        const WINNING_SCORE = 10;
+
         if (currentPlayer && points > 0) {
             const updatedPlayers = players.map(p =>
                 p.id === currentPlayer.id ? { ...p, score: p.score + points } : p
             );
             useGameStore.getState().reorderPlayers(updatedPlayers);
+
+            // Check for 10-point winner
+            const winner = updatedPlayers.find(p => p.score >= WINNING_SCORE);
+            if (winner) {
+                winnerId = winner.id;
+            }
         }
 
         // Navigate to dedicated results screen (Forces Portrait)
@@ -118,7 +127,8 @@ export default function CharadesGameScreen() {
                 score: correctCount.toString(),
                 duration: duration.toString(),
                 playerId: currentPlayer?.id,
-                pointsEarned: points.toString()
+                pointsEarned: points.toString(),
+                winnerId: winnerId || ''
             }
         });
     }, [correctCount, duration, currentPlayer, players, phase, router]);
