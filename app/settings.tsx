@@ -49,6 +49,24 @@ export default function SettingsScreen() {
         });
     };
 
+    const handleWebsite = () => {
+        Linking.openURL('https://theoneatom.com').catch(() => { });
+    };
+
+    const handleFeedback = () => {
+        Linking.openURL('mailto:support@theoneatom.com').catch(() => {
+            Alert.alert('Error', 'Could not open email client');
+        });
+    };
+
+    const handlePrivacy = () => {
+        Linking.openURL('https://theoneatom.com/privacy').catch(() => { });
+    };
+
+    const handleTerms = () => {
+        Linking.openURL('https://theoneatom.com/terms').catch(() => { });
+    };
+
     const handleRate = () => {
         // Placeholder for store link
         const url = Platform.OS === 'ios'
@@ -164,15 +182,34 @@ export default function SettingsScreen() {
                         />
                     </View>
 
+                    {/* Legal Section */}
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>Legal</Text>
+                        <SettingItem
+                            icon="shield-checkmark-outline"
+                            label="Privacy Policy"
+                            onPress={handlePrivacy}
+                        />
+                        <SettingItem
+                            icon="document-text-outline"
+                            label="Terms of Service"
+                            onPress={handleTerms}
+                        />
+                    </View>
+
                     {/* About Section */}
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>About</Text>
-                        <View style={styles.aboutCard}>
+                        <Pressable
+                            style={({ pressed }) => [styles.aboutCard, pressed && { opacity: 0.9, transform: [{ scale: 0.98 }] }]}
+                            onPress={handleWebsite}
+                        >
                             <View style={styles.atomIcon}>
                             </View>
                             <Text style={styles.atomTitle}>The One Atom</Text>
+                            <Text style={styles.visitText}>Tap to visit website</Text>
                             <Text style={styles.versionText}>Version 1.0.0</Text>
-                        </View>
+                        </Pressable>
                     </View>
 
                     <View style={styles.footer}>
@@ -181,7 +218,7 @@ export default function SettingsScreen() {
 
                 </ScrollView>
             </SafeAreaView>
-        </View>
+        </View >
     );
 }
 
@@ -284,11 +321,16 @@ const styles = StyleSheet.create({
         marginBottom: 4,
         letterSpacing: 0.5,
     },
+    visitText: {
+        fontSize: 12,
+        color: Colors.grayLight,
+        marginBottom: 8,
+        fontWeight: '600',
+    },
     versionText: {
         fontSize: 14,
         color: Colors.grayLight,
-        marginBottom: 24,
-        fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+        marginBottom: 24
     },
     divider: {
         height: 1,
