@@ -411,7 +411,7 @@ export default function ResultsScreen() {
                 visible={showHomeModal}
                 title="Return to Home?"
                 message="Current match progress and scores will be lost. Are you sure?"
-                confirmLabel="Return Home"
+                confirmLabel="Yes"
                 isDestructive
                 onConfirm={() => {
                     setShowHomeModal(false);

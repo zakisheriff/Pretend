@@ -55,7 +55,7 @@ export default function AddPlayersScreen() {
 
     const gameMode = useGameStore((s) => s.gameMode);
 
-    const minPlayers = (gameMode === 'directors-cut' || gameMode === 'time-bomb') ? 2 : MIN_PLAYERS;
+    const minPlayers = (gameMode === 'directors-cut' || gameMode === 'time-bomb' || gameMode === 'charades') ? 2 : MIN_PLAYERS;
 
     const handleContinue = () => {
         if (players.length < minPlayers) { haptics.warning(); return; }

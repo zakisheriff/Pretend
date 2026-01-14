@@ -55,6 +55,8 @@ export default function GameSettingsScreen() {
         haptics.heavy();
         if (gameMode === 'time-bomb') {
             router.push('/time-bomb/game' as any);
+        } else if (gameMode === 'charades') {
+            router.push('/charades/game' as any);
         } else {
             router.push('/role-reveal' as any);
         }

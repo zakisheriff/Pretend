@@ -1,7 +1,7 @@
 export type HintStrength = 'none' | 'low' | 'medium' | 'high';
 
 // Game mode types
-export type GameMode = 'undercover-word' | 'directors-cut' | 'mind-sync' | 'classic-imposter' | 'time-bomb';
+export type GameMode = 'undercover-word' | 'directors-cut' | 'mind-sync' | 'classic-imposter' | 'time-bomb' | 'charades';
 
 export interface WordHints {
     low: string;
@@ -82,6 +82,11 @@ export interface TimeBombData {
     hiddenTimer?: boolean;
 }
 
+export interface CharadesData {
+    words: string[];
+    duration: number;
+}
+
 // Union type for selected game data
 export type GameData =
     | { type: 'undercover-word'; data: UndercoverWordPair }
@@ -89,6 +94,7 @@ export type GameData =
     | { type: 'mind-sync'; data: MindSyncQuestion }
     | { type: 'classic-imposter'; data: ClassicImposterData }
     | { type: 'time-bomb'; data: TimeBombData }
+    | { type: 'charades'; data: CharadesData }
     | null;
 
 export interface Player {
@@ -226,6 +232,17 @@ export const GAME_MODES: GameModeInfo[] = [
         instructions: [
             { role: 'Everyone', icon: 'people-outline', desc: 'Answer the prompt (Category + Letter)' },
             { role: 'Loser', icon: 'skull-outline', desc: 'Holding the phone when time runs out (0 pts)' },
+        ],
+    },
+    {
+        id: 'charades',
+        name: 'Charades',
+        icon: 'phone-portrait-outline',
+        description: 'Hold phone to forehead and guess the word!',
+        tagline: 'Tilt DOWN for Correct, UP to Skip',
+        instructions: [
+            { role: 'Holder', icon: 'happy-outline', desc: 'Phone on forehead. Guess based on acting!' },
+            { role: 'Group', icon: 'people-outline', desc: 'Act out the word for the holder!' },
         ],
     },
 ];

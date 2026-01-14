@@ -446,6 +446,31 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 };
                 break;
             }
+
+            case 'charades': {
+                // Word list for Charades
+                const charadesWords = [
+                    'Spiderman', 'T-Rex', 'Zombie', 'Elvis', 'Robot',
+                    'Washing Machine', 'Penguin', 'Statue of Liberty', 'Sumo Wrestler',
+                    'Chicken', 'Mime', 'Vampire', 'Astronaut', 'Ballerina',
+                    'Harry Potter', 'Monkey', 'Surfer', 'Boxer', 'Kangaroo',
+                    'Ghost', 'Ninja', 'Rock Star', 'Teacher', 'Doctor',
+                    'Cat', 'Dog', 'Elephant', 'Giraffe', 'Snake',
+                    'Pikachu', 'Mario', 'Sonic', 'Batman', 'Superman'
+                ];
+
+                // Shuffle words
+                const shuffled = [...charadesWords].sort(() => Math.random() - 0.5);
+
+                gameData = {
+                    type: 'charades',
+                    data: {
+                        words: shuffled,
+                        duration: 60 // Fixed 60s for now as per request
+                    }
+                };
+                break;
+            }
         }
 
         // Assign special roles
