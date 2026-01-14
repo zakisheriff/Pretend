@@ -98,7 +98,7 @@ export default function SelectModeScreen() {
                 {/* 2+ Players Section */}
                 <View style={styles.section}>
                     <View style={styles.sectionHeader}>
-                        <Ionicons name="people-outline" size={18} color={Colors.candlelight} />
+                        <Ionicons name="copy-outline" size={18} color={Colors.candlelight} />
                         <Text style={styles.sectionTitle}>2+ Players</Text>
                     </View>
                     <View style={styles.modes}>
@@ -124,7 +124,7 @@ export default function SelectModeScreen() {
                 {/* 3+ Players Section */}
                 <View style={styles.section}>
                     <View style={styles.sectionHeader}>
-                        <Ionicons name="people" size={18} color={Colors.candlelight} />
+                        <Ionicons name="layers-outline" size={18} color={Colors.candlelight} />
                         <Text style={styles.sectionTitle}>3+ Players</Text>
                     </View>
                     <View style={styles.modes}>
@@ -150,7 +150,7 @@ export default function SelectModeScreen() {
                 {/* 4+ Players Section */}
                 <View style={styles.section}>
                     <View style={styles.sectionHeader}>
-                        <Ionicons name="git-network-outline" size={18} color={Colors.candlelight} />
+                        <Ionicons name="grid-outline" size={18} color={Colors.candlelight} />
                         <Text style={styles.sectionTitle}>4+ Players</Text>
                     </View>
                     <View style={styles.modes}>
