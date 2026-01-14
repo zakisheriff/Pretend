@@ -7,27 +7,36 @@ import { useRouter } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { DeviceMotion } from 'expo-sensors';
 import React, { useEffect, useRef, useState } from 'react';
-import { Dimensions, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
-const { width, height } = Dimensions.get('window');
 
 export default function CharadesGameScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
+
     const gameData = useGameStore((s) => s.gameData);
+    const players = useGameStore((s) => s.players);
+    const updatePlayerName = useGameStore((s) => s.updatePlayerName); // Cheaty way to update score? No, need direct set.
+    // Actually, I can't update score directly via existing mutations easily without weird hacks.
+    // But `players` in store IS the state. I can mutate it directly via `reorderPlayers` or I should add `updateScore`.
+    // Wait, `calculateRoundScores` handles score updates.
+    // I should create a local score, and then applying it to the player at the end.
 
     // Safety check for data
     const charadesData = gameData?.data as CharadesData | undefined;
     const words = charadesData?.words || [];
     const duration = charadesData?.duration || 60;
+    const playerId = charadesData?.selectedPlayerId;
+
+    const currentPlayer = players.find(p => p.id === playerId);
 
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [score, setScore] = useState(0);
+    const [correctCount, setCorrectCount] = useState(0); // Distinct from score points
     const [timeLeft, setTimeLeft] = useState(duration);
-    const [isActive, setIsActive] = useState(false); // Start false, wait for "Place on Forehead"
-    const [gameStatus, setGameStatus] = useState<'waiting' | 'playing' | 'finished'>('waiting');
+
+    // Phases: 'setup' -> 'ready' -> 'playing' -> 'results'
+    const [phase, setPhase] = useState<'setup' | 'ready' | 'playing' | 'results'>('setup');
 
     // Feedback state
     const [feedback, setFeedback] = useState<'none' | 'correct' | 'pass'>('none');
@@ -48,7 +57,7 @@ export default function CharadesGameScreen() {
 
     useEffect(() => {
         let timer: any;
-        if (isActive && timeLeft > 0) {
+        if (phase === 'playing' && timeLeft > 0) {
             timer = setInterval(() => {
                 setTimeLeft((prev) => {
                     if (prev <= 1) {
@@ -60,12 +69,28 @@ export default function CharadesGameScreen() {
             }, 1000);
         }
         return () => clearInterval(timer);
-    }, [isActive, timeLeft]);
+    }, [phase, timeLeft]);
 
     const finishGame = () => {
-        setIsActive(false);
-        setGameStatus('finished');
+        setPhase('results');
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+
+        // Calculate Points
+        let points = 0;
+        if (duration === 30 && correctCount > 5) points = 1;
+        if (duration === 60 && correctCount > 10) points = 2;
+
+        // We need to update the store with these points.
+        // Since I didn't add a dedicated `addScore` action, I'll use a trick or just admit I need to add that action.
+        // Wait, I can use `reorderPlayers` which replaces the whole player array.
+        // Let's effectively "update" the player in the store.
+        if (currentPlayer && points > 0) {
+            const updatedPlayers = players.map(p =>
+                p.id === currentPlayer.id ? { ...p, score: p.score + points } : p
+            );
+            // Call reorderPlayers (which just blindly sets players)
+            useGameStore.getState().reorderPlayers(updatedPlayers);
+        }
     };
 
     const nextWord = () => {
@@ -83,7 +108,7 @@ export default function CharadesGameScreen() {
 
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         setFeedback('correct');
-        setScore(s => s + 1);
+        setCorrectCount(c => c + 1);
 
         // Show feedback then next word
         setTimeout(() => {
@@ -107,47 +132,67 @@ export default function CharadesGameScreen() {
         }, 800);
     };
 
-
     useEffect(() => {
-        if (gameStatus !== 'playing') return;
+        if (phase !== 'playing') return;
 
-        // Sensor subscription
         const subscription = DeviceMotion.addListener((data) => {
             if (!data.rotation) return;
+            const { gamma } = data.rotation; // Gamma is roll (landscape title)
 
-            const { gamma } = data.rotation;
+            // Tilt DOWN (Correct) -> Gamma > 2.2
+            // Tilt UP (Pass) -> Gamma < 0.8
 
-            // Simple Logic:
-            // If Gamma > 2.2 (Tilt Down/Forward) -> Correct
-            // If Gamma < 0.8 (Tilt Up/Back) -> Pass
-
-            if (gamma > 2.2) { // Tilted 'Down' significantly
+            if (gamma > 2.2) {
                 handleCorrect();
-            } else if (gamma < 0.8 && gamma > -1.0) { // Tilted 'Up' significantly
+            } else if (gamma < 0.8 && gamma > -1.0) {
                 handlePass();
             }
         });
 
         DeviceMotion.setUpdateInterval(100);
-
         return () => subscription.remove();
-    }, [gameStatus, currentIndex, words]);
+    }, [phase, currentIndex]);
 
-
-    const startGame = () => {
-        setGameStatus('playing');
-        setIsActive(true);
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    const handleReady = () => {
+        Alert.alert(
+            "Ready to Start?",
+            "Tap OK when the phone is on your forehead and facing the crowd!",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Start Game",
+                    onPress: () => {
+                        setPhase('playing');
+                        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                    }
+                }
+            ]
+        );
     };
 
-    const returnHome = () => {
-        ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
-        router.replace('/');
-    };
+    const renderSetup = () => (
+        <View style={styles.centerContent}>
+            <Text style={styles.title}>New Round</Text>
+            <Text style={styles.playerText}>{currentPlayer?.name}</Text>
+            <Text style={styles.subText}>You are up!</Text>
+            <Pressable onPress={() => setPhase('ready')} style={styles.primaryButton}>
+                <Text style={styles.buttonText}>I'm Ready</Text>
+            </Pressable>
+        </View>
+    );
+
+    const renderReady = () => (
+        <View style={styles.centerContent}>
+            <Text style={styles.instructionText}>Place phone on forehead</Text>
+            <Text style={styles.subInstruction}>Screen facing the crowd!</Text>
+            <View style={{ height: 40 }} />
+            <Pressable onPress={handleReady} style={styles.readyTapArea}>
+                <Text style={styles.readyTapText}>TAP TO START</Text>
+            </Pressable>
+        </View>
+    );
 
     const currentWord = words[currentIndex] || "Finished!";
-
-    // Colors.imposter might not exist directly if not defined, fallback to a red
     const passColor = (Colors as any).imposter || '#FF4444';
     const feedbackColor = feedback === 'correct' ? Colors.success : feedback === 'pass' ? passColor : 'transparent';
 
@@ -158,21 +203,14 @@ export default function CharadesGameScreen() {
                 style={StyleSheet.absoluteFill}
             />
 
-            {gameStatus === 'waiting' && (
-                <View style={styles.centerContent}>
-                    <Text style={[styles.instructionText, { marginBottom: 20 }]}>Place phone on forehead</Text>
-                    <Text style={styles.subInstruction}>Screen facing the crowd!</Text>
-                    <Pressable onPress={startGame} style={styles.startButton}>
-                        <Text style={styles.startButtonText}>TAP TO START</Text>
-                    </Pressable>
-                </View>
-            )}
+            {phase === 'setup' && renderSetup()}
+            {phase === 'ready' && renderReady()}
 
-            {gameStatus === 'playing' && (
+            {phase === 'playing' && (
                 <View style={styles.gameContent}>
                     <View style={styles.header}>
                         <Text style={styles.timer}>{timeLeft}</Text>
-                        <Text style={styles.score}>Score: {score}</Text>
+                        <Text style={styles.scoreCounter}>Correct: {correctCount}</Text>
                     </View>
 
                     <View style={styles.wordContainer}>
@@ -191,15 +229,40 @@ export default function CharadesGameScreen() {
                 </View>
             )}
 
-            {gameStatus === 'finished' && (
+            {phase === 'results' && (
                 <View style={styles.centerContent}>
                     <Text style={styles.gameOverTitle}>Time's Up!</Text>
-                    <Text style={styles.finalScore}>{score}</Text>
-                    <Text style={styles.scoreLabel}>POINTS</Text>
+                    <Text style={styles.finalCount}>{correctCount}</Text>
+                    <Text style={styles.scoreLabel}>WORDS CORRECT</Text>
 
-                    <Pressable onPress={returnHome} style={styles.finishButton}>
-                        <Text style={styles.finishButtonText}>Finish</Text>
-                    </Pressable>
+                    {/* Points earned message */}
+                    <Text style={styles.pointsEarned}>
+                        {(duration === 30 && correctCount > 5) || (duration === 60 && correctCount > 10)
+                            ? `+ ${(duration === 60 && correctCount > 10) ? 2 : 1} POINTS EARNED!`
+                            : "No points earned."}
+                    </Text>
+
+                    {/* Mini Leaderboard */}
+                    <View style={styles.leaderboard}>
+                        <Text style={styles.leaderboardTitle}>Standings</Text>
+                        {players.sort((a, b) => b.score - a.score).map((p, i) => (
+                            <View key={p.id} style={styles.leaderboardRow}>
+                                <Text style={[styles.lbName, p.id === currentPlayer?.id && styles.highlightName]}>
+                                    {i + 1}. {p.name}
+                                </Text>
+                                <Text style={styles.lbScore}>{p.score}</Text>
+                            </View>
+                        ))}
+                    </View>
+
+                    <View style={styles.footerButtons}>
+                        <Pressable onPress={() => router.replace('/game-settings')} style={styles.secondaryButton}>
+                            <Text style={styles.secondaryButtonText}>Play Again</Text>
+                        </Pressable>
+                        <Pressable onPress={() => router.replace('/')} style={styles.finishLink}>
+                            <Text style={styles.finishLinkText}>Home</Text>
+                        </Pressable>
+                    </View>
                 </View>
             )}
         </View>
@@ -207,117 +270,49 @@ export default function CharadesGameScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'black',
-    },
-    centerContent: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 15
-    },
-    gameContent: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20
-    },
-    header: {
-        position: 'absolute',
-        top: 20,
-        left: 40,
-        right: 40,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    timer: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: Colors.candlelight,
-        fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
-    },
-    score: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: Colors.success,
-    },
-    instructionText: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: Colors.parchment,
-        textAlign: 'center'
-    },
-    subInstruction: {
-        fontSize: 20,
-        color: Colors.grayLight,
-        textAlign: 'center',
-        fontStyle: 'italic'
-    },
-    startButton: {
-        marginTop: 40,
-        paddingHorizontal: 40,
-        paddingVertical: 20,
-        backgroundColor: Colors.candlelight,
-        borderRadius: 50,
-    },
-    startButtonText: {
-        fontSize: 24,
-        fontWeight: '900',
-        color: Colors.victorianBlack,
-    },
-    wordContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    wordText: {
-        fontSize: 80, // HUGE text for visibility from afar
-        fontWeight: '900',
-        color: Colors.white,
-        textAlign: 'center',
-        textShadowColor: 'rgba(0,0,0,0.5)',
-        textShadowOffset: { width: 2, height: 2 },
-        textShadowRadius: 10,
-    },
-    feedbackText: {
-        fontSize: 60,
-        fontWeight: '900',
-        textTransform: 'uppercase',
-        textAlign: 'center',
-    },
-    hintText: {
-        fontSize: 16,
-        color: 'rgba(255,255,255,0.5)',
-        marginBottom: 20,
-    },
-    gameOverTitle: {
-        fontSize: 40,
-        fontWeight: 'bold',
-        color: Colors.parchment,
-    },
-    finalScore: {
-        fontSize: 100,
-        fontWeight: '900',
-        color: Colors.success,
-    },
-    scoreLabel: {
-        fontSize: 24,
-        color: Colors.grayLight,
-        marginBottom: 40,
-    },
-    finishButton: {
-        paddingHorizontal: 50,
-        paddingVertical: 15,
-        backgroundColor: Colors.grayDark,
-        borderRadius: 30,
-        borderWidth: 1,
-        borderColor: Colors.grayMedium,
-    },
-    finishButtonText: {
-        fontSize: 20,
-        color: Colors.parchment,
-        fontWeight: 'bold'
-    }
+    container: { flex: 1, backgroundColor: 'black' },
+    centerContent: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: 10, padding: 20 },
+    gameContent: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
+
+    header: { position: 'absolute', top: 20, left: 40, right: 40, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+    timer: { fontSize: 32, fontWeight: 'bold', color: Colors.candlelight, fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace' },
+    scoreCounter: { fontSize: 24, fontWeight: 'bold', color: Colors.success },
+
+    instructionText: { fontSize: 32, fontWeight: 'bold', color: Colors.parchment, textAlign: 'center' },
+    subInstruction: { fontSize: 20, color: Colors.grayLight, textAlign: 'center', fontStyle: 'italic' },
+
+    readyTapArea: { marginTop: 40, paddingHorizontal: 60, paddingVertical: 30, backgroundColor: Colors.candlelight, borderRadius: 50 },
+    readyTapText: { fontSize: 28, fontWeight: '900', color: Colors.victorianBlack },
+
+    wordContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    wordText: { fontSize: 80, fontWeight: '900', color: Colors.white, textAlign: 'center', textShadowColor: 'rgba(0,0,0,0.5)', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 10 },
+    feedbackText: { fontSize: 60, fontWeight: '900', textTransform: 'uppercase', textAlign: 'center' },
+    hintText: { fontSize: 16, color: 'rgba(255,255,255,0.5)', marginBottom: 20 },
+
+    gameOverTitle: { fontSize: 40, fontWeight: 'bold', color: Colors.parchment },
+    finalCount: { fontSize: 80, fontWeight: '900', color: Colors.success },
+    scoreLabel: { fontSize: 20, color: Colors.grayLight, marginBottom: 10 },
+    pointsEarned: { fontSize: 24, fontWeight: 'bold', color: Colors.candlelight, marginBottom: 30 },
+
+    title: { fontSize: 24, color: Colors.grayLight },
+    playerText: { fontSize: 48, fontWeight: '900', color: Colors.parchment, marginVertical: 10 },
+    subText: { fontSize: 18, color: Colors.grayLight, marginBottom: 30 },
+
+    primaryButton: { backgroundColor: Colors.candlelight, paddingHorizontal: 40, paddingVertical: 15, borderRadius: 30 },
+    buttonText: { fontSize: 20, fontWeight: 'bold', color: Colors.victorianBlack },
+
+    secondaryButton: { backgroundColor: Colors.grayDark, paddingHorizontal: 30, paddingVertical: 12, borderRadius: 30, borderWidth: 1, borderColor: Colors.grayMedium },
+    secondaryButtonText: { fontSize: 18, color: Colors.parchment, fontWeight: 'bold' },
+
+    finishLink: { padding: 10 },
+    finishLinkText: { color: Colors.grayLight, fontSize: 16, textDecorationLine: 'underline' },
+
+    leaderboard: { width: '80%', maxWidth: 400, backgroundColor: 'rgba(255,255,255,0.1)', padding: 15, borderRadius: 10, marginVertical: 20 },
+    leaderboardTitle: { color: Colors.parchment, fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' },
+    leaderboardRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 },
+    lbName: { color: Colors.grayLight, fontSize: 16 },
+    highlightName: { color: Colors.candlelight, fontWeight: 'bold' },
+    lbScore: { color: Colors.parchment, fontWeight: 'bold' },
+
+    footerButtons: { flexDirection: 'row', gap: 20, alignItems: 'center' }
 });

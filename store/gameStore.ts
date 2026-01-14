@@ -33,6 +33,10 @@ interface GameStore extends GameState {
     // Game mode selection
     selectGameMode: (mode: GameMode) => void;
 
+    // Charades specific
+    setNextRoundPlayerId: (id: string) => void;
+    nextRoundPlayerId: string | null;
+
     // Theme and word
     selectTheme: (themeId: string) => void;
     addCustomWord: (word: string) => void;
@@ -102,6 +106,7 @@ const initialState: GameState = {
     overallWinner: null,
     isNewTournamentPending: false,
     usedWords: [],
+    nextRoundPlayerId: null,
 };
 
 // Smart Shuffle: Weighted random selection
@@ -200,6 +205,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // Game mode selection
     selectGameMode: (mode: GameMode) => {
         set({ gameMode: mode });
+    },
+
+    setNextRoundPlayerId: (id: string) => {
+        set({ nextRoundPlayerId: id });
     },
 
     // Theme and word
@@ -461,12 +470,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
                 // Shuffle words
                 const shuffled = [...charadesWords].sort(() => Math.random() - 0.5);
+                const charadesDuration = settings.discussionTime; // Should correspond to 30 or 60 from settings
+                const targetPlayerId = state.nextRoundPlayerId || players[0].id; // Fallback to first player
 
                 gameData = {
                     type: 'charades',
                     data: {
                         words: shuffled,
-                        duration: 60 // Fixed 60s for now as per request
+                        duration: charadesDuration,
+                        selectedPlayerId: targetPlayerId
                     }
                 };
                 break;

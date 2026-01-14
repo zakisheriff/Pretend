@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function GameSettingsScreen() {
@@ -18,6 +18,8 @@ export default function GameSettingsScreen() {
     const startGame = useGameStore((s) => s.startGame);
     const gameMode = useGameStore((s) => s.gameMode);
     const getModeDisplayInfo = useGameStore((s) => s.getModeDisplayInfo);
+    const setNextRoundPlayerId = useGameStore((s) => s.setNextRoundPlayerId);
+    const nextRoundPlayerId = useGameStore((s) => s.nextRoundPlayerId);
     const { specialRoleName, specialRoleIcon } = getModeDisplayInfo();
 
     const players = useGameStore((s) => s.players);
@@ -35,6 +37,9 @@ export default function GameSettingsScreen() {
     // Set default time for Time Bomb if not set correctly
     React.useEffect(() => {
         if (gameMode === 'time-bomb' && ![-1, 30, 60, 90].includes(settings.discussionTime)) {
+            updateSettings({ discussionTime: 60 });
+        }
+        if (gameMode === 'charades' && ![30, 60].includes(settings.discussionTime)) {
             updateSettings({ discussionTime: 60 });
         }
     }, [gameMode]);
@@ -89,7 +94,7 @@ export default function GameSettingsScreen() {
                 </View>
 
                 <View style={styles.settingsGroup}>
-                    {gameMode !== 'time-bomb' && (
+                    {gameMode !== 'time-bomb' && gameMode !== 'charades' && (
                         <GameSetting
                             label={specialRoleName + (specialRoleName.endsWith('s') ? '' : 's')}
                             value={settings.imposterCount}
@@ -110,11 +115,44 @@ export default function GameSettingsScreen() {
                         />
                     )}
 
+                    {gameMode === 'charades' && (
+                        <View style={styles.section}>
+                            <Text style={styles.sectionTitle}>Who is guessing?</Text>
+                            <View style={styles.playerGrid}>
+                                {players.map(player => (
+                                    <Pressable
+                                        key={player.id}
+                                        onPress={() => {
+                                            haptics.selection();
+                                            setNextRoundPlayerId(player.id);
+                                        }}
+                                        style={[
+                                            styles.playerOption,
+                                            nextRoundPlayerId === player.id && styles.playerOptionSelected
+                                        ]}
+                                    >
+                                        <Text style={[
+                                            styles.playerOptionText,
+                                            nextRoundPlayerId === player.id && styles.playerOptionTextSelected
+                                        ]}>
+                                            {player.name}
+                                        </Text>
+                                        {nextRoundPlayerId === player.id && (
+                                            <View style={styles.checkIcon}>
+                                                <Ionicons name="checkmark-circle" size={20} color={Colors.victorianBlack} />
+                                            </View>
+                                        )}
+                                    </Pressable>
+                                ))}
+                            </View>
+                        </View>
+                    )}
+
                     <GameSetting
-                        label={gameMode === 'time-bomb' ? 'Timer Duration' : "Investigation Time"}
+                        label={gameMode === 'time-bomb' ? 'Timer Duration' : (gameMode === 'charades' ? 'Round Timer' : "Investigation Time")}
                         value={settings.discussionTime}
-                        options={gameMode === 'time-bomb' ? [30, 60, 90] : [60, 120, 180, 240, 300]}
-                        formatLabel={gameMode === 'time-bomb' ? ((v) => `${v}s`) : ((v) => `${v / 60}m`)}
+                        options={gameMode === 'time-bomb' ? [30, 60, 90] : (gameMode === 'charades' ? [30, 60] : [60, 120, 180, 240, 300])}
+                        formatLabel={((v) => gameMode === 'time-bomb' || gameMode === 'charades' ? `${v}s` : `${v / 60}m`)}
                         onChange={handleTimeChange}
                         icon="timer-outline"
                     />
@@ -148,6 +186,7 @@ export default function GameSettingsScreen() {
                         variant="primary"
                         size="large"
                         icon={<Ionicons name="search" size={18} color={Colors.victorianBlack} />}
+                        disabled={gameMode === 'charades' && !nextRoundPlayerId}
                     />
                 </View>
             </ScrollView>
@@ -208,4 +247,59 @@ const styles = StyleSheet.create({
         color: Colors.grayLight,
         lineHeight: 18,
     },
+    section: {
+        gap: 12,
+    },
+    sectionTitle: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: Colors.candlelight,
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+        marginLeft: 4,
+    },
+    playerGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 10,
+    },
+    playerOption: {
+        flex: 1,
+        minWidth: '45%',
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+        backgroundColor: Colors.grayDark,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: Colors.grayMedium,
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+    },
+    playerOptionSelected: {
+        borderColor: Colors.candlelight,
+        backgroundColor: '#D4AF3720', // dim gold
+    },
+    playerOptionText: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: Colors.grayLight,
+    },
+    playerOptionTextSelected: {
+        color: Colors.candlelight,
+        fontWeight: 'bold',
+    },
+    checkIcon: {
+        position: 'absolute',
+        top: -6,
+        right: -6,
+        backgroundColor: Colors.candlelight,
+        borderRadius: 10,
+        width: 20,
+        height: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 2,
+        borderColor: Colors.victorianBlack
+    }
 });

@@ -85,6 +85,7 @@ export interface TimeBombData {
 export interface CharadesData {
     words: string[];
     duration: number;
+    selectedPlayerId: string;
 }
 
 // Union type for selected game data
@@ -152,6 +153,7 @@ export interface GameState {
     overallWinner: Player | null;
     isNewTournamentPending: boolean;
     usedWords: string[];
+    nextRoundPlayerId: string | null;
 }
 
 export const DEFAULT_SETTINGS: GameSettings = {

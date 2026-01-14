@@ -89,7 +89,7 @@ function CloseButton({ onPress }: { onPress: () => void }) {
     }));
 
     return (
-        <AnimatedPressable onPress={handlePress} style={[styles.closeBtn, animatedStyle]}>
+        <AnimatedPressable onPress={handlePress} style={styles.closeBtn}>
             <Ionicons name="close" size={20} color={Colors.parchment} />
         </AnimatedPressable>
     );
