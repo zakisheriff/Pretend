@@ -297,25 +297,7 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
                     </View>
                 )}
 
-                {contentDisplay.warningText && (
-                    <View style={[
-                        styles.warningBox,
-                        // For hidden-role modes, always use info style (don't reveal who is special)
-                        (gameMode === 'classic-imposter' || gameMode === 'mind-sync' || (!isImposter && !isDirector && !isOutlier)) && styles.infoBox
-                    ]}>
-                        <Ionicons
-                            name={(gameMode === 'classic-imposter' || gameMode === 'mind-sync' || (!isImposter && !isDirector && !isOutlier)) ? 'information-circle' : 'warning'}
-                            size={16}
-                            color={(gameMode === 'classic-imposter' || gameMode === 'mind-sync' || (!isImposter && !isDirector && !isOutlier)) ? Colors.candlelight : Colors.suspect}
-                        />
-                        <Text style={[
-                            styles.warningText,
-                            (gameMode === 'classic-imposter' || gameMode === 'mind-sync' || (!isImposter && !isDirector && !isOutlier)) && styles.infoText
-                        ]}>
-                            {contentDisplay.warningText}
-                        </Text>
-                    </View>
-                )}
+                {/* Warning box removed per user request for simplicity */}
 
                 {/* Drag feedback at BOTTOM of reveal card - visible while dragging */}
                 {!hasPeeked && (
@@ -324,12 +306,7 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
                     </View>
                 )}
 
-                {hasPeeked && (
-                    <View style={styles.seenBadge}>
-                        <Ionicons name="document-text" size={14} color={Colors.detective} />
-                        <Text style={styles.seenText}>Case file reviewed</Text>
-                    </View>
-                )}
+                {/* Case file reviewed badge removed per user request */}
 
                 {/* Refresh button for first non-imposter player */}
                 {canRefresh && onRefresh && (

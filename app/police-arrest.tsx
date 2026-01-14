@@ -1,5 +1,5 @@
 import { GenericModal } from '@/components/common/GenericModal';
-import { Button, WinnerCelebration } from '@/components/game';
+import { Button, ScoreBoard, WinnerCelebration } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { Player, ThiefPoliceData } from '@/types/game';
@@ -41,11 +41,9 @@ export default function PoliceArrestScreen() {
 
     const isCaught = selectedId === data.thiefPlayerId;
 
-    const handlePlayAgain = () => {
-        haptics.success();
-
-        // Distribute points
-        const updatedPlayers = players.map(p => {
+    // Calculate updated scores for display and state update
+    const updatedPlayers = React.useMemo(() => {
+        return players.map(p => {
             let points = 0;
             if (isCaught) {
                 // Police caught Thief: Police +1, Civilians +1, Thief +0
@@ -57,6 +55,10 @@ export default function PoliceArrestScreen() {
             }
             return { ...p, score: p.score + points };
         });
+    }, [players, isCaught, data]);
+
+    const handlePlayAgain = () => {
+        haptics.success();
 
         // Check for overall winner (first to WINNING_SCORE)
         const winner = updatedPlayers.find(p => p.score >= WINNING_SCORE);
@@ -185,40 +187,7 @@ export default function PoliceArrestScreen() {
                     </View>
 
                     <View style={styles.pointsBox}>
-                        <Text style={styles.pointsTitle}>Round Results</Text>
-                        {players.map((player) => {
-                            const isPolice = player.id === data.policePlayerId;
-                            const isThief = player.id === data.thiefPlayerId;
-                            let points = 0;
-                            if (isCaught) {
-                                if (isPolice) points = 1;
-                                else if (!isThief) points = 1;
-                            } else {
-                                if (isThief) points = 2;
-                            }
-
-                            return (
-                                <View key={player.id} style={styles.playerResultRow}>
-                                    <View style={styles.playerResultLeft}>
-                                        <Ionicons
-                                            name={isPolice ? "shield-checkmark" : isThief ? "finger-print" : "person"}
-                                            size={18}
-                                            color={isPolice ? Colors.detective : isThief ? Colors.suspect : Colors.candlelight}
-                                        />
-                                        <Text style={styles.playerResultName}>{player.name}</Text>
-                                        <Text style={[styles.playerResultRole,
-                                        isPolice && { color: Colors.detective },
-                                        isThief && { color: Colors.suspect }
-                                        ]}>
-                                            {isPolice ? 'Police' : isThief ? 'Thief' : 'Civilian'}
-                                        </Text>
-                                    </View>
-                                    <Text style={[styles.playerResultPoints, points > 0 && styles.playerResultPointsGained]}>
-                                        {points > 0 ? `+${points}` : '0'}
-                                    </Text>
-                                </View>
-                            );
-                        })}
+                        <ScoreBoard players={updatedPlayers} />
                     </View>
 
                     <View style={styles.buttonRow}>

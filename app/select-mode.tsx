@@ -1,4 +1,3 @@
-import { BackButton } from '@/components/common/BackButton';
 import { Button } from '@/components/game/Button';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
@@ -70,9 +69,8 @@ export default function SelectModeScreen() {
             <LinearGradient
                 colors={[Colors.victorianBlack, Colors.victorianBlack, 'transparent']}
                 locations={[0, 0.6, 1]}
-                style={[styles.headerBar, { paddingTop: insets.top + 10 }]}
+                style={[styles.headerBar, { paddingTop: insets.top + 10, justifyContent: 'flex-end', paddingLeft: 20 }]}
             >
-                <BackButton />
                 <Button
                     title="Next"
                     onPress={handleContinue}
