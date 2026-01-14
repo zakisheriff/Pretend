@@ -12,6 +12,7 @@ export default function RoleRevealScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const players = useGameStore((s) => s.players);
+    const gameMode = useGameStore((s) => s.gameMode);
     const currentRevealIndex = useGameStore((s) => s.currentRevealIndex);
     const getCurrentPlayer = useGameStore((s) => s.getCurrentPlayer);
     const getPlayerRole = useGameStore((s) => s.getPlayerRole);
@@ -48,10 +49,15 @@ export default function RoleRevealScreen() {
     const handleNext = () => {
         haptics.medium();
         if (isLast) {
-            // Last player done - go to first player selection
             nextReveal();
             haptics.gameStart();
-            router.push('/first-player');
+
+            // Thief & Police: Skip first-player selection - Police decides verbally who starts
+            if (gameMode === 'thief-police') {
+                router.push('/discussion');
+            } else {
+                router.push('/first-player');
+            }
         } else {
             setHasRevealed(false);
             nextReveal();
