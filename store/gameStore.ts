@@ -425,12 +425,23 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 // Pick random letter A-Z (including X, Q, Z etc. as requested)
                 const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
 
+                let duration = settings.discussionTime;
+                let hiddenTimer = false;
+
+                // Handle Random Time Mode
+                if (duration === -1) {
+                    // Random duration between 20 and 90 seconds
+                    duration = Math.floor(Math.random() * (90 - 20 + 1)) + 20;
+                    hiddenTimer = true;
+                }
+
                 gameData = {
                     type: 'time-bomb',
                     data: {
                         category,
                         letter,
-                        duration: settings.discussionTime
+                        duration,
+                        hiddenTimer
                     }
                 };
                 break;

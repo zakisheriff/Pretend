@@ -79,6 +79,7 @@ export interface TimeBombData {
     category: string;
     letter: string;
     duration: number;
+    hiddenTimer?: boolean;
 }
 
 // Union type for selected game data

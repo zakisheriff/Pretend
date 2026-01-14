@@ -16,7 +16,7 @@ export default function TimeBombGameScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const gameData = useGameStore((s) => s.gameData);
-    const { category, letter, duration } = (gameData?.data as TimeBombData) || { category: '?', letter: '?', duration: 60 };
+    const { category, letter, duration, hiddenTimer } = (gameData?.data as TimeBombData) || { category: '?', letter: '?', duration: 60, hiddenTimer: false };
 
     const [timeLeft, setTimeLeft] = useState(duration);
     const [isActive, setIsActive] = useState(true);
@@ -127,7 +127,7 @@ export default function TimeBombGameScreen() {
                         </Animated.View>
 
                         <Text style={[styles.timerText, isExploded && styles.timerTextExploded]}>
-                            {isExploded ? "BOOM!" : formatTime(timeLeft)}
+                            {isExploded ? "BOOM!" : (hiddenTimer ? "???" : formatTime(timeLeft))}
                         </Text>
 
                         {isExploded && (

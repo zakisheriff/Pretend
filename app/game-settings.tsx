@@ -34,7 +34,7 @@ export default function GameSettingsScreen() {
 
     // Set default time for Time Bomb if not set correctly (e.g. if switching from another mode with high duration)
     React.useEffect(() => {
-        if (gameMode === 'time-bomb' && ![30, 60, 90].includes(settings.discussionTime)) {
+        if (gameMode === 'time-bomb' && ![-1, 30, 60, 90].includes(settings.discussionTime)) {
             updateSettings({ discussionTime: 60 });
         }
     }, [gameMode]);
@@ -100,8 +100,8 @@ export default function GameSettingsScreen() {
                     <GameSetting
                         label={gameMode === 'time-bomb' ? 'Timer Duration' : "Investigation Time"}
                         value={settings.discussionTime}
-                        options={gameMode === 'time-bomb' ? [30, 60, 90] : [60, 120, 180, 240, 300]}
-                        formatLabel={gameMode === 'time-bomb' ? ((v) => `${v}s`) : ((v) => `${v / 60}m`)}
+                        options={gameMode === 'time-bomb' ? [30, 60, 90, -1] : [60, 120, 180, 240, 300]}
+                        formatLabel={gameMode === 'time-bomb' ? ((v) => v === -1 ? 'Random' : `${v}s`) : ((v) => `${v / 60}m`)}
                         onChange={handleTimeChange}
                         icon="timer-outline"
                     />
