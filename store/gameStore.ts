@@ -240,8 +240,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
         const state = get();
         const { players, gameMode, selectedThemeId, settings, customWords } = state;
 
-        if (players.length < 3 && gameMode !== 'directors-cut') return;
-        if (players.length < 2 && gameMode === 'directors-cut') return;
+        // Minimum player checks
+        if (gameMode === 'directors-cut' || gameMode === 'time-bomb') {
+            if (players.length < 2) return;
+        } else {
+            if (players.length < 3) return;
+        }
 
         if (!gameMode) return;
 
