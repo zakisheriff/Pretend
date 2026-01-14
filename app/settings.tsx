@@ -127,12 +127,12 @@ export default function SettingsScreen() {
                             showChevron={false}
                             value={
                                 <Switch
-                                    trackColor={{ false: Colors.grayMedium, true: Colors.crownGold }}
-                                    thumbColor={settings.soundEnabled ? Colors.victorianBlack : Colors.parchment}
+                                    trackColor={{ false: Colors.grayMedium, true: Colors.gray }}
+                                    thumbColor={Colors.parchment}
                                     ios_backgroundColor={Colors.grayMedium}
                                     onValueChange={toggleSound}
                                     value={settings.soundEnabled}
-                                    {...({ activeTrackColor: Colors.crownGold, activeThumbColor: Colors.victorianBlack } as any)}
+                                    {...({ activeTrackColor: Colors.gray, activeThumbColor: Colors.parchment } as any)}
                                 />
                             }
                         />
@@ -143,12 +143,12 @@ export default function SettingsScreen() {
                             showChevron={false}
                             value={
                                 <Switch
-                                    trackColor={{ false: Colors.grayMedium, true: Colors.crownGold }}
-                                    thumbColor={settings.hapticsEnabled ? Colors.victorianBlack : Colors.parchment}
+                                    trackColor={{ false: Colors.grayMedium, true: Colors.gray }}
+                                    thumbColor={Colors.parchment}
                                     ios_backgroundColor={Colors.grayMedium}
                                     onValueChange={toggleHaptics}
                                     value={settings.hapticsEnabled}
-                                    {...({ activeTrackColor: Colors.crownGold, activeThumbColor: Colors.victorianBlack } as any)}
+                                    {...({ activeTrackColor: Colors.gray, activeThumbColor: Colors.parchment } as any)}
                                 />
                             }
                         />
