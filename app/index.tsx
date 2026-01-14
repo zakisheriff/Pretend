@@ -6,23 +6,48 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
-import Animated, { FadeIn, FadeInDown, FadeOut } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInDown, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const BrandSplash = ({ onFinish, onSkip, isSkipping }: { onFinish: () => void; onSkip: () => void; isSkipping: boolean }) => {
-    React.useEffect(() => {
-        const timer = setTimeout(onFinish, 7500); // Cinematic sequence duration
-        return () => clearTimeout(timer);
-    }, [onFinish]);
+    const opacity = useSharedValue(1);
 
-    // Use constant duration to prevent re-render/remount glitches on web when skipping
-    const exitDuration = 800;
+    const handleFinish = () => {
+        // Run on JS thread to safely trigger state update
+        onFinish();
+    };
+
+    const triggerExit = () => {
+        // Use constant duration to prevent re-render/remount glitches on web when skipping
+        const exitDuration = 800;
+        opacity.value = withTiming(0, { duration: exitDuration }, (finished) => {
+            if (finished) {
+                runOnJS(handleFinish)();
+            }
+        });
+    };
+
+    React.useEffect(() => {
+        if (isSkipping) {
+            triggerExit();
+        }
+    }, [isSkipping]);
+
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            if (!isSkipping) triggerExit();
+        }, 7500); // Cinematic sequence duration
+        return () => clearTimeout(timer);
+    }, []);
+
+    const animatedStyle = useAnimatedStyle(() => ({
+        opacity: opacity.value
+    }));
 
     return (
         <Animated.View
             key="brand-splash"
-            exiting={FadeOut.duration(exitDuration)} // Constant duration for stability
-            style={[styles.splashContainer, StyleSheet.absoluteFill, { zIndex: 100, backgroundColor: 'black' }]}
+            style={[styles.splashContainer, StyleSheet.absoluteFill, animatedStyle, { zIndex: 100, backgroundColor: 'black' }]}
         >
             <Pressable style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%' }} onPress={onSkip}>
                 <View style={styles.splashContent}>
