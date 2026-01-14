@@ -1,7 +1,7 @@
 export type HintStrength = 'none' | 'low' | 'medium' | 'high';
 
 // Game mode types
-export type GameMode = 'undercover-word' | 'directors-cut' | 'mind-sync' | 'classic-imposter';
+export type GameMode = 'undercover-word' | 'directors-cut' | 'mind-sync' | 'classic-imposter' | 'time-bomb';
 
 export interface WordHints {
     low: string;
@@ -75,12 +75,19 @@ export interface ClassicImposterData {
     themeName: string;
 }
 
+export interface TimeBombData {
+    category: string;
+    letter: string;
+    duration: number;
+}
+
 // Union type for selected game data
 export type GameData =
     | { type: 'undercover-word'; data: UndercoverWordPair }
     | { type: 'directors-cut'; data: DirectorsCutMovie }
     | { type: 'mind-sync'; data: MindSyncQuestion }
     | { type: 'classic-imposter'; data: ClassicImposterData }
+    | { type: 'time-bomb'; data: TimeBombData }
     | null;
 
 export interface Player {
@@ -207,6 +214,17 @@ export const GAME_MODES: GameModeInfo[] = [
         instructions: [
             { role: 'In Sync', icon: 'sync-outline', desc: 'Answer the question (+1 pt for majority win)' },
             { role: 'Outlier', icon: 'flash-outline', desc: 'Has a different question (+3 pts for win)!' },
+        ],
+    },
+    {
+        id: 'time-bomb',
+        name: 'Time Bomb',
+        icon: 'timer-outline',
+        description: 'Pass the phone before the timer runs out!',
+        tagline: 'Name a word in the category and pass it on!',
+        instructions: [
+            { role: 'Everyone', icon: 'people-outline', desc: 'Answer the prompt (Category + Letter)' },
+            { role: 'Loser', icon: 'skull-outline', desc: 'Holding the phone when time runs out (0 pts)' },
         ],
     },
 ];

@@ -32,7 +32,15 @@ export default function GameSettingsScreen() {
     const handleSuspectChange = (v: number) => { haptics.selection(); updateSettings({ imposterCount: v }); };
     const handleTimeChange = (v: number) => { haptics.selection(); updateSettings({ discussionTime: v }); };
 
-    const handleStart = () => { startGame(); haptics.heavy(); router.push('/role-reveal'); };
+    const handleStart = () => {
+        startGame();
+        haptics.heavy();
+        if (gameMode === 'time-bomb') {
+            router.push('/time-bomb/game' as any);
+        } else {
+            router.push('/role-reveal' as any);
+        }
+    };
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
@@ -61,13 +69,15 @@ export default function GameSettingsScreen() {
                 </View>
 
                 <View style={styles.settingsGroup}>
-                    <GameSetting
-                        label={specialRoleName + (specialRoleName.endsWith('s') ? '' : 's')}
-                        value={settings.imposterCount}
-                        options={Array.from({ length: maxSuspects }, (_, i) => i + 1)}
-                        onChange={handleSuspectChange}
-                        icon={specialRoleIcon + '-outline' as any}
-                    />
+                    {gameMode !== 'time-bomb' && (
+                        <GameSetting
+                            label={specialRoleName + (specialRoleName.endsWith('s') ? '' : 's')}
+                            value={settings.imposterCount}
+                            options={Array.from({ length: maxSuspects }, (_, i) => i + 1)}
+                            onChange={handleSuspectChange}
+                            icon={specialRoleIcon + '-outline' as any}
+                        />
+                    )}
 
                     {gameMode === 'undercover-word' && (
                         <GameSetting

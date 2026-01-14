@@ -39,9 +39,6 @@ export default function ResultsScreen() {
     const { specialRoleName, specialRoleIcon, normalRoleName } = getModeDisplayInfo();
 
     const eliminatedThisRound = players.find(p => p.id === lastEliminatedPlayerId);
-    const isRoundSuccess = !!gameWinner
-        ? (gameMode === 'directors-cut' ? !!directorWinnerId : gameWinner === 'crewmates')
-        : (eliminatedThisRound?.isImposter ?? false);
 
     useEffect(() => {
         haptics.success();
@@ -86,6 +83,13 @@ export default function ResultsScreen() {
     // Mode-specific content
     const getWinnerText = () => {
         // Director's Cut special handling
+        if (gameMode === 'time-bomb') {
+            if (eliminatedThisRound) {
+                return { title: 'Time\'s Up!', subtitle: `${eliminatedThisRound.name} held the bomb!` };
+            }
+            return { title: 'Game Over', subtitle: 'Round Complete' };
+        }
+
         if (gameMode === 'directors-cut') {
             if (directorWinnerId) {
                 const winnerName = players.find(p => p.id === directorWinnerId)?.name || 'A Viewer ';
@@ -104,12 +108,38 @@ export default function ResultsScreen() {
             return { title: 'No One Eliminated', subtitle: 'The vote was a tie!' };
         }
 
+        if (gameMode === 'classic-imposter') {
+            if (gameWinner === 'crewmates') {
+                return { title: 'Crewmates Win!', subtitle: 'All Imposters have been caught! ' };
+            } else {
+                return { title: 'Imposters Win!', subtitle: 'The Imposters have successfully infiltrated! ' };
+            }
+        }
+
+        // Default fallthrough (should covers all other standard modes)
         if (gameWinner === 'crewmates') {
             return { title: 'Crewmates Win!', subtitle: 'All Imposters have been caught! ' };
         } else {
             return { title: 'Imposters Win!', subtitle: 'The Imposters have successfully infiltrated! ' };
         }
     };
+
+    // Determine if the round was a "Success" (Green banner) or "Failure" (Red banner)
+    // - Time Bomb: Always "Success" style unless we want to shame the loser (but technically someone 'lost', so maybe red? 
+    //   Actually, "Time's Up" feels like an alarm/red event. Let's make it Red/Suspect color for Time Bomb loser.)
+    //   Wait, previous logic forced it to Green/Detective.
+    //   User request: "whoeeve has the phone not answered will lose ... they get 0 points others get 1 point"
+    //   The screen emphasizes the LOSER. So it should probably be RED.
+
+    // Determine if the round was a "Success" (Green banner) or "Failure" (Red banner)
+    let displaySuccess = !!gameWinner ? (gameWinner === 'crewmates') : (eliminatedThisRound?.isImposter ?? false);
+
+    if (gameMode === 'directors-cut') {
+        displaySuccess = !!directorWinnerId;
+    } else if (gameMode === 'time-bomb') {
+        // Red (Suspect) color scheme fits "Time's Up/Explosion".
+        displaySuccess = false;
+    }
 
     const getRevealContent = () => {
         switch (gameMode) {
@@ -203,15 +233,15 @@ export default function ResultsScreen() {
                     entering={ZoomIn.delay(200).springify()}
                     style={[
                         styles.winnerBanner,
-                        isRoundSuccess ? styles.winnerInvestigators : styles.winnerImposter
+                        displaySuccess ? styles.winnerInvestigators : styles.winnerImposter
                     ]}
                 >
                     <Ionicons
-                        name={isRoundSuccess ? "shield-checkmark" : "skull"}
+                        name={displaySuccess ? "shield-checkmark" : "skull"}
                         size={60}
-                        color={isRoundSuccess ? Colors.detective : Colors.suspect}
+                        color={displaySuccess ? Colors.detective : Colors.suspect}
                     />
-                    <Text style={[styles.winnerTitle, isRoundSuccess ? styles.winnerTitleInvestigators : styles.winnerTitleImposter]}>
+                    <Text style={[styles.winnerTitle, displaySuccess ? styles.winnerTitleInvestigators : styles.winnerTitleImposter]}>
                         {winnerText.title}
                     </Text>
                     <Text style={styles.winnerSubtitle}>
@@ -220,7 +250,7 @@ export default function ResultsScreen() {
                 </Animated.View>
 
                 {/* Role Reveal Logic */}
-                {(gameMode !== 'directors-cut') && (
+                {(gameMode !== 'directors-cut' && gameMode !== 'time-bomb') && (
                     <Animated.View entering={FadeInUp.delay(400).springify()} style={styles.section}>
                         <Text style={styles.sectionLabel}>
                             {!!gameWinner ? `The ${specialRoleName}${specialPlayers.length > 1 ? 's' : ''} ` : 'The Identity'}

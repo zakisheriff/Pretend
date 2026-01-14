@@ -1,5 +1,5 @@
 import { getRandomMindSyncQuestion, getRandomMovie } from '@/data/game-modes';
-import { getEffectiveTheme, getEffectiveUndercoverTheme, getThemeById } from '@/data/themes';
+import { getEffectiveTheme, getEffectiveUndercoverTheme, getThemeById, themes } from '@/data/themes';
 import { DEFAULT_SETTINGS, GameData, GameMode, GameSettings, GameState, Player, Word } from '@/types/game';
 import { create } from 'zustand';
 
@@ -249,10 +249,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
         let selectedWord: Word | null = null;
 
         // Select multiple imposters based on settings
-        // Select multiple imposters based on settings
         // Ensure at least 1 imposter even if custom count is low, but respect max of half players (unless 2 players, then 1 imposter)
-        const maxImposters = players.length === 2 ? 1 : Math.floor(players.length / 2);
-        const imposterCount = Math.max(1, Math.min(settings.imposterCount, maxImposters));
+        let imposterCount: number;
+        if (gameMode === 'time-bomb') {
+            imposterCount = 0;
+        } else {
+            const maxImposters = players.length === 2 ? 1 : Math.floor(players.length / 2);
+            imposterCount = Math.max(1, Math.min(settings.imposterCount, maxImposters));
+        }
 
         // SMART SHUFFLE: Use weighted selection
         // We know who was imposter last time from the players state before we update it
@@ -400,6 +404,23 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 selectedWord = {
                     word: randomPair.crewmateWord,
                     hints: { low: 'Related word', medium: 'Sibling word', high: 'Conceptually similar' }
+                };
+                break;
+            }
+
+            case 'time-bomb': {
+                // Pick random theme from all themes
+                const theme = themes[Math.floor(Math.random() * themes.length)];
+                // Pick random letter A-Z
+                const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+
+                gameData = {
+                    type: 'time-bomb',
+                    data: {
+                        category: theme.name,
+                        letter,
+                        duration: settings.discussionTime
+                    }
                 };
                 break;
             }
@@ -609,7 +630,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     calculateRoundScores: () => {
         const state = get();
-        const { gameMode, gameWinner, players, directorWinnerId, directorId } = state;
+        const { gameMode, gameWinner, players, directorWinnerId, directorId, lastEliminatedPlayerId } = state;
 
         if (!gameWinner && gameMode !== 'directors-cut') return;
 
@@ -627,11 +648,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     break;
 
                 case 'directors-cut':
-                    if (directorWinnerId) {
-                        if (player.id === directorWinnerId) pointsToAdd = 2; // Fixed to +2
-                    } else if (player.id === directorId) {
-                        // Director won because no one guessed
-                        pointsToAdd = 2; // Fixed to +2
+                case 'time-bomb':
+                    if (player.id !== lastEliminatedPlayerId) {
+                        // Everyone who didn't lose gets 1 point
+                        pointsToAdd = 1;
                     }
                     break;
 
@@ -737,6 +757,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
                             hints: { low: 'Related word', medium: 'Sibling word', high: 'Conceptually similar' }
                         };
                     }
+                    break;
+                }
+                case 'time-bomb': {
+                    // Pick random theme from all themes
+                    const theme = themes[Math.floor(Math.random() * themes.length)];
+                    // Pick random letter A-Z
+                    const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+
+                    gameData = {
+                        type: 'time-bomb',
+                        data: {
+                            category: theme.name,
+                            letter,
+                            duration: settings.discussionTime
+                        }
+                    };
                     break;
                 }
             }
