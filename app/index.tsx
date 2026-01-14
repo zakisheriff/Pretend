@@ -108,6 +108,20 @@ export default function HomeScreen() {
                         style={styles.gradient}
                     >
                         <View style={[styles.container, { paddingTop: insets.top + 40, paddingBottom: insets.bottom + 20 }]}>
+                            {/* Settings Button */}
+                            <Animated.View
+                                entering={FadeIn.delay(800).duration(600)}
+                                style={styles.settingsButton}
+                            >
+                                <Pressable
+                                    onPress={() => router.push('/settings')}
+                                    hitSlop={20}
+                                    style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}
+                                >
+                                    <Ionicons name="settings-outline" size={24} color={Colors.grayLight} />
+                                </Pressable>
+                            </Animated.View>
+
                             {/* Hero Section */}
                             <View style={styles.hero}>
                                 <Animated.View entering={FadeIn.delay(100).duration(600)}>
@@ -262,5 +276,11 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: Colors.candlelight,
         // opacity: 0.3, // Removed opacity to fix web visibility
+    },
+    settingsButton: {
+        position: 'absolute',
+        top: 20, // Relative to container padding
+        right: 24, // Matches container horizontal padding
+        zIndex: 10,
     },
 });

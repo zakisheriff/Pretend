@@ -126,6 +126,8 @@ export interface GameSettings {
     randomizeTheme: boolean;
     differentHintsPerImposter: boolean;
     fakeHintForCrewmates: boolean;
+    soundEnabled: boolean;
+    hapticsEnabled: boolean;
 }
 
 export interface GameState {
@@ -172,6 +174,8 @@ export const DEFAULT_SETTINGS: GameSettings = {
     randomizeTheme: false,
     differentHintsPerImposter: false,
     fakeHintForCrewmates: false,
+    soundEnabled: true,
+    hapticsEnabled: true,
 };
 
 export interface GameModeStep {
