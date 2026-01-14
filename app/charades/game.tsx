@@ -2,7 +2,6 @@ import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { CharadesData } from '@/types/game';
 import { haptics } from '@/utils/haptics';
-import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
@@ -93,7 +92,7 @@ export default function CharadesGameScreen() {
         // Unlock orientation BEFORE navigating
         ScreenOrientation.unlockAsync().catch(() => { });
 
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        haptics.success();
 
         // Calculate Points
         // 5+ words = 1 point
@@ -180,7 +179,7 @@ export default function CharadesGameScreen() {
         if (now - lastTriggerTime.current < TRIGGER_DELAY) return;
         lastTriggerTime.current = now;
 
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        haptics.success();
         setFeedback('correct');
         setCorrectCount(c => c + 1);
 
@@ -197,7 +196,7 @@ export default function CharadesGameScreen() {
         if (now - lastTriggerTime.current < TRIGGER_DELAY) return;
         lastTriggerTime.current = now;
 
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+        haptics.error();
         setFeedback('pass');
 
         setTimeout(() => {
@@ -251,7 +250,7 @@ export default function CharadesGameScreen() {
     const confirmStart = () => {
         setShowConfirm(false);
         setPhase('playing');
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        haptics.medium();
     };
 
     const cancelStart = () => {
