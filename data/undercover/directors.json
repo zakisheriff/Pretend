@@ -1,47 +1,52 @@
-{
-    "id": "u-directors",
-    "name": "Directors",
-    "icon": "videocam-outline",
-    "pairs": [
-        {
-            "crewmateWord": "Christopher Nolan",
-            "imposterWord": "Denis Villeneuve"
-        },
-        {
-            "crewmateWord": "Steven Spielberg",
-            "imposterWord": "Martin Scorsese"
-        },
-        {
-            "crewmateWord": "Quentin Tarantino",
-            "imposterWord": "Guy Ritchie"
-        },
-        {
-            "crewmateWord": "Alfred Hitchcock",
-            "imposterWord": "Stanley Kubrick"
-        },
-        {
-            "crewmateWord": "James Cameron",
-            "imposterWord": "Ridley Scott"
-        },
-        {
-            "crewmateWord": "S.S. Rajamouli",
-            "imposterWord": "Prashanth Neel"
-        },
-        {
-            "crewmateWord": "Mani Ratnam",
-            "imposterWord": "Gautham Vasudev Menon"
-        },
-        {
-            "crewmateWord": "Lokesh Kanagaraj",
-            "imposterWord": "Nelson Dilipkumar"
-        },
-        {
-            "crewmateWord": "Shankar",
-            "imposterWord": "Atlee"
-        },
-        {
-            "crewmateWord": "Zack Snyder",
-            "imposterWord": "Michael Bay"
-        }
-    ]
-}
+[
+    { "crewmateWord": "Vetrimaaran", "imposterWord": "Pa. Ranjith" },
+    { "crewmateWord": "K. Balachander", "imposterWord": "Bharathiraja" },
+    { "crewmateWord": "Karthik Subbaraj", "imposterWord": "Nalan Kumarasamy" },
+    { "crewmateWord": "Thiagarajan Kumararaja", "imposterWord": "Arun Matheswaran" },
+    { "crewmateWord": "Selvaraghavan", "imposterWord": "Mysshkin" },
+    { "crewmateWord": "Mari Selvaraj", "imposterWord": "P.S. Vinothraj" },
+    { "crewmateWord": "H. Vinoth", "imposterWord": "Magizh Thirumeni" },
+    { "crewmateWord": "Wes Anderson", "imposterWord": "Taika Waititi" },
+    { "crewmateWord": "Greta Gerwig", "imposterWord": "Noah Baumbach" },
+    { "crewmateWord": "A.R. Murugadoss", "imposterWord": "Mohan Raja" },
+    { "crewmateWord": "Venkat Prabhu", "imposterWord": "C.S. Amudhan" },
+    { "crewmateWord": "Balu Mahendra", "imposterWord": "Mahendran" },
+    { "crewmateWord": "S.P. Muthuraman", "imposterWord": "K.S. Ravikumar" },
+    { "crewmateWord": "Sudha Kongara", "imposterWord": "Pushkar-Gayathri" },
+    { "crewmateWord": "David Fincher", "imposterWord": "Bong Joon-ho" },
+    { "crewmateWord": "Francis Ford Coppola", "imposterWord": "Brian De Palma" },
+    { "crewmateWord": "M. Manikandan", "imposterWord": "Thangar Bachan" },
+    { "crewmateWord": "Ram", "imposterWord": "Cheran" },
+    { "crewmateWord": "Pradeep Ranganathan", "imposterWord": "Vignesh Shivan" },
+    { "crewmateWord": "Sundar C", "imposterWord": "P. Vasu" },
+    { "crewmateWord": "James Gunn", "imposterWord": "Taika Waititi" },
+    { "crewmateWord": "Guillermo del Toro", "imposterWord": "Tim Burton" },
+    { "crewmateWord": "Madonne Ashwin", "imposterWord": "Cibi Chakaravarthi" },
+    { "crewmateWord": "Ashwin Saravanan", "imposterWord": "Nelson Venkatesan" },
+    { "crewmateWord": "S.J. Suryah", "imposterWord": "Simbu" },
+    { "crewmateWord": "Satyajit Ray", "imposterWord": "Ritwik Ghatak" },
+    { "crewmateWord": "Jordan Peele", "imposterWord": "Ari Aster" },
+    { "crewmateWord": "George Lucas", "imposterWord": "J.J. Abrams" },
+    { "crewmateWord": "Vasanth", "imposterWord": "Agathiyan" },
+    { "crewmateWord": "Hari", "imposterWord": "Suraaj" },
+    { "crewmateWord": "K.V. Anand", "imposterWord": "N. Lingusamy" },
+    { "crewmateWord": "Vishnuvardhan", "imposterWord": "Dharani" },
+    { "crewmateWord": "Edgar Wright", "imposterWord": "Guy Ritchie" },
+    { "crewmateWord": "Sam Raimi", "imposterWord": "Peter Jackson" },
+    { "crewmateWord": "Bala", "imposterWord": "Ameer" },
+    { "crewmateWord": "Sasi", "imposterWord": "Vasanthabalan" },
+    { "crewmateWord": "Samuthirakani", "imposterWord": "Sasikumar" },
+    { "crewmateWord": "R.S. Prasanna", "imposterWord": "Balaji Mohan" },
+    { "crewmateWord": "Darren Aronofsky", "imposterWord": "Lars von Trier" },
+    { "crewmateWord": "Sofia Coppola", "imposterWord": "Chloé Zhao" },
+    { "crewmateWord": "Mithran Jawahar", "imposterWord": "M. Rajesh" },
+    { "crewmateWord": "P.S. Mithran", "imposterWord": "R. Ravikumar" },
+    { "crewmateWord": "Karthick Naren", "imposterWord": "Dheeraj Vaidy" },
+    { "crewmateWord": "Gautham Ramachandran", "imposterWord": "Arun Prabhu Purushothaman" },
+    { "crewmateWord": "Damien Chazelle", "imposterWord": "Bradley Cooper" },
+    { "crewmateWord": "Alejandro Iñárritu", "imposterWord": "Alfonso Cuarón" },
+    { "crewmateWord": "Nivin Pauly", "imposterWord": "Basil Joseph" },
+    { "crewmateWord": "Tamizharasan Pachamuthu", "imposterWord": "Elan" },
+    { "crewmateWord": "George Miller", "imposterWord": "Zack Snyder" },
+    { "crewmateWord": "S.R. Prabhakaran", "imposterWord": "Ponram" }
+]

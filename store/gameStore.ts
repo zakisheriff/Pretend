@@ -1,8 +1,8 @@
 import { CHARADES_WORDS } from '@/data/charades';
-import { getRandomMindSyncQuestion, getRandomMovie } from '@/data/game-modes';
+import { directorsCut, getRandomMindSyncQuestion, mindSync } from '@/data/game-modes';
 import { getEffectiveTheme, getEffectiveUndercoverTheme, getThemeById, themes } from '@/data/themes';
 import thiefPoliceWords from '@/data/thief-police.json';
-import { DEFAULT_SETTINGS, GameData, GameMode, GameSettings, GameState, Player, Word } from '@/types/game';
+import { DEFAULT_SETTINGS, DirectorsCutMovie, GameData, GameMode, GameSettings, GameState, MindSyncQuestion, Player, Word } from '@/types/game';
 import { create } from 'zustand';
 
 // Extended player role info to support all game modes
@@ -387,19 +387,33 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 break;
             }
             case 'directors-cut': {
-                // If gameData is already set (manual movie), keep it. Otherwise random.
+                // If gameData is already set (manual movie), keep it. Otherwise random with shuffling.
                 if (state.gameData?.type === 'directors-cut') {
                     gameData = state.gameData;
                 } else {
-                    const movie = getRandomMovie();
+                    const allMovies = directorsCut as DirectorsCutMovie[];
+                    const available = allMovies.filter(m => !state.usedWords.includes(m.movie));
+                    const pool = available.length > 0 ? available : allMovies;
+
+                    const movie = pool[Math.floor(Math.random() * pool.length)];
+
                     if (!movie) return;
+
+                    set(s => ({ usedWords: [...s.usedWords, movie.movie] }));
                     gameData = { type: 'directors-cut', data: movie };
                 }
                 break;
             }
             case 'mind-sync': {
-                const question = getRandomMindSyncQuestion();
+                const allQuestions = mindSync as MindSyncQuestion[];
+                const available = allQuestions.filter(q => !state.usedWords.includes(q.mainQuestion));
+                const pool = available.length > 0 ? available : allQuestions;
+
+                const question = pool[Math.floor(Math.random() * pool.length)];
+
                 if (!question) return;
+
+                set(s => ({ usedWords: [...s.usedWords, question.mainQuestion] }));
                 gameData = { type: 'mind-sync', data: question };
                 break;
             }
@@ -470,8 +484,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
 
             case 'charades': {
-                // Shuffle words from external data and limit to 50 (practically infinite for a round)
-                const shuffled = [...CHARADES_WORDS].sort(() => Math.random() - 0.5).slice(0, 50);
+                // Smart Shuffling: Prioritize unused words
+                const unused = CHARADES_WORDS.filter(w => !state.usedWords.includes(w));
+                const used = CHARADES_WORDS.filter(w => state.usedWords.includes(w));
+
+                const shuffledUnused = [...unused].sort(() => Math.random() - 0.5);
+                const shuffledUsed = [...used].sort(() => Math.random() - 0.5);
+
+                // Create pool: All unused first, then recycled used words
+                const pool = [...shuffledUnused, ...shuffledUsed];
+                const gameWords = pool.slice(0, 50);
+
+                // Mark these 50 as used (adding only new ones to history to keep it clean-ish)
+                set(s => ({
+                    usedWords: [...s.usedWords, ...gameWords.filter(w => !s.usedWords.includes(w))]
+                }));
+
                 // Use dedicated Charades timer setting
                 console.log('Starting Charades with Settings:', JSON.stringify(settings));
                 const charadesDuration = (settings.charadesTime && settings.charadesTime > 0) ? settings.charadesTime : 60;
@@ -480,7 +508,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 gameData = {
                     type: 'charades',
                     data: {
-                        words: shuffled,
+                        words: gameWords,
                         duration: charadesDuration,
                         selectedPlayerId: targetPlayerId,
                         controlMode: settings.charadesControl
