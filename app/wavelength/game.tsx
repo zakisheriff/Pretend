@@ -202,6 +202,9 @@ export default function WavelengthGameScreen() {
     }
 
     const renderResults = () => {
+        // If there's an overall winner, skip inline results - navigation will handle it
+        if (overallWinner) return null;
+
         // Find best guess
         const bestGuess = Object.entries(guesses).reduce((best, [pid, val]) => {
             const diff = Math.abs(val - targetValue);

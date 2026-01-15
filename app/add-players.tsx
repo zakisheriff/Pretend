@@ -92,7 +92,7 @@ export default function AddPlayersScreen() {
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
             style={styles.container}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
         >
             <LinearGradient
                 colors={[Colors.victorianBlack, Colors.victorianBlack, 'transparent']}
@@ -132,9 +132,10 @@ export default function AddPlayersScreen() {
                         onFocus={() => {
                             const idx = getIndex();
                             if (idx !== undefined) {
+                                // Delay to let keyboard appear, then scroll to show item above keyboard
                                 setTimeout(() => {
-                                    listRef.current?.scrollToIndex({ index: idx, viewPosition: 0.25, animated: false });
-                                }, 100);
+                                    listRef.current?.scrollToIndex({ index: idx, viewPosition: 0.3, animated: true });
+                                }, 350);
                             }
                         }}
                     />
@@ -189,7 +190,7 @@ export default function AddPlayersScreen() {
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.empty}>
                             <Ionicons name="people-outline" size={48} color={Colors.candlelight} />
-                            <Text style={styles.emptyText}>Gather at least {minPlayers} investigators</Text>
+                            <Text style={styles.emptyText}>Gather at least {minPlayers} Investigators </Text>
                         </View>
                     </TouchableWithoutFeedback>
                 }
@@ -205,7 +206,7 @@ export default function AddPlayersScreen() {
                 containerStyle={styles.scroll}
                 contentContainerStyle={[
                     styles.scrollContent,
-                    { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 40 }
+                    { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 200 }
                 ]}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="always"
