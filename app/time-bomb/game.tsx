@@ -284,10 +284,10 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
     },
     durationHint: {
-        fontSize: 14,
-        color: Colors.grayLight,
+        fontSize: 16,
+        color: Colors.parchment,
         fontWeight: '600',
         marginTop: 15,
-        opacity: 0.8,
+        letterSpacing: 0.5,
     },
 });
