@@ -86,83 +86,43 @@ export default function SelectModeScreen() {
                     <Text style={styles.subtitle}>Choose Your Investigation Style</Text>
                 </View>
 
-                {/* 2+ Players Section */}
-                <View style={styles.section}>
-                    <View style={styles.sectionHeader}>
-                        <Ionicons name="copy-outline" size={18} color={Colors.candlelight} />
-                        <Text style={styles.sectionTitle}>2+ Players</Text>
-                    </View>
-                    <View style={styles.modes}>
-                        {GAME_MODES.filter(m => ['charades', 'directors-cut', 'time-bomb'].includes(m.id)).map((mode, index) => (
-                            <ModeCard
-                                key={mode.id}
-                                mode={mode}
-                                isSelected={gameMode === mode.id}
-                                onSelect={() => {
-                                    haptics.light();
-                                    selectGameMode(mode.id);
-                                }}
-                                onShowHelp={(m) => {
-                                    haptics.selection();
-                                    setHelpMode(m);
-                                }}
-                                index={index}
-                            />
-                        ))}
-                    </View>
-                </View>
+                {/* Dynamic Player Count Sections */}
+                {Array.from(new Set(GAME_MODES.map(m => m.minPlayers)))
+                    .sort((a, b) => a - b) // Ensure ascending order
+                    .map((minPlayers) => {
+                        const icon = minPlayers === 2 ? 'copy-outline' : minPlayers === 3 ? 'layers-outline' : 'grid-outline';
+                        const sectionModes = GAME_MODES.filter(m => m.minPlayers === minPlayers);
 
-                {/* 3+ Players Section */}
-                <View style={styles.section}>
-                    <View style={styles.sectionHeader}>
-                        <Ionicons name="layers-outline" size={18} color={Colors.candlelight} />
-                        <Text style={styles.sectionTitle}>3+ Players</Text>
-                    </View>
-                    <View style={styles.modes}>
-                        {GAME_MODES.filter(m => ['undercover-word', 'classic-imposter', 'mind-sync'].includes(m.id)).map((mode, index) => (
-                            <ModeCard
-                                key={mode.id}
-                                mode={mode}
-                                isSelected={gameMode === mode.id}
-                                onSelect={() => {
-                                    haptics.light();
-                                    selectGameMode(mode.id);
-                                }}
-                                onShowHelp={(m) => {
-                                    haptics.selection();
-                                    setHelpMode(m);
-                                }}
-                                index={index + 3}
-                            />
-                        ))}
-                    </View>
-                </View>
+                        // Calculate offset for animations based on previous sections
+                        // This uses a simple approximation, or we can just use the index within current map
 
-                {/* 4+ Players Section */}
-                <View style={styles.section}>
-                    <View style={styles.sectionHeader}>
-                        <Ionicons name="grid-outline" size={18} color={Colors.candlelight} />
-                        <Text style={styles.sectionTitle}>4+ Players</Text>
-                    </View>
-                    <View style={styles.modes}>
-                        {GAME_MODES.filter(m => ['thief-police'].includes(m.id)).map((mode, index) => (
-                            <ModeCard
-                                key={mode.id}
-                                mode={mode}
-                                isSelected={gameMode === mode.id}
-                                onSelect={() => {
-                                    haptics.light();
-                                    selectGameMode(mode.id);
-                                }}
-                                onShowHelp={(m) => {
-                                    haptics.selection();
-                                    setHelpMode(m);
-                                }}
-                                index={index + 6}
-                            />
-                        ))}
-                    </View>
-                </View>
+                        return (
+                            <View key={minPlayers} style={styles.section}>
+                                <View style={styles.sectionHeader}>
+                                    <Ionicons name={icon} size={18} color={Colors.candlelight} />
+                                    <Text style={styles.sectionTitle}>{minPlayers}+ Players</Text>
+                                </View>
+                                <View style={styles.modes}>
+                                    {sectionModes.map((mode, index) => (
+                                        <ModeCard
+                                            key={mode.id}
+                                            mode={mode}
+                                            isSelected={gameMode === mode.id}
+                                            onSelect={() => {
+                                                haptics.light();
+                                                selectGameMode(mode.id);
+                                            }}
+                                            onShowHelp={(m) => {
+                                                haptics.selection();
+                                                setHelpMode(m);
+                                            }}
+                                            index={index + (minPlayers * 2)} // Stagger animation slightly
+                                        />
+                                    ))}
+                                </View>
+                            </View>
+                        );
+                    })}
 
                 {/* Instruction Overlay */}
                 {helpMode && (

@@ -190,6 +190,7 @@ export interface GameModeInfo {
     icon: string;
     description: string;
     tagline: string;
+    minPlayers: number;
     instructions: GameModeStep[];
 }
 
@@ -200,6 +201,7 @@ export const GAME_MODES: GameModeInfo[] = [
         icon: 'people-outline',
         description: 'Imposter gets a clue, crewmates get the secret word',
         tagline: 'Find the imposter who only has a hint!',
+        minPlayers: 3,
         instructions: [
             { role: 'Crewmates', icon: 'eye-outline', desc: 'See the SECRET WORD (+1 pt for survivors)' },
             { role: 'Imposter', icon: 'skull-outline', desc: 'Gets a CLUE - fake it and blend in! (+3 pts for win)' },
@@ -211,6 +213,7 @@ export const GAME_MODES: GameModeInfo[] = [
         icon: 'search-outline',
         description: 'Everyone gets a word - one person has a different one',
         tagline: 'Find who has a different word without revealing yours!',
+        minPlayers: 3,
         instructions: [
             { role: 'Everyone', icon: 'person-outline', desc: 'Players get a word (+1 pt for surviving crew)' },
             { role: 'Undercover', icon: 'help-outline', desc: 'Has a DIFFERENT word (+3 pts for win)!' },
@@ -222,6 +225,7 @@ export const GAME_MODES: GameModeInfo[] = [
         icon: 'videocam-outline',
         description: 'One Director knows the movie, others only get hints',
         tagline: 'Guess the movie through yes/no questions',
+        minPlayers: 2,
         instructions: [
             { role: 'Director', icon: 'film-outline', desc: 'Knows the MOVIE (+2 pts if no one guesses)' },
             { role: 'Viewers', icon: 'eye-outline', desc: 'Ask questions to guess the movie (+2 pts for correct guess)' },
@@ -233,6 +237,7 @@ export const GAME_MODES: GameModeInfo[] = [
         icon: 'git-compare-outline',
         description: 'One player answers a slightly different question',
         tagline: 'Find who is out of sync',
+        minPlayers: 3,
         instructions: [
             { role: 'In Sync', icon: 'sync-outline', desc: 'Answer the question (+1 pt for majority win)' },
             { role: 'Outlier', icon: 'flash-outline', desc: 'Has a different question (+3 pts for win)!' },
@@ -244,6 +249,7 @@ export const GAME_MODES: GameModeInfo[] = [
         icon: 'timer-outline',
         description: 'Pass the phone before the timer runs out!',
         tagline: 'Name a word in the category and pass it on!',
+        minPlayers: 2,
         instructions: [
             { role: 'Everyone', icon: 'people-outline', desc: 'Answer the prompt (Category + Letter)' },
             { role: 'Loser', icon: 'skull-outline', desc: 'Holding the phone when time runs out (0 pts)' },
@@ -255,6 +261,7 @@ export const GAME_MODES: GameModeInfo[] = [
         icon: 'phone-portrait-outline',
         description: 'Hold phone to forehead and guess the word!',
         tagline: 'Tilt DOWN for Correct, UP to Skip',
+        minPlayers: 2,
         instructions: [
             { role: 'Holder', icon: 'happy-outline', desc: 'Phone on forehead. Guess based on acting!' },
             { role: 'Group', icon: 'people-outline', desc: 'Act out the word for the holder!' },
@@ -266,6 +273,7 @@ export const GAME_MODES: GameModeInfo[] = [
         icon: 'shield-outline',
         description: 'Police must catch the Thief hiding among civilians!',
         tagline: 'Can the Police spot the odd one out?',
+        minPlayers: 4,
         instructions: [
             { role: 'Police', icon: 'shield-checkmark-outline', desc: 'Find who has a different word (+1 pt if caught)' },
             { role: 'Thief', icon: 'finger-print-outline', desc: 'Blend in with a DIFFERENT word (+2 pts if escaped)' },

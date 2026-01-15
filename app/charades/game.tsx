@@ -2,6 +2,7 @@ import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { CharadesData } from '@/types/game';
 import { haptics } from '@/utils/haptics';
+import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
@@ -59,8 +60,9 @@ export default function CharadesGameScreen() {
     useEffect(() => {
         isMounted.current = true;
 
-        // Lock to landscape for Charades
+        // Lock to landscape for Charades (Skip on Web)
         const lockLandscape = async () => {
+            if (Platform.OS === 'web') return;
             try {
                 await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
             } catch (error) {
@@ -76,7 +78,9 @@ export default function CharadesGameScreen() {
         return () => {
             isMounted.current = false;
             // Unlock orientation on cleanup
-            ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT).catch(() => { });
+            if (Platform.OS !== 'web') {
+                ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT).catch(() => { });
+            }
         };
     }, []);
 
@@ -210,6 +214,7 @@ export default function CharadesGameScreen() {
     // DeviceMotion sensor for tilt detection
     useEffect(() => {
         if (phase !== 'playing') return;
+        if (Platform.OS === 'web') return; // Disable sensors on web
 
         const subscription = DeviceMotion.addListener((data) => {
             if (!isGameActiveRef.current) return;
@@ -257,13 +262,15 @@ export default function CharadesGameScreen() {
         setShowConfirm(false);
     };
 
-    const renderSetup = () => (
-        <View style={styles.centerContent}>
-            <Text style={styles.title}>New Round</Text>
-            <Text style={styles.playerText}>{currentPlayer?.name}</Text>
-            <Text style={styles.subText}>You are up!</Text>
-            <Pressable onPress={() => setPhase('ready')} style={styles.primaryButton}>
-                <Text style={styles.buttonText}>I'm Ready</Text>
+    const renderWebControls = () => (
+        <View style={styles.webControls}>
+            <Pressable onPress={handlePass} style={[styles.controlBtn, styles.passBtn]}>
+                <Ionicons name="close" size={32} color={Colors.parchment} />
+                <Text style={styles.controlBtnText}>PASS</Text>
+            </Pressable>
+            <Pressable onPress={handleCorrect} style={[styles.controlBtn, styles.correctBtn]}>
+                <Ionicons name="checkmark" size={32} color={Colors.victorianBlack} />
+                <Text style={[styles.controlBtnText, { color: Colors.victorianBlack }]}>CORRECT</Text>
             </Pressable>
         </View>
     );
@@ -332,7 +339,9 @@ export default function CharadesGameScreen() {
                         )}
                     </View>
 
-                    <Text style={styles.hintText}>Tilt DOWN for Correct • UP to Pass  </Text>
+                    {Platform.OS === 'web' ? renderWebControls() : (
+                        <Text style={styles.hintText}>Tilt DOWN for Correct • UP to Pass</Text>
+                    )}
                 </View>
             )}
         </View>
@@ -537,5 +546,37 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: Colors.parchment,
+    },
+    webControls: {
+        flexDirection: 'row',
+        gap: 40,
+        marginBottom: 30, // Lift up from bottom
+        width: '100%',
+        justifyContent: 'center',
+    },
+    controlBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+        paddingVertical: 18,
+        paddingHorizontal: 32,
+        borderRadius: 16,
+        borderWidth: 2,
+        minWidth: 160,
+        justifyContent: 'center',
+    },
+    passBtn: {
+        backgroundColor: 'rgba(255, 68, 68, 0.1)', // Slight red tint
+        borderColor: Colors.imposter,
+    },
+    correctBtn: {
+        backgroundColor: Colors.candlelight,
+        borderColor: Colors.candlelight,
+    },
+    controlBtnText: {
+        fontSize: 18,
+        fontWeight: '800',
+        color: Colors.parchment,
+        letterSpacing: 1,
     }
 });
