@@ -266,6 +266,9 @@ export default function WavelengthGameScreen() {
                             {isGuessingPhase && (
                                 <GestureDetector gesture={pan}>
                                     <Animated.View style={[styles.dialKnob, dialStyle]}>
+                                        <View style={styles.valueBubble}>
+                                            <Text style={styles.valueText}>{Math.round(guessValue)}%</Text>
+                                        </View>
                                         <View style={styles.dialLine} />
                                     </Animated.View>
                                 </GestureDetector>
@@ -452,6 +455,23 @@ const styles = StyleSheet.create({
         zIndex: 10,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    valueBubble: {
+        position: 'absolute',
+        top: -35,
+        backgroundColor: Colors.parchment,
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 8,
+        minWidth: 40,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: Colors.victorianBlack,
+    },
+    valueText: {
+        fontWeight: '900',
+        color: Colors.victorianBlack,
+        fontSize: 12
     },
     dialLine: {
         width: 2,

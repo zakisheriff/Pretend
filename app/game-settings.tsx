@@ -217,24 +217,26 @@ export default function GameSettingsScreen() {
                         </View>
                     )}
 
-                    <GameSetting
-                        label={gameMode === 'time-bomb' ? 'Timer Duration' : (gameMode === 'charades' ? 'Round Timer' : "Investigation Time")}
-                        value={gameMode === 'charades' ? settings.charadesTime : settings.discussionTime}
-                        options={gameMode === 'time-bomb' ? [30, 60, 90] : (gameMode === 'charades' ? [30, 60, 90, 120] : [60, 120, 180, 240, 300])}
-                        formatLabel={(v) => {
-                            if (v === -1) return "Mystery";
-                            return (gameMode === 'time-bomb' || gameMode === 'charades') ? `${v}s` : `${v / 60}m`;
-                        }}
-                        onChange={(v) => {
-                            if (gameMode === 'charades') {
-                                haptics.selection();
-                                updateSettings({ charadesTime: v });
-                            } else {
-                                handleTimeChange(v);
-                            }
-                        }}
-                        icon="timer-outline"
-                    />
+                    {gameMode !== 'wavelength' && (
+                        <GameSetting
+                            label={gameMode === 'time-bomb' ? 'Timer Duration' : (gameMode === 'charades' ? 'Round Timer' : "Investigation Time")}
+                            value={gameMode === 'charades' ? settings.charadesTime : settings.discussionTime}
+                            options={gameMode === 'time-bomb' ? [30, 60, 90] : (gameMode === 'charades' ? [30, 60, 90, 120] : [60, 120, 180, 240, 300])}
+                            formatLabel={(v) => {
+                                if (v === -1) return "Mystery";
+                                return (gameMode === 'time-bomb' || gameMode === 'charades') ? `${v}s` : `${v / 60}m`;
+                            }}
+                            onChange={(v) => {
+                                if (gameMode === 'charades') {
+                                    haptics.selection();
+                                    updateSettings({ charadesTime: v });
+                                } else {
+                                    handleTimeChange(v);
+                                }
+                            }}
+                            icon="timer-outline"
+                        />
+                    )}
 
                     {gameMode === 'time-bomb' && (
                         <View style={styles.randomModeCard}>

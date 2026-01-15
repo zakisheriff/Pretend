@@ -1177,31 +1177,42 @@ export const useGameStore = create<GameStore>((set, get) => ({
         set((state) => {
             if (state.gameData?.type !== 'wavelength') return {};
 
-            const { guesses, targetValue } = state.gameData.data;
-            let playersUpdated = false;
+            const { guesses, targetValue, clueGiverId } = state.gameData.data;
+            let maxRoundPoints = 0;
 
-            const updatedPlayers = state.players.map(p => {
+            // 1. Calculate scores for guessers
+            let updatedPlayers = state.players.map(p => {
+                // Skip Psychic
+                if (p.id === clueGiverId) return p;
+
                 const guess = guesses[p.id];
-                // Only score players who actually guessed
                 if (guess === undefined) return p;
 
                 const diff = Math.abs(guess - targetValue);
                 let points = 0;
 
-                // Scoring System:
-                // Bullseye (<= 5%): 3 pts
-                // Close (<= 15%): 2 pts
-                // Okay (<= 25%): 1 pt
+                // Scoring
                 if (diff <= 5) points = 3;
                 else if (diff <= 15) points = 2;
                 else if (diff <= 25) points = 1;
 
-                if (points > 0) playersUpdated = true;
+                if (points > maxRoundPoints) maxRoundPoints = points;
 
                 return {
                     ...p,
                     score: p.score + points
                 };
+            });
+
+            // 2. Award Psychic matches best guesser
+            updatedPlayers = updatedPlayers.map(p => {
+                if (p.id === clueGiverId) {
+                    return {
+                        ...p,
+                        score: p.score + maxRoundPoints
+                    };
+                }
+                return p;
             });
 
             return {
