@@ -21,6 +21,9 @@ export const ScoreBoard = ({ players, title = "Leaderboard" }: ScoreBoardProps) 
         { mode: 'Classic / Undercover', win: 'Imposter +3', survivors: 'Crew +1' },
         { mode: "Director's Cut", win: 'Correct Guess +2', survivors: 'Director +2' },
         { mode: 'Mind Sync', win: 'Outlier +3', survivors: 'In-Sync +1' },
+        { mode: 'Thief & Police', win: 'Thief Escapes +2', survivors: 'Thief Caught +1' },
+        { mode: 'Charades', win: '10+ Words +2', survivors: '5+ Words +1' },
+        { mode: 'Time Bomb', win: 'Survivors +1', survivors: '-' },
     ];
 
     return (
@@ -48,7 +51,9 @@ export const ScoreBoard = ({ players, title = "Leaderboard" }: ScoreBoardProps) 
                             <Text style={styles.ruleMode}>{rule.mode}</Text>
                             <View style={styles.ruleValues}>
                                 <Text style={styles.ruleVal}>{rule.win}</Text>
-                                <Text style={styles.ruleVal}>{rule.survivors}</Text>
+                                {rule.survivors !== '-' && (
+                                    <Text style={styles.ruleVal}>{rule.survivors}</Text>
+                                )}
                             </View>
                         </View>
                     ))}
@@ -155,7 +160,7 @@ const styles = StyleSheet.create({
     rank: {
         fontSize: 13,
         fontWeight: '600',
-        color: Colors.grayMedium,
+        color: Colors.grayLight,
     },
     topRank: {
         color: Colors.candlelight,
@@ -202,7 +207,7 @@ const styles = StyleSheet.create({
     score: {
         fontSize: 18,
         fontWeight: '800',
-        color: Colors.parchment,
+        color: Colors.parchmentLight,
     },
     topScore: {
         color: Colors.candlelight,
@@ -214,7 +219,7 @@ const styles = StyleSheet.create({
         fontSize: 10,
         fontWeight: '600',
         color: Colors.parchment, // Increased contrast
-        opacity: 0.6,
+        opacity: 0.8,
     },
     topPts: {
         color: Colors.candlelight,
@@ -224,11 +229,13 @@ const styles = StyleSheet.create({
         fontSize: 10,
         fontWeight: '700',
         color: Colors.candlelight,
-        textTransform: 'uppercase',
         letterSpacing: 1,
-        padding: 5,
+        paddingVertical: 6,
+        paddingHorizontal: 10,
         backgroundColor: 'rgba(212, 175, 55, 0.1)',
         borderRadius: 8,
+        textAlign: 'center',
+        overflow: 'hidden',
     },
     rulesContainer: {
         backgroundColor: 'rgba(196, 167, 108, 0.05)',
@@ -240,26 +247,31 @@ const styles = StyleSheet.create({
         gap: 8,
     },
     ruleRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(212, 175, 55, 0.1)',
+        paddingBottom: 8,
     },
     ruleMode: {
-        fontSize: 11,
+        fontSize: 12, // Slightly larger for header feeling
         color: Colors.parchment,
-        fontWeight: '600',
+        fontWeight: '700',
+        marginBottom: 6,
     },
     ruleValues: {
         flexDirection: 'row',
-        gap: 8,
+        gap: 6,
+        flexWrap: 'wrap',
+        justifyContent: 'flex-start', // Align left to match header
     },
     ruleVal: {
         fontSize: 10,
         color: Colors.candlelight,
         fontWeight: '700',
         backgroundColor: 'rgba(212, 175, 55, 0.1)',
-        paddingHorizontal: 6,
-        paddingVertical: 2,
+        paddingHorizontal: 8,
+        paddingVertical: 4,
         borderRadius: 6,
     },
     tournamentBanner: {
