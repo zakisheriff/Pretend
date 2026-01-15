@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/common/BackButton';
 import { Button } from '@/components/game/Button';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
@@ -166,13 +167,7 @@ export default function ThreeActsSetup() {
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             <View style={styles.header}>
-                <Button
-                    title=""
-                    icon={<Ionicons name="arrow-back" size={24} color={Colors.parchment} />}
-                    variant="ghost"
-                    onPress={() => router.back()}
-                    style={styles.backBtn}
-                />
+                <BackButton />
                 <Text style={styles.title}>Team Selection</Text>
             </View>
 
@@ -231,7 +226,7 @@ export default function ThreeActsSetup() {
                         </Animated.View>
                     ))}
                     {teams.length === 0 && (
-                        <Text style={styles.emptyText}>No teams formed yet.</Text>
+                        <Text style={styles.emptyText}>No teams formed yet. </Text>
                     )}
                 </View>
 
@@ -257,7 +252,7 @@ const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack },
     header: { flexDirection: 'row', alignItems: 'center', padding: 20 },
     backBtn: { marginRight: 10, width: 40, height: 40, paddingHorizontal: 0 },
-    title: { fontSize: 24, fontWeight: '800', color: Colors.parchment, letterSpacing: 1 },
+    title: { fontSize: 24, fontWeight: '800', color: Colors.parchment, letterSpacing: 1, marginLeft: 12 },
     content: { flex: 1 },
     scrollContent: { padding: 20, gap: 30 },
     instruction: { color: Colors.candlelight, fontStyle: 'italic', textAlign: 'center', opacity: 0.8 },
@@ -297,7 +292,7 @@ const styles = StyleSheet.create({
     teamMember: { flexDirection: 'row', alignItems: 'center', gap: 6 },
     teamMemberName: { color: Colors.parchment, fontWeight: '600', fontSize: 16 },
 
-    emptyText: { color: Colors.gray, fontStyle: 'italic' },
+    emptyText: { color: Colors.grayLight, fontStyle: 'italic' },
 
     footer: { padding: 20, borderTopWidth: 1, borderTopColor: Colors.grayMedium, backgroundColor: Colors.victorianBlack },
     startBtn: { width: '100%' },

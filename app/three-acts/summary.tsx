@@ -55,8 +55,20 @@ export default function ThreeActsSummary() {
 
     // Display Logic
     const renderActResult = (actNum: number, stat: typeof roundStats.act1) => {
-        const icon = stat.guessed ? 'checkmark-circle' : stat.skipped ? 'arrow-forward-circle' : 'close-circle';
-        const color = stat.guessed ? Colors.green : stat.skipped ? Colors.candlelight : Colors.red;
+        let iconName: keyof typeof Ionicons.glyphMap;
+        let iconColor: string;
+
+        if (stat.guessed) {
+            iconName = 'checkmark-circle';
+            iconColor = Colors.success;
+        } else if (stat.skipped) {
+            iconName = 'arrow-forward-circle';
+            iconColor = Colors.candlelight; // Keep original color for skipped
+        } else {
+            // Failed / Time out
+            iconName = 'close-circle';
+            iconColor = Colors.danger;
+        }
 
         return (
             <View style={styles.resultRow}>
@@ -67,7 +79,7 @@ export default function ThreeActsSummary() {
                     <Text style={styles.movieTitle}>{stat.chosen || "Time out"}</Text>
                     {!stat.chosen && <Text style={styles.subtext}>Did not select</Text>}
                 </View>
-                <Ionicons name={icon} size={28} color={color} />
+                <Ionicons name={iconName} size={28} color={iconColor} />
             </View>
         );
     };
