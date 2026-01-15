@@ -15,7 +15,7 @@ export const Colors = {
   // === Urban Grays ===
   gray: '#171717',                // Dark Asphalt
   grayMedium: '#262626',          // Dark Gray
-  grayLight: '#525252',           // Medium Gray
+  grayLight: '#9CA3AF',           // Light Gray (Readable on dark)
   grayDark: '#0A0A0A',            // Deep Shadow
 
   // === Shadows & Glows ===

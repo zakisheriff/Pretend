@@ -9,7 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Dimensions, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Dimensions, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -181,6 +181,19 @@ export default function WavelengthGameScreen() {
 
         return (
             <View style={[styles.container, { paddingTop: insets.top }]}>
+                {/* Back button only for psychic phase to allow changing selection */}
+                {isPsychicPhase && (
+                    <Pressable
+                        style={[styles.backBtn, { top: insets.top + 10, left: 20 }]}
+                        onPress={() => {
+                            haptics.light();
+                            router.back();
+                        }}
+                    >
+                        <Ionicons name="arrow-back" size={24} color={Colors.parchment} />
+                    </Pressable>
+                )}
+
                 <View style={[styles.centerContent, { paddingHorizontal: 20 }]}>
                     <Ionicons
                         name={isPsychicPhase ? "eye-outline" : "help-outline"}
@@ -295,6 +308,16 @@ export default function WavelengthGameScreen() {
                                 );
                             })}
 
+                            {/* Percentage bubble above the track for psychic */}
+                            {isPsychicPhase && (
+                                <View style={[styles.targetBubbleContainer, { left: `${targetValue}%` }]}>
+                                    <View style={styles.targetBubble}>
+                                        <Text style={styles.targetBubbleText}>{targetValue}%</Text>
+                                        <View style={styles.targetBubbleArrow} />
+                                    </View>
+                                </View>
+                            )}
+
                             <View style={styles.dialTrack}>
                                 <LinearGradient
                                     colors={[SPECTRUM_LEFT, Colors.parchment, SPECTRUM_RIGHT]}
@@ -346,12 +369,8 @@ export default function WavelengthGameScreen() {
                                     onPress={handleClueSubmit}
                                     variant="primary"
                                     disabled={!clueText.trim()}
-                                    style={{ marginTop: 20, width: '100%' }}
+                                    style={{ marginTop: 20, alignSelf: 'center', width: 200 }}
                                 />
-                                <View style={styles.hintBox}>
-                                    <Ionicons name="information-circle-outline" size={20} color={Colors.candlelight} />
-                                    <Text style={styles.hintText}>Target is at {targetValue}%</Text>
-                                </View>
                             </View>
                         )}
 
@@ -398,6 +417,18 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
     },
     closeBtn: { width: 40, height: 40, paddingHorizontal: 0 },
+    backBtn: {
+        position: 'absolute',
+        width: 44,
+        height: 44,
+        borderRadius: 22,
+        backgroundColor: Colors.grayDark,
+        borderWidth: 1,
+        borderColor: Colors.grayMedium,
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 10,
+    },
     headerTitle: { color: Colors.parchment, fontSize: 18, fontWeight: 'bold' },
 
     centerContent: {
@@ -477,6 +508,39 @@ const styles = StyleSheet.create({
         height: 10,
         borderRadius: 5,
         backgroundColor: Colors.parchment
+    },
+    targetBubbleContainer: {
+        position: 'absolute',
+        top: -45,
+        width: 0,
+        alignItems: 'center',
+        zIndex: 20,
+    },
+    targetBubble: {
+        backgroundColor: Colors.suspect,
+        paddingVertical: 6,
+        borderRadius: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: 46,
+    },
+    targetBubbleText: {
+        fontWeight: '900',
+        color: Colors.parchment,
+        fontSize: 14,
+        textAlign: 'center',
+    },
+    targetBubbleArrow: {
+        position: 'absolute',
+        bottom: -6,
+        width: 0,
+        height: 0,
+        borderLeftWidth: 6,
+        borderRightWidth: 6,
+        borderTopWidth: 6,
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderTopColor: Colors.suspect,
     },
 
     dialKnob: {

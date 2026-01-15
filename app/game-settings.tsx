@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
     playerOptionText: {
         fontSize: 16,
         fontWeight: '600',
-        color: Colors.grayLight,
+        color: Colors.parchment,
     },
     playerOptionTextSelected: {
         color: Colors.candlelight,
