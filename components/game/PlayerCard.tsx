@@ -134,6 +134,9 @@ const PlayerCardBase = (props: PlayerCardProps) => {
     };
 
     const handleEndEdit = () => {
+        // Immediately reset editing shared value to allow touches
+        isEditingSV.value = false;
+
         // Blur and dismiss keyboard explicitly
         inputRef.current?.blur();
         Keyboard.dismiss();
@@ -142,11 +145,9 @@ const PlayerCardBase = (props: PlayerCardProps) => {
         if (val && val !== name) onRename(id, val);
         else setEditName(name);
 
-        // Defer the edit end callback to allow other UI elements to receive touches
+        // Call onEditEnd immediately - no delay needed
         if (props.onEditEnd) {
-            requestAnimationFrame(() => {
-                props.onEditEnd?.();
-            });
+            props.onEditEnd();
         }
     };
 

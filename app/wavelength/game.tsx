@@ -331,7 +331,7 @@ export default function WavelengthGameScreen() {
                     <View style={styles.controlsArea}>
                         {isPsychicPhase && (
                             <View style={styles.inputCard}>
-                                <Text style={styles.inputLabel}>Give a One Word Clue:</Text>
+                                <Text style={styles.inputLabel}>Give a One Word Clue: </Text>
                                 <TextInput
                                     style={styles.input}
                                     value={clueText}
@@ -358,7 +358,7 @@ export default function WavelengthGameScreen() {
                         {isGuessingPhase && (
                             <View style={styles.guessCard}>
                                 <Text style={styles.turnLabel}>{currentGuesser?.name}'s Turn</Text>
-                                <Text style={styles.clueLabel}>Psychic's Clue:</Text>
+                                <Text style={styles.clueLabel}>Psychic's Clue: </Text>
                                 <Text style={styles.clueDisplay}>"{clue}"</Text>
 
                                 <Button
@@ -634,7 +634,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     resultTitle: { fontSize: 24, fontWeight: 'bold', color: Colors.parchment, marginBottom: 8 },
-    resultDetails: { fontSize: 16, color: Colors.grayLight, marginBottom: 4 },
+    resultDetails: { fontSize: 16, color: Colors.grayLight, marginBottom: 4, paddingHorizontal: 20 },
     bestGuesser: { fontSize: 16, color: Colors.success, fontWeight: 'bold' },
 
     resultActions: {
