@@ -1,11 +1,9 @@
-import { BackButton } from '@/components/common/BackButton';
 import { GenericModal } from '@/components/common/GenericModal';
 import { Button } from '@/components/game/Button';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -50,13 +48,7 @@ export default function TimeBombVotingScreen() {
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-            <LinearGradient
-                colors={[Colors.victorianBlack, Colors.victorianBlack, 'transparent']}
-                locations={[0, 0.6, 1]}
-                style={[styles.headerBar, { paddingTop: insets.top + 10 }]}
-            >
-                <BackButton />
-            </LinearGradient>
+
 
             <View style={styles.header}>
                 <Ionicons name="skull-outline" size={32} color={Colors.suspect} />

@@ -114,7 +114,7 @@ export default function TimeBombGameScreen() {
                 locations={[0, 0.6, 1]}
                 style={[styles.headerBar, { paddingTop: insets.top + 10 }]}
             >
-                <BackButton />
+                {!hasStarted && <BackButton />}
             </LinearGradient>
 
             <View style={styles.content}>
