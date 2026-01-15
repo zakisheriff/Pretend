@@ -326,7 +326,7 @@ export default function ResultsScreen() {
                                 return (
                                     <View key={r.playerId} style={[styles.voteRow, p?.isImposter && styles.voteRowImposter]}>
                                         <View style={[styles.voteAvatar, p?.isImposter && styles.voteAvatarImposter]}>
-                                            <Text style={styles.voteInitial}>{p?.name.charAt(0).toUpperCase()}</Text>
+                                            <Text style={styles.voteInitial}>{p?.name.charAt(0)}</Text>
                                         </View>
                                         <Text style={[styles.voteName, p?.isImposter && styles.voteNameImposter]}>{p?.name}</Text>
                                         <View style={styles.voteBadge}>
