@@ -116,6 +116,13 @@ export default function ResultsScreen() {
             }
         }
 
+        if (gameMode === 'wavelength') {
+            if (overallWinner) {
+                return { title: 'We Have a Winner!', subtitle: `${overallWinner.name} reached 10 points! 🏆` };
+            }
+            return { title: 'Round Complete', subtitle: 'Check the scores!' };
+        }
+
         // Default fallthrough (should covers all other standard modes)
         if (gameWinner === 'crewmates') {
             return { title: 'Crewmates Win!', subtitle: 'All Imposters have been caught! ' };
@@ -139,6 +146,8 @@ export default function ResultsScreen() {
     } else if (gameMode === 'time-bomb') {
         // Red (Suspect) color scheme fits "Time's Up/Explosion".
         displaySuccess = false;
+    } else if (gameMode === 'wavelength') {
+        displaySuccess = true; // Always positive vibes for Wavelength
     }
 
     const getRevealContent = () => {

@@ -75,7 +75,7 @@ export default function SelectModeScreen() {
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             <ScrollView
                 style={styles.scroll}
-                contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 30, paddingBottom: insets.bottom + 100 }]}
+                contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 40, paddingBottom: insets.bottom + 100 }]}
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.header}>

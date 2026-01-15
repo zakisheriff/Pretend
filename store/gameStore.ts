@@ -1214,9 +1214,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 return p;
             });
 
+            // 3. Check for Winner (10 points)
+            const winningPlayer = updatedPlayers.find(p => p.score >= 10);
+
             return {
                 phase: 'results',
-                players: updatedPlayers
+                players: updatedPlayers,
+                overallWinner: winningPlayer || null // Identify winner if any
             };
         });
     },

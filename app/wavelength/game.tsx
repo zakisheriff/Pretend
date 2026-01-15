@@ -80,6 +80,14 @@ export default function WavelengthGameScreen() {
         dialX.value = 0.5 * DIAL_WIDTH;
     }, [currentGuesser?.id, isPsychicPhase]);
 
+    // Winner Navigation
+    const overallWinner = useGameStore(s => s.overallWinner);
+    useEffect(() => {
+        if (overallWinner) {
+            router.replace('/results');
+        }
+    }, [overallWinner]);
+
     useEffect(() => {
         if (isValidGame && !currentGuesser && !isPsychicPhase && phase !== 'results') {
             revealResult();
