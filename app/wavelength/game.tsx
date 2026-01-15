@@ -1,5 +1,6 @@
 import { GenericModal } from '@/components/common/GenericModal';
 import { Button } from '@/components/game/Button';
+import { ScoreBoard } from '@/components/game/ScoreBoard'; // Import ScoreBoard
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { WavelengthData } from '@/types/game';
@@ -15,7 +16,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const DIAL_WIDTH = SCREEN_WIDTH - 40;
-// const DIAL_HEIGHT = 120; // Unused
 const SPECTRUM_LEFT = Colors.detective;
 const SPECTRUM_RIGHT = Colors.gaslightAmber;
 
@@ -37,13 +37,13 @@ export default function WavelengthGameScreen() {
 
     // Local State
     const [clueText, setClueText] = useState('');
-    const [isPlayerReady, setIsPlayerReady] = useState(false); // Controls "Pass to X" screen
+    const [isPlayerReady, setIsPlayerReady] = useState(false);
     const [showExitConfirm, setShowExitConfirm] = useState(false);
-    const [guessValue, setGuessValue] = useState(50); // 0-100 center
+    const [guessValue, setGuessValue] = useState(50);
     const [isRevealing, setIsRevealing] = useState(false);
 
     // Animations
-    const dialX = useSharedValue(0.5 * DIAL_WIDTH); // Start center
+    const dialX = useSharedValue(0.5 * DIAL_WIDTH);
     const targetOpacity = useSharedValue(0);
 
     // Safety check
@@ -62,10 +62,7 @@ export default function WavelengthGameScreen() {
     const psychic = useMemo(() => players.find(p => p.id === clueGiverId), [players, clueGiverId]);
     const guessers = useMemo(() => players.filter(p => p.id !== clueGiverId), [players, clueGiverId]);
 
-    // Determine current active player and phase logic
     const isPsychicPhase = !clue;
-
-    // Find the first guesser who hasn't guessed yet
     const currentGuesser = useMemo(() => {
         if (isPsychicPhase) return null;
         return guessers.find(p => guesses[p.id] === undefined) || null;
@@ -81,42 +78,12 @@ export default function WavelengthGameScreen() {
         dialX.value = 0.5 * DIAL_WIDTH;
     }, [currentGuesser?.id, isPsychicPhase]);
 
-    // Dial Gesture
-    const pan = Gesture.Pan()
-        .onChange((e) => {
-            if (!isGuessingPhase) return;
-            // Map movement to 0-100
-            let newX = dialX.value + e.changeX;
-            // Clamp
-            if (newX < 0) newX = 0;
-            if (newX > DIAL_WIDTH) newX = DIAL_WIDTH;
-
-            dialX.value = newX;
-            runOnJS(setGuessValue)((newX / DIAL_WIDTH) * 100);
-        })
-        .onEnd(() => {
-            if (settings.hapticsEnabled) runOnJS(haptics.selection)();
-        });
-
-    const dialStyle = useAnimatedStyle(() => ({
-        transform: [{ translateX: dialX.value - 15 }] // Center knob (30px width)
-    }));
-
-    const targetStyle = useAnimatedStyle(() => ({
-        left: `${targetValue}%`,
-        opacity: targetOpacity.value
-    }));
-
-    // Effects
     useEffect(() => {
-        // If we naturally ran out of guessers but phase isn't 'results' yet, force it (safety)
         if (!currentGuesser && !isPsychicPhase && phase !== 'results') {
             revealResult();
         }
-
         if (isResultPhase) {
             setIsRevealing(true);
-            // Animate target reveal
             targetOpacity.value = withDelay(500, withTiming(1, { duration: 1000 }));
             runOnJS(haptics.success)();
         } else {
@@ -125,21 +92,40 @@ export default function WavelengthGameScreen() {
         }
     }, [isResultPhase, currentGuesser, isPsychicPhase, phase]);
 
+    // Gestures
+    const pan = Gesture.Pan()
+        .onChange((e) => {
+            if (!isGuessingPhase) return;
+            let newX = dialX.value + e.changeX;
+            if (newX < 0) newX = 0;
+            if (newX > DIAL_WIDTH) newX = DIAL_WIDTH;
+            dialX.value = newX;
+            runOnJS(setGuessValue)((newX / DIAL_WIDTH) * 100);
+        })
+        .onEnd(() => {
+            if (settings.hapticsEnabled) runOnJS(haptics.selection)();
+        });
 
+    const dialStyle = useAnimatedStyle(() => ({
+        transform: [{ translateX: dialX.value - 15 }]
+    }));
+
+    const targetStyle = useAnimatedStyle(() => ({
+        left: `${targetValue}%`,
+        opacity: targetOpacity.value
+    }));
+
+    // Handlers
     const handleClueSubmit = () => {
         if (!clueText.trim()) return;
         haptics.heavy();
         submitClue(clueText.trim());
-        // Phase will switch implies currentGuesser will become defined, triggering useEffect reset
     };
 
     const handleGuessSubmit = () => {
         if (!currentGuesser) return;
         haptics.heavy();
         submitGuess(currentGuesser.id, guessValue);
-
-        // If this was the last guesser, the effect above or next render will handle transition
-        // We rely on 'currentGuesser' becoming null to know we are done.
         const remaining = guessers.filter(p => p.id !== currentGuesser.id && guesses[p.id] === undefined);
         if (remaining.length === 0) {
             revealResult();
@@ -159,7 +145,6 @@ export default function WavelengthGameScreen() {
 
     // --- RENDER HELPERS ---
 
-    // 1. Pass to Player Screen
     if (!isResultPhase && !isPlayerReady) {
         const targetPlayer = isPsychicPhase ? psychic : currentGuesser;
         const role = isPsychicPhase ? 'The Psychic' : 'The Guesser';
@@ -167,7 +152,6 @@ export default function WavelengthGameScreen() {
             ? 'needs to see the target.'
             : 'needs to make their guess.';
 
-        // Prevent flash of null
         if (!targetPlayer) return <View style={styles.container} />;
 
         return (
@@ -192,57 +176,53 @@ export default function WavelengthGameScreen() {
         );
     }
 
-    // 2. Result Screen Logic
     const renderResults = () => {
-        // Calculate Winners
-        const scores = Object.entries(guesses).map(([pid, val]) => {
-            const player = players.find(p => p.id === pid);
-            if (!player) return null;
+        // Find best guess
+        const bestGuess = Object.entries(guesses).reduce((best, [pid, val]) => {
             const diff = Math.abs(val - targetValue);
-            return { player, val, diff };
-        }).filter(Boolean) as { player: any, val: number, diff: number }[];
+            return diff < best.diff ? { pid, val, diff } : best;
+        }, { pid: '', val: 0, diff: 100 });
 
-        // Sort by closest
-        scores.sort((a, b) => a.diff - b.diff);
+        const bestPlayer = players.find(p => p.id === bestGuess.pid);
 
-        const winner = scores[0];
+        let message = "Round Over";
+        if (bestGuess.diff <= 5) message = "Bullseye! 🎯";
+        else if (bestGuess.diff <= 15) message = "Close Call! 👏";
+        else if (bestGuess.diff <= 25) message = "Not Bad 👍";
 
         return (
-            <View style={styles.resultCard}>
-                <Text style={styles.scoreTitle}>
-                    {winner ? `${winner.player.name} wins!` : 'Round Over'}
-                </Text>
-
-                {winner && (
-                    <Text style={styles.scorePoints}>
-                        {winner.diff <= 5 ? 'BULLSEYE! 🎯' : winner.diff <= 15 ? 'Close! 👏' : 'Nice Try 👍'}
+            <View style={styles.resultsWrapper}>
+                <View style={styles.resultSummary}>
+                    <Text style={styles.scoreTitle}>{message}</Text>
+                    <Text style={styles.resultDetails}>
+                        Target was {targetValue}%
                     </Text>
-                )}
-
-                <View style={styles.scoreList}>
-                    {scores.map((s, i) => (
-                        <View key={s.player.id} style={styles.scoreRow}>
-                            <Text style={styles.scoreRank}>#{i + 1}</Text>
-                            <Text style={styles.scoreName}>{s.player.name}</Text>
-                            <Text style={styles.scoreValue}>{Math.round(s.val)}%</Text>
-                            <Text style={[styles.scoreDiff, { color: s.diff <= 10 ? Colors.success : Colors.imposter }]}>
-                                (-{Math.round(s.diff)})
-                            </Text>
-                        </View>
-                    ))}
+                    {bestPlayer && (
+                        <Text style={styles.bestGuesser}>
+                            Best Guess: {bestPlayer.name} ({Math.round(bestGuess.val)}%)
+                        </Text>
+                    )}
                 </View>
 
-                {/* Target Reveal */}
-                <View style={styles.finalTargetInfo}>
-                    <Text style={styles.resultDetails}>Target was {targetValue}%</Text>
-                </View>
+                {/* Leaderboard using ScoreBoard */}
+                <ScoreBoard players={players} title="Leaderboard" />
 
-                <Button
-                    title="Next Round"
-                    onPress={handleNextRound}
-                    variant="primary"
-                    style={{ marginTop: 20, width: '100%' }}
-                />
+                <View style={styles.resultActions}>
+                    <Button
+                        title="Play Again"
+                        onPress={handleNextRound}
+                        variant="primary"
+                        icon={<Ionicons name="refresh-outline" size={20} color={Colors.victorianBlack} />}
+                        style={{ flex: 1 }}
+                    />
+                    <Button
+                        title="Home"
+                        onPress={() => setShowExitConfirm(true)}
+                        variant="outline"
+                        icon={<Ionicons name="home-outline" size={20} color={Colors.parchment} />}
+                        style={{ flex: 1 }}
+                    />
+                </View>
             </View>
         );
     };
@@ -256,7 +236,7 @@ export default function WavelengthGameScreen() {
                 {/* Header */}
                 <View style={styles.header}>
                     <Button
-                        title=""
+                        title={undefined}
                         icon={<Ionicons name="close" size={24} color={Colors.grayLight} />}
                         onPress={() => setShowExitConfirm(true)}
                         variant="ghost"
@@ -267,8 +247,6 @@ export default function WavelengthGameScreen() {
                 </View>
 
                 <ScrollView contentContainerStyle={styles.scrollContent} scrollEnabled={!isGuessingPhase}>
-
-                    {/* Visual Spectrum Display */}
                     <View style={styles.spectrumContainer}>
                         <View style={styles.labelsRow}>
                             <Text style={styles.spectrumLabelLeft}>{spectrum.left}</Text>
@@ -276,7 +254,6 @@ export default function WavelengthGameScreen() {
                         </View>
 
                         <View style={styles.dialTrack}>
-                            {/* Background Gradient */}
                             <LinearGradient
                                 colors={[SPECTRUM_LEFT, Colors.parchment, SPECTRUM_RIGHT]}
                                 start={{ x: 0, y: 0.5 }}
@@ -284,19 +261,16 @@ export default function WavelengthGameScreen() {
                                 style={[styles.trackGradient, { opacity: 0.3 }]}
                             />
 
-                            {/* Target Marker */}
                             <Animated.View style={[styles.targetMarker, { left: `${targetValue}%` }, isResultPhase ? targetStyle : { opacity: isPsychicPhase ? 1 : 0 }]}>
                                 <View style={styles.bullseye}>
                                     <View style={styles.bullseyeInner} />
                                 </View>
                             </Animated.View>
 
-                            {/* Target Range (Psychic Only) */}
                             {isPsychicPhase && (
                                 <View style={[styles.targetRange, { left: `${targetValue - 10}%`, width: '20%' }]} />
                             )}
 
-                            {/* Active Draggable Dial (Guessing Phase) */}
                             {isGuessingPhase && (
                                 <GestureDetector gesture={pan}>
                                     <Animated.View style={[styles.dialKnob, dialStyle]}>
@@ -305,7 +279,6 @@ export default function WavelengthGameScreen() {
                                 </GestureDetector>
                             )}
 
-                            {/* Result Phase: Show ALL Guesses */}
                             {isResultPhase && Object.entries(guesses).map(([pid, val]) => {
                                 const pName = players.find(p => p.id === pid)?.name.substring(0, 1) || '?';
                                 return (
@@ -324,9 +297,7 @@ export default function WavelengthGameScreen() {
                         )}
                     </View>
 
-                    {/* Active Phase Controls */}
                     <View style={styles.controlsArea}>
-
                         {isPsychicPhase && (
                             <View style={styles.inputCard}>
                                 <Text style={styles.inputLabel}>Give a one-word clue:</Text>
@@ -369,7 +340,6 @@ export default function WavelengthGameScreen() {
                         )}
 
                         {isResultPhase && renderResults()}
-
                     </View>
                 </ScrollView>
 
@@ -382,7 +352,6 @@ export default function WavelengthGameScreen() {
                     onConfirm={handleExit}
                     onCancel={() => setShowExitConfirm(false)}
                 />
-
             </KeyboardAvoidingView>
         </GestureHandlerRootView>
     );
@@ -430,11 +399,10 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.grayDark,
         borderRadius: 40,
         position: 'relative',
-        // overflow: 'hidden', // Disabled to let result pins stick out
+        overflow: 'hidden',
         borderWidth: 2,
         borderColor: Colors.grayMedium,
-        justifyContent: 'center',
-        zIndex: 5
+        justifyContent: 'center'
     },
     trackGradient: {
         ...StyleSheet.absoluteFillObject,
@@ -484,13 +452,14 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         borderWidth: 4,
         borderColor: Colors.victorianBlack,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        elevation: 5,
         zIndex: 10,
         alignItems: 'center',
-        justifyContent: 'center',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.5,
-        shadowRadius: 4,
+        justifyContent: 'center'
     },
     dialLine: {
         width: 2,
@@ -509,10 +478,10 @@ const styles = StyleSheet.create({
         zIndex: 8,
     },
     pinHead: {
-        width: 24,
-        height: 24,
-        borderRadius: 12,
-        backgroundColor: Colors.grayLight,
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        backgroundColor: Colors.parchment,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
@@ -524,7 +493,8 @@ const styles = StyleSheet.create({
     pinStick: {
         width: 2,
         height: 56, // Reach down to track center
-        backgroundColor: Colors.grayLight,
+        backgroundColor: Colors.parchment,
+        opacity: 0.5,
     },
 
     instructions: {
@@ -537,7 +507,8 @@ const styles = StyleSheet.create({
 
     controlsArea: {
         paddingHorizontal: 20,
-        alignItems: 'center'
+        alignItems: 'center',
+        width: '100%',
     },
     inputCard: {
         width: '100%',
@@ -563,7 +534,7 @@ const styles = StyleSheet.create({
         borderColor: Colors.gray
     },
     hintBox: { flexDirection: 'row', marginTop: 16, gap: 8, alignItems: 'center' },
-    hintText: { color: Colors.candlelight, fontSize: 14 },
+    hintText: { color: Colors.candlelight, fontSize: 14, flex: 1 },
 
     guessCard: {
         width: '100%',
@@ -574,17 +545,26 @@ const styles = StyleSheet.create({
     clueLabel: { fontSize: 14, color: Colors.grayLight, marginBottom: 8, textTransform: 'uppercase', letterSpacing: 2 },
     clueDisplay: { fontSize: 36, color: Colors.parchment, fontWeight: '900', textAlign: 'center' },
 
-    resultCard: {
+    resultsWrapper: {
         width: '100%',
-        backgroundColor: Colors.grayDark,
-        padding: 20,
-        borderRadius: 20,
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: Colors.candlelight,
+        gap: 20,
     },
-    scoreTitle: { fontSize: 24, fontWeight: 'bold', color: Colors.parchment, marginBottom: 4 },
-    scorePoints: { fontSize: 32, fontWeight: '900', color: Colors.candlelight, marginBottom: 20 },
+    resultSummary: {
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    resultTitle: { fontSize: 24, fontWeight: 'bold', color: Colors.parchment, marginBottom: 8 },
+    resultDetails: { fontSize: 16, color: Colors.grayLight, marginBottom: 4 },
+    bestGuesser: { fontSize: 16, color: Colors.success, fontWeight: 'bold' },
+
+    resultActions: {
+        flexDirection: 'row',
+        gap: 12,
+        marginTop: 20,
+    },
+    scoreTitle: { fontSize: 28, fontWeight: 'bold', color: Colors.parchment, marginBottom: 8 },
+    scorePoints: { fontSize: 48, fontWeight: '900', color: Colors.candlelight, marginBottom: 16 },
+    text: { color: Colors.parchment, fontSize: 16, textAlign: 'center' },
     scoreList: { width: '100%', gap: 10, marginBottom: 20 },
     scoreRow: {
         flexDirection: 'row',
@@ -598,13 +578,10 @@ const styles = StyleSheet.create({
     scoreName: { color: Colors.parchment, fontSize: 16, flex: 1, fontWeight: 'bold' },
     scoreValue: { color: Colors.grayLight, fontSize: 14, marginRight: 10 },
     scoreDiff: { fontSize: 14, fontWeight: 'bold' },
-
     finalTargetInfo: {
         padding: 8,
         backgroundColor: 'rgba(255,255,255,0.05)',
         borderRadius: 8,
         marginBottom: 10
-    },
-    resultDetails: { fontSize: 14, color: Colors.grayLight },
-    text: { color: Colors.parchment, fontSize: 16, textAlign: 'center' },
+    }
 });
