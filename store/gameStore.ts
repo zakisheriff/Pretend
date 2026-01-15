@@ -285,7 +285,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         // let's rely primarily on the persistent 'imposterCount' for fairness.
         // If needed, we can add 'wasImposterLastRound' to Player later.
 
-        const specialIndices = selectImposterIndices(players, imposterCount);
+        let specialIndices = selectImposterIndices(players, imposterCount);
 
         // Update imposter counts for the chosen ones
         const playersWithUpdatedCounts = players.map((p, i) => {
@@ -492,6 +492,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 const shuffledPlayers = [...players].sort(() => Math.random() - 0.5);
                 const policePlayer = shuffledPlayers[0];
                 const thiefPlayer = shuffledPlayers[1];
+
+                // CRITICAL: Ensure specialIndices matches the Thief so generic logic handles stats correctly
+                specialIndices = [players.findIndex(p => p.id === thiefPlayer.id)];
 
                 gameData = {
                     type: 'thief-police',

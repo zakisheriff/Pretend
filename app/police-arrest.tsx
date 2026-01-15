@@ -69,6 +69,8 @@ export default function PoliceArrestScreen() {
             // Someone won the tournament!
             setOverallWinner(winner);
         } else {
+            // Reset game state for next round match (preserves scores)
+            useGameStore.getState().resetGame();
             // Navigate to select mode
             router.replace('/select-mode');
         }

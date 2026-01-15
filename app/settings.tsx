@@ -219,7 +219,7 @@ export default function SettingsScreen() {
                             <Text style={styles.atomTitle}>Atom Originals</Text>
                             <Text style={styles.atomSubtitle}>A Sub-brand of The One Atom</Text>
                             <Text style={styles.visitText}>Tap to visit website</Text>
-                            <Text style={styles.versionText}>Pretend v1.0.0</Text>
+                            <Text style={styles.versionText}>Pretend v1.0.0 </Text>
                         </Pressable>
                     </View>
 
