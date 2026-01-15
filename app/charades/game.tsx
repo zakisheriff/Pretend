@@ -40,6 +40,11 @@ export default function CharadesGameScreen() {
     const [correctCount, setCorrectCount] = useState(0);
     const [timeLeft, setTimeLeft] = useState(duration);
 
+    // Sync timer if duration changes (fixes 30s selection bug)
+    useEffect(() => {
+        setTimeLeft(duration);
+    }, [duration]);
+
     // Phases: 'setup' -> 'ready' -> 'playing'
     const [phase, setPhase] = useState<'setup' | 'ready' | 'playing'>('setup');
 
@@ -109,10 +114,10 @@ export default function CharadesGameScreen() {
         const WINNING_SCORE = 10;
 
         if (currentPlayer && points > 0) {
-            const updatedPlayers = players.map(p =>
-                p.id === currentPlayer.id ? { ...p, score: p.score + points } : p
-            );
-            useGameStore.getState().reorderPlayers(updatedPlayers);
+            useGameStore.getState().updatePlayerScore(currentPlayer.id, points);
+
+            // Fetch updated players for checking winner
+            const updatedPlayers = useGameStore.getState().players;
 
             // Check for 10-point winner
             const winner = updatedPlayers.find(p => p.score >= WINNING_SCORE);
@@ -263,8 +268,8 @@ export default function CharadesGameScreen() {
     const renderSetup = () => (
         <View style={styles.centerContent}>
             <Text style={styles.title}>New Round</Text>
-            <Text style={styles.playerText}>{currentPlayer?.name}</Text>
-            <Text style={styles.subText}>You are up!</Text>
+            <Text style={styles.playerText}>{currentPlayer?.name} </Text>
+            <Text style={styles.subText}>You are up! </Text>
             <Pressable onPress={() => setPhase('ready')} style={styles.primaryButton}>
                 <Text style={styles.buttonText}>I'm Ready</Text>
             </Pressable>
@@ -349,7 +354,7 @@ export default function CharadesGameScreen() {
                     </View>
 
                     {Platform.OS === 'web' ? renderWebControls() : (
-                        <Text style={styles.hintText}>Tilt DOWN for Correct • UP to Pass</Text>
+                        <Text style={styles.hintText}>Tilt DOWN for Correct • UP to Pass  </Text>
                     )}
                 </View>
             )}
@@ -365,6 +370,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     centerContent: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',

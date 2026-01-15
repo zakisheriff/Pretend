@@ -46,14 +46,14 @@ export default function GameSettingsScreen() {
     }, [maxSuspects, settings.imposterCount]);
 
     const handleSuspectChange = (v: number) => { haptics.selection(); updateSettings({ imposterCount: v }); };
-    const handleTimeChange = (v: number) => { haptics.selection(); updateSettings({ discussionTime: v }); };
+    const handleTimeChange = (v: number) => {
+        haptics.selection();
+        updateSettings({ discussionTime: v });
+    };
 
     // Set default time for Time Bomb if not set correctly
     React.useEffect(() => {
         if (gameMode === 'time-bomb' && ![-1, 30, 60, 90].includes(settings.discussionTime)) {
-            updateSettings({ discussionTime: 60 });
-        }
-        if (gameMode === 'charades' && ![30, 60].includes(settings.discussionTime)) {
             updateSettings({ discussionTime: 60 });
         }
     }, [gameMode]);

@@ -78,7 +78,7 @@ export default function CharadesResultsScreen() {
                 <View style={styles.leaderboard}>
                     <Text style={styles.leaderboardTitle}>Current Standings</Text>
                     <ScrollView style={{ maxHeight: 200 }}>
-                        {players.sort((a, b) => b.score - a.score).map((p, i) => (
+                        {[...players].sort((a, b) => b.score - a.score).map((p, i) => (
                             <View key={p.id} style={styles.leaderboardRow}>
                                 <View style={styles.rankInfo}>
                                     <Text style={styles.lbRank}>{i + 1}.</Text>

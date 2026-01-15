@@ -33,6 +33,7 @@ interface GameStore extends GameState {
     removePlayer: (id: string) => void;
     updatePlayerName: (id: string, name: string) => void;
     reorderPlayers: (players: Player[]) => void;
+    updatePlayerScore: (id: string, pointsToAdd: number) => void;
     clearPlayers: () => void;
 
     // Game mode selection
@@ -203,6 +204,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
         // Create new object references to ensure proper re-render
         set({ players: players.map(p => ({ ...p })) });
     },
+    updatePlayerScore: (id: string, pointsToAdd: number) => {
+        set((state) => ({
+            players: state.players.map(p =>
+                p.id === id ? { ...p, score: p.score + pointsToAdd } : p
+            )
+        }));
+    },
     clearPlayers: () => {
         set({ players: [] });
     },
@@ -255,7 +263,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         const { players, gameMode, selectedThemeId, settings, customWords } = state;
 
         // Minimum player checks
-        if (gameMode === 'directors-cut' || gameMode === 'time-bomb') {
+        if (gameMode === 'directors-cut' || gameMode === 'time-bomb' || gameMode === 'charades') {
             if (players.length < 2) return;
         } else {
             if (players.length < 3) return;
@@ -464,8 +472,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
             case 'charades': {
                 // Shuffle words from external data and limit to 20
                 const shuffled = [...CHARADES_WORDS].sort(() => Math.random() - 0.5).slice(0, 20);
-                // Sanitize duration: if not 30, default to 60. (Handles -1 from mystery mode)
-                const charadesDuration = (settings.discussionTime === 30) ? 30 : 60;
+                // Sanitize duration: ensure positive integer, default to 60
+                const charadesDuration = settings.discussionTime > 0 ? settings.discussionTime : 60;
                 const targetPlayerId = state.nextRoundPlayerId || players[0].id; // Fallback to first player
 
                 gameData = {
