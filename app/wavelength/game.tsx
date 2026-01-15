@@ -104,6 +104,10 @@ export default function WavelengthGameScreen() {
         opacity: targetOpacity.value
     }));
 
+    const bubbleStyle = useAnimatedStyle(() => ({
+        transform: [{ translateX: dialX.value - 20 }] // Center bubble (width ~40)
+    }));
+
     // Gestures
     const pan = Gesture.Pan()
         .onChange((e) => {
@@ -148,7 +152,7 @@ export default function WavelengthGameScreen() {
     const handlePlayAgain = () => {
         haptics.light();
         router.replace('/select-mode');
-        exitGame(); // Reset state to ensure fresh start
+        // Do NOT call exitGame() here; we want to preserve players/scores when going back to modes.
     };
 
     const handleExit = () => {
@@ -258,46 +262,52 @@ export default function WavelengthGameScreen() {
                             <Text style={styles.spectrumLabelRight}>{spectrum.right}</Text>
                         </View>
 
-                        <View style={styles.dialTrack}>
-                            <LinearGradient
-                                colors={[SPECTRUM_LEFT, Colors.parchment, SPECTRUM_RIGHT]}
-                                start={{ x: 0, y: 0.5 }}
-                                end={{ x: 1, y: 0.5 }}
-                                style={[styles.trackGradient, { opacity: 0.3 }]}
-                            />
-
-                            <Animated.View style={[styles.targetMarker, { left: `${targetValue}%` }, isResultPhase ? targetStyle : { opacity: isPsychicPhase ? 1 : 0 }]}>
-                                <View style={styles.bullseye}>
-                                    <View style={styles.bullseyeInner} />
-                                </View>
-                            </Animated.View>
-
-                            {isPsychicPhase && (
-                                <View style={[styles.targetRange, { left: `${targetValue - 10}%`, width: '20%' }]} />
-                            )}
-
+                        <View style={styles.dialContainer}>
+                            {/* Floating Bubble (Relative to dialContainer) */}
                             {isGuessingPhase && (
-                                <GestureDetector gesture={pan}>
-                                    <Animated.View style={[styles.dialKnob, dialStyle]}>
-                                        <View style={styles.valueBubble}>
-                                            <Text style={styles.valueText}>{Math.round(guessValue)}%</Text>
-                                        </View>
-                                        <View style={styles.dialLine} />
-                                    </Animated.View>
-                                </GestureDetector>
+                                <Animated.View style={[styles.valueBubble, bubbleStyle]}>
+                                    <Text style={styles.valueText}>{Math.round(guessValue)}%</Text>
+                                </Animated.View>
                             )}
 
-                            {isResultPhase && Object.entries(guesses).map(([pid, val]) => {
-                                const pName = players.find(p => p.id === pid)?.name.substring(0, 1) || '?';
-                                return (
-                                    <View key={pid} style={[styles.resultPin, { left: `${val}%` }]}>
-                                        <View style={styles.pinHead}>
-                                            <Text style={styles.pinText}>{pName}</Text>
-                                        </View>
-                                        <View style={styles.pinStick} />
+                            <View style={styles.dialTrack}>
+                                <LinearGradient
+                                    colors={[SPECTRUM_LEFT, Colors.parchment, SPECTRUM_RIGHT]}
+                                    start={{ x: 0, y: 0.5 }}
+                                    end={{ x: 1, y: 0.5 }}
+                                    style={[styles.trackGradient, { opacity: 0.3 }]}
+                                />
+
+                                <Animated.View style={[styles.targetMarker, { left: `${targetValue}%` }, isResultPhase ? targetStyle : { opacity: isPsychicPhase ? 1 : 0 }]}>
+                                    <View style={styles.bullseye}>
+                                        <View style={styles.bullseyeInner} />
                                     </View>
-                                );
-                            })}
+                                </Animated.View>
+
+                                {isPsychicPhase && (
+                                    <View style={[styles.targetRange, { left: `${targetValue - 10}%`, width: '20%' }]} />
+                                )}
+
+                                {isGuessingPhase && (
+                                    <GestureDetector gesture={pan}>
+                                        <Animated.View style={[styles.dialKnob, dialStyle]}>
+                                            <View style={styles.dialLine} />
+                                        </Animated.View>
+                                    </GestureDetector>
+                                )}
+
+                                {isResultPhase && Object.entries(guesses).map(([pid, val]) => {
+                                    const pName = players.find(p => p.id === pid)?.name.substring(0, 1) || '?';
+                                    return (
+                                        <View key={pid} style={[styles.resultPin, { left: `${val}%` }]}>
+                                            <View style={styles.pinHead}>
+                                                <Text style={styles.pinText}>{pName}</Text>
+                                            </View>
+                                            <View style={styles.pinStick} />
+                                        </View>
+                                    );
+                                })}
+                            </View>
                         </View>
 
                         {isGuessingPhase && (
@@ -401,6 +411,11 @@ const styles = StyleSheet.create({
     },
     spectrumLabelLeft: { fontSize: 20, fontWeight: 'bold', color: SPECTRUM_LEFT, width: '45%' },
     spectrumLabelRight: { fontSize: 20, fontWeight: 'bold', color: SPECTRUM_RIGHT, textAlign: 'right', width: '45%' },
+
+    dialContainer: {
+        marginTop: 40, // Increased margin to fit the bubble above
+        position: 'relative' // Ensure bubble is relative to this
+    },
 
     dialTrack: {
         height: 80,
@@ -603,6 +618,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 1,
         borderColor: Colors.victorianBlack,
+        zIndex: 20,
     },
     valueText: {
         fontWeight: '900',
