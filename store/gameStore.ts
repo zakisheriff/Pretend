@@ -88,6 +88,8 @@ interface GameStore extends GameState {
     // Used words tracking (to prevent repetition until tournament reset)
     usedWords: string[];
 
+    // Time Bomb Reroll
+    refreshTimeBombData: () => void;
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
@@ -1051,6 +1053,35 @@ export const useGameStore = create<GameStore>((set, get) => ({
             selectedWord,
             gameData,
             currentRevealIndex: 1, // Start from second player to prevent cheating
+        });
+    },
+
+    refreshTimeBombData: () => {
+        const state = get();
+        if (state.gameData?.type !== 'time-bomb') return;
+
+        // Custom categories for Time Bomb
+        const bombCategories = [
+            'Movie', 'Food', 'Game', 'Animal', 'Brand', 'Thing',
+            'Celebrity', 'Country', 'Song', 'City', 'Color'
+        ];
+
+        // Pick random category
+        const category = bombCategories[Math.floor(Math.random() * bombCategories.length)];
+        // Pick random letter A-Z
+        const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+
+        const currentData = state.gameData.data;
+
+        set({
+            gameData: {
+                ...state.gameData,
+                data: {
+                    ...currentData,
+                    category,
+                    letter
+                }
+            }
         });
     },
 

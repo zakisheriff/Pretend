@@ -16,6 +16,7 @@ export default function TimeBombGameScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const gameData = useGameStore((s) => s.gameData);
+    const refreshTimeBombData = useGameStore((s) => s.refreshTimeBombData);
     const { category, letter, duration, hiddenTimer } = (gameData?.data as TimeBombData) || { category: '?', letter: '?', duration: 60, hiddenTimer: false };
 
     const [timeLeft, setTimeLeft] = useState(duration);
@@ -78,6 +79,11 @@ export default function TimeBombGameScreen() {
         setHasStarted(true);
     };
 
+    const handleReroll = () => {
+        haptics.medium();
+        refreshTimeBombData();
+    };
+
     const handleProceed = () => {
         haptics.medium();
         router.push('/time-bomb/voting');
@@ -113,6 +119,16 @@ export default function TimeBombGameScreen() {
                     <View style={styles.letterBox}>
                         <Text style={styles.letterText}>{letter}</Text>
                     </View>
+
+                    {!hasStarted && (
+                        <Button
+                            title=""
+                            onPress={handleReroll}
+                            variant="secondary"
+                            icon={<Ionicons name="refresh" size={20} color={Colors.parchment} />}
+                            style={styles.rerollBtn}
+                        />
+                    )}
                 </View>
 
                 {/* Timer Section - Only show after start */}
@@ -260,4 +276,13 @@ const styles = StyleSheet.create({
     footer: {
         paddingBottom: 20,
     },
+    rerollBtn: {
+        marginTop: 20,
+        backgroundColor: Colors.grayDark,
+        paddingHorizontal: 20,
+        height: 44,
+        minWidth: 0,
+        aspectRatio: 1,
+        borderRadius: 22,
+    }
 });
