@@ -8,7 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function GameSettingsScreen() {
@@ -176,6 +176,9 @@ export default function GameSettingsScreen() {
                                 }}
                                 icon="game-controller-outline"
                             />
+                            {Platform.OS === 'web' && (
+                                <Text style={styles.webWarning}>Tilt Mode is only available on Mobile App</Text>
+                            )}
                         </View>
                     )}
 
@@ -249,6 +252,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+    },
+    webWarning: {
+        color: Colors.imposter,
+        fontSize: 12,
+        marginTop: 8,
+        fontStyle: 'italic',
+        textAlign: 'center',
     },
     backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 

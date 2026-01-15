@@ -9,7 +9,7 @@ import { useRouter } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { DeviceMotion } from 'expo-sensors';
 import React, { useEffect, useRef, useState } from 'react';
-import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { BackHandler, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -95,6 +95,30 @@ export default function CharadesGameScreen() {
     }, []);
 
     const [showConfirm, setShowConfirm] = useState(false);
+    const [showExitConfirm, setShowExitConfirm] = useState(false);
+
+    // Handle Back Navigation / Home Button
+    const handleExitRequest = () => {
+        haptics.warning();
+        setShowExitConfirm(true);
+        return true; // Prevent default behavior
+    };
+
+    const confirmExit = () => {
+        haptics.medium();
+        setShowExitConfirm(false);
+        router.dismissAll();
+        router.replace('/');
+    };
+
+    const cancelExit = () => {
+        setShowExitConfirm(false);
+    };
+
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', handleExitRequest);
+        return () => backHandler.remove();
+    }, []);
 
     const finishGame = React.useCallback(() => {
         // Prevent multiple calls
@@ -310,7 +334,7 @@ export default function CharadesGameScreen() {
                 <Text style={styles.readyTapText}>TAP TO START</Text>
             </Pressable>
 
-            {/* Custom Confirmation Overlay */}
+            {/* Ready Confirmation Overlay */}
             {showConfirm && (
                 <View style={[StyleSheet.absoluteFill, styles.confirmOverlay]}>
                     <View style={styles.confirmBox}>
@@ -343,6 +367,25 @@ export default function CharadesGameScreen() {
                 colors={feedback === 'none' ? [Colors.victorianBlack, '#1a1a1a'] : [feedbackColor, Colors.victorianBlack]}
                 style={StyleSheet.absoluteFill}
             />
+
+            {/* Exit Confirmation Overlay */}
+            {showExitConfirm && (
+                <View style={[StyleSheet.absoluteFill, styles.confirmOverlay]}>
+                    <View style={styles.confirmBox}>
+                        <Text style={styles.confirmTitle}>Quit Game?</Text>
+                        <Text style={styles.confirmSub}>Current progress will be lost.</Text>
+
+                        <View style={styles.confirmButtons}>
+                            <Pressable onPress={cancelExit} style={[styles.confirmBtn, styles.cancelBtn]}>
+                                <Text style={styles.confirmBtnText}>No</Text>
+                            </Pressable>
+                            <Pressable onPress={confirmExit} style={[styles.confirmBtn, styles.startBtn, { backgroundColor: Colors.imposter }]}>
+                                <Text style={[styles.confirmBtnText, { color: Colors.white }]}>Quit</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </View>
+            )}
 
             {phase === 'setup' && renderSetup()}
             {phase === 'ready' && renderReady()}

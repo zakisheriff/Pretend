@@ -5,8 +5,8 @@ import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import React, { useEffect } from 'react';
-import { BackHandler, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { BackHandler, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function CharadesResultsScreen() {
@@ -25,6 +25,8 @@ export default function CharadesResultsScreen() {
     const currentPlayer = useGameStore((s) => s.players.find(p => p.id === (params.playerId as string)));
     const winner = winnerId ? players.find(p => p.id === winnerId) : null;
 
+    const [showConfirm, setShowConfirm] = useState(false);
+
     // STRICTLY ENFORCE PORTRAIT
     useEffect(() => {
         const lockPortrait = async () => {
@@ -40,7 +42,8 @@ export default function CharadesResultsScreen() {
 
         // Prevent hardware back button from messing up flow
         const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-            router.replace('/');
+            haptics.warning();
+            setShowConfirm(true);
             return true;
         });
         return () => backHandler.remove();
@@ -53,9 +56,19 @@ export default function CharadesResultsScreen() {
     };
 
     const handleHome = () => {
+        haptics.warning();
+        setShowConfirm(true);
+    };
+
+    const confirmHome = () => {
         haptics.medium();
+        setShowConfirm(false);
         router.dismissAll();
         router.replace('/');
+    };
+
+    const cancelHome = () => {
+        setShowConfirm(false);
     };
 
     return (
@@ -111,10 +124,29 @@ export default function CharadesResultsScreen() {
                         router.replace('/select-mode');
                     }}
                     onHome={() => {
-                        useGameStore.getState().resetToHome();
-                        router.replace('/');
+                        haptics.warning();
+                        setShowConfirm(true);
                     }}
                 />
+            )}
+
+            {/* Home Confirmation Overlay */}
+            {showConfirm && (
+                <View style={styles.confirmOverlay}>
+                    <View style={styles.confirmBox}>
+                        <Text style={styles.confirmTitle}>Quit Game?</Text>
+                        <Text style={styles.confirmSub}>Scoreboard will be reset. </Text>
+
+                        <View style={styles.confirmButtons}>
+                            <Pressable onPress={cancelHome} style={[styles.confirmBtn, styles.cancelBtn]}>
+                                <Text style={styles.confirmBtnText}>Cancel</Text>
+                            </Pressable>
+                            <Pressable onPress={confirmHome} style={[styles.confirmBtn, styles.confirmActionBtn]}>
+                                <Text style={styles.confirmBtnText}>Quit</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </View>
             )}
         </View>
     );
@@ -180,5 +212,62 @@ const styles = StyleSheet.create({
     footerButtons: {
         width: '100%',
         gap: 15,
-    }
+    },
+    confirmOverlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(0,0,0,0.85)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 100,
+    },
+    confirmBox: {
+        backgroundColor: Colors.grayDark || '#0A0A0A',
+        padding: 30,
+        borderRadius: 20,
+        width: '90%',
+        maxWidth: 400,
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: Colors.candlelight,
+    },
+    confirmTitle: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        color: Colors.parchment,
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+    confirmSub: {
+        fontSize: 18,
+        color: Colors.grayLight,
+        marginBottom: 30,
+        textAlign: 'center',
+    },
+    confirmButtons: {
+        flexDirection: 'row',
+        gap: 15,
+        width: '100%',
+        justifyContent: 'center',
+    },
+    confirmBtn: {
+        paddingVertical: 15,
+        paddingHorizontal: 20,
+        borderRadius: 15,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    cancelBtn: {
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        borderColor: Colors.grayLight,
+    },
+    confirmActionBtn: {
+        backgroundColor: Colors.imposter,
+    },
+    confirmBtnText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: Colors.parchment,
+    },
 });
