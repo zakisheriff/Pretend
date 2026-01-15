@@ -132,10 +132,10 @@ export default function WavelengthGameScreen() {
         }
     };
 
-    const handleNextRound = () => {
+    const handlePlayAgain = () => {
         haptics.light();
-        setClueText('');
-        nextRound();
+        router.replace('/select-mode');
+        exitGame(); // Reset state to ensure fresh start
     };
 
     const handleExit = () => {
@@ -210,7 +210,7 @@ export default function WavelengthGameScreen() {
                 <View style={styles.resultActions}>
                     <Button
                         title="Play Again"
-                        onPress={handleNextRound}
+                        onPress={handlePlayAgain}
                         variant="primary"
                         icon={<Ionicons name="refresh-outline" size={20} color={Colors.victorianBlack} />}
                         style={{ flex: 1 }}
@@ -234,16 +234,8 @@ export default function WavelengthGameScreen() {
                 style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}
             >
                 {/* Header */}
-                <View style={styles.header}>
-                    <Button
-                        title={undefined}
-                        icon={<Ionicons name="close" size={24} color={Colors.grayLight} />}
-                        onPress={() => setShowExitConfirm(true)}
-                        variant="ghost"
-                        style={styles.closeBtn}
-                    />
+                <View style={[styles.header, { justifyContent: 'center' }]}>
                     <Text style={styles.headerTitle}>Wavelength</Text>
-                    <View style={{ width: 40 }} />
                 </View>
 
                 <ScrollView contentContainerStyle={styles.scrollContent} scrollEnabled={!isGuessingPhase}>
