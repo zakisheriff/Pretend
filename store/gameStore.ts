@@ -95,7 +95,7 @@ interface GameStore extends GameState {
 
     // Wavelength Actions
     submitWavelengthClue: (clue: string) => void;
-    submitWavelengthGuess: (value: number) => void;
+    submitWavelengthGuess: (playerId: string, value: number) => void;
     revealWavelengthResult: () => void;
 }
 
@@ -272,7 +272,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         const { players, gameMode, selectedThemeId, settings, customWords } = state;
 
         // Minimum player checks
-        if (gameMode === 'directors-cut' || gameMode === 'time-bomb' || gameMode === 'charades') {
+        if (gameMode === 'directors-cut' || gameMode === 'time-bomb' || gameMode === 'charades' || gameMode === 'wavelength') {
             if (players.length < 2) return;
         } else {
             if (players.length < 3) return;
@@ -502,23 +502,37 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
                 const targetValue = Math.floor(Math.random() * 101); // 0-100
 
-                // Clue Giver (Psychic) will be one of the 'imposters' (special indices)
-                // We don't need to manually pick checking 'imposterCount' here as logic below handles it
-                // We just need to initialize the data.
+                // Clue Giver (Psychic)
+                // If a specific player was selected as 'targetPlayerId' via the UI/settings, use them.
+                // Otherwise pick generic 0 or 1.
+                // For now, let's assume specific selection logic sets 'nextRoundPlayerId' or similar, 
+                // but we haven't built that yet. Let's just default to a random player if not set.
+                let psychicId = state.nextRoundPlayerId; // Potentially set from "Assign Psychic" screen
 
-                // However, Wavelength usually has ONE psychic.
-                // Settings might say 2 imposters, but Wavelength always needs 1 psychic.
-                // So we override imposterCount for Wavelength below in lines 288-294?
-                // Let's rely on standard selection but for Wavelength 1 is usually enough.
+                if (!psychicId) {
+                    // Default to first player if checking purely by order, or random.
+                    // In Wavelength, usually one person is psychic.
+                    // We can rely on standard "imposter" selection logic to pick ONE "imposter" (psychic).
+                    // But we want to be explicit.
+                    const randomIdx = Math.floor(Math.random() * players.length);
+                    psychicId = players[randomIdx].id;
+                }
+
+                // For Wavelength, the "Imposter" is the Psychic.
+                // We need to ensure 'specialIndices' reflects this so 'isImposter' flag is set correctly on the player.
+                const psychicIndex = players.findIndex(p => p.id === psychicId);
+                if (psychicIndex !== -1) {
+                    specialIndices = [psychicIndex];
+                }
 
                 gameData = {
                     type: 'wavelength',
                     data: {
                         spectrum,
                         targetValue,
-                        clueGiverId: '', // Will be assigned to the 'special role' player later
+                        clueGiverId: psychicId,
                         clue: null,
-                        guessValue: null,
+                        guesses: {},
                         points: null
                     }
                 };
@@ -1141,7 +1155,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         });
     },
 
-    submitWavelengthGuess: (value: number) => {
+    submitWavelengthGuess: (playerId: string, value: number) => {
         set((state) => {
             if (state.gameData?.type !== 'wavelength') return {};
             return {
@@ -1149,7 +1163,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     ...state.gameData,
                     data: {
                         ...state.gameData.data,
-                        guessValue: value
+                        guesses: {
+                            ...state.gameData.data.guesses,
+                            [playerId]: value
+                        }
                     }
                 }
             };
@@ -1159,34 +1176,37 @@ export const useGameStore = create<GameStore>((set, get) => ({
     revealWavelengthResult: () => {
         set((state) => {
             if (state.gameData?.type !== 'wavelength') return {};
-            const data = state.gameData.data;
-            if (data.guessValue === null) return {};
 
-            const diff = Math.abs(data.targetValue - data.guessValue);
-            let points = 0;
+            const { guesses, targetValue } = state.gameData.data;
+            let playersUpdated = false;
 
-            // Scoring:
-            // 0-4 diff = 3 points (Bullseye is ±4%)
-            // 5-12 diff = 2 points (Near)
-            // 13-22 diff = 1 point (Far)
-            // >22 = 0 points
+            const updatedPlayers = state.players.map(p => {
+                const guess = guesses[p.id];
+                // Only score players who actually guessed
+                if (guess === undefined) return p;
 
-            if (diff <= 4) points = 3;
-            else if (diff <= 12) points = 2;
-            else if (diff <= 22) points = 1;
+                const diff = Math.abs(guess - targetValue);
+                let points = 0;
+
+                // Scoring System:
+                // Bullseye (<= 5%): 3 pts
+                // Close (<= 15%): 2 pts
+                // Okay (<= 25%): 1 pt
+                if (diff <= 5) points = 3;
+                else if (diff <= 15) points = 2;
+                else if (diff <= 25) points = 1;
+
+                if (points > 0) playersUpdated = true;
+
+                return {
+                    ...p,
+                    score: p.score + points
+                };
+            });
 
             return {
-                gameData: {
-                    ...state.gameData,
-                    data: {
-                        ...data,
-                        points
-                    }
-                },
-                phase: 'results' // Wavelength typically ends round here
-                // Note: Wavelength is collaborative usually or team based?
-                // Pretend implementation: "Group" works together.
-                // We'll show results screen.
+                phase: 'results',
+                players: updatedPlayers
             };
         });
     },
@@ -1217,8 +1237,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
         const player = players[currentRevealIndex];
         if (player.isEliminated) {
-            // If the current index points to an eliminated player, find the next active one
-            // This is a safety check as nextReveal/continueRound should handle this
             const nextActive = players.slice(currentRevealIndex).find(p => !p.isEliminated);
             return nextActive || null;
         }
@@ -1237,7 +1255,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
         switch (gameMode) {
             case 'undercover-word': {
-                // This is the "Classic Imposter" mode where imposter gets a hint
                 if (gameData?.type === 'undercover-word') {
                     const { crewmateWord, hints } = gameData.data;
                     if (player.isImposter) {
@@ -1258,7 +1275,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 }
                 const { movie, genre, hint } = gameData.data;
                 if (player.isImposter) {
-                    // Director knows the movie
                     return {
                         isImposter: true,
                         isDirector: true,
@@ -1269,7 +1285,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
                         movieHint: null,
                     };
                 }
-                // Others get genre and hint
                 return {
                     isImposter: false,
                     isDirector: false,
@@ -1287,7 +1302,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 }
                 const { mainQuestion, outlierQuestion } = gameData.data;
                 if (player.isImposter) {
-                    // Outlier gets different question
                     return {
                         isImposter: true,
                         isOutlier: true,
@@ -1331,7 +1345,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 const { policeWord, thiefWord, policePlayerId, thiefPlayerId } = gameData.data;
 
                 if (player.id === policePlayerId) {
-                    // Police gets the crewmate word and knows they are Police
                     return {
                         isImposter: false,
                         isPolice: true,
@@ -1341,7 +1354,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     };
                 }
                 if (player.id === thiefPlayerId) {
-                    // Thief gets the different word
                     return {
                         isImposter: true,
                         isPolice: false,
@@ -1350,7 +1362,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
                         hint: 'You are the THIEF. Blend in!',
                     };
                 }
-                // Civilians get the same word as Police
                 return {
                     isImposter: false,
                     isPolice: false,
@@ -1364,20 +1375,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 if (gameData?.type !== 'wavelength') {
                     return { isImposter: false, word: null, hint: null };
                 }
-                const { spectrum, targetValue, clue } = gameData.data;
+                const { spectrum, targetValue, clue, clueGiverId } = gameData.data;
 
-                // The 'imposter' is the Psychic
-                if (player.isImposter) {
+                // The 'imposter' logic is reused for checking if they are the special role,
+                // BUT we should prioritize checking clueGiverId for explicit manual selection.
+                // If clueGiverId is set, use that. Fallback to isImposter.
+
+                const isThePsychic = player.id === clueGiverId || player.isImposter;
+
+                if (isThePsychic) {
                     return {
                         isImposter: true,
                         word: null,
-                        hint: `Target: ${targetValue}`, // Display target to Psychic
-                        // We might want to pass full spectrum data specifically to UI instead of generic 'hint'
-                        // But hint is good fallback.
+                        hint: `Target: ${targetValue}`,
                     };
                 }
 
-                // Guessers see the clue if available
                 return {
                     isImposter: false,
                     word: null,
@@ -1417,16 +1430,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
         const { gameMode } = get();
         switch (gameMode) {
             case 'undercover-word':
-                // Classic Imposter - Role is shown (Imposter vs Crewmate)
                 return { specialRoleName: 'Imposter', specialRoleIcon: 'person', normalRoleName: 'Crewmate' };
             case 'directors-cut':
                 return { specialRoleName: 'Director', specialRoleIcon: 'videocam', normalRoleName: 'Viewer' };
             case 'mind-sync':
-                // Mind Sync - Role is hidden during reveal, everyone is just "Player"
                 return { specialRoleName: 'Outlier', specialRoleIcon: 'flash', normalRoleName: 'Player' };
             case 'classic-imposter':
-                // Undercover - Role is hidden, everyone is just "Player" during reveal
                 return { specialRoleName: 'Undercover', specialRoleIcon: 'search', normalRoleName: 'Player' };
+            case 'wavelength':
+                return { specialRoleName: 'Psychic', specialRoleIcon: 'eye', normalRoleName: 'Guesser' };
             default:
                 return { specialRoleName: 'Imposter', specialRoleIcon: 'person', normalRoleName: 'Crewmate' };
         }

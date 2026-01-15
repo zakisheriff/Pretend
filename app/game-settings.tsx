@@ -184,6 +184,39 @@ export default function GameSettingsScreen() {
                         </View>
                     )}
 
+                    {gameMode === 'wavelength' && (
+                        <View style={styles.section}>
+                            <Text style={styles.sectionTitle}>Select the Psychic</Text>
+                            <View style={styles.playerGrid}>
+                                {players.map(player => (
+                                    <Pressable
+                                        key={player.id}
+                                        onPress={() => {
+                                            haptics.selection();
+                                            setNextRoundPlayerId(player.id);
+                                        }}
+                                        style={[
+                                            styles.playerOption,
+                                            nextRoundPlayerId === player.id && styles.playerOptionSelected
+                                        ]}
+                                    >
+                                        <Text style={[
+                                            styles.playerOptionText,
+                                            nextRoundPlayerId === player.id && styles.playerOptionTextSelected
+                                        ]}>
+                                            {player.name}
+                                        </Text>
+                                        {nextRoundPlayerId === player.id && (
+                                            <View style={styles.checkIcon}>
+                                                <Ionicons name="checkmark-circle" size={20} color={Colors.victorianBlack} />
+                                            </View>
+                                        )}
+                                    </Pressable>
+                                ))}
+                            </View>
+                        </View>
+                    )}
+
                     <GameSetting
                         label={gameMode === 'time-bomb' ? 'Timer Duration' : (gameMode === 'charades' ? 'Round Timer' : "Investigation Time")}
                         value={gameMode === 'charades' ? settings.charadesTime : settings.discussionTime}
@@ -233,7 +266,7 @@ export default function GameSettingsScreen() {
                         variant="primary"
                         size="large"
                         icon={<Ionicons name="search" size={18} color={Colors.victorianBlack} />}
-                        disabled={gameMode === 'charades' && !nextRoundPlayerId}
+                        disabled={(gameMode === 'charades' || gameMode === 'wavelength') && !nextRoundPlayerId}
                     />
                 </View>
             </ScrollView>

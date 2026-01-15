@@ -107,7 +107,7 @@ export interface WavelengthData {
     targetValue: number; // 0-100
     clueGiverId: string;
     clue: string | null;
-    guessValue: number | null; // 0-100
+    guesses: Record<string, number>; // Map of playerId -> guessValue (0-100)
     points: number | null;
 }
 
