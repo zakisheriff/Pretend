@@ -130,6 +130,12 @@ export default function TimeBombGameScreen() {
                             textStyle={{ color: Colors.grayLight, fontSize: 14 }}
                         />
                     )}
+
+                    {!hasStarted && (
+                        <Text style={styles.durationHint}>
+                            {hiddenTimer ? "Timer: Mystery " : `Timer: ${JSON.stringify(duration)}s`}
+                        </Text>
+                    )}
                 </View>
 
                 {/* Timer Section - Only show after start */}
@@ -276,5 +282,12 @@ const styles = StyleSheet.create({
 
     footer: {
         paddingBottom: 20,
+    },
+    durationHint: {
+        fontSize: 14,
+        color: Colors.grayLight,
+        fontWeight: '600',
+        marginTop: 15,
+        opacity: 0.8,
     },
 });
