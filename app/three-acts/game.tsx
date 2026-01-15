@@ -125,19 +125,17 @@ export default function ThreeActsGame() {
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-            {/* Header */}
-            <View style={styles.header}>
-                <Text style={styles.actTitle}>{actTitles[currentAct]}</Text>
-                <View style={[styles.timerBadge, timeLeft <= 10 && styles.timerUrgent]}>
-                    <Ionicons name="timer-outline" size={20} color={timeLeft <= 10 ? Colors.danger : Colors.victorianBlack} />
-                    <Text style={[styles.timerText, timeLeft <= 10 && { color: Colors.danger }]}>{timeLeft}s</Text>
-                </View>
-            </View>
-
             {/* Content */}
             <View style={styles.content}>
                 <Animated.View entering={FadeInDown} style={styles.selectionView}>
+                    <View style={[styles.timerBadge, timeLeft <= 10 && styles.timerUrgent]}>
+                        <Ionicons name="timer-outline" size={20} color={timeLeft <= 10 ? Colors.danger : Colors.victorianBlack} />
+                        <Text style={[styles.timerText, timeLeft <= 10 && { color: Colors.danger }]}>{timeLeft}s</Text>
+                    </View>
+
+                    <Text style={styles.actTitle}>{actTitles[currentAct]}</Text>
                     <Text style={styles.instruction}>Tap if your team guesses correct:</Text>
+
                     <View style={styles.optionsGrid}>
                         {options.map((opt, i) => (
                             <TouchableOpacity
@@ -157,7 +155,7 @@ export default function ThreeActsGame() {
                         title="Skip Act"
                         onPress={handleSkip}
                         variant="outline"
-                        style={{ marginTop: 40, borderColor: Colors.candlelight, width: '60%' }}
+                        style={{ marginTop: 20, borderColor: Colors.candlelight, width: '60%' }}
                         textStyle={{ color: Colors.candlelight }}
                     />
 
@@ -177,15 +175,15 @@ const styles = StyleSheet.create({
     readyTitle: { fontSize: 24, color: Colors.candlelight, fontWeight: '800' },
     readyNames: { fontSize: 32, color: Colors.parchment, fontWeight: '800', textAlign: 'center', marginTop: 10 },
 
-    header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, marginTop: 10 },
-    actTitle: { fontSize: 22, color: Colors.parchment, fontWeight: '700' },
-    timerBadge: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: Colors.candlelight, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20 },
-    timerUrgent: { backgroundColor: '#FFD700' }, // Pulse?
+    actTitle: { fontSize: 32, color: Colors.parchment, fontWeight: '800', textAlign: 'center', marginBottom: 8 },
+
+    timerBadge: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: Colors.candlelight, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, marginBottom: 20 }, // Added margin bottom
+    timerUrgent: { backgroundColor: '#FFD700' },
     timerText: { fontSize: 20, fontWeight: '800', color: Colors.victorianBlack, fontVariant: ['tabular-nums'] },
 
     content: { flex: 1, justifyContent: 'center' },
 
-    selectionView: { gap: 20, alignItems: 'center', width: '100%' },
+    selectionView: { gap: 10, alignItems: 'center', width: '100%' },
     instruction: { color: Colors.grayLight, fontSize: 16, marginBottom: 10, fontStyle: 'italic' },
     optionsGrid: { gap: 16, width: '100%' },
     optionCard: {
@@ -204,5 +202,5 @@ const styles = StyleSheet.create({
         width: 32, height: 32, borderRadius: 16, backgroundColor: Colors.success, alignItems: 'center', justifyContent: 'center'
     },
 
-    ruleReminder: { color: Colors.parchment, opacity: 0.7, marginTop: 20, fontStyle: 'italic', fontSize: 14, textAlign: 'center' },
+    ruleReminder: { color: Colors.parchment, opacity: 0.7, marginTop: 16, fontStyle: 'italic', fontSize: 14, textAlign: 'center' },
 });

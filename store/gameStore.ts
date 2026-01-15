@@ -1514,7 +1514,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
     threeActsAction: (action: 'correct' | 'skip') => {
         const state = get();
         const currentData = state.gameData?.data as ThreeActsData;
-        if (!currentData || !currentData.currentSelection) return;
+        if (!currentData) return;
+
+        // Only require selection for 'correct' action
+        if (action === 'correct' && !currentData.currentSelection) return;
 
         const { currentAct, currentTeamIndex, teams, actOptions } = currentData;
         const currentTeam = teams[currentTeamIndex];
@@ -1524,7 +1527,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         const updatedRoundStats = {
             ...currentTeam.roundStats,
             [actKey]: {
-                chosen: currentData.currentSelection,
+                chosen: currentData.currentSelection || '',
                 guessed: action === 'correct',
                 skipped: action === 'skip',
                 options: actOptions[actKey]
@@ -1552,13 +1555,20 @@ export const useGameStore = create<GameStore>((set, get) => ({
             let correctCount = 0;
             if (updatedRoundStats.act1.guessed) correctCount++;
             if (updatedRoundStats.act2.guessed) correctCount++;
-            if (updatedRoundStats.act3.guessed) correctCount++; // Note: Act 3 can't be skipped in UI, but logic handles it
+            if (updatedRoundStats.act3.guessed) correctCount++;
 
-            let pointsPerPlayer = 0;
-            if (correctCount === 3) pointsPerPlayer = 2;
-            else if (correctCount === 2) pointsPerPlayer = 1;
+            // Scoring Rules:
+            // 3 correct -> 2 pts (Team)
+            // 2 correct -> 1 pt (Team)
+            // 1 correct -> 1 pt (Team)
+            let teamPoints = 0;
+            if (correctCount === 3) teamPoints = 2;
+            else if (correctCount === 2) teamPoints = 1;
+            else if (correctCount === 1) teamPoints = 1;
 
-            updatedTeams[currentTeamIndex].score += pointsPerPlayer * 2; // Total team score update (Wait, score is per team? Plan said per player points added to implementation)
+            const pointsPerPlayer = teamPoints / 2;
+
+            updatedTeams[currentTeamIndex].score += teamPoints;
             // Implementation Plan: "Points are added to both players in the pair."
             // Store stores 'score' on individual players. 
             // Also update individual players!

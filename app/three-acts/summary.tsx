@@ -50,8 +50,9 @@ export default function ThreeActsSummary() {
     if (roundStats.act2.guessed) correctCount++;
     if (roundStats.act3.guessed) correctCount++;
 
-    if (correctCount === 3) roundScore = 4; // 2pts each player = 4 total team points?
-    else if (correctCount === 2) roundScore = 2; // 1pt each = 2 total
+    if (correctCount === 3) roundScore = 2;
+    else if (correctCount === 2) roundScore = 1;
+    else if (correctCount === 1) roundScore = 1;
 
     // Display Logic
     const renderActResult = (actNum: number, stat: typeof roundStats.act1) => {
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
     resultsList: { flex: 1, gap: 16 },
     resultRow: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.grayDark, padding: 16, borderRadius: 12, marginBottom: 12 },
     actLabelBox: { width: 60, marginRight: 12 },
-    actLabel: { color: Colors.gray, fontSize: 14, fontWeight: '700' },
+    actLabel: { color: Colors.grayLight, fontSize: 14, fontWeight: '700' },
     movieBox: { flex: 1 },
     movieTitle: { color: Colors.parchment, fontSize: 18, fontWeight: '600' },
     subtext: { color: Colors.gray, fontSize: 12 },

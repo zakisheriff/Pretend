@@ -12,18 +12,17 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function ThreeActsResults() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
+    const resetGame = useGameStore((s) => s.resetGame);
     const resetToHome = useGameStore((s) => s.resetToHome);
     const players = useGameStore((s) => s.players);
 
     const [showHomeConfirm, setShowHomeConfirm] = useState(false);
 
     const handlePlayAgain = () => {
-        // Just navigate back to setup. The store state will be overwritten when new game starts.
-        // Or we should manually reset phase?
-        // `startThreeActsGame` will overwrite `gameData`.
-        // We just need to ensure we don't carry over old state if specific components rely on it before start.
-        // Setup screen manages its own local state mostly.
-        router.replace('/three-acts/setup');
+        // Navigate to mode selection as requested by user ("mode section")
+        // and reset game state (keeping players)
+        router.replace('/select-mode');
+        setTimeout(() => resetGame(), 300);
     };
 
     const handleGoHome = () => {
