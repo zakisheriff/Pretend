@@ -67,6 +67,19 @@ export default function ThreeActsResults() {
                 />
             </View>
 
+            {/* Tournament Winner Celebration */}
+            {overallWinner && (
+                <WinnerCelebration
+                    winner={overallWinner}
+                    allPlayers={players}
+                    onNewGame={() => {
+                        resetTournament();
+                        router.replace('/select-mode');
+                    }}
+                    onHome={() => setShowHomeConfirm(true)}
+                />
+            )}
+
             <GenericModal
                 visible={showHomeConfirm}
                 title="Return to Home?"
@@ -77,22 +90,6 @@ export default function ThreeActsResults() {
                 onCancel={() => setShowHomeConfirm(false)}
                 isDestructive
             />
-
-            {/* Tournament Winner Celebration */}
-            {overallWinner && (
-                <WinnerCelebration
-                    winner={overallWinner}
-                    allPlayers={players}
-                    onNewGame={() => {
-                        resetTournament();
-                        router.replace('/select-mode');
-                    }}
-                    onHome={() => {
-                        resetToHome();
-                        router.replace('/');
-                    }}
-                />
-            )}
         </View>
     );
 }

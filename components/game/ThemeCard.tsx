@@ -44,7 +44,7 @@ interface ThemeCardProps {
     onSelect: () => void;
 }
 
-export const ThemeCard: React.FC<ThemeCardProps> = ({ id, name, isSelected, onSelect }) => {
+export const ThemeCard: React.FC<ThemeCardProps> = ({ id, name, icon, isSelected, onSelect }) => {
     const scale = useSharedValue(1);
 
     const handlePress = () => {
@@ -54,8 +54,9 @@ export const ThemeCard: React.FC<ThemeCardProps> = ({ id, name, isSelected, onSe
     };
 
     const animatedStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
-    const iconId = id.startsWith('u-') ? id.substring(2) : id;
-    const iconName = THEME_ICONS[iconId] || 'help-outline';
+    const safeId = id || '';
+    const iconId = safeId.startsWith('u-') ? safeId.substring(2) : safeId;
+    const iconName = THEME_ICONS[iconId] || (icon ? (icon as keyof typeof Ionicons.glyphMap) : 'help-outline');
 
     return (
         <TouchableOpacity onPress={handlePress} activeOpacity={0.9}>

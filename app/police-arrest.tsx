@@ -232,16 +232,6 @@ export default function PoliceArrestScreen() {
                 }
             </ScrollView >
 
-            <GenericModal
-                visible={showHomeConfirm}
-                title="End Game?"
-                message="This will end the current game and return to home. All progress will be lost."
-                confirmLabel="Yes"
-                isDestructive
-                onConfirm={handleHomeConfirm}
-                onCancel={() => setShowHomeConfirm(false)}
-            />
-
             {/* Overall Winner Celebration - when someone reaches 10 points */}
             {
                 overallWinner && (
@@ -252,13 +242,20 @@ export default function PoliceArrestScreen() {
                             useGameStore.getState().resetTournament();
                             router.replace('/select-mode');
                         }}
-                        onHome={() => {
-                            useGameStore.getState().resetToHome();
-                            router.replace('/');
-                        }}
+                        onHome={() => setShowHomeConfirm(true)}
                     />
                 )
             }
+
+            <GenericModal
+                visible={showHomeConfirm}
+                title="End Game?"
+                message="This will end the current game and return to home. All progress will be lost."
+                confirmLabel="Yes"
+                isDestructive
+                onConfirm={handleHomeConfirm}
+                onCancel={() => setShowHomeConfirm(false)}
+            />
         </View >
     );
 }

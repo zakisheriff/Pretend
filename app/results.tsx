@@ -416,6 +416,19 @@ export default function ResultsScreen() {
                 onCancel={() => setShowRestartModal(false)}
             />
 
+            {/* Overall Winner Celebration - Moved outside ScrollView for proper full-screen overlay */}
+            {overallWinner && (
+                <WinnerCelebration
+                    winner={overallWinner}
+                    allPlayers={players}
+                    onNewGame={() => {
+                        useGameStore.getState().queueNewTournament();
+                        router.push('/select-mode');
+                    }}
+                    onHome={() => setShowHomeModal(true)}
+                />
+            )}
+
             <GenericModal
                 visible={showHomeModal}
                 title="Return to Home?"
@@ -430,22 +443,6 @@ export default function ResultsScreen() {
                 }}
                 onCancel={() => setShowHomeModal(false)}
             />
-
-            {/* Overall Winner Celebration - Moved outside ScrollView for proper full-screen overlay */}
-            {overallWinner && (
-                <WinnerCelebration
-                    winner={overallWinner}
-                    allPlayers={players}
-                    onNewGame={() => {
-                        useGameStore.getState().queueNewTournament();
-                        router.push('/select-mode');
-                    }}
-                    onHome={() => {
-                        resetToHome();
-                        router.replace('/');
-                    }}
-                />
-            )}
         </View>
     );
 }
