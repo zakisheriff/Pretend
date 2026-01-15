@@ -219,7 +219,7 @@ export default function SetupDirectorScreen() {
                     else if (step === 'choose-movie') setStep('choose-director');
                     else router.back();
                 }} />
-            </LinearGradient>>
+            </LinearGradient>
 
             <ScrollView
                 contentContainerStyle={[styles.content, { paddingTop: 80 }]}

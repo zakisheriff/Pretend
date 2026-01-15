@@ -31,5 +31,31 @@ export const CHARADES_WORDS = [
     // Objects & Nature
     'Washing Machine', 'Statue of Liberty', 'Eiffel Tower', 'Computer', 'Guitar',
     'Airplane', 'Bicycle', 'Umbrella', 'Scissors', 'Camera',
-    'Tree', 'Flower', 'Sun', 'Rain', 'Mountain'
+    'Tree', 'Flower', 'Sun', 'Rain', 'Mountain',
+    'Beach', 'Computer', 'Guitar', 'Book', 'Pillow',
+    'Shoe', 'Spoon', 'Toothbrush', 'Clock', 'Key',
+    'Door', 'Window', 'Chair', 'Table', 'Bed',
+
+    // Everyday Actions
+    'Sleeping', 'Eating', 'Drinking', 'Reading', 'Writing',
+    'Running', 'Jumping', 'Swimming', 'Driving', 'Flying',
+    'Cooking', 'Cleaning', 'Crying', 'Laughing', 'Singing',
+    'Dancing', 'Clapping', 'Hugging', 'Kissing', 'Shaving',
+    'Shopping', 'Painting', 'Gardening', 'Fishing', 'Camping',
+
+    // More Animals
+    'Dog', 'Cat', 'Horse', 'Cow', 'Pig',
+    'Sheep', 'Goat', 'Duck', 'Chicken', 'Rooster',
+    'Butterfly', 'Spider', 'Ant', 'Bee', 'Mosquito',
+    'Bat', 'Owl', 'Eagle', 'Parrot', 'Peacock',
+
+    // Sports & Hobbies
+    'Basketball', 'Football', 'Cricket', 'Tennis', 'Badminton',
+    'Volleyball', 'Golf', 'Chess', 'Video Games', 'Photography',
+
+    // Fantasy & Sci-Fi
+    'Harry Potter', 'Superman', 'Batman', 'Spiderman', 'Iron Man',
+    'Captain America', 'Thor', 'Hulk', 'Wonder Woman', 'Joker',
+    'Vampire', 'Zombie', 'Werewolf', 'Alien', 'Robot',
+    'Ghost', 'Witch', 'Dragon', 'Unicorn', 'Mermaid'
 ];
