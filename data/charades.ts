@@ -1,36 +1,35 @@
 export const CHARADES_WORDS = [
-    // Movies / Characters
-    'Spiderman', 'T-Rex', 'Zombie', 'Robot',
-    'Harry Potter', 'Batman', 'Superman', 'Joker', 'Iron Man',
-    'Captain America', 'Thor', 'Hulk', 'Wonder Woman', 'Black Panther',
-    'Sherlock Holmes', 'James Bond', 'Jack Sparrow', 'Tarzan', 'Frankenstein',
+    // Tamil Actors (Signature Mannerisms)
+    'Rajinikanth', 'Kamal Haasan', 'Vijay', 'Ajith Kumar', 'Suriya',
+    'Vijay Sethupathi', 'Dhanush', 'Vikram', 'Sivakarthikeyan',
+    'Nayanthara', 'Trisha', 'Sivaji Ganesan', 'M.G.R',
+
+    // Global / Hollywood Actors
+    'Jackie Chan', 'Charlie Chaplin', 'Arnold Schwarzenegger', 'Johnny Depp', 'Tom Cruise',
+    'Leonardo DiCaprio', 'The Rock (Dwayne Johnson)', 'Will Smith',
+    'Shah Rukh Khan', 'Amitabh Bachchan', 'Jim Carrey', 'Robert Downey Jr.', 'Brad Pitt',
+
+    // Tamil Movies (Actionable titles)
+    'Baashha', 'Enthiran (Robot)', 'Chandramukhi', 'Ponniyin Selvan', 'Vikram',
+    'Leo', 'Jailer', 'Jana Nayagan', 'Mankatha', 'Anniyan',
+    'Ghillie', 'Padayappa', 'Nayagan', 'Vada Chennai', 'Indian',
 
     // Animals
     'Penguin', 'Chicken', 'Monkey', 'Kangaroo', 'Elephant',
     'Giraffe', 'Snake', 'Lion', 'Tiger', 'Bear',
     'Rabbit', 'Frog', 'Shark', 'Whale', 'Dolphin',
-    'Eagle', 'Owl', 'Bat', 'Wolf', 'Fox',
 
-    // Occupations / Roles
-    'Sumo Wrestler', 'Mime', 'Astronaut', 'Ballerina', 'Surfer',
+    // Occupations & Roles
     'Boxer', 'Ninja', 'Rock Star', 'Teacher', 'Doctor',
     'Police Officer', 'Firefighter', 'Chef', 'Pilot', 'Artist',
-    'Magician', 'Clown', 'Cowboy', 'Pirate', 'Soldier',
 
-    // Actions
-    'Washing Machine', 'Statue of Liberty', 'Eiffel Tower', 'Typing', 'Driving',
-    'Fishing', 'Skiing', 'Cooking', 'Dancing', 'Singing',
-    'Sleeping', 'Eating', 'Drinking', 'Reading', 'Writing',
-    'Swimming', 'Running', 'Jumping', 'Flying', 'Crying',
+    // Actions (Visual & Funny)
+    'Walking on the Moon', 'Winning the Lottery', 'Stubbing your toe', 'Changing a Diaper', 'Baking a Cake',
+    'Brushing Teeth', 'Selfie', 'Yoga', 'Texting', 'Fishing',
+    'Ice Skating', 'Karate Chop', 'Meditation', 'Ironing Clothes', 'Bowling',
 
-    // Objects
-    'Computer', 'Phone', 'Camera', 'Guitar', 'Piano',
-    'Car', 'Bicycle', 'Airplane', 'Boat', 'Train',
-    'Chair', 'Table', 'Bed', 'Door', 'Window',
-    'Book', 'Pen', 'Pencil', 'Paper', 'Scissors',
-
-    // Nature
-    'Tree', 'Flower', 'Sun', 'Moon', 'Star',
-    'Cloud', 'Rain', 'Snow', 'Wind', 'Fire',
-    'Mountain', 'River', 'Ocean', 'Beach', 'Desert'
+    // Objects & Nature
+    'Washing Machine', 'Statue of Liberty', 'Eiffel Tower', 'Computer', 'Guitar',
+    'Airplane', 'Bicycle', 'Umbrella', 'Scissors', 'Camera',
+    'Tree', 'Flower', 'Sun', 'Rain', 'Mountain'
 ];
