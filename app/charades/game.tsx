@@ -368,7 +368,7 @@ export default function CharadesGameScreen() {
                     </View>
 
                     {(Platform.OS === 'web' || isTouchMode) ? renderWebControls() : (
-                        <Text style={styles.hintText}>Tilt DOWN for Correct • UP to Pass</Text>
+                        <Text style={styles.hintText}>Tilt DOWN for Correct • UP to Pass  </Text>
                     )}
                 </View>
             )}
