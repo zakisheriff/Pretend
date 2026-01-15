@@ -169,7 +169,10 @@ export default function GameSettingsScreen() {
                         label={gameMode === 'time-bomb' ? 'Timer Duration' : (gameMode === 'charades' ? 'Round Timer' : "Investigation Time")}
                         value={settings.discussionTime}
                         options={gameMode === 'time-bomb' ? [30, 60, 90] : (gameMode === 'charades' ? [30, 60] : [60, 120, 180, 240, 300])}
-                        formatLabel={((v) => gameMode === 'time-bomb' || gameMode === 'charades' ? `${v}s` : `${v / 60}m`)}
+                        formatLabel={(v) => {
+                            if (v === -1) return "Mystery";
+                            return (gameMode === 'time-bomb' || gameMode === 'charades') ? `${v}s` : `${v / 60}m`;
+                        }}
                         onChange={handleTimeChange}
                         icon="timer-outline"
                     />
@@ -184,9 +187,10 @@ export default function GameSettingsScreen() {
                                 <Switch
                                     value={isRandomTime}
                                     onValueChange={toggleRandomTime}
-                                    trackColor={{ false: Colors.grayDark, true: Colors.candlelight }}
-                                    thumbColor={isRandomTime ? Colors.victorianBlack : Colors.grayLight}
-                                    ios_backgroundColor={Colors.grayDark}
+                                    trackColor={{ false: Colors.grayMedium, true: Colors.gray }}
+                                    thumbColor={Colors.parchment}
+                                    ios_backgroundColor={Colors.grayMedium}
+                                    {...({ activeTrackColor: Colors.gray, activeThumbColor: Colors.parchment } as any)}
                                 />
                             </View>
                             <Text style={styles.randomModeDescription}>
