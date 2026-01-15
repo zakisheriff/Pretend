@@ -22,7 +22,7 @@ interface ModeCardProps {
 
 function ModeCard({ mode, isSelected, onSelect, onShowHelp, index }: ModeCardProps) {
     return (
-        <Animated.View entering={FadeInDown.delay(index * 100).springify()}>
+        <Animated.View entering={FadeInDown.delay(index * 50).duration(400)}>
             <TouchableOpacity
                 style={[styles.modeCard, isSelected && styles.modeCardSelected]}
                 onPress={onSelect}
@@ -94,9 +94,6 @@ export default function SelectModeScreen() {
                         const sectionModes = GAME_MODES.filter(m => m.minPlayers === minPlayers)
                             .sort((a, b) => a.name.localeCompare(b.name));
 
-                        // Calculate offset for animations based on previous sections
-                        // This uses a simple approximation, or we can just use the index within current map
-
                         return (
                             <View key={minPlayers} style={styles.section}>
                                 <View style={styles.sectionHeader}>
@@ -117,7 +114,7 @@ export default function SelectModeScreen() {
                                                 haptics.selection();
                                                 setHelpMode(m);
                                             }}
-                                            index={index + (minPlayers * 2)} // Stagger animation slightly
+                                            index={index + ((minPlayers - 2) * 2)} // Stagger animation slightly
                                         />
                                     ))}
                                 </View>

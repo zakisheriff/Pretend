@@ -162,6 +162,20 @@ export default function GameSettingsScreen() {
                                     </Pressable>
                                 ))}
                             </View>
+
+                            <View style={{ height: 16 }} />
+
+                            <GameSetting
+                                label="Control Style"
+                                value={['gyro', 'touch'].indexOf(settings.charadesControl)}
+                                options={[0, 1]}
+                                formatLabel={(v) => ['Tilt (Forehead)', 'Touch (Hand)'][v]}
+                                onChange={(v) => {
+                                    haptics.selection();
+                                    updateSettings({ charadesControl: ['gyro', 'touch'][v] as any });
+                                }}
+                                icon="game-controller-outline"
+                            />
                         </View>
                     )}
 

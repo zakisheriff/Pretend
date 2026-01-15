@@ -27,6 +27,7 @@ export default function CharadesGameScreen() {
 
     // Safety check for data with HARD fallback
     const charadesData = gameData?.data as CharadesData | undefined;
+    const isTouchMode = charadesData?.controlMode === 'touch'; // Check explicitly
 
     // Use persistent fallback words from the real data source (shuffled once)
     const [fallbackWords] = useState(() =>
@@ -64,15 +65,20 @@ export default function CharadesGameScreen() {
         isMounted.current = true;
 
         // Lock to landscape for Charades (Skip on Web)
-        const lockLandscape = async () => {
+        // Lock orientation based on control mode
+        const lockOrientation = async () => {
             if (Platform.OS === 'web') return;
             try {
-                await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+                if (isTouchMode) {
+                    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+                } else {
+                    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+                }
             } catch (error) {
-                console.warn("Failed to lock landscape", error);
+                console.warn("Failed to lock orientation", error);
             }
         };
-        lockLandscape();
+        lockOrientation();
 
         // Reset state
         isGameActiveRef.current = false;
@@ -217,7 +223,7 @@ export default function CharadesGameScreen() {
     // DeviceMotion sensor for tilt detection
     useEffect(() => {
         if (phase !== 'playing') return;
-        if (Platform.OS === 'web') return; // Disable sensors on web
+        if (Platform.OS === 'web' || isTouchMode) return; // Disable sensors on web OR if touch mode enabled
 
         const subscription = DeviceMotion.addListener((data) => {
             if (!isGameActiveRef.current) return;
@@ -268,7 +274,7 @@ export default function CharadesGameScreen() {
     const renderSetup = () => (
         <View style={styles.centerContent}>
             <Text style={styles.title}>New Round</Text>
-            <Text style={styles.playerText}>{currentPlayer?.name} </Text>
+            <Text style={styles.playerText}> {currentPlayer?.name} </Text>
             <Text style={styles.subText}>You are up! </Text>
             <Pressable onPress={() => setPhase('ready')} style={styles.primaryButton}>
                 <Text style={styles.buttonText}>I'm Ready</Text>
@@ -353,8 +359,8 @@ export default function CharadesGameScreen() {
                         )}
                     </View>
 
-                    {Platform.OS === 'web' ? renderWebControls() : (
-                        <Text style={styles.hintText}>Tilt DOWN for Correct • UP to Pass  </Text>
+                    {(Platform.OS === 'web' || isTouchMode) ? renderWebControls() : (
+                        <Text style={styles.hintText}>Tilt DOWN for Correct • UP to Pass</Text>
                     )}
                 </View>
             )}

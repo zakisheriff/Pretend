@@ -86,6 +86,7 @@ export interface CharadesData {
     words: string[];
     duration: number;
     selectedPlayerId: string;
+    controlMode: 'gyro' | 'touch';
 }
 
 export interface ThiefPoliceData {
@@ -128,6 +129,7 @@ export interface GameSettings {
     fakeHintForCrewmates: boolean;
     soundEnabled: boolean;
     hapticsEnabled: boolean;
+    charadesControl: 'gyro' | 'touch';
 }
 
 export interface GameState {
@@ -176,6 +178,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
     fakeHintForCrewmates: false,
     soundEnabled: true,
     hapticsEnabled: true,
+    charadesControl: 'gyro',
 };
 
 export interface GameModeStep {

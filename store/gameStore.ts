@@ -481,7 +481,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     data: {
                         words: shuffled,
                         duration: charadesDuration,
-                        selectedPlayerId: targetPlayerId
+                        selectedPlayerId: targetPlayerId,
+                        controlMode: settings.charadesControl
                     }
                 };
                 break;
