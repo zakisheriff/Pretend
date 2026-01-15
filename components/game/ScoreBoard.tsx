@@ -24,6 +24,7 @@ export const ScoreBoard = ({ players, title = "Leaderboard" }: ScoreBoardProps) 
         { mode: 'Thief & Police', win: 'Thief Escapes +2', survivors: 'Thief Caught +1' },
         { mode: 'Charades', win: '10+ Words +2', survivors: '5+ Words +1' },
         { mode: 'Time Bomb', win: 'Survivors +1', survivors: '-' },
+        { mode: 'Wavelength', win: 'Bullseye +2', survivors: 'Close +1' },
     ];
 
     return (

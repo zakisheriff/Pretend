@@ -310,6 +310,7 @@ export const GAME_MODES: GameModeInfo[] = [
         instructions: [
             { role: 'Psychic', icon: 'eye-outline', desc: 'Sees the target & gives a clue.' },
             { role: 'Group', icon: 'people-outline', desc: 'Discuss and rotate the dial to the target!' },
+            { role: 'Scoring', icon: 'trophy-outline', desc: 'Bullseye (5%) = 2pts, Close (15%) = 1pt' },
         ],
     },
 ];

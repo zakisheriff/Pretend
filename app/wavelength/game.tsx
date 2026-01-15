@@ -320,7 +320,7 @@ export default function WavelengthGameScreen() {
                     <View style={styles.controlsArea}>
                         {isPsychicPhase && (
                             <View style={styles.inputCard}>
-                                <Text style={styles.inputLabel}>Give a one-word clue:</Text>
+                                <Text style={styles.inputLabel}>Give a One Word Clue:</Text>
                                 <TextInput
                                     style={styles.input}
                                     value={clueText}
