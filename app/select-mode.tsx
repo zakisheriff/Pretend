@@ -91,7 +91,8 @@ export default function SelectModeScreen() {
                     .sort((a, b) => a - b) // Ensure ascending order
                     .map((minPlayers) => {
                         const icon = minPlayers === 2 ? 'copy-outline' : minPlayers === 3 ? 'layers-outline' : 'grid-outline';
-                        const sectionModes = GAME_MODES.filter(m => m.minPlayers === minPlayers);
+                        const sectionModes = GAME_MODES.filter(m => m.minPlayers === minPlayers)
+                            .sort((a, b) => a.name.localeCompare(b.name));
 
                         // Calculate offset for animations based on previous sections
                         // This uses a simple approximation, or we can just use the index within current map

@@ -8,7 +8,7 @@ import { useRouter } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { DeviceMotion } from 'expo-sensors';
 import React, { useEffect, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -261,6 +261,17 @@ export default function CharadesGameScreen() {
     const cancelStart = () => {
         setShowConfirm(false);
     };
+
+    const renderSetup = () => (
+        <View style={styles.centerContent}>
+            <Text style={styles.title}>New Round</Text>
+            <Text style={styles.playerText}>{currentPlayer?.name}</Text>
+            <Text style={styles.subText}>You are up!</Text>
+            <Pressable onPress={() => setPhase('ready')} style={styles.primaryButton}>
+                <Text style={styles.buttonText}>I'm Ready</Text>
+            </Pressable>
+        </View>
+    );
 
     const renderWebControls = () => (
         <View style={styles.webControls}>
