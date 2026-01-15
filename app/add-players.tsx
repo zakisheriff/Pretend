@@ -57,7 +57,7 @@ export default function AddPlayersScreen() {
 
     // Minimum players per mode: 2 for some modes, 4 for thief-police, 3 default
     const minPlayers =
-        (gameMode === 'directors-cut' || gameMode === 'time-bomb' || gameMode === 'charades') ? 2 :
+        (gameMode === 'directors-cut' || gameMode === 'time-bomb' || gameMode === 'charades' || gameMode === 'wavelength') ? 2 :
             (gameMode === 'thief-police') ? 4 :
                 MIN_PLAYERS;
 

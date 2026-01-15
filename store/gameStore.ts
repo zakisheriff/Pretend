@@ -2,6 +2,7 @@ import { CHARADES_WORDS } from '@/data/charades';
 import { directorsCut, getRandomMindSyncQuestion, mindSync } from '@/data/game-modes';
 import { getEffectiveTheme, getEffectiveUndercoverTheme, getThemeById, themes } from '@/data/themes';
 import thiefPoliceWords from '@/data/thief-police.json';
+import { getRandomSpectrum } from '@/data/wavelength';
 import { DEFAULT_SETTINGS, DirectorsCutMovie, GameData, GameMode, GameSettings, GameState, MindSyncQuestion, Player, Word } from '@/types/game';
 import { create } from 'zustand';
 
@@ -89,7 +90,13 @@ interface GameStore extends GameState {
     usedWords: string[];
 
     // Time Bomb Reroll
+    // Time Bomb Reroll
     refreshTimeBombData: () => void;
+
+    // Wavelength Actions
+    submitWavelengthClue: (clue: string) => void;
+    submitWavelengthGuess: (value: number) => void;
+    revealWavelengthResult: () => void;
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
@@ -281,6 +288,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
         let imposterCount: number;
         if (gameMode === 'time-bomb') {
             imposterCount = 0;
+        } else if (gameMode === 'wavelength') {
+            imposterCount = 1; // Always 1 Psychic
         } else {
             const maxImposters = players.length === 2 ? 1 : Math.floor(players.length / 2);
             imposterCount = Math.max(1, Math.min(settings.imposterCount, maxImposters));
@@ -454,7 +463,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 // Custom categories for Time Bomb
                 const bombCategories = [
                     'Movie', 'Food', 'Game', 'Animal', 'Brand', 'Thing',
-                    'Celebrity', 'Country', 'Song', 'City', 'Color'
+                    'Celebrity', 'Country', 'Song', 'City', 'Color',
+                    'Fruit', 'Vegetable', 'App', 'Website', 'Car', 'Clothes', 'Drink'
                 ];
 
                 // Pick random category
@@ -480,6 +490,36 @@ export const useGameStore = create<GameStore>((set, get) => ({
                         letter,
                         duration,
                         hiddenTimer
+                    }
+                };
+                break;
+            }
+
+            case 'wavelength': {
+                const spectrum = getRandomSpectrum(state.usedWords);
+                // Mark this spectrum as used
+                set(s => ({ usedWords: [...s.usedWords, spectrum.left + spectrum.right] }));
+
+                const targetValue = Math.floor(Math.random() * 101); // 0-100
+
+                // Clue Giver (Psychic) will be one of the 'imposters' (special indices)
+                // We don't need to manually pick checking 'imposterCount' here as logic below handles it
+                // We just need to initialize the data.
+
+                // However, Wavelength usually has ONE psychic.
+                // Settings might say 2 imposters, but Wavelength always needs 1 psychic.
+                // So we override imposterCount for Wavelength below in lines 288-294?
+                // Let's rely on standard selection but for Wavelength 1 is usually enough.
+
+                gameData = {
+                    type: 'wavelength',
+                    data: {
+                        spectrum,
+                        targetValue,
+                        clueGiverId: '', // Will be assigned to the 'special role' player later
+                        clue: null,
+                        guessValue: null,
+                        points: null
                     }
                 };
                 break;
@@ -1063,7 +1103,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
         // Custom categories for Time Bomb
         const bombCategories = [
             'Movie', 'Food', 'Game', 'Animal', 'Brand', 'Thing',
-            'Celebrity', 'Country', 'Song', 'City', 'Color'
+            'Celebrity', 'Country', 'Song', 'City', 'Color',
+            'Fruit', 'Vegetable', 'App', 'Website', 'Car', 'Clothes', 'Drink'
         ];
 
         // Pick random category
@@ -1082,6 +1123,71 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     letter
                 }
             }
+        });
+    },
+
+    submitWavelengthClue: (clue: string) => {
+        set((state) => {
+            if (state.gameData?.type !== 'wavelength') return {};
+            return {
+                gameData: {
+                    ...state.gameData,
+                    data: {
+                        ...state.gameData.data,
+                        clue
+                    }
+                }
+            };
+        });
+    },
+
+    submitWavelengthGuess: (value: number) => {
+        set((state) => {
+            if (state.gameData?.type !== 'wavelength') return {};
+            return {
+                gameData: {
+                    ...state.gameData,
+                    data: {
+                        ...state.gameData.data,
+                        guessValue: value
+                    }
+                }
+            };
+        });
+    },
+
+    revealWavelengthResult: () => {
+        set((state) => {
+            if (state.gameData?.type !== 'wavelength') return {};
+            const data = state.gameData.data;
+            if (data.guessValue === null) return {};
+
+            const diff = Math.abs(data.targetValue - data.guessValue);
+            let points = 0;
+
+            // Scoring:
+            // 0-4 diff = 3 points (Bullseye is ±4%)
+            // 5-12 diff = 2 points (Near)
+            // 13-22 diff = 1 point (Far)
+            // >22 = 0 points
+
+            if (diff <= 4) points = 3;
+            else if (diff <= 12) points = 2;
+            else if (diff <= 22) points = 1;
+
+            return {
+                gameData: {
+                    ...state.gameData,
+                    data: {
+                        ...data,
+                        points
+                    }
+                },
+                phase: 'results' // Wavelength typically ends round here
+                // Note: Wavelength is collaborative usually or team based?
+                // Pretend implementation: "Group" works together.
+                // We'll show results screen.
+            };
         });
     },
 
@@ -1251,6 +1357,31 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     isThief: false,
                     word: policeWord,
                     hint: 'You are a CIVILIAN. Help the Police!',
+                };
+            }
+
+            case 'wavelength': {
+                if (gameData?.type !== 'wavelength') {
+                    return { isImposter: false, word: null, hint: null };
+                }
+                const { spectrum, targetValue, clue } = gameData.data;
+
+                // The 'imposter' is the Psychic
+                if (player.isImposter) {
+                    return {
+                        isImposter: true,
+                        word: null,
+                        hint: `Target: ${targetValue}`, // Display target to Psychic
+                        // We might want to pass full spectrum data specifically to UI instead of generic 'hint'
+                        // But hint is good fallback.
+                    };
+                }
+
+                // Guessers see the clue if available
+                return {
+                    isImposter: false,
+                    word: null,
+                    hint: clue ? `Clue: ${clue}` : 'Waiting for Psychic...',
                 };
             }
 

@@ -1,7 +1,7 @@
 export type HintStrength = 'none' | 'low' | 'medium' | 'high';
 
 // Game mode types
-export type GameMode = 'undercover-word' | 'directors-cut' | 'mind-sync' | 'classic-imposter' | 'time-bomb' | 'charades' | 'thief-police';
+export type GameMode = 'undercover-word' | 'directors-cut' | 'mind-sync' | 'classic-imposter' | 'time-bomb' | 'charades' | 'thief-police' | 'wavelength';
 
 export interface WordHints {
     low: string;
@@ -97,6 +97,20 @@ export interface ThiefPoliceData {
     thiefPlayerId: string;
 }
 
+export interface WavelengthSpectrum {
+    left: string;
+    right: string;
+}
+
+export interface WavelengthData {
+    spectrum: WavelengthSpectrum;
+    targetValue: number; // 0-100
+    clueGiverId: string;
+    clue: string | null;
+    guessValue: number | null; // 0-100
+    points: number | null;
+}
+
 // Union type for selected game data
 export type GameData =
     | { type: 'undercover-word'; data: UndercoverWordPair }
@@ -106,6 +120,7 @@ export type GameData =
     | { type: 'time-bomb'; data: TimeBombData }
     | { type: 'charades'; data: CharadesData }
     | { type: 'thief-police'; data: ThiefPoliceData }
+    | { type: 'wavelength'; data: WavelengthData }
     | null;
 
 export interface Player {
@@ -173,7 +188,7 @@ export interface GameState {
 export const DEFAULT_SETTINGS: GameSettings = {
     imposterCount: 1,
     discussionTime: 300, // 5 minutes default
-    hintStrength: 'medium',
+    hintStrength: 'low',
     randomizeTheme: false,
     differentHintsPerImposter: false,
     fakeHintForCrewmates: false,
@@ -283,6 +298,18 @@ export const GAME_MODES: GameModeInfo[] = [
             { role: 'Police', icon: 'shield-checkmark-outline', desc: 'Find who has a different word (+1 pt if caught)' },
             { role: 'Thief', icon: 'finger-print-outline', desc: 'Blend in with a DIFFERENT word (+2 pts if escaped)' },
             { role: 'Civilians', icon: 'people-outline', desc: 'Give clues, help Police find Thief (+1 pt if caught)' },
+        ],
+    },
+    {
+        id: 'wavelength',
+        name: 'Wavelength',
+        icon: 'pulse-outline', // Updated icon to something built-in likely to exist
+        description: 'Think alike or drift apart.',
+        tagline: 'Give the perfect clue and align the dial!',
+        minPlayers: 2,
+        instructions: [
+            { role: 'Psychic', icon: 'eye-outline', desc: 'Sees the target & gives a clue.' },
+            { role: 'Group', icon: 'people-outline', desc: 'Discuss and rotate the dial to the target!' },
         ],
     },
 ];
