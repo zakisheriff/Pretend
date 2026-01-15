@@ -58,7 +58,7 @@ export default function AddPlayersScreen() {
     // Minimum players per mode: 2 for some modes, 4 for thief-police, 3 default
     const minPlayers =
         (gameMode === 'directors-cut' || gameMode === 'time-bomb' || gameMode === 'charades' || gameMode === 'wavelength') ? 2 :
-            (gameMode === 'thief-police') ? 4 :
+            (gameMode === 'thief-police' || gameMode === 'three-acts') ? 4 :
                 MIN_PLAYERS;
 
     const handleContinue = () => {
@@ -71,7 +71,8 @@ export default function AddPlayersScreen() {
             router.push('/setup-director');
         } else if (gameMode === 'thief-police') {
             // Thief & Police goes directly to game-settings which will auto-start
-            router.push('/game-settings');
+        } else if (gameMode === 'three-acts') {
+            router.push('/three-acts/setup');
         } else {
             router.push('/game-settings');
         }

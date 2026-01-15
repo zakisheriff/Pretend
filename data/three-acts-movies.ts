@@ -1,0 +1,23 @@
+export const THREE_ACTS_MOVIES = [
+    "The Godfather", "The Shawshank Redemption", "Schindler's List", "Raging Bull", "Casablanca",
+    "Citizen Kane", "Gone with the Wind", "The Wizard of Oz", "One Flew Over the Cuckoo's Nest", "Lawrence of Arabia",
+    "Vertigo", "Psycho", "The Godfather Part II", "On the Waterfront", "Sunset Boulevard",
+    "Forrest Gump", "The Sound of Music", "12 Angry Men", "West Side Story", "Star Wars",
+    "2001: A Space Odyssey", "E.T. the Extra-Terrestrial", "The Silence of the Lambs", "Chinatown", "The Bridge on the River Kwai",
+    "Singin' in the Rain", "It's a Wonderful Life", "Dr. Strangelove", "Some Like It Hot", "Ben-Hur",
+    "Apocalypse Now", "Amadeus", "Gandhi", "The Lord of the Rings: The Return of the King", "Gladiator",
+    "Titanic", "Saving Private Ryan", "Unforgiven", "Raiders of the Lost Ark", "Rocky",
+    "A Streetcar Named Desire", "To Kill a Mockingbird", "An American in Paris", "The Best Years of Our Lives", "My Fair Lady",
+    "A Clockwork Orange", "Taxi Driver", "Jaws", "Toy Story", "The Matrix",
+    "Pulp Fiction", "Goodfellas", "The Usual Suspects", "L.A. Confidential", "Seven",
+    "Fargo", "The Big Lebowski", "Fight Club", "The Sixth Sense", "American Beauty",
+    "Finding Nemo", "Spirited Away", "The Incredibles", "Ratatouille", "WALL-E",
+    "Up", "Avatar", "The Social Network", "Inception", "The Dark Knight",
+    "Interstellar", "Whiplash", "La La Land", "Parasite", "Everything Everywhere All At Once",
+    "Get Out", "Moonlight", "Mad Max: Fury Road", "Black Panther", "Coco",
+    "Spider-Man: Into the Spider-Verse", "Avengers: Endgame", "Joker", "1917", "Oppenheimer",
+    "Barbie", "Dune", "Top Gun: Maverick", "The Batman", "Knives Out",
+    "Arrival", "Her", "Ex Machina", "Inside Out", "Zootopia",
+    "Frozen", "Moana", "Encanto", "Hamilton", "Bohemian Rhapsody",
+    "Rocketman", "Elvis", "A Star Is Born", "La Vie en Rose", "Ray"
+];

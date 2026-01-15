@@ -74,6 +74,8 @@ export default function GameSettingsScreen() {
         haptics.heavy();
         if (gameMode === 'time-bomb') {
             router.push('/time-bomb/game' as any);
+        } else if (gameMode === 'three-acts') {
+            router.push('/three-acts/setup' as any);
         } else if (gameMode === 'charades') {
             router.push('/charades/game' as any);
         } else if (gameMode === 'thief-police') {

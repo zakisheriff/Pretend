@@ -1,7 +1,7 @@
 export type HintStrength = 'none' | 'low' | 'medium' | 'high';
 
 // Game mode types
-export type GameMode = 'undercover-word' | 'directors-cut' | 'mind-sync' | 'classic-imposter' | 'time-bomb' | 'charades' | 'thief-police' | 'wavelength';
+export type GameMode = 'undercover-word' | 'directors-cut' | 'mind-sync' | 'three-acts' | 'classic-imposter' | 'time-bomb' | 'charades' | 'thief-police' | 'wavelength';
 
 export interface WordHints {
     low: string;
@@ -113,6 +113,33 @@ export interface WavelengthData {
     points: number | null;
 }
 
+export interface ThreeActsTeam {
+    id: string;
+    player1Id: string;
+    player2Id: string;
+    score: number;
+    turnComplete: boolean;
+    roundStats: {
+        act1: { chosen: string; guessed: boolean; skipped: boolean; options: string[] };
+        act2: { chosen: string; guessed: boolean; skipped: boolean; options: string[] };
+        act3: { chosen: string; guessed: boolean; skipped: boolean; options: string[] };
+    };
+}
+
+export interface ThreeActsData {
+    teams: ThreeActsTeam[];
+    currentTeamIndex: number;
+    currentAct: 1 | 2 | 3;
+    timerStarted: boolean;
+    timeRemaining: number;
+    actOptions: {
+        act1: [string, string];
+        act2: [string, string];
+        act3: [string, string];
+    };
+    currentSelection: string | null;
+}
+
 // Union type for selected game data
 export type GameData =
     | { type: 'undercover-word'; data: UndercoverWordPair }
@@ -122,7 +149,9 @@ export type GameData =
     | { type: 'time-bomb'; data: TimeBombData }
     | { type: 'charades'; data: CharadesData }
     | { type: 'thief-police'; data: ThiefPoliceData }
+    | { type: 'thief-police'; data: ThiefPoliceData }
     | { type: 'wavelength'; data: WavelengthData }
+    | { type: 'three-acts'; data: ThreeActsData }
     | null;
 
 export interface Player {
@@ -219,6 +248,19 @@ export interface GameModeInfo {
 }
 
 export const GAME_MODES: GameModeInfo[] = [
+    {
+        id: 'three-acts',
+        name: 'Three Acts',
+        icon: 'film-outline',
+        description: 'Three chances. One minute. Perfect sync.',
+        tagline: 'Act, Quote, and Describe your way to victory!',
+        minPlayers: 4,
+        instructions: [
+            { role: 'Pairs', icon: 'people-outline', desc: 'Team up! Players form pairs to compete.' },
+            { role: '3 Acts', icon: 'layers-outline', desc: '1. One Word, 2. Quote, 3. Charades' },
+            { role: 'Score', icon: 'trophy-outline', desc: 'Guess all 3 for max points!' },
+        ],
+    },
     {
         id: 'undercover-word',
         name: 'Classic Imposter',

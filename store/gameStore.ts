@@ -3,7 +3,7 @@ import { directorsCut, getRandomMindSyncQuestion, mindSync } from '@/data/game-m
 import { getEffectiveTheme, getEffectiveUndercoverTheme, getThemeById, themes } from '@/data/themes';
 import thiefPoliceWords from '@/data/thief-police.json';
 import { getRandomSpectrum } from '@/data/wavelength';
-import { DEFAULT_SETTINGS, DirectorsCutMovie, GameData, GameMode, GameSettings, GameState, MindSyncQuestion, Player, TimeBombData, Word } from '@/types/game';
+import { DEFAULT_SETTINGS, DirectorsCutMovie, GameData, GameMode, GameSettings, GameState, MindSyncQuestion, Player, ThreeActsData, ThreeActsTeam, Word } from '@/types/game';
 import { create } from 'zustand';
 
 // Extended player role info to support all game modes
@@ -95,9 +95,17 @@ interface GameStore extends GameState {
 
 
     // Wavelength Actions
+    // Wavelength Actions
     submitWavelengthClue: (clue: string) => void;
     submitWavelengthGuess: (playerId: string, value: number) => void;
     revealWavelengthResult: () => void;
+
+    // Three Acts Actions
+    startThreeActsGame: (teams: ThreeActsTeam[]) => void;
+    startThreeActsTurn: () => void;
+    threeActsSelectOption: (option: string) => void;
+    threeActsAction: (action: 'correct' | 'skip') => void;
+    nextThreeActsTeam: () => void;
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
@@ -1439,62 +1447,179 @@ export const useGameStore = create<GameStore>((set, get) => ({
         }
     },
 
-    // Time Bomb Reroll Implementation
-    refreshTimeBombData: () => {
-        const state = get();
-        if (state.gameMode !== 'time-bomb') return;
-
-        const currentData = state.gameData?.data as TimeBombData;
-        const variant = state.settings.timeBombVariant || currentData?.variant || 'classic';
-        const duration = currentData?.duration || state.settings.discussionTime;
-        const hiddenTimer = currentData?.hiddenTimer;
-
-        let newGameData: GameData;
-
-        if (variant === 'movies') {
-            const { TIME_BOMB_SCENARIOS } = require('@/data/time-bomb-scenarios');
-            // Ensure we pick a different one if possible
-            let scenario = currentData?.scenario;
-            let attempts = 0;
-            while ((!scenario || scenario === currentData?.scenario) && attempts < 5) {
-                scenario = TIME_BOMB_SCENARIOS[Math.floor(Math.random() * TIME_BOMB_SCENARIOS.length)];
-                attempts++;
+    // Three Acts Implementation
+    startThreeActsGame: (teams: ThreeActsTeam[]) => {
+        set({
+            gameMode: 'three-acts',
+            phase: 'discussion', // Using 'discussion' as the main game phase
+            gameData: {
+                type: 'three-acts',
+                data: {
+                    teams,
+                    currentTeamIndex: 0,
+                    currentAct: 1,
+                    timerStarted: false,
+                    timeRemaining: 60,
+                    actOptions: { act1: ['', ''], act2: ['', ''], act3: ['', ''] }, // Placeholder, populate on turn start
+                    currentSelection: null,
+                }
             }
-
-            newGameData = {
-                type: 'time-bomb',
-                data: {
-                    variant: 'movies',
-                    scenario: scenario!, // Force non-null
-                    duration,
-                    hiddenTimer
-                }
-            };
-        } else {
-            // Classic Reroll
-            const bombCategories = [
-                'Movie', 'Food', 'Game', 'Animal', 'Brand', 'Thing',
-                'Celebrity', 'Country', 'Song', 'City', 'Color',
-                'Fruit', 'Vegetable', 'App', 'Website', 'Car', 'Clothes', 'Drink'
-            ];
-
-            const category = bombCategories[Math.floor(Math.random() * bombCategories.length)];
-            const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
-
-            newGameData = {
-                type: 'time-bomb',
-                data: {
-                    variant: 'classic',
-                    category,
-                    letter,
-                    duration,
-                    hiddenTimer
-                }
-            };
-        }
-
-        set({ gameData: newGameData });
+        });
     },
+
+    startThreeActsTurn: () => {
+        const { THREE_ACTS_MOVIES } = require('@/data/three-acts-movies');
+
+        // Pick 6 unique random movies
+        const shuffled = [...THREE_ACTS_MOVIES].sort(() => 0.5 - Math.random());
+        const options = shuffled.slice(0, 6);
+
+        set((state) => {
+            const currentData = state.gameData?.data as ThreeActsData;
+            if (!currentData) return {};
+
+            return {
+                gameData: {
+                    type: 'three-acts',
+                    data: {
+                        ...currentData,
+                        currentAct: 1,
+                        timerStarted: true,
+                        timeRemaining: 60,
+                        currentSelection: null,
+                        actOptions: {
+                            act1: [options[0], options[1]],
+                            act2: [options[2], options[3]],
+                            act3: [options[4], options[5]],
+                        }
+                    }
+                }
+            };
+        });
+    },
+
+    threeActsSelectOption: (option: string) => {
+        set((state) => {
+            const currentData = state.gameData?.data as ThreeActsData;
+            if (!currentData) return {};
+            return {
+                gameData: {
+                    type: 'three-acts',
+                    data: { ...currentData, currentSelection: option }
+                }
+            };
+        });
+    },
+
+    threeActsAction: (action: 'correct' | 'skip') => {
+        const state = get();
+        const currentData = state.gameData?.data as ThreeActsData;
+        if (!currentData || !currentData.currentSelection) return;
+
+        const { currentAct, currentTeamIndex, teams, actOptions } = currentData;
+        const currentTeam = teams[currentTeamIndex];
+
+        // Update stats
+        const actKey = `act${currentAct}` as keyof typeof currentTeam.roundStats;
+        const updatedRoundStats = {
+            ...currentTeam.roundStats,
+            [actKey]: {
+                chosen: currentData.currentSelection,
+                guessed: action === 'correct',
+                skipped: action === 'skip',
+                options: actOptions[actKey]
+            }
+        };
+
+        const updatedTeams = [...teams];
+        updatedTeams[currentTeamIndex] = { ...currentTeam, roundStats: updatedRoundStats };
+
+        // Move to next act or finish turn
+        if (currentAct < 3) {
+            set({
+                gameData: {
+                    type: 'three-acts',
+                    data: {
+                        ...currentData,
+                        teams: updatedTeams,
+                        currentAct: (currentAct + 1) as 1 | 2 | 3,
+                        currentSelection: null
+                    }
+                }
+            });
+        } else {
+            // Turn complete - Calculate Score
+            let correctCount = 0;
+            if (updatedRoundStats.act1.guessed) correctCount++;
+            if (updatedRoundStats.act2.guessed) correctCount++;
+            if (updatedRoundStats.act3.guessed) correctCount++; // Note: Act 3 can't be skipped in UI, but logic handles it
+
+            let pointsPerPlayer = 0;
+            if (correctCount === 3) pointsPerPlayer = 2;
+            else if (correctCount === 2) pointsPerPlayer = 1;
+
+            updatedTeams[currentTeamIndex].score += pointsPerPlayer * 2; // Total team score update (Wait, score is per team? Plan said per player points added to implementation)
+            // Implementation Plan: "Points are added to both players in the pair."
+            // Store stores 'score' on individual players. 
+            // Also update individual players!
+            const player1 = state.players.find(p => p.id === updatedTeams[currentTeamIndex].player1Id);
+            const player2 = state.players.find(p => p.id === updatedTeams[currentTeamIndex].player2Id);
+
+            // We need to update the global players list too
+            const allPlayers = state.players.map(p => {
+                if (p.id === currentTeam.player1Id || p.id === currentTeam.player2Id) {
+                    return { ...p, score: p.score + pointsPerPlayer };
+                }
+                return p;
+            });
+
+            updatedTeams[currentTeamIndex].score += pointsPerPlayer; // Just tracking round score here maybe? Or total? Let's use it for round display
+            updatedTeams[currentTeamIndex].turnComplete = true;
+
+            set({
+                players: allPlayers,
+                gameData: {
+                    type: 'three-acts',
+                    data: {
+                        ...currentData,
+                        teams: updatedTeams,
+                        timerStarted: false,
+                        currentSelection: null
+                    }
+                }
+            });
+        }
+    },
+
+    nextThreeActsTeam: () => {
+        const state = get();
+        const currentData = state.gameData?.data as ThreeActsData;
+        if (!currentData) return;
+
+        const nextIndex = currentData.currentTeamIndex + 1;
+        if (nextIndex < currentData.teams.length) {
+            set({
+                gameData: {
+                    type: 'three-acts',
+                    data: {
+                        ...currentData,
+                        currentTeamIndex: nextIndex,
+                        currentAct: 1,
+                        timerStarted: false,
+                        timeRemaining: 60,
+                        currentSelection: null,
+                    }
+                }
+            });
+        } else {
+            // All teams done -> Results
+            set({ phase: 'results' });
+        }
+    },
+
+
+
+
 
     getVoteResults: () => {
         const state = get();
