@@ -76,8 +76,10 @@ export interface ClassicImposterData {
 }
 
 export interface TimeBombData {
-    category: string;
-    letter: string;
+    variant: 'classic' | 'movies';
+    category?: string;
+    letter?: string;
+    scenario?: string;
     duration: number;
     hiddenTimer?: boolean;
 }
@@ -146,6 +148,7 @@ export interface GameSettings {
     hapticsEnabled: boolean;
     charadesControl: 'gyro' | 'touch';
     charadesTime: number;
+    timeBombVariant: 'classic' | 'movies';
 }
 
 export interface GameState {
@@ -196,6 +199,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
     hapticsEnabled: true,
     charadesControl: 'gyro',
     charadesTime: 60,
+    timeBombVariant: 'classic',
 };
 
 export interface GameModeStep {

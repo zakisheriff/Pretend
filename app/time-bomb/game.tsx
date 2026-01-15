@@ -18,7 +18,9 @@ export default function TimeBombGameScreen() {
     const insets = useSafeAreaInsets();
     const gameData = useGameStore((s) => s.gameData);
     const refreshTimeBombData = useGameStore((s) => s.refreshTimeBombData);
-    const { category, letter, duration, hiddenTimer } = (gameData?.data as TimeBombData) || { category: '?', letter: '?', duration: 60, hiddenTimer: false };
+    const updateSettings = useGameStore((s) => s.updateSettings);
+    const settings = useGameStore((s) => s.settings);
+    const { category, letter, duration, hiddenTimer, variant, scenario } = (gameData?.data as TimeBombData) || { category: '?', letter: '?', duration: 60, hiddenTimer: false, variant: 'classic' };
 
     const [timeLeft, setTimeLeft] = useState(duration);
     const [isActive, setIsActive] = useState(true);
@@ -97,6 +99,15 @@ export default function TimeBombGameScreen() {
         router.push('/time-bomb/voting');
     };
 
+
+    const handleToggleVariant = () => {
+        haptics.selection();
+        const newVariant = variant === 'movies' ? 'classic' : 'movies';
+        updateSettings({ timeBombVariant: newVariant });
+        // We need to trigger a refresh to generate new data for the new mode
+        setTimeout(() => refreshTimeBombData(), 0);
+    };
+
     const formatTime = (seconds: number) => {
         const m = Math.floor(seconds / 60);
         const s = seconds % 60;
@@ -121,22 +132,43 @@ export default function TimeBombGameScreen() {
 
                 {/* Prompt Section */}
                 <View style={styles.promptCard}>
-                    <Text style={styles.promptLabel}>Pass the phone and name a...</Text>
-                    <Text style={styles.categoryText}>{category}</Text>
-                    <Text style={styles.midLabel}>starting with</Text>
-                    <View style={styles.letterBox}>
-                        <Text style={styles.letterText}>{letter}</Text>
-                    </View>
+                    {variant === 'movies' ? (
+                        <>
+                            <Text style={styles.promptLabel}>Pass the phone and name a...</Text>
+                            <View style={styles.scenarioCard}>
+                                <Text style={styles.scenarioText}>{scenario}</Text>
+                            </View>
+                        </>
+                    ) : (
+                        <>
+                            <Text style={styles.promptLabel}>Pass the phone and name a...</Text>
+                            <Text style={styles.categoryText}>{category}</Text>
+                            <Text style={styles.midLabel}>starting with</Text>
+                            <View style={styles.letterBox}>
+                                <Text style={styles.letterText}>{letter}</Text>
+                            </View>
+                        </>
+                    )}
 
                     {!hasStarted && (
-                        <Button
-                            title="Reroll Prompt"
-                            onPress={handleReroll}
-                            variant="outline"
-                            icon={<Ionicons name="refresh" size={18} color={Colors.candlelight} />}
-                            style={{ marginTop: 20, borderColor: Colors.grayLight }}
-                            textStyle={{ color: Colors.grayLight, fontSize: 14 }}
-                        />
+                        <View style={styles.buttonRow}>
+                            <Button
+                                title={variant === 'movies' ? "Classic Mode" : "Movies Mode"}
+                                onPress={handleToggleVariant}
+                                variant="outline"
+                                icon={<Ionicons name={variant === 'movies' ? "grid-outline" : "film-outline"} size={18} color={Colors.candlelight} />}
+                                style={{ borderColor: Colors.grayLight, flex: 1 }}
+                                textStyle={{ color: Colors.grayLight, fontSize: 13 }}
+                            />
+                            <Button
+                                title="Reroll"
+                                onPress={handleReroll}
+                                variant="outline"
+                                icon={<Ionicons name="refresh" size={18} color={Colors.candlelight} />}
+                                style={{ borderColor: Colors.grayLight, flex: 1 }}
+                                textStyle={{ color: Colors.grayLight, fontSize: 13 }}
+                            />
+                        </View>
                     )}
 
                     {!hasStarted && (
@@ -230,6 +262,30 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 24,
         paddingTop: 100,
+    },
+    buttonRow: {
+        flexDirection: 'row',
+        gap: 12,
+        marginTop: 20,
+        width: '100%',
+    },
+    scenarioCard: {
+        backgroundColor: Colors.grayDark,
+        padding: 20,
+        borderRadius: 16,
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: Colors.grayMedium,
+        minHeight: 120,
+    },
+    scenarioText: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        color: Colors.parchment,
+        textAlign: 'center',
+        lineHeight: 34,
     },
 
     promptCard: {

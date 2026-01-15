@@ -3,7 +3,7 @@ import { directorsCut, getRandomMindSyncQuestion, mindSync } from '@/data/game-m
 import { getEffectiveTheme, getEffectiveUndercoverTheme, getThemeById, themes } from '@/data/themes';
 import thiefPoliceWords from '@/data/thief-police.json';
 import { getRandomSpectrum } from '@/data/wavelength';
-import { DEFAULT_SETTINGS, DirectorsCutMovie, GameData, GameMode, GameSettings, GameState, MindSyncQuestion, Player, Word } from '@/types/game';
+import { DEFAULT_SETTINGS, DirectorsCutMovie, GameData, GameMode, GameSettings, GameState, MindSyncQuestion, Player, TimeBombData, Word } from '@/types/game';
 import { create } from 'zustand';
 
 // Extended player role info to support all game modes
@@ -92,6 +92,7 @@ interface GameStore extends GameState {
     // Time Bomb Reroll
     // Time Bomb Reroll
     refreshTimeBombData: () => void;
+
 
     // Wavelength Actions
     submitWavelengthClue: (clue: string) => void;
@@ -460,19 +461,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
 
             case 'time-bomb': {
-                // Custom categories for Time Bomb
-                const bombCategories = [
-                    'Movie', 'Food', 'Game', 'Animal', 'Brand', 'Thing',
-                    'Celebrity', 'Country', 'Song', 'City', 'Color',
-                    'Fruit', 'Vegetable', 'App', 'Website', 'Car', 'Clothes', 'Drink'
-                ];
-
-                // Pick random category
-                const category = bombCategories[Math.floor(Math.random() * bombCategories.length)];
-
-                // Pick random letter A-Z (including X, Q, Z etc. as requested)
-                const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
-
+                const variant = settings.timeBombVariant || 'classic'; // Default to classic if not set
                 let duration = settings.discussionTime;
                 let hiddenTimer = false;
 
@@ -483,15 +472,46 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     hiddenTimer = true;
                 }
 
-                gameData = {
-                    type: 'time-bomb',
-                    data: {
-                        category,
-                        letter,
-                        duration,
-                        hiddenTimer
-                    }
-                };
+                if (variant === 'movies') {
+                    // Movies Mode
+                    const { TIME_BOMB_SCENARIOS } = require('@/data/time-bomb-scenarios');
+                    const scenario = TIME_BOMB_SCENARIOS[Math.floor(Math.random() * TIME_BOMB_SCENARIOS.length)];
+
+                    gameData = {
+                        type: 'time-bomb',
+                        data: {
+                            variant: 'movies',
+                            scenario,
+                            duration,
+                            hiddenTimer
+                        }
+                    };
+                } else {
+                    // Classic Mode
+                    // Custom categories for Time Bomb
+                    const bombCategories = [
+                        'Movie', 'Food', 'Game', 'Animal', 'Brand', 'Thing',
+                        'Celebrity', 'Country', 'Song', 'City', 'Color',
+                        'Fruit', 'Vegetable', 'App', 'Website', 'Car', 'Clothes', 'Drink'
+                    ];
+
+                    // Pick random category
+                    const category = bombCategories[Math.floor(Math.random() * bombCategories.length)];
+
+                    // Pick random letter A-Z (including X, Q, Z etc. as requested)
+                    const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+
+                    gameData = {
+                        type: 'time-bomb',
+                        data: {
+                            variant: 'classic',
+                            category,
+                            letter,
+                            duration,
+                            hiddenTimer
+                        }
+                    };
+                }
                 break;
             }
 
@@ -959,6 +979,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     gameData = {
                         type: 'time-bomb',
                         data: {
+                            variant: 'classic',
                             category: theme.name,
                             letter,
                             duration: settings.discussionTime
@@ -1416,6 +1437,63 @@ export const useGameStore = create<GameStore>((set, get) => ({
             default:
                 return { isImposter: false, word: null, hint: null };
         }
+    },
+
+    // Time Bomb Reroll Implementation
+    refreshTimeBombData: () => {
+        const state = get();
+        if (state.gameMode !== 'time-bomb') return;
+
+        const currentData = state.gameData?.data as TimeBombData;
+        const variant = state.settings.timeBombVariant || currentData?.variant || 'classic';
+        const duration = currentData?.duration || state.settings.discussionTime;
+        const hiddenTimer = currentData?.hiddenTimer;
+
+        let newGameData: GameData;
+
+        if (variant === 'movies') {
+            const { TIME_BOMB_SCENARIOS } = require('@/data/time-bomb-scenarios');
+            // Ensure we pick a different one if possible
+            let scenario = currentData?.scenario;
+            let attempts = 0;
+            while ((!scenario || scenario === currentData?.scenario) && attempts < 5) {
+                scenario = TIME_BOMB_SCENARIOS[Math.floor(Math.random() * TIME_BOMB_SCENARIOS.length)];
+                attempts++;
+            }
+
+            newGameData = {
+                type: 'time-bomb',
+                data: {
+                    variant: 'movies',
+                    scenario: scenario!, // Force non-null
+                    duration,
+                    hiddenTimer
+                }
+            };
+        } else {
+            // Classic Reroll
+            const bombCategories = [
+                'Movie', 'Food', 'Game', 'Animal', 'Brand', 'Thing',
+                'Celebrity', 'Country', 'Song', 'City', 'Color',
+                'Fruit', 'Vegetable', 'App', 'Website', 'Car', 'Clothes', 'Drink'
+            ];
+
+            const category = bombCategories[Math.floor(Math.random() * bombCategories.length)];
+            const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+
+            newGameData = {
+                type: 'time-bomb',
+                data: {
+                    variant: 'classic',
+                    category,
+                    letter,
+                    duration,
+                    hiddenTimer
+                }
+            };
+        }
+
+        set({ gameData: newGameData });
     },
 
     getVoteResults: () => {
