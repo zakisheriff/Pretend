@@ -732,6 +732,19 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     break;
 
                 case 'directors-cut':
+                    if (directorWinnerId) {
+                        // A viewer guessed correctly: They get 2 points
+                        if (player.id === directorWinnerId) {
+                            pointsToAdd = 2;
+                        }
+                    } else {
+                        // Director won (No one guessed): Director gets 2 points
+                        if (player.id === directorId) {
+                            pointsToAdd = 2;
+                        }
+                    }
+                    break;
+
                 case 'time-bomb':
                     if (player.id !== lastEliminatedPlayerId) {
                         // Everyone who didn't lose gets 1 point
