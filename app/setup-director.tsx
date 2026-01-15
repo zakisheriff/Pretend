@@ -15,7 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 
-type Step = 'choose-director' | 'choose-movie';
+type Step = 'choose-director' | 'choose-movie' | 'choose-timer';
 
 export default function SetupDirectorScreen() {
     const router = useRouter();
@@ -23,6 +23,7 @@ export default function SetupDirectorScreen() {
     const players = useGameStore((s) => s.players);
     const setDirector = useGameStore((s) => s.setDirector);
     const setDirectorMovie = useGameStore((s) => s.setDirectorMovie);
+    const updateSettings = useGameStore((s) => s.updateSettings);
     const startGame = useGameStore((s) => s.startGame);
     const startDiscussion = useGameStore((s) => s.startDiscussion);
 
@@ -32,6 +33,7 @@ export default function SetupDirectorScreen() {
     const [movieData, setMovieData] = useState<{ genre: string; hint: string } | null>(null);
     const [showBrowse, setShowBrowse] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedTime, setSelectedTime] = useState(180); // Default 3 mins
 
     const sectionListRef = useRef<SectionList>(null);
 
@@ -178,17 +180,23 @@ export default function SetupDirectorScreen() {
         setShowBrowse(false);
     };
 
-    const handleStartGame = () => {
+    const handleConfirmMovie = () => {
         if (!movieName.trim()) return;
-        haptics.heavy();
+        haptics.medium();
 
         // Use movie data if name matches (wasn't edited to something else), otherwise Custom
-        if (movieData && movieName === movieName) { // logic check handled by state sync mostly
+        if (movieData && movieName === movieName) {
             setDirectorMovie(movieName.trim(), movieData.genre, movieData.hint);
         } else {
             setDirectorMovie(movieName.trim());
         }
 
+        setStep('choose-timer');
+    };
+
+    const handleStartGame = () => {
+        haptics.heavy();
+        updateSettings({ discussionTime: selectedTime });
         startGame();
         startDiscussion(); // Skip reveal
         router.push('/discussion');
@@ -207,10 +215,11 @@ export default function SetupDirectorScreen() {
                 style={[styles.headerBar, { paddingTop: insets.top + 10 }]}
             >
                 <BackButton onPress={() => {
-                    if (step === 'choose-movie') setStep('choose-director');
+                    if (step === 'choose-timer') setStep('choose-movie');
+                    else if (step === 'choose-movie') setStep('choose-director');
                     else router.back();
                 }} />
-            </LinearGradient>
+            </LinearGradient>>
 
             <ScrollView
                 contentContainerStyle={[styles.content, { paddingTop: 80 }]}
@@ -219,17 +228,19 @@ export default function SetupDirectorScreen() {
             >
                 <View style={styles.header}>
                     <Ionicons
-                        name={step === 'choose-director' ? 'videocam' : 'film'}
+                        name={step === 'choose-director' ? 'videocam' : (step === 'choose-movie' ? 'film' : 'timer')}
                         size={32}
                         color={Colors.parchment}
                     />
                     <Text style={styles.title}>
-                        {step === 'choose-director' ? 'Appoint Director' : 'Select The Movie'}
+                        {step === 'choose-director' ? 'Appoint Director' : (step === 'choose-movie' ? 'Select The Movie' : 'Set Timer')}
                     </Text>
                     <Text style={styles.subtitle}>
                         {step === 'choose-director'
                             ? 'Who Will Know The Secret Movie? '
-                            : `Pick A Movie For Them To Guess! `}
+                            : (step === 'choose-movie'
+                                ? `Pick A Movie For Them To Guess!`
+                                : 'How long should the interrogation last?')}
                     </Text>
                 </View>
 
@@ -263,7 +274,7 @@ export default function SetupDirectorScreen() {
                             style={{ marginTop: 10 }}
                         />
                     </View>
-                ) : (
+                ) : step === 'choose-movie' ? (
                     <TouchableWithoutFeedback onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()}>
                         <View style={styles.movieSection}>
                             <View style={styles.inputContainer}>
@@ -302,6 +313,23 @@ export default function SetupDirectorScreen() {
                             </View>
                         </View>
                     </TouchableWithoutFeedback>
+                ) : (
+                    <View style={styles.timerList}>
+                        {[60, 120, 180, 240, 300].map((time) => (
+                            <TouchableOpacity
+                                key={time}
+                                style={[styles.timerOption, selectedTime === time && styles.timerOptionSelected]}
+                                onPress={() => { haptics.selection(); setSelectedTime(time); }}
+                            >
+                                <Text style={[styles.timerText, selectedTime === time && styles.timerTextSelected]}>
+                                    {time / 60} Minutes
+                                </Text>
+                                {selectedTime === time && (
+                                    <Ionicons name="checkmark-circle" size={24} color={Colors.victorianBlack} />
+                                )}
+                            </TouchableOpacity>
+                        ))}
+                    </View>
                 )}
             </ScrollView>
 
@@ -388,12 +416,19 @@ export default function SetupDirectorScreen() {
                         disabled={!selectedDirectorId}
                         size="large"
                     />
+                ) : step === 'choose-movie' ? (
+                    <Button
+                        title="Next: Set Timer"
+                        onPress={handleConfirmMovie}
+                        variant="primary"
+                        disabled={!movieName.trim()}
+                        size="large"
+                    />
                 ) : (
                     <Button
                         title="Start Game"
                         onPress={handleStartGame}
                         variant="primary"
-                        disabled={!movieName.trim()}
                         size="large"
                         icon={<Ionicons name="play" size={20} color={Colors.victorianBlack} />}
                     />
@@ -492,6 +527,34 @@ const styles = StyleSheet.create({
     },
     sidebarContainer: {
         // Wrapper for actual letters to measure their height/position
+    },
+
+    // Timer Styles
+    timerList: {
+        gap: 12,
+    },
+    timerOption: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 20,
+        backgroundColor: Colors.grayDark,
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: Colors.grayMedium,
+    },
+    timerOptionSelected: {
+        backgroundColor: Colors.candlelight,
+        borderColor: Colors.candlelight,
+    },
+    timerText: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: Colors.parchment,
+    },
+    timerTextSelected: {
+        color: Colors.victorianBlack,
+        fontWeight: 'bold',
     },
     sidebarLetterContainer: { paddingVertical: 2, paddingHorizontal: 4 },
     sidebarLetter: { fontSize: 11, fontWeight: '700', color: Colors.candlelight },
