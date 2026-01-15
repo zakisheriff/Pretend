@@ -42,36 +42,38 @@ export default function WavelengthGameScreen() {
     const [guessValue, setGuessValue] = useState(50);
     const [isRevealing, setIsRevealing] = useState(false);
 
-    // Animations
+    // Animations (Always call these)
     const dialX = useSharedValue(0.5 * DIAL_WIDTH);
     const targetOpacity = useSharedValue(0);
 
-    // Safety check
-    if (!gameData || gameData.type !== 'wavelength') {
-        return (
-            <View style={styles.container}>
-                <Text style={styles.text}>Loading...</Text>
-            </View>
-        );
-    }
+    // --- Derived State (Must be safe if gameData is null) ---
+    // Safe destructuring
+    const isValidGame = gameData && gameData.type === 'wavelength';
+    const data = isValidGame ? (gameData.data as WavelengthData) : {
+        spectrum: { left: '', right: '' },
+        targetValue: 50,
+        clue: null,
+        clueGiverId: '',
+        guesses: {},
+        points: null
+    };
 
-    const data = gameData.data as WavelengthData;
     const { spectrum, targetValue, clue, clueGiverId, guesses } = data;
 
-    // Derived State
     const psychic = useMemo(() => players.find(p => p.id === clueGiverId), [players, clueGiverId]);
     const guessers = useMemo(() => players.filter(p => p.id !== clueGiverId), [players, clueGiverId]);
 
     const isPsychicPhase = !clue;
     const currentGuesser = useMemo(() => {
+        if (!isValidGame) return null;
         if (isPsychicPhase) return null;
         return guessers.find(p => guesses[p.id] === undefined) || null;
-    }, [guessers, guesses, isPsychicPhase]);
+    }, [isValidGame, guessers, guesses, isPsychicPhase]);
 
     const isGuessingPhase = !!currentGuesser && !isPsychicPhase && phase !== 'results';
-    const isResultPhase = phase === 'results' || (!isPsychicPhase && !currentGuesser);
+    const isResultPhase = phase === 'results' || (!isPsychicPhase && !currentGuesser && isValidGame);
 
-    // Reset local state when player changes
+    // Side Effects
     useEffect(() => {
         setIsPlayerReady(false);
         setGuessValue(50);
@@ -79,7 +81,7 @@ export default function WavelengthGameScreen() {
     }, [currentGuesser?.id, isPsychicPhase]);
 
     useEffect(() => {
-        if (!currentGuesser && !isPsychicPhase && phase !== 'results') {
+        if (isValidGame && !currentGuesser && !isPsychicPhase && phase !== 'results') {
             revealResult();
         }
         if (isResultPhase) {
@@ -90,7 +92,17 @@ export default function WavelengthGameScreen() {
             targetOpacity.value = 0;
             setIsRevealing(false);
         }
-    }, [isResultPhase, currentGuesser, isPsychicPhase, phase]);
+    }, [isValidGame, isResultPhase, currentGuesser, isPsychicPhase, phase]);
+
+    // Animated Styles (Always call)
+    const dialStyle = useAnimatedStyle(() => ({
+        transform: [{ translateX: dialX.value - 15 }]
+    }));
+
+    const targetStyle = useAnimatedStyle(() => ({
+        left: `${targetValue}%`,
+        opacity: targetOpacity.value
+    }));
 
     // Gestures
     const pan = Gesture.Pan()
@@ -106,14 +118,15 @@ export default function WavelengthGameScreen() {
             if (settings.hapticsEnabled) runOnJS(haptics.selection)();
         });
 
-    const dialStyle = useAnimatedStyle(() => ({
-        transform: [{ translateX: dialX.value - 15 }]
-    }));
 
-    const targetStyle = useAnimatedStyle(() => ({
-        left: `${targetValue}%`,
-        opacity: targetOpacity.value
-    }));
+    // --- Early Return ONLY after all hooks ---
+    if (!isValidGame) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.text}>Loading...</Text>
+            </View>
+        );
+    }
 
     // Handlers
     const handleClueSubmit = () => {
@@ -456,23 +469,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    valueBubble: {
-        position: 'absolute',
-        top: -35,
-        backgroundColor: Colors.parchment,
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-        borderRadius: 8,
-        minWidth: 40,
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: Colors.victorianBlack,
-    },
-    valueText: {
-        fontWeight: '900',
-        color: Colors.victorianBlack,
-        fontSize: 12
-    },
     dialLine: {
         width: 2,
         height: '100%',
@@ -595,5 +591,22 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255,255,255,0.05)',
         borderRadius: 8,
         marginBottom: 10
+    },
+    valueBubble: {
+        position: 'absolute',
+        top: -35,
+        backgroundColor: Colors.parchment,
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 8,
+        minWidth: 40,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: Colors.victorianBlack,
+    },
+    valueText: {
+        fontWeight: '900',
+        color: Colors.victorianBlack,
+        fontSize: 12
     }
 });
