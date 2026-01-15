@@ -1,4 +1,5 @@
 import { Colors } from '@/constants/colors';
+import { CHARADES_WORDS } from '@/data/charades';
 import { useGameStore } from '@/store/gameStore';
 import { CharadesData } from '@/types/game';
 import { haptics } from '@/utils/haptics';
@@ -27,15 +28,12 @@ export default function CharadesGameScreen() {
     // Safety check for data with HARD fallback
     const charadesData = gameData?.data as CharadesData | undefined;
 
-    // Fallback list if store data fails (20 words to match expected count)
-    const FALLBACK_WORDS = [
-        'Spiderman', 'Batman', 'Pizza', 'Zombie', 'Elvis',
-        'Robot', 'Monkey', 'Doctor', 'Teacher', 'Ninja',
-        'Penguin', 'Astronaut', 'Pirate', 'Cowboy', 'Tiger',
-        'Elephant', 'Guitar', 'Dancing', 'Swimming', 'Flying'
-    ];
+    // Use persistent fallback words from the real data source (shuffled once)
+    const [fallbackWords] = useState(() =>
+        [...CHARADES_WORDS].sort(() => Math.random() - 0.5).slice(0, 20)
+    );
 
-    const words = (charadesData?.words && charadesData.words.length > 0) ? charadesData.words : FALLBACK_WORDS;
+    const words = (charadesData?.words && charadesData.words.length > 0) ? charadesData.words : fallbackWords;
     const duration = charadesData?.duration || 60;
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -511,7 +509,8 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.grayDark || '#0A0A0A',
         padding: 30,
         borderRadius: 20,
-        width: '60%',
+        width: '90%', // Increased from 60% for mobile
+        maxWidth: 500, // Cap on desktop
         alignItems: 'center',
         borderWidth: 2,
         borderColor: Colors.candlelight,
@@ -536,13 +535,16 @@ const styles = StyleSheet.create({
     },
     confirmButtons: {
         flexDirection: 'row',
-        gap: 20,
+        gap: 15,
+        width: '100%',
+        justifyContent: 'center',
     },
     confirmBtn: {
         paddingVertical: 15,
-        paddingHorizontal: 30,
+        paddingHorizontal: 10,
         borderRadius: 15,
-        minWidth: 150,
+        flex: 1, // Allow shrinking
+        minWidth: 100,
         alignItems: 'center',
     },
     cancelBtn: {
@@ -560,20 +562,22 @@ const styles = StyleSheet.create({
     },
     webControls: {
         flexDirection: 'row',
-        gap: 40,
-        marginBottom: 30, // Lift up from bottom
+        gap: 20, // Reduced from 40
+        marginBottom: 30,
         width: '100%',
         justifyContent: 'center',
+        paddingHorizontal: 20, // Prevent edge touching
     },
     controlBtn: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 12,
+        gap: 8, // Reduced gap
         paddingVertical: 18,
-        paddingHorizontal: 32,
+        paddingHorizontal: 20, // Reduced padding
         borderRadius: 16,
         borderWidth: 2,
-        minWidth: 160,
+        flex: 1, // Allow shrinking/growing
+        maxWidth: 200, // Cap width
         justifyContent: 'center',
     },
     passBtn: {

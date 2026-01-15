@@ -277,7 +277,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold',
         color: Colors.candlelight,
-        textTransform: 'uppercase',
         letterSpacing: 1,
         marginLeft: 4,
     },
