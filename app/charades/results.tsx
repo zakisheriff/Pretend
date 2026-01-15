@@ -1,3 +1,4 @@
+import { GenericModal } from '@/components/common/GenericModal';
 import { Button, ScoreBoard, WinnerCelebration } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
@@ -6,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import React, { useEffect, useState } from 'react';
-import { BackHandler, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { BackHandler, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function CharadesResultsScreen() {
@@ -131,23 +132,16 @@ export default function CharadesResultsScreen() {
             )}
 
             {/* Home Confirmation Overlay */}
-            {showConfirm && (
-                <View style={styles.confirmOverlay}>
-                    <View style={styles.confirmBox}>
-                        <Text style={styles.confirmTitle}>Quit Game?</Text>
-                        <Text style={styles.confirmSub}>Scoreboard will be reset. </Text>
-
-                        <View style={styles.confirmButtons}>
-                            <Pressable onPress={cancelHome} style={[styles.confirmBtn, styles.cancelBtn]}>
-                                <Text style={styles.confirmBtnText}>Cancel</Text>
-                            </Pressable>
-                            <Pressable onPress={confirmHome} style={[styles.confirmBtn, styles.confirmActionBtn]}>
-                                <Text style={styles.confirmBtnText}>Quit</Text>
-                            </Pressable>
-                        </View>
-                    </View>
-                </View>
-            )}
+            <GenericModal
+                visible={showConfirm}
+                title="Quit Game?"
+                message="Scoreboard will be reset."
+                confirmLabel="Quit"
+                cancelLabel="Cancel"
+                isDestructive
+                onConfirm={confirmHome}
+                onCancel={cancelHome}
+            />
         </View>
     );
 }
@@ -212,62 +206,5 @@ const styles = StyleSheet.create({
     footerButtons: {
         width: '100%',
         gap: 15,
-    },
-    confirmOverlay: {
-        ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0,0,0,0.85)',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 100,
-    },
-    confirmBox: {
-        backgroundColor: Colors.grayDark || '#0A0A0A',
-        padding: 30,
-        borderRadius: 20,
-        width: '90%',
-        maxWidth: 400,
-        alignItems: 'center',
-        borderWidth: 2,
-        borderColor: Colors.candlelight,
-    },
-    confirmTitle: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: Colors.parchment,
-        marginBottom: 10,
-        textAlign: 'center',
-    },
-    confirmSub: {
-        fontSize: 18,
-        color: Colors.grayLight,
-        marginBottom: 30,
-        textAlign: 'center',
-    },
-    confirmButtons: {
-        flexDirection: 'row',
-        gap: 15,
-        width: '100%',
-        justifyContent: 'center',
-    },
-    confirmBtn: {
-        paddingVertical: 15,
-        paddingHorizontal: 20,
-        borderRadius: 15,
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    cancelBtn: {
-        backgroundColor: 'transparent',
-        borderWidth: 2,
-        borderColor: Colors.grayLight,
-    },
-    confirmActionBtn: {
-        backgroundColor: Colors.imposter,
-    },
-    confirmBtnText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: Colors.parchment,
     },
 });

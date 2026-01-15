@@ -1,3 +1,4 @@
+import { GenericModal } from '@/components/common/GenericModal';
 import { Colors } from '@/constants/colors';
 import { CHARADES_WORDS } from '@/data/charades';
 import { useGameStore } from '@/store/gameStore';
@@ -113,6 +114,15 @@ export default function CharadesGameScreen() {
 
     const cancelExit = () => {
         setShowExitConfirm(false);
+    };
+
+    const handleSetupBack = () => {
+        haptics.selection();
+        if (router.canGoBack()) {
+            router.back();
+        } else {
+            router.replace('/select-mode'); // Fallback
+        }
     };
 
     useEffect(() => {
@@ -299,6 +309,9 @@ export default function CharadesGameScreen() {
 
     const renderSetup = () => (
         <View style={styles.centerContent}>
+            <Pressable style={[styles.setupBackBtn, { top: insets.top + 10 }]} onPress={handleSetupBack}>
+                <Ionicons name="arrow-back" size={28} color={Colors.parchment} />
+            </Pressable>
             <Text style={styles.title}>New Round</Text>
             <Text style={styles.playerText}> {currentPlayer?.name} </Text>
             <Text style={styles.subText}>You are up! </Text>
@@ -335,25 +348,16 @@ export default function CharadesGameScreen() {
             </Pressable>
 
             {/* Ready Confirmation Overlay */}
-            {showConfirm && (
-                <View style={[StyleSheet.absoluteFill, styles.confirmOverlay]}>
-                    <View style={styles.confirmBox}>
-                        <Text style={styles.confirmTitle}>Ready to Start?</Text>
-                        <Text style={styles.confirmSub}>
-                            {isTouchMode ? 'Get your fingers ready!' : 'Ensure the screen is facing the crowd! '}
-                        </Text>
-
-                        <View style={styles.confirmButtons}>
-                            <Pressable onPress={cancelStart} style={[styles.confirmBtn, styles.cancelBtn]}>
-                                <Text style={styles.confirmBtnText}>Cancel</Text>
-                            </Pressable>
-                            <Pressable onPress={confirmStart} style={[styles.confirmBtn, styles.startBtn]}>
-                                <Text style={[styles.confirmBtnText, { color: Colors.victorianBlack }]}>Start Game</Text>
-                            </Pressable>
-                        </View>
-                    </View>
-                </View>
-            )}
+            <GenericModal
+                visible={showConfirm}
+                title="Ready to Start?"
+                message={isTouchMode ? 'Get your fingers ready!' : 'Ensure the screen is facing the crowd!'}
+                confirmLabel="Start Game"
+                cancelLabel="Cancel"
+                isDestructive={false}
+                onConfirm={confirmStart}
+                onCancel={cancelStart}
+            />
         </View>
     );
 
@@ -369,29 +373,22 @@ export default function CharadesGameScreen() {
             />
 
             {/* Exit Confirmation Overlay */}
-            {showExitConfirm && (
-                <View style={[StyleSheet.absoluteFill, styles.confirmOverlay]}>
-                    <View style={styles.confirmBox}>
-                        <Text style={styles.confirmTitle}>Quit Game?</Text>
-                        <Text style={styles.confirmSub}>Current progress will be lost.</Text>
-
-                        <View style={styles.confirmButtons}>
-                            <Pressable onPress={cancelExit} style={[styles.confirmBtn, styles.cancelBtn]}>
-                                <Text style={styles.confirmBtnText}>No</Text>
-                            </Pressable>
-                            <Pressable onPress={confirmExit} style={[styles.confirmBtn, styles.startBtn, { backgroundColor: Colors.imposter }]}>
-                                <Text style={[styles.confirmBtnText, { color: Colors.white }]}>Quit</Text>
-                            </Pressable>
-                        </View>
-                    </View>
-                </View>
-            )}
+            <GenericModal
+                visible={showExitConfirm}
+                title="Quit Game?"
+                message="Current progress will be lost."
+                confirmLabel="Quit"
+                cancelLabel="No"
+                isDestructive
+                onConfirm={confirmExit}
+                onCancel={cancelExit}
+            />
 
             {phase === 'setup' && renderSetup()}
             {phase === 'ready' && renderReady()}
 
             {phase === 'playing' && (
-                <View style={styles.gameContent}>
+                <View style={[styles.gameContent, { paddingTop: insets.top }]}>
                     <View style={styles.header}>
                         <Text style={styles.timer}>{timeLeft}</Text>
                         <Text style={styles.wordCounter}>{currentIndex + 1}/{words.length}</Text>
@@ -425,6 +422,12 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.victorianBlack,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    setupBackBtn: {
+        position: 'absolute',
+        left: 20,
+        zIndex: 20,
+        padding: 10,
     },
     centerContent: {
         flex: 1,
@@ -572,16 +575,11 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.grayDark || '#0A0A0A',
         padding: 30,
         borderRadius: 20,
-        width: '90%', // Increased from 60% for mobile
-        maxWidth: 500, // Cap on desktop
+        width: '90%',
+        maxWidth: 400,
         alignItems: 'center',
         borderWidth: 2,
         borderColor: Colors.candlelight,
-        shadowColor: Colors.candlelight,
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.3,
-        shadowRadius: 20,
-        elevation: 10,
     },
     confirmTitle: {
         fontSize: 32,
@@ -591,7 +589,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     confirmSub: {
-        fontSize: 20,
+        fontSize: 18,
         color: Colors.grayLight,
         marginBottom: 30,
         textAlign: 'center',
@@ -604,11 +602,11 @@ const styles = StyleSheet.create({
     },
     confirmBtn: {
         paddingVertical: 15,
-        paddingHorizontal: 10,
+        paddingHorizontal: 20,
         borderRadius: 15,
-        flex: 1, // Allow shrinking
-        minWidth: 100,
+        flex: 1,
         alignItems: 'center',
+        justifyContent: 'center',
     },
     cancelBtn: {
         backgroundColor: 'transparent',
@@ -618,8 +616,11 @@ const styles = StyleSheet.create({
     startBtn: {
         backgroundColor: Colors.candlelight,
     },
+    confirmActionBtn: {
+        backgroundColor: Colors.imposter,
+    },
     confirmBtnText: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
         color: Colors.parchment,
     },
