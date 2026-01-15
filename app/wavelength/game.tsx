@@ -205,7 +205,7 @@ export default function WavelengthGameScreen() {
         let message = "Round Over";
         if (bestGuess.diff <= 5) message = "Bullseye! 🎯";
         else if (bestGuess.diff <= 15) message = "Close Call! 👏";
-        else if (bestGuess.diff <= 25) message = "Not Bad 👍";
+        else message = "So Far Away... 😅";
 
         return (
             <View style={styles.resultsWrapper}>

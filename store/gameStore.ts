@@ -1192,9 +1192,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 let points = 0;
 
                 // Scoring
-                if (diff <= 5) points = 3;
-                else if (diff <= 15) points = 2;
-                else if (diff <= 25) points = 1;
+                if (diff <= 5) points = 2;
+                else if (diff <= 15) points = 1;
 
                 if (points > maxRoundPoints) maxRoundPoints = points;
 
