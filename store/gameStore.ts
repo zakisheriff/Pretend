@@ -470,8 +470,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
 
             case 'charades': {
-                // Shuffle words from external data and limit to 20
-                const shuffled = [...CHARADES_WORDS].sort(() => Math.random() - 0.5).slice(0, 20);
+                // Shuffle words from external data and limit to 50 (practically infinite for a round)
+                const shuffled = [...CHARADES_WORDS].sort(() => Math.random() - 0.5).slice(0, 50);
                 // Use dedicated Charades timer setting
                 console.log('Starting Charades with Settings:', JSON.stringify(settings));
                 const charadesDuration = (settings.charadesTime && settings.charadesTime > 0) ? settings.charadesTime : 60;

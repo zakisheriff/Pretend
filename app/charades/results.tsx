@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import React, { useEffect } from 'react';
-import { BackHandler, StyleSheet, Text, View } from 'react-native';
+import { BackHandler, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function CharadesResultsScreen() {
@@ -60,40 +60,46 @@ export default function CharadesResultsScreen() {
 
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-            <View style={styles.content}>
-                <Text style={styles.gameOverTitle}>Time's Up!</Text>
+            <ScrollView
+                style={{ flex: 1, width: '100%' }}
+                contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 40 }}
+                showsVerticalScrollIndicator={false}
+            >
+                <View style={styles.content}>
+                    <Text style={styles.gameOverTitle}>Time's Up!</Text>
 
-                <View style={styles.scoreContainer}>
-                    <Text style={styles.finalCount}>{correctCount}</Text>
-                    <Text style={styles.scoreLabel}>WORDS CORRECT </Text>
+                    <View style={styles.scoreContainer}>
+                        <Text style={styles.finalCount}>{correctCount}</Text>
+                        <Text style={styles.scoreLabel}>WORDS CORRECT </Text>
+                    </View>
+
+                    {pointsEarned > 0 ? (
+                        <Text style={styles.pointsEarned}>+ {pointsEarned} POINTS EARNED!</Text>
+                    ) : (
+                        <Text style={styles.noPoints}>No points earned this round.</Text>
+                    )}
+
+                    {/* Mini Leaderboard */}
+                    <View style={styles.leaderboard}>
+                        <ScoreBoard players={players} />
+                    </View>
+
+                    <View style={styles.footerButtons}>
+                        <Button
+                            title="Play Again"
+                            onPress={handlePlayAgain}
+                            variant="primary"
+                            icon={<Ionicons name="refresh" size={20} color={Colors.victorianBlack} />}
+                        />
+                        <Button
+                            title="Home"
+                            onPress={handleHome}
+                            variant="outline"
+                            icon={<Ionicons name="home" size={20} color={Colors.parchment} />}
+                        />
+                    </View>
                 </View>
-
-                {pointsEarned > 0 ? (
-                    <Text style={styles.pointsEarned}>+ {pointsEarned} POINTS EARNED!</Text>
-                ) : (
-                    <Text style={styles.noPoints}>No points earned this round.</Text>
-                )}
-
-                {/* Mini Leaderboard */}
-                <View style={styles.leaderboard}>
-                    <ScoreBoard players={players} />
-                </View>
-
-                <View style={styles.footerButtons}>
-                    <Button
-                        title="Play Again"
-                        onPress={handlePlayAgain}
-                        variant="primary"
-                        icon={<Ionicons name="refresh" size={20} color={Colors.victorianBlack} />}
-                    />
-                    <Button
-                        title="Home"
-                        onPress={handleHome}
-                        variant="outline"
-                        icon={<Ionicons name="home" size={20} color={Colors.parchment} />}
-                    />
-                </View>
-            </View>
+            </ScrollView>
 
             {/* Tournament Winner Celebration */}
             {winner && (

@@ -316,7 +316,7 @@ export default function CharadesGameScreen() {
                     <View style={styles.confirmBox}>
                         <Text style={styles.confirmTitle}>Ready to Start?</Text>
                         <Text style={styles.confirmSub}>
-                            {isTouchMode ? 'Get your fingers ready!' : 'Ensure the screen is facing the crowd!'}
+                            {isTouchMode ? 'Get your fingers ready!' : 'Ensure the screen is facing the crowd! '}
                         </Text>
 
                         <View style={styles.confirmButtons}>
