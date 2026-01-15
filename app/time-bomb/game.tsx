@@ -1,4 +1,5 @@
 import { BackButton } from '@/components/common/BackButton';
+import { GenericModal } from '@/components/common/GenericModal';
 import { Button } from '@/components/game/Button';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
@@ -23,6 +24,7 @@ export default function TimeBombGameScreen() {
     const [isActive, setIsActive] = useState(true);
     const [isExploded, setIsExploded] = useState(false);
     const [hasStarted, setHasStarted] = useState(false);
+    const [showExplodeConfirm, setShowExplodeConfirm] = useState(false);
 
     const pulseAnim = useSharedValue(1);
     const timerRef = useRef<any>(null);
@@ -70,6 +72,12 @@ export default function TimeBombGameScreen() {
     };
 
     const handleManualExplode = () => {
+        haptics.medium();
+        setShowExplodeConfirm(true);
+    };
+
+    const confirmExplode = () => {
+        setShowExplodeConfirm(false);
         haptics.heavy();
         handleExplosion();
     };
@@ -189,6 +197,16 @@ export default function TimeBombGameScreen() {
                     )}
                 </View>
 
+                <GenericModal
+                    visible={showExplodeConfirm}
+                    title="Explode the Bomb?"
+                    message="Are you sure you want to end the round now?"
+                    confirmLabel="Yes, BOOM!"
+                    cancelLabel="Cancel"
+                    onConfirm={confirmExplode}
+                    onCancel={() => setShowExplodeConfirm(false)}
+                    isDestructive
+                />
             </View>
         </View>
     );
