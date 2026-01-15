@@ -89,6 +89,18 @@ const GAME_MODES_INFO = [
         ],
         tip: 'Use device motion! No touching required.',
     },
+    {
+        id: 'wavelength',
+        name: 'Wavelength',
+        icon: 'pulse-outline',
+        color: Colors.detective,
+        steps: [
+            { icon: 'eye-outline', role: 'Psychic', desc: 'Gives a clue for the target range' },
+            { icon: 'people-outline', role: 'Group', desc: 'Discuss and align the dial!' },
+            { icon: 'trophy-outline', role: 'Scoring', desc: 'Bullseye (5%) = 2pts, Close (15%) = 1pt' },
+        ],
+        tip: 'Think about how the group perceives the scale!',
+    },
 ];
 
 const COMMON_STEPS = [
