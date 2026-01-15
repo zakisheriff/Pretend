@@ -3,7 +3,7 @@ import { Player } from '@/types/game';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, { FadeInUp } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInUp, FadeOut } from 'react-native-reanimated';
 
 interface ScoreBoardProps {
     players: Player[];
@@ -43,7 +43,8 @@ export const ScoreBoard = ({ players, title = "Leaderboard" }: ScoreBoardProps) 
 
             {showRules && (
                 <Animated.View
-                    entering={FadeInUp}
+                    entering={FadeIn.duration(300)}
+                    exiting={FadeOut.duration(100)}
                     style={styles.rulesContainer}
                 >
                     {rules.map((rule, i) => (
