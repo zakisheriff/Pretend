@@ -236,11 +236,11 @@ export default function WavelengthGameScreen() {
                 <View style={styles.resultSummary}>
                     <Text style={styles.scoreTitle}>{message}</Text>
                     <Text style={styles.resultDetails}>
-                        Target was {targetValue}%
+                        Target was {Math.round((targetValue - 50) * 2) > 0 ? '+' : ''}{Math.round((targetValue - 50) * 2)}
                     </Text>
                     {bestPlayer && (
                         <Text style={styles.bestGuesser}>
-                            Best Guess: {bestPlayer.name} ({Math.round(bestGuess.val)}%)
+                            Best Guess: {bestPlayer.name} ({Math.round((bestGuess.val - 50) * 2) > 0 ? '+' : ''}{Math.round((bestGuess.val - 50) * 2)})
                         </Text>
                     )}
                 </View>
@@ -290,7 +290,9 @@ export default function WavelengthGameScreen() {
                             {/* Floating Bubble for Guess State */}
                             {isGuessingPhase && (
                                 <Animated.View style={[styles.valueBubble, bubbleStyle]}>
-                                    <Text style={styles.valueText}>{Math.round(guessValue)}%</Text>
+                                    <Text style={styles.valueText}>
+                                        {Math.round((guessValue - 50) * 2) > 0 ? '+' : ''}{Math.round((guessValue - 50) * 2)}
+                                    </Text>
                                     <View style={styles.bubbleArrow} />
                                 </Animated.View>
                             )}
@@ -312,7 +314,9 @@ export default function WavelengthGameScreen() {
                             {isPsychicPhase && (
                                 <View style={[styles.targetBubbleContainer, { left: `${targetValue}%` }]}>
                                     <View style={styles.targetBubble}>
-                                        <Text style={styles.targetBubbleText}>{targetValue}%</Text>
+                                        <Text style={styles.targetBubbleText}>
+                                            {Math.round((targetValue - 50) * 2) > 0 ? '+' : ''}{Math.round((targetValue - 50) * 2)}
+                                        </Text>
                                         <View style={styles.targetBubbleArrow} />
                                     </View>
                                 </View>
@@ -343,6 +347,13 @@ export default function WavelengthGameScreen() {
                                         </Animated.View>
                                     </GestureDetector>
                                 )}
+                            </View>
+
+                            {/* Scale Markers */}
+                            <View style={styles.scaleContainer}>
+                                <Text style={[styles.scaleText, { position: 'absolute', left: -17.5 }]}>-100</Text>
+                                <Text style={[styles.scaleText, { position: 'absolute', left: '50%', marginLeft: -17.5 }]}>0</Text>
+                                <Text style={[styles.scaleText, { position: 'absolute', right: -17.5 }]}>+100</Text>
                             </View>
                         </View>
 
@@ -565,6 +576,23 @@ const styles = StyleSheet.create({
         width: 2,
         height: '100%',
         backgroundColor: Colors.victorianBlack
+    },
+
+    // Scale
+    scaleContainer: {
+        marginTop: 5,
+        height: 20,
+        position: 'absolute',
+        bottom: -25,
+        left: 0,
+        right: 0,
+    },
+    scaleText: {
+        color: Colors.grayLight,
+        fontSize: 12,
+        fontWeight: 'bold',
+        width: 35,
+        textAlign: 'center',
     },
 
     // Bubble & Avatar Pins
