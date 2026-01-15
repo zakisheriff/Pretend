@@ -263,12 +263,26 @@ export default function WavelengthGameScreen() {
                         </View>
 
                         <View style={styles.dialContainer}>
-                            {/* Floating Bubble (Relative to dialContainer) */}
+                            {/* Floating Bubble for Guess State */}
                             {isGuessingPhase && (
                                 <Animated.View style={[styles.valueBubble, bubbleStyle]}>
                                     <Text style={styles.valueText}>{Math.round(guessValue)}%</Text>
+                                    <View style={styles.bubbleArrow} />
                                 </Animated.View>
                             )}
+
+                            {/* Result Avatar Pins (Replaces the "white line") */}
+                            {isResultPhase && Object.entries(guesses).map(([pid, val]) => {
+                                const pName = players.find(p => p.id === pid)?.name.substring(0, 1) || '?';
+                                return (
+                                    <View key={pid} style={[styles.avatarPinContainer, { left: `${val}%` }]}>
+                                        <View style={styles.avatarCircle}>
+                                            <Text style={styles.avatarText}>{pName}</Text>
+                                        </View>
+                                        <View style={styles.avatarArrow} />
+                                    </View>
+                                );
+                            })}
 
                             <View style={styles.dialTrack}>
                                 <LinearGradient
@@ -295,18 +309,6 @@ export default function WavelengthGameScreen() {
                                         </Animated.View>
                                     </GestureDetector>
                                 )}
-
-                                {isResultPhase && Object.entries(guesses).map(([pid, val]) => {
-                                    const pName = players.find(p => p.id === pid)?.name.substring(0, 1) || '?';
-                                    return (
-                                        <View key={pid} style={[styles.resultPin, { left: `${val}%` }]}>
-                                            <View style={styles.pinHead}>
-                                                <Text style={styles.pinText}>{pName}</Text>
-                                            </View>
-                                            <View style={styles.pinStick} />
-                                        </View>
-                                    );
-                                })}
                             </View>
                         </View>
 
@@ -413,8 +415,8 @@ const styles = StyleSheet.create({
     spectrumLabelRight: { fontSize: 20, fontWeight: 'bold', color: SPECTRUM_RIGHT, textAlign: 'right', width: '45%' },
 
     dialContainer: {
-        marginTop: 40, // Increased margin to fit the bubble above
-        position: 'relative' // Ensure bubble is relative to this
+        marginTop: 45, // Increased margin to fit avatars
+        position: 'relative'
     },
 
     dialTrack: {
@@ -429,7 +431,7 @@ const styles = StyleSheet.create({
     },
     trackGradient: {
         ...StyleSheet.absoluteFillObject,
-        borderRadius: 38, // Match track roundedness
+        borderRadius: 38,
     },
     targetRange: {
         position: 'absolute',
@@ -490,34 +492,78 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.victorianBlack
     },
 
-    // Result Pins
-    resultPin: {
+    // Bubble & Avatar Pins
+    valueBubble: {
         position: 'absolute',
         top: -40,
-        bottom: 0,
-        width: 2,
+        backgroundColor: Colors.parchment,
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 8,
+        minWidth: 40,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: Colors.victorianBlack,
+        zIndex: 20,
+    },
+    bubbleArrow: {
+        position: 'absolute',
+        bottom: -6,
+        width: 0,
+        height: 0,
+        borderLeftWidth: 6,
+        borderRightWidth: 6,
+        borderTopWidth: 6,
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderTopColor: Colors.victorianBlack,
+    },
+    valueText: {
+        fontWeight: '900',
+        color: Colors.victorianBlack,
+        fontSize: 12
+    },
+
+    // New Avatar Pin Style
+    avatarPinContainer: {
+        position: 'absolute',
+        top: -42, // Positioned above the track
+        width: 0, // Zero width to center properly
         alignItems: 'center',
         justifyContent: 'flex-start',
-        zIndex: 8,
+        zIndex: 15,
+        overflow: 'visible'
     },
-    pinHead: {
-        width: 20,
-        height: 20,
-        borderRadius: 10,
+    avatarCircle: {
+        width: 32,
+        height: 32,
+        borderRadius: 16,
         backgroundColor: Colors.parchment,
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: Colors.victorianBlack,
-        marginBottom: 0,
-        zIndex: 9
+        zIndex: 16,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
     },
-    pinText: { fontSize: 10, fontWeight: 'bold', color: Colors.victorianBlack },
-    pinStick: {
-        width: 2,
-        height: 56, // Reach down to track center
-        backgroundColor: Colors.parchment,
-        opacity: 0.5,
+    avatarText: {
+        fontSize: 14,
+        fontWeight: '900',
+        color: Colors.victorianBlack,
+    },
+    avatarArrow: {
+        marginTop: -1, // Overlap slightly
+        width: 0,
+        height: 0,
+        borderLeftWidth: 5,
+        borderRightWidth: 5,
+        borderTopWidth: 8,
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderTopColor: Colors.victorianBlack,
     },
 
     instructions: {
@@ -606,23 +652,5 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255,255,255,0.05)',
         borderRadius: 8,
         marginBottom: 10
-    },
-    valueBubble: {
-        position: 'absolute',
-        top: -35,
-        backgroundColor: Colors.parchment,
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-        borderRadius: 8,
-        minWidth: 40,
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: Colors.victorianBlack,
-        zIndex: 20,
-    },
-    valueText: {
-        fontWeight: '900',
-        color: Colors.victorianBlack,
-        fontSize: 12
     }
 });
