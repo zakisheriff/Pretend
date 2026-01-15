@@ -1,4 +1,4 @@
-import { Button, WinnerCelebration } from '@/components/game';
+import { Button, ScoreBoard, WinnerCelebration } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import React, { useEffect } from 'react';
-import { BackHandler, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { BackHandler, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function CharadesResultsScreen() {
@@ -76,20 +76,7 @@ export default function CharadesResultsScreen() {
 
                 {/* Mini Leaderboard */}
                 <View style={styles.leaderboard}>
-                    <Text style={styles.leaderboardTitle}>Current Standings</Text>
-                    <ScrollView style={{ maxHeight: 200 }}>
-                        {[...players].sort((a, b) => b.score - a.score).map((p, i) => (
-                            <View key={p.id} style={styles.leaderboardRow}>
-                                <View style={styles.rankInfo}>
-                                    <Text style={styles.lbRank}>{i + 1}.</Text>
-                                    <Text style={[styles.lbName, p.id === currentPlayer?.id && styles.highlightName]}>
-                                        {p.name} {p.id === currentPlayer?.id ? '(You)' : ''}
-                                    </Text>
-                                </View>
-                                <Text style={styles.lbScore}>{p.score} pts</Text>
-                            </View>
-                        ))}
-                    </ScrollView>
+                    <ScoreBoard players={players} />
                 </View>
 
                 <View style={styles.footerButtons}>
@@ -182,43 +169,7 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         borderWidth: 1,
         borderColor: 'rgba(255,255,255,0.1)',
-    },
-    leaderboardTitle: {
-        fontSize: 20,
-        color: Colors.parchment,
-        fontWeight: 'bold',
-        marginBottom: 15,
-        textAlign: 'center',
-    },
-    leaderboardRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingVertical: 8,
-        borderBottomWidth: 1,
-        borderBottomColor: 'rgba(255,255,255,0.05)',
-    },
-    rankInfo: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    lbRank: {
-        color: Colors.grayLight,
-        fontSize: 16,
-        width: 30,
-    },
-    lbName: {
-        color: Colors.grayLight,
-        fontSize: 18,
-    },
-    highlightName: {
-        color: Colors.candlelight,
-        fontWeight: 'bold',
-    },
-    lbScore: {
-        color: Colors.parchment,
-        fontSize: 18,
-        fontWeight: 'bold',
+        gap: 10,
     },
     footerButtons: {
         width: '100%',
