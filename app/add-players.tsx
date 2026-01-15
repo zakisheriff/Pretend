@@ -206,7 +206,7 @@ export default function AddPlayersScreen() {
                 containerStyle={styles.scroll}
                 contentContainerStyle={[
                     styles.scrollContent,
-                    { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 200 }
+                    { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 350 }
                 ]}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="always"

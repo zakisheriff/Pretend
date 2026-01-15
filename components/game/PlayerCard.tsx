@@ -142,7 +142,12 @@ const PlayerCardBase = (props: PlayerCardProps) => {
         if (val && val !== name) onRename(id, val);
         else setEditName(name);
 
-        if (props.onEditEnd) props.onEditEnd();
+        // Defer the edit end callback to allow other UI elements to receive touches
+        if (props.onEditEnd) {
+            requestAnimationFrame(() => {
+                props.onEditEnd?.();
+            });
+        }
     };
 
     // Update ref on text change
