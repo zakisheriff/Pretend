@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import Animated, { FadeInDown, ZoomIn } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeInUp, ZoomIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const WINNING_SCORE = 10;
@@ -172,36 +172,46 @@ export default function PoliceArrestScreen() {
                         />
                     </>
                 ) : (
-                    <Animated.View entering={ZoomIn} style={styles.revealContainer}>
-                        <View style={[styles.resultBadge, isCaught ? styles.resultSuccess : styles.resultFail]}>
-                            <Ionicons
-                                name={isCaught ? "checkmark-circle" : "close-circle"}
-                                size={48}
-                                color={isCaught ? Colors.success : Colors.suspect}
-                            />
-                        </View>
-
-                        <Text style={[styles.resultTitle, isCaught ? styles.resultTitleSuccess : styles.resultTitleFail]}>
-                            {isCaught ? "THIEF CAUGHT!" : "THIEF ESCAPED!"}
-                        </Text>
-
-                        <View style={styles.revealCard}>
-                            <Text style={styles.revealLabel}>The Thief was</Text>
-                            <View style={styles.thiefReveal}>
-                                <View style={styles.thiefAvatar}>
-                                    <Text style={styles.thiefAvatarLetter}>
-                                        {thiefPlayer?.name.charAt(0).toUpperCase()}
-                                    </Text>
-                                </View>
-                                <Text style={styles.thiefName}>{thiefPlayer?.name}</Text>
+                    <View style={styles.revealContainer}>
+                        {/* Result Badge & Title - Pop In */}
+                        <Animated.View entering={ZoomIn.delay(200).springify()} style={{ alignItems: 'center', gap: 16 }}>
+                            <View style={[styles.resultBadge, isCaught ? styles.resultSuccess : styles.resultFail]}>
+                                <Ionicons
+                                    name={isCaught ? "checkmark-circle" : "close-circle"}
+                                    size={48}
+                                    color={isCaught ? Colors.success : Colors.suspect}
+                                />
                             </View>
-                        </View>
 
-                        <View style={styles.pointsBox}>
-                            <ScoreBoard players={updatedPlayers} />
-                        </View>
+                            <Text style={[styles.resultTitle, isCaught ? styles.resultTitleSuccess : styles.resultTitleFail]}>
+                                {isCaught ? "THIEF CAUGHT!" : "THIEF ESCAPED!"}
+                            </Text>
+                        </Animated.View>
 
-                        <View style={styles.buttonStack}>
+                        {/* Reveal Card - Slide Up */}
+                        <Animated.View entering={FadeInUp.delay(400).springify()} style={{ width: '100%' }}>
+                            <View style={styles.revealCard}>
+                                <Text style={styles.revealLabel}>The Thief was </Text>
+                                <View style={styles.thiefReveal}>
+                                    <View style={styles.thiefAvatar}>
+                                        <Text style={styles.thiefAvatarLetter}>
+                                            {thiefPlayer?.name.charAt(0).toUpperCase()}
+                                        </Text>
+                                    </View>
+                                    <Text style={styles.thiefName}>{thiefPlayer?.name}</Text>
+                                </View>
+                            </View>
+                        </Animated.View>
+
+                        {/* Points - Slide Up */}
+                        <Animated.View entering={FadeInUp.delay(600).springify()} style={{ width: '100%' }}>
+                            <View style={styles.pointsBox}>
+                                <ScoreBoard players={updatedPlayers} />
+                            </View>
+                        </Animated.View>
+
+                        {/* Buttons - Slide Up */}
+                        <Animated.View entering={FadeInUp.delay(800).springify()} style={styles.buttonStack}>
                             <Button
                                 title="Play Again"
                                 onPress={handlePlayAgain}
@@ -216,10 +226,11 @@ export default function PoliceArrestScreen() {
                                 size="large"
                                 icon={<Ionicons name="home" size={18} color={Colors.candlelight} />}
                             />
-                        </View>
-                    </Animated.View>
-                )}
-            </ScrollView>
+                        </Animated.View>
+                    </View>
+                )
+                }
+            </ScrollView >
 
             <GenericModal
                 visible={showHomeConfirm}
@@ -232,21 +243,23 @@ export default function PoliceArrestScreen() {
             />
 
             {/* Overall Winner Celebration - when someone reaches 10 points */}
-            {overallWinner && (
-                <WinnerCelebration
-                    winner={overallWinner}
-                    allPlayers={players}
-                    onNewGame={() => {
-                        useGameStore.getState().resetTournament();
-                        router.replace('/select-mode');
-                    }}
-                    onHome={() => {
-                        useGameStore.getState().resetToHome();
-                        router.replace('/');
-                    }}
-                />
-            )}
-        </View>
+            {
+                overallWinner && (
+                    <WinnerCelebration
+                        winner={overallWinner}
+                        allPlayers={players}
+                        onNewGame={() => {
+                            useGameStore.getState().resetTournament();
+                            router.replace('/select-mode');
+                        }}
+                        onHome={() => {
+                            useGameStore.getState().resetToHome();
+                            router.replace('/');
+                        }}
+                    />
+                )
+            }
+        </View >
     );
 }
 
