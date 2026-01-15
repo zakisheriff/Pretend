@@ -122,11 +122,12 @@ export default function TimeBombGameScreen() {
 
                     {!hasStarted && (
                         <Button
-                            title=""
+                            title="Reroll Prompt"
                             onPress={handleReroll}
-                            variant="secondary"
-                            icon={<Ionicons name="refresh" size={20} color={Colors.parchment} />}
-                            style={styles.rerollBtn}
+                            variant="outline"
+                            icon={<Ionicons name="refresh" size={18} color={Colors.candlelight} />}
+                            style={{ marginTop: 20, borderColor: Colors.grayLight }}
+                            textStyle={{ color: Colors.grayLight, fontSize: 14 }}
                         />
                     )}
                 </View>
@@ -276,13 +277,4 @@ const styles = StyleSheet.create({
     footer: {
         paddingBottom: 20,
     },
-    rerollBtn: {
-        marginTop: 20,
-        backgroundColor: Colors.grayDark,
-        paddingHorizontal: 20,
-        height: 44,
-        minWidth: 0,
-        aspectRatio: 1,
-        borderRadius: 22,
-    }
 });
