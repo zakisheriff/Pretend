@@ -130,6 +130,7 @@ export interface GameSettings {
     soundEnabled: boolean;
     hapticsEnabled: boolean;
     charadesControl: 'gyro' | 'touch';
+    charadesTime: number;
 }
 
 export interface GameState {
@@ -179,6 +180,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
     soundEnabled: true,
     hapticsEnabled: true,
     charadesControl: 'gyro',
+    charadesTime: 60,
 };
 
 export interface GameModeStep {

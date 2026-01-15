@@ -56,6 +56,7 @@ export default function CharadesGameScreen() {
     const lastTriggerTime = useRef(0);
     const isGameActiveRef = useRef(false);
     const isNeutralRef = useRef(false); // Must return to vertical to re-arm
+    const hasFinishedRef = useRef(false); // Prevent double submission
     const TRIGGER_DELAY = 1000;
 
     // Cleanup ref to avoid state updates after unmount
@@ -97,7 +98,8 @@ export default function CharadesGameScreen() {
 
     const finishGame = React.useCallback(() => {
         // Prevent multiple calls
-        if (!isGameActiveRef.current && phase !== 'playing') return;
+        if (hasFinishedRef.current) return;
+        hasFinishedRef.current = true;
 
         // Stop Logic
         isGameActiveRef.current = false;
@@ -297,8 +299,12 @@ export default function CharadesGameScreen() {
 
     const renderReady = () => (
         <View style={styles.centerContent}>
-            <Text style={styles.instructionText}>Place phone on forehead </Text>
-            <Text style={styles.subInstruction}>Screen facing the crowd! </Text>
+            <Text style={styles.instructionText}>
+                {isTouchMode ? 'Get Ready!' : 'Place phone on forehead'}
+            </Text>
+            <Text style={styles.subInstruction}>
+                {isTouchMode ? 'Tap below to start ' : 'Screen facing the crowd! '}
+            </Text>
             <View style={{ height: 40 }} />
             <Pressable onPress={handleReady} style={styles.readyTapArea}>
                 <Text style={styles.readyTapText}>TAP TO START</Text>
@@ -309,7 +315,9 @@ export default function CharadesGameScreen() {
                 <View style={[StyleSheet.absoluteFill, styles.confirmOverlay]}>
                     <View style={styles.confirmBox}>
                         <Text style={styles.confirmTitle}>Ready to Start?</Text>
-                        <Text style={styles.confirmSub}>Ensure the screen is facing the crowd!</Text>
+                        <Text style={styles.confirmSub}>
+                            {isTouchMode ? 'Get your fingers ready!' : 'Ensure the screen is facing the crowd!'}
+                        </Text>
 
                         <View style={styles.confirmButtons}>
                             <Pressable onPress={cancelStart} style={[styles.confirmBtn, styles.cancelBtn]}>
