@@ -101,6 +101,18 @@ const GAME_MODES_INFO = [
         ],
         tip: 'Think about how the group perceives the scale!',
     },
+    {
+        id: 'three-acts',
+        name: 'Three Acts',
+        icon: 'film-outline',
+        color: Colors.gaslightAmber,
+        steps: [
+            { icon: 'time-outline', role: 'Rules', desc: 'Guess 3 movies within 60 seconds' },
+            { icon: 'people-outline', role: 'Pairs', desc: 'One describes, one guesses' },
+            { icon: 'trophy-outline', role: 'Scoring', desc: '3 Right = 2pts each. 1-2 Right = 1pt each' },
+        ],
+        tip: 'Skip quickly if stuck - maximize your time!',
+    },
 ];
 
 const COMMON_STEPS = [

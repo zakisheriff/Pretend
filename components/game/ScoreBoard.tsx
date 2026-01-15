@@ -25,6 +25,7 @@ export const ScoreBoard = ({ players, title = "Leaderboard" }: ScoreBoardProps) 
         { mode: 'Charades', win: '10+ Words +2', survivors: '5+ Words +1' },
         { mode: 'Time Bomb', win: 'Survivors +1', survivors: '-' },
         { mode: 'Wavelength', win: 'Bullseye +2', survivors: 'Close +1' },
+        { mode: 'Three Acts', win: '3 Correct +2', survivors: '1-2 Correct +1' },
     ];
 
     return (

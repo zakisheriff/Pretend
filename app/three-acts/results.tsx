@@ -1,4 +1,5 @@
 import { GenericModal } from '@/components/common/GenericModal';
+import { WinnerCelebration } from '@/components/game';
 import { Button } from '@/components/game/Button';
 import { ScoreBoard } from '@/components/game/ScoreBoard';
 import { Colors } from '@/constants/colors';
@@ -14,7 +15,9 @@ export default function ThreeActsResults() {
     const insets = useSafeAreaInsets();
     const resetGame = useGameStore((s) => s.resetGame);
     const resetToHome = useGameStore((s) => s.resetToHome);
+    const resetTournament = useGameStore((s) => s.resetTournament);
     const players = useGameStore((s) => s.players);
+    const overallWinner = useGameStore((s) => s.overallWinner);
 
     const [showHomeConfirm, setShowHomeConfirm] = useState(false);
 
@@ -74,6 +77,22 @@ export default function ThreeActsResults() {
                 onCancel={() => setShowHomeConfirm(false)}
                 isDestructive
             />
+
+            {/* Tournament Winner Celebration */}
+            {overallWinner && (
+                <WinnerCelebration
+                    winner={overallWinner}
+                    allPlayers={players}
+                    onNewGame={() => {
+                        resetTournament();
+                        router.replace('/select-mode');
+                    }}
+                    onHome={() => {
+                        resetToHome();
+                        router.replace('/');
+                    }}
+                />
+            )}
         </View>
     );
 }

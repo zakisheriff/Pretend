@@ -1583,8 +1583,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
             updatedTeams[currentTeamIndex].turnComplete = true;
 
+            // Check for Game Winner (First to 10)
+            const winner = allPlayers.find(p => p.score >= 10);
+
             set({
                 players: allPlayers,
+                overallWinner: winner || null,
                 gameData: {
                     type: 'three-acts',
                     data: {
