@@ -50,9 +50,13 @@ export const ScoreBoard = ({ players, title = "Leaderboard" }: ScoreBoardProps) 
                         <View key={i} style={styles.ruleRow}>
                             <Text style={styles.ruleMode}>{rule.mode}</Text>
                             <View style={styles.ruleValues}>
-                                <Text style={styles.ruleVal}>{rule.win}</Text>
+                                <View style={styles.rulePill}>
+                                    <Text style={styles.ruleText}>{rule.win}</Text>
+                                </View>
                                 {rule.survivors !== '-' && (
-                                    <Text style={styles.ruleVal}>{rule.survivors}</Text>
+                                    <View style={styles.rulePill}>
+                                        <Text style={styles.ruleText}>{rule.survivors}</Text>
+                                    </View>
                                 )}
                             </View>
                         </View>
@@ -265,14 +269,19 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'flex-start', // Align left to match header
     },
-    ruleVal: {
+    rulePill: {
+        backgroundColor: 'rgba(212, 175, 55, 0.1)',
+        paddingHorizontal: 8,
+        paddingVertical: 3,
+        borderRadius: 6,
+        alignSelf: 'flex-start',
+    },
+    ruleText: {
         fontSize: 10,
         color: Colors.candlelight,
         fontWeight: '700',
-        backgroundColor: 'rgba(212, 175, 55, 0.1)',
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-        borderRadius: 6,
+        includeFontPadding: false,
+        textAlignVertical: 'center',
     },
     tournamentBanner: {
         flexDirection: 'row',
