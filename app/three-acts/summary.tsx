@@ -43,16 +43,17 @@ export default function ThreeActsSummary() {
         }
     };
 
-    // Calculate display score for this round
-    let roundScore = 0;
+    // Calculate display score for this round (Team Score)
+    // 3 Correct -> 2 pts/player -> 4 pts Team
+    // 1-2 Correct -> 1 pt/player -> 2 pts Team
     let correctCount = 0;
     if (roundStats.act1.guessed) correctCount++;
     if (roundStats.act2.guessed) correctCount++;
     if (roundStats.act3.guessed) correctCount++;
 
-    if (correctCount === 3) roundScore = 2;
-    else if (correctCount === 2) roundScore = 1;
-    else if (correctCount === 1) roundScore = 1;
+    let roundScore = 0;
+    if (correctCount === 3) roundScore = 4;
+    else if (correctCount > 0) roundScore = 2;
 
     // Display Logic
     const renderActResult = (actNum: number, stat: typeof roundStats.act1) => {
@@ -62,12 +63,10 @@ export default function ThreeActsSummary() {
         if (stat.guessed) {
             iconName = 'checkmark-circle';
             iconColor = Colors.success;
-        } else if (stat.skipped) {
-            iconName = 'arrow-forward-circle';
-            iconColor = Colors.candlelight; // Keep original color for skipped
         } else {
-            // Failed / Time out
+            // Skipped or Failed or Timeout -> Show X
             iconName = 'close-circle';
+            // User requested "light or red color" for visibility
             iconColor = Colors.danger;
         }
 
@@ -77,8 +76,8 @@ export default function ThreeActsSummary() {
                     <Text style={styles.actLabel}>Act {actNum}</Text>
                 </View>
                 <View style={styles.movieBox}>
-                    <Text style={styles.movieTitle}>{stat.chosen || "Time out"}</Text>
-                    {!stat.chosen && <Text style={styles.subtext}>Did not select</Text>}
+                    <Text style={styles.movieTitle}>{stat.chosen || stat.options.join(' / ')}</Text>
+                    {!stat.chosen && <Text style={styles.subtext}>Skipped</Text>}
                 </View>
                 <Ionicons name={iconName} size={28} color={iconColor} />
             </View>
@@ -128,7 +127,7 @@ const styles = StyleSheet.create({
     actLabel: { color: Colors.grayLight, fontSize: 14, fontWeight: '700' },
     movieBox: { flex: 1 },
     movieTitle: { color: Colors.parchment, fontSize: 18, fontWeight: '600' },
-    subtext: { color: Colors.gray, fontSize: 12 },
+    subtext: { color: Colors.danger, fontSize: 13, fontWeight: '700' },
 
     footer: { marginTop: 20 },
 });

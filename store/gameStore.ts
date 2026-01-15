@@ -1558,24 +1558,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
             if (updatedRoundStats.act3.guessed) correctCount++;
 
             // Scoring Rules:
-            // 3 correct -> 2 pts (Team)
-            // 2 correct -> 1 pt (Team)
-            // 1 correct -> 1 pt (Team)
-            let teamPoints = 0;
-            if (correctCount === 3) teamPoints = 2;
-            else if (correctCount === 2) teamPoints = 1;
-            else if (correctCount === 1) teamPoints = 1;
+            // 3 Correct -> 2 Pts per player
+            // 1-2 Correct -> 1 Pt per player
+            // 0 Correct -> 0 Pts
 
-            const pointsPerPlayer = teamPoints / 2;
+            let pointsPerPlayer = 0;
+            if (correctCount === 3) {
+                pointsPerPlayer = 2;
+            } else if (correctCount > 0) {
+                pointsPerPlayer = 1;
+            }
+
+            const teamPoints = pointsPerPlayer * 2;
 
             updatedTeams[currentTeamIndex].score += teamPoints;
-            // Implementation Plan: "Points are added to both players in the pair."
-            // Store stores 'score' on individual players. 
-            // Also update individual players!
-            const player1 = state.players.find(p => p.id === updatedTeams[currentTeamIndex].player1Id);
-            const player2 = state.players.find(p => p.id === updatedTeams[currentTeamIndex].player2Id);
 
-            // We need to update the global players list too
+            // Update individual players scores
             const allPlayers = state.players.map(p => {
                 if (p.id === currentTeam.player1Id || p.id === currentTeam.player2Id) {
                     return { ...p, score: p.score + pointsPerPlayer };
@@ -1583,7 +1581,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 return p;
             });
 
-            updatedTeams[currentTeamIndex].score += pointsPerPlayer; // Just tracking round score here maybe? Or total? Let's use it for round display
             updatedTeams[currentTeamIndex].turnComplete = true;
 
             set({
