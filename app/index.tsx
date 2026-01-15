@@ -133,7 +133,7 @@ export default function HomeScreen() {
                                 </Animated.View>
 
                                 <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.titleGroup}>
-                                    <Text style={styles.title}>Pretend hi</Text>
+                                    <Text style={styles.title}>Pretend</Text>
                                     <Text style={styles.subtitle}>A Mystery Party</Text>
                                 </Animated.View>
 
