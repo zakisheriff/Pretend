@@ -13,7 +13,7 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const MIN_PLAYERS = 3;
-const MAX_PLAYERS = 10;
+const MAX_PLAYERS = 15;
 
 export default function AddPlayersScreen() {
     const router = useRouter();
