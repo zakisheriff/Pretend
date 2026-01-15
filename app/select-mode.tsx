@@ -124,7 +124,7 @@ export default function SelectModeScreen() {
 
                 {/* Instruction Overlay */}
                 {helpMode && (
-                    <View style={StyleSheet.absoluteFill}>
+                    <View style={[StyleSheet.absoluteFill, styles.centeredOverlay]}>
                         <TouchableOpacity
                             style={styles.overlayBg}
                             activeOpacity={1}
@@ -132,7 +132,7 @@ export default function SelectModeScreen() {
                         />
                         <Animated.View
                             entering={FadeInDown.springify()}
-                            style={[styles.infoCard, { bottom: insets.bottom + 100 }]}
+                            style={styles.infoCard}
                         >
                             <View style={styles.infoTitleRow}>
                                 <Ionicons name={helpMode.icon as any} size={24} color={Colors.candlelight} />
@@ -315,17 +315,26 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.7)',
         zIndex: 100,
     },
+    centeredOverlay: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 200, // Ensure it's above everything
+    },
     infoCard: {
-        position: 'absolute',
-        left: 20,
-        right: 20,
+        width: '90%',
+        maxWidth: 400,
         backgroundColor: Colors.grayDark,
         borderRadius: 28,
         padding: 24,
-        zIndex: 101,
+        zIndex: 201,
         borderWidth: 1,
         borderColor: Colors.grayMedium,
         gap: 16,
+        elevation: 10,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.5,
+        shadowRadius: 20,
     },
     infoTitleRow: {
         flexDirection: 'row',
