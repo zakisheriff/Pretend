@@ -159,7 +159,7 @@ export const WinnerCelebration = ({ winner, allPlayers, onNewGame, onHome }: Win
                                 <View style={styles.podiumPlace}>
                                     <Text style={styles.placeText}>2nd</Text>
                                     <View style={[styles.podiumBar, styles.bar2]}>
-                                        <Text style={styles.podiumName}>{sortedPlayers[1].name}</Text>
+                                        <Text style={styles.podiumName} numberOfLines={1}>{sortedPlayers[1].name}</Text>
                                         <Text style={styles.podiumScore}>{sortedPlayers[1].score}</Text>
                                     </View>
                                 </View>
@@ -170,7 +170,7 @@ export const WinnerCelebration = ({ winner, allPlayers, onNewGame, onHome }: Win
                                 <Ionicons name="ribbon" size={24} color={Colors.pureGold} style={{ marginBottom: 4 }} />
                                 <Text style={[styles.placeText, { color: Colors.pureGold }]}>1st</Text>
                                 <View style={[styles.podiumBar, styles.bar1]}>
-                                    <Text style={[styles.podiumName, { fontWeight: '900' }]}>{winner.name}</Text>
+                                    <Text style={[styles.podiumName, { fontWeight: '900' }]} numberOfLines={1}>{winner.name}</Text>
                                     <Text style={[styles.podiumScore, { color: Colors.pureGold }]}>{winner.score}</Text>
                                 </View>
                             </View>
@@ -180,7 +180,7 @@ export const WinnerCelebration = ({ winner, allPlayers, onNewGame, onHome }: Win
                                 <View style={styles.podiumPlace}>
                                     <Text style={styles.placeText}>3rd</Text>
                                     <View style={[styles.podiumBar, styles.bar3]}>
-                                        <Text style={styles.podiumName}>{sortedPlayers[2].name}</Text>
+                                        <Text style={styles.podiumName} numberOfLines={1}>{sortedPlayers[2].name}</Text>
                                         <Text style={styles.podiumScore}>{sortedPlayers[2].score}</Text>
                                     </View>
                                 </View>
@@ -370,6 +370,7 @@ const styles = StyleSheet.create({
     othersList: {
         gap: 12,
         marginTop: 20,
+        width: '100%',
     },
     otherRow: {
         flexDirection: 'row',
@@ -378,6 +379,7 @@ const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 20,
         gap: 15,
+        width: '100%',
     },
     otherRank: {
         fontSize: 12,
@@ -425,6 +427,7 @@ const styles = StyleSheet.create({
     othersSection: {
         marginTop: 20,
         alignItems: 'center',
+        width: '100%',
     },
     viewAllBtn: {
         flexDirection: 'row',
