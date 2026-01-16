@@ -1143,30 +1143,52 @@ export const useGameStore = create<GameStore>((set, get) => ({
         const state = get();
         if (state.gameData?.type !== 'time-bomb') return;
 
-        // Custom categories for Time Bomb
-        const bombCategories = [
-            'Movie', 'Food', 'Game', 'Animal', 'Brand', 'Thing',
-            'Celebrity', 'Country', 'Song', 'City', 'Color',
-            'Fruit', 'Vegetable', 'App', 'Website', 'Car', 'Clothes', 'Drink'
-        ];
+        const variant = state.settings.timeBombVariant || 'classic';
 
-        // Pick random category
-        const category = bombCategories[Math.floor(Math.random() * bombCategories.length)];
-        // Pick random letter A-Z
-        const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        if (variant === 'movies') {
+            const { TIME_BOMB_SCENARIOS } = require('@/data/time-bomb-scenarios');
+            const scenario = TIME_BOMB_SCENARIOS[Math.floor(Math.random() * TIME_BOMB_SCENARIOS.length)];
 
-        const currentData = state.gameData.data;
-
-        set({
-            gameData: {
-                ...state.gameData,
-                data: {
-                    ...currentData,
-                    category,
-                    letter
+            set({
+                gameData: {
+                    type: 'time-bomb',
+                    data: {
+                        ...state.gameData.data,
+                        variant: 'movies',
+                        scenario,
+                        // Clear classic fields to be safe/clean
+                        category: undefined,
+                        letter: undefined
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            // Classic Mode
+            const bombCategories = [
+                'Movie', 'Food', 'Game', 'Animal', 'Brand', 'Thing',
+                'Celebrity', 'Country', 'Song', 'City', 'Color',
+                'Fruit', 'Vegetable', 'App', 'Website', 'Car', 'Clothes', 'Drink'
+            ];
+
+            // Pick random category
+            const category = bombCategories[Math.floor(Math.random() * bombCategories.length)];
+            // Pick random letter A-Z
+            const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+
+            set({
+                gameData: {
+                    type: 'time-bomb',
+                    data: {
+                        ...state.gameData.data,
+                        variant: 'classic', // Enforce variant
+                        category,
+                        letter,
+                        // Clear movie fields
+                        scenario: undefined
+                    }
+                }
+            });
+        }
     },
 
     submitWavelengthClue: (clue: string) => {
