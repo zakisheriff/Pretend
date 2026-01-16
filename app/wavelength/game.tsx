@@ -238,13 +238,24 @@ export default function WavelengthGameScreen() {
                 <View style={styles.resultSummary}>
                     <Text style={styles.scoreTitle}>{message}</Text>
                     <Text style={styles.resultDetails}>
-                        Target was {Math.round((targetValue - 50) * 2) > 0 ? '+' : ''}{Math.round((targetValue - 50) * 2)}
+                        Target Result: {Math.round((targetValue - 50) * 2) > 0 ? '+' : ''}{Math.round((targetValue - 50) * 2)}%
                     </Text>
-                    {bestPlayer && (
-                        <Text style={styles.bestGuesser}>
-                            Best Guess: {bestPlayer.name} ({Math.round((bestGuess.val - 50) * 2) > 0 ? '+' : ''}{Math.round((bestGuess.val - 50) * 2)})
-                        </Text>
-                    )}
+
+                    <View style={styles.guessesList}>
+                        {Object.entries(guesses)
+                            .map(([pid, val]) => ({
+                                pid,
+                                val,
+                                diff: Math.abs(val - targetValue),
+                                player: players.find(p => p.id === pid)
+                            }))
+                            .sort((a, b) => a.diff - b.diff)
+                            .map((g, index) => (
+                                <Text key={g.pid} style={index === 0 ? styles.bestGuesser : styles.otherGuesser}>
+                                    {index === 0 ? 'Best Guess: ' : ''}{g.player?.name}: {Math.round((g.val - 50) * 2) > 0 ? '+' : ''}{Math.round((g.val - 50) * 2)}%
+                                </Text>
+                            ))}
+                    </View>
                 </View>
 
                 {/* Leaderboard using ScoreBoard */}
@@ -727,16 +738,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
     },
-    resultTitle: { fontSize: 24, fontWeight: 'bold', color: Colors.parchment, marginBottom: 8 },
-    resultDetails: { fontSize: 16, color: Colors.grayLight, marginBottom: 4, paddingHorizontal: 30 },
-    bestGuesser: { fontSize: 16, color: Colors.success, fontWeight: 'bold' },
+    scoreTitle: { fontSize: 24, fontWeight: 'bold', color: Colors.parchment, marginBottom: 8 },
+    resultDetails: { fontSize: 18, color: Colors.parchment, marginBottom: 12, paddingHorizontal: 10, textAlign: 'center', fontWeight: '700' },
+    guessesList: { gap: 4, alignItems: 'center' },
+    bestGuesser: { fontSize: 16, color: Colors.success, fontWeight: 'bold', textAlign: 'center' },
+    otherGuesser: { fontSize: 14, color: Colors.grayLight, textAlign: 'center' },
 
     resultActions: {
         flexDirection: 'row',
         gap: 12,
         marginTop: 20,
     },
-    scoreTitle: { fontSize: 28, fontWeight: 'bold', color: Colors.parchment, marginBottom: 8 },
     scorePoints: { fontSize: 48, fontWeight: '900', color: Colors.candlelight, marginBottom: 16 },
     text: { color: Colors.parchment, fontSize: 16, textAlign: 'center' },
     scoreList: { width: '100%', gap: 10, marginBottom: 20 },
