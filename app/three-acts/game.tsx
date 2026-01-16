@@ -4,6 +4,7 @@ import { useGameStore } from '@/store/gameStore';
 import { ThreeActsData } from '@/types/game';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { useKeepAwake } from 'expo-keep-awake';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -11,6 +12,7 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function ThreeActsGame() {
+    useKeepAwake();
     const router = useRouter();
     const insets = useSafeAreaInsets();
 

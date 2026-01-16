@@ -6,6 +6,7 @@ import { useGameStore } from '@/store/gameStore';
 import { WavelengthData } from '@/types/game';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -20,6 +21,7 @@ const SPECTRUM_LEFT = Colors.detective;
 const SPECTRUM_RIGHT = Colors.gaslightAmber;
 
 export default function WavelengthGameScreen() {
+    useKeepAwake();
     const router = useRouter();
     const insets = useSafeAreaInsets();
 

@@ -1,5 +1,6 @@
 import { Colors } from '@/constants/colors';
 import { haptics } from '@/utils/haptics';
+import { useKeepAwake } from 'expo-keep-awake';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { BackHandler, StyleSheet, Text, View } from 'react-native';
@@ -7,6 +8,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withDelay, withSequence, wi
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function StartGameScreen() {
+    useKeepAwake();
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const [count, setCount] = useState(3);

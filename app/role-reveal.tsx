@@ -8,7 +8,10 @@ import React, { useEffect, useState } from 'react';
 import { BackHandler, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useKeepAwake } from 'expo-keep-awake';
+
 export default function RoleRevealScreen() {
+    useKeepAwake();
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const players = useGameStore((s) => s.players);

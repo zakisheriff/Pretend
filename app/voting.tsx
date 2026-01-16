@@ -4,12 +4,14 @@ import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { useKeepAwake } from 'expo-keep-awake';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { BackHandler, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function VotingScreen() {
+    useKeepAwake();
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const players = useGameStore((s) => s.players);

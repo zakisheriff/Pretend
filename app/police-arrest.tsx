@@ -5,6 +5,7 @@ import { useGameStore } from '@/store/gameStore';
 import { Player, ThiefPoliceData } from '@/types/game';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { useKeepAwake } from 'expo-keep-awake';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -14,6 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const WINNING_SCORE = 10;
 
 export default function PoliceArrestScreen() {
+    useKeepAwake();
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const players = useGameStore((s) => s.players);

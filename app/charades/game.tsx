@@ -5,6 +5,7 @@ import { useGameStore } from '@/store/gameStore';
 import { CharadesData } from '@/types/game';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
@@ -15,6 +16,7 @@ import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function CharadesGameScreen() {
+    useKeepAwake();
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const gameData = useGameStore((s) => s.gameData);

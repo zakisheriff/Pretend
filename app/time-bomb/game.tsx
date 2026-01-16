@@ -6,6 +6,7 @@ import { useGameStore } from '@/store/gameStore';
 import { TimeBombData } from '@/types/game';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
@@ -14,6 +15,7 @@ import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withSeq
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TimeBombGameScreen() {
+    useKeepAwake();
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const gameData = useGameStore((s) => s.gameData);
