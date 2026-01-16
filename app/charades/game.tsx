@@ -460,7 +460,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.candlelight,
         paddingHorizontal: 40,
         paddingVertical: 15,
-        borderRadius: 30,
+        borderRadius: 25,
     },
     buttonText: {
         fontSize: 24,
@@ -483,7 +483,7 @@ const styles = StyleSheet.create({
     readyTapArea: {
         backgroundColor: 'rgba(255,255,255,0.1)',
         padding: 40,
-        borderRadius: 20,
+        borderRadius: 25,
         borderWidth: 2,
         borderColor: Colors.candlelight,
     },
@@ -576,7 +576,7 @@ const styles = StyleSheet.create({
     confirmBox: {
         backgroundColor: Colors.grayDark || '#0A0A0A',
         padding: 30,
-        borderRadius: 20,
+        borderRadius: 25,
         width: '90%',
         maxWidth: 400,
         alignItems: 'center',
@@ -605,7 +605,7 @@ const styles = StyleSheet.create({
     confirmBtn: {
         paddingVertical: 15,
         paddingHorizontal: 20,
-        borderRadius: 15,
+        borderRadius: 25,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -640,7 +640,7 @@ const styles = StyleSheet.create({
         gap: 8, // Reduced gap
         paddingVertical: 18,
         paddingHorizontal: 20, // Reduced padding
-        borderRadius: 16,
+        borderRadius: 25,
         borderWidth: 2,
         flex: 1, // Allow shrinking/growing
         maxWidth: 200, // Cap width

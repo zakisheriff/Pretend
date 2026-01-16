@@ -106,7 +106,7 @@ export default function AddPlayersScreen() {
                     size="small"
                     disabled={!canContinue}
                     icon={<Ionicons name="arrow-forward" size={16} color={canContinue ? Colors.victorianBlack : Colors.grayMedium} />}
-                    style={{ borderRadius: 22, height: 44, paddingHorizontal: 16 }}
+                    style={{ borderRadius: 25, height: 44, paddingHorizontal: 16 }}
                 />
             </LinearGradient>
 
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
+    backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 25, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
     scrollContent: { flexGrow: 1, paddingHorizontal: 20 },

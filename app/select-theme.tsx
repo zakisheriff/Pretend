@@ -42,7 +42,7 @@ export default function SelectThemeScreen() {
                     size="small"
                     disabled={!selectedThemeId}
                     icon={<Ionicons name="arrow-forward" size={16} color={selectedThemeId ? Colors.victorianBlack : Colors.grayMedium} />}
-                    style={{ borderRadius: 22, height: 44, paddingHorizontal: 16 }}
+                    style={{ borderRadius: 25, height: 44, paddingHorizontal: 16 }}
                 />
             </LinearGradient>
 
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
+    backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 25, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
     scrollContent: { flexGrow: 1, padding: 20, gap: 10, width: '100%', maxWidth: 500, alignSelf: 'center' },

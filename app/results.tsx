@@ -467,7 +467,7 @@ const styles = StyleSheet.create({
     winnerBanner: {
         alignItems: 'center',
         padding: 30,
-        borderRadius: 28,
+        borderRadius: 25,
         gap: 12,
         borderWidth: 1,
     },
@@ -512,7 +512,7 @@ const styles = StyleSheet.create({
     },
     imposterCard: {
         backgroundColor: 'rgba(160, 32, 32, 0.2)',
-        borderRadius: 24,
+        borderRadius: 25,
         padding: 20,
         alignItems: 'center',
         borderWidth: 1,
@@ -546,7 +546,7 @@ const styles = StyleSheet.create({
     wordCard: {
         backgroundColor: Colors.grayDark,
         padding: 24,
-        borderRadius: 24,
+        borderRadius: 25,
         alignItems: 'center',
         borderWidth: 1,
         borderColor: Colors.candlelight,
@@ -612,7 +612,7 @@ const styles = StyleSheet.create({
     questionBox: {
         padding: 16,
         backgroundColor: 'rgba(196, 167, 108, 0.1)',
-        borderRadius: 20,
+        borderRadius: 25,
         borderWidth: 1,
         borderColor: Colors.candlelight,
     },
@@ -640,7 +640,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: Colors.grayDark,
         padding: 12,
-        borderRadius: 20,
+        borderRadius: 25,
         gap: 12,
         borderWidth: 1,
         borderColor: Colors.grayMedium,
@@ -665,7 +665,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.candlelight,
         paddingHorizontal: 10,
         paddingVertical: 4,
-        borderRadius: 16,
+        borderRadius: 25,
     },
     voteCount: { fontSize: 13, fontWeight: '700', color: Colors.victorianBlack },
     specialBadgeSmall: { fontSize: 16, marginLeft: 4 },
@@ -673,7 +673,7 @@ const styles = StyleSheet.create({
     // Overall Winner Celebration
     overallWinnerBanner: {
         backgroundColor: 'rgba(212, 175, 55, 0.1)',
-        borderRadius: 24,
+        borderRadius: 25,
         padding: 30,
         alignItems: 'center',
         marginVertical: 24,

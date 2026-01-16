@@ -182,7 +182,7 @@ export default function SelectModeScreen() {
                     variant="ghost"
                     size="small"
                     icon={<Ionicons name="home-outline" size={20} color={Colors.parchment} />}
-                    style={{ borderRadius: 22, height: 44, width: 44, paddingHorizontal: 0 }}
+                    style={{ borderRadius: 25, height: 44, width: 44, paddingHorizontal: 0 }}
                 />
 
                 <Button
@@ -192,7 +192,7 @@ export default function SelectModeScreen() {
                     size="small"
                     disabled={!gameMode}
                     icon={<Ionicons name="arrow-forward" size={16} color={gameMode ? Colors.victorianBlack : Colors.grayMedium} />}
-                    style={{ borderRadius: 22, height: 44, paddingHorizontal: 16 }}
+                    style={{ borderRadius: 25, height: 44, paddingHorizontal: 16 }}
                 />
             </LinearGradient>
 
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
+    backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 25, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
     scrollContent: { flexGrow: 1, padding: 20, gap: 16 },
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: Colors.grayDark,
-        borderRadius: 20,
+        borderRadius: 25,
         padding: 10,
         paddingRight: 14,
         borderWidth: 1,
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
     modeIcon: {
         width: 44,
         height: 44,
-        borderRadius: 22,
+        borderRadius: 25,
         backgroundColor: Colors.gray,
         alignItems: 'center',
         justifyContent: 'center',
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
     helpBtn: {
         width: 36,
         height: 36,
-        borderRadius: 18,
+        borderRadius: 25,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgba(255,255,255,0.05)',
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
     modeRadio: {
         width: 20,
         height: 20,
-        borderRadius: 10,
+        borderRadius: 25,
         borderWidth: 1.5,
         borderColor: Colors.candlelight,
         alignItems: 'center',
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
         width: '90%',
         maxWidth: 400,
         backgroundColor: Colors.grayDark,
-        borderRadius: 28,
+        borderRadius: 25,
         padding: 24,
         zIndex: 201,
         borderWidth: 1,
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     infoClose: {
         width: 32,
         height: 32,
-        borderRadius: 16,
+        borderRadius: 25,
         backgroundColor: 'rgba(255,255,255,0.1)',
         alignItems: 'center',
         justifyContent: 'center',
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
     ruleIconBox: {
         width: 32,
         height: 32,
-        borderRadius: 16,
+        borderRadius: 25,
         backgroundColor: 'rgba(196, 167, 108, 0.15)',
         alignItems: 'center',
         justifyContent: 'center',
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
     },
     gotItBtn: {
         backgroundColor: Colors.candlelight,
-        borderRadius: 20,
+        borderRadius: 25,
         paddingVertical: 12,
         alignItems: 'center',
         marginTop: 8,

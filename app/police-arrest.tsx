@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     policeBadge: {
         width: 64,
         height: 64,
-        borderRadius: 32,
+        borderRadius: 25,
         backgroundColor: 'rgba(44, 130, 201, 0.2)',
         alignItems: 'center',
         justifyContent: 'center',
@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: Colors.grayDark,
-        borderRadius: 16,
+        borderRadius: 25,
         padding: 14,
         borderWidth: 2,
         borderColor: Colors.grayMedium,
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
     playerAvatar: {
         width: 44,
         height: 44,
-        borderRadius: 22,
+        borderRadius: 25,
         backgroundColor: Colors.gray,
         alignItems: 'center',
         justifyContent: 'center',
@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
     },
     revealCard: {
         backgroundColor: Colors.grayDark,
-        borderRadius: 20,
+        borderRadius: 25,
         padding: 24,
         alignItems: 'center',
         borderWidth: 1,
@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
     },
     pointsBox: {
         backgroundColor: 'rgba(196, 167, 108, 0.1)',
-        borderRadius: 16,
+        borderRadius: 25,
         padding: 16,
         width: '100%',
         borderWidth: 1,
@@ -474,7 +474,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 12,
         backgroundColor: Colors.grayDark,
-        borderRadius: 12,
+        borderRadius: 25,
         marginVertical: 4,
     },
     playerResultLeft: {

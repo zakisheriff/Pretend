@@ -160,7 +160,7 @@ export default function GameSettingsScreen() {
                                         </Text>
                                         {nextRoundPlayerId === player.id && (
                                             <View style={styles.checkIcon}>
-                                                <Ionicons name="checkmark-circle" size={20} color={Colors.victorianBlack} />
+                                                <Ionicons name="checkmark-circle" size={20} color={Colors.parchment} />
                                             </View>
                                         )}
                                     </Pressable>
@@ -210,7 +210,7 @@ export default function GameSettingsScreen() {
                                         </Text>
                                         {nextRoundPlayerId === player.id && (
                                             <View style={styles.checkIcon}>
-                                                <Ionicons name="checkmark-circle" size={20} color={Colors.victorianBlack} />
+                                                <Ionicons name="checkmark-circle" size={20} color={Colors.parchment} />
                                             </View>
                                         )}
                                     </Pressable>
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         textAlign: 'center',
     },
-    backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
+    backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 25, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
 
     scroll: { flex: 1 },
     scrollContent: { flexGrow: 1, padding: 24, gap: 34 },
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
 
     randomModeCard: {
         backgroundColor: Colors.grayDark,
-        borderRadius: 16,
+        borderRadius: 25,
         padding: 16,
         gap: 10,
         borderWidth: 1,
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 16,
         backgroundColor: Colors.grayDark,
-        borderRadius: 12,
+        borderRadius: 25,
         borderWidth: 1,
         borderColor: Colors.grayMedium,
         alignItems: 'center',
@@ -371,8 +371,8 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
     playerOptionSelected: {
-        borderColor: Colors.candlelight,
-        backgroundColor: '#D4AF3720', // dim gold
+        borderColor: Colors.parchment,
+        backgroundColor: Colors.parchment,
     },
     playerOptionText: {
         fontSize: 16,
@@ -380,21 +380,21 @@ const styles = StyleSheet.create({
         color: Colors.parchment,
     },
     playerOptionTextSelected: {
-        color: Colors.candlelight,
+        color: Colors.victorianBlack,
         fontWeight: 'bold',
     },
     checkIcon: {
         position: 'absolute',
         top: -8,
         right: -8,
-        backgroundColor: Colors.candlelight,
+        backgroundColor: Colors.victorianBlack,
         borderRadius: 12,
         width: 24,
         height: 24,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 2,
-        borderColor: Colors.victorianBlack,
+        borderColor: Colors.parchment,
         zIndex: 5, // Ensure it sits on top
     }
 });

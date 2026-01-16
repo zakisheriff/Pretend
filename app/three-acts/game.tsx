@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
 
     actTitle: { fontSize: 32, color: Colors.parchment, fontWeight: '800', textAlign: 'center', marginBottom: 8 },
 
-    timerBadge: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: Colors.candlelight, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, marginBottom: 20 }, // Added margin bottom
+    timerBadge: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: Colors.candlelight, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 25, marginBottom: 20 }, // Added margin bottom
     timerUrgent: { backgroundColor: '#FFD700' },
     timerText: { fontSize: 20, fontWeight: '800', color: Colors.victorianBlack, fontVariant: ['tabular-nums'] },
 
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.grayDark,
         paddingVertical: 24,
         paddingHorizontal: 20,
-        borderRadius: 20,
+        borderRadius: 25,
         alignItems: 'center',
         borderWidth: 1,
         borderColor: Colors.grayMedium,

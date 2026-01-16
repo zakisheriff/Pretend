@@ -343,7 +343,7 @@ export default function SetupDirectorScreen() {
                                 onPress={() => setShowBrowse(false)}
                                 variant="secondary"
                                 icon={<Ionicons name="close" size={22} color={Colors.parchment} />}
-                                style={{ width: 44, height: 44, borderRadius: 22, paddingHorizontal: 0, paddingVertical: 0, borderWidth: 1 }}
+                                style={{ width: 44, height: 44, borderRadius: 25, paddingHorizontal: 0, paddingVertical: 0, borderWidth: 1 }}
                             />
                         </View>
 
@@ -458,7 +458,7 @@ const styles = StyleSheet.create({
     list: { gap: 12 },
     playerCard: {
         flexDirection: 'row', alignItems: 'center',
-        padding: 12, borderRadius: 16,
+        padding: 12, borderRadius: 25,
         backgroundColor: Colors.grayDark,
         borderWidth: 1, borderColor: Colors.grayMedium,
         gap: 12,
@@ -468,7 +468,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.gray,
     },
     avatar: {
-        width: 40, height: 40, borderRadius: 20,
+        width: 40, height: 40, borderRadius: 25,
         backgroundColor: Colors.gray, alignItems: 'center', justifyContent: 'center'
     },
     avatarSelected: {
@@ -539,7 +539,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 20,
         backgroundColor: Colors.grayDark,
-        borderRadius: 16,
+        borderRadius: 25,
         borderWidth: 1,
         borderColor: Colors.grayMedium,
     },

@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: Colors.grayDark,
         padding: 16,
-        borderRadius: 16,
+        borderRadius: 25,
         borderWidth: 1,
         borderColor: Colors.grayMedium,
         gap: 16,

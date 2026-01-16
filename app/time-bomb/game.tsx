@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     scenarioCard: {
         backgroundColor: Colors.grayDark,
         padding: 20,
-        borderRadius: 16,
+        borderRadius: 25,
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',

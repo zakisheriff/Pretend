@@ -118,11 +118,11 @@ const styles = StyleSheet.create({
     headerEmoji: { fontSize: 20 },
     title: { fontSize: 20, fontWeight: '800', color: Colors.parchmentLight, letterSpacing: 2 },
     timerArea: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-    pausedBadge: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.9)', paddingHorizontal: 18, paddingVertical: 10, borderRadius: 20, borderWidth: 1, borderColor: Colors.candlelight },
+    pausedBadge: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.9)', paddingHorizontal: 18, paddingVertical: 10, borderRadius: 25, borderWidth: 1, borderColor: Colors.candlelight },
     pausedText: { fontSize: 14, fontWeight: '800', color: Colors.gaslightAmber, letterSpacing: 3 },
     directorBadge: {
         alignSelf: 'center', backgroundColor: Colors.parchment, paddingHorizontal: 12, paddingVertical: 6,
-        borderRadius: 12, flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 20, marginTop: 10
+        borderRadius: 25, flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 20, marginTop: 10
     },
     directorText: { fontSize: 12, fontWeight: '800', color: Colors.victorianBlack },
     controls: { flexDirection: 'row', gap: 12, marginBottom: 16 },

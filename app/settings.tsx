@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         backgroundColor: Colors.grayDark,
         padding: 16,
-        borderRadius: 16,
+        borderRadius: 25,
         marginBottom: 12,
         borderWidth: 1,
         borderColor: Colors.grayMedium,
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     },
     aboutCard: {
         backgroundColor: Colors.grayDark,
-        borderRadius: 24,
+        borderRadius: 25,
         padding: 24,
         alignItems: 'center',
         borderWidth: 1,

@@ -124,7 +124,7 @@ export const ScoreBoard = ({ players, title = "Leaderboard" }: ScoreBoardProps) 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'rgba(212, 175, 55, 0.05)',
-        borderRadius: 24,
+        borderRadius: 25,
         padding: 20,
         borderWidth: 1,
         borderColor: 'rgba(212, 175, 55, 0.2)',
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'rgba(255, 255, 255, 0.03)',
         padding: 12,
-        borderRadius: 16,
+        borderRadius: 25,
         gap: 12,
         borderWidth: 1,
         borderColor: 'rgba(255, 255, 255, 0.05)',
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
     },
     rulesContainer: {
         backgroundColor: 'rgba(196, 167, 108, 0.05)',
-        borderRadius: 16,
+        borderRadius: 25,
         padding: 12,
         marginBottom: 16,
         borderWidth: 1,
@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'rgba(212, 175, 55, 0.1)',
         paddingVertical: 8,
-        borderRadius: 12,
+        borderRadius: 25,
         marginBottom: 16,
         gap: 6,
         borderWidth: 1,

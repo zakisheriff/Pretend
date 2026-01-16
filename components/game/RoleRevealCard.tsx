@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
     container: { flex: 1, position: 'relative' },
     revealCard: {
         position: 'absolute', top: 16, left: 16, right: 16, bottom: 16,
-        backgroundColor: Colors.victorianBlack, borderRadius: 28, padding: 24,
+        backgroundColor: Colors.victorianBlack, borderRadius: 25, padding: 24,
         alignItems: 'center', justifyContent: 'center',
         borderWidth: 2, borderColor: Colors.gray,
     },
@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(196,167,108,0.15)',
         paddingVertical: 14,
         paddingHorizontal: 20,
-        borderRadius: 20,
+        borderRadius: 25,
         borderWidth: 1.5,
         borderColor: Colors.candlelight,
     },
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     },
     coverCard: {
         position: 'absolute', top: 16, left: 16, right: 16, bottom: 16,
-        backgroundColor: Colors.grayDark, borderRadius: 28,
+        backgroundColor: Colors.grayDark, borderRadius: 25,
         alignItems: 'center', justifyContent: 'center',
         borderWidth: 2, borderColor: Colors.candlelight,
     },
@@ -398,7 +398,7 @@ const styles = StyleSheet.create({
     playerName: { fontSize: 26, fontWeight: '700', color: Colors.parchment, marginBottom: 24, letterSpacing: 2 },
     dragHint: {
         flexDirection: 'row', alignItems: 'center', gap: 10,
-        padding: 16, backgroundColor: Colors.victorianBlack, borderRadius: 20,
+        padding: 16, backgroundColor: Colors.victorianBlack, borderRadius: 25,
         borderWidth: 1, borderColor: Colors.grayMedium,
     },
     dragText: { fontSize: 11, fontWeight: '700', color: Colors.candlelight, letterSpacing: 2 },
@@ -420,7 +420,7 @@ const styles = StyleSheet.create({
     sublabelText: { fontSize: 12, color: Colors.candlelight, marginTop: 8, fontStyle: 'italic' },
     warningBox: {
         flexDirection: 'row', alignItems: 'center', gap: 10,
-        backgroundColor: 'rgba(160,32,32,0.15)', padding: 14, borderRadius: 12,
+        backgroundColor: 'rgba(160,32,32,0.15)', padding: 14, borderRadius: 25,
         borderWidth: 1.5, borderColor: Colors.suspect, marginTop: 8,
     },
     infoBox: {
@@ -432,7 +432,7 @@ const styles = StyleSheet.create({
     seenBadge: {
         position: 'absolute', bottom: 20,
         flexDirection: 'row', alignItems: 'center', gap: 8,
-        backgroundColor: 'rgba(196,167,108,0.15)', paddingHorizontal: 14, paddingVertical: 10, borderRadius: 16,
+        backgroundColor: 'rgba(196,167,108,0.15)', paddingHorizontal: 14, paddingVertical: 10, borderRadius: 25,
         borderWidth: 1.5, borderColor: Colors.detective,
     },
     seenText: { fontSize: 11, color: Colors.detective, fontWeight: '600', letterSpacing: 0.5 },

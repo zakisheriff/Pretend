@@ -117,12 +117,12 @@ const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.victorianBlack, padding: 20 },
     headerTitle: { fontSize: 32, color: Colors.parchment, fontWeight: '800', textAlign: 'center', marginBottom: 30 },
 
-    scoreCard: { backgroundColor: 'rgba(196, 167, 108, 0.1)', padding: 20, borderRadius: 16, alignItems: 'center', marginBottom: 30, borderWidth: 1, borderColor: Colors.candlelight },
+    scoreCard: { backgroundColor: 'rgba(196, 167, 108, 0.1)', padding: 20, borderRadius: 25, alignItems: 'center', marginBottom: 30, borderWidth: 1, borderColor: Colors.candlelight },
     teamName: { fontSize: 20, color: Colors.parchment, fontWeight: '700' },
     scoreText: { fontSize: 36, color: Colors.candlelight, fontWeight: '900', marginTop: 10 },
 
     resultsList: { flex: 1, gap: 16 },
-    resultRow: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.grayDark, padding: 16, borderRadius: 12, marginBottom: 12 },
+    resultRow: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.grayDark, padding: 16, borderRadius: 25, marginBottom: 12 },
     actLabelBox: { width: 60, marginRight: 12 },
     actLabel: { color: Colors.grayLight, fontSize: 14, fontWeight: '700' },
     movieBox: { flex: 1 },

@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: Colors.victorianBlack,
         padding: 5,
-        borderRadius: 20,
+        borderRadius: 25,
         gap: 5,
     },
     optionBtn: {
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         paddingVertical: 11,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 16,
+        borderRadius: 25,
     },
     optionBtnSelected: {
         backgroundColor: Colors.candlelight,
