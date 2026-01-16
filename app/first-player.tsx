@@ -13,6 +13,9 @@ export default function FirstPlayerScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const players = useGameStore((s) => s.players);
+    const lastStarterId = useGameStore((s) => s.lastStarterId);
+    const setLastStarterId = useGameStore((s) => s.setLastStarterId);
+    const setNextRoundPlayerId = useGameStore((s) => s.setNextRoundPlayerId);
     const [firstPlayer, setFirstPlayer] = useState<{ id: string; name: string } | null>(null);
 
     // Block back navigation
@@ -22,12 +25,38 @@ export default function FirstPlayerScreen() {
     }, []);
 
     useEffect(() => {
-        // Randomly select a player from active survivors
+        // Smart Rotation Logic
         const activePlayers = players.filter(p => !p.isEliminated);
-        if (activePlayers.length > 0) {
+        if (activePlayers.length === 0) return;
+
+        let selectedPlayer: typeof activePlayers[0];
+
+        // 1. Check for Smart Rotation (lastStarterId)
+        if (lastStarterId) {
+            const lastIndex = activePlayers.findIndex(p => p.id === lastStarterId);
+            if (lastIndex !== -1) {
+                // Rotate to next player
+                const nextIndex = (lastIndex + 1) % activePlayers.length;
+                selectedPlayer = activePlayers[nextIndex];
+            } else {
+                // If last starter is gone/eliminated, fallback to random
+                const randomIndex = Math.floor(Math.random() * activePlayers.length);
+                selectedPlayer = activePlayers[randomIndex];
+            }
+        } else {
+            // 2. First Round: Fallback to Random
             const randomIndex = Math.floor(Math.random() * activePlayers.length);
-            setFirstPlayer(activePlayers[randomIndex]);
+            selectedPlayer = activePlayers[randomIndex];
         }
+
+        setFirstPlayer(selectedPlayer);
+
+        // Persist for next round's split/rotation logic
+        setLastStarterId(selectedPlayer.id);
+
+        // Also set nextRoundPlayerId mostly for consistency if used elsewhere, though not critically needed here
+        setNextRoundPlayerId(selectedPlayer.id);
+
     }, [players]);
 
     const handleStart = () => {

@@ -106,6 +106,7 @@ interface GameStore extends GameState {
     threeActsSelectOption: (option: string) => void;
     threeActsAction: (action: 'correct' | 'skip') => void;
     nextThreeActsTeam: () => void;
+    setLastStarterId: (id: string) => void;
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
@@ -131,6 +132,7 @@ const initialState: GameState = {
     isNewTournamentPending: false,
     usedWords: [],
     nextRoundPlayerId: null,
+    lastStarterId: null,
 };
 
 // Smart Shuffle: Weighted random selection
@@ -240,6 +242,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     setNextRoundPlayerId: (id: string) => {
         set({ nextRoundPlayerId: id });
+    },
+    setLastStarterId: (id: string) => {
+        set({ lastStarterId: id });
     },
 
     // Theme and word
@@ -524,34 +529,19 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
 
             case 'wavelength': {
+                // Wavelength specific setup
+                const psychicId = state.nextRoundPlayerId; // Manual selection REQUIRED
+
+                if (!psychicId) {
+                    console.error("Wavelength started without a psychic!");
+                    return;
+                }
+
                 const spectrum = getRandomSpectrum(state.usedWords);
                 // Mark this spectrum as used
                 set(s => ({ usedWords: [...s.usedWords, spectrum.left + spectrum.right] }));
 
                 const targetValue = Math.floor(Math.random() * 101); // 0-100
-
-                // Clue Giver (Psychic)
-                // If a specific player was selected as 'targetPlayerId' via the UI/settings, use them.
-                // Otherwise pick generic 0 or 1.
-                // For now, let's assume specific selection logic sets 'nextRoundPlayerId' or similar, 
-                // but we haven't built that yet. Let's just default to a random player if not set.
-                let psychicId = state.nextRoundPlayerId; // Potentially set from "Assign Psychic" screen
-
-                if (!psychicId) {
-                    // Default to first player if checking purely by order, or random.
-                    // In Wavelength, usually one person is psychic.
-                    // We can rely on standard "imposter" selection logic to pick ONE "imposter" (psychic).
-                    // But we want to be explicit.
-                    const randomIdx = Math.floor(Math.random() * players.length);
-                    psychicId = players[randomIdx].id;
-                }
-
-                // For Wavelength, the "Imposter" is the Psychic.
-                // We need to ensure 'specialIndices' reflects this so 'isImposter' flag is set correctly on the player.
-                const psychicIndex = players.findIndex(p => p.id === psychicId);
-                if (psychicIndex !== -1) {
-                    specialIndices = [psychicIndex];
-                }
 
                 gameData = {
                     type: 'wavelength',
@@ -564,10 +554,20 @@ export const useGameStore = create<GameStore>((set, get) => ({
                         points: null
                     }
                 };
+
+                set({ nextRoundPlayerId: null });
                 break;
             }
 
             case 'charades': {
+                // Charades specific setup
+                const actorId = state.nextRoundPlayerId; // Manual selection REQUIRED
+
+                if (!actorId) {
+                    console.error("Charades started without an actor!");
+                    return;
+                }
+
                 // Smart Shuffling: Prioritize unused words
                 const unused = CHARADES_WORDS.filter(w => !state.usedWords.includes(w));
                 const used = CHARADES_WORDS.filter(w => state.usedWords.includes(w));
@@ -579,25 +579,24 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 const pool = [...shuffledUnused, ...shuffledUsed];
                 const gameWords = pool.slice(0, 50);
 
-                // Mark these 50 as used (adding only new ones to history to keep it clean-ish)
+                // Mark these 50 as used
                 set(s => ({
                     usedWords: [...s.usedWords, ...gameWords.filter(w => !s.usedWords.includes(w))]
                 }));
 
-                // Use dedicated Charades timer setting
-                console.log('Starting Charades with Settings:', JSON.stringify(settings));
                 const charadesDuration = (settings.charadesTime && settings.charadesTime > 0) ? settings.charadesTime : 60;
-                const targetPlayerId = state.nextRoundPlayerId || players[0].id; // Fallback to first player
 
                 gameData = {
                     type: 'charades',
                     data: {
                         words: gameWords,
                         duration: charadesDuration,
-                        selectedPlayerId: targetPlayerId,
+                        selectedPlayerId: actorId,
                         controlMode: settings.charadesControl
                     }
                 };
+
+                set({ nextRoundPlayerId: null });
                 break;
             }
 

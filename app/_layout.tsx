@@ -58,11 +58,24 @@ export default function RootLayout() {
           <Stack.Screen name="add-players" />
           <Stack.Screen name="select-theme" />
           <Stack.Screen name="game-settings" />
-          <Stack.Screen name="role-reveal" />
-          <Stack.Screen name="start-game" />
-          <Stack.Screen name="discussion" />
-          <Stack.Screen name="voting" />
-          <Stack.Screen name="results" />
+
+          {/* Game Stages - No Back Gesture */}
+          <Stack.Screen name="role-reveal" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="start-game" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="discussion" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="voting" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="results" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="police-arrest" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="director-verdict" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="verbal-vote" options={{ gestureEnabled: false }} />
+
+          {/* Specific Game Modes */}
+          <Stack.Screen name="wavelength/game" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="time-bomb/game" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="charades/game" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="three-acts/game" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="three-acts/setup" options={{ gestureEnabled: false }} />
+
           <Stack.Screen name="how-to-play" options={{ presentation: 'modal' }} />
         </Stack>
         <StatusBar style="light" />

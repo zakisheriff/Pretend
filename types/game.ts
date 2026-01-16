@@ -215,6 +215,7 @@ export interface GameState {
     isNewTournamentPending: boolean;
     usedWords: string[];
     nextRoundPlayerId: string | null;
+    lastStarterId: string | null;
 }
 
 export const DEFAULT_SETTINGS: GameSettings = {
