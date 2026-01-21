@@ -186,7 +186,7 @@ export interface GameState {
     gameMode: GameMode | null;
 
     // Game phase
-    phase: 'setup' | 'reveal' | 'discussion' | 'voting' | 'results';
+    phase: 'setup' | 'reveal' | 'discussion' | 'voting' | 'results' | 'mind-sync-reveal';
 
     // Players
     players: Player[];

@@ -55,7 +55,7 @@ export default function RoleRevealScreen() {
             nextReveal();
             haptics.gameStart();
 
-            // Thief & Police: Skip first-player selection - Police decides verbally who starts
+            // Special transitions for mixed modes
             if (gameMode === 'thief-police') {
                 router.push('/discussion');
             } else {
@@ -119,7 +119,13 @@ export default function RoleRevealScreen() {
                         onPress={handleNext}
                         variant="primary"
                         size="large"
-                        icon={<Ionicons name={isLast ? "search" : "arrow-forward"} size={18} color={Colors.victorianBlack} />}
+                        icon={
+                            <Ionicons
+                                name={isLast ? "search" : "arrow-forward"}
+                                size={18}
+                                color={Colors.victorianBlack}
+                            />
+                        }
                     />
                 </View>
             )}

@@ -1,0 +1,359 @@
+{
+    "id": "tamil-youtubers",
+    "name": "Tamil YouTubers",
+    "icon": "logo-youtube",
+    "words": [
+        {
+            "word": "Madan Gowri",
+            "hints": {
+                "low": "Daily news explainer",
+                "medium": "M G Squad",
+                "high": "History and facts vlogs"
+            }
+        },
+        {
+            "word": "Irfan's View",
+            "hints": {
+                "low": "Food Reviewer",
+                "medium": "Eats everywhere",
+                "high": "Marriage vlog was viral"
+            }
+        },
+        {
+            "word": "Village Cooking Channel",
+            "hints": {
+                "low": "Grandpa cooking",
+                "medium": "Massive quantities outdoors",
+                "high": "Rahul Gandhi visited"
+            }
+        },
+        {
+            "word": "Mic Set",
+            "hints": {
+                "low": "Sriram",
+                "medium": "Comedy sketches",
+                "high": "Started with dubs"
+            }
+        },
+        {
+            "word": "Nakkalites",
+            "hints": {
+                "low": "Coimbatore slang comedy",
+                "medium": "Back to School series",
+                "high": "Sasi and team"
+            }
+        },
+        {
+            "word": "Parithabangal",
+            "hints": {
+                "low": "Gopi and Sudhakar",
+                "medium": "Crowdfunding scam sketches",
+                "high": "Madras Central alumni"
+            }
+        },
+        {
+            "word": "Black Sheep",
+            "hints": {
+                "low": "Vigneshkanth",
+                "medium": "Un-Galatta",
+                "high": "Team started separate channels"
+            }
+        },
+        {
+            "word": "Eruma Saani",
+            "hints": {
+                "low": "Vijay and Harija",
+                "medium": "Boy bestie / Girl bestie",
+                "high": "Couple comedy"
+            }
+        },
+        {
+            "word": "Temple Monkeys",
+            "hints": {
+                "low": "Vijay Varadharaj",
+                "medium": "Dark comedy",
+                "high": "Movie reviewers turned sketch artists"
+            }
+        },
+        {
+            "word": "Jump Cuts",
+            "hints": {
+                "low": "Hari Bhaskar",
+                "medium": "Twin brother sketches",
+                "high": "Gowri's friend"
+            }
+        },
+        {
+            "word": "Plip Plip",
+            "hints": {
+                "low": "Roasting movies",
+                "medium": "Sarvs and Gurubaai",
+                "high": "Useless Anand"
+            }
+        },
+        {
+            "word": "Chetty's Corner",
+            "hints": {
+                "low": "Tech reviews in Tamil",
+                "medium": "Unboxing gadgets",
+                "high": "Tech boss"
+            }
+        },
+        {
+            "word": "Tamil Tech",
+            "hints": {
+                "low": "Mr. C",
+                "medium": "Gadget reviews",
+                "high": "Oldest tech channel"
+            }
+        },
+        {
+            "word": "Pesum Tamizhan",
+            "hints": {
+                "low": "Political analysis",
+                "medium": "Dhanasekar",
+                "high": "Current affairs breakdown"
+            }
+        },
+        {
+            "word": "Behindwoods",
+            "hints": {
+                "low": "Cinema interviews",
+                "medium": "Award shows",
+                "high": "Exclusive celeb content"
+            }
+        },
+        {
+            "word": "Galatta",
+            "hints": {
+                "low": "Anchor Mahesh",
+                "medium": "Cinema news",
+                "high": "Fun interviews"
+            }
+        },
+        {
+            "word": "Cinema Vikatan",
+            "hints": {
+                "low": "Mr. K",
+                "medium": "Film criticism",
+                "high": "Magazine based"
+            }
+        },
+        {
+            "word": "Put Chutney",
+            "hints": {
+                "low": "Rajinikanth style sketches",
+                "medium": "Venkatesh Butt cooking (sometimes)",
+                "high": "Viral South India videos"
+            }
+        },
+        {
+            "word": "Madras Central",
+            "hints": {
+                "low": "Gopi Sudhakar origin",
+                "medium": "Comedy sketches",
+                "high": "Urban Chennai humor"
+            }
+        },
+        {
+            "word": "Fully Filmy",
+            "hints": {
+                "low": "Movie merchandise",
+                "medium": "Abishek Raaja (cinemapayyan)",
+                "high": "Roasting bad movies"
+            }
+        },
+        {
+            "word": "Sothanaigal",
+            "hints": {
+                "low": "Social experiments",
+                "medium": "Prank videos (Good ones)",
+                "high": "Helping poor people"
+            }
+        },
+        {
+            "word": "Certified Rascals",
+            "hints": {
+                "low": "Comedy skits",
+                "medium": "Friendship gang",
+                "high": "Relatable content"
+            }
+        },
+        {
+            "word": "Aadhan Tamil",
+            "hints": {
+                "low": "Political debates",
+                "medium": "Pandey interviews",
+                "high": "Controversial topics"
+            }
+        },
+        {
+            "word": "Red Pix",
+            "hints": {
+                "low": "Felix",
+                "medium": "Cinema journalism",
+                "high": "Blue Sattai Maran origin"
+            }
+        },
+        {
+            "word": "Blue Sattai Maran",
+            "hints": {
+                "low": "Tamil Talkies",
+                "medium": "Blue Shirt Reviewer",
+                "high": "Ruthless movie reviews"
+            }
+        },
+        {
+            "word": "Kodangi",
+            "hints": {
+                "low": "Valai Pechu",
+                "medium": "Cinema scoops",
+                "high": "Tells gossip without names"
+            }
+        },
+        {
+            "word": "Polimer News",
+            "hints": {
+                "low": "Funny headlines",
+                "medium": "Sarcastic news reading",
+                "high": "Viral news clips"
+            }
+        },
+        {
+            "word": "Sun TV",
+            "hints": {
+                "low": "Serials",
+                "medium": "News",
+                "high": "Movies on Sundays"
+            }
+        },
+        {
+            "word": "Vijay Television",
+            "hints": {
+                "low": "Bigg Boss",
+                "medium": "Super Singer",
+                "high": "Cooku with Comali"
+            }
+        },
+        {
+            "word": "Cookd",
+            "hints": {
+                "low": "Recipe videos",
+                "medium": "Cooking challenges",
+                "high": "Chef Venkatesh Bhat involved"
+            }
+        },
+        {
+            "word": "Home Cooking Tamil",
+            "hints": {
+                "low": "Hema Subramanian",
+                "medium": "Simple recipes",
+                "high": "English and Tamil channel"
+            }
+        },
+        {
+            "word": "Madras Samayal",
+            "hints": {
+                "low": "Steffy",
+                "medium": "US based cooking",
+                "high": "Traditional recipes"
+            }
+        },
+        {
+            "word": "Daddy Arumugam",
+            "hints": {
+                "low": "Village food factory",
+                "medium": "Massive Crab curry",
+                "high": "Father son duo"
+            }
+        },
+        {
+            "word": "Peppa Foodie",
+            "hints": {
+                "low": "Food explorer",
+                "medium": "Chennai street food",
+                "high": "Honest reviews"
+            }
+        },
+        {
+            "word": "Dan Jr",
+            "hints": {
+                "low": "Vlog with celebrities",
+                "medium": "Home tours",
+                "high": "Lifestyle vlogs"
+            }
+        },
+        {
+            "word": "Vishwa Vidya",
+            "hints": {
+                "low": "Science explanations",
+                "medium": "Space videos",
+                "high": "Educational"
+            }
+        },
+        {
+            "word": "Let's Make Engineering Simple",
+            "hints": {
+                "low": "LMES",
+                "medium": "Science experiments",
+                "high": "School education simplified"
+            }
+        },
+        {
+            "word": "Dr. Pal",
+            "hints": {
+                "low": "Gut health",
+                "medium": "Intermittent fasting",
+                "high": "Funny medical advice"
+            }
+        },
+        {
+            "word": "Healer Baskar",
+            "hints": {
+                "low": "Anatomic therapy",
+                "medium": "Controversial health tips",
+                "high": "No medicine concept"
+            }
+        },
+        {
+            "word": "Nithyananda",
+            "hints": {
+                "low": "Kailasa",
+                "medium": "Funny satsangs",
+                "high": "Meme material"
+            }
+        },
+        {
+            "word": "TTF Vasan",
+            "hints": {
+                "low": "Bike racer",
+                "medium": "Twin Throttlers",
+                "high": "Controversies and arrests"
+            }
+        },
+        {
+            "word": "Amala Shaji",
+            "hints": {
+                "low": "Reels queen",
+                "medium": "Dancing videos",
+                "high": "Trolled for expressions"
+            }
+        },
+        {
+            "word": "GP Muthu",
+            "hints": {
+                "low": "TikTok star",
+                "medium": "Letter reading",
+                "high": "Bigg Boss contestant"
+            }
+        },
+        {
+            "word": "Rowdy Baby Surya",
+            "hints": {
+                "low": "Roasting videos",
+                "medium": "TikTok controversies",
+                "high": "Arrested"
+            }
+        }
+    ]
+}

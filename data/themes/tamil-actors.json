@@ -1,0 +1,623 @@
+{
+    "id": "tamil-actors",
+    "name": "Tamil Actors",
+    "icon": "person-outline",
+    "words": [
+        {
+            "word": "Rajinikanth",
+            "hints": {
+                "low": "Superstar",
+                "medium": "Baashha",
+                "high": "Kabali & Jailer lead"
+            }
+        },
+        {
+            "word": "Kamal Haasan",
+            "hints": {
+                "low": "Ulaganayagan",
+                "medium": "Vikram (2022) lead",
+                "high": "Played 10 roles in Dasavathaaram"
+            }
+        },
+        {
+            "word": "Vijay",
+            "hints": {
+                "low": "Thalapathy",
+                "medium": "Leo & Master lead",
+                "high": "Started political party TVK"
+            }
+        },
+        {
+            "word": "Ajith Kumar",
+            "hints": {
+                "low": "Thala",
+                "medium": "Mankatha lead",
+                "high": "Car racer and actor"
+            }
+        },
+        {
+            "word": "Suriya",
+            "hints": {
+                "low": "Rolex sir",
+                "medium": "Singam cop",
+                "high": "Soorarai Pottru lead"
+            }
+        },
+        {
+            "word": "Vikram",
+            "hints": {
+                "low": "Chiyaan",
+                "medium": "Anniyan (Ambi/Remo)",
+                "high": "Body transformation expert (I)"
+            }
+        },
+        {
+            "word": "Dhanush",
+            "hints": {
+                "low": "Rowdy Baby singer",
+                "medium": "Asuran lead",
+                "high": "Hollywood debut in Gray Man"
+            }
+        },
+        {
+            "word": "Simbu (STR)",
+            "hints": {
+                "low": "Little Superstar",
+                "medium": "Maanaadu lead",
+                "high": "Vinnaithaandi Varuvaayaa Karthik"
+            }
+        },
+        {
+            "word": "Sivakarthikeyan",
+            "hints": {
+                "low": "Prince / SK",
+                "medium": "Doctor & Don lead",
+                "high": "Started as TV anchor"
+            }
+        },
+        {
+            "word": "Vijay Sethupathi",
+            "hints": {
+                "low": "Makkal Selvan",
+                "medium": "Master villain (Bhavani)",
+                "high": "Merchandise in Vikram (Sandhanam)"
+            }
+        },
+        {
+            "word": "Karthi",
+            "hints": {
+                "low": "Paruthiveeran debut",
+                "medium": "Kaithi lead (Dilli)",
+                "high": "Suriya's brother"
+            }
+        },
+        {
+            "word": "Jayam Ravi",
+            "hints": {
+                "low": "Ponniyin Selvan (Arulmozhi)",
+                "medium": "Thani Oruvan lead",
+                "high": "Coma patient in Comali"
+            }
+        },
+        {
+            "word": "Arya",
+            "hints": {
+                "low": "Sarpatta boxer",
+                "medium": "Boss Engira Bhaskaran",
+                "high": "Raja Rani John"
+            }
+        },
+        {
+            "word": "Vishal",
+            "hints": {
+                "low": "Sandakozhi lead",
+                "medium": "Irumbu Thirai",
+                "high": "Mark Antony son"
+            }
+        },
+        {
+            "word": "Jiiva",
+            "hints": {
+                "low": "Ko photojournalist",
+                "medium": "Siva Manasula Sakthi",
+                "high": "Nanban (3 Idiots remake)"
+            }
+        },
+        {
+            "word": "Madhavan",
+            "hints": {
+                "low": "Maddy",
+                "medium": "Alaipayuthey debut",
+                "high": "Irudhi Suttru coach"
+            }
+        },
+        {
+            "word": "Siddharth",
+            "hints": {
+                "low": "Boys debut",
+                "medium": "Bommarillu / Jigarthanda",
+                "high": "Chithha lead"
+            }
+        },
+        {
+            "word": "Arvind Swami",
+            "hints": {
+                "low": "Roja lead",
+                "medium": "Thani Oruvan villain",
+                "high": "Bombay lead"
+            }
+        },
+        {
+            "word": "Prabhu Deva",
+            "hints": {
+                "low": "Indian Michael Jackson",
+                "medium": "Kadhalan (Mukkala)",
+                "high": "Director of Rowdy Rathore"
+            }
+        },
+        {
+            "word": "Lawrence",
+            "hints": {
+                "low": "Kanchana series",
+                "medium": "Master turned actor",
+                "high": "Trust / Charity work"
+            }
+        },
+        {
+            "word": "SJ Suryah",
+            "hints": {
+                "low": "Acting Monster",
+                "medium": "Maanaadu villain",
+                "high": "Jigarthanda DoubleX"
+            }
+        },
+        {
+            "word": "Arjun",
+            "hints": {
+                "low": "Action King",
+                "medium": "Mudhalvan lead",
+                "high": "Gentleman"
+            }
+        },
+        {
+            "word": "Sarathkumar",
+            "hints": {
+                "low": "Supreme Star",
+                "medium": "Nattamai",
+                "high": "Periya Pazhuvettarayar in PS-1"
+            }
+        },
+        {
+            "word": "Prabhu",
+            "hints": {
+                "low": "Chinna Thambi",
+                "medium": "Sivaji Ganesan's son",
+                "high": "Chandramukhi husband"
+            }
+        },
+        {
+            "word": "Sathyaraj",
+            "hints": {
+                "low": "Kattappa",
+                "medium": "Baahubali",
+                "high": "Villain to Hero to Character artist"
+            }
+        },
+        {
+            "word": "Vijay Antony",
+            "hints": {
+                "low": "Pichaikkaran",
+                "medium": "Music director turned actor",
+                "high": "Naaka Mukka composer"
+            }
+        },
+        {
+            "word": "Vishnu Vishal",
+            "hints": {
+                "low": "Ratsasan cop",
+                "medium": "Vennila Kabadi Kuzhu",
+                "high": "Cricketer turned actor"
+            }
+        },
+        {
+            "word": "Ashok Selvan",
+            "hints": {
+                "low": "Oh My Kadavule",
+                "medium": "Por Thozhil cop",
+                "high": "Blue Star"
+            }
+        },
+        {
+            "word": "Harish Kalyan",
+            "hints": {
+                "low": "Bigg Boss fame",
+                "medium": "Pyaar Prema Kaadhal",
+                "high": "Parking lead"
+            }
+        },
+        {
+            "word": "Kavin",
+            "hints": {
+                "low": "Dada lead",
+                "medium": "Bigg Boss contenstant",
+                "high": "Saravanan Meenatchi Vettaiyan"
+            }
+        },
+        {
+            "word": "Manikandan",
+            "hints": {
+                "low": "Good Night lead",
+                "medium": "Jai Bhim lawyer aid",
+                "high": "Lover movie lead"
+            }
+        },
+        {
+            "word": "Soori",
+            "hints": {
+                "low": "Parotta Soori",
+                "medium": "Viduthalai lead",
+                "high": "Comedian turned hero"
+            }
+        },
+        {
+            "word": "Yogi Babu",
+            "hints": {
+                "low": "Mandela lead",
+                "medium": "Nelson's favorite comedian",
+                "high": "Curly hair comedian"
+            }
+        },
+        {
+            "word": "Vadivelu",
+            "hints": {
+                "low": "Vaigai Puyal",
+                "medium": "Imsai Arasan 23rd Pulikecei",
+                "high": "Naai Sekar"
+            }
+        },
+        {
+            "word": "Goundamani",
+            "hints": {
+                "low": "Senthil partner",
+                "medium": "Counter King",
+                "high": "Adhu yellam oru kanaa kaalam"
+            }
+        },
+        {
+            "word": "Senthil",
+            "hints": {
+                "low": "Banana comedy",
+                "medium": "Goundamani partner",
+                "high": "Boys movie (information)"
+            }
+        },
+        {
+            "word": "Vivek",
+            "hints": {
+                "low": "Chinna Kalaivanar",
+                "medium": "Social message comedy",
+                "high": "Run / Sivaji comedy"
+            }
+        },
+        {
+            "word": "Santhanam",
+            "hints": {
+                "low": "Lollu Sabha fame",
+                "medium": "SMS / Boss Engira Bhaskaran",
+                "high": "Comedian turned hero (DD Returns)"
+            }
+        },
+        {
+            "word": "Prasanna",
+            "hints": {
+                "low": "Sneha's husband",
+                "medium": "Anjathe villain",
+                "high": "Kanda Naal Mudhal"
+            }
+        },
+        {
+            "word": "Atharvaa",
+            "hints": {
+                "low": "Murali's son",
+                "medium": "Paradesi lead",
+                "high": "Eetti"
+            }
+        },
+        {
+            "word": "Gautham Karthik",
+            "hints": {
+                "low": "Kadal debut",
+                "medium": "Navarasa",
+                "high": "Karthik's son"
+            }
+        },
+        {
+            "word": "Arulnithi",
+            "hints": {
+                "low": "Demonte Colony",
+                "medium": "Vamsam debut",
+                "high": "Karunanidhi's grandson"
+            }
+        },
+        {
+            "word": "Udhayanidhi Stalin",
+            "hints": {
+                "low": "Oru Kal Oru Kannadi (OKOK)",
+                "medium": "Maamannan lead",
+                "high": "Producer (Red Giant)"
+            }
+        },
+        {
+            "word": "Sivaji Ganesan",
+            "hints": {
+                "low": "Nadigar Thilagam",
+                "medium": "Parasakthi debut",
+                "high": "Veerapandiya Kattabomman"
+            }
+        },
+        {
+            "word": "MGR",
+            "hints": {
+                "low": "Makkal Thilagam",
+                "medium": "Chief Minister of TN",
+                "high": "Rickshawkaran"
+            }
+        },
+        {
+            "word": "Gemini Ganesan",
+            "hints": {
+                "low": "Kaadhal Mannan",
+                "medium": "Rekha's father",
+                "high": "Romantic hero of 60s"
+            }
+        },
+        {
+            "word": "Nagesh",
+            "hints": {
+                "low": "Jerry Lewis of India",
+                "medium": "Server Sundaram",
+                "high": "Nammavar / Kamal's friend"
+            }
+        },
+        {
+            "word": "Raghuvaran",
+            "hints": {
+                "low": "Iconic Villain voice",
+                "medium": "Baashha Antony",
+                "high": "VIP father"
+            }
+        },
+        {
+            "word": "Prakash Raj",
+            "hints": {
+                "low": "Chellam (Ghilli)",
+                "medium": "Iruvar",
+                "high": "Multilingual villain"
+            }
+        },
+        {
+            "word": "Nassar",
+            "hints": {
+                "low": "Baahubali Bijjaladeva",
+                "medium": "Nadigar Sangam President",
+                "high": "Jeans father roles"
+            }
+        },
+        {
+            "word": "Bobby Simha",
+            "hints": {
+                "low": "Jigarthanda Assault Sethu",
+                "medium": "National Award winner",
+                "high": "Soodhu Kavvum"
+            }
+        },
+        {
+            "word": "Vimal",
+            "hints": {
+                "low": "Kalavani",
+                "medium": "Pasanga",
+                "high": "Desingu Raja"
+            }
+        },
+        {
+            "word": "Shantanu",
+            "hints": {
+                "low": "Bhagyaraj's son",
+                "medium": "Sakkarakatti",
+                "high": "Master (Bhargav)"
+            }
+        },
+        {
+            "word": "Jai",
+            "hints": {
+                "low": "Subramaniapuram",
+                "medium": "Raja Rani",
+                "high": "Engeyum Eppodhum"
+            }
+        },
+        {
+            "word": "Srikanth",
+            "hints": {
+                "low": "Roja Kootam",
+                "medium": "Nanban",
+                "high": "Parthiban Kanavu"
+            }
+        },
+        {
+            "word": "Bharath",
+            "hints": {
+                "low": "Boys movie",
+                "medium": "Kaadhal",
+                "high": "Veyil"
+            }
+        },
+        {
+            "word": "Sasikumar",
+            "hints": {
+                "low": "Subramaniapuram director",
+                "medium": "Nadodigal",
+                "high": "Rural friendship movies"
+            }
+        },
+        {
+            "word": "Samuthirakani",
+            "hints": {
+                "low": "Appa movie",
+                "medium": "VIP father",
+                "high": "Director / Actor / Moral preacher"
+            }
+        },
+        {
+            "word": "RJ Balaji",
+            "hints": {
+                "low": "LKG",
+                "medium": "Mookuthi Amman",
+                "high": "Cricket commentator"
+            }
+        },
+        {
+            "word": "Kathir",
+            "hints": {
+                "low": "Pariyerum Perumal",
+                "medium": "Bigil (Michael friend)",
+                "high": "Suzhal web series"
+            }
+        },
+        {
+            "word": "S.J. Suryah",
+            "hints": {
+                "low": "Acting Monster",
+                "medium": "Maanaadu",
+                "high": "Mark Antony"
+            }
+        },
+        {
+            "word": "Vinay Rai",
+            "hints": {
+                "low": "Unnale Unnale",
+                "medium": "Doctor villain",
+                "high": "Thupparivaalan villain"
+            }
+        },
+        {
+            "word": "Arun Vijay",
+            "hints": {
+                "low": "Yennai Arindhaal (Victor)",
+                "medium": "Thadam",
+                "high": "Kuttram 23"
+            }
+        },
+        {
+            "word": "Vijayakanth",
+            "hints": {
+                "low": "Captain",
+                "medium": "Ramana",
+                "high": "DMDK founder"
+            }
+        },
+        {
+            "word": "Muralie",
+            "hints": {
+                "low": "Idhayam",
+                "medium": "Atharvaa's father",
+                "high": "Poomani"
+            }
+        },
+        {
+            "word": "Karthik",
+            "hints": {
+                "low": "Navarasa Nayagan",
+                "medium": "Mouna Ragam",
+                "high": "Gautham's father"
+            }
+        },
+        {
+            "word": "Mohan",
+            "hints": {
+                "low": "Mike Mohan",
+                "medium": "Mouna Ragam",
+                "high": "Silver Jubilee Star"
+            }
+        },
+        {
+            "word": "Ramarajan",
+            "hints": {
+                "low": "Karakattakkaran",
+                "medium": "Always colorful shirts",
+                "high": "Rural hero"
+            }
+        },
+        {
+            "word": "T. Rajendar",
+            "hints": {
+                "low": "Dandanakka",
+                "medium": "Simbu's father",
+                "high": "All-rounder (Music, Direction, Acting)"
+            }
+        },
+        {
+            "word": "Netty",
+            "hints": {
+                "low": "Comedian",
+                "medium": "Dhanush friend (Yaradi Nee Mohini)",
+                "high": "High pitch voice"
+            }
+        },
+        {
+            "word": "Karunakaran",
+            "hints": {
+                "low": "Soodhu Kavvum",
+                "medium": "Indru Netru Naalai",
+                "high": "Jigarthanda"
+            }
+        },
+        {
+            "word": "Munishkanth",
+            "hints": {
+                "low": "Mundasupatti",
+                "medium": "Maanagaram",
+                "high": "Raatchasan"
+            }
+        },
+        {
+            "word": "VTV Ganesh",
+            "hints": {
+                "low": "Ganesh voice",
+                "medium": "Vinnaithaandi Varuvaayaa",
+                "high": "Beast (security)"
+            }
+        },
+        {
+            "word": "Kingsley",
+            "hints": {
+                "low": "Doctor (Bhagat)",
+                "medium": "Beast",
+                "high": "High pitch comedy"
+            }
+        },
+        {
+            "word": "Anandaraj",
+            "hints": {
+                "low": "Villain turned comedian",
+                "medium": "Naanum Rowdy Dhaan",
+                "high": "Baashha henchman"
+            }
+        },
+        {
+            "word": "Mansoor Ali Khan",
+            "hints": {
+                "low": "Leo (flashback)",
+                "medium": "Captain Prabhakaran",
+                "high": "Villain roles"
+            }
+        },
+        {
+            "word": "Lollu Sabha Jeeva",
+            "hints": {
+                "low": "Lollu Sabha",
+                "medium": "Jeeva (comedy)",
+                "high": "Spoof specialist"
+            }
+        }
+    ]
+}

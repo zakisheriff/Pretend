@@ -107,6 +107,7 @@ interface GameStore extends GameState {
     threeActsAction: (action: 'correct' | 'skip') => void;
     nextThreeActsTeam: () => void;
     setLastStarterId: (id: string) => void;
+    startMindSyncReveal: () => void;
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
@@ -257,6 +258,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
     setLastStarterId: (id: string) => {
         set({ lastStarterId: id });
+    },
+    startMindSyncReveal: () => {
+        set({ phase: 'mind-sync-reveal' });
     },
 
     // Theme and word

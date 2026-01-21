@@ -72,9 +72,31 @@ export default function DiscussionScreen() {
                 </View>
             )}
 
+            {gameMode === 'mind-sync' && (
+                <View style={styles.mindSyncQuestions}>
+                    {(() => {
+                        const gameData = useGameStore.getState().gameData;
+                        if (gameData?.type === 'mind-sync') {
+                            const { mainQuestion } = gameData.data;
+                            return (
+                                <View style={styles.questionTinyCard}>
+                                    <Text style={styles.tinyLabel}>The Question was:</Text>
+                                    <Text style={styles.tinyQuestion}>{mainQuestion}</Text>
+                                </View>
+                            );
+                        }
+                        return null;
+                    })()}
+                </View>
+            )}
+
             <View style={styles.timerArea}>
                 <CircularTimer duration={settings.discussionTime} timeRemaining={time} size={220} strokeWidth={10} />
-                {paused && !done && <View style={styles.pausedBadge}><Text style={styles.pausedText}>Paused</Text></View>}
+                {paused && !done && (
+                    <View style={styles.pausedBadge}>
+                        <Text style={styles.pausedText}>Paused</Text>
+                    </View>
+                )}
             </View>
 
             {!done && (
@@ -129,4 +151,47 @@ const styles = StyleSheet.create({
     footerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 10 },
 
     footerText: { fontSize: 12, color: Colors.parchmentLight, letterSpacing: 0.5 },
+
+    // Mind Sync Specific
+    mindSyncQuestions: {
+        gap: 10,
+        marginVertical: 10,
+        paddingHorizontal: 10,
+    },
+    argumentBox: {
+        backgroundColor: 'rgba(196,167,108,0.1)',
+        padding: 16,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: 'rgba(196,167,108,0.2)',
+        alignItems: 'center',
+    },
+    argumentText: {
+        fontSize: 14,
+        color: Colors.grayLight,
+        textAlign: 'center',
+        lineHeight: 20,
+        fontStyle: 'italic',
+    },
+    questionTinyCard: {
+        backgroundColor: 'rgba(255,255,255,0.05)',
+        padding: 10,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: 'rgba(196,167,108,0.2)',
+    },
+    tinyLabel: {
+        fontSize: 9,
+        fontWeight: '800',
+        color: Colors.candlelight,
+        letterSpacing: 1,
+        textTransform: 'uppercase',
+        marginBottom: 4,
+    },
+    tinyQuestion: {
+        fontSize: 13,
+        color: Colors.parchment,
+        fontStyle: 'italic',
+        lineHeight: 18,
+    },
 });

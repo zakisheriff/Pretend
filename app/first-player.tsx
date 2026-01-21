@@ -59,9 +59,15 @@ export default function FirstPlayerScreen() {
 
     }, [players]);
 
+    const gameMode = useGameStore((s) => s.gameMode);
+
     const handleStart = () => {
         haptics.gameStart();
-        router.push('/discussion');
+        if (gameMode === 'mind-sync') {
+            router.push('/mind-sync-reveal' as any);
+        } else {
+            router.push('/discussion');
+        }
     };
 
     if (!firstPlayer) return null;
@@ -91,11 +97,11 @@ export default function FirstPlayerScreen() {
 
             <View style={styles.footer}>
                 <Button
-                    title="Start Timer"
+                    title={gameMode === 'mind-sync' ? "Start Argument" : "Start Timer"}
                     onPress={handleStart}
                     variant="primary"
                     size="large"
-                    icon={<Ionicons name="timer-outline" size={20} color={Colors.victorianBlack} />}
+                    icon={<Ionicons name={gameMode === 'mind-sync' ? "chatbubbles-outline" : "timer-outline"} size={20} color={Colors.victorianBlack} />}
                 />
             </View>
         </View>
