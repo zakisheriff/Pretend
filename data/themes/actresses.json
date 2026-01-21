@@ -30,17 +30,17 @@
         {
             "word": "Nayanthara",
             "hints": {
-                "low": "Normal",
-                "medium": "Raja Rani",
-                "high": "Jawan debut in Hindi"
+                "low": "Lady Superstar",
+                "medium": "Jawan lead",
+                "high": "Mookuthi Amman"
             }
         },
         {
             "word": "Samantha Ruth Prabhu",
             "hints": {
-                "low": "Cute",
+                "low": "Oo Antava",
                 "medium": "The Family Man S2",
-                "high": "Oo Antava item song"
+                "high": "Theri (Mithra)"
             }
         },
         {
@@ -48,7 +48,7 @@
             "hints": {
                 "low": "National Crush",
                 "medium": "Pushpa (Srivalli)",
-                "high": "Animal movie lead"
+                "high": "Varisu"
             }
         },
         {
@@ -78,9 +78,9 @@
         {
             "word": "Zendaya",
             "hints": {
-                "low": "Disney Channel star",
-                "medium": "Euphoria",
-                "high": "Tom Holland's girlfriend"
+                "low": "MJ in Spider-Man",
+                "medium": "Euphoria (Rue)",
+                "high": "Dune (Chani)"
             }
         },
         {
@@ -94,9 +94,529 @@
         {
             "word": "Keerthy Suresh",
             "hints": {
-                "low": "Meme",
+                "low": "Mahanati / Nadigaiyar Thilagam",
+                "medium": "Sarkar",
+                "high": "Maamannan"
+            }
+        },
+        {
+            "word": "Florence Pugh",
+            "hints": {
+                "low": "Yelena Belova in Marvel",
+                "medium": "Midsommar flower crown",
+                "high": "Little Women (Amy)"
+            }
+        },
+        {
+            "word": "Sydney Sweeney",
+            "hints": {
+                "low": "Euphoria (Cassie)",
+                "medium": "Anyone But You",
+                "high": "White Lotus S1"
+            }
+        },
+        {
+            "word": "Anya Taylor-Joy",
+            "hints": {
+                "low": "Furiosa",
+                "medium": "The Queen's Gambit (Beth)",
+                "high": "Known for her large expressive eyes"
+            }
+        },
+        {
+            "word": "Gal Gadot",
+            "hints": {
+                "low": "Wonder Woman",
+                "medium": "Fast & Furious (Gisele)",
+                "high": "Former Miss Israel"
+            }
+        },
+        {
+            "word": "Kiara Advani",
+            "hints": {
+                "low": "Kabir Singh (Preeti)",
+                "medium": "Shershaah",
+                "high": "Married to Sidharth Malhotra"
+            }
+        },
+        {
+            "word": "Mrunal Thakur",
+            "hints": {
+                "low": "Sita Ramam",
+                "medium": "Hi Nanna",
+                "high": "Started in TV serials like Kumkum Bhagya"
+            }
+        },
+        {
+            "word": "Sai Pallavi",
+            "hints": {
+                "low": "Malar Teacher in Premam",
+                "medium": "Known for no-makeup look",
+                "high": "Rowdy Baby dance"
+            }
+        },
+        {
+            "word": "Jennifer Lawrence",
+            "hints": {
+                "low": "Hunger Games",
+                "medium": "Katniss Everdeen",
+                "high": "Silver Linings Playbook"
+            }
+        },
+        {
+            "word": "Emma Stone",
+            "hints": {
+                "low": "La La Land",
+                "medium": "Poor Things",
+                "high": "Cruella"
+            }
+        },
+        {
+            "word": "Angelina Jolie",
+            "hints": {
+                "low": "Lara Croft: Tomb Raider",
+                "medium": "Maleficent",
+                "high": "Mr. & Mrs. Smith"
+            }
+        },
+        {
+            "word": "Meryl Streep",
+            "hints": {
+                "low": "The Devil Wears Prada",
+                "medium": "Mamma Mia!",
+                "high": "Most Oscar nominations"
+            }
+        },
+        {
+            "word": "Natalie Portman",
+            "hints": {
+                "low": "Black Swan",
+                "medium": "Padm\u00e9 Amidala in Star Wars",
+                "high": "Thor (Jane Foster)"
+            }
+        },
+        {
+            "word": "Elizabeth Olsen",
+            "hints": {
+                "low": "Scarlet Witch (Wanda)",
+                "medium": "Martha Marcy May Marlene",
+                "high": "Wind River"
+            }
+        },
+        {
+            "word": "Jyothika",
+            "hints": {
+                "low": "Chandramukhi",
+                "medium": "Suriya's wife",
+                "high": "Mozhi"
+            }
+        },
+        {
+            "word": "Simran",
+            "hints": {
+                "low": "90s Dreamgirl",
+                "medium": "Vaali / Petta",
+                "high": "Pammal K. Sambandam"
+            }
+        },
+        {
+            "word": "Tamannaah",
+            "hints": {
+                "low": "Baahubali Warrior",
+                "medium": "Kaavaalaa song",
+                "high": "Paiyaa"
+            }
+        },
+        {
+            "word": "Anushka Shetty",
+            "hints": {
+                "low": "Devasena (Baahubali)",
+                "medium": "Arundhati",
+                "high": "Rudhramadevi"
+            }
+        },
+        {
+            "word": "Hansika Motwani",
+            "hints": {
+                "low": "Chinna Khushbu",
+                "medium": "Romeo Juliet",
+                "high": "Oru Kal Oru Kannadi"
+            }
+        },
+        {
+            "word": "Kajal Aggarwal",
+            "hints": {
+                "low": "Thuppakki",
+                "medium": "Magadheera",
+                "high": "Vivegam"
+            }
+        },
+        {
+            "word": "Shruti Haasan",
+            "hints": {
+                "low": "Kamal Haasan's daughter",
+                "medium": "3 Movie",
+                "high": "Salaar"
+            }
+        },
+        {
+            "word": "Aishwarya Rajesh",
+            "hints": {
+                "low": "Kaaka Muttai mother",
+                "medium": "Kanaa cricketer",
+                "high": "Vada Chennai"
+            }
+        },
+        {
+            "word": "Andrea Jeremiah",
+            "hints": {
+                "low": "North Chennai slang in Vada Chennai",
+                "medium": "Vishwaroopam",
+                "high": "Singer turned actress"
+            }
+        },
+        {
+            "word": "Priyanka Mohan",
+            "hints": {
+                "low": "Doctor",
+                "medium": "Don",
+                "high": "Captain Miller"
+            }
+        },
+        {
+            "word": "Nithya Menen",
+            "hints": {
+                "low": "Thiruchitrambalam (Shobana)",
+                "medium": "OK Kanmani",
+                "high": "Mersal"
+            }
+        },
+        {
+            "word": "Nazriya Nazim",
+            "hints": {
+                "low": "Raja Rani",
+                "medium": "Neram",
+                "high": "Fahadh Faasil's wife"
+            }
+        },
+        {
+            "word": "Asin",
+            "hints": {
+                "low": "Ghajini (Kalpana)",
+                "medium": "Pokkiri",
+                "high": "Dasavathaaram"
+            }
+        },
+        {
+            "word": "Genelia",
+            "hints": {
+                "low": "Ha Ha Hasini",
+                "medium": "Santosh Subramaniam",
+                "high": "Boys"
+            }
+        },
+        {
+            "word": "Shalini",
+            "hints": {
+                "low": "Alaipayuthey",
+                "medium": "Ajith's wife",
+                "high": "Baby Shalini"
+            }
+        },
+        {
+            "word": "Khushbu",
+            "hints": {
+                "low": "Temple built for her",
+                "medium": "Chinna Thambi",
+                "high": "Varisu (Mother)"
+            }
+        },
+        {
+            "word": "Meena",
+            "hints": {
+                "low": "Muthu",
+                "medium": "Avvai Shanmughi",
+                "high": "Drishyam / Papanasam"
+            }
+        },
+        {
+            "word": "Radhika Sarathkumar",
+            "hints": {
+                "low": "Chitti (Serial)",
+                "medium": "Kizhakku Cheemayile",
+                "high": "Sarathkumar's wife"
+            }
+        },
+        {
+            "word": "Ramya Krishnan",
+            "hints": {
+                "low": "Sivagami (Baahubali)",
+                "medium": "Neelambari (Padayappa)",
+                "high": "Super Deluxe"
+            }
+        },
+        {
+            "word": "Revathi",
+            "hints": {
+                "low": "Mouna Ragam",
+                "medium": "Thevar Magan",
+                "high": "Power Paandi"
+            }
+        },
+        {
+            "word": "Suhasini",
+            "hints": {
+                "low": "Mani Ratnam's wife",
+                "medium": "Sindhu Bhairavi",
+                "high": "Nenjathai Killadhe"
+            }
+        },
+        {
+            "word": "Amala Paul",
+            "hints": {
+                "low": "Mynaa",
+                "medium": "Aadai",
+                "high": "VIP"
+            }
+        },
+        {
+            "word": "Varalaxmi Sarathkumar",
+            "hints": {
+                "low": "Sarkar villain",
+                "medium": "Tharai Thappattai",
+                "high": "Podaa Podi"
+            }
+        },
+        {
+            "word": "Aishwarya Rai",
+            "hints": {
+                "low": "Miss World",
+                "medium": "Enthiran / Jeans",
+                "high": "Nandini (PS-1/2)"
+            }
+        },
+        {
+            "word": "Amy Jackson",
+            "hints": {
+                "low": "Madrasapattinam",
+                "medium": "I Movie",
+                "high": "2.0 Robot"
+            }
+        },
+        {
+            "word": "Catherine Tresa",
+            "hints": {
+                "low": "Madras",
+                "medium": "Kanithan",
+                "high": "Kalakalappu 2"
+            }
+        },
+        {
+            "word": "Regina Cassandra",
+            "hints": {
+                "low": "Maanagaram",
+                "medium": "Kedi Billa Killadi Ranga",
+                "high": "Flashback in Chakra"
+            }
+        },
+        {
+            "word": "Nivetha Thomas",
+            "hints": {
+                "low": "Papanasam daughter",
+                "medium": "Darbar daughter",
+                "high": "Ninnu Kori"
+            }
+        },
+        {
+            "word": "Malavika Mohanan",
+            "hints": {
+                "low": "Master",
+                "medium": "Petta",
+                "high": "Thangalaan"
+            }
+        },
+        {
+            "word": "Krithi Shetty",
+            "hints": {
+                "low": "Custody",
+                "medium": "Warriorr",
+                "high": " Uppena (Telugu mostly)"
+            }
+        },
+        {
+            "word": "Indhuja Ravichandran",
+            "hints": {
+                "low": "Meyaadha Maan",
+                "medium": "Bigil owner",
+                "high": "Khaki"
+            }
+        },
+        {
+            "word": "Vani Bhojan",
+            "hints": {
+                "low": "Oh My Kadavule",
+                "medium": "Serial actress (Deivamagal)",
+                "high": "Mahaan"
+            }
+        },
+        {
+            "word": "Ritika Singh",
+            "hints": {
+                "low": "Irudhi Suttru boxer",
+                "medium": "Oh My Kadavule",
+                "high": "MMA fighter"
+            }
+        },
+        {
+            "word": "Raiza Wilson",
+            "hints": {
+                "low": "Bigg Boss",
+                "medium": "Pyaar Prema Kaadhal",
+                "high": "VIP 2"
+            }
+        },
+        {
+            "word": "Oviya",
+            "hints": {
+                "low": "Bigg Boss Army",
+                "medium": "Kalavani",
+                "high": "90 ML"
+            }
+        },
+        {
+            "word": "Yashika Aannand",
+            "hints": {
+                "low": "Iruttu Araiyil Murattu Kuththu",
+                "medium": "Bigg Boss",
+                "high": "Dhruvangal Pathinaaru"
+            }
+        },
+        {
+            "word": "Aparna Balamurali",
+            "hints": {
+                "low": "Soorarai Pottru (Bommi)",
                 "medium": "National Award winner",
-                "high": "Dasara leads"
+                "high": "8 Thottakkal"
+            }
+        },
+        {
+            "word": "Lijomol Jose",
+            "hints": {
+                "low": "Jai Bhim (Sengani)",
+                "medium": "Sivappu Manjal Pachai",
+                "high": "Critically acclaimed"
+            }
+        },
+        {
+            "word": "Dushara Vijayan",
+            "hints": {
+                "low": "Sarpatta Parambarai (Mariyamma)",
+                "medium": "Natchathiram Nagargiradhu",
+                "high": "Raayan"
+            }
+        },
+        {
+            "word": "Megha Akash",
+            "hints": {
+                "low": "Enai Noki Paayum Thota",
+                "medium": "Petta",
+                "high": "Boomerang"
+            }
+        },
+        {
+            "word": "Ivana",
+            "hints": {
+                "low": "Love Today",
+                "medium": "Naachiyaar",
+                "high": "LGM"
+            }
+        },
+        {
+            "word": "Aditi Shankar",
+            "hints": {
+                "low": "Viruman",
+                "medium": "Maaveeran",
+                "high": "Shankar's daughter"
+            }
+        },
+        {
+            "word": "Sridevi",
+            "hints": {
+                "low": "Moondram Pirai",
+                "medium": "English Vinglish",
+                "high": "16 Vayathinile"
+            }
+        },
+        {
+            "word": "Savitri",
+            "hints": {
+                "low": "Nadigaiyar Thilagam",
+                "medium": "Mayabazar",
+                "high": "Pasamalar"
+            }
+        },
+        {
+            "word": "Manorama",
+            "hints": {
+                "low": "Aachi",
+                "medium": "Guinness Record holder",
+                "high": "Comedy legend"
+            }
+        },
+        {
+            "word": "Kovai Sarala",
+            "hints": {
+                "low": "Kanchana comedy",
+                "medium": "Sathi Leelavathi",
+                "high": "Unique voice"
+            }
+        },
+        {
+            "word": "Urvashi",
+            "hints": {
+                "low": "Magalir Mattum",
+                "medium": "Michael Madana Kama Rajan",
+                "high": "Soorarai Pottru mother"
+            }
+        },
+        {
+            "word": "Saranya Ponvannan",
+            "hints": {
+                "low": "Favorite Amma",
+                "medium": "VIP Mother",
+                "high": "Oru Kal Oru Kannadi"
+            }
+        },
+        {
+            "word": "Devayani",
+            "hints": {
+                "low": "Suryavamsam",
+                "medium": "Kadhal Kottai",
+                "high": "Kolangal Serial"
+            }
+        },
+        {
+            "word": "Bhanupriya",
+            "hints": {
+                "low": "Classical dancer",
+                "medium": "Chatriyan",
+                "high": "Azhagan"
+            }
+        },
+        {
+            "word": "Rambha",
+            "hints": {
+                "low": "Ullathai Allitha",
+                "medium": "Thigh beauty tag",
+                "high": "Arunachalam"
+            }
+        },
+        {
+            "word": "Soundarya",
+            "hints": {
+                "low": "Padayappa",
+                "medium": "Arunachalam",
+                "high": "Suryavamsam"
             }
         }
     ]

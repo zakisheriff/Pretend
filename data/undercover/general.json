@@ -42,6 +42,102 @@
         {
             "crewmateWord": "Spider",
             "imposterWord": "Scorpion"
+        },
+        {
+            "crewmateWord": "AR Rahman",
+            "imposterWord": "Ilaiyaraaja"
+        },
+        {
+            "crewmateWord": "Anirudh",
+            "imposterWord": "Yuvan Shankar Raja"
+        },
+        {
+            "crewmateWord": "Sun TV",
+            "imposterWord": "Vijay TV"
+        },
+        {
+            "crewmateWord": "Bigg Boss",
+            "imposterWord": "Cooku with Comali"
+        },
+        {
+            "crewmateWord": "Super Singer",
+            "imposterWord": "Sa Re Ga Ma Pa"
+        },
+        {
+            "crewmateWord": "Kalakkam Povadhu Yaaru",
+            "imposterWord": "Adhu Idhu Yedhu"
+        },
+        {
+            "crewmateWord": "Neeya Naana",
+            "imposterWord": "Solvathellam Unmai"
+        },
+        {
+            "crewmateWord": "Tiger",
+            "imposterWord": "Lion"
+        },
+        {
+            "crewmateWord": "Mars",
+            "imposterWord": "Earth"
+        },
+        {
+            "crewmateWord": "Cricket",
+            "imposterWord": "Football"
+        },
+        {
+            "crewmateWord": "Moon",
+            "imposterWord": "Sun"
+        },
+        {
+            "crewmateWord": "Engineer",
+            "imposterWord": "Doctor"
+        },
+        {
+            "crewmateWord": "Diamond",
+            "imposterWord": "Gold"
+        },
+        {
+            "crewmateWord": "Train",
+            "imposterWord": "Plane"
+        },
+        {
+            "crewmateWord": "Mobile",
+            "imposterWord": "Computer"
+        },
+        {
+            "crewmateWord": "College",
+            "imposterWord": "School"
+        },
+        {
+            "crewmateWord": "Scorpion",
+            "imposterWord": "Spider"
+        },
+        {
+            "crewmateWord": "Ilaiyaraaja",
+            "imposterWord": "AR Rahman"
+        },
+        {
+            "crewmateWord": "Yuvan Shankar Raja",
+            "imposterWord": "Anirudh"
+        },
+        {
+            "crewmateWord": "Vijay TV",
+            "imposterWord": "Sun TV"
+        },
+        {
+            "crewmateWord": "Cooku with Comali",
+            "imposterWord": "Bigg Boss"
+        },
+        {
+            "crewmateWord": "Sa Re Ga Ma Pa",
+            "imposterWord": "Super Singer"
+        },
+        {
+            "crewmateWord": "Adhu Idhu Yedhu",
+            "imposterWord": "Kalakkam Povadhu Yaaru"
+        },
+        {
+            "crewmateWord": "Solvathellam Unmai",
+            "imposterWord": "Neeya Naana"
         }
     ]
 }

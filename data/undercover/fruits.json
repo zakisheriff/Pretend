@@ -42,6 +42,46 @@
         {
             "crewmateWord": "Kiwi",
             "imposterWord": "Dragon Fruit"
+        },
+        {
+            "crewmateWord": "Pear",
+            "imposterWord": "Apple"
+        },
+        {
+            "crewmateWord": "Tangerine",
+            "imposterWord": "Orange"
+        },
+        {
+            "crewmateWord": "Plantain",
+            "imposterWord": "Banana"
+        },
+        {
+            "crewmateWord": "Peach",
+            "imposterWord": "Mango"
+        },
+        {
+            "crewmateWord": "Raspberry",
+            "imposterWord": "Strawberry"
+        },
+        {
+            "crewmateWord": "Jackfruit",
+            "imposterWord": "Pineapple"
+        },
+        {
+            "crewmateWord": "Blueberries",
+            "imposterWord": "Grapes"
+        },
+        {
+            "crewmateWord": "Muskmelon",
+            "imposterWord": "Watermelon"
+        },
+        {
+            "crewmateWord": "Lime",
+            "imposterWord": "Lemon"
+        },
+        {
+            "crewmateWord": "Dragon Fruit",
+            "imposterWord": "Kiwi"
         }
     ]
 }

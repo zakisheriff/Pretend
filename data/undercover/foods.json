@@ -62,6 +62,66 @@
         {
             "crewmateWord": "Sandwich",
             "imposterWord": "Taco"
+        },
+        {
+            "crewmateWord": "Dosa",
+            "imposterWord": "Idli"
+        },
+        {
+            "crewmateWord": "Pulao",
+            "imposterWord": "Biryani"
+        },
+        {
+            "crewmateWord": "Chapati",
+            "imposterWord": "Parotta"
+        },
+        {
+            "crewmateWord": "Bonda",
+            "imposterWord": "Vada"
+        },
+        {
+            "crewmateWord": "Burger",
+            "imposterWord": "Pizza"
+        },
+        {
+            "crewmateWord": "Noodles",
+            "imposterWord": "Pasta"
+        },
+        {
+            "crewmateWord": "Puff",
+            "imposterWord": "Samosa"
+        },
+        {
+            "crewmateWord": "Coffee",
+            "imposterWord": "Tea"
+        },
+        {
+            "crewmateWord": "Frozen Yogurt",
+            "imposterWord": "Ice Cream"
+        },
+        {
+            "crewmateWord": "Sashimi",
+            "imposterWord": "Sushi"
+        },
+        {
+            "crewmateWord": "Rasagulla",
+            "imposterWord": "Gulab Jamun"
+        },
+        {
+            "crewmateWord": "Payasam",
+            "imposterWord": "Halwa"
+        },
+        {
+            "crewmateWord": "Coca Cola",
+            "imposterWord": "Pepsi"
+        },
+        {
+            "crewmateWord": "Cheese",
+            "imposterWord": "Butter"
+        },
+        {
+            "crewmateWord": "Taco",
+            "imposterWord": "Sandwich"
         }
     ]
 }

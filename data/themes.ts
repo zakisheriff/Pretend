@@ -20,11 +20,6 @@ import sports from './themes/sports.json';
 import superheroes from './themes/superheroes.json';
 import tamilMovies from './themes/tamil-movies.json';
 import youtubers from './themes/youtubers.json';
-// New Imposter Themes
-import hollywoodExtended from './themes/hollywood-extended.json';
-import tamilActors from './themes/tamil-actors.json';
-import tamilActress from './themes/tamil-actress.json';
-import tamilYoutubers from './themes/tamil-youtubers.json';
 
 
 // Undercover Mode Themes (Paired)
@@ -47,22 +42,19 @@ import uSongs from './undercover/songs.json';
 import uSports from './undercover/sports.json';
 import uTamilMovies from './undercover/tamil-movies.json';
 import uYoutubers from './undercover/youtubers.json';
-// New Undercover Themes
-import uHollywoodExtended from './undercover/hollywood-extended.json';
-import uTamilPopCulture from './undercover/tamil-pop-culture.json';
 
 export const categories: ThemeCategory[] = [
     {
         id: 'movies',
         name: 'Movies',
         icon: 'videocam-outline',
-        themes: [tamilMovies, hindiMovies, hollywoodMovies, hollywoodExtended, directors, superheroes] as Theme[]
+        themes: [tamilMovies, hindiMovies, hollywoodMovies, directors, superheroes] as Theme[]
     },
     {
         id: 'celebrities',
         name: 'Celebrities',
         icon: 'people-outline',
-        themes: [youtubers, tamilYoutubers, actors, tamilActors, actresses, tamilActress] as Theme[]
+        themes: [youtubers, actors, actresses] as Theme[]
     },
     {
         id: 'lifestyle',
@@ -83,13 +75,13 @@ export const undercoverCategories: UndercoverCategory[] = [
         id: 'movies',
         name: 'Movies',
         icon: 'videocam-outline',
-        themes: [uTamilMovies, uHindiMovies, uHollywoodMovies, uHollywoodExtended, uDirectors] as UndercoverTheme[]
+        themes: [uTamilMovies, uHindiMovies, uHollywoodMovies, uDirectors] as UndercoverTheme[]
     },
     {
         id: 'celebrities',
         name: 'Celebrities',
         icon: 'people-outline',
-        themes: [uYoutubers, uActors, uActresses, uTamilPopCulture] as UndercoverTheme[]
+        themes: [uYoutubers, uActors, uActresses] as UndercoverTheme[]
     },
     {
         id: 'lifestyle',

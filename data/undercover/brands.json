@@ -62,6 +62,66 @@
         {
             "crewmateWord": "Sony",
             "imposterWord": "Panasonic"
+        },
+        {
+            "crewmateWord": "Samsung",
+            "imposterWord": "Apple"
+        },
+        {
+            "crewmateWord": "Adidas",
+            "imposterWord": "Nike"
+        },
+        {
+            "crewmateWord": "Pepsi",
+            "imposterWord": "Coke"
+        },
+        {
+            "crewmateWord": "Burger King",
+            "imposterWord": "McDonald's"
+        },
+        {
+            "crewmateWord": "Lamborghini",
+            "imposterWord": "Ferrari"
+        },
+        {
+            "crewmateWord": "Mastercard",
+            "imposterWord": "Visa"
+        },
+        {
+            "crewmateWord": "Microsoft",
+            "imposterWord": "Google"
+        },
+        {
+            "crewmateWord": "Prime Video",
+            "imposterWord": "Netflix"
+        },
+        {
+            "crewmateWord": "Dunkin'",
+            "imposterWord": "Starbucks"
+        },
+        {
+            "crewmateWord": "TikTok",
+            "imposterWord": "Instagram"
+        },
+        {
+            "crewmateWord": "Mercedes",
+            "imposterWord": "BMW"
+        },
+        {
+            "crewmateWord": "YouTube Music",
+            "imposterWord": "Spotify"
+        },
+        {
+            "crewmateWord": "Swiggy",
+            "imposterWord": "Zomato"
+        },
+        {
+            "crewmateWord": "Ola",
+            "imposterWord": "Uber"
+        },
+        {
+            "crewmateWord": "Panasonic",
+            "imposterWord": "Sony"
         }
     ]
 }

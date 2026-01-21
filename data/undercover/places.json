@@ -42,6 +42,46 @@
         {
             "crewmateWord": "Zoo",
             "imposterWord": "Aquarium"
+        },
+        {
+            "crewmateWord": "Island",
+            "imposterWord": "Beach"
+        },
+        {
+            "crewmateWord": "Jungle",
+            "imposterWord": "Forest"
+        },
+        {
+            "crewmateWord": "Hill",
+            "imposterWord": "Mountain"
+        },
+        {
+            "crewmateWord": "Clinic",
+            "imposterWord": "Hospital"
+        },
+        {
+            "crewmateWord": "College",
+            "imposterWord": "School"
+        },
+        {
+            "crewmateWord": "Cafe",
+            "imposterWord": "Restaurant"
+        },
+        {
+            "crewmateWord": "Railway Station",
+            "imposterWord": "Airport"
+        },
+        {
+            "crewmateWord": "Theater",
+            "imposterWord": "Cinema"
+        },
+        {
+            "crewmateWord": "Bookstore",
+            "imposterWord": "Library"
+        },
+        {
+            "crewmateWord": "Aquarium",
+            "imposterWord": "Zoo"
         }
     ]
 }

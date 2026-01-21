@@ -82,6 +82,86 @@
         {
             "crewmateWord": "Zebra",
             "imposterWord": "Horse"
+        },
+        {
+            "crewmateWord": "Tiger",
+            "imposterWord": "Lion"
+        },
+        {
+            "crewmateWord": "Wolf",
+            "imposterWord": "Dog"
+        },
+        {
+            "crewmateWord": "Leopard",
+            "imposterWord": "Cat"
+        },
+        {
+            "crewmateWord": "Mammoth",
+            "imposterWord": "Elephant"
+        },
+        {
+            "crewmateWord": "Chimpanzee",
+            "imposterWord": "Monkey"
+        },
+        {
+            "crewmateWord": "Lizard",
+            "imposterWord": "Snake"
+        },
+        {
+            "crewmateWord": "Ostrich",
+            "imposterWord": "Peacock"
+        },
+        {
+            "crewmateWord": "Puffin",
+            "imposterWord": "Penguin"
+        },
+        {
+            "crewmateWord": "Dolphin",
+            "imposterWord": "Shark"
+        },
+        {
+            "crewmateWord": "Moth",
+            "imposterWord": "Butterfly"
+        },
+        {
+            "crewmateWord": "Eagle",
+            "imposterWord": "Owl"
+        },
+        {
+            "crewmateWord": "Donkey",
+            "imposterWord": "Horse"
+        },
+        {
+            "crewmateWord": "Buffalo",
+            "imposterWord": "Cow"
+        },
+        {
+            "crewmateWord": "Mouse",
+            "imposterWord": "Rat"
+        },
+        {
+            "crewmateWord": "Coyote",
+            "imposterWord": "Fox"
+        },
+        {
+            "crewmateWord": "Wasp",
+            "imposterWord": "Bee"
+        },
+        {
+            "crewmateWord": "Toad",
+            "imposterWord": "Frog"
+        },
+        {
+            "crewmateWord": "Scorpion",
+            "imposterWord": "Spider"
+        },
+        {
+            "crewmateWord": "Raven",
+            "imposterWord": "Crow"
+        },
+        {
+            "crewmateWord": "Horse",
+            "imposterWord": "Zebra"
         }
     ]
 }

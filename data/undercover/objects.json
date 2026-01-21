@@ -42,6 +42,46 @@
         {
             "crewmateWord": "Fan",
             "imposterWord": "Air Conditioner"
+        },
+        {
+            "crewmateWord": "Desktop",
+            "imposterWord": "Laptop"
+        },
+        {
+            "crewmateWord": "Pen",
+            "imposterWord": "Pencil"
+        },
+        {
+            "crewmateWord": "Clock",
+            "imposterWord": "Watch"
+        },
+        {
+            "crewmateWord": "Glasses",
+            "imposterWord": "Sunglasses"
+        },
+        {
+            "crewmateWord": "Briefcase",
+            "imposterWord": "Backpack"
+        },
+        {
+            "crewmateWord": "Earbuds",
+            "imposterWord": "Headphones"
+        },
+        {
+            "crewmateWord": "Smartphone",
+            "imposterWord": "Camera"
+        },
+        {
+            "crewmateWord": "Fork",
+            "imposterWord": "Spoon"
+        },
+        {
+            "crewmateWord": "Motorcycle",
+            "imposterWord": "Bicycle"
+        },
+        {
+            "crewmateWord": "Air Conditioner",
+            "imposterWord": "Fan"
         }
     ]
 }

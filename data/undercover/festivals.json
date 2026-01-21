@@ -42,6 +42,46 @@
         {
             "crewmateWord": "Carnival",
             "imposterWord": "Mardi Gras"
+        },
+        {
+            "crewmateWord": "Holi",
+            "imposterWord": "Diwali"
+        },
+        {
+            "crewmateWord": "Easter",
+            "imposterWord": "Christmas"
+        },
+        {
+            "crewmateWord": "Ramadan",
+            "imposterWord": "Eid"
+        },
+        {
+            "crewmateWord": "Onam",
+            "imposterWord": "Pongal"
+        },
+        {
+            "crewmateWord": "Day of the Dead",
+            "imposterWord": "Halloween"
+        },
+        {
+            "crewmateWord": "Lunar New Year",
+            "imposterWord": "New Year"
+        },
+        {
+            "crewmateWord": "Durga Puja",
+            "imposterWord": "Ganesh Chaturthi"
+        },
+        {
+            "crewmateWord": "Christmas",
+            "imposterWord": "Thanksgiving"
+        },
+        {
+            "crewmateWord": "Mother's Day",
+            "imposterWord": "Valentine's Day"
+        },
+        {
+            "crewmateWord": "Mardi Gras",
+            "imposterWord": "Carnival"
         }
     ]
 }

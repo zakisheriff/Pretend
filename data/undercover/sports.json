@@ -42,6 +42,46 @@
         {
             "crewmateWord": "Running",
             "imposterWord": "Walking"
+        },
+        {
+            "crewmateWord": "Baseball",
+            "imposterWord": "Cricket"
+        },
+        {
+            "crewmateWord": "Rugby",
+            "imposterWord": "Football"
+        },
+        {
+            "crewmateWord": "Badminton",
+            "imposterWord": "Tennis"
+        },
+        {
+            "crewmateWord": "Volleyball",
+            "imposterWord": "Basketball"
+        },
+        {
+            "crewmateWord": "Wrestling",
+            "imposterWord": "Boxing"
+        },
+        {
+            "crewmateWord": "Diving",
+            "imposterWord": "Swimming"
+        },
+        {
+            "crewmateWord": "Billiards",
+            "imposterWord": "Golf"
+        },
+        {
+            "crewmateWord": "Checkers",
+            "imposterWord": "Chess"
+        },
+        {
+            "crewmateWord": "MotoGP",
+            "imposterWord": "Formula 1"
+        },
+        {
+            "crewmateWord": "Walking",
+            "imposterWord": "Running"
         }
     ]
 }

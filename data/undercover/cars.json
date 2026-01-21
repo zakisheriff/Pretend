@@ -42,6 +42,46 @@
         {
             "crewmateWord": "Porsche 911",
             "imposterWord": "Ferrari 488"
+        },
+        {
+            "crewmateWord": "Hatchback",
+            "imposterWord": "Sedan"
+        },
+        {
+            "crewmateWord": "Mini Van",
+            "imposterWord": "SUV"
+        },
+        {
+            "crewmateWord": "BYD",
+            "imposterWord": "Tesla"
+        },
+        {
+            "crewmateWord": "Endeavour",
+            "imposterWord": "Fortuner"
+        },
+        {
+            "crewmateWord": "Jimny",
+            "imposterWord": "Thar"
+        },
+        {
+            "crewmateWord": "Seltos",
+            "imposterWord": "Creta"
+        },
+        {
+            "crewmateWord": "Verna",
+            "imposterWord": "City"
+        },
+        {
+            "crewmateWord": "Land Cruiser",
+            "imposterWord": "Range Rover"
+        },
+        {
+            "crewmateWord": "Volkswagen Beetle",
+            "imposterWord": "Mini Cooper"
+        },
+        {
+            "crewmateWord": "Ferrari 488",
+            "imposterWord": "Porsche 911"
         }
     ]
 }

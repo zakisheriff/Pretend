@@ -50,6 +50,54 @@
         {
             "crewmateWord": "Google",
             "imposterWord": "ChatGPT"
+        },
+        {
+            "crewmateWord": "Burger",
+            "imposterWord": "Pizza"
+        },
+        {
+            "crewmateWord": "Tea",
+            "imposterWord": "Coffee"
+        },
+        {
+            "crewmateWord": "Samsung",
+            "imposterWord": "iPhone"
+        },
+        {
+            "crewmateWord": "TikTok",
+            "imposterWord": "Instagram"
+        },
+        {
+            "crewmateWord": "Winter",
+            "imposterWord": "Summer"
+        },
+        {
+            "crewmateWord": "Mountain",
+            "imposterWord": "Beach"
+        },
+        {
+            "crewmateWord": "Prime Video",
+            "imposterWord": "Netflix"
+        },
+        {
+            "crewmateWord": "BMW",
+            "imposterWord": "Tesla"
+        },
+        {
+            "crewmateWord": "Adidas",
+            "imposterWord": "Nike"
+        },
+        {
+            "crewmateWord": "Ola",
+            "imposterWord": "Uber"
+        },
+        {
+            "crewmateWord": "Swiggy",
+            "imposterWord": "Zomato"
+        },
+        {
+            "crewmateWord": "ChatGPT",
+            "imposterWord": "Google"
         }
     ]
 }
