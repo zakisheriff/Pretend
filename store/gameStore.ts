@@ -136,22 +136,33 @@ const initialState: GameState = {
 };
 
 // Smart Shuffle: Weighted random selection
+// Smart Shuffle: Weighted random selection
 const selectImposterIndices = (players: Player[], count: number, lastImposterIndices: number[] = []): number[] => {
+    // 0. Strict Hardening: Filter out players who have been imposter 2+ times in a row
+    // mapped to original index
+    let eligiblePlayers = players.map((p, index) => ({ p, index }));
+    const nonConsecutiveCandidates = eligiblePlayers.filter(item => item.p.consecutiveImposterCount < 2);
+
+    // Safety valve: If everyone has been imposter 2+ times in a row (unlikely but possible in small groups),
+    // or if we don't have enough candidates for the requested count,
+    // fallback to everyone.
+    let pool = nonConsecutiveCandidates.length >= count ? nonConsecutiveCandidates : eligiblePlayers;
+
     // 1. Calculate weights
     // Base weight = 100
-    // Each previous imposter turn reduces weight by 20 (min 10)
-    // Being imposter LAST turn reduces weight by 80%
+    // Each previous imposter turn (total count) reduces weight by 20 (min 10)
 
-    let candidates = players.map((p, index) => {
-        let weight = Math.max(10, 100 - (p.imposterCount * 20));
-
-        // Heavy penalty for back-to-back imposters
-        if (lastImposterIndices.includes(index)) {
-            weight = Math.floor(weight * 0.1);
-        }
-
-        return { index, weight };
+    // Modern Fisher-Yates shuffle for the candidates first to remove any index-based bias
+    let candidates = pool.map((item) => {
+        let weight = Math.max(10, 100 - (item.p.imposterCount * 20));
+        return { index: item.index, weight }; // Keep original index
     });
+
+    // Shuffle candidates array
+    for (let i = candidates.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+    }
 
     const selected: number[] = [];
 
@@ -201,6 +212,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     hasRevealed: false,
                     score: 0,
                     imposterCount: 0,
+                    consecutiveImposterCount: 0,
                 },
             ],
         }));
@@ -323,9 +335,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
         // Update imposter counts for the chosen ones
         const playersWithUpdatedCounts = players.map((p, i) => {
             if (specialIndices.includes(i)) {
-                return { ...p, imposterCount: p.imposterCount + 1 };
+                return { ...p, imposterCount: p.imposterCount + 1, consecutiveImposterCount: p.consecutiveImposterCount + 1 };
             }
-            return p;
+            return { ...p, consecutiveImposterCount: 0 }; // Reset consecutive count for non-imposters
         });
 
         // Update state with new counts immediately so it persists
@@ -568,20 +580,31 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     return;
                 }
 
-                // Smart Shuffling: Prioritize unused words
-                const unused = CHARADES_WORDS.filter(w => !state.usedWords.includes(w));
-                const used = CHARADES_WORDS.filter(w => state.usedWords.includes(w));
+                const BATCH_SIZE = 30; // Reduced from 50 to preserve words
 
-                const shuffledUnused = [...unused].sort(() => Math.random() - 0.5);
-                const shuffledUsed = [...used].sort(() => Math.random() - 0.5);
+                // 1. Filter out used words
+                let available = CHARADES_WORDS.filter(w => !state.usedWords.includes(w));
 
-                // Create pool: All unused first, then recycled used words
-                const pool = [...shuffledUnused, ...shuffledUsed];
-                const gameWords = pool.slice(0, 50);
+                // 2. Recycle if needed (if fewer than batch size remain)
+                if (available.length < BATCH_SIZE) {
+                    // Recycle pool - use full list
+                    available = [...CHARADES_WORDS];
+                    // We don't clear usedWords globally as it affects other modes,
+                    // but we effectively ignore the filter for this round.
+                }
 
-                // Mark these 50 as used
+                // 3. Fisher-Yates Shuffle
+                for (let i = available.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [available[i], available[j]] = [available[j], available[i]];
+                }
+
+                // 4. Select batch
+                const gameWords = available.slice(0, BATCH_SIZE);
+
+                // 5. Mark as used
                 set(s => ({
-                    usedWords: [...s.usedWords, ...gameWords.filter(w => !s.usedWords.includes(w))]
+                    usedWords: [...s.usedWords, ...gameWords]
                 }));
 
                 const charadesDuration = (settings.charadesTime && settings.charadesTime > 0) ? settings.charadesTime : 60;
@@ -793,6 +816,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 answer: undefined,
                 score: p.score, // Preserve score
                 isEliminated: false,
+                // imposterCount is NOT reset here, it persists for "Smart Shuffle"
+                // consecutiveImposterCount persists too
             })),
         });
     },
@@ -1490,16 +1515,29 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     startThreeActsTurn: () => {
         const { THREE_ACTS_MOVIES } = require('@/data/three-acts-movies');
+        const state = get();
 
-        // Pick 6 unique random movies
-        const shuffled = [...THREE_ACTS_MOVIES].sort(() => 0.5 - Math.random());
+        // 1. Filter out used movies
+        let available = THREE_ACTS_MOVIES.filter((m: string) => !state.usedWords.includes(m));
+
+        // 2. Recycle if not enough movies for a full turn (need 6)
+        if (available.length < 6) {
+            available = [...THREE_ACTS_MOVIES];
+            // We don't clear state.usedWords here to avoid affecting other modes/stats, 
+            // but we allow picking from the full list again.
+        }
+
+        // 3. Pick 6 unique random movies
+        const shuffled = available.sort(() => 0.5 - Math.random());
         const options = shuffled.slice(0, 6);
 
+        // 4. Update state (adding new movies to usedWords)
         set((state) => {
             const currentData = state.gameData?.data as ThreeActsData;
             if (!currentData) return {};
 
             return {
+                usedWords: [...state.usedWords, ...options],
                 gameData: {
                     type: 'three-acts',
                     data: {

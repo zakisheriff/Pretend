@@ -56,8 +56,9 @@ export const RoleRevealCard: React.FC<RoleRevealCardProps> = ({
     const { specialRoleName, specialRoleIcon, normalRoleName } = getModeDisplayInfo();
 
     // Can show refresh button if:
-    // - First player AND not imposter AND already peeked AND not Director's Cut
-    const canRefresh = isFirstPlayer && !isImposter && hasPeeked && gameMode !== 'directors-cut';
+    // - First player AND already peeked AND not Director's Cut
+    // - REMOVED restriction on imposters - even imposters can reroll (just changes the theme/category for everyone)
+    const canRefresh = isFirstPlayer && hasPeeked && gameMode !== 'directors-cut';
 
     // Animated values for smooth transitions
     const coverTranslateY = useSharedValue(hasRevealed ? -500 : 0);

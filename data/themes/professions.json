@@ -1,0 +1,127 @@
+{
+    "id": "professions",
+    "name": "Professions",
+    "icon": "briefcase-outline",
+    "words": [
+        {
+            "word": "Doctor",
+            "hints": {
+                "low": "Heals people",
+                "medium": "Uses a stethoscope",
+                "high": "Wears a white coat"
+            }
+        },
+        {
+            "word": "Teacher",
+            "hints": {
+                "low": "Works in a school",
+                "medium": "Grades papers",
+                "high": "Uses a whiteboard"
+            }
+        },
+        {
+            "word": "Pilot",
+            "hints": {
+                "low": "Flies high",
+                "medium": "Works in a cockpit",
+                "high": "Travels the world for work"
+            }
+        },
+        {
+            "word": "Chef",
+            "hints": {
+                "low": "Master of food",
+                "medium": "Wears a tall hat",
+                "high": "Runs a kitchen"
+            }
+        },
+        {
+            "word": "Firefighter",
+            "hints": {
+                "low": "Puts out flames",
+                "medium": "Drives a red truck",
+                "high": "Climbs ladders"
+            }
+        },
+        {
+            "word": "Police Officer",
+            "hints": {
+                "low": "Enforces the law",
+                "medium": "Wears a badge",
+                "high": "Has a siren on their car"
+            }
+        },
+        {
+            "word": "Astronaut",
+            "hints": {
+                "low": "Goes to space",
+                "medium": "Floats in zero gravity",
+                "high": "Works at NASA or SpaceX"
+            }
+        },
+        {
+            "word": "Artist",
+            "hints": {
+                "low": "Creates visual work",
+                "medium": "Uses paint or canvas",
+                "high": "Works in a studio"
+            }
+        },
+        {
+            "word": "Scientist",
+            "hints": {
+                "low": "Does experiments",
+                "medium": "Works in a lab",
+                "high": "Searches for answers"
+            }
+        },
+        {
+            "word": "Farmer",
+            "hints": {
+                "low": "Grows food",
+                "medium": "Works in fields",
+                "high": "Drives a tractor"
+            }
+        },
+        {
+            "word": "Judge",
+            "hints": {
+                "low": "Works in court",
+                "medium": "Uses a gavel",
+                "high": "Decides guilty or innocent"
+            }
+        },
+        {
+            "word": "Mechanic",
+            "hints": {
+                "low": "Fixes cars",
+                "medium": "Greasy hands",
+                "high": "Uses a wrench"
+            }
+        },
+        {
+            "word": "Architect",
+            "hints": {
+                "low": "Designs buildings",
+                "medium": "Draws blueprints",
+                "high": "Plans construction"
+            }
+        },
+        {
+            "word": "Dentist",
+            "hints": {
+                "low": "Fixes teeth",
+                "medium": "Drills cavities",
+                "high": "Looking for a smile"
+            }
+        },
+        {
+            "word": "Writer",
+            "hints": {
+                "low": "Tells stories",
+                "medium": "Uses words effectively",
+                "high": "Publishes books"
+            }
+        }
+    ]
+}

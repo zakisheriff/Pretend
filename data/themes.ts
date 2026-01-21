@@ -14,8 +14,10 @@ import hindiMovies from './themes/hindi-movies.json';
 import hollywoodMovies from './themes/hollywood-movies.json';
 import objects from './themes/objects.json';
 import places from './themes/places.json';
+import professions from './themes/professions.json';
 import songs from './themes/songs.json';
 import sports from './themes/sports.json';
+import superheroes from './themes/superheroes.json';
 import tamilMovies from './themes/tamil-movies.json';
 import youtubers from './themes/youtubers.json';
 
@@ -45,7 +47,7 @@ export const categories: ThemeCategory[] = [
         id: 'movies',
         name: 'Movies',
         icon: 'videocam-outline',
-        themes: [tamilMovies, hindiMovies, hollywoodMovies, directors] as Theme[]
+        themes: [tamilMovies, hindiMovies, hollywoodMovies, directors, superheroes] as Theme[]
     },
     {
         id: 'celebrities',
@@ -57,7 +59,7 @@ export const categories: ThemeCategory[] = [
         id: 'lifestyle',
         name: 'Lifestyle',
         icon: 'cafe-outline',
-        themes: [foods, fruits, festivals, songs] as Theme[]
+        themes: [foods, fruits, festivals, songs, professions] as Theme[]
     },
     {
         id: 'general',

@@ -162,7 +162,8 @@ export interface Player {
     vote?: string; // Player ID they voted for
     answer?: string; // For Mind Sync: player's secret answer
     isEliminated?: boolean; // For "Among Us" style multi-round logic
-    imposterCount: number; // For "Smart Shuffle" logic to prevent streaks
+    imposterCount: number; // For "Smart Shuffle" logic to prevent streaks - Total times being imposter
+    consecutiveImposterCount: number; // STRICT limit: max 2 times in a row
     score: number;
 }
 

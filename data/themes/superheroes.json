@@ -1,0 +1,127 @@
+{
+    "id": "superheroes",
+    "name": "Superheroes",
+    "icon": "flash-outline",
+    "words": [
+        {
+            "word": "Superman",
+            "hints": {
+                "low": "Man of Steel",
+                "medium": "Weak to green rocks",
+                "high": "Wears underwear on the outside"
+            }
+        },
+        {
+            "word": "Batman",
+            "hints": {
+                "low": "Gotham's protector",
+                "medium": "Has a cave",
+                "high": "Rich guy with gadgets"
+            }
+        },
+        {
+            "word": "Spider-Man",
+            "hints": {
+                "low": "Friendly neighborhood hero",
+                "medium": "Bitten by a bug",
+                "high": "Shoots webs"
+            }
+        },
+        {
+            "word": "Iron Man",
+            "hints": {
+                "low": "Genius billionaire playboy philanthropist",
+                "medium": "Metal suit",
+                "high": "Has an arc reactor chest"
+            }
+        },
+        {
+            "word": "Thor",
+            "hints": {
+                "low": "Top Avenger",
+                "medium": "God of Thunder",
+                "high": "Carries a hammer"
+            }
+        },
+        {
+            "word": "Hulk",
+            "hints": {
+                "low": "Angry green giant",
+                "medium": "Always ripping his shirt",
+                "high": "Smash!"
+            }
+        },
+        {
+            "word": "Wonder Woman",
+            "hints": {
+                "low": "Amazonian princess",
+                "medium": "Has a lasso of truth",
+                "high": "Member of Justice League"
+            }
+        },
+        {
+            "word": "Captain America",
+            "hints": {
+                "low": "First Avenger",
+                "medium": "Uses a shield",
+                "high": "Frozen in ice for years"
+            }
+        },
+        {
+            "word": "Black Panther",
+            "hints": {
+                "low": "King of Wakanda",
+                "medium": "Vibranium suit",
+                "high": "Wakanda Forever"
+            }
+        },
+        {
+            "word": "Flash",
+            "hints": {
+                "low": "Fastest man alive",
+                "medium": "Red suit with lightning",
+                "high": "Can run back in time"
+            }
+        },
+        {
+            "word": "Aquaman",
+            "hints": {
+                "low": "King of Atlantis",
+                "medium": "Talks to fish",
+                "high": "Uses a trident"
+            }
+        },
+        {
+            "word": "Doctor Strange",
+            "hints": {
+                "low": "Sorcerer Supreme",
+                "medium": "Uses magic portals",
+                "high": "Manipulates time"
+            }
+        },
+        {
+            "word": "Black Widow",
+            "hints": {
+                "low": "Master spy",
+                "medium": "Red hair Avenger",
+                "high": "No superpowers, just skills"
+            }
+        },
+        {
+            "word": "Wolverine",
+            "hints": {
+                "low": "Member of X-Men",
+                "medium": "Metal claws",
+                "high": "Healing factor"
+            }
+        },
+        {
+            "word": "Deadpool",
+            "hints": {
+                "low": "Merc with a mouth",
+                "medium": "Fourth wall breaker",
+                "high": "Red and black suit"
+            }
+        }
+    ]
+}

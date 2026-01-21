@@ -125,6 +125,8 @@ export default function GameSettingsScreen() {
                         />
                     )}
 
+
+
                     {gameMode === 'undercover-word' && (
                         <GameSetting
                             label="Clue Strength"
@@ -396,5 +398,6 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: Colors.parchment,
         zIndex: 5, // Ensure it sits on top
-    }
+    },
+
 });
