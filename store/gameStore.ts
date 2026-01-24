@@ -108,6 +108,7 @@ interface GameStore extends GameState {
     nextThreeActsTeam: () => void;
     setLastStarterId: (id: string) => void;
     startMindSyncReveal: () => void;
+    setHasShownSplash: (shown: boolean) => void;
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
@@ -134,6 +135,7 @@ const initialState: GameState = {
     usedWords: [],
     nextRoundPlayerId: null,
     lastStarterId: null,
+    hasShownSplash: false,
 };
 
 // Smart Shuffle: Weighted random selection
@@ -261,6 +263,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
     startMindSyncReveal: () => {
         set({ phase: 'mind-sync-reveal' });
+    },
+    setHasShownSplash: (shown: boolean) => {
+        set({ hasShownSplash: shown });
     },
 
     // Theme and word
@@ -855,7 +860,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
 
     resetToHome: () => {
-        set({ ...initialState, directorId: null, directorWinnerId: null, players: [], overallWinner: null, isNewTournamentPending: false, usedWords: [] });
+        const { hasShownSplash } = get();
+        set({ ...initialState, hasShownSplash, directorId: null, directorWinnerId: null, players: [], overallWinner: null, isNewTournamentPending: false, usedWords: [] });
     },
 
     queueNewTournament: () => {

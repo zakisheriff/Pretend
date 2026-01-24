@@ -204,7 +204,13 @@ export default function SelectModeScreen() {
                 cancelLabel="No"
                 onConfirm={() => {
                     setShowHomeAlert(false);
-                    router.push('/');
+                    // Use dismissAll to unwind the stack to the root (Home) consistently
+                    // This triggers the reverse animation (slide down/back) instead of a new push
+                    if (router.canDismiss()) {
+                        router.dismissAll();
+                    } else {
+                        router.replace('/');
+                    }
                 }}
                 onCancel={() => setShowHomeAlert(false)}
                 isDestructive

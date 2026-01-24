@@ -1,122 +1,109 @@
 [
-    {
-        "mainQuestion": "Name a food you would die for",
-        "outlierQuestion": "Name a food you really love",
-        "category": "food"
-    },
-    {
-        "mainQuestion": "Name a city you would love to live in",
-        "outlierQuestion": "Name a city you want to visit",
-        "category": "travel"
-    },
-    {
-        "mainQuestion": "Name your favorite childhood memory",
-        "outlierQuestion": "Name a happy memory from your childhood",
-        "category": "childhood"
-    },
-    {
-        "mainQuestion": "Name the most beautiful animal",
-        "outlierQuestion": "Name an animal you find majestic",
-        "category": "animals"
-    },
-    {
-        "mainQuestion": "Name the best movie of all time",
-        "outlierQuestion": "Name a movie everyone should watch",
-        "category": "movies"
-    },
-    {
-        "mainQuestion": "Name a talent you wish you had",
-        "outlierQuestion": "Name a talent you admire in others",
-        "category": "self-improvement"
-    },
-    {
-        "mainQuestion": "Name the most important invention",
-        "outlierQuestion": "Name a technology we can't live without",
-        "category": "technology"
-    },
-    {
-        "mainQuestion": "Name a place you find peaceful",
-        "outlierQuestion": "Name a place where you can relax",
-        "category": "emotions"
-    },
-    {
-        "mainQuestion": "Name the best season of the year",
-        "outlierQuestion": "Name a season you enjoy the most",
-        "category": "preferences"
-    },
-    {
-        "mainQuestion": "Name a subject you were good at in school",
-        "outlierQuestion": "Name a subject you found interesting",
-        "category": "education"
-    },
-    {
-        "mainQuestion": "Name a song that makes you feel happy",
-        "outlierQuestion": "Name a song that puts you in a good mood",
-        "category": "music"
-    },
-    {
-        "mainQuestion": "Name a hobby you do to pass time",
-        "outlierQuestion": "Name an activity you enjoy in your free time",
-        "category": "activities"
-    },
-    {
-        "mainQuestion": "Name a person who inspires you",
-        "outlierQuestion": "Name a person you look up to",
-        "category": "people"
-    },
-    {
-        "mainQuestion": "Name a drink you crave on a hot day",
-        "outlierQuestion": "Name a refreshing drink you enjoy",
-        "category": "drinks"
-    },
-    {
-        "mainQuestion": "Name a fictional place you want to visit",
-        "outlierQuestion": "Name a world from a movie you love",
-        "category": "movies"
-    },
-    {
-        "mainQuestion": "Name a dessert you can't say no to",
-        "outlierQuestion": "Name a sweet treat you love",
-        "category": "food"
-    },
-    {
-        "mainQuestion": "Name a color that represents energy",
-        "outlierQuestion": "Name a vibrant color you like",
-        "category": "preferences"
-    },
-    {
-        "mainQuestion": "Name a board game that is a classic",
-        "outlierQuestion": "Name a game you enjoy playing with family",
-        "category": "activities"
-    },
-    {
-        "mainQuestion": "Name a fast food chain you visit often",
-        "outlierQuestion": "Name a popular place to get a quick meal",
-        "category": "food"
-    },
-    {
-        "mainQuestion": "Name an actor who is exceptionally talented",
-        "outlierQuestion": "Name a famous actor you enjoy watching",
-        "category": "people"
-    },
-    {
-        "mainQuestion": "Name a smell that reminds you of vacation",
-        "outlierQuestion": "Name a pleasant scent from the outdoors",
-        "category": "preferences"
-    },
-    {
-        "mainQuestion": "Name a type of pizza with many fans",
-        "outlierQuestion": "Name your go-to pizza order",
-        "category": "food"
-    },
-    {
-        "mainQuestion": "Name a language that sounds beautiful",
-        "outlierQuestion": "Name a language you find interesting",
-        "category": "education"
-    },
-    {
-        "mainQuestion": "Name a social media app you use daily",
-        "outlierQuestion": "Name a platform where you spend too much time",
-        "category": "technology"
-    }
+    { "mainQuestion": "Name a dessert you enjoy", "outlierQuestion": "Name a dessert most people like", "category": "food" },
+    { "mainQuestion": "Name a food you eat often", "outlierQuestion": "Name a food many people eat regularly", "category": "food" },
+    { "mainQuestion": "Name a snack you like", "outlierQuestion": "Name a snack that is popular", "category": "food" },
+    { "mainQuestion": "Name a drink you enjoy", "outlierQuestion": "Name a drink people usually order", "category": "drinks" },
+    { "mainQuestion": "Name a breakfast item you like", "outlierQuestion": "Name a common breakfast item", "category": "food" },
+
+    { "mainQuestion": "Name a city you like", "outlierQuestion": "Name a city many people want to visit", "category": "travel" },
+    { "mainQuestion": "Name a place you’ve been to", "outlierQuestion": "Name a place people talk about a lot", "category": "travel" },
+    { "mainQuestion": "Name a country you find interesting", "outlierQuestion": "Name a country most people know about", "category": "travel" },
+    { "mainQuestion": "Name a tourist place you remember", "outlierQuestion": "Name a tourist place that is famous", "category": "travel" },
+    { "mainQuestion": "Name a place you’d visit again", "outlierQuestion": "Name a place people usually recommend", "category": "travel" },
+
+    { "mainQuestion": "Name a movie you like", "outlierQuestion": "Name a movie most people have seen", "category": "movies" },
+    { "mainQuestion": "Name a movie you remember well", "outlierQuestion": "Name a movie people often mention", "category": "movies" },
+    { "mainQuestion": "Name a movie you enjoyed", "outlierQuestion": "Name a movie that is well known", "category": "movies" },
+    { "mainQuestion": "Name a movie you’ve watched more than once", "outlierQuestion": "Name a movie that gets replayed a lot", "category": "movies" },
+    { "mainQuestion": "Name a movie character you like", "outlierQuestion": "Name a movie character everyone knows", "category": "movies" },
+
+    { "mainQuestion": "Name an animal you like", "outlierQuestion": "Name an animal people find interesting", "category": "animals" },
+    { "mainQuestion": "Name an animal you know about", "outlierQuestion": "Name an animal people recognize easily", "category": "animals" },
+    { "mainQuestion": "Name an animal you find cool", "outlierQuestion": "Name an animal people talk about", "category": "animals" },
+    { "mainQuestion": "Name an animal you’ve seen", "outlierQuestion": "Name an animal most people have seen", "category": "animals" },
+    { "mainQuestion": "Name an animal you remember from childhood", "outlierQuestion": "Name an animal often shown to kids", "category": "animals" },
+
+    { "mainQuestion": "Name a song you like", "outlierQuestion": "Name a song many people know", "category": "music" },
+    { "mainQuestion": "Name a song you’ve heard recently", "outlierQuestion": "Name a song that plays often", "category": "music" },
+    { "mainQuestion": "Name a song you enjoy listening to", "outlierQuestion": "Name a song people usually enjoy", "category": "music" },
+    { "mainQuestion": "Name a song you remember", "outlierQuestion": "Name a song that stayed popular", "category": "music" },
+    { "mainQuestion": "Name a singer you like", "outlierQuestion": "Name a singer people recognize", "category": "music" },
+
+    { "mainQuestion": "Name an app you use", "outlierQuestion": "Name an app many people use", "category": "technology" },
+    { "mainQuestion": "Name a website you visit", "outlierQuestion": "Name a website people visit often", "category": "technology" },
+    { "mainQuestion": "Name a social media app you like", "outlierQuestion": "Name a social media app that is popular", "category": "technology" },
+    { "mainQuestion": "Name a tech product you’ve used", "outlierQuestion": "Name a tech product most people know", "category": "technology" },
+    { "mainQuestion": "Name a device you use daily", "outlierQuestion": "Name a device people rely on", "category": "technology" },
+
+    { "mainQuestion": "Name a game you like", "outlierQuestion": "Name a game many people play", "category": "games" },
+    { "mainQuestion": "Name a game you’ve played", "outlierQuestion": "Name a game people recognize", "category": "games" },
+    { "mainQuestion": "Name a game you remember", "outlierQuestion": "Name a game people talk about", "category": "games" },
+    { "mainQuestion": "Name a game you enjoyed", "outlierQuestion": "Name a game that is popular", "category": "games" },
+    { "mainQuestion": "Name a game you played with friends", "outlierQuestion": "Name a game people play together", "category": "games" },
+
+    { "mainQuestion": "Name a subject you liked in school", "outlierQuestion": "Name a subject most students study", "category": "education" },
+    { "mainQuestion": "Name a subject you remember", "outlierQuestion": "Name a subject people talk about", "category": "education" },
+    { "mainQuestion": "Name a subject you were interested in", "outlierQuestion": "Name a subject many find interesting", "category": "education" },
+    { "mainQuestion": "Name a class you enjoyed", "outlierQuestion": "Name a class everyone has taken", "category": "education" },
+    { "mainQuestion": "Name a topic you learned", "outlierQuestion": "Name a topic commonly taught", "category": "education" },
+
+    { "mainQuestion": "Name a hobby you enjoy", "outlierQuestion": "Name a hobby many people have", "category": "lifestyle" },
+    { "mainQuestion": "Name a chore you actually don't mind", "outlierQuestion": "Name a chore most people do weekly", "category": "lifestyle" },
+    { "mainQuestion": "Name something you do before bed", "outlierQuestion": "Name a common nighttime habit", "category": "lifestyle" },
+    { "mainQuestion": "Name a morning routine item", "outlierQuestion": "Name something most people do when they wake up", "category": "lifestyle" },
+    { "mainQuestion": "Name a weekend activity you like", "outlierQuestion": "Name a popular weekend activity", "category": "lifestyle" },
+
+    { "mainQuestion": "Name a clothing item you wear often", "outlierQuestion": "Name a common piece of clothing", "category": "fashion" },
+    { "mainQuestion": "Name a color you like to wear", "outlierQuestion": "Name a popular color for clothes", "category": "fashion" },
+    { "mainQuestion": "Name a brand you recognize", "outlierQuestion": "Name a world-famous brand", "category": "fashion" },
+    { "mainQuestion": "Name an accessory you use", "outlierQuestion": "Name an accessory many people own", "category": "fashion" },
+    { "mainQuestion": "Name a shoe brand you like", "outlierQuestion": "Name a very common shoe brand", "category": "fashion" },
+
+    { "mainQuestion": "Name a sport you like to watch", "outlierQuestion": "Name a sport with a huge global following", "category": "sports" },
+    { "mainQuestion": "Name an athlete you admire", "outlierQuestion": "Name a very famous athlete", "category": "sports" },
+    { "mainQuestion": "Name a sport you've played", "outlierQuestion": "Name a sport kids usually learn", "category": "sports" },
+    { "mainQuestion": "Name a piece of sports equipment", "outlierQuestion": "Name a common sports item", "category": "sports" },
+    { "mainQuestion": "Name a sports team you know", "outlierQuestion": "Name a team everyone has heard of", "category": "sports" },
+
+    { "mainQuestion": "Name a vegetable you like", "outlierQuestion": "Name a common vegetable", "category": "food" },
+    { "mainQuestion": "Name a fruit you eat often", "outlierQuestion": "Name a fruit found in most kitchens", "category": "food" },
+    { "mainQuestion": "Name a pizza topping you enjoy", "outlierQuestion": "Name the most common pizza topping", "category": "food" },
+    { "mainQuestion": "Name a fast food chain you like", "outlierQuestion": "Name a famous fast food place", "category": "food" },
+    { "mainQuestion": "Name a condiment you use", "outlierQuestion": "Name a common sauce or condiment", "category": "food" },
+
+    { "mainQuestion": "Name a superpower you’d want", "outlierQuestion": "Name a classic superhero power", "category": "fiction" },
+    { "mainQuestion": "Name a fictional world you’d visit", "outlierQuestion": "Name a famous fictional universe", "category": "fiction" },
+    { "mainQuestion": "Name a book you’ve read", "outlierQuestion": "Name a book most people know about", "category": "fiction" },
+    { "mainQuestion": "Name a cartoon character you like", "outlierQuestion": "Name an iconic cartoon character", "category": "fiction" },
+    { "mainQuestion": "Name a hero from a story", "outlierQuestion": "Name a legendary hero", "category": "fiction" },
+
+    { "mainQuestion": "Name a job you’d find interesting", "outlierQuestion": "Name a common profession", "category": "work" },
+    { "mainQuestion": "Name something on your desk", "outlierQuestion": "Name a common office supply", "category": "work" },
+    { "mainQuestion": "Name a skill you want to learn", "outlierQuestion": "Name a skill many people try to learn", "category": "work" },
+    { "mainQuestion": "Name a company you’d work for", "outlierQuestion": "Name a massive corporation", "category": "work" },
+    { "mainQuestion": "Name a tool you use for work", "outlierQuestion": "Name a tool used in many jobs", "category": "work" },
+
+    { "mainQuestion": "Name a room in a house", "outlierQuestion": "Name the most important room in a home", "category": "home" },
+    { "mainQuestion": "Name a piece of furniture you use", "outlierQuestion": "Name a common piece of furniture", "category": "home" },
+    { "mainQuestion": "Name a kitchen appliance you use", "outlierQuestion": "Name an appliance every kitchen has", "category": "home" },
+    { "mainQuestion": "Name an item in your living room", "outlierQuestion": "Name a common living room object", "category": "home" },
+    { "mainQuestion": "Name something you keep in a fridge", "outlierQuestion": "Name a staple fridge item", "category": "home" },
+
+    { "mainQuestion": "Name a weather type you enjoy", "outlierQuestion": "Name a common type of weather", "category": "nature" },
+    { "mainQuestion": "Name a flower you think is pretty", "outlierQuestion": "Name a very common flower", "category": "nature" },
+    { "mainQuestion": "Name a natural wonder you’d see", "outlierQuestion": "Name a famous natural landmark", "category": "nature" },
+    { "mainQuestion": "Name a tree you recognize", "outlierQuestion": "Name a well-known type of tree", "category": "nature" },
+    { "mainQuestion": "Name a body of water", "outlierQuestion": "Name a famous river or ocean", "category": "nature" },
+
+    { "mainQuestion": "Name a holiday you celebrate", "outlierQuestion": "Name a major global holiday", "category": "culture" },
+    { "mainQuestion": "Name a musical instrument you like", "outlierQuestion": "Name a common musical instrument", "category": "music" },
+    { "mainQuestion": "Name a genre of music you listen to", "outlierQuestion": "Name a popular music genre", "category": "music" },
+    { "mainQuestion": "Name a famous painting you know", "outlierQuestion": "Name an iconic piece of art", "category": "culture" },
+    { "mainQuestion": "Name a language you find cool", "outlierQuestion": "Name a widely spoken language", "category": "culture" },
+
+    { "mainQuestion": "Name a car you’d like to own", "outlierQuestion": "Name a very common car brand", "category": "transport" },
+    { "mainQuestion": "Name a way you travel", "outlierQuestion": "Name a common mode of transport", "category": "transport" },
+    { "mainQuestion": "Name a part of a car", "outlierQuestion": "Name a part every car has", "category": "transport" },
+    { "mainQuestion": "Name a place you see a lot of people", "outlierQuestion": "Name a busy public location", "category": "transport" },
+    { "mainQuestion": "Name a flight destination you'd pick", "outlierQuestion": "Name a popular airport city", "category": "transport" }
 ]

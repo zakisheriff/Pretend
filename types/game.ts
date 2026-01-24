@@ -217,6 +217,7 @@ export interface GameState {
     usedWords: string[];
     nextRoundPlayerId: string | null;
     lastStarterId: string | null;
+    hasShownSplash: boolean;
 }
 
 export const DEFAULT_SETTINGS: GameSettings = {

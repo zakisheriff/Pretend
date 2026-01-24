@@ -77,12 +77,18 @@ export default function HomeScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const resetToHome = useGameStore((state) => state.resetToHome);
-    const [isSplashing, setIsSplashing] = React.useState(true);
+    const hasShownSplash = useGameStore((state) => state.hasShownSplash);
+    const setHasShownSplash = useGameStore((state) => state.setHasShownSplash);
     const [isSkipping, setIsSkipping] = React.useState(false);
+
+    // If splash hasn't been shown, we are splashing.
+    // If it HAS been shown, we are NOT splashing.
+    const isSplashing = !hasShownSplash;
 
     const handleSkip = () => {
         setIsSkipping(true);
-        setIsSplashing(false);
+        // We'll set the global state when the exit animation completes in the Splash component
+        // But for immediate feedback if needed, logic is handled in the effect
     };
 
     const handleNewGame = () => {
@@ -94,7 +100,9 @@ export default function HomeScreen() {
     };
 
     const exitDuration = isSkipping ? 500 : 1500;
-    const entryDelay = exitDuration - 200; // Start fading in slightly before splash fully disappears for continuity
+    // CRITICAL FIX: If we are NOT splashing (splash already shown), there should be NO delay.
+    // The delay was causing the black screen issue when returning home.
+    const entryDelay = isSplashing ? (exitDuration - 200) : 0;
 
     return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
@@ -186,7 +194,7 @@ export default function HomeScreen() {
 
             {isSplashing && (
                 <BrandSplash
-                    onFinish={() => setIsSplashing(false)}
+                    onFinish={() => setHasShownSplash(true)}
                     onSkip={handleSkip}
                     isSkipping={isSkipping}
                 />
