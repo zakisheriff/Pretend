@@ -1,4 +1,4 @@
-import { AnimatedLogo, Button } from '@/components/game';
+import { Button } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
@@ -141,7 +141,9 @@ export default function HomeScreen() {
                                 </Animated.View> */}
 
                                 <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.titleGroup}>
-                                    <Text style={styles.title}>Pretend</Text>
+                                    <Text style={[styles.title, { alignSelf: 'flex-start' }]}>PR</Text>
+                                    <Text style={[styles.title, { alignSelf: 'flex-end', zIndex: 1 }]}>ET</Text>
+                                    <Text style={styles.title}>END</Text>
                                 </Animated.View>
 
                             </View>
@@ -215,13 +217,17 @@ const styles = StyleSheet.create({
     },
     titleGroup: {
         alignItems: 'center',
-        gap: 4,
+        gap: 0,
     },
     title: {
-        fontSize: 38,
-        fontWeight: '800',
+        fontSize: 170,
+        fontWeight: '900',
         color: Colors.parchment,
-        letterSpacing: 6,
+        letterSpacing: -2, // Tighter spacing for that blocky look
+        lineHeight: 170,
+        textAlign: 'center',
+        marginVertical: -20,
+
     },
     subtitle: {
         fontSize: 13,
