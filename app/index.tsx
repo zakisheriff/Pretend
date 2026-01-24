@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -168,10 +168,11 @@ export default function HomeScreen() {
                                 {Platform.OS === 'web' && (
                                     <Animated.View entering={FadeInDown.delay(700).duration(400)}>
                                         <Button
-                                            title="Download Android App"
-                                            onPress={() => Linking.openURL('/pretend.apk')}
+                                            title="Download Coming Soon"
+                                            onPress={() => { }}
                                             variant="secondary"
                                             size="large"
+                                            disabled
                                             icon={<Ionicons name="logo-android" size={20} color={Colors.parchment} />}
                                         />
                                     </Animated.View>
