@@ -142,12 +142,8 @@ export default function HomeScreen() {
 
                                 <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.titleGroup}>
                                     <Text style={styles.title}>Pretend</Text>
-                                    <Text style={styles.subtitle}>A Mystery Party</Text>
                                 </Animated.View>
 
-                                <Animated.View entering={FadeIn.delay(400).duration(500)}>
-                                    <Text style={styles.tagline}>One phone. One mystery.</Text>
-                                </Animated.View>
                             </View>
 
                             {/* Actions */}
