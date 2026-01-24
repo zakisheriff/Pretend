@@ -136,9 +136,9 @@ export default function HomeScreen() {
 
                             {/* Hero Section */}
                             <View style={styles.hero}>
-                                <Animated.View entering={FadeIn.delay(100).duration(600)}>
+                                {/* <Animated.View entering={FadeIn.delay(100).duration(600)}>
                                     <AnimatedLogo size={90} />
-                                </Animated.View>
+                                </Animated.View> */}
 
                                 <Animated.View entering={FadeInDown.delay(200).duration(500)} style={styles.titleGroup}>
                                     <Text style={styles.title}>Pretend</Text>
