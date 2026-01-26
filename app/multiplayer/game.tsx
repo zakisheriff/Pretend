@@ -1,5 +1,7 @@
+import { GameAPI } from '@/api/game';
 import { Button } from '@/components/game';
 import { ChatModal } from '@/components/game/ChatModal';
+import { DirectorSetup } from '@/components/game/DirectorSetup';
 import { Colors } from '@/constants/colors';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,7 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function OnlineGameScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
-    const { players, myPlayerId, isHost, gameMode } = useOnlineGameStore();
+    const { players, myPlayerId, isHost, gameMode, gamePhase, roomCode } = useOnlineGameStore();
     const [revealed, setRevealed] = React.useState(false);
     const [chatVisible, setChatVisible] = React.useState(false);
 
@@ -44,7 +46,34 @@ export default function OnlineGameScreen() {
                     </View>
 
                     <View style={styles.cardContainer}>
-                        {!revealed ? (
+                        {gamePhase === 'setup' ? (
+                            myPlayer.role === 'director' ? (
+                                <DirectorSetup onConfirm={async (json) => {
+                                    if (roomCode) {
+                                        await GameAPI.setDirectorMovie(roomCode, json);
+                                    }
+                                }} />
+                            ) : (
+                                <View style={{ alignItems: 'center', gap: 20, padding: 30 }}>
+                                    <Animated.View style={{ opacity: 0.5 }}>
+                                        <Ionicons name="videocam" size={80} color={Colors.grayMedium} />
+                                    </Animated.View>
+                                    <Text style={{
+                                        color: Colors.parchment,
+                                        textAlign: 'center',
+                                        fontSize: 20,
+                                        fontWeight: '700',
+                                        letterSpacing: 1,
+                                        lineHeight: 30
+                                    }}>
+                                        THE DIRECTOR IS CHOOSING A MOVIE...
+                                    </Text>
+                                    <Text style={{ color: Colors.grayLight, fontSize: 14 }}>
+                                        Prepare to guess!
+                                    </Text>
+                                </View>
+                            )
+                        ) : !revealed && gamePhase !== 'discussion' ? (
                             <TouchableOpacity
                                 onPress={() => setRevealed(true)}
                                 activeOpacity={0.8}
@@ -83,11 +112,20 @@ export default function OnlineGameScreen() {
                                         if (myPlayer.role === 'director') {
                                             roleTitle = "THE DIRECTOR";
                                             roleColor = Colors.parchment;
-                                            hintText = "Act out this movie silently to help them guess!";
+                                            hintText = "Act out this movie silently! No talking!";
                                             iconName = "videocam-outline";
+
+                                            try {
+                                                const data = JSON.parse(myPlayer.secretWord || '{}');
+                                                secretDisplay = data.title;
+                                                secretLabelText = `${data.genre?.toUpperCase()} • ${data.year}`;
+                                            } catch (e) {
+                                                secretDisplay = myPlayer.secretWord;
+                                            }
                                         } else {
                                             roleTitle = "AUDIENCE";
                                             secretDisplay = "???";
+                                            secretLabelText = "GUESS THE MOVIE";
                                             hintText = "Watch the Director and guess the movie!";
                                             iconName = "eye-outline";
                                         }

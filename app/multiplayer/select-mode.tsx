@@ -40,8 +40,9 @@ export default function SelectModeScreen() {
     };
 
     // Group modes
-    const modes2Plus = GAME_MODES.filter(m => m.minPlayers === 2);
-    const modes3Plus = GAME_MODES.filter(m => m.minPlayers >= 3);
+    const ALLOWED_MODES = ['wavelength', 'directors-cut'];
+    const modes2Plus = GAME_MODES.filter(m => m.minPlayers === 2 && ALLOWED_MODES.includes(m.id));
+    const modes3Plus = GAME_MODES.filter(m => m.minPlayers >= 3 && ALLOWED_MODES.includes(m.id));
 
     const renderModeItem = (mode: GameModeInfo, index: number) => {
         const disabled = players.length < mode.minPlayers;

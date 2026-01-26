@@ -1,4 +1,4 @@
-
+import { WAVELENGTH_SPECTRUMS } from '@/data/wavelength';
 import { supabase } from '@/lib/supabase';
 import { GameMode } from '@/types/game';
 
@@ -150,17 +150,15 @@ export const GameAPI = {
                     break;
 
                 case 'directors-cut':
-                    // Director's Cut: 1 Director, others Guessers
+                    // Director's Cut: 1 Director, others Guessers. No movie selected yet.
                     const directorIndex = Math.floor(Math.random() * players.length);
-                    const movies = ["Inception (Sci-Fi)", "Titanic (Romance)", "The Matrix (Sci-Fi)", "Jaws (Thriller)", "Avatar (Sci-Fi)", "Frozen (Animation)"];
-                    const movie = movies[Math.floor(Math.random() * movies.length)];
 
                     players.forEach((p, i) => {
                         const isDirector = i === directorIndex;
                         const role = isDirector ? 'director' : 'viewer';
-                        const secret = isDirector ? movie : '???'; // Viewers see ???
+                        // Director will choose later.
                         updatePromises.push(
-                            supabase.from('players').update({ role, secret_word: secret }).eq('id', p.id)
+                            supabase.from('players').update({ role, secret_word: 'WAITING' }).eq('id', p.id)
                         );
                     });
                     break;
@@ -168,11 +166,17 @@ export const GameAPI = {
                 case 'wavelength':
                     // Wavelength: 1 Psychic, others Guessers
                     const psychicIndex = Math.floor(Math.random() * players.length);
+                    const spectrum = WAVELENGTH_SPECTRUMS[Math.floor(Math.random() * WAVELENGTH_SPECTRUMS.length)];
+                    // Random target percentage (0-100)
+                    const target = Math.floor(Math.random() * 100);
+
+                    const wavelengthPayload = JSON.stringify({ ...spectrum, target });
+
                     players.forEach((p, i) => {
                         const isPsychic = i === psychicIndex;
                         const role = isPsychic ? 'psychic' : 'guesser';
-                        // Psychic gets the full spectrum, guessers get nothing initially
-                        const secret = isPsychic ? 'SPECTRUM' : '???';
+                        // Psychic sees spectrum AND target. Guessers see ???
+                        const secret = isPsychic ? wavelengthPayload : '???';
                         updatePromises.push(
                             supabase.from('players').update({ role, secret_word: secret }).eq('id', p.id)
                         );
@@ -212,11 +216,12 @@ export const GameAPI = {
             await Promise.all(updatePromises);
 
             // 5. Start Game
+            const initialPhase = gameMode === 'directors-cut' ? 'setup' : 'reveal';
             const { error } = await supabase
                 .from('rooms')
                 .update({
                     status: 'PLAYING',
-                    curr_phase: 'reveal',
+                    curr_phase: initialPhase,
                     game_mode: gameMode
                 })
                 .eq('code', roomCode);
@@ -232,5 +237,23 @@ export const GameAPI = {
     checkConnection: async () => {
         const { error } = await supabase.from('rooms').select('code').limit(1);
         return !error;
+    },
+
+    updateGamePhase: async (roomCode: string, phase: string) => {
+        return await supabase.from('rooms').update({ curr_phase: phase }).eq('code', roomCode);
+    },
+
+    setDirectorMovie: async (roomCode: string, movieJson: string) => {
+        const { data: players } = await supabase.from('players').select('*').eq('room_code', roomCode);
+        if (!players) return;
+
+        const updatePromises = players.map(p => {
+            const secret = p.role === 'director' ? movieJson : '???';
+            return supabase.from('players').update({ secret_word: secret }).eq('id', p.id);
+        });
+
+        await Promise.all(updatePromises);
+
+        return await supabase.from('rooms').update({ curr_phase: 'reveal' }).eq('code', roomCode);
     }
 };

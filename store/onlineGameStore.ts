@@ -17,13 +17,14 @@ interface OnlineGameState {
     myPlayerId: string | null;
     players: Player[];
     gameStatus: 'LOBBY' | 'PLAYING' | 'FINISHED';
+    gamePhase: 'setup' | 'reveal' | 'discussion' | 'voting' | null;
     gameMode: string | null;
     messages: ChatMessage[];
 
     // Actions
     // Actions
     setRoomInfo: (code: string, isHost: boolean, playerId: string, initialPlayer?: any) => void;
-    setGameInfo: (status: 'LOBBY' | 'PLAYING' | 'FINISHED', mode: string) => void;
+    setGameInfo: (status: 'LOBBY' | 'PLAYING' | 'FINISHED', mode: string, phase?: string) => void;
     syncGameState: (newState: any) => void;
     leaveGame: () => void;
     sendChatMessage: (content: string) => Promise<void>;
@@ -46,6 +47,7 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
     myPlayerId: null,
     players: [],
     gameStatus: 'LOBBY',
+    gamePhase: null,
     gameMode: null,
     messages: [],
 
@@ -91,7 +93,8 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                     const newRoom = payload.new as any;
                     set({
                         gameStatus: newRoom.status,
-                        gameMode: newRoom.game_mode
+                        gameMode: newRoom.game_mode,
+                        gamePhase: newRoom.curr_phase
                     });
                 }
             )
@@ -115,8 +118,8 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
         }));
     },
 
-    setGameInfo: (status, mode) => {
-        set({ gameStatus: status, gameMode: mode });
+    setGameInfo: (status, mode, phase) => {
+        set({ gameStatus: status, gameMode: mode, gamePhase: phase as any || 'reveal' });
     },
 
     sendChatMessage: async (content: string) => {
