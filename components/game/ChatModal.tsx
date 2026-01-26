@@ -58,10 +58,10 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
             flatListRef.current?.scrollToEnd({ animated: true });
         }, 100);
 
-        // Keep keyboard open and focus
+        // Keep keyboard open and focus - delayed to run AFTER scroll
         setTimeout(() => {
             inputRef.current?.focus();
-        }, 50);
+        }, 300);
     };
 
     // Auto-scroll to bottom when opening or new messages
@@ -111,47 +111,13 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                     contentContainerStyle={styles.listContent}
                     onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
                     onLayout={() => flatListRef.current?.scrollToEnd({ animated: false })}
-                    renderItem={({ item }) => {
-                        const isMe = item.senderId === myPlayerId;
-
-                        const renderReplyAction = () => {
-                            return (
-                                <View style={{ justifyContent: 'center', alignItems: 'center', width: 50 }}>
-                                    <Ionicons name="arrow-undo" size={24} color={Colors.grayLight} />
-                                </View>
-                            );
-                        };
-
-                        return (
-                            <Swipeable
-                                renderLeftActions={renderReplyAction}
-                                onSwipeableOpen={() => {
-                                    setReplyTo({ id: item.id, name: item.senderName, content: item.content });
-                                    // Should auto close
-                                }}
-                            >
-                                <View style={[styles.messageRow, isMe ? styles.myRow : styles.otherRow]}>
-                                    <Text style={[styles.senderName, isMe && { marginRight: 4, alignSelf: 'flex-end', color: Colors.gaslightAmber }]}>
-                                        {item.senderName} {isMe ? '(You)' : ''}
-                                    </Text>
-                                    <View style={[styles.bubble, isMe ? styles.myBubble : styles.otherBubble]}>
-                                        {/* Reply Preview Inside Message */}
-                                        {item.replyToId && (
-                                            <View style={[styles.replyQuote, isMe ? styles.myReplyQuote : styles.otherReplyQuote]}>
-                                                <Text style={[styles.replyName, isMe ? { color: Colors.parchment } : { color: Colors.grayLight }]}>{item.replyToName}</Text>
-                                                <Text style={[styles.replyContent, isMe ? { color: 'rgba(255,255,255,0.7)' } : { color: 'rgba(255,255,255,0.7)' }]} numberOfLines={1}>
-                                                    {item.replyToContent}
-                                                </Text>
-                                            </View>
-                                        )}
-                                        <Text style={[styles.msgText, isMe ? styles.myMsgText : styles.otherMsgText]}>
-                                            {item.content}
-                                        </Text>
-                                    </View>
-                                </View>
-                            </Swipeable>
-                        );
-                    }}
+                    renderItem={({ item }) => (
+                        <MessageRow
+                            item={item}
+                            myPlayerId={myPlayerId || ''}
+                            onReply={setReplyTo}
+                        />
+                    )}
                 />
 
                 {/* Input */}
@@ -194,7 +160,12 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                             blurOnSubmit={false} // KEYBOARD FIX: Keeps keyboard open on submit
                             autoFocus={false}
                         />
-                        <TouchableOpacity onPress={handleSend} style={styles.sendBtn} disabled={!inputText.trim()}>
+                        <TouchableOpacity
+                            onPress={handleSend}
+                            style={styles.sendBtn}
+                            disabled={!inputText.trim()}
+                            {...(Platform.OS === 'web' ? { onMouseDown: (e: any) => e.preventDefault() } : {})}
+                        >
                             <Ionicons
                                 name="send"
                                 size={24}
@@ -208,6 +179,65 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
         </Modal>
     );
 };
+
+interface MessageItem {
+    id: string;
+    senderId: string;
+    senderName: string;
+    content: string;
+    replyToId?: string;
+    replyToName?: string;
+    replyToContent?: string;
+}
+
+const MessageRow = React.memo(({ item, myPlayerId, onReply }: { item: MessageItem, myPlayerId: string, onReply: (r: any) => void }) => {
+    const swipeableRef = useRef<Swipeable>(null);
+    const isMe = item.senderId === myPlayerId;
+
+    const renderReplyAction = () => {
+        return (
+            <View style={{ justifyContent: 'center', alignItems: 'center', width: 50 }}>
+                <Ionicons name="arrow-undo" size={24} color={Colors.grayLight} />
+            </View>
+        );
+    };
+
+    return (
+        <Swipeable
+            ref={swipeableRef}
+            friction={1.5}
+            overshootRight={false} // Prevent overshooting
+            renderLeftActions={renderReplyAction}
+            onSwipeableOpen={() => {
+                onReply({ id: item.id, name: item.senderName, content: item.content });
+                // Add delay to ensure animation plays smoothly before closing
+                setTimeout(() => {
+                    swipeableRef.current?.close();
+                }, 400); // 400ms is a safe visual delay
+            }}
+        >
+            <View style={[styles.messageRow, isMe ? styles.myRow : styles.otherRow]}>
+                <Text style={[styles.senderName, isMe && { marginRight: 4, alignSelf: 'flex-end', color: Colors.gaslightAmber }]}>
+                    {item.senderName} {isMe ? '(You)' : ''}
+                </Text>
+                <View style={[styles.bubble, isMe ? styles.myBubble : styles.otherBubble]}>
+                    {/* Reply Preview Inside Message */}
+                    {item.replyToId && (
+                        <View style={[styles.replyQuote, isMe ? styles.myReplyQuote : styles.otherReplyQuote]}>
+                            <Text style={[styles.replyName, isMe ? { color: Colors.parchment } : { color: Colors.grayLight }]}>{item.replyToName}</Text>
+                            <Text style={[styles.replyContent, isMe ? { color: 'rgba(255,255,255,0.7)' } : { color: 'rgba(255,255,255,0.7)' }]} numberOfLines={1}>
+                                {item.replyToContent}
+                            </Text>
+                        </View>
+                    )}
+                    <Text style={[styles.msgText, isMe ? styles.myMsgText : styles.otherMsgText]}>
+                        {item.content}
+                    </Text>
+                </View>
+            </View>
+        </Swipeable>
+    );
+});
 
 const styles = StyleSheet.create({
     container: {
@@ -307,7 +337,7 @@ const styles = StyleSheet.create({
         lineHeight: 20, // Explicit line height for consistency
         textAlignVertical: 'center', // Android vertical center
         color: '#FFF',
-        fontSize: 16,
+        fontSize: 14,
         borderWidth: 1,
         borderColor: '#444',
         ...Platform.select({
