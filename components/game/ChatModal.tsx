@@ -17,6 +17,7 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
     const [inputText, setInputText] = React.useState('');
     const [replyTo, setReplyTo] = useState<{ id: string, name: string, content: string } | null>(null);
     const flatListRef = useRef<FlatList>(null);
+    const inputRef = useRef<TextInput>(null);
     const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     React.useEffect(() => {
@@ -56,6 +57,11 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
         setTimeout(() => {
             flatListRef.current?.scrollToEnd({ animated: true });
         }, 100);
+
+        // Keep keyboard open and focus
+        setTimeout(() => {
+            inputRef.current?.focus();
+        }, 50);
     };
 
     // Auto-scroll to bottom when opening or new messages
@@ -178,6 +184,7 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
 
                     <View style={[styles.inputArea, { paddingBottom: Math.max(insets.bottom, 20) }]}>
                         <TextInput
+                            ref={inputRef}
                             style={styles.input}
                             placeholder="Type a message..."
                             placeholderTextColor={Colors.grayLight}
@@ -295,8 +302,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#333',
         borderRadius: 24,
         paddingHorizontal: 20,
-        paddingTop: 12, // Center text vertically
-        paddingBottom: 12,
+        paddingTop: 14,
+        paddingBottom: Platform.OS === 'web' ? 0 : 14,
+        lineHeight: 20, // Explicit line height for consistency
+        textAlignVertical: 'center', // Android vertical center
         color: '#FFF',
         fontSize: 16,
         borderWidth: 1,
@@ -305,6 +314,8 @@ const styles = StyleSheet.create({
             web: {
                 outlineStyle: 'none',
                 boxShadow: 'none',
+                resize: 'none', // Prevent manual resizing
+                // Padding is handled by shared styles now
             } as any
         })
     },
