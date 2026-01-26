@@ -152,22 +152,22 @@ export default function HomeScreen() {
                             <View style={styles.actions}>
                                 <Animated.View entering={FadeInDown.delay(500).duration(400)}>
                                     <Button
-                                        title="New Case"
+                                        title="Pass & Play"
                                         onPress={handleNewGame}
                                         variant="primary"
                                         size="large"
                                         hapticType="medium"
-                                        icon={<Ionicons name="search" size={20} color={Colors.victorianBlack} />}
+                                        icon={<Ionicons name="phone-portrait-outline" size={20} color={Colors.victorianBlack} />}
                                     />
                                 </Animated.View>
 
                                 <Animated.View entering={FadeInDown.delay(600).duration(400)}>
                                     <Button
-                                        title="How to Play"
-                                        onPress={handleHowToPlay}
+                                        title="Online Multiplayer"
+                                        onPress={() => router.push('/multiplayer')}
                                         variant="outline"
                                         size="large"
-                                        icon={<Ionicons name="book-outline" size={20} color={Colors.parchment} />}
+                                        icon={<Ionicons name="people-outline" size={20} color={Colors.parchment} />}
                                     />
                                 </Animated.View>
 

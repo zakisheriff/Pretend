@@ -165,6 +165,8 @@ export interface Player {
     imposterCount: number; // For "Smart Shuffle" logic to prevent streaks - Total times being imposter
     consecutiveImposterCount: number; // STRICT limit: max 2 times in a row
     score: number;
+    isHost?: boolean;
+    secretWord?: string;
 }
 
 export interface GameSettings {
