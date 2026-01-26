@@ -15,7 +15,14 @@ export default function LobbyScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const { showAlert, AlertComponent } = useCustomAlert();
-    const { roomCode, players, isHost, leaveGame, gameStatus, removePlayer } = useOnlineGameStore();
+    const { roomCode, players, isHost, leaveGame, gameStatus, removePlayer, kicked } = useOnlineGameStore();
+
+    // Handle being kicked
+    React.useEffect(() => {
+        if (kicked) {
+            router.replace('/');
+        }
+    }, [kicked]);
     // chatVisible removed
 
     // Check DB Permissions

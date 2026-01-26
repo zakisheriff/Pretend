@@ -1,5 +1,6 @@
 
 import { Button, ScoreBoard } from '@/components/game';
+import { WavelengthView } from '@/components/game/WavelengthView';
 import { Colors } from '@/constants/colors';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { haptics } from '@/utils/haptics';
@@ -22,6 +23,8 @@ export function OnlineResultsView() {
         directorWinnerId,
         roomCode,
         isHost,
+        myPlayerId,
+        leaveGame,
         resetRoom
     } = useOnlineGameStore();
 
@@ -145,6 +148,19 @@ export function OnlineResultsView() {
                     </Text>
                 </Animated.View>
 
+                {/* Wavelength Reveal Section */}
+                {gameMode === 'wavelength' && (
+                    <Animated.View entering={FadeInUp.delay(400).springify()} style={styles.section}>
+                        <WavelengthView
+                            players={players}
+                            myPlayerId={myPlayerId!}
+                            roomCode={roomCode!}
+                            gamePhase="results"
+                            isHost={isHost}
+                        />
+                    </Animated.View>
+                )}
+
                 {/* Role Reveal Logic */}
                 {(gameMode !== 'directors-cut' && gameMode !== 'wavelength') && (
                     <Animated.View entering={FadeInUp.delay(400).springify()} style={styles.section}>
@@ -188,8 +204,8 @@ export function OnlineResultsView() {
                     <ScoreBoard players={players} />
                 </Animated.View>
 
-                {/* Action Buttons (Host Only) */}
-                {isHost && (
+                {/* Action Buttons */}
+                {isHost ? (
                     <Animated.View entering={FadeInDown.delay(1000).springify()} style={styles.buttons}>
                         <Button
                             title={loading ? "Restarting..." : "Play Again"}
@@ -199,17 +215,37 @@ export function OnlineResultsView() {
                             size="large"
                             icon={<Ionicons name="refresh" size={18} color={Colors.victorianBlack} />}
                         />
+                        <Button
+                            title="Leave Room"
+                            onPress={async () => {
+                                await leaveGame();
+                                router.replace('/');
+                            }}
+                            variant="outline"
+                            size="large"
+                            icon={<Ionicons name="exit-outline" size={18} color={Colors.parchment} />}
+                        />
+                    </Animated.View>
+                ) : (
+                    <Animated.View entering={FadeInDown.delay(1000).springify()} style={styles.buttons}>
+                        <Text style={{ textAlign: 'center', color: Colors.grayLight, marginBottom: 10 }}>
+                            Waiting for Host to restart...
+                        </Text>
+                        <Button
+                            title="Leave Room"
+                            onPress={async () => {
+                                await leaveGame();
+                                router.replace('/');
+                            }}
+                            variant="outline"
+                            size="large"
+                            icon={<Ionicons name="exit-outline" size={18} color={Colors.parchment} />}
+                        />
                     </Animated.View>
                 )}
 
-                {!isHost && (
-                    <Text style={{ textAlign: 'center', color: Colors.grayLight, marginTop: 20 }}>
-                        Waiting for Host to restart...
-                    </Text>
-                )}
-
             </ScrollView>
-        </View>
+        </View >
     );
 }
 

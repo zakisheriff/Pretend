@@ -241,7 +241,7 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
                                 value={clueText}
                                 onChangeText={setClueText}
                                 placeholder="e.g. Coffee"
-                                placeholderTextColor={Colors.gray}
+                                placeholderTextColor={Colors.grayLight}
                                 autoCorrect={false}
                                 maxLength={20}
                             />
@@ -250,7 +250,7 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
                                 onPress={handleClueSubmit}
                                 variant="primary"
                                 disabled={!clueText.trim()}
-                                style={{ marginTop: 20, width: 200 }}
+                                style={{ marginTop: 24, width: '100%' }}
                             />
                         </View>
                     )}
@@ -288,6 +288,14 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
                                     )}
                                 </View>
                             )}
+                        </View>
+                    )}
+
+                    {gamePhase === 'results' && (
+                        <View style={styles.guessCard}>
+                            <Text style={styles.clueLabel}>Psychic's Clue:</Text>
+                            <Text style={styles.clueDisplay}>"{clue || '...'}"</Text>
+                            <Text style={styles.statusText}>Target was {Math.round((target! - 50) * 2)}%</Text>
                         </View>
                     )}
 
@@ -496,25 +504,34 @@ const styles = StyleSheet.create({
     controlsArea: { width: '100%', alignItems: 'center' },
     inputCard: {
         width: '100%',
-        backgroundColor: Colors.grayDark,
-        padding: 20,
-        borderRadius: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        padding: 24,
+        borderRadius: 24,
         alignItems: 'center',
-        borderWidth: 1,
-        borderColor: Colors.grayMedium
+        borderWidth: 1.5,
+        borderColor: 'rgba(255, 255, 255, 0.3)',
+        shadowColor: Colors.parchment,
+        shadowOpacity: 0.1,
+        shadowRadius: 20,
     },
-    inputLabel: { fontSize: 16, color: Colors.parchment, marginBottom: 12 },
+    inputLabel: {
+        fontSize: 16,
+        color: Colors.parchment,
+        marginBottom: 16,
+        fontWeight: '700',
+        letterSpacing: 1
+    },
     input: {
         width: '100%',
-        height: 50,
-        backgroundColor: Colors.victorianBlack,
-        borderRadius: 25,
-        paddingHorizontal: 16,
+        height: 56,
+        backgroundColor: '#000',
+        borderRadius: 28,
+        paddingHorizontal: 20,
         color: Colors.parchment,
         fontSize: 18,
         textAlign: 'center',
         borderWidth: 1,
-        borderColor: Colors.gray
+        borderColor: Colors.grayLight,
     },
     guessCard: { width: '100%', alignItems: 'center' },
     clueLabel: { fontSize: 12, color: Colors.grayLight, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 5 },

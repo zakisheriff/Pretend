@@ -113,10 +113,10 @@ export default function MultiplayerScreen() {
                                 {!isJoining && (
                                     <Animated.View entering={FadeInDown.delay(100).duration(500)} style={[styles.heroSection, isFocused && styles.heroSectionFocused]}>
                                         <View style={[styles.iconContainer, isFocused && styles.iconContainerFocused]}>
-                                            <Ionicons name="globe-outline" size={isFocused ? 40 : 60} color={Colors.candlelight} />
+                                            <Ionicons name="globe-outline" size={isFocused ? 60 : 60} color={Colors.candlelight} />
                                         </View>
                                         <Text style={[styles.title, isFocused && styles.titleFocused]}>Play Remote</Text>
-                                        {!isFocused && <Text style={styles.subtitle}>Connect with friends across devices</Text>}
+                                        {<Text style={styles.subtitle}>Connect with friends across devices</Text>}
                                     </Animated.View>
                                 )}
 
@@ -125,7 +125,7 @@ export default function MultiplayerScreen() {
                                         <Text style={styles.inputLabel}>Your Name</Text>
                                         <TextInput
                                             style={styles.input}
-                                            placeholder="ENTER KEYNAME"
+                                            placeholder="ENTER YOUR NAME"
                                             placeholderTextColor={Colors.grayMedium}
                                             onChangeText={setName}
                                             value={name}
@@ -244,7 +244,8 @@ const styles = StyleSheet.create({
         marginBottom: 40,
     },
     heroSectionFocused: {
-        marginBottom: 20,
+        alignItems: 'center',
+        marginBottom: 40,
     },
     iconContainer: {
         width: 100,
@@ -258,9 +259,15 @@ const styles = StyleSheet.create({
         borderColor: 'rgba(196, 167, 108, 0.3)',
     },
     iconContainerFocused: {
-        width: 60,
-        height: 60,
-        marginBottom: 10,
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        backgroundColor: 'rgba(196, 167, 108, 0.1)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 15,
+        borderWidth: 1,
+        borderColor: 'rgba(196, 167, 108, 0.3)',
     },
     title: {
         fontSize: 32,
@@ -270,8 +277,11 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
     },
     titleFocused: {
-        fontSize: 20,
-        marginBottom: 5,
+        fontSize: 32,
+        fontWeight: '800',
+        color: Colors.parchment,
+        marginBottom: 10,
+        letterSpacing: 1,
     },
     subtitle: {
         fontSize: 16,
@@ -308,7 +318,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: Colors.grayMedium,
         color: Colors.parchment,
-        fontSize: 32,
+        fontSize: 22,
         fontWeight: '800',
         textAlign: 'center',
         paddingHorizontal: 20,

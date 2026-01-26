@@ -25,6 +25,7 @@ interface OnlineGameState {
     directorWinnerId: string | null;
     gameWinner: 'crewmates' | 'imposters' | null;
     impostersCaught: boolean;
+    kicked: boolean;
 
     // Actions
     setRoomInfo: (code: string, isHost: boolean, playerId: string, initialPlayer?: any) => void;
@@ -65,6 +66,7 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
     directorWinnerId: null,
     gameWinner: null,
     impostersCaught: false,
+    kicked: false,
 
     setChatOpen: (open) => set({ isChatOpen: open }),
     clearUnreadCount: () => set({ unreadMessageCount: 0 }),
@@ -123,6 +125,12 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                 'postgres_changes',
                 { event: 'DELETE', schema: 'public', table: 'players', filter: `room_code=eq.${code}` },
                 (payload) => {
+                    const { myPlayerId } = get();
+                    if (payload.old.id === myPlayerId) {
+                        set({ kicked: true });
+                        get().leaveGame();
+                        return;
+                    }
                     set(state => ({
                         players: state.players.filter(p => p.id !== payload.old.id)
                     }));
@@ -173,7 +181,8 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
             unreadMessageCount: 0,
             directorWinnerId: null,
             gameWinner: null,
-            impostersCaught: false
+            impostersCaught: false,
+            kicked: false
         });
     },
 

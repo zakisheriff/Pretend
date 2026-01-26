@@ -35,7 +35,7 @@ export default function OnlineGameScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const {
-        players, myPlayerId, isHost, gameMode, gamePhase, roomCode, gameStatus
+        players, myPlayerId, isHost, gameMode, gamePhase, roomCode, gameStatus, kicked, leaveGame
     } = useOnlineGameStore();
     const [revealed, setRevealed] = React.useState(false);
     const [selectedDirectorId, setSelectedDirectorId] = React.useState<string | null>(null);
@@ -48,8 +48,10 @@ export default function OnlineGameScreen() {
     React.useEffect(() => {
         if (gameStatus === 'LOBBY') {
             router.replace('/multiplayer/lobby' as any);
+        } else if (kicked) {
+            router.replace('/');
         }
-    }, [gameStatus]);
+    }, [gameStatus, kicked]);
 
     React.useEffect(() => {
         if (gamePhase === 'discussion') {
@@ -77,6 +79,12 @@ export default function OnlineGameScreen() {
         }
     };
 
+    const handleLeave = async () => {
+        setLoading(true);
+        await leaveGame();
+        router.replace('/');
+    };
+
     const myPlayer = players.find(p => p.id === myPlayerId);
 
     if (!myPlayer) {
@@ -102,13 +110,20 @@ export default function OnlineGameScreen() {
                         <View style={[styles.content, { paddingTop: insets.top + 20 }]}>
 
                             <View style={styles.headerRow}>
-                                <View style={{ width: 40 }} />
+                                <TouchableOpacity
+                                    onPress={handleLeave}
+                                    style={styles.backButton}
+                                >
+                                    <Ionicons name="close" size={24} color={Colors.parchment} />
+                                </TouchableOpacity>
                                 <Text style={styles.headerTitle}>Game In Progress</Text>
-                                <View style={{ width: 40 }} />
+                                <View style={{ width: 44 }} />
                             </View>
 
                             <View style={styles.cardContainer}>
-                                {gameMode === 'wavelength' ? (
+                                {gamePhase === 'results' || (gameStatus as any) === 'FINISHED' ? (
+                                    <OnlineResultsView />
+                                ) : gameMode === 'wavelength' ? (
                                     <WavelengthView
                                         players={players}
                                         myPlayerId={myPlayerId!}
@@ -118,8 +133,6 @@ export default function OnlineGameScreen() {
                                     />
                                 ) : gamePhase === 'voting' ? (
                                     <OnlineVotingView />
-                                ) : gamePhase === 'results' || (gameStatus as any) === 'FINISHED' ? (
-                                    <OnlineResultsView />
                                 ) : gamePhase === 'setup' ? (
                                     myPlayer.role === 'director' ? (
                                         <DirectorSetup onConfirm={async (json) => {
@@ -377,6 +390,14 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: Colors.grayLight,
         letterSpacing: 2,
+    },
+    backButton: {
+        width: 44,
+        height: 44,
+        borderRadius: 22,
+        backgroundColor: 'rgba(255,255,255,0.1)',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     cardContainer: {
         flex: 1,

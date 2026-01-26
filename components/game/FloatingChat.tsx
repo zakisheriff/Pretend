@@ -51,14 +51,15 @@ export const FloatingChat = () => {
 
     return (
         <View
-            style={[styles.root, { top: insets.top + 70 }]}
+            style={styles.root}
             pointerEvents="box-none"
         >
             <Animated.View
                 {...panResponder.panHandlers}
                 style={[
-                    pan.getLayout(),
                     styles.wrapper,
+                    { bottom: Math.max(insets.bottom + 20, 40) },
+                    { transform: pan.getTranslateTransform() },
                 ]}
             >
                 <TouchableOpacity
@@ -92,8 +93,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         position: 'absolute',
-        right: 20, // Initial position
-        // top is handled via styles.root top offset for convenience
+        right: 20,
     },
     button: {
         width: 50,
