@@ -6,13 +6,13 @@ import { OnlineResultsView } from '@/components/game/OnlineResultsView';
 import { OnlineVotingView } from '@/components/game/OnlineVotingView';
 import { WavelengthView } from '@/components/game/WavelengthView';
 import { Colors } from '@/constants/colors';
+import { useCustomAlert } from '@/hooks/useCustomAlert';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -80,10 +80,25 @@ export default function OnlineGameScreen() {
         }
     };
 
-    const handleLeave = async () => {
-        setLoading(true);
-        await leaveGame();
-        router.replace('/');
+    const { showAlert, AlertComponent } = useCustomAlert();
+
+    const handleLeave = () => {
+        showAlert(
+            "Leave Game?",
+            "Are you sure you want to leave the game? You won't be able to rejoin if the game is in progress.",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Leave",
+                    style: "destructive",
+                    onPress: async () => {
+                        setLoading(true);
+                        await leaveGame();
+                        router.replace('/');
+                    }
+                }
+            ]
+        );
     };
 
     const myPlayer = players.find(p => p.id === myPlayerId);
@@ -97,7 +112,7 @@ export default function OnlineGameScreen() {
     }
 
     return (
-        <GestureHandlerRootView style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
             <View style={styles.container}>
                 <LinearGradient
                     colors={['#000000', '#0A0A0A', '#000000']}
@@ -304,7 +319,7 @@ export default function OnlineGameScreen() {
                                         </View>
                                     )}
 
-                                    {isHost && gameMode !== 'directors-cut' && (
+                                    {isHost && gameMode !== 'directors-cut' && gameMode !== 'wavelength' && (
                                         <View style={{ marginTop: 10, width: '100%', paddingHorizontal: 40 }}>
                                             <Button
                                                 title={gameMode === 'wavelength' ? "Reveal Target" : "Start Voting"}
@@ -349,7 +364,8 @@ export default function OnlineGameScreen() {
                     </View>
                 </Modal>
             </View>
-        </GestureHandlerRootView>
+            <AlertComponent />
+        </View>
     );
 }
 

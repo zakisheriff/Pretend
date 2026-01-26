@@ -2,6 +2,7 @@
 import { Button, ScoreBoard } from '@/components/game';
 import { WavelengthView } from '@/components/game/WavelengthView';
 import { Colors } from '@/constants/colors';
+import { useCustomAlert } from '@/hooks/useCustomAlert';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,6 +13,7 @@ import Animated, { FadeInDown, FadeInUp, ZoomIn } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function OnlineResultsView() {
+    const { showAlert, AlertComponent } = useCustomAlert();
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const [loading, setLoading] = useState(false);
@@ -205,6 +207,7 @@ export function OnlineResultsView() {
                 </Animated.View>
 
                 {/* Action Buttons */}
+                {/* Action Buttons */}
                 {isHost ? (
                     <Animated.View entering={FadeInDown.delay(1000).springify()} style={styles.buttons}>
                         <Button
@@ -217,9 +220,22 @@ export function OnlineResultsView() {
                         />
                         <Button
                             title="Leave Room"
-                            onPress={async () => {
-                                await leaveGame();
-                                router.replace('/');
+                            onPress={() => {
+                                showAlert(
+                                    "Leave Room?",
+                                    "Are you sure you want to leave the room?",
+                                    [
+                                        { text: "Cancel", style: "cancel" },
+                                        {
+                                            text: "Leave",
+                                            style: "destructive",
+                                            onPress: async () => {
+                                                await leaveGame();
+                                                router.replace('/');
+                                            }
+                                        }
+                                    ]
+                                );
                             }}
                             variant="outline"
                             size="large"
@@ -233,9 +249,22 @@ export function OnlineResultsView() {
                         </Text>
                         <Button
                             title="Leave Room"
-                            onPress={async () => {
-                                await leaveGame();
-                                router.replace('/');
+                            onPress={() => {
+                                showAlert(
+                                    "Leave Room?",
+                                    "Are you sure you want to leave the room?",
+                                    [
+                                        { text: "Cancel", style: "cancel" },
+                                        {
+                                            text: "Leave",
+                                            style: "destructive",
+                                            onPress: async () => {
+                                                await leaveGame();
+                                                router.replace('/');
+                                            }
+                                        }
+                                    ]
+                                );
                             }}
                             variant="outline"
                             size="large"
@@ -245,6 +274,7 @@ export function OnlineResultsView() {
                 )}
 
             </ScrollView>
+            <AlertComponent />
         </View >
     );
 }

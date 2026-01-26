@@ -67,7 +67,7 @@ export default function SelectModeScreen() {
             }
 
             // Navigate immediately
-            router.push('/multiplayer/game' as any);
+            // router.push('/multiplayer/game' as any); // Logic handled by Lobby listener
         }
         setLoading(false);
     };

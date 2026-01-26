@@ -56,8 +56,21 @@ export default function LobbyScreen() {
     }, [gameStatus]);
 
     const handleLeave = () => {
-        leaveGame();
-        router.dismissTo('/');
+        showAlert(
+            "Leave Lobby?",
+            "Are you sure you want to leave the lobby?",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Leave",
+                    style: "destructive",
+                    onPress: () => {
+                        leaveGame();
+                        router.dismissTo('/');
+                    }
+                }
+            ]
+        );
     };
 
     const handleStartGame = () => {

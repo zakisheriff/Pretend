@@ -74,14 +74,27 @@ export const GameAPI = {
                 return { error: 'Game already started' };
             }
 
-            // check if name taken? (optional)
+            // Check if name is already taken in this room
+            const { data: existingPlayers } = await supabase
+                .from('players')
+                .select('name')
+                .eq('room_code', roomCode.toUpperCase()); // No .ilike() here as we want to do strict check locally or rely on DB case sensitivity if any.
+            // But for "Mess", usually case-insensitive check is better.
+            // Let's stick to client-side filter for now or precise EQ match.
+            // To be robust:
+
+            const nameExists = existingPlayers?.some(p => p.name.trim().toLowerCase() === playerName.trim().toLowerCase());
+
+            if (nameExists) {
+                return { error: 'Name already taken by another player' };
+            }
 
             // Add player
             const { data: player, error: playerError } = await supabase
                 .from('players')
                 .insert({
                     room_code: roomCode.toUpperCase(),
-                    name: playerName,
+                    name: playerName.trim(), // Ensure trimmed name is saved
                     is_host: false
                 })
                 .select()

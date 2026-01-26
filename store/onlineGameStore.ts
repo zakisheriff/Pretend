@@ -107,14 +107,24 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                 'postgres_changes',
                 { event: 'UPDATE', schema: 'public', table: 'players', filter: `room_code=eq.${code}` },
                 (payload) => {
+                    const { myPlayerId } = get();
                     set(state => {
+                        // Check if I am the one updated
+                        let newIsHost = state.isHost;
+                        if (String(payload.new.id) === String(myPlayerId)) {
+                            newIsHost = payload.new.is_host;
+                            console.log('My host status updated to:', newIsHost);
+                        }
+
                         const exists = state.players.some(p => p.id === payload.new.id);
                         if (exists) {
                             return {
+                                isHost: newIsHost,
                                 players: state.players.map(p => p.id === payload.new.id ? mapPlayer(payload.new) : p)
                             };
                         } else {
                             return {
+                                isHost: newIsHost,
                                 players: [...state.players, mapPlayer(payload.new)]
                             };
                         }
@@ -258,14 +268,42 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
             supabase.removeAllChannels();
 
             if (isHost) {
-                // Host deletes the room (Cascade deletes players)
-                await supabase.from('rooms').delete().eq('code', roomCode);
+                // Check if other players exist to migrate host
+                const { data: others } = await supabase
+                    .from('players')
+                    .select('*')
+                    .eq('room_code', roomCode)
+                    .neq('id', myPlayerId)
+                    .limit(1);
+
+                if (others && others.length > 0) {
+                    console.log('Host leaving, migrating host to:', others[0].name);
+                    const newHost = others[0];
+
+                    // 1. Assign new host
+                    const { error: updateError } = await supabase
+                        .from('players')
+                        .update({ is_host: true })
+                        .eq('id', newHost.id);
+
+                    if (updateError) {
+                        console.error('Failed to migrate host:', updateError);
+                        // Fallback: Delete room if migration fails to avoid zombie room
+                        await supabase.from('rooms').delete().eq('code', roomCode);
+                    } else {
+                        // 2. Delete myself (old host)
+                        await supabase.from('players').delete().eq('id', myPlayerId);
+                    }
+                } else {
+                    // No one left, delete room
+                    await supabase.from('rooms').delete().eq('code', roomCode);
+                }
             } else if (myPlayerId) {
                 // Player just leaves
                 await supabase.from('players').delete().eq('id', myPlayerId);
             }
         }
 
-        set({ roomCode: null, isHost: false, myPlayerId: null, players: [], gameStatus: 'LOBBY', unreadMessageCount: 0 });
+        set({ roomCode: null, isHost: false, myPlayerId: null, players: [], gameStatus: 'LOBBY', unreadMessageCount: 0, kicked: false });
     }
 }));

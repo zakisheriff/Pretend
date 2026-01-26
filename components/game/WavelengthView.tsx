@@ -4,10 +4,8 @@ import { Player } from '@/types/game';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native';
-import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
-import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Animated, Dimensions, PanResponder, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Button } from './Button';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -44,7 +42,7 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
             return {
                 left: d.left || 'Left',
                 right: d.right || 'Right',
-                target: d.target, // null for guessers during non-reveal
+                target: d.target,
                 clue: d.clue || null
             };
         } catch (e) {
@@ -54,8 +52,20 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
 
     const { left, right, target, clue } = data;
 
-    // Dial State
-    const dialX = useSharedValue(0.5 * DIAL_WIDTH);
+    // Use standard Animated.Value
+    const dialX = useRef(new Animated.Value(0.5 * DIAL_WIDTH)).current;
+
+    // We need a ref to track the current value for PanResponder calculations without state re-renders
+    const currentX = useRef(0.5 * DIAL_WIDTH);
+
+    // Listen to animated value to update ref
+    useEffect(() => {
+        const id = dialX.addListener(({ value }) => {
+            currentX.current = value;
+        });
+        return () => dialX.removeListener(id);
+    }, []);
+
     const [guessValue, setGuessValue] = useState(50);
     const [clueText, setClueText] = useState('');
     const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -66,28 +76,86 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
             const v = parseInt(myPlayer.vote);
             if (!isNaN(v)) {
                 setGuessValue(v);
-                dialX.value = (v / 100) * DIAL_WIDTH;
+                const newX = valueToX(v);
+                dialX.setValue(newX);
+                currentX.current = newX;
                 setHasSubmitted(true);
             }
+        } else if (!hasSubmitted) {
+            // Reset to center if new round or not submitted
+            const centerX = valueToX(50);
+            dialX.setValue(centerX);
+            currentX.current = centerX;
+            setGuessValue(50);
         }
-    }, [myPlayer?.vote]);
+    }, [myPlayer?.vote, hasSubmitted]);
 
-    const pan = Gesture.Pan()
-        .onChange((e) => {
-            if (isPsychic || hasSubmitted || gamePhase === 'results') return;
-            let newX = dialX.value + e.changeX;
-            // Constrain knob center within visual track ranges
+    const isGuessing = !isPsychic && gamePhase === 'discussion' && !hasSubmitted;
+
+    // PanResponder for safe, native-driven gestures without Reanimated/GestureHandler
+    const panResponder = useRef(
+        PanResponder.create({
+            onStartShouldSetPanResponder: () => isGuessing,
+            onMoveShouldSetPanResponder: () => isGuessing,
+            onPanResponderGrant: () => {
+                // Optional: visual feedback
+            },
+            onPanResponderMove: (_, gestureState) => {
+                let newX = currentX.current + gestureState.dx; // dx is accumulated distance? No, need to offset
+                // Correction: we should add dx to the START position.
+                // But currentX tracks the animated value which we update.
+                // Better approach: Set value directly based on offset.
+
+                // Let's rely on the value at start of gesture
+            },
+            onPanResponderRelease: () => {
+                haptics.selection();
+            }
+        })
+    ).current;
+
+    // We need state to track start position for PanResponder
+    const startX = useRef(0);
+
+    // Re-create PanResponder to capture correct closure if needed, or use mutable refs
+    // Ideally PanResponder is stable.
+
+    // Actually, 'isGuessing' changes, so let's update proper logic.
+    const panHandlers = useMemo(() => PanResponder.create({
+        onStartShouldSetPanResponder: () => !isPsychic && gamePhase === 'discussion' && !hasSubmitted,
+        onMoveShouldSetPanResponder: () => !isPsychic && gamePhase === 'discussion' && !hasSubmitted,
+        onPanResponderGrant: () => {
+            startX.current = currentX.current;
+        },
+        onPanResponderMove: (_, gestureState) => {
+            let newX = startX.current + gestureState.dx;
+
+            // Constrain
             if (newX < TRACK_MARGIN) newX = TRACK_MARGIN;
             if (newX > DIAL_WIDTH - TRACK_MARGIN) newX = DIAL_WIDTH - TRACK_MARGIN;
-            dialX.value = newX;
 
-            // Map TRACK_MARGIN..DIAL_WIDTH-TRACK_MARGIN back to 0..100
+            dialX.setValue(newX);
+
+            // Calculate percentage for display (optional: throttle this if performance issues arise)
             const percentage = ((newX - TRACK_MARGIN) / (DIAL_WIDTH - 2 * TRACK_MARGIN)) * 100;
-            runOnJS(setGuessValue)(percentage);
-        })
-        .onEnd(() => {
-            runOnJS(haptics.selection)();
-        });
+            // Only update state if needed to avoid spam, or just wait for release?
+            // User requested smoothness. Let's try updating state but maybe throttled?
+            // For now, let's update "visual" via Animated (done above) and "value" via state
+            setGuessValue(percentage);
+        },
+        onPanResponderRelease: (_, gestureState) => {
+            let newX = startX.current + gestureState.dx;
+            if (newX < TRACK_MARGIN) newX = TRACK_MARGIN;
+            if (newX > DIAL_WIDTH - TRACK_MARGIN) newX = DIAL_WIDTH - TRACK_MARGIN;
+
+            currentX.current = newX; // Update ref for next gesture
+
+            const percentage = ((newX - TRACK_MARGIN) / (DIAL_WIDTH - 2 * TRACK_MARGIN)) * 100;
+            setGuessValue(percentage);
+            haptics.selection();
+        }
+    }), [isPsychic, gamePhase, hasSubmitted]).panHandlers;
+
 
     const handleClueSubmit = async () => {
         if (!clueText.trim()) return;
@@ -98,7 +166,6 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
     const handleGuessSubmit = async () => {
         haptics.heavy();
         setHasSubmitted(true);
-        // Cast vote saves the percentage (0-100)
         await GameAPI.castVote(myPlayerId, Math.round(guessValue).toString());
     };
 
@@ -107,43 +174,30 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
         await GameAPI.revealWavelength(roomCode);
     };
 
-    // Animated Styles - All use absolute coordinates from left: 0
-    const dialStyle = useAnimatedStyle(() => ({
-        transform: [{ translateX: dialX.value - (KNOB_WIDTH / 2) }]
-    }));
+    // Interpolations / Styles
+    const dialTranslateX = dialX; // Direct Animated.Value
 
-    const bubbleStyle = useAnimatedStyle(() => {
-        // Psychic bubble tracks the target, Guesser bubble tracks dialX
-        const x = isPsychic ? valueToX(target !== undefined ? target : 50) : dialX.value;
-        return {
-            transform: [{ translateX: x - (BUBBLE_WIDTH / 2) }]
-        };
-    });
+    // Bubble position
+    // If psychic, show target value. If guesser, show dial value.
+    const bubbleTranslateX = isPsychic
+        ? valueToX(target !== undefined ? target : 50)
+        : dialX;
 
-    const targetVisibility = useSharedValue(0);
+
+    // Target visibility
+    const targetOpacity = useRef(new Animated.Value(0)).current;
     useEffect(() => {
-        targetVisibility.value = withTiming((isPsychic || gamePhase === 'results') ? 1 : 0);
-
-        // Ensure dialX is centered at start for guessers
-        if (!hasSubmitted && !myPlayer?.vote) {
-            dialX.value = valueToX(50);
-            setGuessValue(50);
-        }
+        Animated.timing(targetOpacity, {
+            toValue: (isPsychic || gamePhase === 'results') ? 1 : 0,
+            duration: 300,
+            useNativeDriver: true
+        }).start();
     }, [isPsychic, gamePhase]);
 
-    const targetStyle = useAnimatedStyle(() => ({
-        transform: [
-            { translateX: valueToX(target !== undefined ? target : 50) - (TARGET_WIDTH / 2) }
-        ],
-        opacity: targetVisibility.value,
-    }));
-
-    const isGuessing = !isPsychic && gamePhase === 'discussion' && !hasSubmitted;
-
     return (
-        <GestureHandlerRootView style={{ flex: 1, width: '100%', alignItems: 'center' }}>
+        <View style={{ flex: 1, width: '100%', alignItems: 'center' }}>
             <View style={styles.container}>
-                {/* Psychic Identity Indicator - Moved higher and made subtle */}
+                {/* Psychic Identity Indicator */}
                 <View style={styles.psychicHeader}>
                     <Ionicons name="eye-outline" size={14} color={Colors.candlelight} />
                     <Text style={styles.psychicText}>
@@ -159,9 +213,12 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
 
                 {/* Dial Track Area */}
                 <View style={styles.dialContainer}>
-                    {/* Floating Bubble for Guess/Target */}
+                    {/* Floating Bubble */}
                     {(isGuessing || (isPsychic && gamePhase === 'reveal')) && (
-                        <Animated.View style={[styles.valueBubble, bubbleStyle]}>
+                        <Animated.View style={[
+                            styles.valueBubble,
+                            { transform: [{ translateX: Animated.subtract(isPsychic ? valueToX(target !== undefined ? target : 50) : dialTranslateX, BUBBLE_WIDTH / 2) }] }
+                        ]}>
                             <Text style={styles.valueText}>
                                 {Math.round((isPsychic ? target! : guessValue) - 50) * 2 > 0 ? '+' : ''}
                                 {Math.round((isPsychic ? target! : guessValue) - 50) * 2}
@@ -170,13 +227,13 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
                         </Animated.View>
                     )}
 
-                    {/* Result Avatar Pins (Only in Results) */}
+                    {/* Result Avatar Pins */}
                     {gamePhase === 'results' && players.filter(p => !p.role || p.role === 'guesser').map(p => {
                         if (!p.vote) return null;
                         const v = parseInt(p.vote);
                         const leftPos = valueToX(v);
                         return (
-                            <View key={p.id} style={[styles.avatarPinContainer, { transform: [{ translateX: leftPos - 14 }] } as any]}>
+                            <View key={p.id} style={[styles.avatarPinContainer, { transform: [{ translateX: leftPos - 14 }] }]}>
                                 <View style={styles.avatarCircle}>
                                     <Text style={styles.avatarText}>{p.name[0].toUpperCase()}</Text>
                                 </View>
@@ -194,7 +251,12 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
                         />
 
                         {/* Target Marker */}
-                        <Animated.View style={[styles.targetMarker, targetStyle]}>
+                        <Animated.View style={[styles.targetMarker, {
+                            opacity: targetOpacity,
+                            transform: [{ translateX: valueToX(target !== undefined ? target : 50) - TARGET_WIDTH / 2 }] // Standard View transform, no translateX offset needed if absolute? Wait.
+                            // Left is 0. Transform translateX shifts it.
+                            // valueToX returns absolute X relative to container Left=0.
+                        }]}>
                             <View style={styles.bullseye}>
                                 <View style={styles.bullseyeInner} />
                             </View>
@@ -202,22 +264,26 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
 
                         {/* Interactive Knob */}
                         {isGuessing && (
-                            <GestureDetector gesture={pan}>
-                                <Animated.View style={[styles.dialKnob, dialStyle]}>
-                                    <View style={styles.dialLine} />
-                                </Animated.View>
-                            </GestureDetector>
+                            <Animated.View
+                                {...panHandlers}
+                                style={[styles.dialKnob, { transform: [{ translateX: Animated.subtract(dialTranslateX, KNOB_WIDTH / 2) }] }]}
+                            >
+                                <View style={styles.dialLine} />
+                            </Animated.View>
                         )}
 
-                        {/* Frozen Knob for others/submitted */}
+                        {/* Frozen Knob */}
                         {(!isGuessing && gamePhase !== 'results' && !isPsychic) && (
-                            <Animated.View style={[styles.dialKnob, dialStyle, { opacity: 0.6 }]}>
+                            <Animated.View style={[styles.dialKnob, {
+                                opacity: 0.6,
+                                transform: [{ translateX: Animated.subtract(dialTranslateX, KNOB_WIDTH / 2) }]
+                            }]}>
                                 <View style={styles.dialLine} />
                             </Animated.View>
                         )}
                     </View>
 
-                    {/* Scale Markers - Synced with TRACK_MARGIN */}
+                    {/* Scale Markers */}
                     <View style={styles.scaleContainer}>
                         <View style={[styles.scaleMarkerWrapper, { left: 0, transform: [{ translateX: TRACK_MARGIN }] }]}>
                             <Text style={styles.scaleText}>-100</Text>
@@ -273,9 +339,23 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
                             )}
                             {isPsychic && (
                                 <View style={{ width: '100%', alignItems: 'center' }}>
-                                    <Text style={styles.statusText}>Watching the guessers...</Text>
+                                    <View style={styles.guessersList}>
+                                        {players.filter(p => p.role === 'guesser').map(p => (
+                                            <View key={p.id} style={styles.guesserRow}>
+                                                <Ionicons
+                                                    name={p.vote ? "checkmark-circle" : "ellipse-outline"}
+                                                    size={22}
+                                                    color={p.vote ? "#4ADE80" : "#666"}
+                                                />
+                                                <Text style={[styles.guesserName, p.vote && { color: Colors.parchment, fontWeight: '700' }]}>
+                                                    {p.name}
+                                                </Text>
+                                                {/* {!p.vote && <Text style={{fontSize: 10, color: Colors.grayOnly}}>Thinking...</Text>} */}
+                                            </View>
+                                        ))}
+                                    </View>
                                     <Text style={styles.subStatusText}>
-                                        ({players.filter(p => p.role === 'guesser' && p.vote).length} / {players.filter(p => p.role === 'guesser').length} Guessed)
+                                        {players.filter(p => p.role === 'guesser' && p.vote).length} / {players.filter(p => p.role === 'guesser').length} Guessed
                                     </Text>
                                     {isHost && (
                                         <Button
@@ -313,7 +393,7 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
                     )}
                 </View>
             </View>
-        </GestureHandlerRootView>
+        </View>
     );
 }
 
@@ -348,7 +428,7 @@ const styles = StyleSheet.create({
 
     dialContainer: {
         width: DIAL_WIDTH,
-        position: 'relative',
+        position: 'relative', // Context for absolute children
         marginTop: 40,
         marginBottom: 40
     },
@@ -361,7 +441,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: Colors.grayMedium,
         justifyContent: 'center',
-        alignItems: 'flex-start', // Ensure children don't shift based on content
+        alignItems: 'flex-start', // Important for translateX
     },
     trackGradient: {
         position: 'absolute',
@@ -538,5 +618,25 @@ const styles = StyleSheet.create({
     clueDisplay: { fontSize: 32, color: Colors.parchment, fontWeight: '900', textAlign: 'center' },
     statusText: { marginTop: 20, color: Colors.candlelight, fontStyle: 'italic', fontSize: 16 },
     subStatusText: { color: Colors.grayLight, fontSize: 12, marginTop: 4, marginBottom: 10 },
-    instructions: { marginTop: 20, color: Colors.grayLight, fontSize: 14, fontStyle: 'italic' }
+    instructions: { marginTop: 20, color: Colors.grayLight, fontSize: 14, fontStyle: 'italic' },
+
+    guessersList: {
+        width: '100%',
+        gap: 8,
+        marginVertical: 15,
+        paddingHorizontal: 20
+    },
+    guesserRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        backgroundColor: 'rgba(255,255,255,0.05)',
+        padding: 10,
+        borderRadius: 12,
+    },
+    guesserName: {
+        color: Colors.grayLight,
+        fontSize: 16,
+        fontWeight: '600'
+    }
 });
