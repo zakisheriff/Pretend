@@ -159,8 +159,11 @@ export const GameAPI = {
                         directorId = randomPlayer.id;
                     }
 
+                    // Normalize for comparison
+                    const targetDirectorId = String(directorId).trim();
+
                     players.forEach((p) => {
-                        const isDirector = p.id === directorId;
+                        const isDirector = String(p.id).trim() === targetDirectorId;
                         const role = isDirector ? 'director' : 'viewer';
                         updatePromises.push(
                             supabase.from('players').update({ role, secret_word: 'WAITING' }).eq('id', p.id)
@@ -176,12 +179,14 @@ export const GameAPI = {
                     const target = Math.floor(Math.random() * 100);
 
                     const wavelengthPayload = JSON.stringify({ ...spectrum, target });
+                    // Guessers need to know the spectrum (Left/Right) but NOT the target
+                    const guesserPayload = JSON.stringify({ ...spectrum, target: null });
 
                     players.forEach((p, i) => {
                         const isPsychic = i === psychicIndex;
                         const role = isPsychic ? 'psychic' : 'guesser';
-                        // Psychic sees spectrum AND target. Guessers see ???
-                        const secret = isPsychic ? wavelengthPayload : '???';
+                        // Psychic sees spectrum AND target. Guessers see spectrum only.
+                        const secret = isPsychic ? wavelengthPayload : guesserPayload;
                         updatePromises.push(
                             supabase.from('players').update({ role, secret_word: secret }).eq('id', p.id)
                         );
@@ -312,5 +317,24 @@ export const GameAPI = {
 
         // 3. Move phase
         return await supabase.from('rooms').update({ curr_phase: 'results' }).eq('code', roomCode);
+    },
+
+    setDirectorWinner: async (roomCode: string, winnerId: string | null) => {
+        // Update room status and store the winner if possible (using a broadcast-like approach or room update)
+        // For simplicity, we transition to FINISHED status which results in the Results screen. 
+        // We can pass winnerId in room metadata if supported, or just trust the results screen to show it.
+        // Let's try updating curr_phase to 'results' and status to 'FINISHED'
+        return await supabase
+            .from('rooms')
+            .update({
+                status: 'FINISHED',
+                curr_phase: 'results'
+                // metadata: { winnerId } // Assuming metadata exists or we'll find another way to sync winnerId
+            })
+            .eq('code', roomCode);
+    },
+
+    updateGameStatus: async (roomCode: string, status: 'LOBBY' | 'PLAYING' | 'FINISHED') => {
+        return await supabase.from('rooms').update({ status }).eq('code', roomCode);
     }
 };

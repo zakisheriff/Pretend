@@ -20,6 +20,10 @@ interface OnlineGameState {
     gamePhase: 'setup' | 'reveal' | 'discussion' | 'voting' | 'results' | null;
     gameMode: string | null;
     messages: ChatMessage[];
+    // New fields for rich UI
+    directorWinnerId: string | null;
+    gameWinner: 'crewmates' | 'imposters' | null;
+    impostersCaught: boolean;
 
     // Actions
     // Actions
@@ -30,6 +34,7 @@ interface OnlineGameState {
     leaveGame: () => void;
     sendChatMessage: (content: string) => Promise<void>;
     removePlayer: (id: string) => void;
+    resetGame: () => void;
 }
 
 // Helper to map DB player
@@ -52,6 +57,9 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
     gamePhase: null,
     gameMode: null,
     messages: [],
+    directorWinnerId: null,
+    gameWinner: null,
+    impostersCaught: false,
 
     setPlayerRole: (id, role: any) => {
         set(state => ({
@@ -118,6 +126,18 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
 
     syncGameState: (newState) => {
         set({ ...newState });
+    },
+
+    resetGame: () => {
+        set({
+            gameStatus: 'LOBBY',
+            gamePhase: null,
+            players: get().players.map(p => ({ ...p, role: 'viewer', vote: undefined, secretWord: undefined })),
+            messages: [],
+            directorWinnerId: null,
+            gameWinner: null,
+            impostersCaught: false
+        });
     },
 
     removePlayer: (id) => {
