@@ -152,7 +152,6 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                         <TextInput
                             ref={inputRef}
                             style={styles.input}
-                            placeholder="Type a message..."
                             placeholderTextColor={Colors.grayLight}
                             value={inputText}
                             onChangeText={handleTextChange}
