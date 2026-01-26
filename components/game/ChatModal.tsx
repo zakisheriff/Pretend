@@ -334,10 +334,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#333',
         borderRadius: 24,
         paddingHorizontal: 20,
-        paddingTop: 14,
-        paddingBottom: Platform.OS === 'web' ? 0 : 14,
-        lineHeight: 20, // Explicit line height for consistency
-        textAlignVertical: 'center', // Android vertical center
+        paddingTop: 12,
+        paddingBottom: 12,
+        lineHeight: 20,
+        textAlignVertical: 'top', // Better for multiline cursor alignment
         color: '#FFF',
         fontSize: 16,
         borderWidth: 1,
