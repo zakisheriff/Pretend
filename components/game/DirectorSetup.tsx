@@ -1,6 +1,6 @@
 import { Button } from '@/components/game/Button';
 import { Colors } from '@/constants/colors';
-import directorsCut from '@/data/modes/directors-cut.json'; // Importing JSON
+import { MOVIES } from '@/constants/movies';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useMemo, useState } from 'react';
 import {
@@ -18,29 +18,29 @@ interface DirectorSetupProps {
 }
 
 export const DirectorSetup = ({ onConfirm }: DirectorSetupProps) => {
-    const [step, setStep] = useState<'choose-movie' | 'confirm'>('choose-movie');
     const [movieName, setMovieName] = useState('');
-    const [movieData, setMovieData] = useState<{ genre: string; hint: string, year: number } | null>(null);
+    const [movieData, setMovieData] = useState<{ genre: string; year: number } | null>(null);
     const [showBrowse, setShowBrowse] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [timerDuration, setTimerDuration] = useState(120); // Default 2 mins
 
     // Filter movies
     const filteredMovies = useMemo(() => {
-        if (!searchQuery) return directorsCut;
+        if (!searchQuery) return MOVIES;
         const q = searchQuery.toLowerCase();
-        return directorsCut.filter((m: any) =>
-            m.movie.toLowerCase().includes(q) || m.genre.toLowerCase().includes(q)
+        return MOVIES.filter((m) =>
+            m.title.toLowerCase().includes(q) || m.genre.toLowerCase().includes(q)
         );
     }, [searchQuery]);
 
     const handleRandomMovie = () => {
-        const random = directorsCut[Math.floor(Math.random() * directorsCut.length)];
+        const random = MOVIES[Math.floor(Math.random() * MOVIES.length)];
         selectMovie(random);
     };
 
-    const selectMovie = (m: any) => {
-        setMovieName(m.movie);
-        setMovieData({ genre: m.genre, hint: m.hint, year: m.year });
+    const selectMovie = (m: typeof MOVIES[0]) => {
+        setMovieName(m.title);
+        setMovieData({ genre: m.genre, year: m.year });
         setShowBrowse(false);
     };
 
@@ -51,7 +51,7 @@ export const DirectorSetup = ({ onConfirm }: DirectorSetupProps) => {
             title: movieName,
             genre: movieData?.genre || 'Custom',
             year: movieData?.year || new Date().getFullYear(),
-            hint: movieData?.hint || ''
+            timer: timerDuration
         };
 
         onConfirm(JSON.stringify(payload));
@@ -77,6 +77,23 @@ export const DirectorSetup = ({ onConfirm }: DirectorSetupProps) => {
                     placeholder="e.g. Inception"
                     placeholderTextColor={Colors.grayLight}
                 />
+            </View>
+
+            <View style={styles.inputCard}>
+                <Text style={styles.label}>DISCUSSION TIMER</Text>
+                <View style={styles.timerRow}>
+                    {[60, 120, 180, 300].map(t => (
+                        <TouchableOpacity
+                            key={t}
+                            onPress={() => setTimerDuration(t)}
+                            style={[styles.timerOption, timerDuration === t && styles.timerOptionSelected]}
+                        >
+                            <Text style={[styles.timerOptionText, timerDuration === t && styles.timerOptionTextSelected]}>
+                                {t / 60}m
+                            </Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
             </View>
 
             <View style={styles.actions}>
@@ -124,10 +141,10 @@ export const DirectorSetup = ({ onConfirm }: DirectorSetupProps) => {
 
                     <FlatList
                         data={filteredMovies}
-                        keyExtractor={(item) => item.movie}
+                        keyExtractor={(item) => item.title}
                         renderItem={({ item }) => (
                             <TouchableOpacity style={styles.movieItem} onPress={() => selectMovie(item)}>
-                                <Text style={styles.movieTitle}>{item.movie}</Text>
+                                <Text style={styles.movieTitle}>{item.title}</Text>
                                 <Text style={styles.movieSub}>{item.genre} • {item.year}</Text>
                             </TouchableOpacity>
                         )}
@@ -166,5 +183,14 @@ const styles = StyleSheet.create({
     },
     movieItem: { paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: '#222' },
     movieTitle: { fontSize: 18, color: 'white', fontWeight: '600' },
-    movieSub: { fontSize: 14, color: '#888', marginTop: 4 }
+    movieSub: { fontSize: 14, color: '#888', marginTop: 4 },
+
+    timerRow: { flexDirection: 'row', gap: 12 },
+    timerOption: {
+        flex: 1, height: 48, borderRadius: 12, borderWidth: 1, borderColor: '#333',
+        alignItems: 'center', justifyContent: 'center', backgroundColor: '#111'
+    },
+    timerOptionSelected: { backgroundColor: Colors.parchment, borderColor: Colors.parchment },
+    timerOptionText: { color: Colors.grayLight, fontWeight: '700', fontSize: 16 },
+    timerOptionTextSelected: { color: Colors.victorianBlack }
 });

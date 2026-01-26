@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -16,23 +16,56 @@ export default function SelectModeScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const { showAlert, AlertComponent } = useCustomAlert();
-    const { roomCode, isHost, players, setGameInfo } = useOnlineGameStore();
+    const { roomCode, isHost, players, setGameInfo, setPlayerRole } = useOnlineGameStore();
     const [selectedMode, setSelectedMode] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState(false);
+    const [showPlayerSelect, setShowPlayerSelect] = React.useState(false);
+    const [selectedDirectorId, setSelectedDirectorId] = React.useState<string | null>(null);
 
     const handleBack = () => {
+        if (showPlayerSelect) {
+            setShowPlayerSelect(false);
+            setSelectedDirectorId(null);
+            return;
+        }
         router.back();
     };
 
     const handleStartGame = async () => {
         if (!selectedMode || !roomCode) return;
+
+        // Director's Cut: Specific flow to choose director
+        if (selectedMode === 'directors-cut' && !showPlayerSelect) {
+            setShowPlayerSelect(true);
+            return;
+        }
+
         setLoading(true);
-        const { error } = await GameAPI.startGame(roomCode, selectedMode);
+
+        const options: any = {};
+        if (selectedMode === 'directors-cut' && selectedDirectorId) {
+            options.directorId = selectedDirectorId;
+        }
+
+        const { error } = await GameAPI.startGame(roomCode, selectedMode, options);
         if (error) {
             showAlert('Error', 'Failed to start game: ' + error);
         } else {
-            // Optimistic update for Host
-            setGameInfo('PLAYING', selectedMode);
+            // Optimistic Update
+            if (selectedMode === 'directors-cut') {
+                // Manually set roles immediately so the UI is correct on transition
+                const directorId = options.directorId || players[Math.floor(Math.random() * players.length)].id;
+
+                players.forEach(p => {
+                    const role = p.id === directorId ? 'director' : 'viewer';
+                    setPlayerRole(p.id, role);
+                });
+
+                setGameInfo('PLAYING', selectedMode, 'setup');
+            } else {
+                setGameInfo('PLAYING', selectedMode, 'reveal');
+            }
+
             // Navigate immediately
             router.push('/multiplayer/game' as any);
         }
@@ -98,42 +131,77 @@ export default function SelectModeScreen() {
                         />
                         <View style={{ flex: 1 }} />
                         <Button
-                            title="Next"
+                            title={showPlayerSelect ? "Start Game" : "Next"}
                             onPress={handleStartGame}
                             variant="primary"
                             size="small"
-                            disabled={!selectedMode || loading}
-                            style={{ width: 100, opacity: selectedMode ? 1 : 0.5 }}
+                            disabled={
+                                (!selectedMode) ||
+                                (showPlayerSelect && !selectedDirectorId) ||
+                                loading
+                            }
+                            style={{ width: 100, opacity: (selectedMode && (!showPlayerSelect || selectedDirectorId)) ? 1 : 0.5 }}
                         />
                     </View>
 
-                    <Animated.View entering={FadeInDown.delay(100)} style={styles.titleContainer}>
+                    <Animated.View key={showPlayerSelect ? 'select-director' : 'select-mode'} entering={FadeInDown.delay(100)} style={styles.titleContainer}>
                         <View style={styles.titleIcon}>
-                            <Ionicons name="game-controller-outline" size={32} color={Colors.parchment} />
+                            <Ionicons name={showPlayerSelect ? "videocam-outline" : "game-controller-outline"} size={32} color={Colors.parchment} />
                         </View>
-                        <Text style={styles.title}>Select Mode</Text>
-                        <Text style={styles.subtitle}>Choose Your Investigation Style</Text>
+                        <Text style={styles.title}>{showPlayerSelect ? "Assign Director" : "Select Mode"}</Text>
+                        <Text style={styles.subtitle}>{showPlayerSelect ? "Who will choose the movie?" : "Choose Your Investigation Style"}</Text>
                     </Animated.View>
 
-                    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+                    {showPlayerSelect ? (
+                        <View style={{ flex: 1 }}>
+                            <FlatList
+                                data={players}
+                                keyExtractor={(p: any) => p.id}
+                                contentContainerStyle={{ gap: 12, paddingBottom: 40 }}
+                                renderItem={({ item }: { item: any }) => (
+                                    <TouchableOpacity
+                                        onPress={() => setSelectedDirectorId(item.id)}
+                                        style={[
+                                            styles.playerCard,
+                                            selectedDirectorId === item.id && styles.playerCardSelected
+                                        ]}
+                                    >
+                                        <View style={[styles.iconContainer,
+                                        selectedDirectorId === item.id && { backgroundColor: 'transparent' }
+                                        ]}>
+                                            <Ionicons name="person" size={24} color={selectedDirectorId === item.id ? Colors.victorianBlack : Colors.parchment} />
+                                        </View>
+                                        <Text style={[styles.playerName, selectedDirectorId === item.id && styles.textSelected]}>
+                                            {item.name}
+                                        </Text>
+                                        {selectedDirectorId === item.id && (
+                                            <Ionicons name="checkmark-circle" size={24} color={Colors.victorianBlack} />
+                                        )}
+                                    </TouchableOpacity>
+                                )}
+                            />
+                        </View>
+                    ) : (
+                        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
 
-                        <View style={styles.sectionHeader}>
-                            <Ionicons name="copy-outline" size={18} color={Colors.parchment} />
-                            <Text style={styles.sectionTitle}>2+ Players</Text>
-                        </View>
-                        <View style={styles.sectionList}>
-                            {modes2Plus.map((mode, i) => renderModeItem(mode, i))}
-                        </View>
+                            <View style={styles.sectionHeader}>
+                                <Ionicons name="copy-outline" size={18} color={Colors.parchment} />
+                                <Text style={styles.sectionTitle}>2+ Players</Text>
+                            </View>
+                            <View style={styles.sectionList}>
+                                {modes2Plus.map((mode, i) => renderModeItem(mode, i))}
+                            </View>
 
-                        <View style={styles.sectionHeader}>
-                            <Ionicons name="layers-outline" size={18} color={Colors.parchment} />
-                            <Text style={styles.sectionTitle}>3+ Players</Text>
-                        </View>
-                        <View style={styles.sectionList}>
-                            {modes3Plus.map((mode, i) => renderModeItem(mode, i))}
-                        </View>
+                            <View style={styles.sectionHeader}>
+                                <Ionicons name="layers-outline" size={18} color={Colors.parchment} />
+                                <Text style={styles.sectionTitle}>3+ Players</Text>
+                            </View>
+                            <View style={styles.sectionList}>
+                                {modes3Plus.map((mode, i) => renderModeItem(mode, i))}
+                            </View>
 
-                    </ScrollView>
+                        </ScrollView>
+                    )}
 
                 </View>
             </LinearGradient>
@@ -254,5 +322,26 @@ const styles = StyleSheet.create({
         height: 12,
         borderRadius: 6,
         backgroundColor: Colors.victorianBlack,
+    },
+
+    playerCard: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#111',
+        padding: 16,
+        borderRadius: 24,
+        borderWidth: 1,
+        borderColor: '#333',
+        gap: 16,
+    },
+    playerCardSelected: {
+        backgroundColor: Colors.parchment,
+        borderColor: Colors.parchment,
+    },
+    playerName: {
+        fontSize: 18,
+        fontWeight: '700',
+        color: Colors.parchment,
+        flex: 1,
     },
 });

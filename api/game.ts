@@ -119,7 +119,7 @@ export const GameAPI = {
     /**
      * Start the game
      */
-    startGame: async (roomCode: string, gameMode: string = 'undercover-word') => {
+    startGame: async (roomCode: string, gameMode: string = 'undercover-word', options: { directorId?: string } = {}) => {
         try {
             // 1. Get players
             const { data: players, error: playersError } = await supabase
@@ -134,6 +134,7 @@ export const GameAPI = {
             const updatePromises: any[] = [];
 
             switch (gameMode) {
+                // ... (time-bomb same) ...
                 case 'time-bomb':
                     // Time Bomb Logic
                     const categories = ['Movie', 'Food', 'Game', 'Animal', 'Brand', 'City', 'Country', 'Song', 'Celebrity'];
@@ -150,13 +151,17 @@ export const GameAPI = {
                     break;
 
                 case 'directors-cut':
-                    // Director's Cut: 1 Director, others Guessers. No movie selected yet.
-                    const directorIndex = Math.floor(Math.random() * players.length);
+                    // Director's Cut: 1 Director (Manual or Random), others Viewers.
+                    let directorId = options.directorId;
 
-                    players.forEach((p, i) => {
-                        const isDirector = i === directorIndex;
+                    if (!directorId) {
+                        const randomPlayer = players[Math.floor(Math.random() * players.length)];
+                        directorId = randomPlayer.id;
+                    }
+
+                    players.forEach((p) => {
+                        const isDirector = p.id === directorId;
                         const role = isDirector ? 'director' : 'viewer';
-                        // Director will choose later.
                         updatePromises.push(
                             supabase.from('players').update({ role, secret_word: 'WAITING' }).eq('id', p.id)
                         );
@@ -254,6 +259,58 @@ export const GameAPI = {
 
         await Promise.all(updatePromises);
 
-        return await supabase.from('rooms').update({ curr_phase: 'reveal' }).eq('code', roomCode);
+        return await supabase.from('rooms').update({ curr_phase: 'discussion' }).eq('code', roomCode);
+    },
+
+    verifyGuess: async (roomCode: string, guess: string) => {
+        const { data: director } = await supabase
+            .from('players')
+            .select('secret_word')
+            .eq('room_code', roomCode)
+            .eq('role', 'director')
+            .single();
+
+        if (!director) return { error: 'No director found' };
+
+        try {
+            const secret = JSON.parse(director.secret_word);
+            const title = secret.title || '';
+
+            // Simple normalization for comparison
+            const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const isCorrect = normalize(title) === normalize(guess);
+
+            if (isCorrect) {
+                await supabase.from('rooms').update({ status: 'FINISHED' }).eq('code', roomCode);
+            }
+            return { correct: isCorrect, title };
+        } catch (e) {
+            return { error: 'Invalid game state' };
+        }
+    },
+
+    castVote: async (playerId: string, targetId: string) => {
+        return await supabase.from('players').update({ vote: targetId }).eq('id', playerId);
+    },
+
+    revealWavelength: async (roomCode: string) => {
+        // 1. Get Psychic data to broadcast
+        const { data: psychic } = await supabase
+            .from('players')
+            .select('secret_word')
+            .eq('room_code', roomCode)
+            .eq('role', 'psychic')
+            .single();
+
+        if (!psychic) return;
+
+        // 2. Broadcast to everyone so they can see the result
+        await supabase
+            .from('players')
+            .update({ secret_word: psychic.secret_word })
+            .eq('room_code', roomCode);
+
+        // 3. Move phase
+        return await supabase.from('rooms').update({ curr_phase: 'results' }).eq('code', roomCode);
     }
 };

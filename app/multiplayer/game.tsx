@@ -8,16 +8,44 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function OnlineGameScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
-    const { players, myPlayerId, isHost, gameMode, gamePhase, roomCode } = useOnlineGameStore();
+    const { players, myPlayerId, isHost, gameMode, gamePhase, roomCode, gameStatus } = useOnlineGameStore();
     const [revealed, setRevealed] = React.useState(false);
     const [chatVisible, setChatVisible] = React.useState(false);
+    const [guessVisible, setGuessVisible] = React.useState(false);
+    const [guess, setGuess] = React.useState('');
+    const [timeLeft, setTimeLeft] = React.useState(120);
+
+    // Initial Timer Sync could be improved, currently defaults 120
+
+    React.useEffect(() => {
+        if (gamePhase === 'discussion') {
+            const interval = setInterval(() => setTimeLeft(t => t > 0 ? t - 1 : 0), 1000);
+            return () => clearInterval(interval);
+        }
+    }, [gamePhase]);
+
+    const handleGuess = async () => {
+        if (!guess.trim() || !roomCode) return;
+
+        const { correct, error, title } = await GameAPI.verifyGuess(roomCode, guess);
+
+        if (correct) {
+            // Game Over handled by subscription to ROOM status 'FINISHED'
+            alert(`CORRECT! The movie was ${title}`);
+            setGuessVisible(false);
+        } else {
+            alert("Incorrect! Keep discussing.");
+            setGuessVisible(false); // Or keep open
+        }
+    };
+
 
     const myPlayer = players.find(p => p.id === myPlayerId);
 
@@ -46,11 +74,111 @@ export default function OnlineGameScreen() {
                     </View>
 
                     <View style={styles.cardContainer}>
-                        {gamePhase === 'setup' ? (
+                        {gamePhase === 'voting' ? (
+                            <View style={styles.cardRevealed}>
+                                <Text style={styles.roleLabel}>WHO IS THE IMPOSTER?</Text>
+                                <View style={{ width: '100%', gap: 10, marginTop: 20 }}>
+                                    {players.map(p => (
+                                        <TouchableOpacity
+                                            key={p.id}
+                                            onPress={() => {
+                                                if (roomCode && myPlayerId) GameAPI.castVote(myPlayerId, p.id);
+                                            }}
+                                            style={[
+                                                styles.voteOption,
+                                                players.find(me => me.id === myPlayerId)?.vote === p.id && styles.voteOptionSelected
+                                            ]}
+                                        >
+                                            <Text style={[
+                                                styles.voteName,
+                                                players.find(me => me.id === myPlayerId)?.vote === p.id && styles.voteNameSelected
+                                            ]}>
+                                                {p.name}
+                                            </Text>
+                                            {players.find(me => me.id === myPlayerId)?.vote === p.id && (
+                                                <Ionicons name="checkmark-circle" size={24} color={Colors.victorianBlack} />
+                                            )}
+                                        </TouchableOpacity>
+                                    ))}
+                                </View>
+
+                                <Text style={{ color: Colors.grayLight, fontSize: 12, marginTop: 10 }}>
+                                    {players.filter(p => p.vote).length} / {players.length} Voted
+                                </Text>
+
+                                {isHost && (
+                                    <View style={{ marginTop: 20, width: '100%' }}>
+                                        <Button
+                                            title="End Voting & Show Results"
+                                            onPress={() => roomCode && GameAPI.updateGamePhase(roomCode, 'results')}
+                                            variant="primary"
+                                        />
+                                    </View>
+                                )}
+                            </View>
+                        ) : gamePhase === 'results' || (gameStatus as any) === 'FINISHED' ? (
+                            <View style={[styles.cardRevealed, { borderColor: Colors.parchment }]}>
+                                {gameMode === 'wavelength' ? (
+                                    <>
+                                        <Ionicons name="analytics" size={60} color='#9D4EDD' />
+                                        <Text style={styles.roleName}>RESULTS</Text>
+                                        <Text style={styles.roleLabel}>THE TARGET WAS</Text>
+                                        <Text style={[styles.secretWord, { color: '#9D4EDD' }]}>
+                                            {(() => {
+                                                const known = players.find(p => p.secretWord && p.secretWord.includes('target'));
+                                                if (known) {
+                                                    try {
+                                                        const d = JSON.parse(known.secretWord!);
+                                                        return `${d.target}%`;
+                                                    } catch (e) { return "???"; }
+                                                }
+                                                return "???";
+                                            })()}
+                                        </Text>
+                                        <Text style={styles.modalSubtitle}>
+                                            {(() => {
+                                                const known = players.find(p => p.secretWord && p.secretWord.includes('target'));
+                                                if (known) {
+                                                    try {
+                                                        const d = JSON.parse(known.secretWord!);
+                                                        return `${d.left} <-----> ${d.right}`;
+                                                    } catch (e) { return ""; }
+                                                }
+                                                return "";
+                                            })()}
+                                        </Text>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Ionicons name="trophy" size={60} color={Colors.parchment} />
+                                        <Text style={styles.roleName}>GAME OVER</Text>
+
+                                        <View style={{ width: '100%', alignItems: 'center', marginVertical: 20 }}>
+                                            <Text style={styles.roleLabel}>THE IMPOSTER WAS</Text>
+                                            {players.filter(p => p.role === 'imposter').map(imp => (
+                                                <Text key={imp.id} style={[styles.secretWord, { color: '#FF4444' }]}>
+                                                    {imp.name}
+                                                </Text>
+                                            ))}
+                                        </View>
+                                    </>
+                                )}
+
+                                <Button
+                                    title="Back to Lobby"
+                                    onPress={() => router.replace('/multiplayer')}
+                                    variant="outline"
+                                />
+                            </View>
+                        ) : gamePhase === 'setup' ? (
                             myPlayer.role === 'director' ? (
                                 <DirectorSetup onConfirm={async (json) => {
                                     if (roomCode) {
                                         await GameAPI.setDirectorMovie(roomCode, json);
+                                        try {
+                                            const data = JSON.parse(json);
+                                            if (data.timer) setTimeLeft(data.timer);
+                                        } catch (e) { }
                                     }
                                 }} />
                             ) : (
@@ -131,13 +259,27 @@ export default function OnlineGameScreen() {
                                         }
 
                                     } else if (gameMode === 'wavelength') {
+                                        roleColor = '#9D4EDD'; // Purple for Wavelength
+                                        iconName = "analytics-outline";
+
+                                        let left = "Hot", right = "Cold", targetVal = 50;
+                                        try {
+                                            const d = JSON.parse(myPlayer.secretWord || '{}');
+                                            left = d.left;
+                                            right = d.right;
+                                            targetVal = d.target;
+                                        } catch (e) { }
+
                                         if (myPlayer.role === 'psychic') {
                                             roleTitle = "PSYCHIC";
-                                            hintText = "Give a clue that fits the target on the spectrum.";
+                                            secretLabelText = "YOUR TARGET";
+                                            secretDisplay = `${targetVal}%`;
+                                            hintText = `Give a clue that sits at ${targetVal}% between\n"${left}" and "${right}"`;
                                         } else {
                                             roleTitle = "GUESSER";
-                                            secretDisplay = "WAITING...";
-                                            hintText = "Discuss and guess where the target is.";
+                                            secretLabelText = "THE SPECTRUM";
+                                            secretDisplay = "???";
+                                            hintText = `Spectrum:\n${left} <----------> ${right}\n\nDiscuss where the clue fits!`;
                                         }
 
                                     } else {
@@ -173,20 +315,70 @@ export default function OnlineGameScreen() {
                         )}
                     </View>
 
-                    {isHost && (
+                    {gamePhase === 'discussion' && (
                         <View style={styles.footer}>
-                            <Button
-                                title="Start Discussion (Soon)"
-                                onPress={() => { }}
-                                variant="outline"
-                                disabled
-                                style={{ opacity: 0.5 }}
-                            />
+                            <Text style={styles.timerText}>
+                                {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
+                            </Text>
+                            <Text style={styles.timerLabel}>DISCUSSION TIME</Text>
+
+                            {myPlayer.role !== 'director' && (
+                                <View style={{ marginTop: 20, width: '100%', paddingHorizontal: 40, gap: 10 }}>
+                                    <Button
+                                        title="I Know The Movie!"
+                                        onPress={() => setGuessVisible(true)}
+                                        variant="primary"
+                                        icon={<Ionicons name="bulb" size={20} color="black" />}
+                                    />
+                                </View>
+                            )}
+
+                            {isHost && (
+                                <View style={{ marginTop: 10, width: '100%', paddingHorizontal: 40 }}>
+                                    <Button
+                                        title={gameMode === 'wavelength' ? "Reveal Target" : "Start Voting"}
+                                        onPress={async () => {
+                                            if (roomCode) {
+                                                if (gameMode === 'wavelength') {
+                                                    await GameAPI.revealWavelength(roomCode);
+                                                } else {
+                                                    await GameAPI.updateGamePhase(roomCode, 'voting');
+                                                }
+                                            }
+                                        }}
+                                        variant="outline"
+                                        icon={<Ionicons name={gameMode === 'wavelength' ? "eye-outline" : "finger-print"} size={20} color={Colors.parchment} />}
+                                    />
+                                </View>
+                            )}
                         </View>
                     )}
                 </View>
             </LinearGradient>
             <ChatModal visible={chatVisible} onClose={() => setChatVisible(false)} />
+
+            <Modal visible={guessVisible} transparent animationType="fade">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.guessCard}>
+                        <Text style={styles.modalTitle}>Guess The Movie</Text>
+                        <Text style={styles.modalSubtitle}>Type the full movie title to verify.</Text>
+
+                        <TextInput
+                            style={styles.guessInput}
+                            placeholder="Movie Title..."
+                            placeholderTextColor={Colors.grayLight}
+                            value={guess}
+                            onChangeText={setGuess}
+                            autoFocus
+                        />
+
+                        <View style={styles.modalActions}>
+                            <Button title="Cancel" variant="ghost" onPress={() => setGuessVisible(false)} />
+                            <Button title="Verify" variant="primary" onPress={handleGuess} disabled={!guess} />
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }
@@ -317,5 +509,42 @@ const styles = StyleSheet.create({
         width: '100%',
         position: 'absolute',
         bottom: 40,
-    }
+    },
+    timerText: {
+        fontSize: 32,
+        fontWeight: '800',
+        color: Colors.parchment,
+        textAlign: 'center',
+        letterSpacing: 2,
+        fontVariant: ['tabular-nums'],
+    },
+    timerLabel: {
+        fontSize: 12,
+        color: Colors.grayLight,
+        textAlign: 'center',
+        marginTop: 4,
+        letterSpacing: 1,
+        fontWeight: '700',
+    },
+
+    modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.8)', justifyContent: 'center', padding: 20 },
+    guessCard: { backgroundColor: '#111', borderRadius: 24, padding: 24, borderWidth: 1, borderColor: Colors.grayMedium, gap: 16 },
+    modalTitle: { fontSize: 24, fontWeight: '800', color: Colors.parchment, textAlign: 'center' },
+    modalSubtitle: { fontSize: 14, color: Colors.grayLight, textAlign: 'center' },
+    guessInput: { backgroundColor: '#222', borderRadius: 12, height: 50, paddingHorizontal: 16, color: 'white', fontSize: 18, borderWidth: 1, borderColor: '#333' },
+    modalActions: { flexDirection: 'row', justifyContent: 'center', gap: 12, marginTop: 10 },
+
+    voteOption: {
+        width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+        padding: 16, backgroundColor: '#222', borderRadius: 12, borderWidth: 1, borderColor: '#333'
+    },
+    voteOptionSelected: {
+        backgroundColor: Colors.parchment, borderColor: Colors.parchment
+    },
+    voteName: {
+        fontSize: 16, color: Colors.parchment, fontWeight: '700'
+    },
+    voteNameSelected: {
+        color: Colors.victorianBlack
+    },
 });

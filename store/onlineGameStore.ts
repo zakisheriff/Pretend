@@ -17,7 +17,7 @@ interface OnlineGameState {
     myPlayerId: string | null;
     players: Player[];
     gameStatus: 'LOBBY' | 'PLAYING' | 'FINISHED';
-    gamePhase: 'setup' | 'reveal' | 'discussion' | 'voting' | null;
+    gamePhase: 'setup' | 'reveal' | 'discussion' | 'voting' | 'results' | null;
     gameMode: string | null;
     messages: ChatMessage[];
 
@@ -25,6 +25,7 @@ interface OnlineGameState {
     // Actions
     setRoomInfo: (code: string, isHost: boolean, playerId: string, initialPlayer?: any) => void;
     setGameInfo: (status: 'LOBBY' | 'PLAYING' | 'FINISHED', mode: string, phase?: string) => void;
+    setPlayerRole: (id: string, role: string) => void;
     syncGameState: (newState: any) => void;
     leaveGame: () => void;
     sendChatMessage: (content: string) => Promise<void>;
@@ -38,7 +39,8 @@ const mapPlayer = (p: any) => ({
     isImposter: p.role === 'imposter',
     score: p.score || 0,
     secretWord: p.secret_word,
-    role: p.role
+    role: p.role || 'viewer', // Default to viewer if role is null to avoid issues
+    vote: p.vote
 });
 
 export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
@@ -50,6 +52,12 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
     gamePhase: null,
     gameMode: null,
     messages: [],
+
+    setPlayerRole: (id, role: any) => {
+        set(state => ({
+            players: state.players.map(p => p.id === id ? { ...p, role } : p)
+        }));
+    },
 
     setRoomInfo: (code, isHost, playerId, initialPlayer) => {
         const startPlayers = initialPlayer ? [mapPlayer(initialPlayer)] : [];
