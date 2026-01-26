@@ -267,17 +267,42 @@ export const GameAPI = {
     },
 
     setDirectorMovie: async (roomCode: string, movieJson: string) => {
-        const { data: players } = await supabase.from('players').select('*').eq('room_code', roomCode);
+        // Fetch all players in the room first
+        const { data: players, error: fetchError } = await supabase
+            .from('players')
+            .select('id, role')
+            .eq('room_code', roomCode);
+
+        if (fetchError) throw fetchError;
         if (!players) return;
 
-        const updatePromises = players.map(p => {
-            const secret = p.role === 'director' ? movieJson : '???';
-            return supabase.from('players').update({ secret_word: secret }).eq('id', p.id);
-        });
+        const director = players.find(p => p.role === 'director');
+        const others = players.filter(p => p.role !== 'director');
 
-        await Promise.all(updatePromises);
+        // 1. Update the director's secret_word
+        if (director) {
+            const { error: dError } = await supabase
+                .from('players')
+                .update({ secret_word: movieJson })
+                .eq('id', director.id);
+            if (dError) throw dError;
+        }
 
-        return await supabase.from('rooms').update({ curr_phase: 'discussion' }).eq('code', roomCode);
+        // 2. Update all other players
+        if (others.length > 0) {
+            const otherIds = others.map(o => o.id);
+            const { error: vError } = await supabase
+                .from('players')
+                .update({ secret_word: '???' })
+                .in('id', otherIds);
+            if (vError) throw vError;
+        }
+
+        // 3. Move to discussion phase
+        return await supabase
+            .from('rooms')
+            .update({ curr_phase: 'discussion' })
+            .eq('code', roomCode);
     },
 
     verifyGuess: async (roomCode: string, guess: string) => {

@@ -38,6 +38,9 @@ export default function OnlineGameScreen() {
         players, myPlayerId, isHost, gameMode, gamePhase, roomCode, gameStatus
     } = useOnlineGameStore();
     const [revealed, setRevealed] = React.useState(false);
+    const [selectedDirectorId, setSelectedDirectorId] = React.useState<string | null>(null);
+    const [loading, setLoading] = React.useState(false);
+    const [showPlayerSelect, setShowPlayerSelect] = React.useState(false);
     const [guessVisible, setGuessVisible] = React.useState(false);
     const [guess, setGuess] = React.useState('');
     const [timeLeft, setTimeLeft] = React.useState(120);
@@ -52,6 +55,13 @@ export default function OnlineGameScreen() {
         if (gamePhase === 'discussion') {
             const interval = setInterval(() => setTimeLeft(t => t > 0 ? t - 1 : 0), 1000);
             return () => clearInterval(interval);
+        }
+    }, [gamePhase]);
+
+    // Sync revealed state if phase moves past setup
+    React.useEffect(() => {
+        if (gamePhase === 'discussion' || gamePhase === 'voting' || gamePhase === 'results') {
+            setRevealed(true);
         }
     }, [gamePhase]);
 
@@ -177,12 +187,17 @@ export default function OnlineGameScreen() {
                                                 if (myPlayer.role === 'director') {
                                                     roleTitle = "THE DIRECTOR";
                                                     roleColor = Colors.parchment;
-                                                    hintText = "Act out this movie silently! No talking!";
+                                                    hintText = "Only Yes or No for The Questions.";
                                                     iconName = "videocam-outline";
                                                     try {
-                                                        const data = JSON.parse(myPlayer.secretWord || '{}');
-                                                        secretDisplay = data.title || 'Choosing...';
-                                                        secretLabelText = data.genre ? `${data.genre?.toUpperCase()} • ${data.year}` : 'PREPARING MOVIE...';
+                                                        const secretStr = myPlayer.secretWord;
+                                                        if (secretStr && secretStr !== 'WAITING' && secretStr !== '???') {
+                                                            const data = JSON.parse(secretStr);
+                                                            secretDisplay = data.title || 'Choosing...';
+                                                            secretLabelText = data.genre ? `${data.genre?.toUpperCase()} • ${data.year}` : 'PREPARING MOVIE...';
+                                                        } else {
+                                                            secretDisplay = secretStr === 'WAITING' ? 'Choosing...' : (secretStr || '...');
+                                                        }
                                                     } catch (e) {
                                                         secretDisplay = myPlayer.secretWord || '...';
                                                     }
@@ -190,7 +205,7 @@ export default function OnlineGameScreen() {
                                                     roleTitle = "AUDIENCE";
                                                     secretDisplay = "???";
                                                     secretLabelText = "GUESS THE MOVIE";
-                                                    hintText = "Watch the Director and guess the movie!";
+                                                    hintText = "Ask Questions from the Director and Get Yes or No Answers.";
                                                     iconName = "eye-outline";
                                                 }
                                             } else if (gameMode === 'wavelength') {
