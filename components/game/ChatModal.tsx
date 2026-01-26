@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
         lineHeight: 20, // Explicit line height for consistency
         textAlignVertical: 'center', // Android vertical center
         color: '#FFF',
-        fontSize: 14,
+        fontSize: 16,
         borderWidth: 1,
         borderColor: '#444',
         ...Platform.select({
