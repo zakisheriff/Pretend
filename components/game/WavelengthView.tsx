@@ -2,6 +2,7 @@ import { GameAPI } from '@/api/game';
 import { Colors } from '@/constants/colors';
 import { Player } from '@/types/game';
 import { haptics } from '@/utils/haptics';
+import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -110,6 +111,13 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase }: Wav
     return (
         <GestureHandlerRootView style={{ flex: 1, width: '100%', alignItems: 'center' }}>
             <View style={styles.container}>
+                {/* Psychic Identity Indicator */}
+                <View style={styles.psychicHeader}>
+                    <Text style={styles.psychicText}>
+                        <Ionicons name="eye-outline" size={14} color={Colors.candlelight} /> PSYCHIC: {players.find(p => p.role === 'psychic')?.name || 'Choosing...'}
+                    </Text>
+                </View>
+
                 {/* Labels */}
                 <View style={styles.labelsRow}>
                     <Text style={[styles.spectrumLabelLeft, { color: SPECTRUM_LEFT }]}>{left}</Text>
@@ -228,8 +236,17 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase }: Wav
                         </View>
                     )}
 
+                    {!isPsychic && gamePhase === 'reveal' && (
+                        <View style={styles.guessCard}>
+                            <Ionicons name="chatbubble-ellipses-outline" size={48} color={Colors.grayLight} style={{ opacity: 0.5, marginBottom: 10 }} />
+                            <Text style={styles.statusText}>
+                                Waiting for {players.find(p => p.role === 'psychic')?.name || 'the Psychic'} to give a clue...
+                            </Text>
+                        </View>
+                    )}
+
                     {isPsychic && gamePhase === 'reveal' && (
-                        <Text style={styles.instructions}>Target is at {Math.round((target! - 50) * 2)}</Text>
+                        <Text style={styles.instructions}>Target: {Math.round((target! - 50) * 2)}% on the spectrum</Text>
                     )}
                 </View>
             </View>
@@ -239,6 +256,22 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase }: Wav
 
 const styles = StyleSheet.create({
     container: { width: '100%', alignItems: 'center' },
+    psychicHeader: {
+        marginBottom: 10,
+        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+        paddingHorizontal: 12,
+        paddingVertical: 4,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.1)'
+    },
+    psychicText: {
+        color: Colors.candlelight,
+        fontSize: 10,
+        fontWeight: '900',
+        letterSpacing: 2,
+        textTransform: 'uppercase'
+    },
     labelsRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',

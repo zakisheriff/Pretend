@@ -110,13 +110,13 @@ export default function MultiplayerScreen() {
                             </View>
 
                             <View style={styles.mainContent}>
-                                {!isJoining && !isFocused && (
-                                    <Animated.View entering={FadeInDown.delay(100).duration(500)} style={styles.heroSection}>
-                                        <View style={styles.iconContainer}>
-                                            <Ionicons name="globe-outline" size={60} color={Colors.candlelight} />
+                                {!isJoining && (
+                                    <Animated.View entering={FadeInDown.delay(100).duration(500)} style={[styles.heroSection, isFocused && styles.heroSectionFocused]}>
+                                        <View style={[styles.iconContainer, isFocused && styles.iconContainerFocused]}>
+                                            <Ionicons name="globe-outline" size={isFocused ? 40 : 60} color={Colors.candlelight} />
                                         </View>
-                                        <Text style={styles.title}>Play Remote</Text>
-                                        <Text style={styles.subtitle}>Connect with friends across devices</Text>
+                                        <Text style={[styles.title, isFocused && styles.titleFocused]}>Play Remote</Text>
+                                        {!isFocused && <Text style={styles.subtitle}>Connect with friends across devices</Text>}
                                     </Animated.View>
                                 )}
 
@@ -144,6 +144,7 @@ export default function MultiplayerScreen() {
                                                     variant="primary"
                                                     size="large"
                                                     disabled={!name.trim()}
+                                                    loading={loading}
                                                     icon={<Ionicons name="add-circle-outline" size={24} color={Colors.victorianBlack} />}
                                                     style={styles.actionButton}
                                                 />
@@ -236,11 +237,14 @@ const styles = StyleSheet.create({
     mainContent: {
         flex: 1,
         justifyContent: 'center',
-        paddingBottom: 60,
+        paddingBottom: 40,
     },
     heroSection: {
         alignItems: 'center',
-        marginBottom: 60,
+        marginBottom: 40,
+    },
+    heroSectionFocused: {
+        marginBottom: 20,
     },
     iconContainer: {
         width: 100,
@@ -249,9 +253,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(196, 167, 108, 0.1)',
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 20,
+        marginBottom: 15,
         borderWidth: 1,
         borderColor: 'rgba(196, 167, 108, 0.3)',
+    },
+    iconContainerFocused: {
+        width: 60,
+        height: 60,
+        marginBottom: 10,
     },
     title: {
         fontSize: 32,
@@ -259,6 +268,10 @@ const styles = StyleSheet.create({
         color: Colors.parchment,
         marginBottom: 10,
         letterSpacing: 1,
+    },
+    titleFocused: {
+        fontSize: 20,
+        marginBottom: 5,
     },
     subtitle: {
         fontSize: 16,

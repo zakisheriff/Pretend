@@ -1,3 +1,4 @@
+import { FloatingChat } from '@/components/game/FloatingChat';
 import { useGameStore } from '@/store/gameStore';
 import { Stack, usePathname, useRootNavigationState, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -17,7 +18,6 @@ export default function RootLayout() {
     if (!rootNavigationState?.key) return;
 
     // List of routes that require active game state
-    // We check against the pathname to be sure
     const protectedPaths = [
       '/game-settings',
       '/role-reveal',
@@ -28,15 +28,9 @@ export default function RootLayout() {
       '/police-arrest'
     ];
 
-    // Check if current path matches any protected route
-    // We utilize startsWith to catch sub-routes or params
     const isProtectedRoute = protectedPaths.some(path => pathname === path || pathname.startsWith(path + '/'));
 
-    // If we are on a protected route but have no players (meaning state was lost/refreshed),
-    // redirect to home immediately
     if (isProtectedRoute && !hasPlayers) {
-      // Use setTimeout to avoid "Navigate before mount" error
-      // likely due to the effect running before the navigator is fully attached
       setTimeout(() => {
         router.replace('/');
       }, 0);
@@ -51,7 +45,7 @@ export default function RootLayout() {
             headerShown: false,
             contentStyle: styles.content,
             animation: 'default',
-            gestureEnabled: false, // Disable back gesture - no going back in game
+            gestureEnabled: false,
           }}
         >
           <Stack.Screen name="index" />
@@ -78,6 +72,7 @@ export default function RootLayout() {
 
           <Stack.Screen name="how-to-play" options={{ presentation: 'modal' }} />
         </Stack>
+        <FloatingChat />
         <StatusBar style="light" />
       </View>
     </GestureHandlerRootView>

@@ -134,41 +134,31 @@ export const GameAPI = {
             const updatePromises: any[] = [];
 
             switch (gameMode) {
-                // ... (time-bomb same) ...
                 case 'time-bomb':
-                    // Time Bomb Logic
                     const categories = ['Movie', 'Food', 'Game', 'Animal', 'Brand', 'City', 'Country', 'Song', 'Celebrity'];
                     const category = categories[Math.floor(Math.random() * categories.length)];
                     const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
-                    // Store data in secret_word as JSON for MVP
                     const payload = JSON.stringify({ category, letter });
 
-                    players.forEach(p => {
-                        updatePromises.push(
-                            supabase.from('players').update({ role: 'player', secret_word: payload }).eq('id', p.id)
-                        );
-                    });
+                    await supabase
+                        .from('players')
+                        .update({ role: 'player', secret_word: payload, vote: null })
+                        .eq('room_code', roomCode);
                     break;
 
                 case 'directors-cut':
-                    // Director's Cut: 1 Director (Manual or Random), others Viewers.
                     let directorId = options.directorId;
-
                     if (!directorId) {
                         const randomPlayer = players[Math.floor(Math.random() * players.length)];
                         directorId = randomPlayer.id;
                     }
-
                     const targetDirectorId = String(directorId).trim();
 
-                    // Sequential updates are more robust than parallel loop
-                    // 1. Reset all to viewer
                     await supabase
                         .from('players')
-                        .update({ role: 'viewer', secret_word: 'WAITING' })
+                        .update({ role: 'viewer', secret_word: 'WAITING', vote: null })
                         .eq('room_code', roomCode);
 
-                    // 2. Set the director
                     await supabase
                         .from('players')
                         .update({ role: 'director' })
@@ -176,30 +166,28 @@ export const GameAPI = {
                     break;
 
                 case 'wavelength':
-                    // Wavelength: 1 Psychic, others Guessers
                     const psychicIndex = Math.floor(Math.random() * players.length);
+                    const psychicPlayer = players[psychicIndex];
                     const spectrum = WAVELENGTH_SPECTRUMS[Math.floor(Math.random() * WAVELENGTH_SPECTRUMS.length)];
-                    // Random target percentage (0-100)
                     const target = Math.floor(Math.random() * 100);
 
                     const wavelengthPayload = JSON.stringify({ ...spectrum, target });
-                    // Guessers need to know the spectrum (Left/Right) but NOT the target
                     const guesserPayload = JSON.stringify({ ...spectrum, target: null });
 
-                    players.forEach((p, i) => {
-                        const isPsychic = i === psychicIndex;
-                        const role = isPsychic ? 'psychic' : 'guesser';
-                        // Psychic sees spectrum AND target. Guessers see spectrum only.
-                        const secret = isPsychic ? wavelengthPayload : guesserPayload;
-                        updatePromises.push(
-                            supabase.from('players').update({ role, secret_word: secret }).eq('id', p.id)
-                        );
-                    });
+                    // Sequential assignment
+                    await supabase
+                        .from('players')
+                        .update({ role: 'guesser', secret_word: guesserPayload, vote: null })
+                        .eq('room_code', roomCode);
+
+                    await supabase
+                        .from('players')
+                        .update({ role: 'psychic', secret_word: wavelengthPayload })
+                        .eq('id', psychicPlayer.id);
                     break;
 
                 case 'undercover-word':
                 default:
-                    // DEFAULT: Undercover / Classic Imposter (2+ Players supported logic)
                     const WORD_PAIRS = [
                         { crew: "Coffee", imposter: "Tea" },
                         { crew: "Sun", imposter: "Moon" },
@@ -215,19 +203,19 @@ export const GameAPI = {
 
                     const pair = WORD_PAIRS[Math.floor(Math.random() * WORD_PAIRS.length)];
                     const imposterIndex = Math.floor(Math.random() * players.length);
+                    const imposterPlayer = players[imposterIndex];
 
-                    players.forEach((p, index) => {
-                        const isImposter = index === imposterIndex;
-                        const role = isImposter ? 'imposter' : 'crewmate';
-                        const secretWord = isImposter ? pair.imposter : pair.crew;
-                        updatePromises.push(
-                            supabase.from('players').update({ role, secret_word: secretWord }).eq('id', p.id)
-                        );
-                    });
+                    await supabase
+                        .from('players')
+                        .update({ role: 'crewmate', secret_word: pair.crew, vote: null })
+                        .eq('room_code', roomCode);
+
+                    await supabase
+                        .from('players')
+                        .update({ role: 'imposter', secret_word: pair.imposter })
+                        .eq('id', imposterPlayer.id);
                     break;
             }
-
-            await Promise.all(updatePromises);
 
             // 5. Start Game
             const initialPhase = gameMode === 'directors-cut' ? 'setup' : 'reveal';
@@ -339,7 +327,8 @@ export const GameAPI = {
         } catch (e) { }
 
         // 2. Award points to guessers based on distance
-        const updatePromises = (players || []).map(p => {
+        let maxPointsForPsychic = 0;
+        const guesserUpdatePromises = (players || []).map(p => {
             if (p.role === 'psychic' || !p.vote) return null;
 
             const guess = parseInt(p.vote);
@@ -349,23 +338,26 @@ export const GameAPI = {
             if (distance <= 5) pointsAwarded = 2; // Bullseye
             else if (distance <= 15) pointsAwarded = 1; // Close
 
+            if (pointsAwarded > maxPointsForPsychic) maxPointsForPsychic = pointsAwarded;
+
             if (pointsAwarded > 0) {
                 return supabase.from('players').update({ score: (p.score || 0) + pointsAwarded }).eq('id', p.id);
             }
             return null;
         }).filter(Boolean);
 
-        // 3. Broadcast psychic data so they can see results
-        updatePromises.push(
-            supabase.from('players').update({ secret_word: psychic.secret_word }).eq('room_code', roomCode)
-        );
+        await Promise.all(guesserUpdatePromises);
 
-        // 4. Move phase
-        updatePromises.push(
-            supabase.from('rooms').update({ curr_phase: 'results', status: 'FINISHED' }).eq('code', roomCode)
-        );
+        // 3. Award points to Psychic (matches best guesser)
+        if (psychic && maxPointsForPsychic > 0) {
+            await supabase.from('players').update({ score: (psychic.score || 0) + maxPointsForPsychic }).eq('id', psychic.id);
+        }
 
-        return await Promise.all(updatePromises);
+        // 4. Broadcast psychic data so they can see results (update everyone's secret_word to the one containing target)
+        await supabase.from('players').update({ secret_word: psychic.secret_word }).eq('room_code', roomCode);
+
+        // 5. Move phase
+        return await supabase.from('rooms').update({ curr_phase: 'results', status: 'FINISHED' }).eq('code', roomCode);
     },
 
     setDirectorWinner: async (roomCode: string, winnerId: string | null) => {
@@ -391,12 +383,27 @@ export const GameAPI = {
 
     resetRoom: async (roomCode: string) => {
         // 1. Reset players: clear role, secret_word, vote. KEEP score.
-        const { error: pError } = await supabase
+        // Fetch player IDs first to ensure robustness
+        const { data: playersToReset, error: fetchError } = await supabase
             .from('players')
-            .update({ role: 'viewer', secret_word: null, vote: null })
+            .select('id')
             .eq('room_code', roomCode);
 
-        if (pError) throw pError;
+        if (fetchError) throw fetchError;
+
+        if (playersToReset && playersToReset.length > 0) {
+            const playerIds = playersToReset.map(p => p.id);
+            const { error: pError } = await supabase
+                .from('players')
+                .update({
+                    role: 'viewer',
+                    secret_word: '',
+                    vote: null
+                })
+                .in('id', playerIds); // Use .in() with the fetched IDs
+
+            if (pError) throw pError;
+        }
 
         // 2. Reset room: status LOBBY, curr_phase null
         return await supabase

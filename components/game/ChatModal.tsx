@@ -61,7 +61,9 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                         const isMe = item.senderId === myPlayerId;
                         return (
                             <View style={[styles.messageRow, isMe ? styles.myRow : styles.otherRow]}>
-                                {!isMe && <Text style={styles.senderName}>{item.senderName}</Text>}
+                                <Text style={[styles.senderName, isMe && { marginRight: 4, alignSelf: 'flex-end', color: Colors.gaslightAmber }]}>
+                                    {item.senderName} {isMe ? '(You)' : ''}
+                                </Text>
                                 <View style={[styles.bubble, isMe ? styles.myBubble : styles.otherBubble]}>
                                     <Text style={[styles.msgText, isMe ? styles.myMsgText : styles.otherMsgText]}>
                                         {item.content}
@@ -81,7 +83,7 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                         <TextInput
                             style={styles.input}
                             placeholder="Type a message..."
-                            placeholderTextColor={Colors.grayMedium}
+                            placeholderTextColor={Colors.grayLight}
                             value={inputText}
                             onChangeText={setInputText}
                             returnKeyType="send"
@@ -91,7 +93,8 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                             <Ionicons
                                 name="send"
                                 size={24}
-                                color={inputText.trim() ? Colors.parchment : Colors.grayMedium}
+                                color={inputText.trim() ? Colors.victorianBlack : Colors.grayLight}
+                                style={{ marginLeft: 4 }}
                             />
                         </TouchableOpacity>
                     </View>
@@ -152,13 +155,20 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     myBubble: {
-        backgroundColor: Colors.victorianBlack,
+        backgroundColor: '#2A2A2A',
         borderWidth: 1,
-        borderColor: Colors.grayMedium,
+        borderColor: '#444',
         borderBottomRightRadius: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
+        elevation: 3,
     },
     otherBubble: {
-        backgroundColor: '#222',
+        backgroundColor: '#1E1E1E',
+        borderWidth: 1,
+        borderColor: '#333',
         borderBottomLeftRadius: 4,
     },
     msgText: {
@@ -174,26 +184,29 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         padding: 16,
+        paddingTop: 12,
         borderTopWidth: 1,
-        borderTopColor: '#222',
-        backgroundColor: '#000',
+        borderTopColor: '#333',
+        backgroundColor: '#1A1A1A',
         gap: 12,
     },
     input: {
         flex: 1,
-        height: 44,
-        backgroundColor: '#222',
-        borderRadius: 22,
+        height: 48,
+        backgroundColor: '#333',
+        borderRadius: 24,
         paddingHorizontal: 20,
         color: '#FFF',
         fontSize: 16,
+        borderWidth: 1,
+        borderColor: '#444',
     },
     sendBtn: {
-        width: 44,
-        height: 44,
-        borderRadius: 22,
+        width: 48,
+        height: 48,
+        borderRadius: 24,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#222',
+        backgroundColor: Colors.parchment,
     },
 });

@@ -1,6 +1,5 @@
 import { GameAPI } from '@/api/game';
 import { Button } from '@/components/game';
-import { ChatModal } from '@/components/game/ChatModal';
 import { Colors } from '@/constants/colors';
 import { useCustomAlert } from '@/hooks/useCustomAlert';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
@@ -8,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -17,7 +16,7 @@ export default function LobbyScreen() {
     const insets = useSafeAreaInsets();
     const { showAlert, AlertComponent } = useCustomAlert();
     const { roomCode, players, isHost, leaveGame, gameStatus, removePlayer } = useOnlineGameStore();
-    const [chatVisible, setChatVisible] = React.useState(false);
+    // chatVisible removed
 
     // Check DB Permissions
     React.useEffect(() => {
@@ -120,9 +119,7 @@ export default function LobbyScreen() {
                             <Text style={styles.roomLabel}>ROOM CODE</Text>
                             <Text style={styles.roomCode}>{roomCode}</Text>
                         </View>
-                        <TouchableOpacity onPress={() => setChatVisible(true)} style={styles.chatButton}>
-                            <Ionicons name="chatbubbles-outline" size={24} color={Colors.parchment} />
-                        </TouchableOpacity>
+                        <View style={{ width: 44 }} />
                     </View>
 
                     <Text style={styles.subtitle}>Waiting for players...</Text>
@@ -154,8 +151,6 @@ export default function LobbyScreen() {
                     </View>
                 </View>
             </LinearGradient>
-            <AlertComponent />
-            <ChatModal visible={chatVisible} onClose={() => setChatVisible(false)} />
         </View>
     );
 }
