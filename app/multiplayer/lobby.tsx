@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -20,6 +20,7 @@ export default function LobbyScreen() {
     // Handle being kicked
     React.useEffect(() => {
         if (kicked) {
+            leaveGame();
             router.replace('/');
         }
     }, [kicked]);
@@ -55,6 +56,7 @@ export default function LobbyScreen() {
     };
 
     const handleKick = async (playerId: string, playerName: string) => {
+        console.log('handleKick called for:', playerName, playerId);
         showAlert(
             "Remove Player",
             `Are you sure you want to remove ${playerName}?`,
@@ -69,8 +71,11 @@ export default function LobbyScreen() {
 
                         const { error } = await GameAPI.leaveRoom(playerId);
                         if (error) {
-                            showAlert("Error", "Failed to remove player from DB: " + error.message);
-                            // If failed, they might reappear on next fetch/sync
+                            console.error('Kick error:', error);
+                            const msg = error.message === 'RLS_BLOCK'
+                                ? "Supabase is blocking the host from deleting other players. Please run the SQL fix in the walkthrough."
+                                : "Failed to remove player: " + error.message;
+                            showAlert("Database Permission Error", msg, [{ text: "OK" }]);
                         }
                     }
                 }
@@ -92,14 +97,16 @@ export default function LobbyScreen() {
                 </View>
             )}
             {isHost && item.id !== useOnlineGameStore.getState().myPlayerId && (
-                <Button
-                    title=""
-                    onPress={() => handleKick(item.id, item.name)}
-                    variant="ghost"
-                    size="small"
-                    icon={<Ionicons name="close-circle-outline" size={24} color="#FF4444" />}
-                    style={{ width: 40, height: 40, paddingHorizontal: 0 }}
-                />
+                <TouchableOpacity
+                    onPress={() => {
+                        console.log('KICK BUTTON TAPPED for:', item.name);
+                        handleKick(item.id, item.name);
+                    }}
+                    hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                    style={[styles.kickButton, { zIndex: 100 }]}
+                >
+                    <Ionicons name="close-circle-outline" size={32} color="#FF4444" />
+                </TouchableOpacity>
             )}
         </Animated.View>
     );
@@ -144,7 +151,7 @@ export default function LobbyScreen() {
                     <View style={styles.footer}>
                         {isHost ? (
                             <Button
-                                title={`Start Game (${players.length})`}
+                                title={`Start Game with ${players.length} Players`}
                                 onPress={handleStartGame}
                                 variant="primary"
                                 size="large"
@@ -158,6 +165,7 @@ export default function LobbyScreen() {
                     </View>
                 </View>
             </LinearGradient>
+            <AlertComponent />
         </View>
     );
 }
@@ -239,6 +247,14 @@ const styles = StyleSheet.create({
         color: Colors.parchment,
         fontWeight: '700',
         flex: 1,
+    },
+    kickButton: {
+        width: 44,
+        height: 44,
+        alignItems: 'center',
+        justifyContent: 'center',
+        // @ts-ignore
+        cursor: 'pointer',
     },
     hostBadge: {
         fontSize: 12,

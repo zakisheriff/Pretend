@@ -58,7 +58,7 @@ export const FloatingChat = () => {
                 {...panResponder.panHandlers}
                 style={[
                     styles.wrapper,
-                    { bottom: Math.max(insets.bottom + 20, 40) },
+                    { bottom: Math.max(insets.bottom + 100, 120) },
                     { transform: pan.getTranslateTransform() },
                 ]}
             >

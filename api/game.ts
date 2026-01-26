@@ -103,14 +103,22 @@ export const GameAPI = {
      * Leave a room
      */
     leaveRoom: async (playerId: string) => {
-        return await supabase.from('players').delete().eq('id', playerId).select();
+        const res = await supabase.from('players').delete().eq('id', playerId).select();
+        if (res.error) console.error('Supabase leaveRoom error:', res.error);
+        if (res.data && res.data.length === 0) {
+            console.warn('leaveRoom: No rows deleted. This usually means RLS is blocking the host from deleting other players.');
+            return { data: res.data, error: { message: 'RLS_BLOCK' } as any };
+        }
+        return res;
     },
 
     /**
      * Delete a room (Host only)
      */
     deleteRoom: async (roomCode: string) => {
-        return await supabase.from('rooms').delete().eq('code', roomCode);
+        // First delete players explicitly to be sure (since we don't know if CASCADE is set)
+        await supabase.from('players').delete().eq('room_code', roomCode.toUpperCase());
+        return await supabase.from('rooms').delete().eq('code', roomCode.toUpperCase());
     },
 
     /**

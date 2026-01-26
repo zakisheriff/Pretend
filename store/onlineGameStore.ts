@@ -123,17 +123,26 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
             )
             .on(
                 'postgres_changes',
-                { event: 'DELETE', schema: 'public', table: 'players', filter: `room_code=eq.${code}` },
+                { event: 'DELETE', schema: 'public', table: 'players' },
                 (payload) => {
-                    const { myPlayerId } = get();
+                    const { myPlayerId, players } = get();
+                    console.log('Player DELETE event received:', payload.old.id);
+
+                    // 1. If I am the one deleted, I was kicked
                     if (payload.old.id === myPlayerId) {
+                        console.log('I have been kicked/removed from the room.');
                         set({ kicked: true });
-                        get().leaveGame();
+                        // redirection handled in UI components
                         return;
                     }
-                    set(state => ({
-                        players: state.players.filter(p => p.id !== payload.old.id)
-                    }));
+
+                    // 2. Only update if the deleted player was actually in our list
+                    const exists = players.some(p => p.id === payload.old.id);
+                    if (exists) {
+                        set(state => ({
+                            players: state.players.filter(p => p.id !== payload.old.id)
+                        }));
+                    }
                 }
             )
             .on(

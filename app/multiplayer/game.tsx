@@ -49,6 +49,7 @@ export default function OnlineGameScreen() {
         if (gameStatus === 'LOBBY') {
             router.replace('/multiplayer/lobby' as any);
         } else if (kicked) {
+            leaveGame();
             router.replace('/');
         }
     }, [gameStatus, kicked]);
