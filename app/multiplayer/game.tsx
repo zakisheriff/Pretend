@@ -35,7 +35,10 @@ function DirectorVerdictModal({ visible, onClose }: { visible: boolean; onClose:
 export default function OnlineGameScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
-    const { players, myPlayerId, isHost, gameMode, gamePhase, roomCode, gameStatus } = useOnlineGameStore();
+    const {
+        players, myPlayerId, isHost, gameMode, gamePhase, roomCode, gameStatus,
+        unreadMessageCount
+    } = useOnlineGameStore();
     const [revealed, setRevealed] = React.useState(false);
     const [chatVisible, setChatVisible] = React.useState(false);
     const [guessVisible, setGuessVisible] = React.useState(false);
@@ -43,6 +46,12 @@ export default function OnlineGameScreen() {
     const [timeLeft, setTimeLeft] = React.useState(120);
 
     // Initial Timer Sync could be improved, currently defaults 120
+
+    React.useEffect(() => {
+        if (gameStatus === 'LOBBY') {
+            router.replace('/multiplayer/lobby' as any);
+        }
+    }, [gameStatus]);
 
     React.useEffect(() => {
         if (gamePhase === 'discussion') {
@@ -88,14 +97,19 @@ export default function OnlineGameScreen() {
 
                         <View style={styles.headerRow}>
                             <View style={{ width: 40 }} />
-                            <View style={{ alignItems: 'center' }}>
-                                <Text style={styles.headerTitle}>Game In Progress</Text>
-                                <Text style={{ color: 'rgba(255,255,255,0.3)', fontSize: 10 }}>
-                                    DEBUG: {myPlayer.role || 'no-role'} | {myPlayer.id.substring(0, 8)}
-                                </Text>
-                            </View>
+                            <Text style={styles.headerTitle}>Game In Progress</Text>
                             <TouchableOpacity onPress={() => setChatVisible(true)} style={styles.chatButton}>
                                 <Ionicons name="chatbubbles-outline" size={24} color={Colors.parchment} />
+                                {unreadMessageCount > 0 && (
+                                    <View style={{
+                                        position: 'absolute', top: -2, right: -2,
+                                        width: 14, height: 14, borderRadius: 7,
+                                        backgroundColor: '#FF4444', alignItems: 'center', justifyContent: 'center',
+                                        borderWidth: 1, borderColor: 'black'
+                                    }}>
+                                        <Text style={{ color: 'white', fontSize: 8, fontWeight: 'bold' }}>{unreadMessageCount}</Text>
+                                    </View>
+                                )}
                             </TouchableOpacity>
                         </View>
 
@@ -153,7 +167,7 @@ export default function OnlineGameScreen() {
                                         <Text style={styles.tapText}>TAP TO REVEAL ROLE</Text>
                                     </Animated.View>
                                 </TouchableOpacity>
-                            ) : (
+                            ) : (revealed || (gamePhase === 'discussion' && myPlayer.role === 'director')) ? (
                                 <Animated.View entering={FadeIn.duration(500)} style={styles.cardRevealed}>
                                     {(() => {
                                         let roleTitle = "CIVILIAN";
@@ -253,6 +267,10 @@ export default function OnlineGameScreen() {
                                         );
                                     })()}
                                 </Animated.View>
+                            ) : (
+                                <View style={[styles.center, { flex: 1 }]}>
+                                    <Text style={{ color: Colors.grayLight, fontSize: 14 }}>Waiting for reveal...</Text>
+                                </View>
                             )}
                         </View>
 

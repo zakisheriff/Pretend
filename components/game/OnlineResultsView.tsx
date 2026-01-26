@@ -53,21 +53,13 @@ export function OnlineResultsView() {
 
     const handlePlayAgain = async () => {
         haptics.medium();
-        // Host logic to reset game
-        // In a real app we'd call an API to reset the room state on server
-        // For now we assume resetGame handles local, but we need an API call to sync room status
-        // We will assume a GameAPI.resetGame exists or similar, but for now let's just use the store
-        // and ideally we'd trigger a room update. 
-        // NOTE: The implementation plan mentioned adding resetGame to store.
-        // We probably need to signal the SERVER to reset. 
-        // Since I can't edit API right now easily, I will just call resetGame locally 
-        // and assume the user will navigate back to lobby via API update in `leaveGame` or similar if needed.
-        // BUT actually, to "Play Again" means going back to Lobby. 
-
-        // Host should update room status to LOBBY.
         if (isHost && roomCode) {
-            const { GameAPI } = require('@/api/game');
-            await GameAPI.updateGameStatus(roomCode, 'LOBBY');
+            try {
+                const { resetRoom } = useOnlineGameStore.getState();
+                await resetRoom();
+            } catch (error) {
+                console.error('Failed to reset room:', error);
+            }
         }
     };
 

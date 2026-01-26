@@ -10,11 +10,16 @@ interface ChatModalProps {
     onClose: () => void;
 }
 
-export const ChatModal: React.FC<ChatModalProps> = ({ visible, onClose }) => {
+export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
     const insets = useSafeAreaInsets();
-    const { messages, sendChatMessage, myPlayerId } = useOnlineGameStore();
+    const { messages, sendChatMessage, myPlayerId, setChatOpen, clearUnreadCount } = useOnlineGameStore();
     const [inputText, setInputText] = React.useState('');
     const flatListRef = useRef<FlatList>(null);
+
+    React.useEffect(() => {
+        setChatOpen(visible);
+        if (visible) clearUnreadCount();
+    }, [visible]);
 
     const handleSend = () => {
         if (!inputText.trim()) return;

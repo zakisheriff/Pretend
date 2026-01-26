@@ -1,4 +1,4 @@
-
+import { GameAPI } from '@/api/game';
 import { supabase } from '@/lib/supabase';
 import { Player } from '@/types/game';
 import { create } from 'zustand';
@@ -20,21 +20,24 @@ interface OnlineGameState {
     gamePhase: 'setup' | 'reveal' | 'discussion' | 'voting' | 'results' | null;
     gameMode: string | null;
     messages: ChatMessage[];
-    // New fields for rich UI
+    unreadMessageCount: number;
+    isChatOpen: boolean;
     directorWinnerId: string | null;
     gameWinner: 'crewmates' | 'imposters' | null;
     impostersCaught: boolean;
 
     // Actions
-    // Actions
     setRoomInfo: (code: string, isHost: boolean, playerId: string, initialPlayer?: any) => void;
     setGameInfo: (status: 'LOBBY' | 'PLAYING' | 'FINISHED', mode: string, phase?: string) => void;
     setPlayerRole: (id: string, role: string) => void;
+    setChatOpen: (open: boolean) => void;
+    clearUnreadCount: () => void;
     syncGameState: (newState: any) => void;
     leaveGame: () => void;
     sendChatMessage: (content: string) => Promise<void>;
     removePlayer: (id: string) => void;
     resetGame: () => void;
+    resetRoom: () => Promise<void>;
 }
 
 // Helper to map DB player
@@ -57,9 +60,14 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
     gamePhase: null,
     gameMode: null,
     messages: [],
+    unreadMessageCount: 0,
+    isChatOpen: false,
     directorWinnerId: null,
     gameWinner: null,
     impostersCaught: false,
+
+    setChatOpen: (open) => set({ isChatOpen: open }),
+    clearUnreadCount: () => set({ unreadMessageCount: 0 }),
 
     setPlayerRole: (id, role: any) => {
         set(state => ({
@@ -69,9 +77,18 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
 
     setRoomInfo: (code, isHost, playerId, initialPlayer) => {
         const startPlayers = initialPlayer ? [mapPlayer(initialPlayer)] : [];
-        set({ roomCode: code, isHost, myPlayerId: playerId, messages: [], players: startPlayers });
+        set({ roomCode: code, isHost, myPlayerId: playerId, messages: [], players: startPlayers, unreadMessageCount: 0 });
 
-        // ... existing fetches ...
+        // 1. Fetch initial players data
+        supabase
+            .from('players')
+            .select('*')
+            .eq('room_code', code)
+            .then(({ data }) => {
+                if (data) {
+                    set({ players: data.map(mapPlayer) });
+                }
+            });
 
         // 2. Subscribe to changes & broadcast
         const channel = supabase.channel(`room:${code}`);
@@ -88,9 +105,18 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                 'postgres_changes',
                 { event: 'UPDATE', schema: 'public', table: 'players', filter: `room_code=eq.${code}` },
                 (payload) => {
-                    set(state => ({
-                        players: state.players.map(p => p.id === payload.new.id ? mapPlayer(payload.new) : p)
-                    }));
+                    set(state => {
+                        const exists = state.players.some(p => p.id === payload.new.id);
+                        if (exists) {
+                            return {
+                                players: state.players.map(p => p.id === payload.new.id ? mapPlayer(payload.new) : p)
+                            };
+                        } else {
+                            return {
+                                players: [...state.players, mapPlayer(payload.new)]
+                            };
+                        }
+                    });
                 }
             )
             .on(
@@ -115,7 +141,11 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                 }
             )
             .on('broadcast', { event: 'chat' }, ({ payload }) => {
-                set(state => ({ messages: [...state.messages, payload] }));
+                const { isChatOpen } = get();
+                set(state => ({
+                    messages: [...state.messages, payload],
+                    unreadMessageCount: isChatOpen ? 0 : state.unreadMessageCount + 1
+                }));
             })
             .subscribe((status) => {
                 if (status === 'SUBSCRIBED') {
@@ -132,12 +162,21 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
         set({
             gameStatus: 'LOBBY',
             gamePhase: null,
+            gameMode: null,
             players: get().players.map(p => ({ ...p, role: 'viewer', vote: undefined, secretWord: undefined })),
             messages: [],
+            unreadMessageCount: 0,
             directorWinnerId: null,
             gameWinner: null,
             impostersCaught: false
         });
+    },
+
+    resetRoom: async () => {
+        const { roomCode } = get();
+        if (roomCode) {
+            await GameAPI.resetRoom(roomCode);
+        }
     },
 
     removePlayer: (id) => {
@@ -192,6 +231,6 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
             }
         }
 
-        set({ roomCode: null, isHost: false, myPlayerId: null, players: [], gameStatus: 'LOBBY' });
+        set({ roomCode: null, isHost: false, myPlayerId: null, players: [], gameStatus: 'LOBBY', unreadMessageCount: 0 });
     }
 }));

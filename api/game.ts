@@ -159,16 +159,20 @@ export const GameAPI = {
                         directorId = randomPlayer.id;
                     }
 
-                    // Normalize for comparison
                     const targetDirectorId = String(directorId).trim();
 
-                    players.forEach((p) => {
-                        const isDirector = String(p.id).trim() === targetDirectorId;
-                        const role = isDirector ? 'director' : 'viewer';
-                        updatePromises.push(
-                            supabase.from('players').update({ role, secret_word: 'WAITING' }).eq('id', p.id)
-                        );
-                    });
+                    // Sequential updates are more robust than parallel loop
+                    // 1. Reset all to viewer
+                    await supabase
+                        .from('players')
+                        .update({ role: 'viewer', secret_word: 'WAITING' })
+                        .eq('room_code', roomCode);
+
+                    // 2. Set the director
+                    await supabase
+                        .from('players')
+                        .update({ role: 'director' })
+                        .eq('id', targetDirectorId);
                     break;
 
                 case 'wavelength':
@@ -253,6 +257,27 @@ export const GameAPI = {
         return await supabase.from('rooms').update({ curr_phase: phase }).eq('code', roomCode);
     },
 
+    setWavelengthClue: async (roomCode: string, clue: string) => {
+        // 1. Get current secret_word data for anyone in the room (to get spectrum)
+        const { data: players } = await supabase.from('players').select('*').eq('room_code', roomCode);
+        if (!players) return;
+
+        const updatePromises = players.map(p => {
+            try {
+                const existing = JSON.parse(p.secret_word || '{}');
+                const newPayload = JSON.stringify({ ...existing, clue });
+                return supabase.from('players').update({ secret_word: newPayload }).eq('id', p.id);
+            } catch (e) {
+                return null;
+            }
+        }).filter(Boolean);
+
+        await Promise.all(updatePromises);
+
+        // 2. Move to discussion phase
+        return await supabase.from('rooms').update({ curr_phase: 'discussion' }).eq('code', roomCode);
+    },
+
     setDirectorMovie: async (roomCode: string, movieJson: string) => {
         const { data: players } = await supabase.from('players').select('*').eq('room_code', roomCode);
         if (!players) return;
@@ -299,38 +324,84 @@ export const GameAPI = {
     },
 
     revealWavelength: async (roomCode: string) => {
-        // 1. Get Psychic data to broadcast
-        const { data: psychic } = await supabase
+        // 1. Get Psychic data and all votes
+        const { data: players } = await supabase
             .from('players')
-            .select('secret_word')
-            .eq('room_code', roomCode)
-            .eq('role', 'psychic')
-            .single();
-
-        if (!psychic) return;
-
-        // 2. Broadcast to everyone so they can see the result
-        await supabase
-            .from('players')
-            .update({ secret_word: psychic.secret_word })
+            .select('*')
             .eq('room_code', roomCode);
 
-        // 3. Move phase
-        return await supabase.from('rooms').update({ curr_phase: 'results' }).eq('code', roomCode);
+        const psychic = players?.find(p => p.role === 'psychic');
+        if (!psychic) return;
+
+        let target = 50;
+        try {
+            target = JSON.parse(psychic.secret_word).target;
+        } catch (e) { }
+
+        // 2. Award points to guessers based on distance
+        const updatePromises = (players || []).map(p => {
+            if (p.role === 'psychic' || !p.vote) return null;
+
+            const guess = parseInt(p.vote);
+            const distance = Math.abs(guess - target);
+            let pointsAwarded = 0;
+
+            if (distance <= 5) pointsAwarded = 2; // Bullseye
+            else if (distance <= 15) pointsAwarded = 1; // Close
+
+            if (pointsAwarded > 0) {
+                return supabase.from('players').update({ score: (p.score || 0) + pointsAwarded }).eq('id', p.id);
+            }
+            return null;
+        }).filter(Boolean);
+
+        // 3. Broadcast psychic data so they can see results
+        updatePromises.push(
+            supabase.from('players').update({ secret_word: psychic.secret_word }).eq('room_code', roomCode)
+        );
+
+        // 4. Move phase
+        updatePromises.push(
+            supabase.from('rooms').update({ curr_phase: 'results', status: 'FINISHED' }).eq('code', roomCode)
+        );
+
+        return await Promise.all(updatePromises);
     },
 
     setDirectorWinner: async (roomCode: string, winnerId: string | null) => {
-        // Update room status and store the winner if possible (using a broadcast-like approach or room update)
-        // For simplicity, we transition to FINISHED status which results in the Results screen. 
-        // We can pass winnerId in room metadata if supported, or just trust the results screen to show it.
-        // Let's try updating curr_phase to 'results' and status to 'FINISHED'
-        return await supabase
-            .from('rooms')
-            .update({
+        const updatePromises = [];
+
+        if (winnerId) {
+            // Award 2 points to the winner
+            const { data: player } = await supabase.from('players').select('score').eq('id', winnerId).single();
+            updatePromises.push(
+                supabase.from('players').update({ score: (player?.score || 0) + 2 }).eq('id', winnerId)
+            );
+        }
+
+        updatePromises.push(
+            supabase.from('rooms').update({
                 status: 'FINISHED',
                 curr_phase: 'results'
-                // metadata: { winnerId } // Assuming metadata exists or we'll find another way to sync winnerId
-            })
+            }).eq('code', roomCode)
+        );
+
+        return await Promise.all(updatePromises);
+    },
+
+    resetRoom: async (roomCode: string) => {
+        // 1. Reset players: clear role, secret_word, vote. KEEP score.
+        const { error: pError } = await supabase
+            .from('players')
+            .update({ role: 'viewer', secret_word: null, vote: null })
+            .eq('room_code', roomCode);
+
+        if (pError) throw pError;
+
+        // 2. Reset room: status LOBBY, curr_phase null
+        return await supabase
+            .from('rooms')
+            .update({ status: 'LOBBY', curr_phase: null, game_mode: null })
             .eq('code', roomCode);
     },
 
