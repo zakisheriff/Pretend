@@ -34,8 +34,9 @@ export default function SelectModeScreen() {
     const handleStartGame = async () => {
         if (!selectedMode || !roomCode) return;
 
-        // Director's Cut: Specific flow to choose director
-        if (selectedMode === 'directors-cut' && !showPlayerSelect) {
+        // Director's Cut / Wavelength: Specific flow to choose specialized role
+        const specialModes = ['directors-cut', 'wavelength'];
+        if (specialModes.includes(selectedMode) && !showPlayerSelect) {
             setShowPlayerSelect(true);
             return;
         }
@@ -46,6 +47,9 @@ export default function SelectModeScreen() {
         if (selectedMode === 'directors-cut' && selectedDirectorId) {
             options.directorId = selectedDirectorId;
         }
+        if (selectedMode === 'wavelength' && selectedDirectorId) {
+            options.psychicId = selectedDirectorId; // Reusing state variable
+        }
 
         const { error } = await GameAPI.startGame(roomCode, selectedMode, options);
         if (error) {
@@ -53,21 +57,20 @@ export default function SelectModeScreen() {
         } else {
             // Optimistic Update
             if (selectedMode === 'directors-cut') {
-                // Manually set roles immediately so the UI is correct on transition
                 const directorId = options.directorId || players[Math.floor(Math.random() * players.length)].id;
-
                 players.forEach(p => {
-                    const role = p.id === directorId ? 'director' : 'viewer';
-                    setPlayerRole(p.id, role);
+                    setPlayerRole(p.id, p.id === directorId ? 'director' : 'viewer');
                 });
-
                 setGameInfo('PLAYING', selectedMode, 'setup');
+            } else if (selectedMode === 'wavelength') {
+                const psychicId = options.psychicId || players[Math.floor(Math.random() * players.length)].id;
+                players.forEach(p => {
+                    setPlayerRole(p.id, p.id === psychicId ? 'psychic' : 'guesser');
+                });
+                setGameInfo('PLAYING', selectedMode, 'reveal');
             } else {
                 setGameInfo('PLAYING', selectedMode, 'reveal');
             }
-
-            // Navigate immediately
-            // router.push('/multiplayer/game' as any); // Logic handled by Lobby listener
         }
         setLoading(false);
     };
@@ -146,10 +149,18 @@ export default function SelectModeScreen() {
 
                     <Animated.View key={showPlayerSelect ? 'select-director' : 'select-mode'} entering={FadeInDown.delay(100)} style={styles.titleContainer}>
                         <View style={styles.titleIcon}>
-                            <Ionicons name={showPlayerSelect ? "videocam-outline" : "game-controller-outline"} size={32} color={Colors.parchment} />
+                            <Ionicons name={showPlayerSelect ? "person-outline" : "game-controller-outline"} size={32} color={Colors.parchment} />
                         </View>
-                        <Text style={styles.title}>{showPlayerSelect ? "Assign Director" : "Select Mode"}</Text>
-                        <Text style={styles.subtitle}>{showPlayerSelect ? "Who will choose the movie?" : "Choose Your Investigation Style"}</Text>
+                        <Text style={styles.title}>
+                            {showPlayerSelect
+                                ? (selectedMode === 'directors-cut' ? "Assign Director" : "Assign Psychic")
+                                : "Select Mode"}
+                        </Text>
+                        <Text style={styles.subtitle}>
+                            {showPlayerSelect
+                                ? (selectedMode === 'directors-cut' ? "Who will choose the movie?" : "Who knows the wavelength?")
+                                : "Choose Your Investigation Style"}
+                        </Text>
                     </Animated.View>
 
                     {showPlayerSelect ? (

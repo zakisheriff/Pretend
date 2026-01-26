@@ -357,16 +357,17 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
                                     <Text style={styles.subStatusText}>
                                         {players.filter(p => p.role === 'guesser' && p.vote).length} / {players.filter(p => p.role === 'guesser').length} Guessed
                                     </Text>
-                                    {isHost && (
-                                        <Button
-                                            title="Confirm & Reveal"
-                                            onPress={handleReveal}
-                                            variant="primary"
-                                            style={{ marginTop: 20, width: '100%' }}
-                                            icon={<Ionicons name="eye" size={20} color={Colors.victorianBlack} />}
-                                        />
-                                    )}
                                 </View>
+                            )}
+
+                            {isHost && (
+                                <Button
+                                    title="Confirm & Reveal"
+                                    onPress={handleReveal}
+                                    variant="primary"
+                                    style={{ marginTop: 20, width: '100%' }}
+                                    icon={<Ionicons name="eye" size={20} color={Colors.victorianBlack} />}
+                                />
                             )}
                         </View>
                     )}

@@ -140,7 +140,7 @@ export const GameAPI = {
     /**
      * Start the game
      */
-    startGame: async (roomCode: string, gameMode: string = 'undercover-word', options: { directorId?: string } = {}) => {
+    startGame: async (roomCode: string, gameMode: string = 'undercover-word', options: { directorId?: string, psychicId?: string } = {}) => {
         try {
             // 1. Get players
             const { data: players, error: playersError } = await supabase
@@ -187,8 +187,18 @@ export const GameAPI = {
                     break;
 
                 case 'wavelength':
-                    const psychicIndex = Math.floor(Math.random() * players.length);
-                    const psychicPlayer = players[psychicIndex];
+                    let psychicPlayer: any;
+                    // Support manual selection if provided (Host's choice)
+                    if (options.psychicId) {
+                        psychicPlayer = players.find(p => p.id === options.psychicId);
+                    }
+
+                    // Fallback to random if not found/provided
+                    if (!psychicPlayer) {
+                        const psychicIndex = Math.floor(Math.random() * players.length);
+                        psychicPlayer = players[psychicIndex];
+                    }
+
                     const spectrum = WAVELENGTH_SPECTRUMS[Math.floor(Math.random() * WAVELENGTH_SPECTRUMS.length)];
                     const target = Math.floor(Math.random() * 100);
 

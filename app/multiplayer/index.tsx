@@ -89,7 +89,7 @@ export default function MultiplayerScreen() {
                 style={styles.gradient}
             >
                 <KeyboardAvoidingView
-                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
                     style={{ flex: 1 }}
                 >
                     <TouchableWithoutFeedback onPress={Platform.OS === 'web' ? undefined : Keyboard.dismiss}>

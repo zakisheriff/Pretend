@@ -76,8 +76,8 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
 
                 {/* Input */}
                 <KeyboardAvoidingView
-                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                    keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
+                    keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
                 >
                     <View style={[styles.inputArea, { paddingBottom: Math.max(insets.bottom, 20) }]}>
                         <TextInput
