@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: '#1A1A1A',
         borderWidth: 1, borderColor: Colors.candlelight,
-        borderRadius: 16, height: 56, paddingHorizontal: 16,
+        borderRadius: 25, height: 56, paddingHorizontal: 16,
         color: Colors.parchment, fontSize: 20, fontWeight: '600'
     },
 
@@ -178,8 +178,11 @@ const styles = StyleSheet.create({
     modalHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
     modalTitle: { fontSize: 20, fontWeight: '700', color: Colors.parchment },
     searchInput: {
-        backgroundColor: '#222', borderRadius: 12, height: 48, paddingHorizontal: 16,
-        color: 'white', marginBottom: 16
+        backgroundColor: '#222', borderRadius: 25, paddingHorizontal: 16,
+        paddingVertical: 12, // Explicit padding
+        color: 'white', marginBottom: 16,
+        fontSize: 16,
+        textAlignVertical: 'center' // Android center
     },
     movieItem: { paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: '#222' },
     movieTitle: { fontSize: 18, color: 'white', fontWeight: '600' },

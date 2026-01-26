@@ -506,7 +506,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.grayDark, marginHorizontal: 20, marginBottom: 16,
         paddingHorizontal: 16, borderRadius: 25, height: 50, gap: 10, borderWidth: 1, borderColor: Colors.grayMedium
     },
-    searchInput: { flex: 1, color: Colors.parchment, fontSize: 16, height: '100%' },
+    searchInput: { flex: 1, color: Colors.parchment, fontSize: 16, height: '100%', textAlignVertical: 'center', paddingVertical: 0 },
     listContent: { paddingHorizontal: 20, paddingBottom: 40 },
     movieItem: {
         flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
