@@ -133,11 +133,16 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                 { event: 'UPDATE', schema: 'public', table: 'rooms', filter: `code=eq.${code}` },
                 (payload) => {
                     const newRoom = payload.new as any;
-                    set({
-                        gameStatus: newRoom.status,
-                        gameMode: newRoom.game_mode,
-                        gamePhase: newRoom.curr_phase
-                    });
+                    if (newRoom.status === 'LOBBY') {
+                        // Reset everything when moving back to lobby
+                        get().resetGame();
+                    } else {
+                        set({
+                            gameStatus: newRoom.status,
+                            gameMode: newRoom.game_mode,
+                            gamePhase: newRoom.curr_phase
+                        });
+                    }
                 }
             )
             .on('broadcast', { event: 'chat' }, ({ payload }) => {
@@ -175,7 +180,14 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
     resetRoom: async () => {
         const { roomCode } = get();
         if (roomCode) {
-            await GameAPI.resetRoom(roomCode);
+            try {
+                await GameAPI.resetRoom(roomCode);
+                // Host also resets locally immediately for responsiveness
+                get().resetGame();
+            } catch (error) {
+                console.error('Store resetRoom error:', error);
+                throw error;
+            }
         }
     },
 

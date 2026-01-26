@@ -13,9 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export function OnlineResultsView() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
-    const [showRestartModal, setShowRestartModal] = useState(false);
-
-    // Store access
+    const [loading, setLoading] = useState(false);
     const {
         players,
         gameMode,
@@ -24,7 +22,7 @@ export function OnlineResultsView() {
         directorWinnerId,
         roomCode,
         isHost,
-        resetGame
+        resetRoom
     } = useOnlineGameStore();
 
     // Calculate derived state
@@ -45,35 +43,50 @@ export function OnlineResultsView() {
         haptics.success();
     }, []);
 
-    const handleRestartWithConfirm = () => {
-        if (!isHost) return;
-        haptics.warning();
-        setShowRestartModal(true);
-    };
-
     const handlePlayAgain = async () => {
+        if (loading || !isHost || !roomCode) return;
+
+        setLoading(true);
         haptics.medium();
-        if (isHost && roomCode) {
-            try {
-                const { resetRoom } = useOnlineGameStore.getState();
-                await resetRoom();
-            } catch (error) {
-                console.error('Failed to reset room:', error);
-            }
+        try {
+            await resetRoom();
+        } catch (error) {
+            console.error('Failed to reset room:', error);
+            alert('Failed to restart game. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
     const getWinnerText = () => {
         if (gameMode === 'directors-cut') {
-            if (directorWinnerId) {
-                const winnerName = players.find(p => p.id === directorWinnerId)?.name || 'A Viewer ';
-                return { title: 'Viewers Win!', subtitle: `${winnerName} Guessed The Movie! ` };
+            // Find the director's vote which stores the winner ID
+            const director = players.find(p => p.role === 'director');
+            const winnerId = director?.vote;
+
+            if (winnerId) {
+                const winnerName = players.find(p => p.id === winnerId)?.name || 'A Viewer';
+                return { title: 'Viewers Win!', subtitle: `${winnerName} Guessed The Movie!` };
             }
-            return { title: 'Director Wins! ', subtitle: 'No One Guessed The Movie! ' };
+            return { title: 'Director Wins!', subtitle: 'No One Guessed The Movie!' };
         }
 
         if (gameMode === 'wavelength') {
-            return { title: 'Round Complete', subtitle: 'Check the scoreboard!' };
+            const psychic = players.find(p => p.role === 'psychic');
+            let target = 50;
+            try {
+                target = JSON.parse(psychic?.secretWord || '{}').target;
+            } catch (e) { }
+
+            const bestDistance = players.filter(p => p.role === 'guesser' && p.vote).reduce((min, p) => {
+                const d = Math.abs(parseInt(p.vote!) - target);
+                return d < min ? d : min;
+            }, 100);
+
+            if (bestDistance <= 4) return { title: 'BULLSEYE!', subtitle: 'Perfect alignment achieved!' };
+            if (bestDistance <= 12) return { title: 'Close Call!', subtitle: 'You were right on the edge!' };
+            if (bestDistance <= 22) return { title: 'Nice Try!', subtitle: 'Partial points awarded.' };
+            return { title: 'Round Complete', subtitle: 'Too far this time!' };
         }
 
         // Standard Imposter / Time Bomb
@@ -95,9 +108,14 @@ export function OnlineResultsView() {
 
     // Success banner logic (Green vs Red)
     let displaySuccess = false;
-    if (gameMode === 'directors-cut') displaySuccess = !!directorWinnerId;
-    else if (gameMode === 'wavelength') displaySuccess = true;
-    else if (gameWinner === 'crewmates') displaySuccess = true;
+    if (gameMode === 'directors-cut') {
+        const director = players.find(p => p.role === 'director');
+        displaySuccess = !!director?.vote;
+    } else if (gameMode === 'wavelength') {
+        displaySuccess = true;
+    } else if (gameWinner === 'crewmates') {
+        displaySuccess = true;
+    }
 
     return (
         <View style={styles.container}>
@@ -148,11 +166,11 @@ export function OnlineResultsView() {
                 )}
 
                 {/* Director's Cut Winner Spotlight */}
-                {gameMode === 'directors-cut' && directorWinnerId && (
+                {gameMode === 'directors-cut' && players.find(p => p.role === 'director')?.vote && (
                     <Animated.View entering={FadeInUp.delay(400).springify()} style={styles.section}>
                         <Text style={styles.sectionLabel}>Star Viewer</Text>
                         <View style={styles.imposterGrid}>
-                            {players.filter(p => p.id === directorWinnerId).map((player) => (
+                            {players.filter(p => p.id === players.find(d => d.role === 'director')?.vote).map((player) => (
                                 <View key={player.id} style={[styles.imposterCard, { borderColor: Colors.detective, backgroundColor: 'rgba(34, 139, 34, 0.2)' }]}>
                                     <View style={[styles.imposterAvatar, { backgroundColor: Colors.detective }]}>
                                         <Ionicons name="trophy" size={28} color={Colors.parchmentLight} />
@@ -174,9 +192,10 @@ export function OnlineResultsView() {
                 {isHost && (
                     <Animated.View entering={FadeInDown.delay(1000).springify()} style={styles.buttons}>
                         <Button
-                            title="Play Again"
+                            title={loading ? "Restarting..." : "Play Again"}
                             onPress={handlePlayAgain}
                             variant="primary"
+                            disabled={loading}
                             size="large"
                             icon={<Ionicons name="refresh" size={18} color={Colors.victorianBlack} />}
                         />

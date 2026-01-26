@@ -351,19 +351,20 @@ export const GameAPI = {
             target = JSON.parse(psychic.secret_word).target;
         } catch (e) { }
 
-        // 2. Award points to guessers based on distance
-        let maxPointsForPsychic = 0;
+        // 2. Award points to guessers based on distance (0-100 scale)
+        let bestGuessDistance = 100;
         const guesserUpdatePromises = (players || []).map(p => {
             if (p.role === 'psychic' || !p.vote) return null;
 
             const guess = parseInt(p.vote);
             const distance = Math.abs(guess - target);
+            if (distance < bestGuessDistance) bestGuessDistance = distance;
+
             let pointsAwarded = 0;
-
-            if (distance <= 5) pointsAwarded = 2; // Bullseye
-            else if (distance <= 15) pointsAwarded = 1; // Close
-
-            if (pointsAwarded > maxPointsForPsychic) maxPointsForPsychic = pointsAwarded;
+            // Scoring Tiers (Out of 100)
+            if (distance <= 4) pointsAwarded = 4; // Bullseye
+            else if (distance <= 12) pointsAwarded = 3; // Close
+            else if (distance <= 22) pointsAwarded = 2; // Partial
 
             if (pointsAwarded > 0) {
                 return supabase.from('players').update({ score: (p.score || 0) + pointsAwarded }).eq('id', p.id);
@@ -373,12 +374,19 @@ export const GameAPI = {
 
         await Promise.all(guesserUpdatePromises);
 
-        // 3. Award points to Psychic (matches best guesser)
-        if (psychic && maxPointsForPsychic > 0) {
-            await supabase.from('players').update({ score: (psychic.score || 0) + maxPointsForPsychic }).eq('id', psychic.id);
+        // 3. Award points to Psychic
+        if (psychic) {
+            let psychicPoints = 0;
+            if (bestGuessDistance <= 4) psychicPoints = 3; // Max reward for Psychic
+            else if (bestGuessDistance <= 12) psychicPoints = 2;
+            else if (bestGuessDistance <= 22) psychicPoints = 1;
+
+            if (psychicPoints > 0) {
+                await supabase.from('players').update({ score: (psychic.score || 0) + psychicPoints }).eq('id', psychic.id);
+            }
         }
 
-        // 4. Broadcast psychic data so they can see results (update everyone's secret_word to the one containing target)
+        // 4. Broadcast psychic data so they can see results
         await supabase.from('players').update({ secret_word: psychic.secret_word }).eq('room_code', roomCode);
 
         // 5. Move phase
@@ -389,10 +397,20 @@ export const GameAPI = {
         const updatePromises = [];
 
         if (winnerId) {
-            // Award 2 points to the winner
+            // 1. Award 2 points to the winner
             const { data: player } = await supabase.from('players').select('score').eq('id', winnerId).single();
             updatePromises.push(
                 supabase.from('players').update({ score: (player?.score || 0) + 2 }).eq('id', winnerId)
+            );
+
+            // 2. Store the winner ID in the director's vote column so others can see it
+            updatePromises.push(
+                supabase.from('players').update({ vote: winnerId }).eq('room_code', roomCode).eq('role', 'director')
+            );
+        } else {
+            // If director wins (no one guessed), clear the director's vote just in case
+            updatePromises.push(
+                supabase.from('players').update({ vote: null }).eq('room_code', roomCode).eq('role', 'director')
             );
         }
 

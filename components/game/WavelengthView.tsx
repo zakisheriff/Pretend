@@ -11,18 +11,28 @@ import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 
 import { Button } from './Button';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-const DIAL_WIDTH = SCREEN_WIDTH - 80;
+const MAX_DIAL_WIDTH = 500;
+const DIAL_WIDTH = Math.min(SCREEN_WIDTH - 60, MAX_DIAL_WIDTH);
 const SPECTRUM_LEFT = Colors.detective;
 const SPECTRUM_RIGHT = Colors.gaslightAmber;
+
+// Unified Layout Constants
+const KNOB_WIDTH = 36;
+const TARGET_WIDTH = 40;
+const BUBBLE_WIDTH = 60;
+const TRACK_MARGIN = 22; // Margin from track edge to center of 0/100 markers
+
+const valueToX = (v: number) => TRACK_MARGIN + (v / 100) * (DIAL_WIDTH - 2 * TRACK_MARGIN);
 
 interface WavelengthViewProps {
     players: Player[];
     myPlayerId: string;
     roomCode: string;
     gamePhase: string;
+    isHost: boolean;
 }
 
-export function WavelengthView({ players, myPlayerId, roomCode, gamePhase }: WavelengthViewProps) {
+export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHost }: WavelengthViewProps) {
     const myPlayer = players.find(p => p.id === myPlayerId);
     const isPsychic = myPlayer?.role === 'psychic';
 
@@ -66,10 +76,14 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase }: Wav
         .onChange((e) => {
             if (isPsychic || hasSubmitted || gamePhase === 'results') return;
             let newX = dialX.value + e.changeX;
-            if (newX < 0) newX = 0;
-            if (newX > DIAL_WIDTH) newX = DIAL_WIDTH;
+            // Constrain knob center within visual track ranges
+            if (newX < TRACK_MARGIN) newX = TRACK_MARGIN;
+            if (newX > DIAL_WIDTH - TRACK_MARGIN) newX = DIAL_WIDTH - TRACK_MARGIN;
             dialX.value = newX;
-            runOnJS(setGuessValue)((newX / DIAL_WIDTH) * 100);
+
+            // Map TRACK_MARGIN..DIAL_WIDTH-TRACK_MARGIN back to 0..100
+            const percentage = ((newX - TRACK_MARGIN) / (DIAL_WIDTH - 2 * TRACK_MARGIN)) * 100;
+            runOnJS(setGuessValue)(percentage);
         })
         .onEnd(() => {
             runOnJS(haptics.selection)();
@@ -84,26 +98,44 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase }: Wav
     const handleGuessSubmit = async () => {
         haptics.heavy();
         setHasSubmitted(true);
+        // Cast vote saves the percentage (0-100)
         await GameAPI.castVote(myPlayerId, Math.round(guessValue).toString());
     };
 
-    // Animated Styles
+    const handleReveal = async () => {
+        haptics.success();
+        await GameAPI.revealWavelength(roomCode);
+    };
+
+    // Animated Styles - All use absolute coordinates from left: 0
     const dialStyle = useAnimatedStyle(() => ({
-        transform: [{ translateX: dialX.value - 15 }]
+        transform: [{ translateX: dialX.value - (KNOB_WIDTH / 2) }]
     }));
 
-    const bubbleStyle = useAnimatedStyle(() => ({
-        transform: [{ translateX: dialX.value - 20 }]
-    }));
+    const bubbleStyle = useAnimatedStyle(() => {
+        // Psychic bubble tracks the target, Guesser bubble tracks dialX
+        const x = isPsychic ? valueToX(target !== undefined ? target : 50) : dialX.value;
+        return {
+            transform: [{ translateX: x - (BUBBLE_WIDTH / 2) }]
+        };
+    });
 
     const targetVisibility = useSharedValue(0);
     useEffect(() => {
         targetVisibility.value = withTiming((isPsychic || gamePhase === 'results') ? 1 : 0);
+
+        // Ensure dialX is centered at start for guessers
+        if (!hasSubmitted && !myPlayer?.vote) {
+            dialX.value = valueToX(50);
+            setGuessValue(50);
+        }
     }, [isPsychic, gamePhase]);
 
     const targetStyle = useAnimatedStyle(() => ({
-        left: `${target || 50}%`,
-        opacity: targetVisibility.value
+        transform: [
+            { translateX: valueToX(target !== undefined ? target : 50) - (TARGET_WIDTH / 2) }
+        ],
+        opacity: targetVisibility.value,
     }));
 
     const isGuessing = !isPsychic && gamePhase === 'discussion' && !hasSubmitted;
@@ -111,10 +143,11 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase }: Wav
     return (
         <GestureHandlerRootView style={{ flex: 1, width: '100%', alignItems: 'center' }}>
             <View style={styles.container}>
-                {/* Psychic Identity Indicator */}
+                {/* Psychic Identity Indicator - Moved higher and made subtle */}
                 <View style={styles.psychicHeader}>
+                    <Ionicons name="eye-outline" size={14} color={Colors.candlelight} />
                     <Text style={styles.psychicText}>
-                        <Ionicons name="eye-outline" size={14} color={Colors.candlelight} /> PSYCHIC: {players.find(p => p.role === 'psychic')?.name || 'Choosing...'}
+                        PSYCHIC: {players.find(p => p.role === 'psychic')?.name.toUpperCase() || 'CHOOSING...'}
                     </Text>
                 </View>
 
@@ -140,10 +173,12 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase }: Wav
                     {/* Result Avatar Pins (Only in Results) */}
                     {gamePhase === 'results' && players.filter(p => !p.role || p.role === 'guesser').map(p => {
                         if (!p.vote) return null;
+                        const v = parseInt(p.vote);
+                        const leftPos = valueToX(v);
                         return (
-                            <View key={p.id} style={[styles.avatarPinContainer, { left: `${p.vote}%` } as any]}>
+                            <View key={p.id} style={[styles.avatarPinContainer, { transform: [{ translateX: leftPos - 14 }] } as any]}>
                                 <View style={styles.avatarCircle}>
-                                    <Text style={styles.avatarText}>{p.name[0]}</Text>
+                                    <Text style={styles.avatarText}>{p.name[0].toUpperCase()}</Text>
                                 </View>
                                 <View style={styles.avatarArrow} />
                             </View>
@@ -182,11 +217,17 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase }: Wav
                         )}
                     </View>
 
-                    {/* Scale Markers */}
+                    {/* Scale Markers - Synced with TRACK_MARGIN */}
                     <View style={styles.scaleContainer}>
-                        <Text style={[styles.scaleText, { position: 'absolute', left: -17.5 }]}>-100</Text>
-                        <Text style={[styles.scaleText, { position: 'absolute', left: '50%', marginLeft: -17.5 }]}>0</Text>
-                        <Text style={[styles.scaleText, { position: 'absolute', right: -17.5 }]}>+100</Text>
+                        <View style={[styles.scaleMarkerWrapper, { left: 0, transform: [{ translateX: TRACK_MARGIN }] }]}>
+                            <Text style={styles.scaleText}>-100</Text>
+                        </View>
+                        <View style={[styles.scaleMarkerWrapper, { left: 0, transform: [{ translateX: DIAL_WIDTH / 2 }] }]}>
+                            <Text style={styles.scaleText}>0</Text>
+                        </View>
+                        <View style={[styles.scaleMarkerWrapper, { left: 0, transform: [{ translateX: DIAL_WIDTH - TRACK_MARGIN }] }]}>
+                            <Text style={styles.scaleText}>+100</Text>
+                        </View>
                     </View>
                 </View>
 
@@ -231,7 +272,21 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase }: Wav
                                 <Text style={styles.statusText}>Guess Locked In!</Text>
                             )}
                             {isPsychic && (
-                                <Text style={styles.statusText}>Watching the guessers...</Text>
+                                <View style={{ width: '100%', alignItems: 'center' }}>
+                                    <Text style={styles.statusText}>Watching the guessers...</Text>
+                                    <Text style={styles.subStatusText}>
+                                        ({players.filter(p => p.role === 'guesser' && p.vote).length} / {players.filter(p => p.role === 'guesser').length} Guessed)
+                                    </Text>
+                                    {isHost && (
+                                        <Button
+                                            title="Confirm & Reveal"
+                                            onPress={handleReveal}
+                                            variant="primary"
+                                            style={{ marginTop: 20, width: '100%' }}
+                                            icon={<Ionicons name="eye" size={20} color={Colors.victorianBlack} />}
+                                        />
+                                    )}
+                                </View>
                             )}
                         </View>
                     )}
@@ -257,20 +312,22 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase }: Wav
 const styles = StyleSheet.create({
     container: { width: '100%', alignItems: 'center' },
     psychicHeader: {
-        marginBottom: 10,
-        backgroundColor: 'rgba(255, 255, 255, 0.05)',
-        paddingHorizontal: 12,
-        paddingVertical: 4,
-        borderRadius: 15,
+        marginBottom: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.08)',
+        paddingHorizontal: 16,
+        paddingVertical: 6,
+        borderRadius: 20,
         borderWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.1)'
+        borderColor: 'rgba(255, 255, 255, 0.15)',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6
     },
     psychicText: {
         color: Colors.candlelight,
-        fontSize: 10,
-        fontWeight: '900',
+        fontSize: 12,
+        fontWeight: '800',
         letterSpacing: 2,
-        textTransform: 'uppercase'
     },
     labelsRow: {
         flexDirection: 'row',
@@ -288,68 +345,87 @@ const styles = StyleSheet.create({
         marginBottom: 40
     },
     dialTrack: {
-        height: 70,
-        backgroundColor: Colors.grayDark,
-        borderRadius: 35,
+        height: 80,
+        backgroundColor: '#111',
+        borderRadius: 40,
         position: 'relative',
-        overflow: 'hidden',
+        overflow: 'visible',
         borderWidth: 2,
         borderColor: Colors.grayMedium,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'flex-start', // Ensure children don't shift based on content
     },
     trackGradient: {
-        ...StyleSheet.absoluteFillObject,
+        position: 'absolute',
+        top: 20,
+        bottom: 20,
+        left: 0,
+        right: 0,
+        borderRadius: 20,
     },
     targetMarker: {
         position: 'absolute',
+        left: 0,
         top: 0,
         bottom: 0,
-        width: 4,
+        width: 40, // Match bullseye width
+        height: 80,
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 5,
     },
     bullseye: {
-        width: 36,
-        height: 36,
-        borderRadius: 18,
+        width: 40,
+        height: 40,
+        borderRadius: 20,
         backgroundColor: Colors.suspect,
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth: 2,
-        borderColor: Colors.victorianBlack
+        borderWidth: 3,
+        borderColor: Colors.victorianBlack,
+        shadowColor: Colors.suspect,
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
     },
     bullseyeInner: {
-        width: 8,
-        height: 8,
-        borderRadius: 4,
+        width: 12,
+        height: 12,
+        borderRadius: 6,
         backgroundColor: Colors.parchment
     },
     dialKnob: {
         position: 'absolute',
-        width: 30,
-        top: -5,
-        bottom: -5,
+        left: 0,
+        width: 36,
+        height: 90,
         backgroundColor: Colors.parchment,
-        borderRadius: 15,
-        borderWidth: 3,
+        borderRadius: 18,
+        borderWidth: 4,
         borderColor: Colors.victorianBlack,
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex: 10
+        zIndex: 10,
+        shadowColor: 'black',
+        shadowOpacity: 0.4,
+        shadowRadius: 5,
     },
-    dialLine: { width: 2, height: '100%', backgroundColor: Colors.victorianBlack },
+    dialLine: { width: 3, height: '60%', backgroundColor: Colors.victorianBlack, borderRadius: 1.5 },
 
     valueBubble: {
         position: 'absolute',
-        top: -45,
+        left: 0,
+        top: -65,
         backgroundColor: Colors.parchment,
         paddingHorizontal: 8,
-        paddingVertical: 4,
-        borderRadius: 8,
-        minWidth: 40,
+        paddingVertical: 6,
+        borderRadius: 12,
+        width: 60,
         alignItems: 'center',
-        zIndex: 20,
+        zIndex: 100, // Higher z-index for web
+        shadowColor: 'black',
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
+        elevation: 5, // Android support
     },
     valueText: { fontWeight: '900', color: Colors.victorianBlack, fontSize: 14 },
     bubbleArrow: {
@@ -366,17 +442,31 @@ const styles = StyleSheet.create({
     },
 
     scaleContainer: {
-        marginTop: 10,
+        marginTop: 15,
         height: 20,
-        width: '100%',
-        position: 'relative'
+        width: DIAL_WIDTH,
+        position: 'relative',
     },
-    scaleText: { color: Colors.grayLight, fontSize: 10, fontWeight: 'bold', width: 35, textAlign: 'center' },
+    scaleMarkerWrapper: {
+        position: 'absolute',
+        top: 0,
+        width: 60,
+        marginLeft: -30, // Center the 60px wide wrapper on the anchor point
+        alignItems: 'center',
+    },
+    scaleText: {
+        color: Colors.grayLight,
+        fontSize: 12,
+        fontWeight: '900',
+        textAlign: 'center',
+        width: '100%'
+    },
 
     avatarPinContainer: {
         position: 'absolute',
-        top: -45,
-        width: 0,
+        left: 0,
+        top: -55,
+        width: 28,
         alignItems: 'center',
         zIndex: 15,
     },
@@ -430,5 +520,6 @@ const styles = StyleSheet.create({
     clueLabel: { fontSize: 12, color: Colors.grayLight, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 5 },
     clueDisplay: { fontSize: 32, color: Colors.parchment, fontWeight: '900', textAlign: 'center' },
     statusText: { marginTop: 20, color: Colors.candlelight, fontStyle: 'italic', fontSize: 16 },
+    subStatusText: { color: Colors.grayLight, fontSize: 12, marginTop: 4, marginBottom: 10 },
     instructions: { marginTop: 20, color: Colors.grayLight, fontSize: 14, fontStyle: 'italic' }
 });

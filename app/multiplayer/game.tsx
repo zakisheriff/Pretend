@@ -114,6 +114,7 @@ export default function OnlineGameScreen() {
                                         myPlayerId={myPlayerId!}
                                         roomCode={roomCode!}
                                         gamePhase={gamePhase || 'discussion'}
+                                        isHost={isHost}
                                     />
                                 ) : gamePhase === 'voting' ? (
                                     <OnlineVotingView />
