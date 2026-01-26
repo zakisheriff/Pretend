@@ -249,7 +249,7 @@ export const GameAPI = {
             }
 
             // 5. Start Game
-            const initialPhase = gameMode === 'directors-cut' ? 'setup' : 'reveal';
+            const initialPhase = gameMode === 'directors-cut' ? 'SETUP_DIRECTOR:PLAYER' : 'reveal';
             const { error } = await supabase
                 .from('rooms')
                 .update({
@@ -276,6 +276,25 @@ export const GameAPI = {
         return await supabase.from('rooms').update({ curr_phase: phase }).eq('code', roomCode);
     },
 
+    updateGameMode: async (roomCode: string, mode: string) => {
+        return await supabase.from('rooms').update({ game_mode: mode }).eq('code', roomCode);
+    },
+
+    assignDirector: async (roomCode: string, directorId: string) => {
+        // 1. Reset current director(s) to viewer
+        await supabase
+            .from('players')
+            .update({ role: 'viewer', secret_word: 'WAITING' })
+            .eq('room_code', roomCode)
+            .eq('role', 'director');
+
+        // 2. Set new director
+        return await supabase
+            .from('players')
+            .update({ role: 'director' })
+            .eq('id', directorId);
+    },
+
     setWavelengthClue: async (roomCode: string, clue: string) => {
         // 1. Get current secret_word data for anyone in the room (to get spectrum)
         const { data: players } = await supabase.from('players').select('*').eq('room_code', roomCode);
@@ -297,7 +316,7 @@ export const GameAPI = {
         return await supabase.from('rooms').update({ curr_phase: 'discussion' }).eq('code', roomCode);
     },
 
-    setDirectorMovie: async (roomCode: string, movieJson: string) => {
+    setDirectorMovie: async (roomCode: string, movieJson: string, nextPhase: string = 'discussion') => {
         // Fetch all players in the room first
         const { data: players, error: fetchError } = await supabase
             .from('players')
@@ -329,10 +348,10 @@ export const GameAPI = {
             if (vError) throw vError;
         }
 
-        // 3. Move to discussion phase
+        // 3. Move to next phase
         return await supabase
             .from('rooms')
-            .update({ curr_phase: 'discussion' })
+            .update({ curr_phase: nextPhase })
             .eq('code', roomCode);
     },
 

@@ -3,7 +3,6 @@ import { Button } from '@/components/game';
 import { DirectorSetup } from '@/components/game/DirectorSetup';
 import { OnlineDirectorVerdictView } from '@/components/game/OnlineDirectorVerdictView';
 import { OnlineResultsView } from '@/components/game/OnlineResultsView';
-import { OnlineVotingView } from '@/components/game/OnlineVotingView';
 import { WavelengthView } from '@/components/game/WavelengthView';
 import { Colors } from '@/constants/colors';
 import { useCustomAlert } from '@/hooks/useCustomAlert';
@@ -147,11 +146,10 @@ export default function OnlineGameScreen() {
                                         gamePhase={gamePhase || 'discussion'}
                                         isHost={isHost}
                                     />
-                                ) : gamePhase === 'voting' ? (
-                                    <OnlineVotingView />
-                                ) : gamePhase === 'setup' ? (
-                                    myPlayer.role === 'director' ? (
-                                        <DirectorSetup onConfirm={async (json) => {
+                                ) : (gamePhase === 'setup' || gamePhase === 'SETUP_DIRECTOR:PLAYER' || gamePhase === 'SELECT_DIRECTOR' || gamePhase === 'SETUP_DIRECTOR:MOVIE' || gamePhase === 'SETUP_DIRECTOR:TIMER') ? (
+                                    <DirectorSetup
+                                        isReadOnly={myPlayer.role !== 'director'}
+                                        onConfirm={async (json) => {
                                             if (roomCode) {
                                                 await GameAPI.setDirectorMovie(roomCode, json);
                                                 try {
@@ -159,28 +157,9 @@ export default function OnlineGameScreen() {
                                                     if (data.timer) setTimeLeft(data.timer);
                                                 } catch (e) { }
                                             }
-                                        }} />
-                                    ) : (
-                                        <View style={{ alignItems: 'center', gap: 20, padding: 30 }}>
-                                            <Animated.View style={{ opacity: 0.5 }}>
-                                                <Ionicons name="videocam" size={80} color={Colors.grayMedium} />
-                                            </Animated.View>
-                                            <Text style={{
-                                                color: Colors.parchment,
-                                                textAlign: 'center',
-                                                fontSize: 20,
-                                                fontWeight: '700',
-                                                letterSpacing: 1,
-                                                lineHeight: 30
-                                            }}>
-                                                THE DIRECTOR IS CHOOSING A MOVIE...
-                                            </Text>
-                                            <Text style={{ color: Colors.grayLight, fontSize: 14 }}>
-                                                Prepare to guess!
-                                            </Text>
-                                        </View>
-                                    )
-                                ) : !revealed && gamePhase !== 'discussion' ? (
+                                        }}
+                                    />
+                                ) : (!revealed && gameMode !== 'directors-cut' && !['discussion', 'voting', 'results', 'setup'].includes(gamePhase || '')) ? (
                                     <TouchableOpacity
                                         onPress={() => setRevealed(true)}
                                         activeOpacity={0.8}

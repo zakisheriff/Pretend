@@ -392,6 +392,15 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
                     {isPsychic && gamePhase === 'reveal' && (
                         <Text style={styles.instructions}>Target: {Math.round((target! - 50) * 2)}% on the spectrum</Text>
                     )}
+
+                    {myPlayer?.role === 'spectator' && (
+                        <View style={styles.spectatorBanner}>
+                            <Ionicons name="eye" size={16} color={Colors.candlelight} />
+                            <Text style={styles.spectatorBannerText}>
+                                YOU ARE A SPECTATOR • ENJOY THE SHOW
+                            </Text>
+                        </View>
+                    )}
                 </View>
             </View>
         </View>
@@ -639,5 +648,24 @@ const styles = StyleSheet.create({
         color: Colors.grayLight,
         fontSize: 16,
         fontWeight: '600'
-    }
+    },
+    spectatorBanner: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        backgroundColor: 'rgba(255, 215, 0, 0.1)',
+        paddingVertical: 12,
+        borderRadius: 16,
+        marginTop: 24,
+        width: '100%',
+        borderWidth: 1,
+        borderColor: 'rgba(255, 215, 0, 0.2)',
+    },
+    spectatorBannerText: {
+        color: Colors.candlelight,
+        fontSize: 12,
+        fontWeight: '800',
+        letterSpacing: 1,
+    },
 });

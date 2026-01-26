@@ -1,9 +1,10 @@
-
+import { GameAPI } from '@/api/game';
 import { BackButton } from '@/components/common/BackButton';
 import { Button } from '@/components/game/Button';
 import { Colors } from '@/constants/colors';
 import { directorsCut, getRandomMovie } from '@/data/game-modes';
 import { useGameStore } from '@/store/gameStore';
+import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { DirectorsCutMovie } from '@/types/game';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,18 +15,33 @@ import { Keyboard, KeyboardAvoidingView, Modal, PanResponder, Platform, ScrollVi
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
-
 type Step = 'choose-director' | 'choose-movie' | 'choose-timer';
 
 export default function SetupDirectorScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
+
+    // Offline Store
     const players = useGameStore((s) => s.players);
     const setDirector = useGameStore((s) => s.setDirector);
     const setDirectorMovie = useGameStore((s) => s.setDirectorMovie);
     const updateSettings = useGameStore((s) => s.updateSettings);
-    const startGame = useGameStore((s) => s.startGame);
+    const gameStartGame = useGameStore((s) => s.startGame);
     const startDiscussion = useGameStore((s) => s.startDiscussion);
+
+    // Online Store
+    const {
+        roomCode, isHost, gamePhase, players: onlinePlayers, myPlayerId,
+        selection, broadcastSelection
+    } = useOnlineGameStore();
+    const activePlayers = roomCode ? onlinePlayers : players;
+
+    // Derived State
+    const amIDirector = React.useMemo(() => {
+        if (!roomCode) return false;
+        const me = onlinePlayers.find(p => p.id === myPlayerId);
+        return me?.role === 'director';
+    }, [roomCode, onlinePlayers, myPlayerId]);
 
     const [step, setStep] = useState<Step>('choose-director');
     const [selectedDirectorId, setSelectedDirectorId] = useState<string | null>(null);
@@ -37,6 +53,32 @@ export default function SetupDirectorScreen() {
 
     const sectionListRef = useRef<SectionList>(null);
 
+    // Sync Phase (Host) - Only needed for initial or recovery, handlers do the transitions now
+    // But we still update phase for recovery if step mismatches? 
+    // Actually, relying on explicit transitions in handlers is safer than a useEffect that might loop.
+    // However, we need to ensure if we land here from Lobby with a set phase, we sync Step.
+
+    // Sync Step (Everyone)
+    React.useEffect(() => {
+        if (roomCode && gamePhase) {
+            if (gamePhase === 'SETUP_DIRECTOR:PLAYER') setStep('choose-director');
+            else if (gamePhase === 'SETUP_DIRECTOR:MOVIE') setStep('choose-movie');
+            else if (gamePhase === 'SETUP_DIRECTOR:TIMER') setStep('choose-timer');
+            else if (gamePhase === 'discussion') {
+                router.replace('/multiplayer/game');
+            }
+        }
+    }, [gamePhase, roomCode]);
+
+    // Initialize Host Phase
+    React.useEffect(() => {
+        if (isHost && roomCode && !gamePhase) {
+            GameAPI.updateGamePhase(roomCode, 'SETUP_DIRECTOR:PLAYER');
+        }
+    }, [isHost, roomCode, gamePhase]);
+
+    // ... (Keep existing List/Gesture logic) ...
+
     // Group movies by alphabet
     const sections = useMemo(() => {
         let filtered = [...directorsCut];
@@ -46,11 +88,7 @@ export default function SetupDirectorScreen() {
                 m.movie.toLowerCase().includes(q) || m.genre.toLowerCase().includes(q)
             );
         }
-
-        // Sort alphabetically
         filtered.sort((a: any, b: any) => a.movie.localeCompare(b.movie));
-
-        // Group by first letter
         const grouped: Record<string, any[]> = {};
         filtered.forEach((m: any) => {
             const letter = m.movie.charAt(0).toUpperCase();
@@ -58,33 +96,24 @@ export default function SetupDirectorScreen() {
             if (!grouped[key]) grouped[key] = [];
             grouped[key].push(m);
         });
-
-        // Convert to SectionList format
         const result = Object.keys(grouped).sort().map(key => ({
             title: key,
             data: grouped[key]
         }));
-
-        // Move '#' to end if present
         const hashIndex = result.findIndex(s => s.title === '#');
         if (hashIndex > -1) {
             const hashSection = result.splice(hashIndex, 1)[0];
             result.push(hashSection);
         }
-
         return result;
     }, [searchQuery]);
 
     const alphabet = useMemo(() => sections.map(s => s.title), [sections]);
-
-    // Refs to avoid stale closures in PanResponder
     const alphabetRef = useRef(alphabet);
-    // Keep alphabet ref in sync
     React.useEffect(() => { alphabetRef.current = alphabet; }, [alphabet]);
 
     const handleScrollToSection = (index: number) => {
         if (index < 0 || index >= alphabetRef.current.length) return;
-
         sectionListRef.current?.scrollToLocation({
             sectionIndex: index,
             itemIndex: 0,
@@ -93,7 +122,6 @@ export default function SetupDirectorScreen() {
         });
     };
 
-    // Sidebar Gesture Logic
     const lastScrollIndex = useRef<number>(-1);
     const sidebarContainerRef = useRef<View>(null);
     const sidebarLayout = useRef({ pageY: 0, height: 0 });
@@ -101,19 +129,12 @@ export default function SetupDirectorScreen() {
     const handleGesture = (y: number) => {
         const { pageY, height } = sidebarLayout.current;
         const letters = alphabetRef.current;
-
         if (!height || letters.length === 0) return;
-
-        // Calculate relative Y from absolute screen coordinates
         const relativeY = y - pageY;
         const letterHeight = height / letters.length;
-
         let index = Math.floor(relativeY / letterHeight);
-
-        // Clamp index to bounds
         if (index < 0) index = 0;
         if (index >= letters.length) index = letters.length - 1;
-
         if (index !== lastScrollIndex.current) {
             handleScrollToSection(index);
             lastScrollIndex.current = index;
@@ -136,7 +157,7 @@ export default function SetupDirectorScreen() {
             onPanResponderGrant: (evt, gestureState) => {
                 // Ensure layout is fresh on touch start
                 updateLayout();
-                // Use moveY (absolute) or y0 if moveY is 0 initially? 
+                // Use moveY (absolute) or y0 if moveY is 0 initially?
                 // grant usually provides y0. move provided moveY.
                 handleGesture(gestureState.y0);
             },
@@ -147,24 +168,37 @@ export default function SetupDirectorScreen() {
     ).current;
 
     const handleSelectDirector = (id: string) => {
+        if (!isHost && roomCode) return;
         haptics.light();
         setSelectedDirectorId(id);
+        if (roomCode) broadcastSelection({ type: 'player', id: id });
     };
 
     const handleRandomDirector = () => {
+        if (!isHost && roomCode) return;
         haptics.medium();
-        const randomInfo = players[Math.floor(Math.random() * players.length)];
+        const randomInfo = activePlayers[Math.floor(Math.random() * activePlayers.length)];
         setSelectedDirectorId(randomInfo.id);
+        if (roomCode) broadcastSelection({ type: 'player', id: randomInfo.id });
     };
 
-    const handleConfirmDirector = () => {
+    const handleConfirmDirector = async () => {
         if (!selectedDirectorId) return;
+        if (!isHost && roomCode) return;
         haptics.medium();
-        setDirector(selectedDirectorId);
-        setStep('choose-movie');
+
+        if (roomCode && isHost) {
+            await GameAPI.assignDirector(roomCode, selectedDirectorId);
+            await GameAPI.updateGamePhase(roomCode, 'SETUP_DIRECTOR:MOVIE');
+            // setStep will be handled by useEffect subscription
+        } else {
+            setDirector(selectedDirectorId);
+            setStep('choose-movie');
+        }
     };
 
     const AppointRandomMovie = () => {
+        if (roomCode && !amIDirector) return;
         const movie = getRandomMovie();
         if (movie) {
             haptics.medium();
@@ -174,35 +208,59 @@ export default function SetupDirectorScreen() {
     };
 
     const handleSelectFromBrowse = (movie: DirectorsCutMovie) => {
+        if (roomCode && !amIDirector) return;
         haptics.medium();
         setMovieName(movie.movie);
         setMovieData({ genre: movie.genre, hint: movie.hint });
         setShowBrowse(false);
     };
 
-    const handleConfirmMovie = () => {
+    const handleConfirmMovie = async () => {
         if (!movieName.trim()) return;
+        if (roomCode && !amIDirector) return;
         haptics.medium();
 
-        // Use movie data if name matches (wasn't edited to something else), otherwise Custom
-        if (movieData && movieName === movieName) {
-            setDirectorMovie(movieName.trim(), movieData.genre, movieData.hint);
+        if (roomCode && amIDirector) {
+            const movieJson = JSON.stringify({
+                title: movieName.trim(),
+                genre: movieData?.genre || 'Custom',
+                hint: movieData?.hint || 'No hint provided'
+            });
+            await GameAPI.setDirectorMovie(roomCode, movieJson, 'SETUP_DIRECTOR:TIMER');
         } else {
-            setDirectorMovie(movieName.trim());
+            // Use movie data if name matches (wasn't edited to something else), otherwise Custom
+            if (movieData && movieName === movieName) {
+                setDirectorMovie(movieName.trim(), movieData.genre, movieData.hint);
+            } else {
+                setDirectorMovie(movieName.trim());
+            }
+            setStep('choose-timer');
         }
-
-        setStep('choose-timer');
     };
 
-    const handleStartGame = () => {
+    const handleStartGame = async () => {
+        if (roomCode && !isHost) return;
         haptics.heavy();
-        updateSettings({ discussionTime: selectedTime });
-        startGame();
-        startDiscussion(); // Skip reveal
-        router.push('/discussion');
+
+        if (roomCode && isHost) {
+            await GameAPI.updateGamePhase(roomCode, 'discussion');
+            // router.replace handles via subscription
+        } else {
+            updateSettings({ discussionTime: selectedTime });
+            gameStartGame();
+            startDiscussion(); // Skip reveal
+            router.push('/discussion');
+        }
     };
 
-    const directorName = players.find(p => p.id === selectedDirectorId)?.name;
+    const directorName = activePlayers.find(p => p.id === selectedDirectorId)?.name;
+
+    // Spectator logic refined:
+    const isReadOnly = roomCode && (
+        (step === 'choose-director' && !isHost) ||
+        (step === 'choose-movie' && !amIDirector) ||
+        (step === 'choose-timer' && !isHost)
+    );
 
     return (
         <KeyboardAvoidingView
@@ -214,11 +272,22 @@ export default function SetupDirectorScreen() {
                 locations={[0, 0.6, 1]}
                 style={[styles.headerBar, { paddingTop: insets.top + 10 }]}
             >
-                <BackButton onPress={() => {
-                    if (step === 'choose-timer') setStep('choose-movie');
-                    else if (step === 'choose-movie') setStep('choose-director');
-                    else router.back();
-                }} />
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                    <BackButton onPress={() => {
+                        if (isReadOnly) return;
+                        if (step === 'choose-timer') setStep('choose-movie');
+                        else if (step === 'choose-movie') setStep('choose-director');
+                        else router.back();
+                    }} />
+                </View>
+                {!!isReadOnly && (
+                    <View style={styles.spectatorBanner}>
+                        <Ionicons name="eye" size={16} color={Colors.candlelight} />
+                        <Text style={styles.spectatorBannerText}>
+                            YOU ARE A SPECTATOR • ONLY THE HOST CAN SELECT
+                        </Text>
+                    </View>
+                )}
             </LinearGradient>
 
             <ScrollView
@@ -246,11 +315,13 @@ export default function SetupDirectorScreen() {
 
                 {step === 'choose-director' ? (
                     <View style={styles.list}>
-                        {players.map((p) => (
+                        {activePlayers.map((p) => (
                             <TouchableOpacity
                                 key={p.id}
                                 style={[styles.playerCard, selectedDirectorId === p.id && styles.playerCardSelected]}
                                 onPress={() => handleSelectDirector(p.id)}
+                                disabled={!!isReadOnly}
+                                activeOpacity={isReadOnly ? 1 : 0.7}
                             >
                                 <View style={[styles.avatar, selectedDirectorId === p.id && styles.avatarSelected]}>
                                     <Text style={[styles.initial, selectedDirectorId === p.id && styles.initialSelected]}>
@@ -266,26 +337,29 @@ export default function SetupDirectorScreen() {
                             </TouchableOpacity>
                         ))}
 
-                        <Button
-                            title="Randomize"
-                            onPress={handleRandomDirector}
-                            variant="secondary"
-                            icon={<Ionicons name="shuffle" size={20} color={Colors.parchment} />}
-                            style={{ marginTop: 10 }}
-                        />
+                        {!isReadOnly && (
+                            <Button
+                                title="Randomize"
+                                onPress={handleRandomDirector}
+                                variant="secondary"
+                                icon={<Ionicons name="shuffle" size={20} color={Colors.parchment} />}
+                                style={{ marginTop: 10 }}
+                            />
+                        )}
                     </View>
                 ) : step === 'choose-movie' ? (
-                    <TouchableWithoutFeedback onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()}>
+                    <TouchableWithoutFeedback onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()} disabled={!!isReadOnly}>
                         <View style={styles.movieSection}>
                             <View style={styles.inputContainer}>
                                 <Text style={styles.label}>Custom Movie Name</Text>
                                 <TextInput
-                                    style={styles.input}
+                                    style={[styles.input, !!isReadOnly && { opacity: 0.6 }]}
                                     value={movieName}
                                     onChangeText={setMovieName}
                                     placeholder="e.g. Inception"
                                     placeholderTextColor={Colors.grayLight}
                                     autoCapitalize="words"
+                                    editable={!isReadOnly}
                                 />
                             </View>
 
@@ -295,13 +369,14 @@ export default function SetupDirectorScreen() {
                                 <View style={styles.line} />
                             </View>
 
-                            <View style={styles.buttonRow}>
+                            <View style={[styles.buttonRow, !!isReadOnly && { opacity: 0.6 }]}>
                                 <Button
                                     title="Random"
                                     onPress={AppointRandomMovie}
                                     variant="secondary"
                                     style={{ flex: 1 }}
                                     icon={<Ionicons name="dice" size={20} color={Colors.parchment} />}
+                                    disabled={!!isReadOnly}
                                 />
                                 <Button
                                     title="Browse List"
@@ -309,6 +384,7 @@ export default function SetupDirectorScreen() {
                                     variant="outline"
                                     style={{ flex: 1 }}
                                     icon={<Ionicons name="list" size={20} color={Colors.candlelight} />}
+                                    disabled={!!isReadOnly}
                                 />
                             </View>
                         </View>
@@ -319,7 +395,9 @@ export default function SetupDirectorScreen() {
                             <TouchableOpacity
                                 key={time}
                                 style={[styles.timerOption, selectedTime === time && styles.timerOptionSelected]}
-                                onPress={() => { haptics.selection(); setSelectedTime(time); }}
+                                onPress={() => { if (!isReadOnly) { haptics.selection(); setSelectedTime(time); } }}
+                                disabled={!!isReadOnly}
+                                activeOpacity={isReadOnly ? 1 : 0.7}
                             >
                                 <Text style={[styles.timerText, selectedTime === time && styles.timerTextSelected]}>
                                     {time / 60} Minutes
@@ -408,30 +486,36 @@ export default function SetupDirectorScreen() {
             </Modal>
 
             <View style={styles.footer}>
-                {step === 'choose-director' ? (
-                    <Button
-                        title="Next: Choose Movie"
-                        onPress={handleConfirmDirector}
-                        variant="primary"
-                        disabled={!selectedDirectorId}
-                        size="large"
-                    />
-                ) : step === 'choose-movie' ? (
-                    <Button
-                        title="Next: Set Timer"
-                        onPress={handleConfirmMovie}
-                        variant="primary"
-                        disabled={!movieName.trim()}
-                        size="large"
-                    />
+                {!isReadOnly ? (
+                    step === 'choose-director' ? (
+                        <Button
+                            title="Next: Choose Movie"
+                            onPress={handleConfirmDirector}
+                            variant="primary"
+                            disabled={!selectedDirectorId}
+                            size="large"
+                        />
+                    ) : step === 'choose-movie' ? (
+                        <Button
+                            title="Next: Set Timer"
+                            onPress={handleConfirmMovie}
+                            variant="primary"
+                            disabled={!movieName.trim()}
+                            size="large"
+                        />
+                    ) : (
+                        <Button
+                            title="Start Game"
+                            onPress={handleStartGame}
+                            variant="primary"
+                            size="large"
+                            icon={<Ionicons name="play" size={20} color={Colors.victorianBlack} />}
+                        />
+                    )
                 ) : (
-                    <Button
-                        title="Start Game"
-                        onPress={handleStartGame}
-                        variant="primary"
-                        size="large"
-                        icon={<Ionicons name="play" size={20} color={Colors.victorianBlack} />}
-                    />
+                    <Text style={{ color: Colors.candlelight, textAlign: 'center', fontStyle: 'italic', marginBottom: 10 }}>
+                        {step === 'choose-movie' ? 'Waiting for Director...' : 'Waiting for Host...'}
+                    </Text>
                 )}
             </View>
         </KeyboardAvoidingView>
@@ -558,4 +642,22 @@ const styles = StyleSheet.create({
     },
     sidebarLetterContainer: { paddingVertical: 2, paddingHorizontal: 4 },
     sidebarLetter: { fontSize: 11, fontWeight: '700', color: Colors.candlelight },
+    spectatorBanner: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        backgroundColor: 'rgba(255, 215, 0, 0.1)',
+        paddingVertical: 10,
+        borderRadius: 12,
+        marginBottom: 40, // Increased to lift it higher
+        borderWidth: 1,
+        borderColor: 'rgba(255, 215, 0, 0.2)',
+    },
+    spectatorBannerText: {
+        color: Colors.candlelight,
+        fontSize: 12,
+        fontWeight: '800',
+        letterSpacing: 1,
+    },
 });

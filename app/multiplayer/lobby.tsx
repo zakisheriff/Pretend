@@ -15,7 +15,7 @@ export default function LobbyScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const { showAlert, AlertComponent } = useCustomAlert();
-    const { roomCode, players, isHost, leaveGame, gameStatus, removePlayer, kicked } = useOnlineGameStore();
+    const { roomCode, players, isHost, leaveGame, gameStatus, gamePhase, removePlayer, kicked } = useOnlineGameStore();
 
     // Handle being kicked
     React.useEffect(() => {
@@ -48,12 +48,16 @@ export default function LobbyScreen() {
         });
     }, []);
 
-    // Effect to navigate when game starts
+    // Effect to navigate when game starts or setup phase changes
     React.useEffect(() => {
         if (gameStatus === 'PLAYING') {
             router.push('/multiplayer/game' as any);
+        } else if (gamePhase === 'SELECT_MODE') {
+            router.push('/multiplayer/select-mode' as any);
+        } else if (gamePhase?.startsWith('SETUP_DIRECTOR')) {
+            router.push('/setup-director' as any);
         }
-    }, [gameStatus]);
+    }, [gameStatus, gamePhase]);
 
     const handleLeave = () => {
         showAlert(

@@ -64,18 +64,19 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
         }, 300);
     };
 
-    // Auto-scroll to bottom when opening or new messages
+    // Auto-scroll to bottom when opening
     useEffect(() => {
-        if (visible && messages.length > 0) {
-            // Immediate scroll without animation for snappy feel on open
-            setTimeout(() => {
-                flatListRef.current?.scrollToEnd({ animated: false });
-            }, 100);
+        if (visible) {
+            clearUnreadCount();
 
-            // Second scroll just in case layout wasn't ready
-            setTimeout(() => {
-                flatListRef.current?.scrollToEnd({ animated: true });
-            }, 300);
+            // Multiple attempts to ensure we hit the bottom after layout
+            const timers = [
+                setTimeout(() => flatListRef.current?.scrollToEnd({ animated: false }), 50),
+                setTimeout(() => flatListRef.current?.scrollToEnd({ animated: false }), 150),
+                setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 400),
+            ];
+
+            return () => timers.forEach(clearTimeout);
         }
     }, [visible]);
 
@@ -84,7 +85,7 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
         if (visible && messages.length > 0) {
             flatListRef.current?.scrollToEnd({ animated: true });
         }
-    }, [messages.length, visible]);
+    }, [messages.length]);
 
     return (
         <Modal
@@ -103,14 +104,14 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                 </View>
 
                 {/* Messages */}
-                {/* Messages */}
                 <FlatList
                     ref={flatListRef}
                     data={messages}
                     keyExtractor={item => item.id}
                     contentContainerStyle={styles.listContent}
-                    onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
-                    onLayout={() => flatListRef.current?.scrollToEnd({ animated: false })}
+                    onContentSizeChange={() => {
+                        if (visible) flatListRef.current?.scrollToEnd({ animated: true });
+                    }}
                     renderItem={({ item }) => (
                         <MessageRow
                             item={item}
@@ -262,8 +263,10 @@ const styles = StyleSheet.create({
         padding: 4,
     },
     listContent: {
-        padding: 20,
-        gap: 12,
+        paddingHorizontal: 20,
+        paddingTop: 10,
+        paddingBottom: 20,
+        gap: 8,
     },
     messageRow: {
         maxWidth: '80%',

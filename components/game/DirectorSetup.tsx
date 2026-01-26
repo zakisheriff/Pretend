@@ -1,8 +1,9 @@
 import { Button } from '@/components/game/Button';
 import { Colors } from '@/constants/colors';
 import { MOVIES } from '@/constants/movies';
+import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { Ionicons } from '@expo/vector-icons';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
     FlatList,
     Modal,
@@ -15,14 +16,41 @@ import {
 
 interface DirectorSetupProps {
     onConfirm: (movieJson: string) => void;
+    isReadOnly?: boolean;
 }
 
-export const DirectorSetup = ({ onConfirm }: DirectorSetupProps) => {
+export const DirectorSetup = ({ onConfirm, isReadOnly = false }: DirectorSetupProps) => {
+    const { selection, broadcastSelection } = useOnlineGameStore();
     const [movieName, setMovieName] = useState('');
     const [movieData, setMovieData] = useState<{ genre: string; year: number } | null>(null);
     const [showBrowse, setShowBrowse] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [timerDuration, setTimerDuration] = useState(120); // Default 2 mins
+
+    // Sync from selection (spectator side)
+    useEffect(() => {
+        if (isReadOnly && selection) {
+            if (selection.type === 'movie' && selection.id) {
+                setMovieName(selection.id);
+                setMovieData(selection.data);
+            } else if (selection.type === 'timer' && selection.id) {
+                setTimerDuration(Number(selection.id) || 120);
+            }
+        }
+    }, [selection, isReadOnly]);
+
+    // Broadcast changes (director side)
+    useEffect(() => {
+        if (!isReadOnly && movieName) {
+            broadcastSelection({ type: 'movie', id: movieName, data: movieData });
+        }
+    }, [movieName, movieData, isReadOnly]);
+
+    useEffect(() => {
+        if (!isReadOnly && timerDuration) {
+            broadcastSelection({ type: 'timer', id: timerDuration as any });
+        }
+    }, [timerDuration, isReadOnly]);
 
     // Filter movies
     const filteredMovies = useMemo(() => {
@@ -57,12 +85,37 @@ export const DirectorSetup = ({ onConfirm }: DirectorSetupProps) => {
         onConfirm(JSON.stringify(payload));
     };
 
+    if (isReadOnly) {
+        return (
+            <View style={[styles.container, { justifyContent: 'center', minHeight: 300 }]}>
+                <View style={styles.header}>
+                    <Ionicons name="videocam" size={64} color={Colors.parchment} style={{ opacity: 0.8, marginBottom: 10 }} />
+                    <Text style={styles.title}>SPECTATING SETUP</Text>
+                    <Text style={styles.subtitle}>
+                        The director is choosing a movie for the audience to guess.
+                    </Text>
+                </View>
+
+                <View style={styles.spectatorBanner}>
+                    <Ionicons name="eye" size={16} color={Colors.candlelight} />
+                    <Text style={styles.spectatorBannerText}>
+                        YOU ARE A SPECTATOR • ONLY THE DIRECTOR CAN CHOOSE
+                    </Text>
+                </View>
+
+                <View style={{ height: 40 }} />
+            </View>
+        );
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <Ionicons name="videocam" size={48} color={Colors.parchment} />
                 <Text style={styles.title}>YOU ARE THE DIRECTOR</Text>
-                <Text style={styles.subtitle}>Choose a movie for the audience to guess.</Text>
+                <Text style={styles.subtitle}>
+                    Choose a movie for the audience to guess.
+                </Text>
             </View>
 
             <View style={styles.inputCard}>
@@ -72,7 +125,7 @@ export const DirectorSetup = ({ onConfirm }: DirectorSetupProps) => {
                     value={movieName}
                     onChangeText={(t) => {
                         setMovieName(t);
-                        setMovieData(null); // Reset data if typing custom
+                        setMovieData(null);
                     }}
                     placeholder="e.g. Inception"
                     placeholderTextColor={Colors.grayLight}
@@ -195,5 +248,25 @@ const styles = StyleSheet.create({
     },
     timerOptionSelected: { backgroundColor: Colors.parchment, borderColor: Colors.parchment },
     timerOptionText: { color: Colors.grayLight, fontWeight: '700', fontSize: 16 },
-    timerOptionTextSelected: { color: Colors.victorianBlack }
+    timerOptionTextSelected: { color: Colors.victorianBlack },
+
+    spectatorBanner: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        backgroundColor: 'rgba(255, 215, 0, 0.1)',
+        paddingVertical: 12,
+        borderRadius: 16,
+        marginTop: 20,
+        marginBottom: 30, // Increased to lift it higher
+        borderWidth: 1,
+        borderColor: 'rgba(255, 215, 0, 0.2)',
+    },
+    spectatorBannerText: {
+        color: Colors.candlelight,
+        fontSize: 12,
+        fontWeight: '800',
+        letterSpacing: 1,
+    },
 });

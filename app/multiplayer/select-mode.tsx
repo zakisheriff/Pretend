@@ -16,33 +16,71 @@ export default function SelectModeScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const { showAlert, AlertComponent } = useCustomAlert();
-    const { roomCode, isHost, players, setGameInfo, setPlayerRole } = useOnlineGameStore();
+    const {
+        roomCode, isHost, players, setGameInfo, setPlayerRole,
+        gameMode: onlineMode, gamePhase: onlinePhase, selection, broadcastSelection
+    } = useOnlineGameStore();
     const [selectedMode, setSelectedMode] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState(false);
     const [showPlayerSelect, setShowPlayerSelect] = React.useState(false);
     const [selectedDirectorId, setSelectedDirectorId] = React.useState<string | null>(null);
 
+    // Sync state for spectators
+    React.useEffect(() => {
+        if (!isHost) {
+            if (onlineMode) setSelectedMode(onlineMode);
+
+            // Sync showPlayerSelect via phase
+            const isSelectingPlayer = onlinePhase === 'SELECT_DIRECTOR' || onlinePhase === 'SELECT_PSYCHIC' || onlinePhase === 'SETUP_DIRECTOR:PLAYER';
+            setShowPlayerSelect(isSelectingPlayer);
+
+            // Sync selection via broadcast
+            if (selection) {
+                if (selection.type === 'mode') setSelectedMode(selection.id);
+                if (selection.type === 'player') setSelectedDirectorId(selection.id);
+            }
+        }
+    }, [isHost, onlineMode, onlinePhase, selection]);
+
+    const handleModeSelect = (modeId: string) => {
+        if (!isHost) return;
+        setSelectedMode(modeId);
+        GameAPI.updateGameMode(roomCode!, modeId);
+        broadcastSelection({ type: 'mode', id: modeId });
+    };
+
+    const handlePlayerSelect = (playerId: string) => {
+        if (!isHost) return;
+        setSelectedDirectorId(playerId);
+        broadcastSelection({ type: 'player', id: playerId });
+    };
+
     const handleBack = () => {
+        if (!isHost) return;
         if (showPlayerSelect) {
             setShowPlayerSelect(false);
             setSelectedDirectorId(null);
+            GameAPI.updateGamePhase(roomCode!, 'SELECT_MODE');
+            broadcastSelection({ type: 'player', id: null });
             return;
         }
         router.back();
     };
 
     const handleStartGame = async () => {
-        if (!selectedMode || !roomCode) return;
+        if (!isHost || !selectedMode || !roomCode) return;
 
         // Director's Cut / Wavelength: Specific flow to choose specialized role
         const specialModes = ['directors-cut', 'wavelength'];
         if (specialModes.includes(selectedMode) && !showPlayerSelect) {
             setShowPlayerSelect(true);
+            const nextPhase = selectedMode === 'directors-cut' ? 'SELECT_DIRECTOR' : 'SELECT_PSYCHIC';
+            GameAPI.updateGamePhase(roomCode, nextPhase);
             return;
         }
 
         setLoading(true);
-
+        // ... existing handleStartGame logic ...
         const options: any = {};
         if (selectedMode === 'directors-cut' && selectedDirectorId) {
             options.directorId = selectedDirectorId;
@@ -55,22 +93,7 @@ export default function SelectModeScreen() {
         if (error) {
             showAlert('Error', 'Failed to start game: ' + error);
         } else {
-            // Optimistic Update
-            if (selectedMode === 'directors-cut') {
-                const directorId = options.directorId || players[Math.floor(Math.random() * players.length)].id;
-                players.forEach(p => {
-                    setPlayerRole(p.id, p.id === directorId ? 'director' : 'viewer');
-                });
-                setGameInfo('PLAYING', selectedMode, 'setup');
-            } else if (selectedMode === 'wavelength') {
-                const psychicId = options.psychicId || players[Math.floor(Math.random() * players.length)].id;
-                players.forEach(p => {
-                    setPlayerRole(p.id, p.id === psychicId ? 'psychic' : 'guesser');
-                });
-                setGameInfo('PLAYING', selectedMode, 'reveal');
-            } else {
-                setGameInfo('PLAYING', selectedMode, 'reveal');
-            }
+            // Store updates handled by postgres subscription
         }
         setLoading(false);
     };
@@ -81,27 +104,29 @@ export default function SelectModeScreen() {
     const modes3Plus = GAME_MODES.filter(m => m.minPlayers >= 3 && ALLOWED_MODES.includes(m.id));
 
     const renderModeItem = (mode: GameModeInfo, index: number) => {
-        const disabled = players.length < mode.minPlayers;
+        const disabledByPlayers = players.length < mode.minPlayers;
+        const isDisabled = !isHost || disabledByPlayers;
+
         return (
             <TouchableOpacity
                 key={mode.id}
-                onPress={() => setSelectedMode(mode.id)}
+                onPress={() => handleModeSelect(mode.id)}
                 style={[
                     styles.modeCard,
                     selectedMode === mode.id && styles.modeCardSelected,
-                    disabled && { opacity: 0.4 }
+                    disabledByPlayers && { opacity: 0.4 }
                 ]}
-                activeOpacity={0.8}
-                disabled={disabled}
+                activeOpacity={isDisabled ? 1 : 0.8}
+                disabled={isDisabled}
             >
-                <View style={[styles.iconContainer, disabled && { backgroundColor: 'transparent' }]}>
+                <View style={[styles.iconContainer, disabledByPlayers && { backgroundColor: 'transparent' }]}>
                     <Ionicons name={mode.icon as any} size={24} color={selectedMode === mode.id ? Colors.victorianBlack : Colors.parchment} />
                 </View>
                 <View style={styles.modeInfo}>
                     <Text style={[styles.modeName, selectedMode === mode.id && styles.textSelected]}>
                         {mode.name}
                     </Text>
-                    {disabled && (
+                    {disabledByPlayers && (
                         <Text style={{ color: '#FF8C00', fontSize: 12, fontWeight: 'bold' }}>
                             Requires {mode.minPlayers}+ Players
                         </Text>
@@ -114,6 +139,24 @@ export default function SelectModeScreen() {
         );
     };
 
+    // Verify access
+    React.useEffect(() => {
+        if (!roomCode) {
+            router.replace('/multiplayer/lobby');
+            return;
+        }
+
+        // Host sets the phase
+        if (isHost) {
+            GameAPI.updateGamePhase(roomCode, 'SELECT_MODE');
+        }
+    }, []);
+
+    // Spectator Navigation Logic
+    // ... remove this as we now stay on screen ...
+
+    // UI rendering for everyone below
+
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -121,7 +164,6 @@ export default function SelectModeScreen() {
                 style={styles.gradient}
             >
                 <View style={[styles.content, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-
                     {/* Header */}
                     <View style={styles.header}>
                         <Button
@@ -171,11 +213,13 @@ export default function SelectModeScreen() {
                                 contentContainerStyle={{ gap: 12, paddingBottom: 40 }}
                                 renderItem={({ item }: { item: any }) => (
                                     <TouchableOpacity
-                                        onPress={() => setSelectedDirectorId(item.id)}
+                                        onPress={() => handlePlayerSelect(item.id)}
                                         style={[
                                             styles.playerCard,
                                             selectedDirectorId === item.id && styles.playerCardSelected
                                         ]}
+                                        disabled={!isHost}
+                                        activeOpacity={isHost ? 0.7 : 1}
                                     >
                                         <View style={[styles.iconContainer,
                                         selectedDirectorId === item.id && { backgroundColor: 'transparent' }
@@ -194,7 +238,6 @@ export default function SelectModeScreen() {
                         </View>
                     ) : (
                         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-
                             <View style={styles.sectionHeader}>
                                 <Ionicons name="copy-outline" size={18} color={Colors.parchment} />
                                 <Text style={styles.sectionTitle}>2+ Players</Text>
@@ -210,10 +253,17 @@ export default function SelectModeScreen() {
                             <View style={styles.sectionList}>
                                 {modes3Plus.map((mode, i) => renderModeItem(mode, i))}
                             </View>
-
                         </ScrollView>
                     )}
 
+                    {!isHost && (
+                        <View style={styles.spectatorBanner}>
+                            <Ionicons name="eye" size={16} color={Colors.candlelight} />
+                            <Text style={styles.spectatorBannerText}>
+                                YOU ARE A SPECTATOR • ONLY THE HOST CAN SELECT
+                            </Text>
+                        </View>
+                    )}
                 </View>
             </LinearGradient>
             <AlertComponent />
@@ -354,5 +404,24 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: Colors.parchment,
         flex: 1,
+    },
+    spectatorBanner: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        backgroundColor: 'rgba(255, 215, 0, 0.1)',
+        paddingVertical: 12,
+        borderRadius: 16,
+        marginTop: 20,
+        marginBottom: 40, // Increased to lift it higher
+        borderWidth: 1,
+        borderColor: 'rgba(255, 215, 0, 0.2)',
+    },
+    spectatorBannerText: {
+        color: Colors.candlelight,
+        fontSize: 12,
+        fontWeight: '800',
+        letterSpacing: 1,
     },
 });

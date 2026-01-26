@@ -20,7 +20,7 @@ interface OnlineGameState {
     myPlayerId: string | null;
     players: Player[];
     gameStatus: 'LOBBY' | 'PLAYING' | 'FINISHED';
-    gamePhase: 'setup' | 'reveal' | 'discussion' | 'voting' | 'results' | null;
+    gamePhase: 'setup' | 'reveal' | 'discussion' | 'voting' | 'results' | 'SELECT_MODE' | 'SELECT_DIRECTOR' | 'SELECT_PSYCHIC' | 'SETUP_DIRECTOR:PLAYER' | 'SETUP_DIRECTOR:MOVIE' | 'SETUP_DIRECTOR:TIMER' | 'role-reveal' | 'judge' | null;
     gameMode: string | null;
     messages: ChatMessage[];
     unreadMessageCount: number;
@@ -30,7 +30,10 @@ interface OnlineGameState {
     impostersCaught: boolean;
     kicked: boolean;
     typingPlayers: string[];
+    channel: any;
     setTyping: (isTyping: boolean) => Promise<void>;
+    broadcastSelection: (selection: { type: 'mode' | 'player' | 'movie' | 'timer', id: string | null, data?: any } | null) => Promise<void>;
+    selection: { type: 'mode' | 'player' | 'movie' | 'timer', id: string | null, data?: any } | null;
 
     // Actions
     setRoomInfo: (code: string, isHost: boolean, playerId: string, initialPlayer?: any) => void;
@@ -73,6 +76,20 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
     impostersCaught: false,
     kicked: false,
     typingPlayers: [] as string[], // List of names typing
+    channel: null, // Initialize channel
+    selection: null,
+
+    broadcastSelection: async (selection) => {
+        const { channel } = get();
+        if (!channel) return; // Ensure channel is available
+        await channel.send({
+            type: 'broadcast',
+            event: 'selection',
+            payload: { selection }
+        });
+        // Also update local for host
+        set({ selection });
+    },
 
     setTyping: async (isTyping: boolean) => {
         const { roomCode, myPlayerId } = get();
@@ -111,6 +128,7 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
 
         // 2. Subscribe to changes & broadcast
         const channel = supabase.channel(`room:${code}`);
+        set({ channel });
 
         channel
             .on(
@@ -182,15 +200,27 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                 { event: 'UPDATE', schema: 'public', table: 'rooms', filter: `code=eq.${code}` },
                 (payload) => {
                     const newRoom = payload.new as any;
-                    if (newRoom.status === 'LOBBY') {
-                        // Reset everything when moving back to lobby
-                        get().resetGame();
-                    } else {
-                        set({
-                            gameStatus: newRoom.status,
-                            gameMode: newRoom.game_mode,
-                            gamePhase: newRoom.curr_phase
-                        });
+                    console.log('Room UPDATE received:', newRoom);
+
+                    // Always sync these values
+                    set({
+                        gameStatus: newRoom.status,
+                        gameMode: newRoom.game_mode,
+                        gamePhase: newRoom.curr_phase
+                    });
+
+                    if (newRoom.status === 'LOBBY' && !newRoom.curr_phase) {
+                        // If we are back in LOBBY with NO phase, then it's a full reset (e.g. Play Again)
+                        // But don't call resetGame() blindly as it might wipe SELECT_MODE
+                        set(state => ({
+                            players: state.players.map(p => ({ ...p, role: 'viewer', vote: undefined, secretWord: undefined })),
+                            messages: [],
+                            unreadMessageCount: 0,
+                            directorWinnerId: null,
+                            gameWinner: null,
+                            impostersCaught: false,
+                            kicked: false
+                        }));
                     }
                 }
             )
@@ -200,6 +230,9 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                     messages: [...state.messages, payload],
                     unreadMessageCount: isChatOpen ? 0 : state.unreadMessageCount + 1
                 }));
+            })
+            .on('broadcast', { event: 'selection' }, ({ payload }) => {
+                set({ selection: payload.selection });
             })
             .on('broadcast', { event: 'typing' }, ({ payload }) => {
                 const { playerId, isTyping } = payload;
