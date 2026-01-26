@@ -3,6 +3,7 @@ import { Button } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useCustomAlert } from '@/hooks/useCustomAlert';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
+import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -15,14 +16,14 @@ export default function LobbyScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const { showAlert, AlertComponent } = useCustomAlert();
-    const { roomCode, players, isHost, leaveGame, gameStatus, gamePhase, removePlayer, kicked } = useOnlineGameStore();
+    const { roomCode, players, isHost, myPlayerId, leaveGame, gameStatus, gamePhase, removePlayer, kicked, roomDeleted } = useOnlineGameStore();
 
     // Handle being kicked
     React.useEffect(() => {
-        if (kicked) {
+        if (kicked || roomDeleted) {
             showAlert(
-                "Removed From Game",
-                "You have been kicked by the host.",
+                kicked ? "Removed From Game" : "Host Left",
+                kicked ? "You have been kicked by the host." : "The host has ended the game.",
                 [{
                     text: "OK",
                     onPress: () => {
@@ -32,7 +33,7 @@ export default function LobbyScreen() {
                 }]
             );
         }
-    }, [kicked]);
+    }, [kicked, roomDeleted]);
     // chatVisible removed
 
     // Check DB Permissions
@@ -81,6 +82,28 @@ export default function LobbyScreen() {
         router.push('/multiplayer/select-mode');
     };
 
+    const handleTransferHost = async (targetId: string, targetName: string) => {
+        showAlert(
+            "Transfer Leadership?",
+            `Are you sure you want to make ${targetName} the host? You will lose host privileges.`,
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Transfer",
+                    onPress: async () => {
+                        if (!myPlayerId || !roomCode) return;
+                        const { error } = await GameAPI.transferHost(myPlayerId, targetId);
+                        if (error) {
+                            showAlert("Error", "Failed to transfer leadership: " + error.message, [{ text: "OK" }]);
+                        } else {
+                            haptics.success();
+                        }
+                    }
+                }
+            ]
+        );
+    };
+
     const handleKick = async (playerId: string, playerName: string) => {
         console.log('handleKick called for:', playerName, playerId);
         showAlert(
@@ -125,19 +148,24 @@ export default function LobbyScreen() {
                     <Text style={styles.meText}>YOU</Text>
                 </View>
             )}
-            {isHost && item.id !== useOnlineGameStore.getState().myPlayerId && (
-                <TouchableOpacity
-                    onPress={(e) => {
-                        e.preventDefault && e.preventDefault();
-                        e.stopPropagation && e.stopPropagation();
-                        console.log('REMOVE BUTTON TAPPED (Web fixed) for:', item.name);
-                        handleKick(item.id, item.name);
-                    }}
-                    activeOpacity={0.7}
-                    style={[styles.removeButton, { zIndex: 999 }]}
-                >
-                    <Text style={styles.removeButtonText}>Remove</Text>
-                </TouchableOpacity>
+            {isHost && item.id !== myPlayerId && (
+                <View style={styles.hostActions}>
+                    <TouchableOpacity
+                        onPress={() => handleTransferHost(item.id, item.name)}
+                        activeOpacity={0.7}
+                        style={styles.transferButton}
+                    >
+                        <Ionicons name="star" size={14} color={Colors.candlelight} />
+                        <Text style={styles.transferButtonText}>Make Host</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => handleKick(item.id, item.name)}
+                        activeOpacity={0.7}
+                        style={styles.removeButton}
+                    >
+                        <Text style={styles.removeButtonText}>Remove</Text>
+                    </TouchableOpacity>
+                </View>
             )}
         </Animated.View>
     );
@@ -278,6 +306,27 @@ const styles = StyleSheet.create({
         color: Colors.parchment,
         fontWeight: '700',
         flex: 1,
+    },
+    hostActions: {
+        flexDirection: 'row',
+        gap: 8,
+        alignItems: 'center',
+    },
+    transferButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        backgroundColor: 'rgba(255, 215, 0, 0.1)',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 215, 0, 0.3)',
+        gap: 4,
+    },
+    transferButtonText: {
+        color: Colors.candlelight,
+        fontSize: 12,
+        fontWeight: 'bold',
     },
     removeButton: {
         paddingHorizontal: 12,

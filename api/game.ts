@@ -507,5 +507,16 @@ export const GameAPI = {
 
     updateGameStatus: async (roomCode: string, status: 'LOBBY' | 'PLAYING' | 'FINISHED') => {
         return await supabase.from('rooms').update({ status }).eq('code', roomCode);
+    },
+
+    /**
+     * Transfer host ownership to another player
+     */
+    transferHost: async (oldHostId: string, newHostId: string) => {
+        const { error: error1 } = await supabase.from('players').update({ is_host: false }).eq('id', oldHostId);
+        if (error1) return { error: error1 };
+
+        const { error: error2 } = await supabase.from('players').update({ is_host: true }).eq('id', newHostId);
+        return { error: error2 };
     }
 };

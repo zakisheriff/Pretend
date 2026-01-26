@@ -34,7 +34,9 @@ export default function RoleRevealScreen() {
         myPlayerId,
         isHost,
         gameMode: onlineMode,
-        gamePhase: onlinePhase
+        gamePhase: onlinePhase,
+        roomDeleted,
+        leaveGame
     } = useOnlineGameStore();
 
     const [hasRevealed, setHasRevealed] = useState(false);
@@ -56,6 +58,13 @@ export default function RoleRevealScreen() {
         : (activePlayers.findIndex((p: any) => p.id === currentPlayer?.id) + 1);
 
     // Sync Revealed State
+    useEffect(() => {
+        if (roomDeleted) {
+            leaveGame();
+            router.replace('/');
+        }
+    }, [roomDeleted]);
+
     useEffect(() => {
         if (isOnline) {
             setHasRevealed(false); // Reset on mount

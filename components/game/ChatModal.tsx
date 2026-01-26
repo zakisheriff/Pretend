@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, KeyboardAvoidingView, Modal, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
+import Animated, { FadeIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface ChatModalProps {
@@ -85,7 +86,13 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
         if (visible && messages.length > 0) {
             flatListRef.current?.scrollToEnd({ animated: true });
         }
-    }, [messages.length]);
+    }, [messages.length, visible]);
+
+    useEffect(() => {
+        if (replyTo) {
+            inputRef.current?.focus();
+        }
+    }, [replyTo]);
 
     return (
         <Modal
@@ -119,6 +126,15 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                             onReply={setReplyTo}
                         />
                     )}
+                    ListFooterComponent={
+                        typingPlayers.length > 0 ? (
+                            <Animated.View entering={FadeIn.duration(300)} style={styles.typingContainer}>
+                                <Text style={styles.typingText}>
+                                    {typingPlayers.join(', ')} {typingPlayers.length > 1 ? 'are' : 'is'} typing...
+                                </Text>
+                            </Animated.View>
+                        ) : null
+                    }
                 />
 
                 {/* Input */}
@@ -140,14 +156,6 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                         </View>
                     )}
 
-                    {/* Typing Indicator */}
-                    {typingPlayers.length > 0 && (
-                        <View style={styles.typingContainer}>
-                            <Text style={styles.typingText}>
-                                {typingPlayers.join(', ')} {typingPlayers.length > 1 ? 'are' : 'is'} typing...
-                            </Text>
-                        </View>
-                    )}
 
                     <View style={[styles.inputArea, { paddingBottom: Math.max(insets.bottom, 20) }]}>
                         <TextInput
@@ -361,12 +369,13 @@ const styles = StyleSheet.create({
         marginBottom: 0, // Align with bottom
     },
     typingContainer: {
-        paddingHorizontal: 20,
-        paddingBottom: 8,
+        paddingHorizontal: 4,
+        paddingTop: 4,
+        paddingBottom: 4,
     },
     typingText: {
         color: Colors.grayLight,
-        fontSize: 12,
+        fontSize: 11,
         fontStyle: 'italic',
     },
     replyContext: {

@@ -32,7 +32,7 @@ export default function SetupDirectorScreen() {
     // Online Store
     const {
         roomCode, isHost, gamePhase, players: onlinePlayers, myPlayerId,
-        selection, broadcastSelection
+        selection, broadcastSelection, roomDeleted, leaveGame
     } = useOnlineGameStore();
     const activePlayers = roomCode ? onlinePlayers : players;
 
@@ -50,6 +50,7 @@ export default function SetupDirectorScreen() {
     const [showBrowse, setShowBrowse] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedTime, setSelectedTime] = useState(180); // Default 3 mins
+    const [loading, setLoading] = useState(false);
 
     const sectionListRef = useRef<SectionList>(null);
 
@@ -57,6 +58,13 @@ export default function SetupDirectorScreen() {
     // But we still update phase for recovery if step mismatches? 
     // Actually, relying on explicit transitions in handlers is safer than a useEffect that might loop.
     // However, we need to ensure if we land here from Lobby with a set phase, we sync Step.
+
+    React.useEffect(() => {
+        if (roomDeleted) {
+            leaveGame();
+            router.replace('/');
+        }
+    }, [roomDeleted]);
 
     // Sync Step (Everyone)
     React.useEffect(() => {
@@ -188,8 +196,13 @@ export default function SetupDirectorScreen() {
         haptics.medium();
 
         if (roomCode && isHost) {
-            await GameAPI.assignDirector(roomCode, selectedDirectorId);
-            await GameAPI.updateGamePhase(roomCode, 'SETUP_DIRECTOR:MOVIE');
+            setLoading(true);
+            try {
+                await GameAPI.assignDirector(roomCode, selectedDirectorId);
+                await GameAPI.updateGamePhase(roomCode, 'SETUP_DIRECTOR:MOVIE');
+            } finally {
+                setLoading(false);
+            }
             // setStep will be handled by useEffect subscription
         } else {
             setDirector(selectedDirectorId);
@@ -221,12 +234,17 @@ export default function SetupDirectorScreen() {
         haptics.medium();
 
         if (roomCode && amIDirector) {
-            const movieJson = JSON.stringify({
-                title: movieName.trim(),
-                genre: movieData?.genre || 'Custom',
-                hint: movieData?.hint || 'No hint provided'
-            });
-            await GameAPI.setDirectorMovie(roomCode, movieJson, 'SETUP_DIRECTOR:TIMER');
+            setLoading(true);
+            try {
+                const movieJson = JSON.stringify({
+                    title: movieName.trim(),
+                    genre: movieData?.genre || 'Custom',
+                    hint: movieData?.hint || 'No hint provided'
+                });
+                await GameAPI.setDirectorMovie(roomCode, movieJson, 'SETUP_DIRECTOR:TIMER');
+            } finally {
+                setLoading(false);
+            }
         } else {
             // Use movie data if name matches (wasn't edited to something else), otherwise Custom
             if (movieData && movieName === movieName) {
@@ -243,7 +261,12 @@ export default function SetupDirectorScreen() {
         haptics.heavy();
 
         if (roomCode && isHost) {
-            await GameAPI.updateGamePhase(roomCode, 'discussion');
+            setLoading(true);
+            try {
+                await GameAPI.updateGamePhase(roomCode, 'discussion');
+            } finally {
+                setLoading(false);
+            }
             // router.replace handles via subscription
         } else {
             updateSettings({ discussionTime: selectedTime });
@@ -492,7 +515,8 @@ export default function SetupDirectorScreen() {
                             title="Next: Choose Movie"
                             onPress={handleConfirmDirector}
                             variant="primary"
-                            disabled={!selectedDirectorId}
+                            disabled={!selectedDirectorId || loading}
+                            loading={loading}
                             size="large"
                         />
                     ) : step === 'choose-movie' ? (
@@ -500,7 +524,8 @@ export default function SetupDirectorScreen() {
                             title="Next: Set Timer"
                             onPress={handleConfirmMovie}
                             variant="primary"
-                            disabled={!movieName.trim()}
+                            disabled={!movieName.trim() || loading}
+                            loading={loading}
                             size="large"
                         />
                     ) : (
@@ -508,6 +533,8 @@ export default function SetupDirectorScreen() {
                             title="Start Game"
                             onPress={handleStartGame}
                             variant="primary"
+                            loading={loading}
+                            disabled={loading}
                             size="large"
                             icon={<Ionicons name="play" size={20} color={Colors.victorianBlack} />}
                         />

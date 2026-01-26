@@ -69,6 +69,7 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
     const [guessValue, setGuessValue] = useState(50);
     const [clueText, setClueText] = useState('');
     const [hasSubmitted, setHasSubmitted] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     // Sync Dial with existing vote if present
     useEffect(() => {
@@ -159,19 +160,34 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
 
     const handleClueSubmit = async () => {
         if (!clueText.trim()) return;
+        setLoading(true);
         haptics.heavy();
-        await GameAPI.setWavelengthClue(roomCode, clueText.trim());
+        try {
+            await GameAPI.setWavelengthClue(roomCode, clueText.trim());
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleGuessSubmit = async () => {
+        setLoading(true);
         haptics.heavy();
-        setHasSubmitted(true);
-        await GameAPI.castVote(myPlayerId, Math.round(guessValue).toString());
+        try {
+            setHasSubmitted(true);
+            await GameAPI.castVote(myPlayerId, Math.round(guessValue).toString());
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleReveal = async () => {
+        setLoading(true);
         haptics.success();
-        await GameAPI.revealWavelength(roomCode);
+        try {
+            await GameAPI.revealWavelength(roomCode);
+        } finally {
+            setLoading(false);
+        }
     };
 
     // Interpolations / Styles
@@ -315,7 +331,8 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
                                 title="Submit Clue"
                                 onPress={handleClueSubmit}
                                 variant="primary"
-                                disabled={!clueText.trim()}
+                                loading={loading}
+                                disabled={!clueText.trim() || loading}
                                 style={{ marginTop: 24, width: '100%' }}
                             />
                         </View>
@@ -331,6 +348,8 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
                                     title="Lock In Guess"
                                     onPress={handleGuessSubmit}
                                     variant="primary"
+                                    loading={loading}
+                                    disabled={loading}
                                     style={{ marginTop: 30, width: '100%' }}
                                 />
                             )}
@@ -365,6 +384,8 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
                                     title="Confirm & Reveal"
                                     onPress={handleReveal}
                                     variant="primary"
+                                    loading={loading}
+                                    disabled={loading}
                                     style={{ marginTop: 20, width: '100%' }}
                                     icon={<Ionicons name="eye" size={20} color={Colors.victorianBlack} />}
                                 />

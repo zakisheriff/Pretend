@@ -29,6 +29,7 @@ interface OnlineGameState {
     gameWinner: 'crewmates' | 'imposters' | null;
     impostersCaught: boolean;
     kicked: boolean;
+    roomDeleted: boolean;
     typingPlayers: string[];
     channel: any;
     setTyping: (isTyping: boolean) => Promise<void>;
@@ -75,6 +76,7 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
     gameWinner: null,
     impostersCaught: false,
     kicked: false,
+    roomDeleted: false,
     typingPlayers: [] as string[], // List of names typing
     channel: null, // Initialize channel
     selection: null,
@@ -224,6 +226,14 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                     }
                 }
             )
+            .on(
+                'postgres_changes',
+                { event: 'DELETE', schema: 'public', table: 'rooms', filter: `code=eq.${code}` },
+                () => {
+                    console.log('Room has been deleted by the host');
+                    set({ roomDeleted: true });
+                }
+            )
             .on('broadcast', { event: 'chat' }, ({ payload }) => {
                 const { isChatOpen } = get();
                 set(state => ({
@@ -249,9 +259,39 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                     return { typingPlayers: Array.from(currentTyping) };
                 });
             })
-            .subscribe((status) => {
+            .on('presence', { event: 'sync' }, () => {
+                const presenceState = channel.presenceState();
+                const onlinePlayerIds = Object.values(presenceState).flat().map((p: any) => String(p.id));
+
+                const { isHost, players, gameStatus, myPlayerId } = get();
+                if (isHost) return; // Host doesn't need to watch themselves
+
+                const host = players.find(p => p.isHost);
+                if (host && !onlinePlayerIds.includes(String(host.id))) {
+                    console.log('Host presence lost. Waiting to see if they reconnect...');
+                    // Wait 5 seconds to account for refreshes or brief disconnects
+                    setTimeout(() => {
+                        const latestPresence = channel.presenceState();
+                        const latestOnlineIds = Object.values(latestPresence).flat().map((p: any) => String(p.id));
+
+                        if (!latestOnlineIds.includes(String(host.id))) {
+                            console.log('Host confirmed offline. Terminating room.');
+                            // If in game, terminate. If in lobby, we could migrate, 
+                            // but for simplicity and to match the "quit it" request:
+                            if (gameStatus !== 'LOBBY') {
+                                set({ roomDeleted: true });
+                            } else {
+                                // In lobby, we should ideally migrate, but if host is gone abruptly, 
+                                // we'll just end it for now as a safe fallback.
+                                set({ roomDeleted: true });
+                            }
+                        }
+                    }, 5000);
+                }
+            })
+            .subscribe(async (status) => {
                 if (status === 'SUBSCRIBED') {
-                    // Optional: Refetch once to be sure
+                    await channel.track({ id: playerId });
                 }
             });
     },
@@ -271,7 +311,8 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
             directorWinnerId: null,
             gameWinner: null,
             impostersCaught: false,
-            kicked: false
+            kicked: false,
+            roomDeleted: false
         });
     },
 
@@ -329,42 +370,48 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
     // ... leaveGame ...
 
     leaveGame: async () => {
-        const { myPlayerId, roomCode, isHost } = get();
+        const { myPlayerId, roomCode, isHost, gameStatus } = get();
 
         if (roomCode) {
             // Unsubscribe
             supabase.removeAllChannels();
 
             if (isHost) {
-                // Check if other players exist to migrate host
-                const { data: others } = await supabase
-                    .from('players')
-                    .select('*')
-                    .eq('room_code', roomCode)
-                    .neq('id', myPlayerId)
-                    .limit(1);
-
-                if (others && others.length > 0) {
-                    console.log('Host leaving, migrating host to:', others[0].name);
-                    const newHost = others[0];
-
-                    // 1. Assign new host
-                    const { error: updateError } = await supabase
+                if (gameStatus === 'LOBBY') {
+                    // Check if other players exist to migrate host
+                    const { data: others } = await supabase
                         .from('players')
-                        .update({ is_host: true })
-                        .eq('id', newHost.id);
+                        .select('*')
+                        .eq('room_code', roomCode)
+                        .neq('id', myPlayerId)
+                        .limit(1);
 
-                    if (updateError) {
-                        console.error('Failed to migrate host:', updateError);
-                        // Fallback: Delete room if migration fails to avoid zombie room
-                        await supabase.from('rooms').delete().eq('code', roomCode);
+                    if (others && others.length > 0) {
+                        console.log('Host leaving LOBBY, migrating host to:', others[0].name);
+                        const newHost = others[0];
+
+                        // 1. Assign new host
+                        const { error: updateError } = await supabase
+                            .from('players')
+                            .update({ is_host: true })
+                            .eq('id', newHost.id);
+
+                        if (updateError) {
+                            console.error('Failed to migrate host:', updateError);
+                            // Fallback: Delete room if migration fails
+                            await GameAPI.deleteRoom(roomCode);
+                        } else {
+                            // 2. Delete myself (old host)
+                            await supabase.from('players').delete().eq('id', myPlayerId);
+                        }
                     } else {
-                        // 2. Delete myself (old host)
-                        await supabase.from('players').delete().eq('id', myPlayerId);
+                        // No one left, delete room
+                        await GameAPI.deleteRoom(roomCode);
                     }
                 } else {
-                    // No one left, delete room
-                    await supabase.from('rooms').delete().eq('code', roomCode);
+                    // If game is in progress or finished, terminate room entirely
+                    console.log('Host leaving during game/results, terminating room:', roomCode);
+                    await GameAPI.deleteRoom(roomCode);
                 }
             } else if (myPlayerId) {
                 // Player just leaves
@@ -372,6 +419,6 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
             }
         }
 
-        set({ roomCode: null, isHost: false, myPlayerId: null, players: [], gameStatus: 'LOBBY', unreadMessageCount: 0, kicked: false });
+        set({ roomCode: null, isHost: false, myPlayerId: null, players: [], gameStatus: 'LOBBY', unreadMessageCount: 0, kicked: false, roomDeleted: false });
     }
 }));

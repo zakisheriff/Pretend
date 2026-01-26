@@ -34,7 +34,7 @@ export default function OnlineGameScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const {
-        players, myPlayerId, isHost, gameMode, gamePhase, roomCode, gameStatus, kicked, leaveGame
+        players, myPlayerId, isHost, gameMode, gamePhase, roomCode, gameStatus, kicked, roomDeleted, leaveGame
     } = useOnlineGameStore();
     const [revealed, setRevealed] = React.useState(false);
     const [selectedDirectorId, setSelectedDirectorId] = React.useState<string | null>(null);
@@ -47,11 +47,11 @@ export default function OnlineGameScreen() {
     React.useEffect(() => {
         if (gameStatus === 'LOBBY') {
             router.replace('/multiplayer/lobby' as any);
-        } else if (kicked) {
+        } else if (kicked || roomDeleted) {
             leaveGame();
             router.replace('/');
         }
-    }, [gameStatus, kicked]);
+    }, [gameStatus, kicked, roomDeleted]);
 
     React.useEffect(() => {
         if (gamePhase === 'discussion') {

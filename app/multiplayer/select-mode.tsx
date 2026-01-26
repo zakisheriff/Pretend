@@ -18,7 +18,8 @@ export default function SelectModeScreen() {
     const { showAlert, AlertComponent } = useCustomAlert();
     const {
         roomCode, isHost, players, setGameInfo, setPlayerRole,
-        gameMode: onlineMode, gamePhase: onlinePhase, selection, broadcastSelection
+        gameMode: onlineMode, gamePhase: onlinePhase, selection, broadcastSelection,
+        roomDeleted, leaveGame
     } = useOnlineGameStore();
     const [selectedMode, setSelectedMode] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState(false);
@@ -41,6 +42,13 @@ export default function SelectModeScreen() {
             }
         }
     }, [isHost, onlineMode, onlinePhase, selection]);
+
+    React.useEffect(() => {
+        if (roomDeleted) {
+            leaveGame();
+            router.replace('/');
+        }
+    }, [roomDeleted]);
 
     const handleModeSelect = (modeId: string) => {
         if (!isHost) return;

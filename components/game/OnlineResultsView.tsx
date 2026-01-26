@@ -167,6 +167,21 @@ export function OnlineResultsView() {
                     <Text style={styles.winnerSubtitle}>
                         {winnerText.subtitle}
                     </Text>
+                    {gameMode === 'directors-cut' && (
+                        <View style={styles.secretContainer}>
+                            <Text style={styles.secretLabel}>The Secret Movie was:</Text>
+                            <Text style={styles.secretTitle}>
+                                {(() => {
+                                    const director = players.find(p => p.role === 'director');
+                                    try {
+                                        return JSON.parse(director?.secretWord || '{}').title || 'Unknown';
+                                    } catch (e) {
+                                        return director?.secretWord || 'Unknown';
+                                    }
+                                })()}
+                            </Text>
+                        </View>
+                    )}
                 </Animated.View>
 
                 {/* Wavelength Reveal Section */}
@@ -338,6 +353,30 @@ const styles = StyleSheet.create({
     winnerSubtitle: {
         fontSize: 14,
         color: Colors.grayLight,
+        textAlign: 'center',
+    },
+    secretContainer: {
+        marginTop: 20,
+        padding: 15,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.1)',
+        alignItems: 'center',
+        width: '100%',
+    },
+    secretLabel: {
+        fontSize: 11,
+        fontWeight: '700',
+        color: Colors.candlelight,
+        letterSpacing: 1,
+        marginBottom: 4,
+        textTransform: 'uppercase',
+    },
+    secretTitle: {
+        fontSize: 22,
+        fontWeight: '900',
+        color: Colors.parchment,
         textAlign: 'center',
     },
 
