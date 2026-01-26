@@ -1,4 +1,5 @@
 import { Button } from '@/components/game';
+import { ChatModal } from '@/components/game/ChatModal';
 import { Colors } from '@/constants/colors';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,8 +13,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function OnlineGameScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
-    const { players, myPlayerId, isHost } = useOnlineGameStore();
+    const { players, myPlayerId, isHost, gameMode } = useOnlineGameStore();
     const [revealed, setRevealed] = React.useState(false);
+    const [chatVisible, setChatVisible] = React.useState(false);
 
     const myPlayer = players.find(p => p.id === myPlayerId);
 
@@ -33,7 +35,13 @@ export default function OnlineGameScreen() {
             >
                 <View style={[styles.content, { paddingTop: insets.top + 20, paddingBottom: insets.bottom }]}>
 
-                    <Text style={styles.headerTitle}>Game In Progress</Text>
+                    <View style={styles.headerRow}>
+                        <View style={{ width: 40 }} />
+                        <Text style={styles.headerTitle}>Game In Progress</Text>
+                        <TouchableOpacity onPress={() => setChatVisible(true)} style={styles.chatButton}>
+                            <Ionicons name="chatbubbles-outline" size={24} color={Colors.parchment} />
+                        </TouchableOpacity>
+                    </View>
 
                     <View style={styles.cardContainer}>
                         {!revealed ? (
@@ -49,31 +57,80 @@ export default function OnlineGameScreen() {
                             </TouchableOpacity>
                         ) : (
                             <Animated.View entering={FadeIn.duration(500)} style={styles.cardRevealed}>
-                                <Text style={styles.roleLabel}>YOU ARE</Text>
-                                <Text style={[
-                                    styles.roleName,
-                                    { color: myPlayer.isImposter ? '#FF4444' : Colors.candlelight }
-                                ]}>
-                                    {myPlayer.isImposter ? "THE IMPOSTER" : "CIVILIAN"}
-                                </Text>
+                                {(() => {
+                                    let roleTitle = "CIVILIAN";
+                                    let roleColor = Colors.candlelight;
+                                    let secretDisplay = myPlayer.secretWord;
+                                    let secretLabelText = "SECRET WORD";
+                                    let hintText = "Find the Imposter who has a different word.";
+                                    let iconName = "search-outline";
 
-                                <View style={styles.divider} />
+                                    if (gameMode === 'time-bomb') {
+                                        roleTitle = "SURVIVOR";
+                                        roleColor = Colors.parchment;
+                                        secretLabelText = "TOPIC & LETTER";
+                                        iconName = "timer-outline";
 
-                                <Text style={styles.secretLabel}>SECRET WORD</Text>
-                                <Text style={styles.secretWord}>{myPlayer.secretWord}</Text>
+                                        try {
+                                            const data = JSON.parse(myPlayer.secretWord || '{}');
+                                            secretDisplay = `${data.category}\nLetter: ${data.letter}`;
+                                        } catch (e) {
+                                            secretDisplay = myPlayer.secretWord;
+                                        }
+                                        hintText = "Say a word in this category starting with the letter to pass the bomb!";
 
-                                <View style={styles.hintContainer}>
-                                    <Ionicons
-                                        name={myPlayer.isImposter ? "eye-off-outline" : "search-outline"}
-                                        size={24}
-                                        color={Colors.grayLight}
-                                    />
-                                    <Text style={styles.instruction}>
-                                        {myPlayer.isImposter
-                                            ? "Try to blend in. Figure out the Civilian word."
-                                            : "Find the Imposter who has a different word."}
-                                    </Text>
-                                </View>
+                                    } else if (gameMode === 'directors-cut') {
+                                        if (myPlayer.role === 'director') {
+                                            roleTitle = "THE DIRECTOR";
+                                            roleColor = Colors.parchment;
+                                            hintText = "Act out this movie silently to help them guess!";
+                                            iconName = "videocam-outline";
+                                        } else {
+                                            roleTitle = "AUDIENCE";
+                                            secretDisplay = "???";
+                                            hintText = "Watch the Director and guess the movie!";
+                                            iconName = "eye-outline";
+                                        }
+
+                                    } else if (gameMode === 'wavelength') {
+                                        if (myPlayer.role === 'psychic') {
+                                            roleTitle = "PSYCHIC";
+                                            hintText = "Give a clue that fits the target on the spectrum.";
+                                        } else {
+                                            roleTitle = "GUESSER";
+                                            secretDisplay = "WAITING...";
+                                            hintText = "Discuss and guess where the target is.";
+                                        }
+
+                                    } else {
+                                        // Default: Imposter / Undercover
+                                        if (myPlayer.isImposter) {
+                                            roleTitle = "THE IMPOSTER";
+                                            roleColor = '#FF4444';
+                                            hintText = "Try to blend in. Figure out the Civilian word.";
+                                            iconName = "eye-off-outline";
+                                        }
+                                    }
+
+                                    return (
+                                        <>
+                                            <Text style={styles.roleLabel}>YOU ARE</Text>
+                                            <Text style={[styles.roleName, { color: roleColor }]}>
+                                                {roleTitle}
+                                            </Text>
+
+                                            <View style={styles.divider} />
+
+                                            <Text style={styles.secretLabel}>{secretLabelText}</Text>
+                                            <Text style={styles.secretWord}>{secretDisplay}</Text>
+
+                                            <View style={styles.hintContainer}>
+                                                <Ionicons name={iconName as any} size={24} color={Colors.grayLight} />
+                                                <Text style={styles.instruction}>{hintText}</Text>
+                                            </View>
+                                        </>
+                                    );
+                                })()}
                             </Animated.View>
                         )}
                     </View>
@@ -91,6 +148,7 @@ export default function OnlineGameScreen() {
                     )}
                 </View>
             </LinearGradient>
+            <ChatModal visible={chatVisible} onClose={() => setChatVisible(false)} />
         </View>
     );
 }
@@ -107,11 +165,26 @@ const styles = StyleSheet.create({
     gradient: { flex: 1 },
     content: { flex: 1, paddingHorizontal: 20, alignItems: 'center' },
 
+    headerRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '100%',
+        marginBottom: 40,
+    },
+    chatButton: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: 'rgba(255,255,255,0.1)',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
     headerTitle: {
         fontSize: 18,
         fontWeight: '700',
         color: Colors.grayLight,
-        marginBottom: 40,
         letterSpacing: 2,
     },
 

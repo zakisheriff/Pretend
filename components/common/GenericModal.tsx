@@ -11,7 +11,7 @@ interface GenericModalProps {
     confirmLabel?: string;
     cancelLabel?: string;
     onConfirm: () => void;
-    onCancel: () => void;
+    onCancel?: () => void;
     isDestructive?: boolean;
 }
 
@@ -46,13 +46,15 @@ export const GenericModal: React.FC<GenericModalProps> = ({
                     <Text style={styles.message}>{message}</Text>
 
                     <View style={styles.actions}>
-                        <Button
-                            title={cancelLabel}
-                            onPress={onCancel}
-                            variant="outline"
-                            size="small"
-                            style={styles.cancelBtn}
-                        />
+                        {onCancel && (
+                            <Button
+                                title={cancelLabel}
+                                onPress={onCancel}
+                                variant="outline"
+                                size="small"
+                                style={styles.cancelBtn}
+                            />
+                        )}
                         <Button
                             title={confirmLabel}
                             onPress={onConfirm}

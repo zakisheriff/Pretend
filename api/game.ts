@@ -49,7 +49,7 @@ export const GameAPI = {
 
             return { room, player, error: null };
         } catch (error: any) {
-            console.error('Error creating room:', JSON.stringify(error, null, 2));
+            console.error('Error creating room:', error);
             return { room: null, player: null, error };
         }
     },
@@ -103,7 +103,7 @@ export const GameAPI = {
      * Leave a room
      */
     leaveRoom: async (playerId: string) => {
-        return await supabase.from('players').delete().eq('id', playerId);
+        return await supabase.from('players').delete().eq('id', playerId).select();
     },
 
     /**
@@ -119,7 +119,7 @@ export const GameAPI = {
     /**
      * Start the game
      */
-    startGame: async (roomCode: string) => {
+    startGame: async (roomCode: string, gameMode: string = 'undercover-word') => {
         try {
             // 1. Get players
             const { data: players, error: playersError } = await supabase
@@ -131,41 +131,94 @@ export const GameAPI = {
                 return { error: 'Not enough players' };
             }
 
-            // 2. Select Word Pair
-            const WORD_PAIRS = [
-                { crew: "Coffee", imposter: "Tea" },
-                { crew: "Sun", imposter: "Moon" },
-                { crew: "Apple", imposter: "Orange" },
-                { crew: "Car", imposter: "Truck" },
-                { crew: "Dog", imposter: "Cat" },
-                { crew: "Pen", imposter: "Pencil" },
-                { crew: "Beach", imposter: "Pool" },
-                { crew: "Piano", imposter: "Guitar" },
-                { crew: "Book", imposter: "Magazine" },
-                { crew: "Train", imposter: "Bus" },
-            ];
+            const updatePromises: any[] = [];
 
-            const pair = WORD_PAIRS[Math.floor(Math.random() * WORD_PAIRS.length)];
+            switch (gameMode) {
+                case 'time-bomb':
+                    // Time Bomb Logic
+                    const categories = ['Movie', 'Food', 'Game', 'Animal', 'Brand', 'City', 'Country', 'Song', 'Celebrity'];
+                    const category = categories[Math.floor(Math.random() * categories.length)];
+                    const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                    // Store data in secret_word as JSON for MVP
+                    const payload = JSON.stringify({ category, letter });
 
-            // 3. Select Imposter
-            const imposterIndex = Math.floor(Math.random() * players.length);
+                    players.forEach(p => {
+                        updatePromises.push(
+                            supabase.from('players').update({ role: 'player', secret_word: payload }).eq('id', p.id)
+                        );
+                    });
+                    break;
 
-            // 4. Update Players
-            await Promise.all(players.map((player, index) => {
-                const isImposter = index === imposterIndex;
-                const role = isImposter ? 'imposter' : 'crewmate';
-                const secretWord = isImposter ? pair.imposter : pair.crew;
+                case 'directors-cut':
+                    // Director's Cut: 1 Director, others Guessers
+                    const directorIndex = Math.floor(Math.random() * players.length);
+                    const movies = ["Inception (Sci-Fi)", "Titanic (Romance)", "The Matrix (Sci-Fi)", "Jaws (Thriller)", "Avatar (Sci-Fi)", "Frozen (Animation)"];
+                    const movie = movies[Math.floor(Math.random() * movies.length)];
 
-                return supabase
-                    .from('players')
-                    .update({ role, secret_word: secretWord })
-                    .eq('id', player.id);
-            }));
+                    players.forEach((p, i) => {
+                        const isDirector = i === directorIndex;
+                        const role = isDirector ? 'director' : 'viewer';
+                        const secret = isDirector ? movie : '???'; // Viewers see ???
+                        updatePromises.push(
+                            supabase.from('players').update({ role, secret_word: secret }).eq('id', p.id)
+                        );
+                    });
+                    break;
+
+                case 'wavelength':
+                    // Wavelength: 1 Psychic, others Guessers
+                    const psychicIndex = Math.floor(Math.random() * players.length);
+                    players.forEach((p, i) => {
+                        const isPsychic = i === psychicIndex;
+                        const role = isPsychic ? 'psychic' : 'guesser';
+                        // Psychic gets the full spectrum, guessers get nothing initially
+                        const secret = isPsychic ? 'SPECTRUM' : '???';
+                        updatePromises.push(
+                            supabase.from('players').update({ role, secret_word: secret }).eq('id', p.id)
+                        );
+                    });
+                    break;
+
+                case 'undercover-word':
+                default:
+                    // DEFAULT: Undercover / Classic Imposter (2+ Players supported logic)
+                    const WORD_PAIRS = [
+                        { crew: "Coffee", imposter: "Tea" },
+                        { crew: "Sun", imposter: "Moon" },
+                        { crew: "Apple", imposter: "Orange" },
+                        { crew: "Car", imposter: "Truck" },
+                        { crew: "Dog", imposter: "Cat" },
+                        { crew: "Pen", imposter: "Pencil" },
+                        { crew: "Beach", imposter: "Pool" },
+                        { crew: "Piano", imposter: "Guitar" },
+                        { crew: "Book", imposter: "Magazine" },
+                        { crew: "Train", imposter: "Bus" },
+                    ];
+
+                    const pair = WORD_PAIRS[Math.floor(Math.random() * WORD_PAIRS.length)];
+                    const imposterIndex = Math.floor(Math.random() * players.length);
+
+                    players.forEach((p, index) => {
+                        const isImposter = index === imposterIndex;
+                        const role = isImposter ? 'imposter' : 'crewmate';
+                        const secretWord = isImposter ? pair.imposter : pair.crew;
+                        updatePromises.push(
+                            supabase.from('players').update({ role, secret_word: secretWord }).eq('id', p.id)
+                        );
+                    });
+                    break;
+            }
+
+            await Promise.all(updatePromises);
 
             // 5. Start Game
             const { error } = await supabase
                 .from('rooms')
-                .update({ status: 'PLAYING', curr_phase: 'reveal' })
+                .update({
+                    status: 'PLAYING',
+                    curr_phase: 'reveal',
+                    game_mode: gameMode
+                })
                 .eq('code', roomCode);
 
             if (error) throw error;
@@ -174,5 +227,10 @@ export const GameAPI = {
             console.error('Error starting game:', error);
             return { error: error.message };
         }
+    },
+
+    checkConnection: async () => {
+        const { error } = await supabase.from('rooms').select('code').limit(1);
+        return !error;
     }
 };

@@ -167,6 +167,7 @@ export interface Player {
     score: number;
     isHost?: boolean;
     secretWord?: string;
+    role?: string;
 }
 
 export interface GameSettings {

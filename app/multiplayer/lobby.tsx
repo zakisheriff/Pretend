@@ -1,19 +1,34 @@
 import { GameAPI } from '@/api/game';
 import { Button } from '@/components/game';
 import { Colors } from '@/constants/colors';
+import { useCustomAlert } from '@/hooks/useCustomAlert';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Alert, FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function LobbyScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
-    const { roomCode, players, isHost, leaveGame, gameStatus } = useOnlineGameStore();
+    const { showAlert, AlertComponent } = useCustomAlert();
+    const { roomCode, players, isHost, leaveGame, gameStatus, removePlayer } = useOnlineGameStore();
+
+    // Check DB Permissions
+    React.useEffect(() => {
+        GameAPI.checkConnection().then(ok => {
+            if (!ok) {
+                showAlert(
+                    "Database Setup Required",
+                    "Database permissions are blocking the game. Please run the 'SUPABASE_SETUP.sql' script in your Supabase Dashboard SQL Editor.",
+                    [{ text: "OK" }]
+                );
+            }
+        });
+    }, []);
 
     // Effect to navigate when game starts
     React.useEffect(() => {
@@ -27,16 +42,12 @@ export default function LobbyScreen() {
         router.dismissTo('/');
     };
 
-    const handleStartGame = async () => {
-        if (!roomCode) return;
-        const { error } = await GameAPI.startGame(roomCode);
-        if (error) {
-            Alert.alert('Error', 'Failed to start game: ' + error);
-        }
+    const handleStartGame = () => {
+        router.push('/multiplayer/select-mode');
     };
 
     const handleKick = async (playerId: string, playerName: string) => {
-        Alert.alert(
+        showAlert(
             "Remove Player",
             `Are you sure you want to remove ${playerName}?`,
             [
@@ -45,8 +56,14 @@ export default function LobbyScreen() {
                     text: "Remove",
                     style: "destructive",
                     onPress: async () => {
+                        // Optimistic update
+                        removePlayer(playerId);
+
                         const { error } = await GameAPI.leaveRoom(playerId);
-                        if (error) Alert.alert("Error", "Failed to remove player");
+                        if (error) {
+                            showAlert("Error", "Failed to remove player from DB: " + error.message);
+                            // If failed, they might reappear on next fetch/sync
+                        }
                     }
                 }
             ]
@@ -133,6 +150,7 @@ export default function LobbyScreen() {
                     </View>
                 </View>
             </LinearGradient>
+            <AlertComponent />
         </View>
     );
 }

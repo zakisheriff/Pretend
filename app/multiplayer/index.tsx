@@ -1,18 +1,20 @@
 import { GameAPI } from '@/api/game';
 import { Button } from '@/components/game';
 import { Colors } from '@/constants/colors';
+import { useCustomAlert } from '@/hooks/useCustomAlert';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Alert, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function MultiplayerScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
+    const { showAlert, AlertComponent } = useCustomAlert(); // Hook
 
     const [isJoining, setIsJoining] = React.useState(false);
     const [roomCode, setRoomCode] = React.useState('');
@@ -26,20 +28,20 @@ export default function MultiplayerScreen() {
 
     const handleHostGame = async () => {
         if (!name.trim()) {
-            Alert.alert('Name Required', 'Please enter your name.');
+            showAlert('Name Required', 'Please enter your name.');
             return;
         }
         setLoading(true);
         const { room, player, error } = await GameAPI.createRoom(name.trim(), 'undercover-word');
 
         if (error) {
-            Alert.alert('Error', 'Failed to create room: ' + error.message);
+            showAlert('Error', 'Failed to create room: ' + error.message);
             setLoading(false);
             return;
         }
 
         if (room && player) {
-            useOnlineGameStore.getState().setRoomInfo(room.code, true, player.id);
+            useOnlineGameStore.getState().setRoomInfo(room.code, true, player.id, player);
             router.push('/multiplayer/lobby');
         }
         setLoading(false);
@@ -47,15 +49,20 @@ export default function MultiplayerScreen() {
 
     const handleJoinGame = () => {
         if (!name.trim()) {
-            Alert.alert('Name Required', 'Please enter your name.');
+            showAlert('Name Required', 'Please enter your name.');
             return;
         }
         setIsJoining(true);
     };
 
     const submitJoin = async () => {
+        if (!name.trim()) {
+            showAlert('Name Required', 'Please enter your name.');
+            return;
+        }
+
         if (roomCode.length !== 4) {
-            Alert.alert('Invalid Code', 'Please enter a 4-letter room code.');
+            showAlert('Invalid Code', 'Please enter a 4-letter room code.');
             return;
         }
 
@@ -63,13 +70,13 @@ export default function MultiplayerScreen() {
         const { room, player, error } = await GameAPI.joinRoom(name.trim(), roomCode);
 
         if (error) {
-            Alert.alert('Error', error);
+            showAlert('Error', error);
             setLoading(false);
             return;
         }
 
         if (room && player) {
-            useOnlineGameStore.getState().setRoomInfo(room.code, false, player.id);
+            useOnlineGameStore.getState().setRoomInfo(room.code, false, player.id, player);
             router.push('/multiplayer/lobby');
         }
         setLoading(false);
@@ -85,7 +92,7 @@ export default function MultiplayerScreen() {
                     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                     style={{ flex: 1 }}
                 >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <TouchableWithoutFeedback onPress={Platform.OS === 'web' ? undefined : Keyboard.dismiss}>
                         <View style={[styles.content, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
 
                             {/* Header */}
@@ -191,6 +198,7 @@ export default function MultiplayerScreen() {
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>
             </LinearGradient>
+            <AlertComponent />
         </View>
     );
 }
