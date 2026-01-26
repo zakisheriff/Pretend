@@ -9,6 +9,9 @@ interface ChatMessage {
     senderName: string;
     content: string;
     timestamp: number;
+    replyToId?: string;
+    replyToName?: string;
+    replyToContent?: string;
 }
 
 interface OnlineGameState {
@@ -26,6 +29,8 @@ interface OnlineGameState {
     gameWinner: 'crewmates' | 'imposters' | null;
     impostersCaught: boolean;
     kicked: boolean;
+    typingPlayers: string[];
+    setTyping: (isTyping: boolean) => Promise<void>;
 
     // Actions
     setRoomInfo: (code: string, isHost: boolean, playerId: string, initialPlayer?: any) => void;
@@ -35,7 +40,7 @@ interface OnlineGameState {
     clearUnreadCount: () => void;
     syncGameState: (newState: any) => void;
     leaveGame: () => void;
-    sendChatMessage: (content: string) => Promise<void>;
+    sendChatMessage: (content: string, replyTo?: { id: string, name: string, content: string }) => Promise<void>;
     removePlayer: (id: string) => void;
     resetGame: () => void;
     resetRoom: () => Promise<void>;
@@ -67,6 +72,18 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
     gameWinner: null,
     impostersCaught: false,
     kicked: false,
+    typingPlayers: [] as string[], // List of names typing
+
+    setTyping: async (isTyping: boolean) => {
+        const { roomCode, myPlayerId } = get();
+        if (!roomCode || !myPlayerId) return;
+
+        await supabase.channel(`room:${roomCode}`).send({
+            type: 'broadcast',
+            event: 'typing',
+            payload: { playerId: myPlayerId, isTyping }
+        });
+    },
 
     setChatOpen: (open) => set({ isChatOpen: open }),
     clearUnreadCount: () => set({ unreadMessageCount: 0 }),
@@ -184,6 +201,21 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                     unreadMessageCount: isChatOpen ? 0 : state.unreadMessageCount + 1
                 }));
             })
+            .on('broadcast', { event: 'typing' }, ({ payload }) => {
+                const { playerId, isTyping } = payload;
+                const { myPlayerId, players } = get();
+                if (playerId === myPlayerId) return;
+
+                const name = players.find(p => p.id === playerId)?.name;
+                if (!name) return;
+
+                set(state => {
+                    const currentTyping = new Set(state.typingPlayers);
+                    if (isTyping) currentTyping.add(name);
+                    else currentTyping.delete(name);
+                    return { typingPlayers: Array.from(currentTyping) };
+                });
+            })
             .subscribe((status) => {
                 if (status === 'SUBSCRIBED') {
                     // Optional: Refetch once to be sure
@@ -234,7 +266,7 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
         set({ gameStatus: status, gameMode: mode, gamePhase: phase as any || 'reveal' });
     },
 
-    sendChatMessage: async (content: string) => {
+    sendChatMessage: async (content: string, replyTo) => {
         const { roomCode, myPlayerId, players } = get();
         if (!roomCode || !myPlayerId) return;
 
@@ -244,7 +276,10 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
             senderId: myPlayerId,
             senderName: sender?.name || 'Player',
             content,
-            timestamp: Date.now()
+            timestamp: Date.now(),
+            replyToId: replyTo?.id,
+            replyToName: replyTo?.name,
+            replyToContent: replyTo?.content
         };
 
         // Update local immediately

@@ -1,5 +1,5 @@
 
-import { Button, ScoreBoard } from '@/components/game';
+import { Button, ScoreBoard, WinnerCelebration } from '@/components/game';
 import { WavelengthView } from '@/components/game/WavelengthView';
 import { Colors } from '@/constants/colors';
 import { useCustomAlert } from '@/hooks/useCustomAlert';
@@ -42,12 +42,6 @@ export function OnlineResultsView() {
         return { special: 'Imposter', normal: 'Crewmate', icon: 'eye-off' };
     };
 
-    const { special: specialRoleName, icon: specialRoleIcon } = getRoleNames();
-
-    useEffect(() => {
-        haptics.success();
-    }, []);
-
     const handlePlayAgain = async () => {
         if (loading || !isHost || !roomCode) return;
 
@@ -62,6 +56,31 @@ export function OnlineResultsView() {
             setLoading(false);
         }
     };
+
+    // Check for Match Winner (First to 10)
+    const matchWinner = players.find(p => (p.score || 0) >= 10);
+
+    if (matchWinner) {
+        return (
+            <View style={{ flex: 1, backgroundColor: 'black' }}>
+                <WinnerCelebration
+                    winner={matchWinner}
+                    allPlayers={players}
+                    onNewGame={isHost ? handlePlayAgain : (() => { })}
+                    onHome={async () => {
+                        await leaveGame();
+                        router.replace('/');
+                    }}
+                />
+            </View>
+        );
+    }
+
+    const { special: specialRoleName, icon: specialRoleIcon } = getRoleNames();
+
+    useEffect(() => {
+        haptics.success();
+    }, []);
 
     const getWinnerText = () => {
         if (gameMode === 'directors-cut') {

@@ -163,7 +163,7 @@ export default function HomeScreen() {
 
                                 <Animated.View entering={FadeInDown.delay(600).duration(400)}>
                                     <Button
-                                        title="Online Multiplayer"
+                                        title="Online Multiplayer (Beta)"
                                         onPress={() => router.push('/multiplayer')}
                                         variant="outline"
                                         size="large"
@@ -227,7 +227,6 @@ const styles = StyleSheet.create({
         lineHeight: 170,
         textAlign: 'center',
         marginVertical: -20,
-
     },
     subtitle: {
         fontSize: 13,

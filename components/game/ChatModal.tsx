@@ -1,8 +1,9 @@
 import { Colors } from '@/constants/colors';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { Ionicons } from '@expo/vector-icons';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, KeyboardAvoidingView, Modal, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Swipeable } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface ChatModalProps {
@@ -12,28 +13,72 @@ interface ChatModalProps {
 
 export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
     const insets = useSafeAreaInsets();
-    const { messages, sendChatMessage, myPlayerId, setChatOpen, clearUnreadCount } = useOnlineGameStore();
+    const { messages, sendChatMessage, myPlayerId, setChatOpen, clearUnreadCount, typingPlayers, setTyping } = useOnlineGameStore();
     const [inputText, setInputText] = React.useState('');
+    const [replyTo, setReplyTo] = useState<{ id: string, name: string, content: string } | null>(null);
     const flatListRef = useRef<FlatList>(null);
+    const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     React.useEffect(() => {
         setChatOpen(visible);
         if (visible) clearUnreadCount();
     }, [visible]);
 
-    const handleSend = () => {
-        if (!inputText.trim()) return;
-        sendChatMessage(inputText.trim());
-        setInputText('');
+    const handleTextChange = (text: string) => {
+        setInputText(text);
+
+        if (!typingTimeoutRef.current) {
+            setTyping(true);
+        } else {
+            clearTimeout(typingTimeoutRef.current);
+        }
+
+        typingTimeoutRef.current = setTimeout(() => {
+            setTyping(false);
+            typingTimeoutRef.current = null;
+        }, 2000);
     };
 
+    const handleSend = async () => {
+        if (!inputText.trim()) return;
+
+        // Clear typing status immediately
+        if (typingTimeoutRef.current) {
+            clearTimeout(typingTimeoutRef.current);
+            typingTimeoutRef.current = null;
+            setTyping(false);
+        }
+
+        await sendChatMessage(inputText.trim(), replyTo || undefined);
+        setInputText('');
+        setReplyTo(null);
+        // Explicitly scroll to bottom after sending
+        setTimeout(() => {
+            flatListRef.current?.scrollToEnd({ animated: true });
+        }, 100);
+    };
+
+    // Auto-scroll to bottom when opening or new messages
     useEffect(() => {
         if (visible && messages.length > 0) {
+            // Immediate scroll without animation for snappy feel on open
+            setTimeout(() => {
+                flatListRef.current?.scrollToEnd({ animated: false });
+            }, 100);
+
+            // Second scroll just in case layout wasn't ready
             setTimeout(() => {
                 flatListRef.current?.scrollToEnd({ animated: true });
-            }, 100);
+            }, 300);
         }
-    }, [visible, messages]);
+    }, [visible]);
+
+    // Scroll when new messages come in
+    useEffect(() => {
+        if (visible && messages.length > 0) {
+            flatListRef.current?.scrollToEnd({ animated: true });
+        }
+    }, [messages.length, visible]);
 
     return (
         <Modal
@@ -52,24 +97,53 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                 </View>
 
                 {/* Messages */}
+                {/* Messages */}
                 <FlatList
                     ref={flatListRef}
                     data={messages}
                     keyExtractor={item => item.id}
                     contentContainerStyle={styles.listContent}
+                    onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
+                    onLayout={() => flatListRef.current?.scrollToEnd({ animated: false })}
                     renderItem={({ item }) => {
                         const isMe = item.senderId === myPlayerId;
-                        return (
-                            <View style={[styles.messageRow, isMe ? styles.myRow : styles.otherRow]}>
-                                <Text style={[styles.senderName, isMe && { marginRight: 4, alignSelf: 'flex-end', color: Colors.gaslightAmber }]}>
-                                    {item.senderName} {isMe ? '(You)' : ''}
-                                </Text>
-                                <View style={[styles.bubble, isMe ? styles.myBubble : styles.otherBubble]}>
-                                    <Text style={[styles.msgText, isMe ? styles.myMsgText : styles.otherMsgText]}>
-                                        {item.content}
-                                    </Text>
+
+                        const renderReplyAction = () => {
+                            return (
+                                <View style={{ justifyContent: 'center', alignItems: 'center', width: 50 }}>
+                                    <Ionicons name="arrow-undo" size={24} color={Colors.grayLight} />
                                 </View>
-                            </View>
+                            );
+                        };
+
+                        return (
+                            <Swipeable
+                                renderLeftActions={renderReplyAction}
+                                onSwipeableOpen={() => {
+                                    setReplyTo({ id: item.id, name: item.senderName, content: item.content });
+                                    // Should auto close
+                                }}
+                            >
+                                <View style={[styles.messageRow, isMe ? styles.myRow : styles.otherRow]}>
+                                    <Text style={[styles.senderName, isMe && { marginRight: 4, alignSelf: 'flex-end', color: Colors.gaslightAmber }]}>
+                                        {item.senderName} {isMe ? '(You)' : ''}
+                                    </Text>
+                                    <View style={[styles.bubble, isMe ? styles.myBubble : styles.otherBubble]}>
+                                        {/* Reply Preview Inside Message */}
+                                        {item.replyToId && (
+                                            <View style={[styles.replyQuote, isMe ? styles.myReplyQuote : styles.otherReplyQuote]}>
+                                                <Text style={[styles.replyName, isMe ? { color: Colors.parchment } : { color: Colors.grayLight }]}>{item.replyToName}</Text>
+                                                <Text style={[styles.replyContent, isMe ? { color: 'rgba(255,255,255,0.7)' } : { color: 'rgba(255,255,255,0.7)' }]} numberOfLines={1}>
+                                                    {item.replyToContent}
+                                                </Text>
+                                            </View>
+                                        )}
+                                        <Text style={[styles.msgText, isMe ? styles.myMsgText : styles.otherMsgText]}>
+                                            {item.content}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </Swipeable>
                         );
                     }}
                 />
@@ -79,15 +153,39 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                     behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
                     keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
                 >
+                    {/* Reply Context Banner */}
+                    {replyTo && (
+                        <View style={styles.replyContext}>
+                            <View style={styles.replyLine} />
+                            <View style={{ flex: 1 }}>
+                                <Text style={styles.replyContextName}>Replying to {replyTo.name}</Text>
+                                <Text style={styles.replyContextContent} numberOfLines={1}>{replyTo.content}</Text>
+                            </View>
+                            <TouchableOpacity onPress={() => setReplyTo(null)} style={{ padding: 4 }}>
+                                <Ionicons name="close" size={20} color={Colors.grayLight} />
+                            </TouchableOpacity>
+                        </View>
+                    )}
+
+                    {/* Typing Indicator */}
+                    {typingPlayers.length > 0 && (
+                        <View style={styles.typingContainer}>
+                            <Text style={styles.typingText}>
+                                {typingPlayers.join(', ')} {typingPlayers.length > 1 ? 'are' : 'is'} typing...
+                            </Text>
+                        </View>
+                    )}
+
                     <View style={[styles.inputArea, { paddingBottom: Math.max(insets.bottom, 20) }]}>
                         <TextInput
                             style={styles.input}
                             placeholder="Type a message..."
                             placeholderTextColor={Colors.grayLight}
                             value={inputText}
-                            onChangeText={setInputText}
-                            returnKeyType="send"
-                            onSubmitEditing={handleSend}
+                            onChangeText={handleTextChange}
+                            multiline
+                            blurOnSubmit={false} // KEYBOARD FIX: Keeps keyboard open on submit
+                            autoFocus={false}
                         />
                         <TouchableOpacity onPress={handleSend} style={styles.sendBtn} disabled={!inputText.trim()}>
                             <Ionicons
@@ -182,7 +280,7 @@ const styles = StyleSheet.create({
     },
     inputArea: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-end', // Align send button to bottom
         padding: 16,
         paddingTop: 12,
         borderTopWidth: 1,
@@ -192,14 +290,23 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        height: 48,
+        minHeight: 48,
+        maxHeight: 120, // Limit expansion
         backgroundColor: '#333',
         borderRadius: 24,
         paddingHorizontal: 20,
+        paddingTop: 12, // Center text vertically
+        paddingBottom: 12,
         color: '#FFF',
         fontSize: 16,
         borderWidth: 1,
         borderColor: '#444',
+        ...Platform.select({
+            web: {
+                outlineStyle: 'none',
+                boxShadow: 'none',
+            } as any
+        })
     },
     sendBtn: {
         width: 48,
@@ -208,5 +315,66 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: Colors.parchment,
+        marginBottom: 0, // Align with bottom
     },
+    typingContainer: {
+        paddingHorizontal: 20,
+        paddingBottom: 8,
+    },
+    typingText: {
+        color: Colors.grayLight,
+        fontSize: 12,
+        fontStyle: 'italic',
+    },
+    replyContext: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingBottom: 8,
+        paddingTop: 8,
+        backgroundColor: '#1A1A1A',
+        borderTopWidth: 1,
+        borderTopColor: '#333',
+        gap: 12
+    },
+    replyLine: {
+        width: 2,
+        height: '100%',
+        backgroundColor: Colors.parchment,
+        borderRadius: 1
+    },
+    replyContextName: {
+        color: Colors.parchment,
+        fontSize: 12,
+        fontWeight: 'bold',
+        marginBottom: 2
+    },
+    replyContextContent: {
+        color: Colors.grayLight,
+        fontSize: 12
+    },
+    replyQuote: {
+        marginBottom: 6,
+        padding: 8,
+        backgroundColor: 'rgba(0,0,0,0.2)',
+        borderRadius: 8,
+        borderLeftWidth: 2,
+        borderLeftColor: Colors.parchment
+    },
+    myReplyQuote: {
+        backgroundColor: 'rgba(0,0,0,0.2)',
+        borderLeftColor: Colors.parchment
+    },
+    otherReplyQuote: {
+        backgroundColor: 'rgba(0,0,0,0.2)',
+        borderLeftColor: Colors.gaslightAmber
+    },
+    replyName: {
+        fontSize: 10,
+        fontWeight: 'bold',
+        marginBottom: 2
+    },
+    replyContent: {
+        fontSize: 12
+    }
 });
