@@ -32,7 +32,7 @@ export const useCustomAlert = () => {
         message: string,
         buttons?: AlertButton[]
     ) => {
-        if (Platform.OS !== 'android') {
+        if (Platform.OS === 'ios') {
             Alert.alert(title, message, buttons);
             return;
         }

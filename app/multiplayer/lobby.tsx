@@ -20,8 +20,17 @@ export default function LobbyScreen() {
     // Handle being kicked
     React.useEffect(() => {
         if (kicked) {
-            leaveGame();
-            router.replace('/');
+            showAlert(
+                "Removed From Game",
+                "You have been kicked by the host.",
+                [{
+                    text: "OK",
+                    onPress: () => {
+                        leaveGame();
+                        router.replace('/');
+                    }
+                }]
+            );
         }
     }, [kicked]);
     // chatVisible removed
@@ -59,13 +68,14 @@ export default function LobbyScreen() {
         console.log('handleKick called for:', playerName, playerId);
         showAlert(
             "Remove Player",
-            `Are you sure you want to remove ${playerName}?`,
+            `Are you sure you want to remove ${playerName} from the lobby?`,
             [
                 { text: "Cancel", style: "cancel" },
                 {
                     text: "Remove",
                     style: "destructive",
                     onPress: async () => {
+                        console.log('Confirm remove pressed for:', playerId);
                         // Optimistic update
                         removePlayer(playerId);
 
@@ -76,6 +86,8 @@ export default function LobbyScreen() {
                                 ? "Supabase is blocking the host from deleting other players. Please run the SQL fix in the walkthrough."
                                 : "Failed to remove player: " + error.message;
                             showAlert("Database Permission Error", msg, [{ text: "OK" }]);
+                        } else {
+                            console.log('Player removed from DB successfully');
                         }
                     }
                 }
@@ -98,14 +110,16 @@ export default function LobbyScreen() {
             )}
             {isHost && item.id !== useOnlineGameStore.getState().myPlayerId && (
                 <TouchableOpacity
-                    onPress={() => {
-                        console.log('KICK BUTTON TAPPED for:', item.name);
+                    onPress={(e) => {
+                        e.preventDefault && e.preventDefault();
+                        e.stopPropagation && e.stopPropagation();
+                        console.log('REMOVE BUTTON TAPPED (Web fixed) for:', item.name);
                         handleKick(item.id, item.name);
                     }}
-                    hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-                    style={[styles.kickButton, { zIndex: 100 }]}
+                    activeOpacity={0.7}
+                    style={[styles.removeButton, { zIndex: 999 }]}
                 >
-                    <Ionicons name="close-circle-outline" size={32} color="#FF4444" />
+                    <Text style={styles.removeButtonText}>Remove</Text>
                 </TouchableOpacity>
             )}
         </Animated.View>
@@ -248,13 +262,20 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         flex: 1,
     },
-    kickButton: {
-        width: 44,
-        height: 44,
-        alignItems: 'center',
-        justifyContent: 'center',
+    removeButton: {
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        backgroundColor: 'rgba(255, 68, 68, 0.1)',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 68, 68, 0.3)',
         // @ts-ignore
         cursor: 'pointer',
+    },
+    removeButtonText: {
+        color: '#FF4444',
+        fontSize: 12,
+        fontWeight: 'bold',
     },
     hostBadge: {
         fontSize: 12,

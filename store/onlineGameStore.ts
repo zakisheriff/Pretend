@@ -126,23 +126,28 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                 { event: 'DELETE', schema: 'public', table: 'players' },
                 (payload) => {
                     const { myPlayerId, players } = get();
-                    console.log('Player DELETE event received:', payload.old.id);
+                    console.log('DELETE payload received:', payload);
+                    const deletedId = payload.old?.id;
+
+                    if (!deletedId) {
+                        console.log('DELETE event missing ID in payload.old');
+                        return;
+                    }
+
+                    console.log('Player DELETE event for ID:', deletedId, 'My ID:', myPlayerId);
 
                     // 1. If I am the one deleted, I was kicked
-                    if (payload.old.id === myPlayerId) {
-                        console.log('I have been kicked/removed from the room.');
+                    if (String(deletedId) === String(myPlayerId)) {
+                        console.log('I have been kicked - setting kicked state to true');
                         set({ kicked: true });
                         // redirection handled in UI components
                         return;
                     }
 
-                    // 2. Only update if the deleted player was actually in our list
-                    const exists = players.some(p => p.id === payload.old.id);
-                    if (exists) {
-                        set(state => ({
-                            players: state.players.filter(p => p.id !== payload.old.id)
-                        }));
-                    }
+                    // 2. Update list for everyone else
+                    set(state => ({
+                        players: state.players.filter(p => p.id !== deletedId)
+                    }));
                 }
             )
             .on(
