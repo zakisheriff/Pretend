@@ -2,9 +2,9 @@ import { Colors } from '@/constants/colors';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { FlatList, KeyboardAvoidingView, LayoutAnimation, Modal, Platform, StyleSheet, Text, TextInput, TouchableOpacity, UIManager, View } from 'react-native';
-import { GestureHandlerRootView, State as GestureState, PanGestureHandler, State, Swipeable, TapGestureHandler } from 'react-native-gesture-handler';
+import React, { useEffect, useRef, useState } from 'react';
+import { FlatList, KeyboardAvoidingView, LayoutAnimation, Modal, Platform, Animated as RNAnimated, StyleSheet, Text, TextInput, TouchableOpacity, UIManager, View } from 'react-native';
+import { GestureHandlerRootView, State as GestureState, PanGestureHandler, Swipeable } from 'react-native-gesture-handler';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -19,12 +19,37 @@ interface ChatModalProps {
 
 export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
     const insets = useSafeAreaInsets();
-    const { messages, sendChatMessage, myPlayerId, setChatOpen, clearUnreadCount, typingPlayers, setTyping, reactToMessage, players } = useOnlineGameStore();
+    const { messages, sendChatMessage, myPlayerId, setChatOpen, clearUnreadCount, typingPlayers, setTyping, markMessageAsSeen, players } = useOnlineGameStore();
     const [inputText, setInputText] = React.useState('');
     const [replyTo, setReplyTo] = useState<{ id: string, name: string, content: string } | null>(null);
     const flatListRef = useRef<FlatList>(null);
     const inputRef = useRef<TextInput>(null);
     const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+
+    // Mark as seen logic
+    useEffect(() => {
+        if (visible && messages.length > 0 && myPlayerId) {
+            // Find last message NOT validly seen by me
+            // Actually simpler: iterate and mark any unseen messages as seen
+            // To avoid spamming, maybe just check the last few?
+            // Or simpler: Just mark the *last message* as seen if it wasn't sent by me.
+            // If I see the last message, I implicitly saw the ones before.
+            // But for accurate "seen by" lists on each message, we technically should update specific ones.
+            // Let's stick to marking the *latest* relevant message for now or batching.
+            // For this specific request: "check if users have seen the message"
+            // Let's mark ALL unseen messages not sent by me as seen.
+
+            messages.forEach(msg => {
+                if (msg.senderId !== myPlayerId) {
+                    const seenBy = msg.seenBy || [];
+                    if (!seenBy.includes(myPlayerId)) {
+                        markMessageAsSeen(msg.id);
+                    }
+                }
+            });
+        }
+    }, [visible, messages.length, myPlayerId]);
 
     React.useEffect(() => {
         setChatOpen(visible);
@@ -67,9 +92,7 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
         }, 100);
     };
 
-    const handleReact = useCallback((msgId: string, reaction: string) => {
-        reactToMessage(msgId, reaction);
-    }, [reactToMessage]);
+
 
     // Auto-scroll logic
     useEffect(() => {
@@ -138,8 +161,13 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                             const next = messages[index + 1];
                             const isSameSenderPrev = prev?.senderId === item.senderId;
                             const isSameSenderNext = next?.senderId === item.senderId;
+                            // Calculate z-index: Higher index items (rendered later) should be "below" earlier items to allow reactions to hang over
+                            // wait, standard stacking: subsequent siblings cover previous ones.
+                            // To make Item 0 cover Item 1, Item 0 needs higher zIndex.
+                            const zIndex = messages.length - index;
 
                             // Time grouping (show time if > 5 mins diff) - optional, skipping for simplicity request "exactly like instagram message bubbles"
+
 
                             return (
                                 <MessageRow
@@ -148,7 +176,6 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                                     onReply={setReplyTo}
                                     isSameSenderPrev={isSameSenderPrev}
                                     isSameSenderNext={isSameSenderNext}
-                                    onReact={handleReact}
                                     players={players}
                                 />
                             );
@@ -157,7 +184,7 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                             typingPlayers.length > 0 ? (
                                 <Animated.View entering={FadeIn} style={styles.typingContainer}>
                                     <View style={styles.typingBubble}>
-                                        <Text style={{ fontSize: 20, lineHeight: 28 }}>...</Text>
+                                        <Text style={{ fontSize: 20, lineHeight: 28, color: '#FFF' }}>...</Text>
                                     </View>
                                     <Text style={styles.typingText}>
                                         {typingPlayers.join(', ')} {typingPlayers.length > 1 ? 'are' : 'is'} typing...
@@ -174,7 +201,6 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                     >
                         {replyTo && (
                             <View style={styles.replyContext}>
-                                <View style={styles.replyBar} />
                                 <View style={{ flex: 1 }}>
                                     <Text style={styles.replyContextName}>Replying to {replyTo.name}</Text>
                                     <Text style={styles.replyContextContent} numberOfLines={1}>{replyTo.content}</Text>
@@ -190,7 +216,6 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                                 <TextInput
                                     ref={inputRef}
                                     style={styles.input}
-                                    placeholder="Message..."
                                     placeholderTextColor={Colors.gray}
                                     value={inputText}
                                     onChangeText={handleTextChange}
@@ -219,44 +244,48 @@ interface MessageItem {
     replyToId?: string;
     replyToName?: string;
     replyToContent?: string;
-    reactions?: Record<string, string>;
+    seenBy?: string[];
 }
 
-const MessageRow = React.memo(({ item, myPlayerId, onReply, isSameSenderPrev, isSameSenderNext, onReact, players }:
-    { item: MessageItem, myPlayerId: string, onReply: (r: any) => void, isSameSenderPrev: boolean, isSameSenderNext: boolean, onReact: (id: string, r: string) => void, players: any[] }) => {
+const MessageRow = React.memo(({ item, myPlayerId, onReply, isSameSenderPrev, isSameSenderNext, players }:
+    { item: MessageItem, myPlayerId: string, onReply: (r: any) => void, isSameSenderPrev: boolean, isSameSenderNext: boolean, players: any[] }) => {
 
     const swipeableRef = useRef<Swipeable>(null);
     const isMe = item.senderId === myPlayerId;
 
-    const renderLeftActions = () => (
-        <View style={{ justifyContent: 'center', width: 60, height: '100%' }}>
-            <Ionicons name="arrow-undo-circle" size={32} color="#FFF" style={{ marginLeft: 10 }} />
-        </View>
-    );
+    // Filter out "myself" from seenBy list to get "others" count/names
+    // If I'm the sender, I want to know who else saw it.
+    // If I'm NOT the sender, I don't really care who saw it usually, or maybe I do?
+    // Usually "Seen" is for the sender.
+    const seenByOthers = (item.seenBy || []).filter(id => id !== myPlayerId);
+    const showSeen = isMe && seenByOthers.length > 0 && !isSameSenderNext; // Only show on last bubble of group? or all? Instagram shows on bottom most usually.
+    // Let's show on the very last message of the sequence OR if it has a unique seen status?
+    // Simpler: Show if 'seenByOthers' > 0.
+    // Placement: Bottom right of bubble.
 
-    const onDoubleTap = (event: any) => {
-        if (event.nativeEvent.state === State.ACTIVE) {
-            onReact(item.id, '❤️');
-        }
-    };
-
-    const handleReactionPress = () => {
-        if (!item.reactions) return;
-
-        // Group users by reaction
-        const reactionGroups: Record<string, string[]> = {};
-        Object.entries(item.reactions).forEach(([pid, emoji]) => {
-            if (!reactionGroups[emoji]) reactionGroups[emoji] = [];
-            const player = players.find(p => p.id === pid);
-            reactionGroups[emoji].push(player ? player.name : 'Unknown');
+    const renderLeftActions = (progress: any, dragX: any) => {
+        const scale = dragX.interpolate({
+            inputRange: [0, 50],
+            outputRange: [0, 1],
+            extrapolate: 'clamp',
         });
 
-        const info = Object.entries(reactionGroups).map(([emoji, names]) =>
-            `${emoji} ${names.join(', ')}`
-        ).join('\n');
+        const opacity = dragX.interpolate({
+            inputRange: [0, 30],
+            outputRange: [0, 1],
+            extrapolate: 'clamp',
+        });
 
-        alert(info); // Using simple alert for "seeing who reacted"
+        return (
+            <View style={{ justifyContent: 'center', width: 60, height: '100%' }}>
+                <RNAnimated.View style={{ transform: [{ scale }], opacity, marginLeft: 10 }}>
+                    <Ionicons name="arrow-undo-circle" size={32} color="#FFF" />
+                </RNAnimated.View>
+            </View>
+        );
     };
+
+
 
     // Border Radius Logic: Instagram style
     const borderRadius = 22;
@@ -300,47 +329,34 @@ const MessageRow = React.memo(({ item, myPlayerId, onReply, isSameSenderPrev, is
                     </View>
                 )}
 
-                <TapGestureHandler numberOfTaps={2} onHandlerStateChange={onDoubleTap}>
-                    <View style={{ maxWidth: '75%' }}>
-                        {/* Name (Top of group) for Other */}
-                        {!isMe && !isSameSenderPrev && (
-                            <Text style={styles.senderName}>{item.senderName}</Text>
+                <View style={{ maxWidth: '75%' }}>
+                    {/* Name (Top of group) for Other */}
+                    {!isMe && !isSameSenderPrev && (
+                        <Text style={styles.senderName}>{item.senderName}</Text>
+                    )}
+
+                    <View>
+                        {isMe ? (
+                            <LinearGradient
+                                colors={['#7F53AC', '#647DEE']} // Instagram-ish Gradient
+                                start={{ x: 0, y: 0.5 }}
+                                end={{ x: 1, y: 1 }}
+                                style={[styles.bubble, bubbleStyle]}
+                            >
+                                <MessageContent item={item} isMe={isMe} />
+                            </LinearGradient>
+                        ) : (
+                            <View style={[styles.bubble, styles.otherBubble, bubbleStyle]}>
+                                <MessageContent item={item} isMe={isMe} />
+                            </View>
                         )}
 
-                        <View>
-                            {isMe ? (
-                                <LinearGradient
-                                    colors={['#7F53AC', '#647DEE']} // Instagram-ish Gradient
-                                    start={{ x: 0, y: 0.5 }}
-                                    end={{ x: 1, y: 1 }}
-                                    style={[styles.bubble, bubbleStyle]}
-                                >
-                                    <MessageContent item={item} isMe={isMe} />
-                                </LinearGradient>
-                            ) : (
-                                <View style={[styles.bubble, styles.otherBubble, bubbleStyle]}>
-                                    <MessageContent item={item} isMe={isMe} />
-                                </View>
-                            )}
-
-                            {/* Reactions Pill */}
-                            {item.reactions && Object.keys(item.reactions).length > 0 && (
-                                <TouchableOpacity
-                                    activeOpacity={0.8}
-                                    onPress={handleReactionPress}
-                                    style={[styles.reactionsContainer, isMe ? { left: -4 } : { right: -4 }]}
-                                >
-                                    {Object.values(item.reactions).slice(0, 3).map((r, i) => (
-                                        <Text key={i} style={{ fontSize: 10 }}>{r}</Text>
-                                    ))}
-                                    {Object.keys(item.reactions).length > 3 && (
-                                        <Text style={{ fontSize: 10, color: '#FFF' }}>+</Text>
-                                    )}
-                                </TouchableOpacity>
-                            )}
-                        </View>
+                        {/* Seen Status */}
+                        {showSeen && (
+                            <Text style={styles.seenText}>Seen</Text>
+                        )}
                     </View>
-                </TapGestureHandler>
+                </View>
             </View>
         </Swipeable>
     );
@@ -397,14 +413,14 @@ const styles = StyleSheet.create({
 
     // Reply styles
     replyQuote: {
-        marginBottom: 8, padding: 8, borderRadius: 12,
+        marginBottom: 8, padding: 10, borderRadius: 16, // More curved
         backgroundColor: 'rgba(0,0,0,0.15)',
-        borderLeftWidth: 3, borderLeftColor: 'rgba(255,255,255,0.5)'
+        // borderLeftWidth: 3, borderLeftColor: 'rgba(255,255,255,0.5)' // Removed
     },
     myReplyQuote: { backgroundColor: 'rgba(0,0,0,0.2)' },
-    otherReplyQuote: { backgroundColor: 'rgba(255,255,255,0.1)', borderLeftColor: Colors.gray },
-    replyName: { fontSize: 12, fontWeight: '700', marginBottom: 2 },
-    replyContent: { fontSize: 12, color: 'rgba(255,255,255,0.7)' },
+    otherReplyQuote: { backgroundColor: 'rgba(255,255,255,0.1)' },
+    replyName: { fontSize: 13, fontWeight: '700', marginBottom: 2 },
+    replyContent: { fontSize: 13, color: 'rgba(255,255,255,0.7)' },
 
     // Input Area
     inputArea: {
@@ -421,9 +437,8 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1, color: '#FFF', fontSize: 16,
-        maxHeight: 120,
-        textAlignVertical: 'center', // Keep centered for single line feel, or 'top' if it jumps
-        paddingTop: 0, paddingBottom: 0, // Reset padding
+        maxHeight: 220,
+        textAlignVertical: 'top', // Allow growing from top
         ...Platform.select({
             web: {
                 outlineStyle: 'none',
@@ -440,26 +455,23 @@ const styles = StyleSheet.create({
     typingBubble: {
         paddingHorizontal: 12, paddingVertical: 4, backgroundColor: '#262626', borderRadius: 16,
     },
-    typingText: { color: Colors.gray, fontSize: 12 },
+    typingText: { color: Colors.grayLight, fontSize: 12 },
 
-    // Reply Context
+    // Reply Context (Input Area)
     replyContext: {
-        flexDirection: 'row', alignItems: 'center', backgroundColor: '#1A1A1A',
-        padding: 12, gap: 12, borderTopWidth: 1, borderTopColor: '#333'
+        flexDirection: 'row', alignItems: 'center', backgroundColor: '#262626', // Matching input bg
+        padding: 12, marginHorizontal: 16, marginTop: 8, borderRadius: 16, // Curved Pill
+        marginBottom: 4 // overlap slighlty or connect
     },
-    replyBar: { width: 3, height: '100%', backgroundColor: '#647DEE', borderRadius: 2 },
+    // replyBar: { width: 3, height: '100%', backgroundColor: '#647DEE', borderRadius: 2 }, // Removed
     replyContextName: { color: '#647DEE', fontWeight: '700', fontSize: 13, marginBottom: 2 },
     replyContextContent: { color: Colors.grayLight, fontSize: 13 },
 
-    // Reactions
-    reactionsContainer: {
-        position: 'absolute', bottom: -8, // Adjusted position
-        flexDirection: 'row',
-        backgroundColor: '#333',
-        paddingHorizontal: 6, paddingVertical: 2,
-        borderRadius: 12,
-        borderWidth: 2, borderColor: Colors.victorianBlack,
-        gap: 2,
-        shadowColor: "#000", shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, elevation: 3
+
+
+    // Seen Status
+    seenText: {
+        fontSize: 10, color: 'rgba(255,255,255,0.6)',
+        alignSelf: 'flex-end', marginTop: 2, marginRight: 2
     }
 });

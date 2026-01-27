@@ -12,7 +12,8 @@ interface ChatMessage {
     replyToId?: string;
     replyToName?: string;
     replyToContent?: string;
-    reactions?: Record<string, string>;
+    // reactions?: Record<string, string>; // Removed
+    seenBy?: string[]; // List of player IDs who have seen the message
 }
 
 interface OnlineGameState {
@@ -46,7 +47,7 @@ interface OnlineGameState {
     syncGameState: (newState: any) => void;
     leaveGame: () => void;
     sendChatMessage: (content: string, replyTo?: { id: string, name: string, content: string }) => Promise<void>;
-    reactToMessage: (messageId: string, reaction: string) => Promise<void>;
+    markMessageAsSeen: (messageId: string) => Promise<void>;
     removePlayer: (id: string) => void;
     resetGame: () => void;
     resetRoom: () => Promise<void>;
@@ -246,18 +247,17 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
             .on('broadcast', { event: 'selection' }, ({ payload }) => {
                 set({ selection: payload.selection });
             })
-            .on('broadcast', { event: 'reaction' }, ({ payload }) => {
-                const { messageId, playerId, reaction } = payload as { messageId: string, playerId: string, reaction: string };
+            .on('broadcast', { event: 'seen' }, ({ payload }) => {
+                const { messageId, playerId } = payload;
+                if (playerId === get().myPlayerId) return; // Ignore own seen events (already handled optimistically)
+
                 set(state => ({
                     messages: state.messages.map(m => {
                         if (m.id === messageId) {
-                            const currentReactions = (m.reactions || {}) as Record<string, string>;
-                            const newReactions: Record<string, string> = { ...currentReactions, [playerId]: reaction };
-
-                            if (currentReactions[playerId] === reaction) { // Toggle logic
-                                delete newReactions[playerId];
+                            const seenBy = m.seenBy || [];
+                            if (!seenBy.includes(playerId)) {
+                                return { ...m, seenBy: [...seenBy, playerId] };
                             }
-                            return { ...m, reactions: newReactions };
                         }
                         return m;
                     })
@@ -410,7 +410,7 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
             replyToId: replyTo?.id,
             replyToName: replyTo?.name,
             replyToContent: replyTo?.content,
-            reactions: {}
+            seenBy: []
         };
 
         // Update local immediately
@@ -424,7 +424,7 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
         });
     },
 
-    reactToMessage: async (messageId: string, reaction: string) => {
+    markMessageAsSeen: async (messageId: string) => {
         const { roomCode, myPlayerId } = get();
         if (!roomCode || !myPlayerId) return;
 
@@ -432,13 +432,10 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
         set(state => ({
             messages: state.messages.map(m => {
                 if (m.id === messageId) {
-                    const currentReactions = (m.reactions || {}) as Record<string, string>;
-                    const newReactions: Record<string, string> = { ...currentReactions, [myPlayerId]: reaction };
-
-                    if (currentReactions[myPlayerId] === reaction) {
-                        delete newReactions[myPlayerId];
+                    const seenBy = m.seenBy || [];
+                    if (!seenBy.includes(myPlayerId)) {
+                        return { ...m, seenBy: [...seenBy, myPlayerId] };
                     }
-                    return { ...m, reactions: newReactions };
                 }
                 return m;
             })
@@ -447,8 +444,8 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
         // Broadcast
         await supabase.channel(`room:${roomCode}`).send({
             type: 'broadcast',
-            event: 'reaction',
-            payload: { messageId, playerId: myPlayerId, reaction }
+            event: 'seen',
+            payload: { messageId, playerId: myPlayerId }
         });
     },
 
