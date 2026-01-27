@@ -263,28 +263,39 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                 const presenceState = channel.presenceState();
                 const onlinePlayerIds = Object.values(presenceState).flat().map((p: any) => String(p.id));
 
-                const { isHost, players, gameStatus, myPlayerId } = get();
-                if (isHost) return; // Host doesn't need to watch themselves
+                const { isHost, players, gameStatus, myPlayerId, roomCode } = get();
+                if (isHost || !roomCode) return; // Host doesn't need to watch themselves
 
                 const host = players.find(p => p.isHost);
                 if (host && !onlinePlayerIds.includes(String(host.id))) {
                     console.log('Host presence lost. Waiting to see if they reconnect...');
                     // Wait 5 seconds to account for refreshes or brief disconnects
                     setTimeout(() => {
+                        const { players: currentPlayers, isHost: amIHost, roomCode: currentRoom } = get();
+                        if (amIHost || !currentRoom) return; // If I became host, stop tracking.
+
+                        const currentHost = currentPlayers.find(p => p.isHost);
+                        // If no host exists in store, maybe still syncing or really gone. 
+                        // If currentHost is different from captured 'host', migration happened.
+
                         const latestPresence = channel.presenceState();
                         const latestOnlineIds = Object.values(latestPresence).flat().map((p: any) => String(p.id));
 
-                        if (!latestOnlineIds.includes(String(host.id))) {
+                        // Only delete if the CURRENT host is missing
+                        if (currentHost && !latestOnlineIds.includes(String(currentHost.id))) {
                             console.log('Host confirmed offline. Terminating room.');
-                            // If in game, terminate. If in lobby, we could migrate, 
-                            // but for simplicity and to match the "quit it" request:
+
                             if (gameStatus !== 'LOBBY') {
+                                // Game in progress/finished -> delete room
+                                GameAPI.deleteRoom(currentRoom).catch(e => console.error('Auto-delete room error', e));
                                 set({ roomDeleted: true });
                             } else {
-                                // In lobby, we should ideally migrate, but if host is gone abruptly, 
-                                // we'll just end it for now as a safe fallback.
+                                // Lobby -> delete room (host abandoned)
+                                GameAPI.deleteRoom(currentRoom).catch(e => console.error('Auto-delete room error', e));
                                 set({ roomDeleted: true });
                             }
+                        } else {
+                            console.log('Host check: Host is online or migrated. No action.');
                         }
                     }, 5000);
                 }
@@ -416,6 +427,18 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
             } else if (myPlayerId) {
                 // Player just leaves
                 await supabase.from('players').delete().eq('id', myPlayerId);
+
+                // Check if room is effectively empty (or only has ghosts)
+                // We check if 0 players remain.
+                const { count } = await supabase
+                    .from('players')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('room_code', roomCode);
+
+                if (count === 0) {
+                    console.log('Last player left, deleting room:', roomCode);
+                    await GameAPI.deleteRoom(roomCode);
+                }
             }
         }
 
