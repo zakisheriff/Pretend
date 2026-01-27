@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 
 interface DirectorSetupProps {
-    onConfirm: (movieJson: string) => void;
+    onConfirm: (movieJson: string) => Promise<void>;
     isReadOnly?: boolean;
 }
 
@@ -26,6 +26,7 @@ export const DirectorSetup = ({ onConfirm, isReadOnly = false }: DirectorSetupPr
     const [showBrowse, setShowBrowse] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [timerDuration, setTimerDuration] = useState(120); // Default 2 mins
+    const [loading, setLoading] = useState(false);
 
     // Sync from selection (spectator side)
     useEffect(() => {
@@ -62,27 +63,42 @@ export const DirectorSetup = ({ onConfirm, isReadOnly = false }: DirectorSetupPr
     }, [searchQuery]);
 
     const handleRandomMovie = () => {
+        if (loading) return;
         const random = MOVIES[Math.floor(Math.random() * MOVIES.length)];
         selectMovie(random);
     };
 
     const selectMovie = (m: typeof MOVIES[0]) => {
+        if (loading) return;
         setMovieName(m.title);
         setMovieData({ genre: m.genre, year: m.year });
         setShowBrowse(false);
     };
 
-    const handleConfirm = () => {
-        if (!movieName) return;
+    const handleConfirm = async () => {
+        if (!movieName || loading) return;
 
-        const payload = {
-            title: movieName,
-            genre: movieData?.genre || 'Custom',
-            year: movieData?.year || new Date().getFullYear(),
-            timer: timerDuration
-        };
+        setLoading(true);
+        const startTime = Date.now();
 
-        onConfirm(JSON.stringify(payload));
+        try {
+            const payload = {
+                title: movieName,
+                genre: movieData?.genre || 'Custom',
+                year: movieData?.year || new Date().getFullYear(),
+                timer: timerDuration
+            };
+
+            await onConfirm(JSON.stringify(payload));
+
+            // Ensure minimum 500ms loading
+            const elapsed = Date.now() - startTime;
+            if (elapsed < 500) {
+                await new Promise(resolve => setTimeout(resolve, 500 - elapsed));
+            }
+        } finally {
+            setLoading(false);
+        }
     };
 
     if (isReadOnly) {
@@ -121,7 +137,7 @@ export const DirectorSetup = ({ onConfirm, isReadOnly = false }: DirectorSetupPr
             <View style={styles.inputCard}>
                 <Text style={styles.label}>MOVIE TITLE</Text>
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, loading && { opacity: 0.6 }]}
                     value={movieName}
                     onChangeText={(t) => {
                         setMovieName(t);
@@ -129,6 +145,7 @@ export const DirectorSetup = ({ onConfirm, isReadOnly = false }: DirectorSetupPr
                     }}
                     placeholder="e.g. Inception"
                     placeholderTextColor={Colors.grayLight}
+                    editable={!loading}
                 />
             </View>
 
@@ -138,8 +155,13 @@ export const DirectorSetup = ({ onConfirm, isReadOnly = false }: DirectorSetupPr
                     {[60, 120, 180, 300].map(t => (
                         <TouchableOpacity
                             key={t}
-                            onPress={() => setTimerDuration(t)}
-                            style={[styles.timerOption, timerDuration === t && styles.timerOptionSelected]}
+                            onPress={() => !loading && setTimerDuration(t)}
+                            style={[
+                                styles.timerOption,
+                                timerDuration === t && styles.timerOptionSelected,
+                                loading && { opacity: 0.6 }
+                            ]}
+                            disabled={loading}
                         >
                             <Text style={[styles.timerOptionText, timerDuration === t && styles.timerOptionTextSelected]}>
                                 {t / 60}m
@@ -155,12 +177,14 @@ export const DirectorSetup = ({ onConfirm, isReadOnly = false }: DirectorSetupPr
                     onPress={handleRandomMovie}
                     variant="secondary"
                     icon={<Ionicons name="shuffle" size={20} color={Colors.parchment} />}
+                    disabled={loading}
                 />
                 <Button
                     title="Browse List"
                     onPress={() => setShowBrowse(true)}
                     variant="outline"
                     icon={<Ionicons name="list" size={20} color={Colors.parchment} />}
+                    disabled={loading}
                 />
             </View>
 
@@ -169,7 +193,8 @@ export const DirectorSetup = ({ onConfirm, isReadOnly = false }: DirectorSetupPr
                     title="Confirm Movie"
                     onPress={handleConfirm}
                     variant="primary"
-                    disabled={!movieName.trim()}
+                    disabled={!movieName.trim() || loading}
+                    loading={loading}
                     size="large"
                 />
             </View>

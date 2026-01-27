@@ -14,28 +14,55 @@ export function OnlineDirectorVerdictView() {
     const guessers = players.filter(p => p.id !== myPlayerId);
 
     const [selectedWinner, setSelectedWinner] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
 
     const handleSelectWinner = (id: string) => {
+        if (loading) return;
         haptics.light();
         setSelectedWinner(id);
     };
 
     const handleConfirmWinner = async () => {
-        if (!selectedWinner || !roomCode) return;
+        if (!selectedWinner || !roomCode || loading) return;
         haptics.heavy();
+        setLoading(true);
 
-        // Call API
-        const { GameAPI } = require('@/api/game');
-        await GameAPI.setDirectorWinner(roomCode, selectedWinner);
+        const startTime = Date.now();
+        try {
+            // Call API
+            const { GameAPI } = require('@/api/game');
+            await GameAPI.setDirectorWinner(roomCode, selectedWinner);
+
+            // Ensure minimum 500ms loading
+            const elapsed = Date.now() - startTime;
+            if (elapsed < 500) {
+                await new Promise(resolve => setTimeout(resolve, 500 - elapsed));
+            }
+        } finally {
+            // We usually navigate away or modal closes, but safety:
+            setLoading(false);
+        }
     };
 
     const handleDirectorWins = async () => {
-        if (!roomCode) return;
+        if (!roomCode || loading) return;
         haptics.heavy();
+        setLoading(true);
 
-        // Call API with null winner
-        const { GameAPI } = require('@/api/game');
-        await GameAPI.setDirectorWinner(roomCode, null);
+        const startTime = Date.now();
+        try {
+            // Call API with null winner
+            const { GameAPI } = require('@/api/game');
+            await GameAPI.setDirectorWinner(roomCode, null);
+
+            // Ensure minimum 500ms loading
+            const elapsed = Date.now() - startTime;
+            if (elapsed < 500) {
+                await new Promise(resolve => setTimeout(resolve, 500 - elapsed));
+            }
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -61,6 +88,7 @@ export function OnlineDirectorVerdictView() {
                             ]}
                             onPress={() => handleSelectWinner(p.id)}
                             activeOpacity={0.8}
+                            disabled={loading}
                         >
                             <View style={[styles.avatar, selectedWinner === p.id && styles.avatarSelected]}>
                                 <Text style={[styles.initial, selectedWinner === p.id && styles.initialSelected]}>
@@ -85,7 +113,8 @@ export function OnlineDirectorVerdictView() {
                     title={selectedWinner ? `Winner: ${guessers.find(p => p.id === selectedWinner)?.name}` : 'Select a Winner'}
                     onPress={handleConfirmWinner}
                     variant="primary"
-                    disabled={!selectedWinner}
+                    disabled={!selectedWinner || loading}
+                    loading={loading}
                     size="large"
                     icon={<Ionicons name="trophy" size={20} color={Colors.victorianBlack} />}
                 />
@@ -101,6 +130,8 @@ export function OnlineDirectorVerdictView() {
                     onPress={handleDirectorWins}
                     variant="secondary"
                     size="large"
+                    disabled={loading}
+                    loading={loading}
                     icon={<Ionicons name="videocam" size={20} color={Colors.parchment} />}
                 />
             </View>
