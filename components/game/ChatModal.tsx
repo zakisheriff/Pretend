@@ -21,6 +21,7 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
     const insets = useSafeAreaInsets();
     const { messages, sendChatMessage, myPlayerId, setChatOpen, clearUnreadCount, typingPlayers, setTyping, markMessageAsSeen, players } = useOnlineGameStore();
     const [inputText, setInputText] = React.useState('');
+    const [inputHeight, setInputHeight] = useState(40);
     const [replyTo, setReplyTo] = useState<{ id: string, name: string, content: string } | null>(null);
     const flatListRef = useRef<FlatList>(null);
     const inputRef = useRef<TextInput>(null);
@@ -79,6 +80,12 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
         setReplyTo(null);
         setTimeout(() => {
             flatListRef.current?.scrollToEnd({ animated: true });
+            if (Platform.OS === 'web') {
+                // On web, keeping focus is default usually, but let's be safe
+                if (inputRef.current) (inputRef.current as any).focus();
+            } else {
+                inputRef.current?.focus();
+            }
         }, 100);
     };
 
@@ -140,6 +147,13 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                         data={messages}
                         keyExtractor={item => item.id}
                         contentContainerStyle={styles.listContent}
+                        keyboardDismissMode="on-drag"
+                        keyboardShouldPersistTaps="handled"
+                        onTouchStart={() => {
+                            // Optional: Dismiss on touch if preferred, but on-drag is standard for chat
+                            // If user wants "touch anywhere", onTouchStart on list might work but interferes with scrolling?
+                            // Standard "WhatsApp-like" behavior is dismiss on drag or tap on empty space.
+                        }}
                         onContentSizeChange={() => {
                             if (visible) flatListRef.current?.scrollToEnd({ animated: true });
                         }}
@@ -196,7 +210,7 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
 
                                 <TextInput
                                     ref={inputRef}
-                                    style={styles.input}
+                                    style={[styles.input, Platform.OS === 'web' && { height: Math.max(24, Math.min(140, inputHeight)) }]}
                                     placeholder="Message..."
                                     placeholderTextColor={Colors.grayLight}
                                     value={inputText}
@@ -204,6 +218,30 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                                     multiline
                                     blurOnSubmit={false}
                                 />
+
+                                {Platform.OS === 'web' && (
+                                    <Text
+                                        style={[
+                                            styles.input,
+                                            {
+                                                position: 'absolute',
+                                                opacity: 0,
+                                                zIndex: -1,
+                                                height: undefined,
+                                                maxHeight: undefined,
+                                                width: '100%',
+                                                flex: undefined,
+                                            }
+                                        ]}
+                                        onLayout={(e) => {
+                                            if (Platform.OS === 'web') {
+                                                setInputHeight(e.nativeEvent.layout.height);
+                                            }
+                                        }}
+                                    >
+                                        {inputText ? inputText + '\u200b' : 'Message...'}
+                                    </Text>
+                                )}
 
                                 {inputText.trim().length > 0 && (
                                     <TouchableOpacity onPress={handleSend} style={{ justifyContent: 'center', alignSelf: 'flex-end', marginBottom: 12, marginLeft: 8 }}>
@@ -425,11 +463,13 @@ const styles = StyleSheet.create({
         paddingTop: 10, paddingBottom: 10, // Center text via padding
         ...Platform.select({
             web: {
+                flex: undefined, // Let height determine size
+                width: '100%',
                 outlineStyle: 'none',
                 boxShadow: 'none',
                 resize: 'none',
-                paddingTop: 15,
-                paddingBottom: 0,
+                paddingTop: 5,
+                paddingBottom: 10,
                 fontSize: 16,
             } as any
         })
