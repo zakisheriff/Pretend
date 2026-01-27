@@ -63,7 +63,15 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
     };
 
     const handleSend = async () => {
-        if (!inputText.trim()) return;
+        const textToSend = inputText.trim();
+        if (!textToSend) return;
+
+        // Keep focus IMMEDIATELY
+        if (Platform.OS === 'web') {
+            if (inputRef.current) (inputRef.current as any).focus();
+        } else {
+            inputRef.current?.focus();
+        }
 
         if (typingTimeoutRef.current) {
             clearTimeout(typingTimeoutRef.current);
@@ -75,17 +83,14 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
             LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         }
 
-        await sendChatMessage(inputText.trim(), replyTo || undefined);
+        // Optimistic clear
         setInputText('');
         setReplyTo(null);
+
+        await sendChatMessage(textToSend, replyTo || undefined);
+
         setTimeout(() => {
             flatListRef.current?.scrollToEnd({ animated: true });
-            if (Platform.OS === 'web') {
-                // On web, keeping focus is default usually, but let's be safe
-                if (inputRef.current) (inputRef.current as any).focus();
-            } else {
-                inputRef.current?.focus();
-            }
         }, 100);
     };
 
@@ -244,7 +249,16 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                                 )}
 
                                 {inputText.trim().length > 0 && (
-                                    <TouchableOpacity onPress={handleSend} style={{ justifyContent: 'center', alignSelf: 'flex-end', marginBottom: 12, marginLeft: 8 }}>
+                                    <TouchableOpacity
+                                        onPress={handleSend}
+                                        style={{ justifyContent: 'center', alignSelf: 'flex-end', marginBottom: 12, marginLeft: 8 }}
+                                        {...Platform.select({
+                                            web: {
+                                                onMouseDown: (e: any) => e.preventDefault(),
+                                                // Prevent focus stealing on web click
+                                            } as any
+                                        })}
+                                    >
                                         <Text style={styles.sendText}>Send</Text>
                                     </TouchableOpacity>
                                 )}
