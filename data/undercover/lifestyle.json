@@ -41,18 +41,30 @@
         },
         {
             "crewmateWord": "Uber",
-            "imposterWord": "Ola"
+            "imposterWord": "PickMe"
         },
         {
-            "crewmateWord": "Zomato",
-            "imposterWord": "Swiggy"
+            "crewmateWord": "Uber Eats",
+            "imposterWord": "PickMe Food"
         },
         {
-            "crewmateWord": "Google",
+            "crewmateWord": "Grok",
             "imposterWord": "ChatGPT"
         },
         {
+            "crewmateWord": "Gemini",
+            "imposterWord": "ChatGPT"
+        },
+        {
+            "crewmateWord": "ChatGPT",
+            "imposterWord": "Gemini"
+        },
+        {
             "crewmateWord": "Burger",
+            "imposterWord": "Pizza"
+        },
+        {
+            "crewmateWord": "Lasagna",
             "imposterWord": "Pizza"
         },
         {
@@ -81,23 +93,8 @@
         },
         {
             "crewmateWord": "BMW",
-            "imposterWord": "Tesla"
-        },
-        {
-            "crewmateWord": "Adidas",
-            "imposterWord": "Nike"
-        },
-        {
-            "crewmateWord": "Ola",
-            "imposterWord": "Uber"
-        },
-        {
-            "crewmateWord": "Swiggy",
-            "imposterWord": "Zomato"
-        },
-        {
-            "crewmateWord": "ChatGPT",
-            "imposterWord": "Google"
+            "imposterWord": "Mercedes Benz"
         }
+        
     ]
 }

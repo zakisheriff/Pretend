@@ -46,5 +46,40 @@ export const THREE_ACTS_MOVIES = [
 
     // Action & Mass Essentials
     "Singam", "Velaiilla Pattadhari (VIP)", "Maari", "Vedalam",
-    "Aaranya Kaandam", "Vaathi", "Captain Miller", "Ayalaan", "Irugapatru"
+    "Aaranya Kaandam", "Vaathi", "Captain Miller", "Ayalaan", "Irugapatru",
+
+    // --- TAMIL CLASSICS & GOATS (The Foundation) ---
+    "Nayakan", "Thalapathi", "Anbe Sivam", "Thevar Magan", "Indian", 
+    "Moondram Pirai", "Mouna Ragam", "Roja", "Bombay", "Iruvar", 
+    "Hey Ram", "Mahanadhi", "Panchatanthiram", "Sathi Leelavathi", "Michael Madana Kama Rajan",
+    "Avvai Shanmughi", "Virumaandi", "Kuruthipunal", "Sethu", "Pithamagan",
+
+    // --- TAMIL CULT HITS & RAW CINEMA ---
+    "Katradhu Thamizh",
+    "Anjathe", "Subramaniapuram", "Paruthiveeran", "Madras", "Aruvi",
+    "Kaaka Muttai", "Visaaranai", "Viduthalai Part 1", "Chitha", "Vaazhai",
+    "Meiyazhagan", "Kottukkaali", "Vazhakku Enn 18/9", "Onayum Aatukuttiyum", "Yutham Sei",
+    "Pariyerum Perumal", "Kadaisi Vivasayi", "Sarpatta Parambarai", "Mahaan", "Rocky",
+
+    // --- TAMIL ROMANCE & FEEL-GOOD ---
+    "Alaipayuthey", "Kandukondain Kandukondain", "Minnale", "Vinnaithaandi Varuvaayaa", "Rhythm",
+    "M Kumaran Son of Mahalakshmi", "Sachein", "Raja Rani", "Boss Engira Bhaskaran", "Siva Manasula Sakthi",
+    "O Kadhal Kanmani", "Jeans", "Kushi", "Priyamanavale", "Shahjahan",
+
+    // --- TAMIL THRILLERS & EXPERIMENTAL ---
+    "Eeram", "Yavarum Nalam", "Aayirathil Oruvan", "Indru Netru Naalai", "Maayavan",
+    "Game Over", "Netrikann", "Irumbu Thirai", "Anegan", "7aum Arivu",
+    "Demante Colony", "Pizza II: Villa", "Kolamavu Kokila", "Don", "Irugapatru",
+
+    // --- TAMIL 2025/2026 RELEASES & RECENT HITS ---
+    "Thug Life", "Indian 3", "Vidaamuyarchi", "Good Bad Ugly", "Love Insurance Kompany",
+    "Kuberaa", "Sardar 2", "Vaa Vaathiyaar", "Karuppu", "Magudam",
+    "Benz", "Dragon", "Ace", "Retro", "Bison: Kaalamaadan",
+    "Lubber Pandhu", "Garudan", "Star", "Bloody Beggar", "Lucky Baskhar", "Jana Nayagan",
+
+    // --- HOLLYWOOD: MIND-BENDERS & HEISTS (New Category) ---
+    "The Silence of the Lambs", "Se7en", "Shutter Island", "The Usual Suspects", "Fight Club",
+    "The Sixth Sense", "Prisoners", "Gone Girl", "Knives Out", "Glass Onion",
+    "Ocean's Eleven", "Baby Driver", "Heat", "The Departed", "The Godfather",
+    "The Godfather Part II", "Goodfellas", "Parasite", "Everything Everywhere All At Once", "Whiplash"
 ];
