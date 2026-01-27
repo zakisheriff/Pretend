@@ -12,6 +12,7 @@ interface ChatMessage {
     replyToId?: string;
     replyToName?: string;
     replyToContent?: string;
+    reactions?: Record<string, string>;
 }
 
 interface OnlineGameState {
@@ -45,6 +46,7 @@ interface OnlineGameState {
     syncGameState: (newState: any) => void;
     leaveGame: () => void;
     sendChatMessage: (content: string, replyTo?: { id: string, name: string, content: string }) => Promise<void>;
+    reactToMessage: (messageId: string, reaction: string) => Promise<void>;
     removePlayer: (id: string) => void;
     resetGame: () => void;
     resetRoom: () => Promise<void>;
@@ -244,6 +246,23 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
             .on('broadcast', { event: 'selection' }, ({ payload }) => {
                 set({ selection: payload.selection });
             })
+            .on('broadcast', { event: 'reaction' }, ({ payload }) => {
+                const { messageId, playerId, reaction } = payload as { messageId: string, playerId: string, reaction: string };
+                set(state => ({
+                    messages: state.messages.map(m => {
+                        if (m.id === messageId) {
+                            const currentReactions = (m.reactions || {}) as Record<string, string>;
+                            const newReactions: Record<string, string> = { ...currentReactions, [playerId]: reaction };
+
+                            if (currentReactions[playerId] === reaction) { // Toggle logic
+                                delete newReactions[playerId];
+                            }
+                            return { ...m, reactions: newReactions };
+                        }
+                        return m;
+                    })
+                }));
+            })
             .on('broadcast', { event: 'typing' }, ({ payload }) => {
                 const { playerId, isTyping } = payload;
                 const { myPlayerId, players } = get();
@@ -264,40 +283,66 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                 const onlinePlayerIds = Object.values(presenceState).flat().map((p: any) => String(p.id));
 
                 const { isHost, players, gameStatus, myPlayerId, roomCode } = get();
-                if (isHost || !roomCode) return; // Host doesn't need to watch themselves
+                if (!roomCode) return;
 
-                const host = players.find(p => p.isHost);
-                if (host && !onlinePlayerIds.includes(String(host.id))) {
-                    console.log('Host presence lost. Waiting to see if they reconnect...');
-                    // Wait 5 seconds to account for refreshes or brief disconnects
-                    setTimeout(() => {
-                        const { players: currentPlayers, isHost: amIHost, roomCode: currentRoom } = get();
-                        if (amIHost || !currentRoom) return; // If I became host, stop tracking.
+                // 1. Client Logic: Watch Host
+                if (!isHost) {
+                    const host = players.find(p => p.isHost);
+                    if (host && !onlinePlayerIds.includes(String(host.id))) {
+                        console.log('Host presence lost. Waiting to see if they reconnect...');
+                        // Wait 5 seconds to account for refreshes or brief disconnects
+                        setTimeout(() => {
+                            const { players: currentPlayers, isHost: amIHost, roomCode: currentRoom } = get();
+                            if (amIHost || !currentRoom) return; // If I became host, stop tracking.
 
-                        const currentHost = currentPlayers.find(p => p.isHost);
-                        // If no host exists in store, maybe still syncing or really gone. 
-                        // If currentHost is different from captured 'host', migration happened.
+                            const currentHost = currentPlayers.find(p => p.isHost);
+                            // If no host exists in store, maybe still syncing or really gone. 
+                            // If currentHost is different from captured 'host', migration happened.
 
-                        const latestPresence = channel.presenceState();
-                        const latestOnlineIds = Object.values(latestPresence).flat().map((p: any) => String(p.id));
+                            const latestPresence = channel.presenceState();
+                            const latestOnlineIds = Object.values(latestPresence).flat().map((p: any) => String(p.id));
 
-                        // Only delete if the CURRENT host is missing
-                        if (currentHost && !latestOnlineIds.includes(String(currentHost.id))) {
-                            console.log('Host confirmed offline. Terminating room.');
+                            // Only delete if the CURRENT host is missing, and verify I'm still not the host
+                            if (currentHost && !latestOnlineIds.includes(String(currentHost.id))) {
+                                console.log('Host confirmed offline. Terminating room.');
 
-                            if (gameStatus !== 'LOBBY') {
-                                // Game in progress/finished -> delete room
-                                GameAPI.deleteRoom(currentRoom).catch(e => console.error('Auto-delete room error', e));
-                                set({ roomDeleted: true });
-                            } else {
-                                // Lobby -> delete room (host abandoned)
-                                GameAPI.deleteRoom(currentRoom).catch(e => console.error('Auto-delete room error', e));
-                                set({ roomDeleted: true });
+                                if (gameStatus !== 'LOBBY') {
+                                    // Game in progress/finished -> delete room
+                                    GameAPI.deleteRoom(currentRoom).catch(e => console.error('Auto-delete room error', e));
+                                    set({ roomDeleted: true });
+                                } else {
+                                    // Lobby -> delete room (host abandoned)
+                                    GameAPI.deleteRoom(currentRoom).catch(e => console.error('Auto-delete room error', e));
+                                    set({ roomDeleted: true });
+                                }
                             }
-                        } else {
-                            console.log('Host check: Host is online or migrated. No action.');
-                        }
-                    }, 5000);
+                        }, 5000);
+                    }
+                }
+
+                // 2. Host Logic: Watch Players (Ghost Cleanup)
+                if (isHost) {
+                    const ghosts = players.filter(p => !p.isHost && !onlinePlayerIds.includes(p.id));
+                    if (ghosts.length > 0) {
+                        // Wait 5s to confirm they are gone (not just refreshing)
+                        setTimeout(async () => {
+                            const { players: currentPlayers, isHost: amIStillHost } = get();
+                            if (!amIStillHost) return;
+
+                            const latestPresence = channel.presenceState();
+                            const latestOnlineIds = Object.values(latestPresence).flat().map((p: any) => String(p.id));
+
+                            // Identify confirmed ghosts
+                            const confirmedGhosts = currentPlayers.filter(p => !p.isHost && !latestOnlineIds.includes(p.id));
+
+                            for (const ghost of confirmedGhosts) {
+                                console.log('Host removing ghost player:', ghost.name);
+                                // We use leaveRoom to remove them from DB. 
+                                // This will trigger 'DELETE' subscription for everyone else to update UI.
+                                await GameAPI.leaveRoom(ghost.id);
+                            }
+                        }, 5000);
+                    }
                 }
             })
             .subscribe(async (status) => {
@@ -364,7 +409,8 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
             timestamp: Date.now(),
             replyToId: replyTo?.id,
             replyToName: replyTo?.name,
-            replyToContent: replyTo?.content
+            replyToContent: replyTo?.content,
+            reactions: {}
         };
 
         // Update local immediately
@@ -375,6 +421,34 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
             type: 'broadcast',
             event: 'chat',
             payload: msg
+        });
+    },
+
+    reactToMessage: async (messageId: string, reaction: string) => {
+        const { roomCode, myPlayerId } = get();
+        if (!roomCode || !myPlayerId) return;
+
+        // Optimistic update
+        set(state => ({
+            messages: state.messages.map(m => {
+                if (m.id === messageId) {
+                    const currentReactions = (m.reactions || {}) as Record<string, string>;
+                    const newReactions: Record<string, string> = { ...currentReactions, [myPlayerId]: reaction };
+
+                    if (currentReactions[myPlayerId] === reaction) {
+                        delete newReactions[myPlayerId];
+                    }
+                    return { ...m, reactions: newReactions };
+                }
+                return m;
+            })
+        }));
+
+        // Broadcast
+        await supabase.channel(`room:${roomCode}`).send({
+            type: 'broadcast',
+            event: 'reaction',
+            payload: { messageId, playerId: myPlayerId, reaction }
         });
     },
 

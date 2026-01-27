@@ -1,11 +1,16 @@
 import { Colors } from '@/constants/colors';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { Ionicons } from '@expo/vector-icons';
-import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, KeyboardAvoidingView, Modal, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { Swipeable } from 'react-native-gesture-handler';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { FlatList, KeyboardAvoidingView, LayoutAnimation, Modal, Platform, StyleSheet, Text, TextInput, TouchableOpacity, UIManager, View } from 'react-native';
+import { GestureHandlerRootView, State as GestureState, PanGestureHandler, State, Swipeable, TapGestureHandler } from 'react-native-gesture-handler';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 interface ChatModalProps {
     visible: boolean;
@@ -14,7 +19,7 @@ interface ChatModalProps {
 
 export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
     const insets = useSafeAreaInsets();
-    const { messages, sendChatMessage, myPlayerId, setChatOpen, clearUnreadCount, typingPlayers, setTyping } = useOnlineGameStore();
+    const { messages, sendChatMessage, myPlayerId, setChatOpen, clearUnreadCount, typingPlayers, setTyping, reactToMessage, players } = useOnlineGameStore();
     const [inputText, setInputText] = React.useState('');
     const [replyTo, setReplyTo] = useState<{ id: string, name: string, content: string } | null>(null);
     const flatListRef = useRef<FlatList>(null);
@@ -44,44 +49,36 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
     const handleSend = async () => {
         if (!inputText.trim()) return;
 
-        // Clear typing status immediately
         if (typingTimeoutRef.current) {
             clearTimeout(typingTimeoutRef.current);
             typingTimeoutRef.current = null;
             setTyping(false);
         }
 
+        if (Platform.OS !== 'web') {
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        }
+
         await sendChatMessage(inputText.trim(), replyTo || undefined);
         setInputText('');
         setReplyTo(null);
-        // Explicitly scroll to bottom after sending
         setTimeout(() => {
             flatListRef.current?.scrollToEnd({ animated: true });
         }, 100);
-
-        // Keep keyboard open and focus - delayed to run AFTER scroll
-        setTimeout(() => {
-            inputRef.current?.focus();
-        }, 300);
     };
 
-    // Auto-scroll to bottom when opening
+    const handleReact = useCallback((msgId: string, reaction: string) => {
+        reactToMessage(msgId, reaction);
+    }, [reactToMessage]);
+
+    // Auto-scroll logic
     useEffect(() => {
         if (visible) {
             clearUnreadCount();
-
-            // Multiple attempts to ensure we hit the bottom after layout
-            const timers = [
-                setTimeout(() => flatListRef.current?.scrollToEnd({ animated: false }), 50),
-                setTimeout(() => flatListRef.current?.scrollToEnd({ animated: false }), 150),
-                setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 400),
-            ];
-
-            return () => timers.forEach(clearTimeout);
+            setTimeout(() => flatListRef.current?.scrollToEnd({ animated: false }), 100);
         }
     }, [visible]);
 
-    // Scroll when new messages come in
     useEffect(() => {
         if (visible && messages.length > 0) {
             flatListRef.current?.scrollToEnd({ animated: true });
@@ -94,96 +91,122 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
         }
     }, [replyTo]);
 
+    const handleHeaderSwipe = ({ nativeEvent }: any) => {
+        if (nativeEvent.translationY > 50 && nativeEvent.state === GestureState.END) {
+            onClose();
+        }
+    };
+
     return (
         <Modal
             visible={visible}
             animationType="slide"
-            presentationStyle="pageSheet"
+            transparent={true}
             onRequestClose={onClose}
         >
-            <View style={[styles.container, { paddingTop: Platform.OS === 'android' ? insets.top + 20 : 20 }]}>
-                {/* Header */}
-                <View style={styles.header}>
-                    <Text style={styles.headerTitle}>Discussion</Text>
-                    <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
-                        <Ionicons name="close-circle" size={32} color={Colors.grayLight} />
-                    </TouchableOpacity>
-                </View>
-
-                {/* Messages */}
-                <FlatList
-                    ref={flatListRef}
-                    data={messages}
-                    keyExtractor={item => item.id}
-                    contentContainerStyle={styles.listContent}
-                    onContentSizeChange={() => {
-                        if (visible) flatListRef.current?.scrollToEnd({ animated: true });
-                    }}
-                    renderItem={({ item }) => (
-                        <MessageRow
-                            item={item}
-                            myPlayerId={myPlayerId || ''}
-                            onReply={setReplyTo}
-                        />
-                    )}
-                    ListFooterComponent={
-                        typingPlayers.length > 0 ? (
-                            <Animated.View entering={FadeIn.duration(300)} style={styles.typingContainer}>
-                                <Text style={styles.typingText}>
-                                    {typingPlayers.join(', ')} {typingPlayers.length > 1 ? 'are' : 'is'} typing...
-                                </Text>
-                            </Animated.View>
-                        ) : null
-                    }
-                />
-
-                {/* Input */}
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
-                    keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
-                >
-                    {/* Reply Context Banner */}
-                    {replyTo && (
-                        <View style={styles.replyContext}>
-                            <View style={styles.replyLine} />
-                            <View style={{ flex: 1 }}>
-                                <Text style={styles.replyContextName}>Replying to {replyTo.name}</Text>
-                                <Text style={styles.replyContextContent} numberOfLines={1}>{replyTo.content}</Text>
-                            </View>
-                            <TouchableOpacity onPress={() => setReplyTo(null)} style={{ padding: 4 }}>
-                                <Ionicons name="close" size={20} color={Colors.grayLight} />
+            <GestureHandlerRootView style={{ flex: 1 }}>
+                <View style={[styles.container, { paddingTop: insets.top }]}>
+                    {/* Header with Swipe Down */}
+                    <PanGestureHandler onHandlerStateChange={handleHeaderSwipe}>
+                        <View style={styles.header}>
+                            <TouchableOpacity
+                                onPress={onClose}
+                                hitSlop={{ top: 20, bottom: 20, left: 20, right: 40 }} // Large hit area
+                                style={{ padding: 4 }}
+                            >
+                                <Ionicons name="chevron-down" size={32} color="#FFF" />
                             </TouchableOpacity>
+                            <Text style={styles.headerTitle}>Chat</Text>
+                            <View style={{ width: 32 }} />
                         </View>
-                    )}
+                    </PanGestureHandler>
+
+                    {/* Status Dot? */}
 
 
-                    <View style={[styles.inputArea, { paddingBottom: Math.max(insets.bottom, 20) }]}>
-                        <TextInput
-                            ref={inputRef}
-                            style={styles.input}
-                            placeholderTextColor={Colors.grayLight}
-                            value={inputText}
-                            onChangeText={handleTextChange}
-                            multiline
-                            blurOnSubmit={false} // KEYBOARD FIX: Keeps keyboard open on submit
-                            autoFocus={false}
-                        />
-                        <TouchableOpacity
-                            onPress={handleSend}
-                            style={styles.sendBtn}
-                            disabled={!inputText.trim()}
-                            {...(Platform.OS === 'web' ? { onMouseDown: (e: any) => e.preventDefault() } : {})}
-                        >
-                            <Ionicons
-                                name="send"
-                                size={24}
-                                color={inputText.trim() ? Colors.victorianBlack : Colors.grayLight}
-                                style={{ marginLeft: 4 }}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                </KeyboardAvoidingView>
-            </View>
+                    {/* Messages */}
+                    <FlatList
+                        ref={flatListRef}
+                        data={messages}
+                        keyExtractor={item => item.id}
+                        contentContainerStyle={styles.listContent}
+                        onContentSizeChange={() => {
+                            if (visible) flatListRef.current?.scrollToEnd({ animated: true });
+                        }}
+                        renderItem={({ item, index }) => {
+                            const prev = messages[index - 1];
+                            const next = messages[index + 1];
+                            const isSameSenderPrev = prev?.senderId === item.senderId;
+                            const isSameSenderNext = next?.senderId === item.senderId;
+
+                            // Time grouping (show time if > 5 mins diff) - optional, skipping for simplicity request "exactly like instagram message bubbles"
+
+                            return (
+                                <MessageRow
+                                    item={item}
+                                    myPlayerId={myPlayerId || ''}
+                                    onReply={setReplyTo}
+                                    isSameSenderPrev={isSameSenderPrev}
+                                    isSameSenderNext={isSameSenderNext}
+                                    onReact={handleReact}
+                                    players={players}
+                                />
+                            );
+                        }}
+                        ListFooterComponent={
+                            typingPlayers.length > 0 ? (
+                                <Animated.View entering={FadeIn} style={styles.typingContainer}>
+                                    <View style={styles.typingBubble}>
+                                        <Text style={{ fontSize: 20, lineHeight: 28 }}>...</Text>
+                                    </View>
+                                    <Text style={styles.typingText}>
+                                        {typingPlayers.join(', ')} {typingPlayers.length > 1 ? 'are' : 'is'} typing...
+                                    </Text>
+                                </Animated.View>
+                            ) : <View style={{ height: 10 }} />
+                        }
+                    />
+
+                    {/* Input */}
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+                    >
+                        {replyTo && (
+                            <View style={styles.replyContext}>
+                                <View style={styles.replyBar} />
+                                <View style={{ flex: 1 }}>
+                                    <Text style={styles.replyContextName}>Replying to {replyTo.name}</Text>
+                                    <Text style={styles.replyContextContent} numberOfLines={1}>{replyTo.content}</Text>
+                                </View>
+                                <TouchableOpacity onPress={() => setReplyTo(null)} style={{ padding: 4 }}>
+                                    <Ionicons name="close" size={20} color={Colors.grayLight} />
+                                </TouchableOpacity>
+                            </View>
+                        )}
+
+                        <View style={[styles.inputArea, { paddingBottom: Math.max(insets.bottom, 10) }]}>
+                            <View style={styles.inputContainer}>
+                                <TextInput
+                                    ref={inputRef}
+                                    style={styles.input}
+                                    placeholder="Message..."
+                                    placeholderTextColor={Colors.gray}
+                                    value={inputText}
+                                    onChangeText={handleTextChange}
+                                    multiline
+                                    blurOnSubmit={false}
+                                />
+                            </View>
+                            {inputText.trim().length > 0 && (
+                                <TouchableOpacity onPress={handleSend} style={styles.sendTextBtn}>
+                                    <Text style={styles.sendText}>Send</Text>
+                                </TouchableOpacity>
+                            )}
+                        </View>
+                    </KeyboardAvoidingView>
+                </View>
+            </GestureHandlerRootView>
         </Modal>
     );
 };
@@ -196,237 +219,247 @@ interface MessageItem {
     replyToId?: string;
     replyToName?: string;
     replyToContent?: string;
+    reactions?: Record<string, string>;
 }
 
-const MessageRow = React.memo(({ item, myPlayerId, onReply }: { item: MessageItem, myPlayerId: string, onReply: (r: any) => void }) => {
+const MessageRow = React.memo(({ item, myPlayerId, onReply, isSameSenderPrev, isSameSenderNext, onReact, players }:
+    { item: MessageItem, myPlayerId: string, onReply: (r: any) => void, isSameSenderPrev: boolean, isSameSenderNext: boolean, onReact: (id: string, r: string) => void, players: any[] }) => {
+
     const swipeableRef = useRef<Swipeable>(null);
     const isMe = item.senderId === myPlayerId;
 
-    const renderReplyAction = () => {
-        return (
-            <View style={{ justifyContent: 'center', alignItems: 'center', width: 50 }}>
-                <Ionicons name="arrow-undo" size={24} color={Colors.grayLight} />
-            </View>
-        );
+    const renderLeftActions = () => (
+        <View style={{ justifyContent: 'center', width: 60, height: '100%' }}>
+            <Ionicons name="arrow-undo-circle" size={32} color="#FFF" style={{ marginLeft: 10 }} />
+        </View>
+    );
+
+    const onDoubleTap = (event: any) => {
+        if (event.nativeEvent.state === State.ACTIVE) {
+            onReact(item.id, '❤️');
+        }
     };
+
+    const handleReactionPress = () => {
+        if (!item.reactions) return;
+
+        // Group users by reaction
+        const reactionGroups: Record<string, string[]> = {};
+        Object.entries(item.reactions).forEach(([pid, emoji]) => {
+            if (!reactionGroups[emoji]) reactionGroups[emoji] = [];
+            const player = players.find(p => p.id === pid);
+            reactionGroups[emoji].push(player ? player.name : 'Unknown');
+        });
+
+        const info = Object.entries(reactionGroups).map(([emoji, names]) =>
+            `${emoji} ${names.join(', ')}`
+        ).join('\n');
+
+        alert(info); // Using simple alert for "seeing who reacted"
+    };
+
+    // Border Radius Logic: Instagram style
+    const borderRadius = 22;
+    const smallRadius = 4;
+
+    const bubbleStyle: any = {
+        borderRadius,
+    };
+
+    if (isMe) {
+        if (isSameSenderNext) bubbleStyle.borderBottomRightRadius = smallRadius;
+        if (isSameSenderPrev) bubbleStyle.borderTopRightRadius = smallRadius;
+    } else {
+        if (isSameSenderNext) bubbleStyle.borderBottomLeftRadius = smallRadius;
+        if (isSameSenderPrev) bubbleStyle.borderTopLeftRadius = smallRadius;
+    }
+
+    // Spacing
+    const marginBottom = isSameSenderNext ? 2 : 12;
 
     return (
         <Swipeable
             ref={swipeableRef}
-            friction={1.5}
-            overshootRight={false} // Prevent overshooting
-            renderLeftActions={renderReplyAction}
+            friction={1.2} // Smoother swipe
+            overshootRight={false}
+            renderLeftActions={renderLeftActions}
             onSwipeableOpen={() => {
                 onReply({ id: item.id, name: item.senderName, content: item.content });
-                // Add delay to ensure animation plays smoothly before closing
-                setTimeout(() => {
-                    swipeableRef.current?.close();
-                }, 400); // 400ms is a safe visual delay
+                swipeableRef.current?.close();
             }}
         >
-            <View style={[styles.messageRow, isMe ? styles.myRow : styles.otherRow]}>
-                <Text style={[styles.senderName, isMe && { marginRight: 4, alignSelf: 'flex-end', color: Colors.gaslightAmber }]}>
-                    {item.senderName} {isMe ? '(You)' : ''}
-                </Text>
-                <View style={[styles.bubble, isMe ? styles.myBubble : styles.otherBubble]}>
-                    {/* Reply Preview Inside Message */}
-                    {item.replyToId && (
-                        <View style={[styles.replyQuote, isMe ? styles.myReplyQuote : styles.otherReplyQuote]}>
-                            <Text style={[styles.replyName, isMe ? { color: Colors.parchment } : { color: Colors.grayLight }]}>{item.replyToName}</Text>
-                            <Text style={[styles.replyContent, isMe ? { color: 'rgba(255,255,255,0.7)' } : { color: 'rgba(255,255,255,0.7)' }]} numberOfLines={1}>
-                                {item.replyToContent}
-                            </Text>
+            <View style={[styles.messageRow, isMe ? styles.myRow : styles.otherRow, { marginBottom }]}>
+                {/* Avatar for Other (Bottom of group) */}
+                {!isMe && (
+                    <View style={{ width: 30, marginRight: 8, justifyContent: 'flex-end' }}>
+                        {!isSameSenderNext ? (
+                            <View style={styles.avatar}>
+                                <Text style={styles.avatarText}>{item.senderName.charAt(0).toUpperCase()}</Text>
+                            </View>
+                        ) : null}
+                    </View>
+                )}
+
+                <TapGestureHandler numberOfTaps={2} onHandlerStateChange={onDoubleTap}>
+                    <View style={{ maxWidth: '75%' }}>
+                        {/* Name (Top of group) for Other */}
+                        {!isMe && !isSameSenderPrev && (
+                            <Text style={styles.senderName}>{item.senderName}</Text>
+                        )}
+
+                        <View>
+                            {isMe ? (
+                                <LinearGradient
+                                    colors={['#7F53AC', '#647DEE']} // Instagram-ish Gradient
+                                    start={{ x: 0, y: 0.5 }}
+                                    end={{ x: 1, y: 1 }}
+                                    style={[styles.bubble, bubbleStyle]}
+                                >
+                                    <MessageContent item={item} isMe={isMe} />
+                                </LinearGradient>
+                            ) : (
+                                <View style={[styles.bubble, styles.otherBubble, bubbleStyle]}>
+                                    <MessageContent item={item} isMe={isMe} />
+                                </View>
+                            )}
+
+                            {/* Reactions Pill */}
+                            {item.reactions && Object.keys(item.reactions).length > 0 && (
+                                <TouchableOpacity
+                                    activeOpacity={0.8}
+                                    onPress={handleReactionPress}
+                                    style={[styles.reactionsContainer, isMe ? { left: -4 } : { right: -4 }]}
+                                >
+                                    {Object.values(item.reactions).slice(0, 3).map((r, i) => (
+                                        <Text key={i} style={{ fontSize: 10 }}>{r}</Text>
+                                    ))}
+                                    {Object.keys(item.reactions).length > 3 && (
+                                        <Text style={{ fontSize: 10, color: '#FFF' }}>+</Text>
+                                    )}
+                                </TouchableOpacity>
+                            )}
                         </View>
-                    )}
-                    <Text style={[styles.msgText, isMe ? styles.myMsgText : styles.otherMsgText]}>
-                        {item.content}
-                    </Text>
-                </View>
+                    </View>
+                </TapGestureHandler>
             </View>
         </Swipeable>
     );
 });
 
+const MessageContent = ({ item, isMe }: { item: MessageItem, isMe: boolean }) => (
+    <>
+        {item.replyToId && (
+            <View style={[styles.replyQuote, isMe ? styles.myReplyQuote : styles.otherReplyQuote]}>
+                <Text style={[styles.replyName, { color: isMe ? 'rgba(255,255,255,0.9)' : Colors.victorianBlack }]}>
+                    {item.replyToName}
+                </Text>
+                <Text style={styles.replyContent} numberOfLines={1}>
+                    {item.replyToContent}
+                </Text>
+            </View>
+        )}
+        <Text style={[styles.msgText, isMe ? styles.myMsgText : styles.otherMsgText]}>
+            {item.content}
+        </Text>
+    </>
+);
+
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#111',
-    },
+    container: { flex: 1, backgroundColor: Colors.victorianBlack },
     header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 20,
-        paddingBottom: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: '#222',
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+        paddingHorizontal: 16, paddingBottom: 12, borderBottomWidth: 0.5, borderBottomColor: '#333'
     },
-    headerTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: Colors.parchment,
-        letterSpacing: 1,
-    },
-    closeBtn: {
-        padding: 4,
-    },
-    listContent: {
-        paddingHorizontal: 20,
-        paddingTop: 10,
-        paddingBottom: 20,
-        gap: 8,
-    },
-    messageRow: {
-        maxWidth: '80%',
-        marginBottom: 8,
-    },
-    myRow: {
-        alignSelf: 'flex-end',
-        alignItems: 'flex-end',
-    },
-    otherRow: {
-        alignSelf: 'flex-start',
-        alignItems: 'flex-start',
-    },
-    senderName: {
-        fontSize: 10,
-        color: Colors.grayLight,
-        marginBottom: 4,
-        marginLeft: 4,
-    },
+    headerTitle: { fontSize: 18, fontWeight: '700', color: Colors.parchment },
+    listContent: { padding: 16 },
+
+    messageRow: { flexDirection: 'row', width: '100%' },
+    myRow: { justifyContent: 'flex-end' },
+    otherRow: { justifyContent: 'flex-start' },
+
     bubble: {
-        paddingHorizontal: 16,
-        paddingVertical: 10,
-        borderRadius: 20,
-    },
-    myBubble: {
-        backgroundColor: '#2A2A2A',
-        borderWidth: 1,
-        borderColor: '#444',
-        borderBottomRightRadius: 4,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 3,
-        elevation: 3,
+        paddingHorizontal: 16, paddingVertical: 12, minWidth: 40
     },
     otherBubble: {
-        backgroundColor: '#1E1E1E',
-        borderWidth: 1,
-        borderColor: '#333',
-        borderBottomLeftRadius: 4,
+        backgroundColor: '#262626',
     },
-    msgText: {
-        fontSize: 16,
+
+    avatar: {
+        width: 30, height: 30, borderRadius: 15, backgroundColor: '#444', // Lighter background
+        alignItems: 'center', justifyContent: 'center'
     },
-    myMsgText: {
-        color: Colors.parchment,
+    avatarText: { fontSize: 12, fontWeight: '700', color: '#FFF' }, // White text
+    senderName: { fontSize: 11, color: Colors.grayLight, marginBottom: 4, marginLeft: 12 },
+
+    msgText: { fontSize: 16, lineHeight: 22 },
+    myMsgText: { color: '#FFF' },
+    otherMsgText: { color: '#FFF' },
+
+    // Reply styles
+    replyQuote: {
+        marginBottom: 8, padding: 8, borderRadius: 12,
+        backgroundColor: 'rgba(0,0,0,0.15)',
+        borderLeftWidth: 3, borderLeftColor: 'rgba(255,255,255,0.5)'
     },
-    otherMsgText: {
-        color: '#FFF',
-    },
+    myReplyQuote: { backgroundColor: 'rgba(0,0,0,0.2)' },
+    otherReplyQuote: { backgroundColor: 'rgba(255,255,255,0.1)', borderLeftColor: Colors.gray },
+    replyName: { fontSize: 12, fontWeight: '700', marginBottom: 2 },
+    replyContent: { fontSize: 12, color: 'rgba(255,255,255,0.7)' },
+
+    // Input Area
     inputArea: {
+        flexDirection: 'row', alignItems: 'flex-end', paddingHorizontal: 16, paddingTop: 8,
+        backgroundColor: Colors.victorianBlack,
+    },
+    inputContainer: {
+        flex: 1, backgroundColor: '#262626', borderRadius: 24,
+        paddingHorizontal: 16,
+        paddingVertical: 10, // Container drives the vertical spacing/centering
+        minHeight: 44,
         flexDirection: 'row',
-        alignItems: 'flex-end', // Align send button to bottom
-        padding: 16,
-        paddingTop: 12,
-        borderTopWidth: 1,
-        borderTopColor: '#333',
-        backgroundColor: '#1A1A1A',
-        gap: 12,
+        // alignItems: 'center' // Removed to allow natural expansion
     },
     input: {
-        flex: 1,
-        minHeight: 48,
-        maxHeight: 120, // Limit expansion
-        backgroundColor: '#333',
-        borderRadius: 24,
-        paddingHorizontal: 20,
-        paddingTop: 12,
-        paddingBottom: 12,
-        lineHeight: 20,
-        textAlignVertical: 'top', // Better for multiline cursor alignment
-        color: '#FFF',
-        fontSize: 16,
-        borderWidth: 1,
-        borderColor: '#444',
+        flex: 1, color: '#FFF', fontSize: 16,
+        maxHeight: 120,
+        textAlignVertical: 'center', // Keep centered for single line feel, or 'top' if it jumps
+        paddingTop: 0, paddingBottom: 0, // Reset padding
         ...Platform.select({
             web: {
                 outlineStyle: 'none',
                 boxShadow: 'none',
-                resize: 'none', // Prevent manual resizing
-                // Padding is handled by shared styles now
+                resize: 'none',
             } as any
         })
     },
-    sendBtn: {
-        width: 48,
-        height: 48,
-        borderRadius: 24,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: Colors.parchment,
-        marginBottom: 0, // Align with bottom
+    sendTextBtn: { marginLeft: 16, marginBottom: 12 }, // ALign with text bottom
+    sendText: { color: '#647DEE', fontWeight: '700', fontSize: 16 },
+
+    // Typing
+    typingContainer: { paddingLeft: 46, marginBottom: 20, flexDirection: 'row', alignItems: 'center', gap: 8 },
+    typingBubble: {
+        paddingHorizontal: 12, paddingVertical: 4, backgroundColor: '#262626', borderRadius: 16,
     },
-    typingContainer: {
-        paddingHorizontal: 4,
-        paddingTop: 4,
-        paddingBottom: 4,
-    },
-    typingText: {
-        color: Colors.grayLight,
-        fontSize: 11,
-        fontStyle: 'italic',
-    },
+    typingText: { color: Colors.gray, fontSize: 12 },
+
+    // Reply Context
     replyContext: {
+        flexDirection: 'row', alignItems: 'center', backgroundColor: '#1A1A1A',
+        padding: 12, gap: 12, borderTopWidth: 1, borderTopColor: '#333'
+    },
+    replyBar: { width: 3, height: '100%', backgroundColor: '#647DEE', borderRadius: 2 },
+    replyContextName: { color: '#647DEE', fontWeight: '700', fontSize: 13, marginBottom: 2 },
+    replyContextContent: { color: Colors.grayLight, fontSize: 13 },
+
+    // Reactions
+    reactionsContainer: {
+        position: 'absolute', bottom: -8, // Adjusted position
         flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingBottom: 8,
-        paddingTop: 8,
-        backgroundColor: '#1A1A1A',
-        borderTopWidth: 1,
-        borderTopColor: '#333',
-        gap: 12
-    },
-    replyLine: {
-        width: 2,
-        height: '100%',
-        backgroundColor: Colors.parchment,
-        borderRadius: 1
-    },
-    replyContextName: {
-        color: Colors.parchment,
-        fontSize: 12,
-        fontWeight: 'bold',
-        marginBottom: 2
-    },
-    replyContextContent: {
-        color: Colors.grayLight,
-        fontSize: 12
-    },
-    replyQuote: {
-        marginBottom: 6,
-        padding: 8,
-        backgroundColor: 'rgba(0,0,0,0.2)',
-        borderRadius: 8,
-        borderLeftWidth: 2,
-        borderLeftColor: Colors.parchment
-    },
-    myReplyQuote: {
-        backgroundColor: 'rgba(0,0,0,0.2)',
-        borderLeftColor: Colors.parchment
-    },
-    otherReplyQuote: {
-        backgroundColor: 'rgba(0,0,0,0.2)',
-        borderLeftColor: Colors.gaslightAmber
-    },
-    replyName: {
-        fontSize: 10,
-        fontWeight: 'bold',
-        marginBottom: 2
-    },
-    replyContent: {
-        fontSize: 12
+        backgroundColor: '#333',
+        paddingHorizontal: 6, paddingVertical: 2,
+        borderRadius: 12,
+        borderWidth: 2, borderColor: Colors.victorianBlack,
+        gap: 2,
+        shadowColor: "#000", shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.3, shadowRadius: 2, elevation: 3
     }
 });
