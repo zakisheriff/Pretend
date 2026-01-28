@@ -35,8 +35,8 @@ interface OnlineGameState {
     typingPlayers: string[];
     channel: any;
     setTyping: (isTyping: boolean) => Promise<void>;
-    broadcastSelection: (selection: { type: 'mode' | 'player' | 'movie' | 'timer' | 'PICTIONARY_OPTIONS' | 'PICTIONARY_TIMER' | 'PICTIONARY_WORD_SELECTED', id: string | null, data?: any } | null) => Promise<void>;
-    selection: { type: 'mode' | 'player' | 'movie' | 'timer' | 'PICTIONARY_OPTIONS' | 'PICTIONARY_TIMER' | 'PICTIONARY_WORD_SELECTED', id: string | null, data?: any } | null;
+    broadcastSelection: (selection: { type: 'mode' | 'player' | 'movie' | 'timer' | 'PICTIONARY_OPTIONS' | 'PICTIONARY_TIMER' | 'PICTIONARY_WORD_SELECTED' | 'PICTIONARY_GUESS', id: string | null, data?: any } | null) => Promise<void>;
+    selection: { type: 'mode' | 'player' | 'movie' | 'timer' | 'PICTIONARY_OPTIONS' | 'PICTIONARY_TIMER' | 'PICTIONARY_WORD_SELECTED' | 'PICTIONARY_GUESS', id: string | null, data?: any } | null;
     gameData?: { type: string, data: any };
 
     // Actions

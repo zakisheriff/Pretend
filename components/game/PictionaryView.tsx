@@ -8,7 +8,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import React, { useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import Animated, { FadeIn, FadeInDown, ZoomIn } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInDown, FadeOutUp, ZoomIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CanvasView } from './CanvasView';
 
@@ -40,6 +40,7 @@ export function PictionaryView() {
     const [wordOptions, setWordOptions] = useState<string[]>([]);
     const [guess, setGuess] = useState('');
     const [lastDrwanPathId, setLastDrawnPathId] = useState<string | null>(null);
+    const [recentGuesses, setRecentGuesses] = useState<Array<{ id: string, playerName: string, guess: string, timestamp: number }>>([]);
 
     // Host State (Refs to persist across renders)
     const roundRef = useRef(1);
@@ -239,6 +240,7 @@ export function PictionaryView() {
     }, [isHost, selection, gamePhase]);
 
 
+
     const [remoteCurrentPaths, setRemoteCurrentPaths] = useState<Record<string, any>>({});
     const currentDrawPoints = useRef<any[]>([]);
     const lastBroadcast = useRef(0);
@@ -246,11 +248,14 @@ export function PictionaryView() {
     // Hoisted State
     const [myPaths, setMyPaths] = useState<any[]>([]);
     const [redoStack, setRedoStack] = useState<any[]>([]);
+    const pictionaryChannelRef = useRef<any>(null);
+
 
     // Handle Drawing Broadcast (Completed & Progress)
     useEffect(() => {
         if (!roomCode) return;
         const channel = supabase.channel(`pictionary:${roomCode}`); // Dedicated channel for high-frequency drawing
+        pictionaryChannelRef.current = channel; // Store reference
 
         channel
             .on('broadcast', { event: 'draw' }, ({ payload }) => {
@@ -276,6 +281,31 @@ export function PictionaryView() {
                             filled: payload.filled
                         }
                     }));
+                }
+            })
+            .on('broadcast', { event: 'guess' }, ({ payload }) => {
+                // Don't show own guesses
+                if (payload.playerId !== myPlayerId) {
+                    console.log('📥 Received guess via broadcast:', payload);
+                    const newGuess = {
+                        id: Math.random().toString(36).substring(2, 9),
+                        playerName: payload.playerName,
+                        guess: payload.guess,
+                        timestamp: payload.timestamp
+                    };
+
+                    console.log('➕ Adding guess to feed:', newGuess);
+                    setRecentGuesses(prev => {
+                        const updated = [...prev, newGuess];
+                        console.log('📋 Current guesses:', updated.length);
+                        return updated;
+                    });
+
+                    // Auto-remove after 5 seconds (increased from 3)
+                    setTimeout(() => {
+                        console.log('⏰ Removing guess:', newGuess.id);
+                        setRecentGuesses(prev => prev.filter(g => g.id !== newGuess.id));
+                    }, 5000);
                 }
             })
             .on('broadcast', { event: 'undo' }, ({ payload }) => {
@@ -513,8 +543,26 @@ export function PictionaryView() {
         if (!guess.trim()) return;
         if (myPlayer?.vote === 'CORRECT') return;
 
+        const guessText = guess.trim();
+
+        // Broadcast guess to drawer (so they can see what people are guessing)
+        if (roomCode && myPlayer && pictionaryChannelRef.current) {
+            console.log('📤 Broadcasting guess:', guessText, 'from', myPlayer.name);
+            await pictionaryChannelRef.current.send({
+                type: 'broadcast',
+                event: 'guess',
+                payload: {
+                    playerId: myPlayerId,
+                    playerName: myPlayer.name,
+                    guess: guessText,
+                    timestamp: Date.now()
+                }
+            });
+            console.log('✅ Guess broadcast sent');
+        }
+
         try {
-            const res = await GameAPI.verifyPictionaryGuess(roomCode!, myPlayerId!, guess, timeLeft);
+            const res = await GameAPI.verifyPictionaryGuess(roomCode!, myPlayerId!, guessText, timeLeft);
 
             if (res.status === 'CORRECT') {
                 haptics.success();
@@ -660,6 +708,24 @@ export function PictionaryView() {
                         )}
 
                         {/* Drawer Footer (Toolbar) */}
+
+                        {/* Guess Feed (Drawer Only) */}
+                        {isDrawer && gamePhase === 'PICTIONARY:DRAWING' && recentGuesses.length > 0 && (
+                            <View style={styles.guessFeed}>
+                                {recentGuesses.slice(-3).map(g => (
+                                    <Animated.View
+                                        key={g.id}
+                                        entering={FadeInDown.springify()}
+                                        exiting={FadeOutUp}
+                                        style={styles.guessItem}
+                                    >
+                                        <Text style={styles.guessPlayerName}>{g.playerName}:</Text>
+                                        <Text style={styles.guessText}>{g.guess}</Text>
+                                    </Animated.View>
+                                ))}
+                            </View>
+                        )}
+
                         {isDrawer && gamePhase === 'PICTIONARY:DRAWING' && (
                             <View style={styles.drawerToolbar}>
                                 {/* Colors */}
@@ -1025,5 +1091,31 @@ const styles = StyleSheet.create({
     toolText: {
         fontWeight: 'bold',
         color: Colors.victorianBlack
+    },
+    guessFeed: {
+        position: 'absolute',
+        bottom: 180,
+        left: 20,
+        right: 20,
+        gap: 8,
+        pointerEvents: 'none'
+    },
+    guessItem: {
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        paddingHorizontal: 16,
+        paddingVertical: 10,
+        borderRadius: 20,
+        flexDirection: 'row',
+        gap: 6,
+        alignSelf: 'flex-start'
+    },
+    guessPlayerName: {
+        color: Colors.parchment,
+        fontWeight: 'bold',
+        fontSize: 14
+    },
+    guessText: {
+        color: '#FFF',
+        fontSize: 14
     }
 });
