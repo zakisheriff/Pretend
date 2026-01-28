@@ -71,11 +71,16 @@ export function PictionaryView() {
     useEffect(() => {
         if (!isHost || !roomCode) return;
 
+        // Validate turn state periodically
+        if (gamePhase === 'PICTIONARY:DRAWING' || gamePhase === 'PICTIONARY:SELECT_WORD') {
+            validateTurnState();
+        }
+
         // Phase Transitions & Host Logic
         if (gamePhase === 'PICTIONARY:SELECT_WORD') {
             if (!selection || selection.type !== 'PICTIONARY_OPTIONS') {
                 const words = getRandomWords(3);
-                console.log('Safety Check Triggered: Broadcasting Options');
+                console.log('🔧 Safety Check Triggered: Broadcasting Options');
                 broadcastSelection({
                     type: 'PICTIONARY_OPTIONS',
                     id: drawer?.id || 'unknown',
@@ -90,6 +95,7 @@ export function PictionaryView() {
             // Host handles auto-select when time runs out
             if (selectionTimeLeft === 0) {
                 const options = wordOptions.length > 0 ? wordOptions : getRandomWords(1);
+                console.log(`⏰ Auto-selecting word: ${options[0]}`);
                 handleSelectWord(options[0]);
             }
         }
@@ -100,6 +106,7 @@ export function PictionaryView() {
             const allGuessed = activeGuessers.length > 0 && activeGuessers.every(p => p.vote === 'CORRECT');
 
             if ((timeLeft === 0 || allGuessed) && activeGuessers.length > 0) {
+                console.log(`⏱️ Turn ending - Time: ${timeLeft}, All guessed: ${allGuessed}`);
                 handleTurnEnd();
             }
         }
@@ -147,43 +154,44 @@ export function PictionaryView() {
 
     // Handle Selection (Drawer only)
     const handleSelectWord = async (word: string) => {
-        // Allow calling even if not drawer if forced by Host timeout
-        // But normally checks role. Host timeout acts as "God Mode".
         if (!roomCode) return;
 
-        // If triggered by Host Timeout, we might not be the drawer.
-        // If Host is forcing selection:
+        console.log(`🎯 handleSelectWord called - Word: "${word}", isDrawer: ${isDrawer}, isHost: ${isHost}`);
+
+        // If triggered by Host Timeout (auto-select)
         if (isHost && gamePhase === 'PICTIONARY:SELECT_WORD' && selectionTimeLeft <= 1) {
-            // Host forces update
-            // We need to update the drawer's secret word in DB?
-            // Or just proceed.
-            // Best to just force the phase and start.
+            console.log(`⏰ Host auto-selecting word due to timeout`);
+
+            // Force the phase transition
             GameAPI.updateGamePhase(roomCode, 'PICTIONARY:DRAWING');
             broadcastSelection({ type: 'PICTIONARY_WORD_SELECTED', id: drawer?.id || null, data: { wordLength: word.length } });
             broadcastSelection({ type: 'PICTIONARY_TIMER', id: null, data: { time: 60 } });
 
-            // Also try to update DB so the hint works
-            // But we don't know who the drawer is easily without query, assume 'drawer' role.
-            // We'll update for ALL players with role 'drawer' (should be 1).
-            supabase.from('players').update({ secret_word: word }).eq('role', 'drawer').eq('room_code', roomCode).then();
+            // Update drawer's secret word
+            if (drawer?.id) {
+                await supabase.from('players').update({ secret_word: word }).eq('id', drawer.id).eq('room_code', roomCode);
+            }
             return;
         }
 
-        if (!isDrawer) return;
+        // Normal drawer selection
+        if (!isDrawer) {
+            console.warn(`⚠️ Non-drawer tried to select word!`);
+            return;
+        }
 
-        // 1. Set word in DB (hidden)
+        console.log(`✅ Drawer ${myPlayer?.name} selected word: "${word}"`);
+
+        // 1. Set word in DB (hidden from other players)
         const { error } = await supabase
             .from('players')
-            .update({ secret_word: word }) // RLS hides this? Hopefully.
+            .update({ secret_word: word })
             .eq('id', myPlayerId);
 
         if (error) {
             console.error("Failed to select word", error);
             // Continue anyway to not block game
         }
-
-        // ... rest of logic handled by effect or manually below
-
 
         // 2. Clear canvas paths
         setRemotePaths([]);
@@ -192,25 +200,42 @@ export function PictionaryView() {
 
         // 3. Move Game Phase
         if (isHost) {
-            GameAPI.updateGamePhase(roomCode, 'PICTIONARY:DRAWING');
+            console.log(`🎮 Host drawer moving to DRAWING phase`);
+
+            // Small delay to ensure word is saved
+            await new Promise(resolve => setTimeout(resolve, 200));
+
+            await GameAPI.updateGamePhase(roomCode, 'PICTIONARY:DRAWING');
             broadcastSelection({ type: 'PICTIONARY_TIMER', id: null, data: { time: 60 } });
         } else {
-            // Request host to move phase? 
-            // Currently only HOST can update game phase via API (RLS policies usually).
-            // If Drawer is NOT host, they rely on Host observing the change?
-            // Host needs to observe "secret_word" change? But Host might not see it if RLS hides it.
-            // Workaround: Drawer sends broadcast "I picked a word".
-            broadcastSelection({ type: 'PICTIONARY_WORD_SELECTED', id: myPlayerId, data: { wordLength: word.length } }); // Host sees this and moves phase.
+            // Non-host drawer: Notify host that word was selected
+            console.log(`📢 Non-host drawer broadcasting word selection`);
+            broadcastSelection({
+                type: 'PICTIONARY_WORD_SELECTED',
+                id: myPlayerId,
+                data: { wordLength: word.length }
+            });
         }
     };
 
     // Host listens for WORD_SELECTED
     useEffect(() => {
-        if (isHost && selection?.type === 'PICTIONARY_WORD_SELECTED' && gamePhase === 'PICTIONARY:SELECT_WORD') {
-            GameAPI.updateGamePhase(roomCode!, 'PICTIONARY:DRAWING');
-            // Reset Timer
-            setTimeLeft(60);
-        }
+        const handleWordSelected = async () => {
+            if (isHost && selection?.type === 'PICTIONARY_WORD_SELECTED' && gamePhase === 'PICTIONARY:SELECT_WORD') {
+                console.log(`🎮 Host received WORD_SELECTED signal from drawer`);
+
+                // Add delay to ensure role updates and word save have completed
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                await GameAPI.updateGamePhase(roomCode!, 'PICTIONARY:DRAWING');
+                // Reset Timer
+                setTimeLeft(60);
+
+                console.log(`✅ Phase transitioned to DRAWING`);
+            }
+        };
+
+        handleWordSelected();
     }, [isHost, selection, gamePhase]);
 
 
@@ -366,84 +391,88 @@ export function PictionaryView() {
 
     // --- HOST LOGIC: Turn Management ---
 
-    // Calculate current round/drawer statelessly
-    // We repurpose 'vote' column: 'DRAWN' = player has finished a turn in this round.
-    // 'CORRECT' = player guessed correctly.
-    // At start of turn, Drawer = 'WAITING' (secret_word) or 'DRAWING'
+    // Helper function to get sorted players (consistent order)
+    const getSortedPlayers = () => {
+        return [...players].sort((a, b) => a.created_at?.localeCompare(b.created_at || '') || 0);
+    };
 
-    // We need a robust "Next Turn" handler
+    // Validate current turn state
+    const validateTurnState = () => {
+        const sortedPlayers = getSortedPlayers();
+        const expectedDrawer = sortedPlayers[turnIndexRef.current];
+        const actualDrawer = players.find(p => p.role === 'drawer');
+
+        if (expectedDrawer && actualDrawer && expectedDrawer.id !== actualDrawer.id) {
+            console.warn(`⚠️ Turn state mismatch! Expected drawer: ${expectedDrawer.name}, Actual: ${actualDrawer?.name}`);
+            console.warn(`   Round: ${roundRef.current}, Turn Index: ${turnIndexRef.current}`);
+        }
+    };
+
+    // Next Turn Handler
     const nextTurn = async () => {
         if (!isHost || !roomCode) return;
 
-        // 1. Mark current drawer as 'DRAWN' (using vote column as metadata is risky if we use it for guessing)
-        // Wait, we use 'vote' for Guess Status ('CORRECT').
-        // We need another way to track "Who has drawn this round".
-        // We can't change schema.
-        // We can check the `selection` history? No.
+        console.log(`🎮 nextTurn() called - Current: Round ${roundRef.current}, Turn ${turnIndexRef.current}`);
 
-        // Alternative: Use a deterministic order based on Player List
-        // Round 1: Players [0] -> [1] -> [2]
-        // Round 2: Players [0] -> [1] -> [2]
-
-        // We need to store "Current Round" and "Current Drawer Index" in a persistent way.
-        // We can put it in the room's `game_mode` column? "pictionary:r1:px"
-        // Or cleaner: Use `selection` broadcast to sync it, but assume if we are moving turns, we just increment.
-        // BUT if View unmounts, Refs die.
-        // Fix: Use `useRef` but sync it with `selection` IF available.
-        // AND when we broadcast the NEW selection (start of turn), we INCLUDE the current indexes.
-        // AND we save it to `rooms` table if possible? No.
-
-        // BEST EFFORT: 
-        // 1. Get current turn/round from Refs (which should survive if component stays mounted).
-        // 2. Increment.
-        // 3. Broadcast new state so other clients (and Host self if reloaded) know.
-
+        // Calculate next turn and round
+        const sortedPlayers = getSortedPlayers();
         let nextIndex = turnIndexRef.current + 1;
         let nextRound = roundRef.current;
 
-        if (nextIndex >= players.length) {
+        // If we've gone through all players, start a new round
+        if (nextIndex >= sortedPlayers.length) {
             nextIndex = 0;
             nextRound++;
-            roundRef.current = nextRound;
+            console.log(`🔄 Round complete! Moving to Round ${nextRound}`);
         }
-        turnIndexRef.current = nextIndex;
 
         // Check Game End: 3 Rounds Total
         if (nextRound > 3) {
+            console.log(`🏁 Game Over! All 3 rounds completed.`);
             await GameAPI.updateGameStatus(roomCode, 'FINISHED');
             await GameAPI.updateGamePhase(roomCode, 'results');
             return;
         }
 
-        // Setup Next Drawer
-        // Sort players deterministically (by join time/created_at)
-        const sortedPlayers = [...players].sort((a, b) => a.created_at?.localeCompare(b.created_at || '') || 0);
+        // Update refs BEFORE making changes
+        roundRef.current = nextRound;
+        turnIndexRef.current = nextIndex;
+
         const nextDrawer = sortedPlayers[nextIndex];
 
         if (!nextDrawer) {
-            // Failsafe
-            console.error("No next drawer found!");
+            console.error(`❌ No drawer found at index ${nextIndex}!`);
             return;
         }
+
+        console.log(`✏️ Next drawer: ${nextDrawer.name} (Round ${nextRound}, Turn ${nextIndex})`);
 
         // PERSIST STATE (Critical for Reloads)
         await GameAPI.updateGameData(roomCode, {
             round: nextRound,
             drawerId: nextDrawer.id,
-            wordOptions: [], // will assume reset
-            word: null
+            turnIndex: nextIndex,
+            totalPlayers: sortedPlayers.length
         });
 
         // Reset All Players for new turn
-        // Set new drawer
-        const otherIds = players.filter(p => p.id !== nextDrawer.id).map(p => p.id);
+        const otherIds = sortedPlayers.filter(p => p.id !== nextDrawer.id).map(p => p.id);
 
-        const updates = [];
-        updates.push(supabase.from('players').update({ role: 'drawer', secret_word: 'WAITING', vote: null }).eq('id', nextDrawer.id));
+        console.log(`🔄 Resetting roles - Drawer: ${nextDrawer.name}, Guessers: ${otherIds.length}`);
+
+        // Update roles sequentially to avoid race conditions
+        await supabase.from('players')
+            .update({ role: 'drawer', secret_word: 'WAITING', vote: null })
+            .eq('id', nextDrawer.id);
+
         if (otherIds.length > 0) {
-            updates.push(supabase.from('players').update({ role: 'guesser', secret_word: '', vote: null }).in('id', otherIds));
+            await supabase.from('players')
+                .update({ role: 'guesser', secret_word: '', vote: null })
+                .in('id', otherIds);
         }
-        await Promise.all(updates);
+
+        // Small delay to ensure role updates propagate
+        await new Promise(resolve => setTimeout(resolve, 300));
 
         // Broadcast State (Round info + Options)
         const words = getRandomWords(3);
@@ -457,6 +486,8 @@ export function PictionaryView() {
                 turnIndex: nextIndex
             }
         });
+
+        console.log(`📢 Broadcasted word options for Round ${nextRound}, Turn ${nextIndex}`);
 
         await GameAPI.updateGamePhase(roomCode, 'PICTIONARY:SELECT_WORD');
     };

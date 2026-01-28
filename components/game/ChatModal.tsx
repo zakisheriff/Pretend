@@ -23,6 +23,7 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
     const [inputText, setInputText] = React.useState('');
     const [inputHeight, setInputHeight] = useState(40);
     const [replyTo, setReplyTo] = useState<{ id: string, name: string, content: string } | null>(null);
+    const [isInputFocused, setIsInputFocused] = useState(false);
     const flatListRef = useRef<FlatList>(null);
     const inputRef = useRef<TextInput>(null);
     const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -62,16 +63,10 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
         }, 2000);
     };
 
+
     const handleSend = async () => {
         const textToSend = inputText.trim();
         if (!textToSend) return;
-
-        // Keep focus IMMEDIATELY
-        if (Platform.OS === 'web') {
-            if (inputRef.current) (inputRef.current as any).focus();
-        } else {
-            inputRef.current?.focus();
-        }
 
         if (typingTimeoutRef.current) {
             clearTimeout(typingTimeoutRef.current);
@@ -89,9 +84,19 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
 
         await sendChatMessage(textToSend, replyTo || undefined);
 
+        // Scroll to end but DON'T auto-scroll if user is typing (handled by isInputFocused check)
         setTimeout(() => {
             flatListRef.current?.scrollToEnd({ animated: true });
         }, 100);
+
+        // Re-focus input AFTER all operations to ensure keyboard stays open
+        setTimeout(() => {
+            if (Platform.OS === 'web') {
+                if (inputRef.current) (inputRef.current as any).focus();
+            } else {
+                inputRef.current?.focus();
+            }
+        }, 150);
     };
 
 
@@ -105,14 +110,22 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
     }, [visible]);
 
     useEffect(() => {
-        if (visible && messages.length > 0) {
+        // Only auto-scroll if the user is NOT actively typing
+        if (visible && messages.length > 0 && !isInputFocused) {
             flatListRef.current?.scrollToEnd({ animated: true });
         }
     }, [messages.length, visible]);
 
     useEffect(() => {
         if (replyTo) {
-            inputRef.current?.focus();
+            // Small delay to ensure the reply context renders first
+            setTimeout(() => {
+                if (Platform.OS === 'web') {
+                    if (inputRef.current) (inputRef.current as any).focus();
+                } else {
+                    inputRef.current?.focus();
+                }
+            }, 100);
         }
     }, [replyTo]);
 
@@ -152,7 +165,7 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                         data={messages}
                         keyExtractor={item => item.id}
                         contentContainerStyle={styles.listContent}
-                        keyboardDismissMode="on-drag"
+                        keyboardDismissMode="none"
                         keyboardShouldPersistTaps="handled"
                         onTouchStart={() => {
                             // Optional: Dismiss on touch if preferred, but on-drag is standard for chat
@@ -160,7 +173,8 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                             // Standard "WhatsApp-like" behavior is dismiss on drag or tap on empty space.
                         }}
                         onContentSizeChange={() => {
-                            if (visible) flatListRef.current?.scrollToEnd({ animated: true });
+                            // Only auto-scroll if not actively typing
+                            if (visible && !isInputFocused) flatListRef.current?.scrollToEnd({ animated: true });
                         }}
                         renderItem={({ item, index }) => {
                             const prev = messages[index - 1];
@@ -220,6 +234,8 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                                     placeholderTextColor={Colors.grayLight}
                                     value={inputText}
                                     onChangeText={handleTextChange}
+                                    onFocus={() => setIsInputFocused(true)}
+                                    onBlur={() => setIsInputFocused(false)}
                                     multiline
                                     blurOnSubmit={false}
                                 />
@@ -491,7 +507,7 @@ const styles = StyleSheet.create({
     sendText: { color: '#647DEE', fontWeight: '700', fontSize: 16 },
 
     // Typing
-    typingContainer: { paddingLeft: 46, marginBottom: 20, flexDirection: 'row', alignItems: 'center', gap: 8 },
+    typingContainer: { paddingLeft: 16, marginBottom: 20, flexDirection: 'row', alignItems: 'center', gap: 8 },
     typingBubble: {
         paddingHorizontal: 12, paddingVertical: 4, backgroundColor: '#262626', borderRadius: 16,
     },
