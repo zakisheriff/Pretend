@@ -158,7 +158,11 @@ export const GameAPI = {
                 case 'pictionary':
                     // Pictionary Mode:
                     // 1. Sort players to ensure deterministic order (matching frontend logic)
-                    const sortedPlayers = [...players].sort((a, b) => (a.created_at || '').localeCompare(b.created_at || ''));
+                    // Added ID as tie-breaker for perfect stability
+                    const sortedPlayers = [...players].sort((a, b) =>
+                        (a.created_at || '').localeCompare(b.created_at || '') ||
+                        a.id.localeCompare(b.id)
+                    );
 
                     const firstDrawer = sortedPlayers[0];
                     const otherIds = sortedPlayers.slice(1).map(p => p.id);
@@ -171,7 +175,9 @@ export const GameAPI = {
                                 type: 'pictionary',
                                 data: {
                                     round: 1,
-                                    drawerId: firstDrawer.id
+                                    turnIndex: 0, // Explicitly start at 0
+                                    drawerId: firstDrawer.id,
+                                    totalPlayers: sortedPlayers.length
                                 }
                             }
                         })
@@ -576,7 +582,7 @@ export const GameAPI = {
         return { error: error2 };
     },
 
-    verifyPictionaryGuess: async (roomCode: string, playerId: string, guess: string, timeLeft: number) => {
+    verifyPictionaryGuessV2: async (roomCode: string, playerId: string, guess: string, timeLeft: number) => {
         // 1. Get drawer word
         const { data: drawer } = await supabase
             .from('players')
@@ -593,6 +599,7 @@ export const GameAPI = {
 
         // Exact Match
         if (target === input) {
+            console.log(`✅ Exact match! Target: "${target}", Input: "${input}"`);
             // Pictionary Scoring: 1 Point for correct guess
             const points = 1;
 
@@ -606,45 +613,62 @@ export const GameAPI = {
             return { status: 'CORRECT', word: drawer.secret_word, points };
         }
 
-        // Fuzzy Match (Levenshtein-ish or simple substring/typo check)
+        // Fuzzy Match (Iterative Levenshtein - Robust)
         const levDist = (s: string, t: string) => {
-            const d = [];
-            for (let i = 0; i <= s.length; i++) d[i] = [i];
-            for (let j = 0; j <= t.length; j++) d[0][j] = j;
-            for (let i = 1; i <= s.length; i++) {
-                for (let j = 1; j <= t.length; j++) {
-                    const cost = s[i - 1] === t[j - 1] ? 0 : 1;
-                    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+            if (s === t) return 0;
+            if (s.length === 0) return t.length;
+            if (t.length === 0) return s.length;
+
+            const v0 = new Array(t.length + 1);
+            const v1 = new Array(t.length + 1);
+
+            for (let i = 0; i < v0.length; i++) v0[i] = i;
+
+            for (let i = 0; i < s.length; i++) {
+                v1[0] = i + 1;
+                for (let j = 0; j < t.length; j++) {
+                    const cost = s[i] === t[j] ? 0 : 1;
+                    v1[j + 1] = Math.min(v1[j] + 1, v0[j + 1] + 1, v0[j] + cost);
                 }
+                for (let j = 0; j < v0.length; j++) v0[j] = v1[j];
             }
-            return d[s.length][t.length];
+            return v1[t.length];
         };
+
+        // SAFETY CHECK: If length difference is huge, it CANNOT be close
+        if (Math.abs(target.length - input.length) > 2) {
+            console.log(`❌ Length mismatch too large (${target.length} vs ${input.length})`);
+            return { status: 'WRONG', points: 0 };
+        }
 
         const dist = levDist(input, target);
 
         // Dynamic Tolerance for "Correctness"
         let allowedErrors = 0;
-        if (target.length >= 7) allowedErrors = 2;
+        if (target.length >= 7) allowedErrors = 2; // e.g. "telephone" (9) -> "telephon" (dist 1) -> OK, "telephn" (dist 2) -> OK
         else if (target.length >= 4) allowedErrors = 1;
 
+        console.log(`📝 Fuzzy Check - Target: "${target}", Input: "${input}", Dist: ${dist}, Allowed: ${allowedErrors}`);
+
         if (dist <= allowedErrors) {
+            console.log(`✅ Fuzzy match accepted!`);
             // Fuzzy Correct! 1 Point
             const points = 1;
-
-            // Updated Guesser: Manual Fetch + Update (No RPC)
             const { data: guesser } = await supabase.from('players').select('score').eq('id', playerId).single();
             const newScore = (guesser?.score || 0) + points;
-
             await supabase.from('players').update({ score: newScore, vote: 'CORRECT' }).eq('id', playerId);
-
             return { status: 'CORRECT', word: drawer.secret_word, points };
         }
 
-        // "Close" check (for feedback only, if it wasn't accepted as correct)
-        if (dist <= allowedErrors + 1) {
+        // "Close" check
+        // STRICTER: Only show "Close" if word is at least 3 chars long AND dist is <= threshold + 1
+        // AND dist is not 0 (which would be covered by correct, but just in case)
+        if (target.length >= 3 && dist <= allowedErrors + 1) {
+            console.log(`⚠️ Fuzzy match CLOSE! Dist: ${dist}, Threshold: ${allowedErrors + 1}`);
             return { status: 'CLOSE', points: 0 };
         }
 
+        console.log(`❌ No match.`);
         return { status: 'WRONG', points: 0 };
     }
 };

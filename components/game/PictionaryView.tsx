@@ -51,16 +51,20 @@ export function PictionaryView() {
     useEffect(() => {
         if (gameData?.type === 'pictionary' && gameData.data.round) {
             // Restore Round
-            if (gameData.data.round !== roundRef.current) {
-                console.log('Restoring Round directly from DB:', gameData.data.round);
+            // Force update if we receive a valid round, to ensure UI is in sync
+            if (gameData.data.round) {
+                console.log(`📥 Syncing Round from DB: ${gameData.data.round} (Current Ref: ${roundRef.current})`);
                 roundRef.current = gameData.data.round;
                 setDisplayRound(gameData.data.round);
             }
 
             // Restore Turn Index (find index of stored drawerId)
             if (gameData.data.drawerId) {
-                // Same sort order as nextTurn
-                const sorted = [...players].sort((a, b) => a.created_at?.localeCompare(b.created_at || '') || 0);
+                // Same stable sort order as nextTurn
+                const sorted = [...players].sort((a, b) =>
+                    (a.created_at || '').localeCompare(b.created_at || '') ||
+                    a.id.localeCompare(b.id)
+                );
                 const idx = sorted.findIndex(p => p.id === gameData.data.drawerId);
                 if (idx !== -1) {
                     turnIndexRef.current = idx;
@@ -445,7 +449,10 @@ export function PictionaryView() {
 
     // Helper function to get sorted players (consistent order)
     const getSortedPlayers = () => {
-        return [...players].sort((a, b) => a.created_at?.localeCompare(b.created_at || '') || 0);
+        return [...players].sort((a, b) =>
+            (a.created_at || '').localeCompare(b.created_at || '') ||
+            a.id.localeCompare(b.id)
+        );
     };
 
     // Validate current turn state
@@ -584,7 +591,7 @@ export function PictionaryView() {
         }
 
         try {
-            const res = await GameAPI.verifyPictionaryGuess(roomCode!, myPlayerId!, guessText, timeLeft);
+            const res = await GameAPI.verifyPictionaryGuessV2(roomCode!, myPlayerId!, guessText, timeLeft);
 
             if (res.status === 'CORRECT') {
                 haptics.success();

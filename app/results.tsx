@@ -421,6 +421,7 @@ export default function ResultsScreen() {
                 <WinnerCelebration
                     winner={overallWinner}
                     allPlayers={players}
+                    isHost={true}
                     onNewGame={() => {
                         useGameStore.getState().queueNewTournament();
                         router.push('/select-mode');
