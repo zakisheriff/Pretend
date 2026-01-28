@@ -127,7 +127,7 @@ export default function RoleRevealScreen() {
             router.replace('/multiplayer/lobby');
         } else {
             refreshTheme();
-            router.replace('/add-players');
+            router.replace('/select-theme');
         }
     };
 

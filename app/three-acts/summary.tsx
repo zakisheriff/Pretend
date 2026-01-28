@@ -70,14 +70,19 @@ export default function ThreeActsSummary() {
             iconColor = Colors.danger;
         }
 
+        // Fallback to gameData.actOptions if stat.options is empty (e.g. timeout)
+        const displayTitle = stat.chosen ||
+            (stat.options && stat.options.length > 0 ? stat.options.join(' / ') : null) ||
+            gameData.actOptions[`act${actNum}` as keyof typeof gameData.actOptions].join(' / ');
+
         return (
             <View style={styles.resultRow}>
                 <View style={styles.actLabelBox}>
                     <Text style={styles.actLabel}>Act {actNum}</Text>
                 </View>
                 <View style={styles.movieBox}>
-                    <Text style={styles.movieTitle}>{stat.chosen || stat.options.join(' / ')}</Text>
-                    {!stat.chosen && <Text style={styles.subtext}>Skipped</Text>}
+                    <Text style={styles.movieTitle}>{displayTitle}</Text>
+                    {!stat.chosen && <Text style={styles.subtext}>{stat.skipped ? "Skipped" : "Time Out"}</Text>}
                 </View>
                 <Ionicons name={iconName} size={28} color={iconColor} />
             </View>
@@ -85,9 +90,10 @@ export default function ThreeActsSummary() {
     };
 
     return (
-        <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+        <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + 40 }]}>
             <Text style={styles.headerTitle}>Round Complete</Text>
 
+            {/* ... scoreCard ... */}
             <View style={styles.scoreCard}>
                 <Text style={styles.teamName}>
                     {players.find(p => p.id === currentTeam.player1Id)?.name} & {players.find(p => p.id === currentTeam.player2Id)?.name}
@@ -95,7 +101,7 @@ export default function ThreeActsSummary() {
                 <Text style={styles.scoreText}>+{roundScore} pts</Text>
             </View>
 
-            <ScrollView style={styles.resultsList}>
+            <ScrollView style={styles.resultsList} contentContainerStyle={{ paddingBottom: 20 }}>
                 {renderActResult(1, roundStats.act1)}
                 {renderActResult(2, roundStats.act2)}
                 {renderActResult(3, roundStats.act3)}
