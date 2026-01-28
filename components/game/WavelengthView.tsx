@@ -677,6 +677,7 @@ const styles = StyleSheet.create({
         gap: 8,
         backgroundColor: 'rgba(255, 215, 0, 0.1)',
         paddingVertical: 12,
+        paddingHorizontal: 20,
         borderRadius: 16,
         marginTop: 24,
         width: '100%',
@@ -688,5 +689,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: '800',
         letterSpacing: 1,
+        textAlign: 'center',
+        flexShrink: 1
     },
 });

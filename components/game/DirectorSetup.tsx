@@ -282,9 +282,10 @@ const styles = StyleSheet.create({
         gap: 8,
         backgroundColor: 'rgba(255, 215, 0, 0.1)',
         paddingVertical: 12,
+        paddingHorizontal: 20, // Added padding
         borderRadius: 16,
         marginTop: 20,
-        marginBottom: 30, // Increased to lift it higher
+        marginBottom: 30,
         borderWidth: 1,
         borderColor: 'rgba(255, 215, 0, 0.2)',
     },
@@ -293,5 +294,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: '800',
         letterSpacing: 1,
+        textAlign: 'center', // Center text
+        flexShrink: 1 // Allow text to shrink/wrap if needed
     },
 });

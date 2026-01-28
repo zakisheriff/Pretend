@@ -279,6 +279,10 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                     return { typingPlayers: Array.from(currentTyping) };
                 });
             })
+            .on('broadcast', { event: 'reset' }, () => {
+                console.log('Received RESET broadcast - resetting game locally');
+                get().resetGame();
+            })
             .on('presence', { event: 'sync' }, () => {
                 const presenceState = channel.presenceState();
                 const onlinePlayerIds = Object.values(presenceState).flat().map((p: any) => String(p.id));
@@ -369,7 +373,8 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
             gameWinner: null,
             impostersCaught: false,
             kicked: false,
-            roomDeleted: false
+            roomDeleted: false,
+            gameData: undefined,
         });
     },
 
@@ -378,6 +383,18 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
         if (roomCode) {
             try {
                 await GameAPI.resetRoom(roomCode);
+
+                // Broadcast 'reset' event to ensure clients with large DB payloads (like Pictionary) still get the trigger
+                // as Postgres NOTIFY might drop events > 8KB.
+                const { channel } = get();
+                if (channel) {
+                    await channel.send({
+                        type: 'broadcast',
+                        event: 'reset',
+                        payload: {}
+                    });
+                }
+
                 // Host also resets locally immediately for responsiveness
                 get().resetGame();
             } catch (error) {

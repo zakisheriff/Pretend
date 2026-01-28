@@ -90,6 +90,27 @@ export function CanvasView({
         return inside;
     };
 
+    // Helper to normalize/denormalize
+    const normalize = (p: Point) => ({
+        x: p.x / (canvasLayout.width || 1),
+        y: p.y / (canvasLayout.height || 1)
+    });
+
+    const isNormalized = (points: Point[]) => {
+        // Heuristic: If all sample points are <= 2.0, likely normalized
+        if (points.length === 0) return false;
+        const sample = points.slice(0, 10);
+        return !sample.some(p => Math.abs(p.x) > 2.0 || Math.abs(p.y) > 2.0);
+    };
+
+    const denormalizePoints = (points: Point[]) => {
+        if (!isNormalized(points)) return points;
+        return points.map(p => ({
+            x: p.x * (canvasLayout.width || 1),
+            y: p.y * (canvasLayout.height || 1)
+        }));
+    };
+
     // Gesture: Tap for Fill (Instant)
     const tap = useMemo(() => Gesture.Tap()
         .enabled(isDrawer && tool === 'fill')
@@ -101,10 +122,12 @@ export function CanvasView({
             // Check collisions (reverse order)
             const rPaths = [...paths].reverse();
             for (const p of rPaths) {
+                // Denormalize the PATH points for checking collision against CLICK point (pixels)
+                const screenPoints = denormalizePoints(p.points);
                 let hit = false;
-                if (p.type === 'rect') hit = isPointInRect(clickPoint, p.points);
-                else if (p.type === 'circle') hit = isPointInCircle(clickPoint, p.points);
-                else hit = isPointInPolygon(clickPoint, p.points);
+                if (p.type === 'rect') hit = isPointInRect(clickPoint, screenPoints);
+                else if (p.type === 'circle') hit = isPointInCircle(clickPoint, screenPoints);
+                else hit = isPointInPolygon(clickPoint, screenPoints);
 
                 if (hit) {
                     caught = true;
@@ -118,7 +141,7 @@ export function CanvasView({
             if (!caught) {
                 const fillPath: DrawPath = {
                     id: Math.random().toString(36).substr(2, 9),
-                    points: [{ x: 0, y: 0 }, { x: canvasLayout.width, y: canvasLayout.height }],
+                    points: [{ x: 0, y: 0 }, { x: 1, y: 1 }], // Normalized Full Screen
                     color,
                     width: 0,
                     type: 'rect',
@@ -144,7 +167,7 @@ export function CanvasView({
             } else {
                 setCurrentPath((prev) => [...prev, point]);
             }
-            if (onDrawMove) onDrawMove(point);
+            if (onDrawMove) onDrawMove(normalize(point)); // Normalize for broadcast
         })
         .onEnd(() => {
             if (currentPath.length > 0) {
@@ -152,19 +175,22 @@ export function CanvasView({
                 const effectiveColor = tool === 'eraser' ? backgroundColor : color;
                 const effectiveWidth = tool === 'eraser' ? (strokeWidth || 20) * 3 : strokeWidth; // Wider eraser
 
+                // Normalize for storage
+                const normalizedPath = currentPath.map(normalize);
+
                 const newPath: DrawPath = {
                     id: Math.random().toString(36).substr(2, 9),
-                    points: currentPath,
+                    points: normalizedPath,
                     color: effectiveColor,
                     width: effectiveWidth,
                     type,
                     filled: false
                 };
-                setCurrentPath([]);
-                if (onDrawEnd) onDrawEnd(newPath);
+                setCurrentPath([]); // Clear local pixels
+                if (onDrawEnd) onDrawEnd(newPath); // Send normalized
             }
         })
-        .runOnJS(true), [isDrawer, onDrawStart, onDrawMove, onDrawEnd, color, strokeWidth, tool, backgroundColor, currentPath]);
+        .runOnJS(true), [isDrawer, onDrawStart, onDrawMove, onDrawEnd, color, strokeWidth, tool, backgroundColor, currentPath, canvasLayout]);
 
     // Composed Gesture
     // HACK: We render them conditionally effectively via .enabled(), 
@@ -172,18 +198,24 @@ export function CanvasView({
     // Since fill is mutually exclusive via .enabled(), Race should work fine.
     const gesture = useMemo(() => Gesture.Race(tap, pan), [tap, pan]);
 
-    const pointsToSvgPath = (points: Point[]) => {
+    const pointsToSvgPath = (points: Point[], closed: boolean) => {
         if (points.length === 0) return '';
         const d = points.map((p, i) =>
             i === 0 ? `M ${p.x} ${p.y}` : `L ${p.x} ${p.y}`
         ).join(' ');
-        // For filled freehand shapes, we should close the path visually if filled
-        return d + (points.length > 2 ? ' Z' : ''); // Optional: Z closes the path
+
+        return d + (closed && points.length > 2 ? ' Z' : '');
     };
 
     const renderShape = (path: { points: Point[], color: string, width: number, type?: string, filled?: boolean }, key?: string) => {
-        const { points, color, width, type, filled } = path;
-        if (!points || points.length === 0) return null;
+        // Transform Normalized -> Screen Pixels if needed
+        const screenPoints = denormalizePoints(path.points);
+        if (!screenPoints || screenPoints.length === 0) return null;
+
+        const { color, width, type, filled } = path;
+
+        // Use screenPoints from here on
+        const points = screenPoints;
 
         const fillValue = filled ? color : "none";
         // If filled, we might want the stroke to match or be none?
@@ -235,7 +267,7 @@ export function CanvasView({
             return (
                 <Path
                     key={key}
-                    d={pointsToSvgPath(points)}
+                    d={pointsToSvgPath(points, !!filled)}
                     stroke={strokeValue}
                     strokeWidth={width}
                     fill={fillValue} // Use fillValue here!

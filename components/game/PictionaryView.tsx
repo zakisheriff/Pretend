@@ -67,28 +67,15 @@ export function PictionaryView() {
         }
     }, [gameData, players]); // Sync whenever DB updates or players load
 
-    // --- EFFECT: Host Game Loop ---
+    // --- EFFECT: Host Game Loop (Logic Only) ---
     useEffect(() => {
         if (!isHost || !roomCode) return;
 
-        // Phase Transitions
+        // Phase Transitions & Host Logic
         if (gamePhase === 'PICTIONARY:SELECT_WORD') {
-            // Safety Check: If we are in SELECT_WORD but for some reason don't have options (e.g. initial start)
-            // and we are Host, maybe we should regenerate?
-            // But 'startGame' also needs to send options.
-            // Let's rely on whoever sets the phase to also send options.
-            // startGame -> (needs options)
-
-            // Initial Game Start Logic check:
-            // game.ts sets 'PICTIONARY:SELECT_WORD'. It does NOT send options.
-
-            // We need a way to detect "Initial Start" vs "Next Turn".
-            // If selection is null or type is not OPTIONS, we generate.
-            // Safety Check:
-            if (isHost && (!selection || selection.type !== 'PICTIONARY_OPTIONS')) {
-                // Use current Refs (which might be restored from gameData now!)
+            if (!selection || selection.type !== 'PICTIONARY_OPTIONS') {
                 const words = getRandomWords(3);
-                console.log('Safety Check Triggered: Broadcasting Options for Round:', roundRef.current);
+                console.log('Safety Check Triggered: Broadcasting Options');
                 broadcastSelection({
                     type: 'PICTIONARY_OPTIONS',
                     id: drawer?.id || 'unknown',
@@ -100,49 +87,43 @@ export function PictionaryView() {
                 });
             }
 
-            // Auto-select timer for picking word
-            const timer = setInterval(() => {
-                setSelectionTimeLeft(prev => {
-                    if (prev <= 1) {
-                        clearInterval(timer);
-                        // Auto-select logic
-                        const options = wordOptions.length > 0 ? wordOptions : getRandomWords(1);
-                        handleSelectWord(options[0]);
-                        return 0;
-                    }
-                    return prev - 1;
-                });
-            }, 1000);
-            return () => clearInterval(timer);
-        } else {
-            setSelectionTimeLeft(15); // Reset
+            // Host handles auto-select when time runs out
+            if (selectionTimeLeft === 0) {
+                const options = wordOptions.length > 0 ? wordOptions : getRandomWords(1);
+                handleSelectWord(options[0]);
+            }
         }
 
         if (gamePhase === 'PICTIONARY:DRAWING') {
-            const interval = setInterval(() => {
-                setTimeLeft((t) => {
-                    if (t <= 1) {
-                        clearInterval(interval);
-                        handleTurnEnd();
-                        return 0;
-                    }
-                    return t - 1;
-                });
-            }, 1000);
-
             // Check if everyone guessed
             const activeGuessers = players.filter(p => p.role === 'guesser');
             const allGuessed = activeGuessers.length > 0 && activeGuessers.every(p => p.vote === 'CORRECT');
 
-            if (allGuessed && activeGuessers.length > 0) {
-                clearInterval(interval);
+            if ((timeLeft === 0 || allGuessed) && activeGuessers.length > 0) {
                 handleTurnEnd();
             }
+        }
+    }, [isHost, gamePhase, players, roomCode, timeLeft, selectionTimeLeft]);
 
-            return () => clearInterval(interval);
+    // --- EFFECT: Universal Timer Countdown ---
+    useEffect(() => {
+        let timer: any;
+
+        if (gamePhase === 'PICTIONARY:SELECT_WORD') {
+            timer = setInterval(() => {
+                setSelectionTimeLeft(prev => prev > 0 ? prev - 1 : 0);
+            }, 1000);
+        } else if (gamePhase === 'PICTIONARY:DRAWING') {
+            timer = setInterval(() => {
+                setTimeLeft(prev => prev > 0 ? prev - 1 : 0);
+            }, 1000);
+        } else {
+            // Reset timers when not in active phases?
+            // Actually reset is handled by event listeners usually
         }
 
-    }, [isHost, gamePhase, players, roomCode]); // Dependencies need to be careful
+        return () => clearInterval(timer);
+    }, [gamePhase]);
 
     // Sync state from selection
     useEffect(() => {
@@ -608,20 +589,22 @@ export function PictionaryView() {
                             </Text>
                         )}
 
-                        <CanvasView
-                            isDrawer={isDrawer && gamePhase === 'PICTIONARY:DRAWING'}
-                            onDrawStart={handleDrawStart}
-                            onDrawMove={handleDrawMove}
-                            onDrawEnd={handleDrawEnd}
-                            paths={isDrawer ? myPaths : remotePaths}
-                            externalPaths={[]} // Deprecated
-                            currentExternalPaths={remoteCurrentPaths}
-                            color={selectedColor}
-                            strokeWidth={strokeWidth}
-                            tool={selectedTool}
-                            backgroundColor="#1A1A1A"
-                            onModifyPath={handlePathModify}
-                        />
+                        <View style={{ width: '100%', aspectRatio: 1, maxHeight: '60%', alignSelf: 'center' }}>
+                            <CanvasView
+                                isDrawer={isDrawer && gamePhase === 'PICTIONARY:DRAWING'}
+                                onDrawStart={handleDrawStart}
+                                onDrawMove={handleDrawMove}
+                                onDrawEnd={handleDrawEnd}
+                                paths={isDrawer ? myPaths : remotePaths}
+                                externalPaths={[]} // Deprecated
+                                currentExternalPaths={remoteCurrentPaths}
+                                color={selectedColor}
+                                strokeWidth={strokeWidth}
+                                tool={selectedTool}
+                                backgroundColor="#1A1A1A"
+                                onModifyPath={handlePathModify}
+                            />
+                        </View>
 
                         {/* Guess Input for Non-Drawers */}
                         {!isDrawer && gamePhase === 'PICTIONARY:DRAWING' && myPlayer?.vote !== 'CORRECT' && (
@@ -822,7 +805,7 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        padding: 20
+        padding: 10 // Reduced from 20 to give canvas more space
     },
     centerContainer: {
         flex: 1,
@@ -886,7 +869,8 @@ const styles = StyleSheet.create({
         color: 'white',
         borderWidth: 1,
         borderColor: '#444',
-        height: 50
+        height: 50,
+        fontSize: 16 // Prevent auto-zoom on iOS
     },
     sendBtn: {
         width: 50,
@@ -925,11 +909,13 @@ const styles = StyleSheet.create({
     overlayTitle: {
         fontSize: 40,
         color: 'white',
-        fontWeight: '900'
+        fontWeight: '900',
+        textAlign: 'center'
     },
     overlaySubtitle: {
         fontSize: 20,
-        color: Colors.grayLight
+        color: Colors.grayLight,
+        textAlign: 'center'
     },
     feedbackToast: {
         position: 'absolute',

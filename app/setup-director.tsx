@@ -676,8 +676,9 @@ const styles = StyleSheet.create({
         gap: 8,
         backgroundColor: 'rgba(255, 215, 0, 0.1)',
         paddingVertical: 10,
+        paddingHorizontal: 20,
         borderRadius: 12,
-        marginBottom: 40, // Increased to lift it higher
+        marginBottom: 40,
         borderWidth: 1,
         borderColor: 'rgba(255, 215, 0, 0.2)',
     },
@@ -686,5 +687,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: '800',
         letterSpacing: 1,
+        textAlign: 'center',
+        flexShrink: 1
     },
 });

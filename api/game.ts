@@ -529,7 +529,14 @@ export const GameAPI = {
             if (pError) throw pError;
         }
 
-        // 2. Reset room: status LOBBY, curr_phase null
+        // 2. Reset room in two steps to avoid large payload issues with Pictionary drawing data
+        // Step A: Clear the heavy data first (this notification might be dropped but we don't care)
+        await supabase
+            .from('rooms')
+            .update({ game_data: null })
+            .eq('code', roomCode);
+
+        // Step B: Set status to LOBBY (this payload is small and guaranteed to arrive)
         return await supabase
             .from('rooms')
             .update({ status: 'LOBBY', curr_phase: null, game_mode: null })
