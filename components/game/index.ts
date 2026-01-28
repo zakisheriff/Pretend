@@ -10,3 +10,5 @@ export { ScoreBoard } from './ScoreBoard';
 export { ThemeCard } from './ThemeCard';
 export { WinnerCelebration } from './WinnerCelebration';
 
+export * from './PictionaryView';
+export * from './CanvasView';

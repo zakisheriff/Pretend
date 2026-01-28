@@ -57,8 +57,8 @@ export function OnlineResultsView() {
         }
     };
 
-    // Check for Match Winner (First to 10)
-    const matchWinner = players.find(p => (p.score || 0) >= 10);
+    // Check for Match Winner (First to 10) - Skip for Pictionary (points are higher)
+    const matchWinner = gameMode === 'pictionary' ? null : players.find(p => (p.score || 0) >= 10);
 
     if (matchWinner) {
         return (
@@ -83,6 +83,12 @@ export function OnlineResultsView() {
     }, []);
 
     const getWinnerText = () => {
+        if (gameMode === 'pictionary') {
+            // Find player with max score
+            const winner = [...players].sort((a, b) => (b.score || 0) - (a.score || 0))[0];
+            return { title: 'Game Over!', subtitle: `${winner?.name} is the Master Artist!` };
+        }
+
         if (gameMode === 'directors-cut') {
             // Find the director's vote which stores the winner ID
             const director = players.find(p => p.role === 'director');
@@ -136,6 +142,8 @@ export function OnlineResultsView() {
         const director = players.find(p => p.role === 'director');
         displaySuccess = !!director?.vote;
     } else if (gameMode === 'wavelength') {
+        displaySuccess = true;
+    } else if (gameMode === 'pictionary') {
         displaySuccess = true;
     } else if (gameWinner === 'crewmates') {
         displaySuccess = true;

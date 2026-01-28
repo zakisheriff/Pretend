@@ -3,6 +3,7 @@ import { Button } from '@/components/game';
 import { DirectorSetup } from '@/components/game/DirectorSetup';
 import { OnlineDirectorVerdictView } from '@/components/game/OnlineDirectorVerdictView';
 import { OnlineResultsView } from '@/components/game/OnlineResultsView';
+import { PictionaryView } from '@/components/game/PictionaryView';
 import { WavelengthView } from '@/components/game/WavelengthView';
 import { Colors } from '@/constants/colors';
 import { useCustomAlert } from '@/hooks/useCustomAlert';
@@ -146,6 +147,8 @@ export default function OnlineGameScreen() {
                                         gamePhase={gamePhase || 'discussion'}
                                         isHost={isHost}
                                     />
+                                ) : gameMode === 'pictionary' ? (
+                                    <PictionaryView />
                                 ) : (gamePhase === 'setup' || gamePhase === 'SETUP_DIRECTOR:PLAYER' || gamePhase === 'SELECT_DIRECTOR' || gamePhase === 'SETUP_DIRECTOR:MOVIE' || gamePhase === 'SETUP_DIRECTOR:TIMER') ? (
                                     <DirectorSetup
                                         isReadOnly={myPlayer.role !== 'director'}

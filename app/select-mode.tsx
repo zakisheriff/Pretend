@@ -87,11 +87,11 @@ export default function SelectModeScreen() {
                 </View>
 
                 {/* Dynamic Player Count Sections */}
-                {Array.from(new Set(GAME_MODES.map(m => m.minPlayers)))
+                {Array.from(new Set(GAME_MODES.filter(m => m.id !== 'pictionary').map(m => m.minPlayers)))
                     .sort((a, b) => a - b) // Ensure ascending order
                     .map((minPlayers) => {
                         const icon = minPlayers === 2 ? 'copy-outline' : minPlayers === 3 ? 'layers-outline' : 'grid-outline';
-                        const sectionModes = GAME_MODES.filter(m => m.minPlayers === minPlayers)
+                        const sectionModes = GAME_MODES.filter(m => m.minPlayers === minPlayers && m.id !== 'pictionary')
                             .sort((a, b) => a.name.localeCompare(b.name));
 
                         return (

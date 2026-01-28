@@ -31,9 +31,13 @@ export default function RootLayout() {
     const isProtectedRoute = protectedPaths.some(path => pathname === path || pathname.startsWith(path + '/'));
 
     if (isProtectedRoute && !hasPlayers) {
+      // Small delay to ensure navigation tree is fully mounted/ready
       setTimeout(() => {
-        router.replace('/');
-      }, 0);
+        // Double check navigation state
+        if (rootNavigationState?.key) {
+          router.replace('/');
+        }
+      }, 50);
     }
   }, [pathname, hasPlayers, rootNavigationState?.key]);
 

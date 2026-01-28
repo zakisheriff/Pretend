@@ -1,7 +1,8 @@
+import { PictionaryData } from './pictionary';
 export type HintStrength = 'none' | 'low' | 'medium' | 'high';
 
 // Game mode types
-export type GameMode = 'undercover-word' | 'directors-cut' | 'mind-sync' | 'three-acts' | 'classic-imposter' | 'time-bomb' | 'charades' | 'thief-police' | 'wavelength';
+export type GameMode = 'undercover-word' | 'directors-cut' | 'mind-sync' | 'three-acts' | 'classic-imposter' | 'time-bomb' | 'charades' | 'thief-police' | 'wavelength' | 'pictionary';
 
 export interface WordHints {
     low: string;
@@ -152,6 +153,7 @@ export type GameData =
     | { type: 'thief-police'; data: ThiefPoliceData }
     | { type: 'wavelength'; data: WavelengthData }
     | { type: 'three-acts'; data: ThreeActsData }
+    | { type: 'pictionary'; data: PictionaryData }
     | null;
 
 export interface Player {
@@ -168,6 +170,7 @@ export interface Player {
     isHost?: boolean;
     secretWord?: string;
     role?: string;
+    created_at?: string;
 }
 
 export interface GameSettings {
@@ -363,6 +366,19 @@ export const GAME_MODES: GameModeInfo[] = [
             { role: 'Psychic', icon: 'eye-outline', desc: 'Sees the target & gives a clue.' },
             { role: 'Group', icon: 'people-outline', desc: 'Discuss and rotate the dial to the target!' },
             { role: 'Scoring', icon: 'trophy-outline', desc: 'Bullseye (5%) = 2pts, Close (15%) = 1pt' },
+        ],
+    },
+    {
+        id: 'pictionary',
+        name: 'Pictionary Mode',
+        icon: 'brush-outline',
+        description: 'Draw, Guess, Win!',
+        tagline: 'Sketch your way to victory against friends!',
+        minPlayers: 2,
+        instructions: [
+            { role: 'Drawer', icon: 'pencil-outline', desc: 'Pick a word and draw it! (+points for correct guesses)' },
+            { role: 'Guesser', icon: 'eye-outline', desc: 'Guess the word as fast as you can! (+points for speed)' },
+            { role: '3 Rounds', icon: 'repeat-outline', desc: 'Everyone draws once per round.' },
         ],
     },
 ];

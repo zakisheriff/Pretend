@@ -155,6 +155,30 @@ export const GameAPI = {
             const updatePromises: any[] = [];
 
             switch (gameMode) {
+                case 'pictionary':
+                    // Pictionary Mode:
+                    // 1. Assign first player as drawer
+                    // 2. Others as guessers
+                    // 3. Reset scores/secrets
+
+                    // Sort players to ensure deterministic order (though DB return should be consistent usually)
+                    // We'll trust the array order from DB select above
+                    const firstDrawer = players[0];
+                    const otherIds = players.slice(1).map(p => p.id);
+
+                    await supabase
+                        .from('players')
+                        .update({ role: 'drawer', secret_word: 'WAITING', vote: null }) // WAITING for word selection
+                        .eq('id', firstDrawer.id);
+
+                    if (otherIds.length > 0) {
+                        await supabase
+                            .from('players')
+                            .update({ role: 'guesser', secret_word: '', vote: null })
+                            .in('id', otherIds);
+                    }
+                    break;
+
                 case 'time-bomb':
                     const categories = ['Movie', 'Food', 'Game', 'Animal', 'Brand', 'City', 'Country', 'Song', 'Celebrity'];
                     const category = categories[Math.floor(Math.random() * categories.length)];
@@ -249,7 +273,10 @@ export const GameAPI = {
             }
 
             // 5. Start Game
-            const initialPhase = gameMode === 'directors-cut' ? 'SETUP_DIRECTOR:PLAYER' : 'reveal';
+            const initialPhase =
+                gameMode === 'directors-cut' ? 'SETUP_DIRECTOR:PLAYER' :
+                    gameMode === 'pictionary' ? 'PICTIONARY:SELECT_WORD' :
+                        'reveal';
             const { error } = await supabase
                 .from('rooms')
                 .update({
@@ -278,6 +305,10 @@ export const GameAPI = {
 
     updateGameMode: async (roomCode: string, mode: string) => {
         return await supabase.from('rooms').update({ game_mode: mode }).eq('code', roomCode);
+    },
+
+    updateGameData: async (roomCode: string, data: any) => {
+        return await supabase.from('rooms').update({ game_data: { type: 'pictionary', data } }).eq('code', roomCode);
     },
 
     assignDirector: async (roomCode: string, directorId: string) => {
@@ -518,5 +549,89 @@ export const GameAPI = {
 
         const { error: error2 } = await supabase.from('players').update({ is_host: true }).eq('id', newHostId);
         return { error: error2 };
+    },
+
+    verifyPictionaryGuess: async (roomCode: string, playerId: string, guess: string, timeLeft: number) => {
+        // 1. Get drawer word
+        const { data: drawer } = await supabase
+            .from('players')
+            .select('secret_word, id')
+            .eq('room_code', roomCode)
+            .eq('role', 'drawer')
+            .single();
+
+        if (!drawer || !drawer.secret_word || drawer.secret_word === 'WAITING') return { error: 'No active drawer' };
+
+        const normalize = (s: string) => s.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+        const target = normalize(drawer.secret_word);
+        const input = normalize(guess);
+
+        // Exact Match
+        if (target === input) {
+            // Calculate Score based on speed
+            const safeTime = Math.max(0, Math.min(timeLeft, 60));
+            // Bonus: 300 base + up to 300 speed bonus
+            const points = 300 + Math.floor((safeTime / 60) * 300);
+
+            // Update Guesser: Mark as CORRECT
+            await supabase.rpc('increment_score', { row_id: playerId, points });
+            await supabase.from('players').update({ vote: 'CORRECT' }).eq('id', playerId);
+
+            // Update Drawer: +75 per correct guess
+            await supabase.rpc('increment_score', { row_id: drawer.id, points: 75 });
+
+            return { status: 'CORRECT', word: drawer.secret_word, points };
+        }
+
+        // Fuzzy Match (Levenshtein-ish or simple substring/typo check)
+        // Simple check: if input is extremely close (1 char diff)
+        // Since we can't easily import a heavy lib, let's use a simple distance helper or just "includes" for long words?
+        // Let's implement a tiny Levenshtein here
+        const levDist = (s: string, t: string) => {
+            const d = [];
+            for (let i = 0; i <= s.length; i++) d[i] = [i];
+            for (let j = 0; j <= t.length; j++) d[0][j] = j;
+            for (let i = 1; i <= s.length; i++) {
+                for (let j = 1; j <= t.length; j++) {
+                    const cost = s[i - 1] === t[j - 1] ? 0 : 1;
+                    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+                }
+            }
+            return d[s.length][t.length];
+        };
+
+        const dist = levDist(input, target);
+
+        // Dynamic Tolerance for "Correctness"
+        // Words < 4 chars: Exact match only (prevent "bat" matching "cat")
+        // Words 4-6 chars: Allow 1 error
+        // Words 7+ chars: Allow 2 errors
+        let allowedErrors = 0;
+        if (target.length >= 7) allowedErrors = 2;
+        else if (target.length >= 4) allowedErrors = 1;
+
+        if (dist <= allowedErrors) {
+            // Fuzzy Correct!
+            // Calculate Score (maybe slightly less? No, just give it to them, keep it fun)
+            const safeTime = Math.max(0, Math.min(timeLeft, 60));
+            const points = 300 + Math.floor((safeTime / 60) * 300);
+
+            // Update Guesser
+            await supabase.rpc('increment_score', { row_id: playerId, points });
+            await supabase.from('players').update({ vote: 'CORRECT' }).eq('id', playerId);
+
+            // Update Drawer
+            await supabase.rpc('increment_score', { row_id: drawer.id, points: 75 });
+
+            return { status: 'CORRECT', word: drawer.secret_word, points };
+        }
+
+        // "Close" check (for feedback only, if it wasn't accepted as correct)
+        // If it's just 1 away from the ALLOWED errors?
+        if (dist <= allowedErrors + 1) {
+            return { status: 'CLOSE', points: 0 };
+        }
+
+        return { status: 'WRONG', points: 0 };
     }
 };

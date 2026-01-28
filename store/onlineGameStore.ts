@@ -22,7 +22,7 @@ interface OnlineGameState {
     myPlayerId: string | null;
     players: Player[];
     gameStatus: 'LOBBY' | 'PLAYING' | 'FINISHED';
-    gamePhase: 'setup' | 'reveal' | 'discussion' | 'voting' | 'results' | 'SELECT_MODE' | 'SELECT_DIRECTOR' | 'SELECT_PSYCHIC' | 'SETUP_DIRECTOR:PLAYER' | 'SETUP_DIRECTOR:MOVIE' | 'SETUP_DIRECTOR:TIMER' | 'role-reveal' | 'judge' | null;
+    gamePhase: 'setup' | 'reveal' | 'discussion' | 'voting' | 'results' | 'SELECT_MODE' | 'SELECT_DIRECTOR' | 'SELECT_PSYCHIC' | 'SETUP_DIRECTOR:PLAYER' | 'SETUP_DIRECTOR:MOVIE' | 'SETUP_DIRECTOR:TIMER' | 'role-reveal' | 'judge' | 'PICTIONARY:SELECT_WORD' | 'PICTIONARY:DRAWING' | 'PICTIONARY:TURN_END' | 'PICTIONARY:ROUND_END' | null;
     gameMode: string | null;
     messages: ChatMessage[];
     unreadMessageCount: number;
@@ -35,8 +35,9 @@ interface OnlineGameState {
     typingPlayers: string[];
     channel: any;
     setTyping: (isTyping: boolean) => Promise<void>;
-    broadcastSelection: (selection: { type: 'mode' | 'player' | 'movie' | 'timer', id: string | null, data?: any } | null) => Promise<void>;
-    selection: { type: 'mode' | 'player' | 'movie' | 'timer', id: string | null, data?: any } | null;
+    broadcastSelection: (selection: { type: 'mode' | 'player' | 'movie' | 'timer' | 'PICTIONARY_OPTIONS' | 'PICTIONARY_TIMER' | 'PICTIONARY_WORD_SELECTED', id: string | null, data?: any } | null) => Promise<void>;
+    selection: { type: 'mode' | 'player' | 'movie' | 'timer' | 'PICTIONARY_OPTIONS' | 'PICTIONARY_TIMER' | 'PICTIONARY_WORD_SELECTED', id: string | null, data?: any } | null;
+    gameData?: { type: string, data: any };
 
     // Actions
     setRoomInfo: (code: string, isHost: boolean, playerId: string, initialPlayer?: any) => void;

@@ -87,14 +87,28 @@ export default function SelectModeScreen() {
             return;
         }
 
+        // Pictionary Mode: Starts immediately (Role assignment happens in API)
+        if (selectedMode === 'pictionary') {
+            setLoading(true);
+            // Verify player count? (Min 2 handled by UI filtering, but maybe strict check here?)
+            // if (players.length < 2) { ... }
+
+            const { error } = await GameAPI.startGame(roomCode, selectedMode, {});
+            if (error) {
+                showAlert('Error', 'Failed to start game: ' + error);
+            }
+            setLoading(false);
+            return;
+        }
+
         setLoading(true);
-        // ... existing handleStartGame logic ...
+        // ... general start case ...
         const options: any = {};
         if (selectedMode === 'directors-cut' && selectedDirectorId) {
             options.directorId = selectedDirectorId;
         }
         if (selectedMode === 'wavelength' && selectedDirectorId) {
-            options.psychicId = selectedDirectorId; // Reusing state variable
+            options.psychicId = selectedDirectorId;
         }
 
         const { error } = await GameAPI.startGame(roomCode, selectedMode, options);
@@ -107,7 +121,7 @@ export default function SelectModeScreen() {
     };
 
     // Group modes
-    const ALLOWED_MODES = ['wavelength', 'directors-cut'];
+    const ALLOWED_MODES = ['wavelength', 'directors-cut', 'pictionary'];
     const modes2Plus = GAME_MODES.filter(m => m.minPlayers === 2 && ALLOWED_MODES.includes(m.id));
     const modes3Plus = GAME_MODES.filter(m => m.minPlayers >= 3 && ALLOWED_MODES.includes(m.id));
 
