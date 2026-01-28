@@ -41,6 +41,7 @@ export function PictionaryView() {
     const [guess, setGuess] = useState('');
     const [lastDrwanPathId, setLastDrawnPathId] = useState<string | null>(null);
     const [recentGuesses, setRecentGuesses] = useState<Array<{ id: string, playerName: string, guess: string, timestamp: number }>>([]);
+    const [selectionLoading, setSelectionLoading] = useState(false);
 
     // Host State (Refs to persist across renders)
     const roundRef = useRef(1);
@@ -137,6 +138,7 @@ export function PictionaryView() {
     useEffect(() => {
         if (selection?.type === 'PICTIONARY_OPTIONS') {
             setWordOptions(selection.data.options || []);
+            setSelectionLoading(false); // Reset loading state for new turn
             // Sync round number visually
             if (selection.data.round) {
                 roundRef.current = selection.data.round;
@@ -182,6 +184,7 @@ export function PictionaryView() {
         }
 
         console.log(`✅ Drawer ${myPlayer?.name} selected word: "${word}"`);
+        setSelectionLoading(true);
 
         // 1. Set word in DB (hidden from other players)
         const { error } = await supabase
@@ -647,21 +650,30 @@ export function PictionaryView() {
                 {gamePhase === 'PICTIONARY:SELECT_WORD' && (
                     <Animated.View entering={FadeIn} style={styles.centerContainer}>
                         {isDrawer ? (
-                            <View style={styles.selectionBox}>
-                                <Text style={styles.instructionTitle}>Pick a Word!</Text>
-                                <Text style={{ color: Colors.grayLight, marginBottom: 10 }}>{selectionTimeLeft}s</Text>
-                                <View style={styles.wordGrid}>
-                                    {wordOptions.map((word, i) => (
-                                        <TouchableOpacity
-                                            key={i}
-                                            style={styles.wordBtn}
-                                            onPress={() => handleSelectWord(word)}
-                                        >
-                                            <Text style={styles.wordBtnText}>{word}</Text>
-                                        </TouchableOpacity>
-                                    ))}
+                            selectionLoading ? (
+                                <View style={styles.selectionBox}>
+                                    <Text style={styles.instructionTitle}>Starting game...</Text>
+                                    <View style={{ marginTop: 20 }}>
+                                        <Ionicons name="brush" size={40} color={Colors.candlelight} />
+                                    </View>
                                 </View>
-                            </View>
+                            ) : (
+                                <View style={styles.selectionBox}>
+                                    <Text style={styles.instructionTitle}>Pick a Word!</Text>
+                                    <Text style={{ color: Colors.grayLight, marginBottom: 10 }}>{selectionTimeLeft}s</Text>
+                                    <View style={styles.wordGrid}>
+                                        {wordOptions.map((word, i) => (
+                                            <TouchableOpacity
+                                                key={i}
+                                                style={styles.wordBtn}
+                                                onPress={() => handleSelectWord(word)}
+                                            >
+                                                <Text style={styles.wordBtnText}>{word}</Text>
+                                            </TouchableOpacity>
+                                        ))}
+                                    </View>
+                                </View>
+                            )
                         ) : (
                             <View style={styles.waitingBox}>
                                 <Text style={styles.waitingText}>{drawer?.name} is picking a word...</Text>
