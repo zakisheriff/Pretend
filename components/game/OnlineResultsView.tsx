@@ -3,6 +3,7 @@ import { Button, ScoreBoard, WinnerCelebration } from '@/components/game';
 import { WavelengthView } from '@/components/game/WavelengthView';
 import { Colors } from '@/constants/colors';
 import { useCustomAlert } from '@/hooks/useCustomAlert';
+import { supabase } from '@/lib/supabase';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
@@ -81,6 +82,38 @@ export function OnlineResultsView() {
     useEffect(() => {
         haptics.success();
     }, []);
+
+    // Failsafe: If game status becomes LOBBY, force redirect
+    // This handles cases where the parent game.tsx might miss the update or race conditions occur
+    const { gameStatus, resetGame } = useOnlineGameStore();
+    useEffect(() => {
+        if (gameStatus === 'LOBBY') {
+            console.log("OnlineResultsView: Game status is LOBBY, redirecting...");
+            router.replace('/multiplayer/lobby');
+            return;
+        }
+
+        // POLLING FAILSAFE:
+        // Pictionary drawing data might crash the websocket/realtime connection for some clients.
+        // If we are stuck on "Waiting for Host", poll the DB directly to see if the room reset.
+        if (!isHost && roomCode && gameStatus === 'FINISHED') {
+            const interval = setInterval(async () => {
+                const { data, error } = await supabase
+                    .from('rooms')
+                    .select('status')
+                    .eq('code', roomCode)
+                    .single();
+
+                if (data && data.status === 'LOBBY') {
+                    console.log('Polling detected Room Reset! Forcing client reset.');
+                    resetGame();
+                    // router.replace handled by the effect above or store listener
+                }
+            }, 3000); // Check every 3 seconds
+
+            return () => clearInterval(interval);
+        }
+    }, [gameStatus, isHost, roomCode]);
 
     const getWinnerText = () => {
         if (gameMode === 'pictionary') {

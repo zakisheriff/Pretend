@@ -225,7 +225,7 @@ export function PictionaryView() {
     // Handle Drawing Broadcast (Completed & Progress)
     useEffect(() => {
         if (!roomCode) return;
-        const channel = supabase.channel(`room:${roomCode}`);
+        const channel = supabase.channel(`pictionary:${roomCode}`); // Dedicated channel for high-frequency drawing
 
         channel
             .on('broadcast', { event: 'draw' }, ({ payload }) => {
@@ -255,8 +255,6 @@ export function PictionaryView() {
             })
             .on('broadcast', { event: 'undo' }, ({ payload }) => {
                 // Remove the last path added by this user (or by ID)
-                // Since we don't track owner of every remote path easily in a flat array without ID,
-                // we rely on ID.
                 if (payload.userId !== myPlayerId) {
                     setRemotePaths(prev => {
                         if (payload.pathId) {
@@ -285,7 +283,7 @@ export function PictionaryView() {
         const now = Date.now();
         if (now - lastBroadcast.current > 100) { // Throttle
             lastBroadcast.current = now;
-            supabase.channel(`room:${roomCode}`).send({
+            supabase.channel(`pictionary:${roomCode}`).send({
                 type: 'broadcast',
                 event: 'draw_progress',
                 payload: {
@@ -313,7 +311,7 @@ export function PictionaryView() {
         setRedoStack([]); // Clear redo on new action
 
         if (roomCode) {
-            supabase.channel(`room:${roomCode}`).send({
+            supabase.channel(`pictionary:${roomCode}`).send({
                 type: 'broadcast',
                 event: 'draw',
                 payload: { userId: myPlayerId, path }
@@ -329,7 +327,7 @@ export function PictionaryView() {
         setRedoStack(prev => [...prev, last]);
 
         if (roomCode) {
-            supabase.channel(`room:${roomCode}`).send({
+            supabase.channel(`pictionary:${roomCode}`).send({
                 type: 'broadcast',
                 event: 'undo',
                 payload: { userId: myPlayerId, pathId: last.id }
@@ -344,7 +342,7 @@ export function PictionaryView() {
         setMyPaths(prev => [...prev, next]);
 
         if (roomCode) {
-            supabase.channel(`room:${roomCode}`).send({
+            supabase.channel(`pictionary:${roomCode}`).send({
                 type: 'broadcast',
                 event: 'draw',
                 payload: { userId: myPlayerId, path: next }
@@ -358,7 +356,7 @@ export function PictionaryView() {
 
         // Broadcast
         if (roomCode) {
-            supabase.channel(`room:${roomCode}`).send({
+            supabase.channel(`pictionary:${roomCode}`).send({
                 type: 'broadcast',
                 event: 'modify_path',
                 payload: { userId: myPlayerId, pathId, updates }

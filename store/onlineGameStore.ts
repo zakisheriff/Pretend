@@ -155,6 +155,26 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                         if (String(payload.new.id) === String(myPlayerId)) {
                             newIsHost = payload.new.is_host;
                             console.log('My host status updated to:', newIsHost);
+
+                            // FAILSAFE: If I am reset to 'viewer' while game is FINISHED, it means a reset happened
+                            // and we might have missed the room update or broadcast.
+                            if (payload.new.role === 'viewer' && state.gameStatus === 'FINISHED') {
+                                console.log('Player role reset to viewer in FINISHED state - triggering local reset');
+                                // Defer to avoid state update conflict within set? 
+                                // Zustand set can be nested but safe to request next tick or just update duplicated state
+                                // We can just call get().resetGame() outside set? No, we are inside set callback.
+                                // We can return the new state here implies we can't call side effects easily.
+                                // Actually we can just update the state directly here:
+                                return {
+                                    isHost: newIsHost,
+                                    players: state.players.map(p => p.id === payload.new.id ? mapPlayer(payload.new) : p),
+                                    gameStatus: 'LOBBY', // Force Lobby
+                                    gamePhase: null,
+                                    gameMode: null,
+                                    gameData: undefined,
+                                    // We should also clear votes/etc but mapPlayer does that if payload is fresh
+                                };
+                            }
                         }
 
                         const exists = state.players.some(p => p.id === payload.new.id);
