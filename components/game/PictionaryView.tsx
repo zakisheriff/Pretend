@@ -8,7 +8,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import React, { useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import Animated, { FadeIn, FadeInDown, FadeOutUp, ZoomIn } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInDown, ZoomIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CanvasView } from './CanvasView';
 
@@ -249,6 +249,9 @@ export function PictionaryView() {
     const [myPaths, setMyPaths] = useState<any[]>([]);
     const [redoStack, setRedoStack] = useState<any[]>([]);
     const pictionaryChannelRef = useRef<any>(null);
+    const guessTimeoutsRef = useRef<Map<string, number>>(new Map());
+
+
 
 
     // Handle Drawing Broadcast (Completed & Progress)
@@ -287,25 +290,36 @@ export function PictionaryView() {
                 // Don't show own guesses
                 if (payload.playerId !== myPlayerId) {
                     console.log('📥 Received guess via broadcast:', payload);
+                    const guessId = `${payload.playerId}-${Date.now()}`;
                     const newGuess = {
-                        id: Math.random().toString(36).substring(2, 9),
+                        id: guessId,
                         playerName: payload.playerName,
                         guess: payload.guess,
-                        timestamp: payload.timestamp
+                        timestamp: Date.now()
                     };
 
                     console.log('➕ Adding guess to feed:', newGuess);
                     setRecentGuesses(prev => {
                         const updated = [...prev, newGuess];
-                        console.log('📋 Current guesses:', updated.length);
+                        console.log('📋 Current guesses:', updated.length, 'Array:', updated);
                         return updated;
                     });
 
-                    // Auto-remove after 5 seconds (increased from 3)
-                    setTimeout(() => {
-                        console.log('⏰ Removing guess:', newGuess.id);
-                        setRecentGuesses(prev => prev.filter(g => g.id !== newGuess.id));
-                    }, 5000);
+                    // Clear any existing timeout for this guess
+                    if (guessTimeoutsRef.current.has(guessId)) {
+                        console.log('⚠️ Clearing existing timeout for:', guessId);
+                        clearTimeout(guessTimeoutsRef.current.get(guessId)!);
+                    }
+
+                    // Auto-remove after 15 seconds
+                    console.log('⏱️ Setting 15-second timeout for:', guessId);
+                    const timeoutId = setTimeout(() => {
+                        console.log('⏰ Removing guess after 15s:', guessId);
+                        setRecentGuesses(prev => prev.filter(g => g.id !== guessId));
+                        guessTimeoutsRef.current.delete(guessId);
+                    }, 10000);
+
+                    guessTimeoutsRef.current.set(guessId, timeoutId);
                 }
             })
             .on('broadcast', { event: 'undo' }, ({ payload }) => {
@@ -327,7 +341,12 @@ export function PictionaryView() {
             })
             .subscribe();
 
-        return () => { supabase.removeChannel(channel); };
+        return () => {
+            // Clear all guess timeouts
+            guessTimeoutsRef.current.forEach(timeoutId => clearTimeout(timeoutId));
+            guessTimeoutsRef.current.clear();
+            supabase.removeChannel(channel);
+        };
     }, [roomCode, myPlayerId]);
 
     const handleDrawMove = (point: any) => {
@@ -548,14 +567,14 @@ export function PictionaryView() {
         // Broadcast guess to drawer (so they can see what people are guessing)
         if (roomCode && myPlayer && pictionaryChannelRef.current) {
             console.log('📤 Broadcasting guess:', guessText, 'from', myPlayer.name);
-            await pictionaryChannelRef.current.send({
+            // Fire and forget - don't await to avoid delay
+            pictionaryChannelRef.current.send({
                 type: 'broadcast',
                 event: 'guess',
                 payload: {
                     playerId: myPlayerId,
                     playerName: myPlayer.name,
-                    guess: guessText,
-                    timestamp: Date.now()
+                    guess: guessText
                 }
             });
             console.log('✅ Guess broadcast sent');
@@ -716,7 +735,6 @@ export function PictionaryView() {
                                     <Animated.View
                                         key={g.id}
                                         entering={FadeInDown.springify()}
-                                        exiting={FadeOutUp}
                                         style={styles.guessItem}
                                     >
                                         <Text style={styles.guessPlayerName}>{g.playerName}:</Text>
@@ -1094,11 +1112,12 @@ const styles = StyleSheet.create({
     },
     guessFeed: {
         position: 'absolute',
-        bottom: 180,
+        bottom: 320,
         left: 20,
         right: 20,
         gap: 8,
-        pointerEvents: 'none'
+        pointerEvents: 'none',
+        zIndex: 100
     },
     guessItem: {
         backgroundColor: 'rgba(0,0,0,0.7)',
