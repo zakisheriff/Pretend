@@ -443,9 +443,7 @@ export const GameAPI = {
 
             let pointsAwarded = 0;
             // Scoring Tiers (Out of 100)
-            if (distance <= 4) pointsAwarded = 4; // Bullseye
-            else if (distance <= 12) pointsAwarded = 3; // Close
-            else if (distance <= 22) pointsAwarded = 2; // Partial
+            if (distance <= 12) pointsAwarded = 1; // Bullseye or Close Call -> 1 Point
 
             if (pointsAwarded > 0) {
                 return supabase.from('players').update({ score: (p.score || 0) + pointsAwarded }).eq('id', p.id);
@@ -458,9 +456,7 @@ export const GameAPI = {
         // 3. Award points to Psychic
         if (psychic) {
             let psychicPoints = 0;
-            if (bestGuessDistance <= 4) psychicPoints = 3; // Max reward for Psychic
-            else if (bestGuessDistance <= 12) psychicPoints = 2;
-            else if (bestGuessDistance <= 22) psychicPoints = 1;
+            if (bestGuessDistance <= 12) psychicPoints = 1;
 
             if (psychicPoints > 0) {
                 await supabase.from('players').update({ score: (psychic.score || 0) + psychicPoints }).eq('id', psychic.id);
@@ -505,8 +501,8 @@ export const GameAPI = {
         return await Promise.all(updatePromises);
     },
 
-    resetRoom: async (roomCode: string) => {
-        // 1. Reset players: clear role, secret_word, vote. KEEP score.
+    resetRoom: async (roomCode: string, resetScores: boolean = false) => {
+        // 1. Reset players: clear role, secret_word, vote. Optionally reset score.
         // Fetch player IDs first to ensure robustness
         const { data: playersToReset, error: fetchError } = await supabase
             .from('players')
@@ -517,13 +513,20 @@ export const GameAPI = {
 
         if (playersToReset && playersToReset.length > 0) {
             const playerIds = playersToReset.map(p => p.id);
+
+            const updatePayload: any = {
+                role: 'viewer',
+                secret_word: '',
+                vote: null
+            };
+
+            if (resetScores) {
+                updatePayload.score = 0;
+            }
+
             const { error: pError } = await supabase
                 .from('players')
-                .update({
-                    role: 'viewer',
-                    secret_word: '',
-                    vote: null
-                })
+                .update(updatePayload)
                 .in('id', playerIds); // Use .in() with the fetched IDs
 
             if (pError) throw pError;
@@ -575,25 +578,18 @@ export const GameAPI = {
 
         // Exact Match
         if (target === input) {
-            // Calculate Score based on speed
-            const safeTime = Math.max(0, Math.min(timeLeft, 60));
-            // Bonus: 300 base + up to 300 speed bonus
-            const points = 300 + Math.floor((safeTime / 60) * 300);
+            // Pictionary Scoring: 1 Point for correct guess
+            const points = 1;
 
-            // Update Guesser: Mark as CORRECT
+            // Update Guesser: Mark as CORRECT and add 1 point
             await supabase.rpc('increment_score', { row_id: playerId, points });
             await supabase.from('players').update({ vote: 'CORRECT' }).eq('id', playerId);
 
-            // Update Drawer: +75 per correct guess
-            await supabase.rpc('increment_score', { row_id: drawer.id, points: 75 });
-
+            // No points for drawer as per user request
             return { status: 'CORRECT', word: drawer.secret_word, points };
         }
 
         // Fuzzy Match (Levenshtein-ish or simple substring/typo check)
-        // Simple check: if input is extremely close (1 char diff)
-        // Since we can't easily import a heavy lib, let's use a simple distance helper or just "includes" for long words?
-        // Let's implement a tiny Levenshtein here
         const levDist = (s: string, t: string) => {
             const d = [];
             for (let i = 0; i <= s.length; i++) d[i] = [i];
@@ -610,31 +606,22 @@ export const GameAPI = {
         const dist = levDist(input, target);
 
         // Dynamic Tolerance for "Correctness"
-        // Words < 4 chars: Exact match only (prevent "bat" matching "cat")
-        // Words 4-6 chars: Allow 1 error
-        // Words 7+ chars: Allow 2 errors
         let allowedErrors = 0;
         if (target.length >= 7) allowedErrors = 2;
         else if (target.length >= 4) allowedErrors = 1;
 
         if (dist <= allowedErrors) {
-            // Fuzzy Correct!
-            // Calculate Score (maybe slightly less? No, just give it to them, keep it fun)
-            const safeTime = Math.max(0, Math.min(timeLeft, 60));
-            const points = 300 + Math.floor((safeTime / 60) * 300);
+            // Fuzzy Correct! 1 Point
+            const points = 1;
 
             // Update Guesser
             await supabase.rpc('increment_score', { row_id: playerId, points });
             await supabase.from('players').update({ vote: 'CORRECT' }).eq('id', playerId);
 
-            // Update Drawer
-            await supabase.rpc('increment_score', { row_id: drawer.id, points: 75 });
-
             return { status: 'CORRECT', word: drawer.secret_word, points };
         }
 
         // "Close" check (for feedback only, if it wasn't accepted as correct)
-        // If it's just 1 away from the ALLOWED errors?
         if (dist <= allowedErrors + 1) {
             return { status: 'CLOSE', points: 0 };
         }

@@ -43,13 +43,13 @@ export function OnlineResultsView() {
         return { special: 'Imposter', normal: 'Crewmate', icon: 'eye-off' };
     };
 
-    const handlePlayAgain = async () => {
+    const handlePlayAgain = async (resetScores = false) => {
         if (loading || !isHost || !roomCode) return;
 
         setLoading(true);
         haptics.medium();
         try {
-            await resetRoom();
+            await resetRoom(resetScores);
         } catch (error) {
             console.error('Failed to reset room:', error);
             alert('Failed to restart game. Please try again.');
@@ -57,25 +57,6 @@ export function OnlineResultsView() {
             setLoading(false);
         }
     };
-
-    // Check for Match Winner (First to 10) - Skip for Pictionary (points are higher)
-    const matchWinner = gameMode === 'pictionary' ? null : players.find(p => (p.score || 0) >= 10);
-
-    if (matchWinner) {
-        return (
-            <View style={{ flex: 1, backgroundColor: 'black' }}>
-                <WinnerCelebration
-                    winner={matchWinner}
-                    allPlayers={players}
-                    onNewGame={isHost ? handlePlayAgain : (() => { })}
-                    onHome={async () => {
-                        await leaveGame();
-                        router.replace('/');
-                    }}
-                />
-            </View>
-        );
-    }
 
     const { special: specialRoleName, icon: specialRoleIcon } = getRoleNames();
 
@@ -85,7 +66,7 @@ export function OnlineResultsView() {
 
     // Failsafe: If game status becomes LOBBY, force redirect
     // This handles cases where the parent game.tsx might miss the update or race conditions occur
-    const { gameStatus, resetGame } = useOnlineGameStore();
+    const { gameStatus, resetGame, forceRefreshPlayers } = useOnlineGameStore();
     useEffect(() => {
         if (gameStatus === 'LOBBY') {
             console.log("OnlineResultsView: Game status is LOBBY, redirecting...");
@@ -98,11 +79,15 @@ export function OnlineResultsView() {
         // If we are stuck on "Waiting for Host", poll the DB directly to see if the room reset.
         if (!isHost && roomCode && gameStatus === 'FINISHED') {
             const interval = setInterval(async () => {
+                // Poll Room Status
                 const { data, error } = await supabase
                     .from('rooms')
                     .select('status')
                     .eq('code', roomCode)
                     .single();
+
+                // ALSO Poll Players to ensure scores are synced (fix for "Host sees winner, Client doesn't")
+                await forceRefreshPlayers();
 
                 if (data && data.status === 'LOBBY') {
                     console.log('Polling detected Room Reset! Forcing client reset.');
@@ -114,6 +99,26 @@ export function OnlineResultsView() {
             return () => clearInterval(interval);
         }
     }, [gameStatus, isHost, roomCode]);
+
+    // Check for Match Winner (First to 10)
+    // Sort by score desc to ensure highest score takes precedence if multiple cross 10
+    const matchWinner = [...players].sort((a, b) => (b.score || 0) - (a.score || 0)).find(p => (p.score || 0) >= 10);
+
+    if (matchWinner) {
+        return (
+            <View style={{ flex: 1, backgroundColor: 'black' }}>
+                <WinnerCelebration
+                    winner={matchWinner}
+                    allPlayers={players}
+                    onNewGame={isHost ? () => handlePlayAgain(true) : (() => { })}
+                    onHome={async () => {
+                        await leaveGame();
+                        router.replace('/');
+                    }}
+                />
+            </View>
+        );
+    }
 
     const getWinnerText = () => {
         if (gameMode === 'pictionary') {
@@ -287,7 +292,7 @@ export function OnlineResultsView() {
                     <Animated.View entering={FadeInDown.delay(1000).springify()} style={styles.buttons}>
                         <Button
                             title={loading ? "Restarting..." : "Play Again"}
-                            onPress={handlePlayAgain}
+                            onPress={() => handlePlayAgain(false)}
                             variant="primary"
                             disabled={loading}
                             size="large"

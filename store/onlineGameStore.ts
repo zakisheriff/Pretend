@@ -51,7 +51,8 @@ interface OnlineGameState {
     markMessageAsSeen: (messageId: string) => Promise<void>;
     removePlayer: (id: string) => void;
     resetGame: () => void;
-    resetRoom: () => Promise<void>;
+    resetRoom: (resetScores?: boolean) => Promise<void>;
+    forceRefreshPlayers: () => Promise<void>;
 }
 
 // Helper to map DB player
@@ -398,11 +399,11 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
         });
     },
 
-    resetRoom: async () => {
+    resetRoom: async (resetScores = false) => {
         const { roomCode } = get();
         if (roomCode) {
             try {
-                await GameAPI.resetRoom(roomCode);
+                await GameAPI.resetRoom(roomCode, resetScores);
 
                 // Broadcast 'reset' event to ensure clients with large DB payloads (like Pictionary) still get the trigger
                 // as Postgres NOTIFY might drop events > 8KB.
@@ -552,5 +553,14 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
         }
 
         set({ roomCode: null, isHost: false, myPlayerId: null, players: [], gameStatus: 'LOBBY', unreadMessageCount: 0, kicked: false, roomDeleted: false });
+    },
+
+    forceRefreshPlayers: async () => {
+        const { roomCode } = get();
+        if (!roomCode) return;
+        const { data } = await supabase.from('players').select('*').eq('room_code', roomCode);
+        if (data) {
+            set({ players: data.map(mapPlayer) });
+        }
     }
 }));
