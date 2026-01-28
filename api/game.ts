@@ -157,15 +157,27 @@ export const GameAPI = {
             switch (gameMode) {
                 case 'pictionary':
                     // Pictionary Mode:
-                    // 1. Assign first player as drawer
-                    // 2. Others as guessers
-                    // 3. Reset scores/secrets
+                    // 1. Sort players to ensure deterministic order (matching frontend logic)
+                    const sortedPlayers = [...players].sort((a, b) => (a.created_at || '').localeCompare(b.created_at || ''));
 
-                    // Sort players to ensure deterministic order (though DB return should be consistent usually)
-                    // We'll trust the array order from DB select above
-                    const firstDrawer = players[0];
-                    const otherIds = players.slice(1).map(p => p.id);
+                    const firstDrawer = sortedPlayers[0];
+                    const otherIds = sortedPlayers.slice(1).map(p => p.id);
 
+                    // 2. Initialize Game Data for Persistence (Round 1, Drawer ID)
+                    await supabase
+                        .from('rooms')
+                        .update({
+                            game_data: {
+                                type: 'pictionary',
+                                data: {
+                                    round: 1,
+                                    drawerId: firstDrawer.id
+                                }
+                            }
+                        })
+                        .eq('code', roomCode);
+
+                    // 3. Set Roles
                     await supabase
                         .from('players')
                         .update({ role: 'drawer', secret_word: 'WAITING', vote: null }) // WAITING for word selection
@@ -485,10 +497,13 @@ export const GameAPI = {
                 supabase.from('players').update({ vote: winnerId }).eq('room_code', roomCode).eq('role', 'director')
             );
         } else {
-            // If director wins (no one guessed), clear the director's vote just in case
-            updatePromises.push(
-                supabase.from('players').update({ vote: null }).eq('room_code', roomCode).eq('role', 'director')
-            );
+            // If director wins (no one guessed), Award 2 points to Director
+            const { data: director } = await supabase.from('players').select('id, score').eq('room_code', roomCode).eq('role', 'director').single();
+            if (director) {
+                updatePromises.push(
+                    supabase.from('players').update({ score: (director.score || 0) + 2, vote: null }).eq('id', director.id)
+                );
+            }
         }
 
         updatePromises.push(
@@ -581,9 +596,11 @@ export const GameAPI = {
             // Pictionary Scoring: 1 Point for correct guess
             const points = 1;
 
-            // Update Guesser: Mark as CORRECT and add 1 point
-            await supabase.rpc('increment_score', { row_id: playerId, points });
-            await supabase.from('players').update({ vote: 'CORRECT' }).eq('id', playerId);
+            // Updated Guesser: Manual Fetch + Update (No RPC)
+            const { data: guesser } = await supabase.from('players').select('score').eq('id', playerId).single();
+            const newScore = (guesser?.score || 0) + points;
+
+            await supabase.from('players').update({ score: newScore, vote: 'CORRECT' }).eq('id', playerId);
 
             // No points for drawer as per user request
             return { status: 'CORRECT', word: drawer.secret_word, points };
@@ -614,9 +631,11 @@ export const GameAPI = {
             // Fuzzy Correct! 1 Point
             const points = 1;
 
-            // Update Guesser
-            await supabase.rpc('increment_score', { row_id: playerId, points });
-            await supabase.from('players').update({ vote: 'CORRECT' }).eq('id', playerId);
+            // Updated Guesser: Manual Fetch + Update (No RPC)
+            const { data: guesser } = await supabase.from('players').select('score').eq('id', playerId).single();
+            const newScore = (guesser?.score || 0) + points;
+
+            await supabase.from('players').update({ score: newScore, vote: 'CORRECT' }).eq('id', playerId);
 
             return { status: 'CORRECT', word: drawer.secret_word, points };
         }

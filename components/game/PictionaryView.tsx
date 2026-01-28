@@ -408,8 +408,8 @@ export function PictionaryView() {
         }
         turnIndexRef.current = nextIndex;
 
-        // Check Game End
-        if (nextRound > 1) {
+        // Check Game End: 3 Rounds Total
+        if (nextRound > 3) {
             await GameAPI.updateGameStatus(roomCode, 'FINISHED');
             await GameAPI.updateGamePhase(roomCode, 'results');
             return;

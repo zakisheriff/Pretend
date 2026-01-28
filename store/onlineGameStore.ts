@@ -220,6 +220,13 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                     set(state => ({
                         players: state.players.filter(p => p.id !== deletedId)
                     }));
+
+                    // Check for insufficient players
+                    const { isHost, gameStatus, players: newPlayers } = get();
+                    if (isHost && gameStatus === 'PLAYING' && newPlayers.length < 2) {
+                        console.log('Insufficient players (<2) detected. Resetting to LOBBY.');
+                        get().resetRoom();
+                    }
                 }
             )
             .on(
@@ -233,7 +240,8 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                     set({
                         gameStatus: newRoom.status,
                         gameMode: newRoom.game_mode,
-                        gamePhase: newRoom.curr_phase
+                        gamePhase: newRoom.curr_phase,
+                        gameData: newRoom.game_data
                     });
 
                     if (newRoom.status === 'LOBBY' && !newRoom.curr_phase) {

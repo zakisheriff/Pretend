@@ -91,9 +91,10 @@ interface WinnerCelebrationProps {
     allPlayers: Player[];
     onNewGame: () => void;
     onHome: () => void;
+    isHost: boolean;
 }
 
-export const WinnerCelebration = ({ winner, allPlayers, onNewGame, onHome }: WinnerCelebrationProps) => {
+export const WinnerCelebration = ({ winner, allPlayers, onNewGame, onHome, isHost }: WinnerCelebrationProps) => {
     const insets = useSafeAreaInsets();
     const sortedPlayers = [...allPlayers].sort((a, b) => b.score - a.score);
     const [showPodium, setShowPodium] = useState(false);
@@ -107,7 +108,7 @@ export const WinnerCelebration = ({ winner, allPlayers, onNewGame, onHome }: Win
     return (
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             {/* Background Decorations */}
-            {/* Background Decorations - Disable on Web to prevent glitches */}
+// ... keeping existing simplified ...
             {Platform.OS !== 'web' && (
                 <>
                     {Array.from({ length: 15 }).map((_, i) => (
@@ -222,14 +223,22 @@ export const WinnerCelebration = ({ winner, allPlayers, onNewGame, onHome }: Win
                         </View>
 
                         <View style={styles.actions}>
-                            <Button
-                                title="Start New Tournament"
-                                onPress={onNewGame}
-                                variant="primary"
-                                size="medium"
-                                icon={<Ionicons name="refresh" size={20} color={Colors.victorianBlack} />}
-                                style={{ backgroundColor: Colors.pureGold, borderColor: Colors.pureGold }}
-                            />
+                            {isHost ? (
+                                <Button
+                                    title="Start New Tournament"
+                                    onPress={onNewGame}
+                                    variant="primary"
+                                    size="medium"
+                                    icon={<Ionicons name="refresh" size={20} color={Colors.victorianBlack} />}
+                                    style={{ backgroundColor: Colors.pureGold, borderColor: Colors.pureGold }}
+                                />
+                            ) : (
+                                <View style={{ padding: 10, alignItems: 'center', marginBottom: 10 }}>
+                                    <Text style={{ color: Colors.grayLight, fontStyle: 'italic', textAlign: 'center' }}>
+                                        Waiting for host to start new tournament...
+                                    </Text>
+                                </View>
+                            )}
 
                             <Button
                                 title="Back to Home"
