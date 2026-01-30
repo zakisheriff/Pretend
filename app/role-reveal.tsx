@@ -125,6 +125,9 @@ export default function RoleRevealScreen() {
     const handleRefresh = () => {
         if (isOnline) {
             router.replace('/multiplayer/lobby');
+        } else if (gameMode === 'mind-sync') {
+            // For Mind Sync, go back to Case Briefing (setup) to restart/re-roll
+            router.replace('/game-settings');
         } else {
             refreshTheme();
             router.replace('/select-theme');
