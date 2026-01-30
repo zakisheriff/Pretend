@@ -10,8 +10,8 @@
         "category": "social"
     },
     {
-        "mainQuestion": "If you could only eat one cuisine for the rest of your life, what would it be? Describe why.",
-        "outlierQuestion": "If you could only eat one specific meal for the rest of your life, what would it be? Describe why.",
+        "mainQuestion": "If you could only eat one cuisine for the rest of your life, what would it be?",
+        "outlierQuestion": "If you could only eat one specific meal for the rest of your life, what would it be?",
         "category": "food"
     },
     {
@@ -20,12 +20,12 @@
         "category": "social"
     },
     {
-        "mainQuestion": "You have a free ticket to travel anywhere in the world right now. Where do you go and why?",
-        "outlierQuestion": "You have a free ticket to travel anywhere in your own country right now. Where do you go and why?",
+        "mainQuestion": "You have a free ticket to travel anywhere in the world right now. Where do you go?",
+        "outlierQuestion": "You have a free ticket to travel anywhere in your own country right now. Where do you go?",
         "category": "travel"
     },
     {
-        "mainQuestion": "If you could have any superpower for one day, what would it be? How would you use it?",
+        "mainQuestion": "If you could have any superpower for one day, what would it be?",
         "outlierQuestion": "If you could have the ability to fly for one day, how would you use it?",
         "category": "hypothetical"
     },
@@ -35,12 +35,12 @@
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What is the most annoying habit a coworker or classmate can have? Explain why it bothers you.",
-        "outlierQuestion": "What is the most annoying habit a roommate can have? Explain why it bothers you.",
+        "mainQuestion": "What is the most annoying habit a coworker or classmate can have?",
+        "outlierQuestion": "What is the most annoying habit a roommate can have?",
         "category": "social"
     },
     {
-        "mainQuestion": "If you could master any musical instrument instantly, which one would you pick? What song would you play first?",
+        "mainQuestion": "If you could master any musical instrument instantly, which one would you pick?",
         "outlierQuestion": "If you could master the piano instantly, what specific song would you play first?",
         "category": "skills"
     },
@@ -50,13 +50,13 @@
         "category": "work"
     },
     {
-        "mainQuestion": "What is one movie that everyone loves but you secretly dislike? Why don't you like it?",
-        "outlierQuestion": "What is one movie that everyone hates but you secretly love? Why do you like it?",
+        "mainQuestion": "What is one movie that everyone loves but you secretly dislike?",
+        "outlierQuestion": "What is one movie that everyone hates but you secretly love?",
         "category": "entertainment"
     },
     {
-        "mainQuestion": "If you could have dinner with any historical figure, who would it be? What would you ask them?",
-        "outlierQuestion": "If you could have dinner with any living celebrity, who would it be? What would you ask them?",
+        "mainQuestion": "If you could have dinner with any historical figure, who would it be?",
+        "outlierQuestion": "If you could have dinner with any living celebrity, who would it be?",
         "category": "hypothetical"
     },
     {
@@ -65,43 +65,43 @@
         "category": "ethics"
     },
     {
-        "mainQuestion": "What is the best gift you have ever received? Why was it so special to you?",
-        "outlierQuestion": "What is the best gift you have ever given someone? Why was it so special?",
+        "mainQuestion": "What is the best gift you have ever received?",
+        "outlierQuestion": "What is the best gift you have ever given someone?",
         "category": "personal"
     },
     {
-        "mainQuestion": "If you were stranded on a deserted island, what three items would you bring? Explain your choices.",
-        "outlierQuestion": "If you were going on a camping trip for a week, what three items would you bring? Explain your choices.",
+        "mainQuestion": "If you were stranded on a deserted island, what three items would you bring?",
+        "outlierQuestion": "If you were going on a camping trip for a week, what three items would you bring?",
         "category": "survival"
     },
     {
-        "mainQuestion": "Would you rather be able to speak all languages fluently or play every instrument perfectly? Why?",
-        "outlierQuestion": "Would you rather be able to read minds or see the future? Why?",
+        "mainQuestion": "Would you rather be able to speak all languages fluently or play every instrument perfectly?",
+        "outlierQuestion": "Would you rather be able to read minds or see the future?",
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What is your idea of a perfect weekend morning? Describe your routine.",
-        "outlierQuestion": "What is your idea of a perfect Friday night? Describe your plans.",
+        "mainQuestion": "What is your idea of a perfect weekend morning?",
+        "outlierQuestion": "What is your idea of a perfect Friday night?",
         "category": "lifestyle"
     },
     {
-        "mainQuestion": "If you could change one law in your country, what would it be? How would it help?",
-        "outlierQuestion": "If you could implement one new rule at your workplace, what would it be? How would it help?",
+        "mainQuestion": "If you could change one law in your country, what would it be?",
+        "outlierQuestion": "If you could implement one new rule at your workplace, what would it be?",
         "category": "politics"
     },
     {
-        "mainQuestion": "What is a skill you have always wanted to learn but haven't yet? What stopped you?",
-        "outlierQuestion": "What is a hobby you gave up on but want to try again? Why did you stop?",
+        "mainQuestion": "What is a skill you have always wanted to learn but haven't yet?",
+        "outlierQuestion": "What is a hobby you gave up on but want to try again?",
         "category": "skills"
     },
     {
-        "mainQuestion": "Describe your dream house. Where is it located and what does it look like?",
-        "outlierQuestion": "Describe your dream vacation home. Where is it located and what view does it have?",
+        "mainQuestion": "Describe your dream house. Where is it located?",
+        "outlierQuestion": "Describe your dream vacation home. Where is it located?",
         "category": "lifestyle"
     },
     {
-        "mainQuestion": "If animals could talk, which species would be the rudest? Why do you think so?",
-        "outlierQuestion": "If animals could talk, which species would be the nicest? Why do you think so?",
+        "mainQuestion": "If animals could talk, which species would be the rudest?",
+        "outlierQuestion": "If animals could talk, which species would be the nicest?",
         "category": "nature"
     },
     {
@@ -110,53 +110,53 @@
         "category": "technology"
     },
     {
-        "mainQuestion": "What is the most adventurous thing you have ever done? Would you do it again?",
-        "outlierQuestion": "What is the scariest thing you have ever done? Would you do it again?",
+        "mainQuestion": "What is the most adventurous thing you have ever done?",
+        "outlierQuestion": "What is the scariest thing you have ever done?",
         "category": "personal"
     },
     {
-        "mainQuestion": "If you could trade lives with one person for a week, who would it be? Why?",
-        "outlierQuestion": "If you could be the President for a week, what would you do? Why?",
+        "mainQuestion": "If you could trade lives with one person for a week, who would it be?",
+        "outlierQuestion": "If you could be the President for a week, what would you do?",
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "Do you believe it is ever okay to tell a white lie? Give an example.",
-        "outlierQuestion": "Do you believe it is ever okay to keep a major secret from a partner? Give an example.",
+        "mainQuestion": "Do you believe it is ever okay to tell a white lie?",
+        "outlierQuestion": "Do you believe it is ever okay to keep a major secret from a partner?",
         "category": "ethics"
     },
     {
-        "mainQuestion": "What is one food that you absolutely refuse to eat? What about it mocks you?",
-        "outlierQuestion": "What is one food you are allergic to or avoids due to health? Why do you avoid it?",
+        "mainQuestion": "What is one food that you absolutely refuse to eat?",
+        "outlierQuestion": "What is one food you are allergic to or avoid due to health?",
         "category": "food"
     },
     {
-        "mainQuestion": "If existing technology wasn't an issue, what invention would you create? How does it work?",
-        "outlierQuestion": "If money wasn't an issue, what business would you start? What does it sell?",
+        "mainQuestion": "If existing technology wasn't an issue, what invention would you create?",
+        "outlierQuestion": "If money wasn't an issue, what business would you start?",
         "category": "creativity"
     },
     {
-        "mainQuestion": "Who was your favorite teacher growing up? What made them stand out?",
-        "outlierQuestion": "Who was your childhood role model? What made them stand out?",
+        "mainQuestion": "Who was your favorite teacher growing up?",
+        "outlierQuestion": "Who was your childhood role model?",
         "category": "memory"
     },
     {
-        "mainQuestion": "If you could eliminate one season from the year, which one goes? Why that one?",
-        "outlierQuestion": "If you could make one season last all year round, which one would it be? Why?",
+        "mainQuestion": "If you could eliminate one season from the year, which one goes?",
+        "outlierQuestion": "If you could make one season last all year round, which one would it be?",
         "category": "nature"
     },
     {
-        "mainQuestion": "What is the most beautiful city you have ever visited? What made it special?",
-        "outlierQuestion": "What is the most chaotic city you have ever visited? What made it memorable?",
+        "mainQuestion": "What is the most beautiful city you have ever visited?",
+        "outlierQuestion": "What is the most chaotic city you have ever visited?",
         "category": "travel"
     },
     {
-        "mainQuestion": "Would you rather have unlimited money or unlimited time? Explain your reasoning.",
-        "outlierQuestion": "Would you rather have perfect health or unlimited money? Explain your reasoning.",
+        "mainQuestion": "Would you rather have unlimited money or unlimited time?",
+        "outlierQuestion": "Would you rather have perfect health or unlimited money?",
         "category": "philosophy"
     },
     {
-        "mainQuestion": "What is a movie you can watch over and over again without getting bored? Why?",
-        "outlierQuestion": "What is a TV show you can rewatch endlessly without getting bored? Why?",
+        "mainQuestion": "What is a movie you can watch over and over again without getting bored?",
+        "outlierQuestion": "What is a TV show you can rewatch endlessly without getting bored?",
         "category": "entertainment"
     },
     {
@@ -165,8 +165,8 @@
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What is the most overrated trend right now? Why do you think it's popular?",
-        "outlierQuestion": "What is the most underrated trend right now? Why do you think it needs attention?",
+        "mainQuestion": "What is the most overrated trend right now?",
+        "outlierQuestion": "What is the most underrated trend right now?",
         "category": "culture"
     },
     {
@@ -175,8 +175,8 @@
         "category": "music"
     },
     {
-        "mainQuestion": "What is a common piece of advice that you think is actually bad? Why?",
-        "outlierQuestion": "What is the best piece of advice you have ever received? Why was it good?",
+        "mainQuestion": "What is a common piece of advice that you think is actually bad?",
+        "outlierQuestion": "What is the best piece of advice you have ever received?",
         "category": "wisdom"
     },
     {
@@ -185,58 +185,58 @@
         "category": "relationships"
     },
     {
-        "mainQuestion": "If you could time travel, would you go to the past or the future? Why?",
-        "outlierQuestion": "If you could stop time, what would you do with the extra hours? Why?",
+        "mainQuestion": "If you could time travel, would you go to the past or the future?",
+        "outlierQuestion": "If you could stop time, what would you do with the extra hours?",
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What is your biggest fear? Have you ever faced it?",
-        "outlierQuestion": "What was your biggest fear as a child? Did you overcome it?",
+        "mainQuestion": "What is your biggest fear?",
+        "outlierQuestion": "What was your biggest fear as a child?",
         "category": "personal"
     },
     {
-        "mainQuestion": "If you could bring one fictional character to life, who would it be? Why?",
-        "outlierQuestion": "If you could live inside one fictional world, where would it be? Why?",
+        "mainQuestion": "If you could bring one fictional character to life, who would it be?",
+        "outlierQuestion": "If you could live inside one fictional world, where would it be?",
         "category": "fiction"
     },
     {
-        "mainQuestion": "What is one thing you would never do, even for a million dollars? Why?",
-        "outlierQuestion": "What is one thing you would do for a million dollars that most people wouldn't? Why?",
+        "mainQuestion": "What is one thing you would never do, even for a million dollars?",
+        "outlierQuestion": "What is one thing you would do for a million dollars that most people wouldn't?",
         "category": "ethics"
     },
     {
-        "mainQuestion": "Do you prefer a quiet night in or a loud night out? What does it look like?",
-        "outlierQuestion": "Do you prefer a house party or a club night? describe the vibe.",
+        "mainQuestion": "Do you prefer a quiet night in or a loud night out?",
+        "outlierQuestion": "Do you prefer a house party or a club night?",
         "category": "lifestyle"
     },
     {
-        "mainQuestion": "What is the most useful app on your phone? How does it help you?",
-        "outlierQuestion": "What is the most addictive app on your phone? How does it trap you?",
+        "mainQuestion": "What is the most useful app on your phone?",
+        "outlierQuestion": "What is the most addictive app on your phone?",
         "category": "technology"
     },
     {
-        "mainQuestion": "If you had to teach a class on one subject, what would it be? Why?",
-        "outlierQuestion": "If you had to write a book about one topic, what would it be? Why?",
+        "mainQuestion": "If you had to teach a class on one subject, what would it be?",
+        "outlierQuestion": "If you had to write a book about one topic, what would it be?",
         "category": "skills"
     },
     {
-        "mainQuestion": "What is your favorite memory from high school? Who was there with you?",
-        "outlierQuestion": "What is your most embarrassing memory from high school? Who saw it happen?",
+        "mainQuestion": "What is your favorite memory from high school?",
+        "outlierQuestion": "What is your most embarrassing memory from high school?",
         "category": "memory"
     },
     {
-        "mainQuestion": "If you could own any exotic animal as a pet, what would it be? Why?",
-        "outlierQuestion": "If you could communicate with any animal species, which one would you pick? Why?",
+        "mainQuestion": "If you could own any exotic animal as a pet, what would it be?",
+        "outlierQuestion": "If you could communicate with any animal species, which one would you pick?",
         "category": "nature"
     },
     {
-        "mainQuestion": "What is a food combination that sounds gross but tastes good? Why do you like it?",
-        "outlierQuestion": "What is a popular food combination that you think is gross? Why do you hate it?",
+        "mainQuestion": "What is a food combination that sounds gross but tastes good?",
+        "outlierQuestion": "What is a popular food combination that you think is gross?",
         "category": "food"
     },
     {
-        "mainQuestion": "Would you rather live in a big city or a quiet countryside? What appeals to you?",
-        "outlierQuestion": "Would you rather live by the beach or in the mountains? What appeals to you?",
+        "mainQuestion": "Would you rather live in a big city or a quiet countryside?",
+        "outlierQuestion": "Would you rather live by the beach or in the mountains?",
         "category": "lifestyle"
     },
     {
@@ -245,18 +245,18 @@
         "category": "politics"
     },
     {
-        "mainQuestion": "What is the hardest thing you have had to forgive someone for? How did you do it?",
-        "outlierQuestion": "What is the hardest apology you have ever had to make? How did it go?",
+        "mainQuestion": "What is the hardest thing you have had to forgive someone for?",
+        "outlierQuestion": "What is the hardest apology you have ever had to make?",
         "category": "personal"
     },
     {
-        "mainQuestion": "If you could instantly be fluent in another language, which one? Why?",
-        "outlierQuestion": "If you could instantly have a perfect accent in your own language, would you take it? Why?",
+        "mainQuestion": "If you could instantly be fluent in another language, which one?",
+        "outlierQuestion": "If you could instantly have a perfect accent in your own language, would you take it?",
         "category": "skills"
     },
     {
-        "mainQuestion": "What is a small act of kindness you witnessed recently? How did it feel?",
-        "outlierQuestion": "What is a small act of kindness you performed recently? How did it feel?",
+        "mainQuestion": "What is a small act of kindness you witnessed recently?",
+        "outlierQuestion": "What is a small act of kindness you performed recently?",
         "category": "ethics"
     },
     {
@@ -265,83 +265,83 @@
         "category": "fashion"
     },
     {
-        "mainQuestion": "What is the most impressive thing you know how to cook? Describe the dish.",
-        "outlierQuestion": "What is the most delicious meal you have ever eaten? Describe the dish.",
+        "mainQuestion": "What is the most impressive thing you know how to cook?",
+        "outlierQuestion": "What is the most delicious meal you have ever eaten?",
         "category": "food"
     },
     {
-        "mainQuestion": "If you were a ghost, where would you haunt? Who would you scare?",
-        "outlierQuestion": "If you were a ghost, who would you protect or watch over? Why them?",
+        "mainQuestion": "If you were a ghost, where would you haunt?",
+        "outlierQuestion": "If you were a ghost, who would you protect or watch over?",
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What is your favorite holiday tradition? Why is it meaningful?",
-        "outlierQuestion": "What is your least favorite holiday tradition? Why do you dislike it?",
+        "mainQuestion": "What is your favorite holiday tradition?",
+        "outlierQuestion": "What is your least favorite holiday tradition?",
         "category": "culture"
     },
     {
-        "mainQuestion": "If you could change your first name, what would you choose? Why?",
-        "outlierQuestion": "If you could choose your nickname, what would it be? Why?",
+        "mainQuestion": "If you could change your first name, what would you choose?",
+        "outlierQuestion": "If you could choose your nickname, what would it be?",
         "category": "personal"
     },
     {
-        "mainQuestion": "What is the best way to spend a rainy day? Describe your activities.",
-        "outlierQuestion": "What is the best way to spend a sunny day? Describe your activities.",
+        "mainQuestion": "What is the best way to spend a rainy day?",
+        "outlierQuestion": "What is the best way to spend a sunny day?",
         "category": "lifestyle"
     },
     {
-        "mainQuestion": "If you had to give up your phone or your car for a month, which one? Why?",
-        "outlierQuestion": "If you had to give up internet or air conditioning for a month, which one? Why?",
+        "mainQuestion": "If you had to give up your phone or your car for a month, which one?",
+        "outlierQuestion": "If you had to give up internet or air conditioning for a month, which one?",
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What is a talent you wish you had? How would it change your life?",
-        "outlierQuestion": "What is a physical trait you wish you had? How would it change your life?",
+        "mainQuestion": "What is a talent you wish you had?",
+        "outlierQuestion": "What is a physical trait you wish you had?",
         "category": "personal"
     },
     {
-        "mainQuestion": "If you met an alien, what is the first thing you would say? How would you react?",
-        "outlierQuestion": "If you met a time traveler, what is the first thing you would ask? How would you react?",
+        "mainQuestion": "If you met an alien, what is the first thing you would say?",
+        "outlierQuestion": "If you met a time traveler, what is the first thing you would ask?",
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What is the worst job you have ever had? What made it terrible?",
-        "outlierQuestion": "What was your very first job? What did you learn from it?",
+        "mainQuestion": "What is the worst job you have ever had?",
+        "outlierQuestion": "What was your very first job?",
         "category": "work"
     },
     {
-        "mainQuestion": "If you could erase one event from history, what would it be? Consquences?",
-        "outlierQuestion": "If you could witness one event in history, what would it be? Why?",
+        "mainQuestion": "If you could erase one event from history, what would it be?",
+        "outlierQuestion": "If you could witness one event in history, what would it be?",
         "category": "history"
     },
     {
-        "mainQuestion": "Do you believe in ghosts or the supernatural? Why or why not?",
-        "outlierQuestion": "Do you believe in aliens or life on other planets? Why or why not?",
+        "mainQuestion": "Do you believe in ghosts or the supernatural?",
+        "outlierQuestion": "Do you believe in aliens or life on other planets?",
         "category": "beliefs"
     },
     {
-        "mainQuestion": "What is your favorite board game? Why do you like it?",
-        "outlierQuestion": "What is your favorite video game? Why do you like it?",
+        "mainQuestion": "What is your favorite board game?",
+        "outlierQuestion": "What is your favorite video game?",
         "category": "entertainment"
     },
     {
-        "mainQuestion": "If you could only eat dessert or savory food forever, which one? Why?",
-        "outlierQuestion": "If you could only drink water or juice forever, which one? Why?",
+        "mainQuestion": "If you could only eat dessert or savory food forever, which one?",
+        "outlierQuestion": "If you could only drink water or juice forever, which one?",
         "category": "food"
     },
     {
-        "mainQuestion": "What is the most expensive thing you own? Is it worth it?",
-        "outlierQuestion": "What is the most sentimental thing you own? Why is it special?",
+        "mainQuestion": "What is the most expensive thing you own?",
+        "outlierQuestion": "What is the most sentimental thing you own?",
         "category": "personal"
     },
     {
-        "mainQuestion": "If you could live in any era of the past, which one? Why?",
+        "mainQuestion": "If you could live in any era of the past, which one?",
         "outlierQuestion": "If you could live in a futuristic sci-fi world, what would it be like?",
         "category": "history"
     },
     {
-        "mainQuestion": "What is a bad habit you are trying to break? How is it going?",
-        "outlierQuestion": "What is a good habit you are trying to build? How is it going?",
+        "mainQuestion": "What is a bad habit you are trying to break?",
+        "outlierQuestion": "What is a good habit you are trying to build?",
         "category": "personal"
     },
     {
@@ -350,18 +350,18 @@
         "category": "creativity"
     },
     {
-        "mainQuestion": "What is the weirdest dream you remember having? Describe it.",
-        "outlierQuestion": "What is a recurring dream you have? What does it mean?",
+        "mainQuestion": "What is the weirdest dream you remember having?",
+        "outlierQuestion": "What is a recurring dream you have?",
         "category": "personal"
     },
     {
-        "mainQuestion": "If you could be famous for one thing, what would it be? Why?",
-        "outlierQuestion": "If you were famous, would you enjoy the paparazzi? Why or why not?",
+        "mainQuestion": "If you could be famous for one thing, what would it be?",
+        "outlierQuestion": "If you were famous, would you enjoy the paparazzi?",
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What is your favorite smell in the world? What does it remind you of?",
-        "outlierQuestion": "What is a smell that instantly makes you nostalgic? What is the memory?",
+        "mainQuestion": "What is your favorite smell in the world?",
+        "outlierQuestion": "What is a smell that instantly makes you nostalgic?",
         "category": "sensory"
     },
     {
@@ -370,18 +370,18 @@
         "category": "personal"
     },
     {
-        "mainQuestion": "What is the best concert you have ever been to? Who performed?",
-        "outlierQuestion": "What is a concert you really want to go to? Who is performing?",
+        "mainQuestion": "What is the best concert you have ever been to?",
+        "outlierQuestion": "What is a concert you really want to go to?",
         "category": "music"
     },
     {
-        "mainQuestion": "If you could solve one world problem instantly, which one? Why?",
-        "outlierQuestion": "If you could cure one disease instantly, which one? Why?",
+        "mainQuestion": "If you could solve one world problem instantly, which one?",
+        "outlierQuestion": "If you could cure one disease instantly, which one?",
         "category": "ethics"
     },
     {
-        "mainQuestion": "Do you think money can buy happiness? Explain your view.",
-        "outlierQuestion": "Do you think success brings happiness? Explain your view.",
+        "mainQuestion": "Do you think money can buy happiness?",
+        "outlierQuestion": "Do you think success brings happiness?",
         "category": "philosophy"
     },
     {
@@ -390,13 +390,13 @@
         "category": "knowledge"
     },
     {
-        "mainQuestion": "If you could have a personal assistant, chef, or driver, which one? Why?",
-        "outlierQuestion": "If you could have a personal stylist or trainer, which one? Why?",
+        "mainQuestion": "If you could have a personal assistant, chef, or driver, which one?",
+        "outlierQuestion": "If you could have a personal stylist or trainer, which one?",
         "category": "lifestyle"
     },
     {
-        "mainQuestion": "What is your biggest pet peeve in public? Why does it annoy you?",
-        "outlierQuestion": "What is your biggest pet peeve at home? Why does it annoy you?",
+        "mainQuestion": "What is your biggest pet peeve in public?",
+        "outlierQuestion": "What is your biggest pet peeve at home?",
         "category": "social"
     },
     {
@@ -415,8 +415,8 @@
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What is your favorite season of the year? What do you like about it?",
-        "outlierQuestion": "What is your favorite time of day? Why do you prefer it?",
+        "mainQuestion": "What is your favorite season of the year?",
+        "outlierQuestion": "What is your favorite time of day?",
         "category": "nature"
     },
     {
@@ -425,28 +425,28 @@
         "category": "politics"
     },
     {
-        "mainQuestion": "What is a book that changed your perspective? How did it change you?",
-        "outlierQuestion": "What is a movie that changed your perspective? How did it change you?",
+        "mainQuestion": "What is a book that changed your perspective?",
+        "outlierQuestion": "What is a movie that changed your perspective?",
         "category": "media"
     },
     {
-        "mainQuestion": "If you could replace your hand with a tool, what would it be? Why?",
-        "outlierQuestion": "If you could handle any object with your mind, what would it be? Why?",
+        "mainQuestion": "If you could replace your hand with a tool, what would it be?",
+        "outlierQuestion": "If you could handle any object with your mind, what would it be?",
         "category": "silly"
     },
     {
-        "mainQuestion": "What is the best compliment you have ever received? Who gave it?",
-        "outlierQuestion": "What is the weirdest compliment you have ever received? Who gave it?",
+        "mainQuestion": "What is the best compliment you have ever received?",
+        "outlierQuestion": "What is the weirdest compliment you have ever received?",
         "category": "social"
     },
     {
-        "mainQuestion": "If you were an animal, what would you be? Why that one?",
-        "outlierQuestion": "If you had to be a bird, which one would you choose? Why?",
+        "mainQuestion": "If you were an animal, what would you be?",
+        "outlierQuestion": "If you had to be a bird, which one would you choose?",
         "category": "nature"
     },
     {
         "mainQuestion": "What is something you own that is totally useless but you keep it anyway?",
-        "outlierQuestion": "What is something you bought but never used? Why do you keep it?",
+        "outlierQuestion": "What is something you bought but never used?",
         "category": "personal"
     },
     {
@@ -456,17 +456,17 @@
     },
     {
         "mainQuestion": "What is the most polite way to tell someone to leave you alone?",
-        "outlierQuestion": "What is the rudest thing you have ever said to someone? Do you regret it?",
+        "outlierQuestion": "What is the rudest thing you have ever said to someone?",
         "category": "social"
     },
     {
-        "mainQuestion": "If you could lock one person in a room for a day, who? Why?",
+        "mainQuestion": "If you could lock one person in a room for a day, who?",
         "outlierQuestion": "If you were locked in a room for a day with someone, who would you pick?",
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What is your favorite way to exercise? Why do you enjoy it?",
-        "outlierQuestion": "What is your least favorite way to exercise? Why do you hate it?",
+        "mainQuestion": "What is your favorite way to exercise?",
+        "outlierQuestion": "What is your least favorite way to exercise?",
         "category": "health"
     },
     {
@@ -475,12 +475,12 @@
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What makes a person instantly attractive to you? Why?",
-        "outlierQuestion": "What makes a person instantly trustworthy to you? Why?",
+        "mainQuestion": "What makes a person instantly attractive to you?",
+        "outlierQuestion": "What makes a person instantly trustworthy to you?",
         "category": "relationships"
     },
     {
-        "mainQuestion": "If you found out the world was ending in 24 hours, what would do?",
+        "mainQuestion": "If you found out the world was ending in 24 hours, what would you do?",
         "outlierQuestion": "If you found out a zombie apocalypse was starting, what is your plan?",
         "category": "hypothetical"
     },
@@ -490,13 +490,13 @@
         "category": "personal"
     },
     {
-        "mainQuestion": "If you could open a business, what kind would it be? Why?",
+        "mainQuestion": "If you could open a business, what kind would it be?",
         "outlierQuestion": "If you could run a non-profit, what cause would it support?",
         "category": "career"
     },
     {
-        "mainQuestion": "What is your favorite childhood cartoon? Why did you like it?",
-        "outlierQuestion": "What is your favorite childhood toy? Why was it special?",
+        "mainQuestion": "What is your favorite childhood cartoon?",
+        "outlierQuestion": "What is your favorite childhood toy?",
         "category": "memory"
     },
     {
@@ -505,8 +505,8 @@
         "category": "ethics"
     },
     {
-        "mainQuestion": "What is the scariest movie you have ever seen? Why was it scary?",
-        "outlierQuestion": "What is the funniest movie you have ever seen? Why was it funny?",
+        "mainQuestion": "What is the scariest movie you have ever seen?",
+        "outlierQuestion": "What is the funniest movie you have ever seen?",
         "category": "entertainment"
     },
     {
@@ -515,8 +515,8 @@
         "category": "food"
     },
     {
-        "mainQuestion": "What is something everyone loves that you just don't get? Why?",
-        "outlierQuestion": "What is something everyone hates that you actually enjoy? Why?",
+        "mainQuestion": "What is something everyone loves that you just don't get?",
+        "outlierQuestion": "What is something everyone hates that you actually enjoy?",
         "category": "opinion"
     },
     {
@@ -525,8 +525,8 @@
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What is the best vacation you have ever taken? Where did you go?",
-        "outlierQuestion": "What is the worst vacation you have ever taken? What went wrong?",
+        "mainQuestion": "What is the best vacation you have ever taken?",
+        "outlierQuestion": "What is the worst vacation you have ever taken?",
         "category": "travel"
     },
     {
@@ -535,8 +535,8 @@
         "category": "lifestyle"
     },
     {
-        "mainQuestion": "What is a song that always makes you cry? Why is it sad?",
-        "outlierQuestion": "What is a song that always makes you happy? Why is it cheerful?",
+        "mainQuestion": "What is a song that always makes you cry?",
+        "outlierQuestion": "What is a song that always makes you happy?",
         "category": "music"
     },
     {
@@ -546,17 +546,17 @@
     },
     {
         "mainQuestion": "What is the most daring thing you have done on a dare?",
-        "outlierQuestion": "What is a dare you refused to do? Why did you refuse?",
+        "outlierQuestion": "What is a dare you refused to do?",
         "category": "social"
     },
     {
-        "mainQuestion": "If you could own a painting by any famous artist, who? Why?",
+        "mainQuestion": "If you could own a painting by any famous artist, who?",
         "outlierQuestion": "If you could commission a portrait of yourself, who would paint it?",
         "category": "art"
     },
     {
-        "mainQuestion": "What is your favorite topping on a pizza? Why is it the best?",
-        "outlierQuestion": "What is your least favorite topping on a pizza? Why?",
+        "mainQuestion": "What is your favorite topping on a pizza?",
+        "outlierQuestion": "What is your least favorite topping on a pizza?",
         "category": "food"
     },
     {
@@ -565,7 +565,7 @@
         "category": "entertainment"
     },
     {
-        "mainQuestion": "What is the most beautiful language in the world? Why?",
+        "mainQuestion": "What is the most beautiful language in the world?",
         "outlierQuestion": "What is the hardest language to learn, in your opinion?",
         "category": "culture"
     },
@@ -590,7 +590,7 @@
         "category": "wisdom"
     },
     {
-        "mainQuestion": "If you could be the absolute best at a sport, which one? Why?",
+        "mainQuestion": "If you could be the absolute best at a sport, which one?",
         "outlierQuestion": "If you could be an Olympic athlete, which event would you win?",
         "category": "sports"
     },
@@ -600,13 +600,13 @@
         "category": "social"
     },
     {
-        "mainQuestion": "If you could sleep for 100 years, would you do it? Why?",
+        "mainQuestion": "If you could sleep for 100 years, would you do it?",
         "outlierQuestion": "If you never had to sleep again, what would you do with the time?",
         "category": "hypothetical"
     },
     {
         "mainQuestion": "What is your favorite ice cream flavor? Is it popular?",
-        "outlierQuestion": "What is an ice cream flavor you think is disgusting? Why?",
+        "outlierQuestion": "What is an ice cream flavor you think is disgusting?",
         "category": "food"
     },
     {
@@ -625,8 +625,8 @@
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What is your favorite animal at the zoo? Why do you like it?",
-        "outlierQuestion": "What is the scariest animal at the zoo? Why is it frightening?",
+        "mainQuestion": "What is your favorite animal at the zoo?",
+        "outlierQuestion": "What is the scariest animal at the zoo?",
         "category": "nature"
     },
     {
@@ -635,8 +635,8 @@
         "category": "creativity"
     },
     {
-        "mainQuestion": "What is the most boring sport to watch? Why is it dull?",
-        "outlierQuestion": "What is the most exciting sport to watch? Why is it thrilling?",
+        "mainQuestion": "What is the most boring sport to watch?",
+        "outlierQuestion": "What is the most exciting sport to watch?",
         "category": "sports"
     },
     {
@@ -655,8 +655,8 @@
         "category": "silly"
     },
     {
-        "mainQuestion": "What is your favorite thing about yourself? Why?",
-        "outlierQuestion": "What is one thing you would change about your personality? Why?",
+        "mainQuestion": "What is your favorite thing about yourself?",
+        "outlierQuestion": "What is one thing you would change about your personality?",
         "category": "personal"
     },
     {
@@ -665,8 +665,8 @@
         "category": "supernatural"
     },
     {
-        "mainQuestion": "What is the most awkward date you have ever been on? usage?",
-        "outlierQuestion": "What is the best date you have ever been on? Describe it.",
+        "mainQuestion": "What is the most awkward date you have ever been on?",
+        "outlierQuestion": "What is the best date you have ever been on?",
         "category": "relationships"
     },
     {
@@ -675,8 +675,8 @@
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What is your guilty pleasure TV show? Why do you hide it?",
-        "outlierQuestion": "What is a TV show everyone loves that you hate? Why?",
+        "mainQuestion": "What is your guilty pleasure TV show?",
+        "outlierQuestion": "What is a TV show everyone loves that you hate?",
         "category": "entertainment"
     },
     {
@@ -685,8 +685,8 @@
         "category": "ethics"
     },
     {
-        "mainQuestion": "What is the best age to be? Why do you think so?",
-        "outlierQuestion": "What is the hardest age to be? Why do you think so?",
+        "mainQuestion": "What is the best age to be?",
+        "outlierQuestion": "What is the hardest age to be?",
         "category": "philosophy"
     },
     {
@@ -695,7 +695,7 @@
         "category": "hypothetical"
     },
     {
-        "mainQuestion": "What is a common lie you tell people? Why do you tell it?",
+        "mainQuestion": "What is a common lie you tell people?",
         "outlierQuestion": "What is a lie you told that you got caught in? What happened?",
         "category": "honesty"
     },
@@ -703,325 +703,5 @@
         "mainQuestion": "If you could be a famous musician, what instrument would you play?",
         "outlierQuestion": "If you could be a famous singer, what genre would you sing?",
         "category": "music"
-    },
-    {
-        "mainQuestion": "What is the strangest pet you would actually want to own?",
-        "outlierQuestion": "What is an exotic animal you would be terrified to own?",
-        "category": "nature"
-    },
-    {
-        "mainQuestion": "If you could live underwater or in space, which one? Why?",
-        "outlierQuestion": "If you could live in a treehouse or a cave, which one? Why?",
-        "category": "lifestyle"
-    },
-    {
-        "mainQuestion": "What is the best prank you have ever pulled on someone?",
-        "outlierQuestion": "What is the best prank someone has pulled on you?",
-        "category": "fun"
-    },
-    {
-        "mainQuestion": "If you could eliminate one emotion forever, which one? Why?",
-        "outlierQuestion": "If you could feel one emotion constantly, which one? Why?",
-        "category": "psychology"
-    },
-    {
-        "mainQuestion": "What is a fashion trend you wish would come back? Why?",
-        "outlierQuestion": "What is a fashion trend you hope never comes back? Why?",
-        "category": "fashion"
-    },
-    {
-        "mainQuestion": "If you could be any age forever, what age would it be? Why?",
-        "outlierQuestion": "If you could stop aging right now, would you? Why?",
-        "category": "aging"
-    },
-    {
-        "mainQuestion": "What is the most disgusting thing you have ever eaten?",
-        "outlierQuestion": "What is the weirdest thing you have ever eaten?",
-        "category": "food"
-    },
-    {
-        "mainQuestion": "If you could know the date of your death, would you want to know?",
-        "outlierQuestion": "If you could know how you die, would you want to know?",
-        "category": "morbid"
-    },
-    {
-        "mainQuestion": "What is a rule you broke as a kid and never got caught?",
-        "outlierQuestion": "What is a rule you followed as a kid that was stupid?",
-        "category": "memory"
-    },
-    {
-        "mainQuestion": "If you could have free food from one restaurant for life, where?",
-        "outlierQuestion": "If you could have free coffee from one shop for life, where?",
-        "category": "food"
-    },
-    {
-        "mainQuestion": "What is the most confusing movie you have ever watched?",
-        "outlierQuestion": "What is the most boring movie you have ever watched?",
-        "category": "entertainment"
-    },
-    {
-        "mainQuestion": "If you could have 3 wishes (no asking for more), what is wish #1?",
-        "outlierQuestion": "If you could have 1 wish granted right now, what is it?",
-        "category": "hypothetical"
-    },
-    {
-        "mainQuestion": "What is your favorite board game to play with family? Why?",
-        "outlierQuestion": "What is your favorite card game to play with friends? Why?",
-        "category": "games"
-    },
-    {
-        "mainQuestion": "If you were stranded in the jungle, how long would you survive?",
-        "outlierQuestion": "If you were stranded in the arctic, how long would you survive?",
-        "category": "survival"
-    },
-    {
-        "mainQuestion": "What is one thing that instantly ruins your day? Why?",
-        "outlierQuestion": "What is one thing that instantly fixes your day? Why?",
-        "category": "mood"
-    },
-    {
-        "mainQuestion": "If you could ask the President one question, what would it be?",
-        "outlierQuestion": "If you could ask God one question, what would it be?",
-        "category": "questions"
-    },
-    {
-        "mainQuestion": "What is the most expensive meal you have ever paid for?",
-        "outlierQuestion": "What is the best cheap meal you have ever eaten?",
-        "category": "food"
-    },
-    {
-        "mainQuestion": "If you could be a character in Harry Potter, who would you be?",
-        "outlierQuestion": "If you could be a character in Star Wars, who would you be?",
-        "category": "fiction"
-    },
-    {
-        "mainQuestion": "What is something you use every day that you take for granted?",
-        "outlierQuestion": "What is a luxury you enjoy that you take for granted?",
-        "category": "gratitude"
-    },
-    {
-        "mainQuestion": "If you could instantly clean your house with a snap, would you pay for it?",
-        "outlierQuestion": "If you could instantly cook dinner with a snap, would you pay for it?",
-        "category": "lazy"
-    },
-    {
-        "mainQuestion": "What is the best Halloween costume you have ever worn?",
-        "outlierQuestion": "What is the laziest Halloween costume you have ever worn?",
-        "category": "holidays"
-    },
-    {
-        "mainQuestion": "If you could merge two animals into one, what would they be?",
-        "outlierQuestion": "If you could make a mini version of any animal, what would it be?",
-        "category": "creativity"
-    },
-    {
-        "mainQuestion": "What is the most random fact you know? Where did you learn it?",
-        "outlierQuestion": "What is a fact you know that sounds fake but is true?",
-        "category": "knowledge"
-    },
-    {
-        "mainQuestion": "If you could play a villain in a movie, what kind would you be?",
-        "outlierQuestion": "If you could play the hero in a movie, what kind would you be?",
-        "category": "acting"
-    },
-    {
-        "mainQuestion": "What is a sound that drives you absolutely crazy? Why?",
-        "outlierQuestion": "What is a texture that drives you absolutely crazy? Why?",
-        "category": "sensory"
-    },
-    {
-        "mainQuestion": "If you could have a bottomless cup of any drink, what would it be?",
-        "outlierQuestion": "If you could have a bottomless bowl of any food, what would it be?",
-        "category": "food"
-    },
-    {
-        "mainQuestion": "What is the most adventurous food you have ever tried?",
-        "outlierQuestion": "What is the spiciest food you have ever tried?",
-        "category": "food"
-    },
-    {
-        "mainQuestion": "If you could ban one word from the English language, what is it?",
-        "outlierQuestion": "If you could invent a new word, what would it mean?",
-        "category": "language"
-    },
-    {
-        "mainQuestion": "What is the best part of your daily routine? Why?",
-        "outlierQuestion": "What is the worst part of your daily routine? Why?",
-        "category": "lifestyle"
-    },
-    {
-        "mainQuestion": "If you could live in a hotel or a castle, which one? Why?",
-        "outlierQuestion": "If you could live in a cabin or a penthouse, which one? Why?",
-        "category": "lifestyle"
-    },
-    {
-        "mainQuestion": "What is the most impressive magic trick you have seen?",
-        "outlierQuestion": "Do you believe magic is real or just tricks? Explain.",
-        "category": "entertainment"
-    },
-    {
-        "mainQuestion": "If you could have a secret tunnel in your house, where does it go?",
-        "outlierQuestion": "If you could have a secret room in your house, what is inside?",
-        "category": "creative"
-    },
-    {
-        "mainQuestion": "What is your favorite thing to do on a lazy Sunday?",
-        "outlierQuestion": "What is your favorite thing to do on a busy Monday?",
-        "category": "lifestyle"
-    },
-    {
-        "mainQuestion": "If you could replace your legs with wheels, would you? Why?",
-        "outlierQuestion": "If you could replace your arms with robotic arms, would you? Why?",
-        "category": "silly"
-    },
-    {
-        "mainQuestion": "Which celebrity would you want to be stranded on an island with?",
-        "outlierQuestion": "Which celebrity would you trust to save your life?",
-        "category": "hypothetical"
-    },
-    {
-        "mainQuestion": "What is the most beautiful place in nature you have seen?",
-        "outlierQuestion": "What is the most dangerous place in nature you have been?",
-        "category": "nature"
-    },
-    {
-        "mainQuestion": "If you could shrink yourself to the size of an ant, what would you do?",
-        "outlierQuestion": "If you could grow to the size of a giant, what would you do?",
-        "category": "silly"
-    },
-    {
-        "mainQuestion": "What is a smell that reminds you of your childhood?",
-        "outlierQuestion": "What is a song that reminds you of your childhood?",
-        "category": "memory"
-    },
-    {
-        "mainQuestion": "If you could have any job in the world without qualification, what?",
-        "outlierQuestion": "If you could be the boss of any company, which one?",
-        "category": "career"
-    },
-    {
-        "mainQuestion": "What is the grossest insect in your opinion? Why?",
-        "outlierQuestion": "What is the scariest insect in your opinion? Why?",
-        "category": "nature"
-    },
-    {
-        "mainQuestion": "If you could speak to your pet, what is the first thing you'd tell them?",
-        "outlierQuestion": "If your pet could speak, what is the first thing they'd say to you?",
-        "category": "animals"
-    },
-    {
-        "mainQuestion": "What is your favorite app for wasting time? Why?",
-        "outlierQuestion": "What is your favorite app for being productive? Why?",
-        "category": "technology"
-    },
-    {
-        "mainQuestion": "If you could never wear shoes again, how would you cope?",
-        "outlierQuestion": "If you could never wear pants again, how would you cope?",
-        "category": "silly"
-    },
-    {
-        "mainQuestion": "What is the best compliment regarding your personality?",
-        "outlierQuestion": "What is the best compliment regarding your appearance?",
-        "category": "social"
-    },
-    {
-        "mainQuestion": "If you ruled the world, what is the first thing you would ban?",
-        "outlierQuestion": "If you ruled the world, what is the first thing you would make free?",
-        "category": "power"
-    },
-    {
-        "mainQuestion": "What is your favorite thing to buy at the grocery store?",
-        "outlierQuestion": "What is your least favorite thing to buy at the grocery store?",
-        "category": "shopping"
-    },
-    {
-        "mainQuestion": "If you could have tea with the Queen (or King), what would you discuss?",
-        "outlierQuestion": "If you could have a beer with the President, what would you discuss?",
-        "category": "hypothetical"
-    },
-    {
-        "mainQuestion": "What is the most useful thing you learned in school?",
-        "outlierQuestion": "What is the most useless thing you learned in school?",
-        "category": "education"
-    },
-    {
-        "mainQuestion": "If you could have a personalized license plate, what would it say?",
-        "outlierQuestion": "If you could name a street after yourself, what would it be called?",
-        "category": "vanity"
-    },
-    {
-        "mainQuestion": "What is a fear you have that is completely irrational?",
-        "outlierQuestion": "What is a superstition you believe in?",
-        "category": "personal"
-    },
-    {
-        "mainQuestion": "If you could be a master of any form of martial arts, which one?",
-        "outlierQuestion": "If you could be a master swordsman or archer, which one?",
-        "category": "skills"
-    },
-    {
-        "mainQuestion": "What is the best fruit to eat on a hot day?",
-        "outlierQuestion": "What is the best drink to have on a hot day?",
-        "category": "food"
-    },
-    {
-        "mainQuestion": "If you could redesign the human body, what would you add?",
-        "outlierQuestion": "If you could redesign the human body, what would you remove?",
-        "category": "science"
-    },
-    {
-        "mainQuestion": "What is your favorite emoji to use? Why?",
-        "outlierQuestion": "What is an emoji you never use? Why?",
-        "category": "tech"
-    },
-    {
-        "mainQuestion": "If you could survive in space without a suit, where would you go?",
-        "outlierQuestion": "If you could fly through the sun, would you do it?",
-        "category": "space"
-    },
-    {
-        "mainQuestion": "What is the most thoughtful gift you have ever given?",
-        "outlierQuestion": "What is the most expensive gift you have ever given?",
-        "category": "giving"
-    },
-    {
-        "mainQuestion": "If you could live in a movie universe, which one? Why?",
-        "outlierQuestion": "If you could live in a TV show universe, which one? Why?",
-        "category": "entertainment"
-    },
-    {
-        "mainQuestion": "What is your strategy for winning Rock, Paper, Scissors?",
-        "outlierQuestion": "What is your strategy for winning Tic Tac Toe?",
-        "category": "games"
-    },
-    {
-        "mainQuestion": "If you could switch lives with your best friend, would you?",
-        "outlierQuestion": "If you could switch lives with your sibling, would you?",
-        "category": "hypothetical"
-    },
-    {
-        "mainQuestion": "What is the most interesting documentary you have watched?",
-        "outlierQuestion": "What is the most boring documentary you have watched?",
-        "category": "media"
-    },
-    {
-        "mainQuestion": "If you could be a professional gamer, what game would you play?",
-        "outlierQuestion": "If you could design a video game, what genre would it be?",
-        "category": "games"
-    },
-    {
-        "mainQuestion": "What is the best way to cook an egg? Fried, scrambled, etc?",
-        "outlierQuestion": "What is the best way to cook a potato? Fried, baked, etc?",
-        "category": "food"
-    },
-    {
-        "mainQuestion": "If you could have a lifetime supply of chocolate, would you take it?",
-        "outlierQuestion": "If you could have a lifetime supply of chips, would you take it?",
-        "category": "food"
-    },
-    {
-        "mainQuestion": "What is your favorite holiday to celebrate? Why?",
-        "outlierQuestion": "What is the most overrated holiday? Why?",
-        "category": "culture"
     }
 ]

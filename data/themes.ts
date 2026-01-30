@@ -38,6 +38,7 @@ import uObjects from './undercover/objects.json';
 import uPlaces from './undercover/places.json';
 import uSongs from './undercover/songs.json';
 import uSports from './undercover/sports.json';
+import uSuperheroes from './undercover/superheroes.json';
 import uTamilMovies from './undercover/tamil-movies.json';
 import uYoutubers from './undercover/youtubers.json';
 
@@ -73,7 +74,7 @@ export const undercoverCategories: UndercoverCategory[] = [
         id: 'movies',
         name: 'Movies',
         icon: 'videocam-outline',
-        themes: [uTamilMovies, uHindiMovies, uHollywoodMovies, uDirectors] as UndercoverTheme[]
+        themes: [uTamilMovies, uHindiMovies, uHollywoodMovies, uDirectors, uSuperheroes] as UndercoverTheme[]
     },
     {
         id: 'celebrities',

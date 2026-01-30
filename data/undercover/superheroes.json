@@ -1,0 +1,1199 @@
+{
+    "id": "u-superheroes",
+    "name": "Superheroes",
+    "icon": "shield-outline",
+    "pairs": [
+        {
+            "crewmateWord": "Superman",
+            "imposterWord": "Supergirl"
+        },
+        {
+            "crewmateWord": "Batman",
+            "imposterWord": "Iron Man"
+        },
+        {
+            "crewmateWord": "Spider-Man",
+            "imposterWord": "Deadpool"
+        },
+        {
+            "crewmateWord": "Wonder Woman",
+            "imposterWord": "Captain Marvel"
+        },
+        {
+            "crewmateWord": "Thor",
+            "imposterWord": "Aquaman"
+        },
+        {
+            "crewmateWord": "Hulk",
+            "imposterWord": "The Thing"
+        },
+        {
+            "crewmateWord": "Flash",
+            "imposterWord": "Quicksilver"
+        },
+        {
+            "crewmateWord": "Green Lantern",
+            "imposterWord": "Green Arrow"
+        },
+        {
+            "crewmateWord": "Joker",
+            "imposterWord": "Green Goblin"
+        },
+        {
+            "crewmateWord": "Thanos",
+            "imposterWord": "Darkseid"
+        },
+        {
+            "crewmateWord": "Wolverine",
+            "imposterWord": "Black Panther"
+        },
+        {
+            "crewmateWord": "Captain America",
+            "imposterWord": "Superman"
+        },
+        {
+            "crewmateWord": "Doctor Strange",
+            "imposterWord": "Doctor Fate"
+        },
+        {
+            "crewmateWord": "Scarlet Witch",
+            "imposterWord": "Jean Grey"
+        },
+        {
+            "crewmateWord": "Loki",
+            "imposterWord": "Joker"
+        },
+        {
+            "crewmateWord": "Venom",
+            "imposterWord": "Carnage"
+        },
+        {
+            "crewmateWord": "Magneto",
+            "imposterWord": "Professor X"
+        },
+        {
+            "crewmateWord": "Ant-Man",
+            "imposterWord": "Atom"
+        },
+        {
+            "crewmateWord": "Rocket Raccoon",
+            "imposterWord": "Groot"
+        },
+        {
+            "crewmateWord": "Star-Lord",
+            "imposterWord": "Han Solo"
+        },
+        {
+            "crewmateWord": "Black Widow",
+            "imposterWord": "Catwoman"
+        },
+        {
+            "crewmateWord": "Hawkeye",
+            "imposterWord": "Green Arrow"
+        },
+        {
+            "crewmateWord": "Cyclops",
+            "imposterWord": "Daredevil"
+        },
+        {
+            "crewmateWord": "Storm",
+            "imposterWord": "Thor"
+        },
+        {
+            "crewmateWord": "Harley Quinn",
+            "imposterWord": "Jinx"
+        },
+        {
+            "crewmateWord": "Lex Luthor",
+            "imposterWord": "Kingpin"
+        },
+        {
+            "crewmateWord": "Shazam",
+            "imposterWord": "Superman"
+        },
+        {
+            "crewmateWord": "Vision",
+            "imposterWord": "Martian Manhunter"
+        },
+        {
+            "crewmateWord": "Gambit",
+            "imposterWord": "Nightwing"
+        },
+        {
+            "crewmateWord": "Saitama",
+            "imposterWord": "Superman"
+        },
+        {
+            "crewmateWord": "All Might",
+            "imposterWord": "Superman"
+        },
+        {
+            "crewmateWord": "Deku",
+            "imposterWord": "Spider-Man"
+        },
+        {
+            "crewmateWord": "Goku",
+            "imposterWord": "Vegeta"
+        },
+        {
+            "crewmateWord": "Naruto",
+            "imposterWord": "Sasuke"
+        },
+        {
+            "crewmateWord": "Luffy",
+            "imposterWord": "Mr. Fantastic"
+        },
+        {
+            "crewmateWord": "Zoro",
+            "imposterWord": "Hawkeye"
+        },
+        {
+            "crewmateWord": "Iron Man",
+            "imposterWord": "War Machine"
+        },
+        {
+            "crewmateWord": "Captain America",
+            "imposterWord": "Bucky Barnes"
+        },
+        {
+            "crewmateWord": "Falcon",
+            "imposterWord": "Vulture"
+        },
+        {
+            "crewmateWord": "Black Panther",
+            "imposterWord": "Killmonger"
+        },
+        {
+            "crewmateWord": "Thor",
+            "imposterWord": "Hercules"
+        },
+        {
+            "crewmateWord": "Hulk",
+            "imposterWord": "She-Hulk"
+        },
+        {
+            "crewmateWord": "Black Widow",
+            "imposterWord": "Spy"
+        },
+        {
+            "crewmateWord": "Hawkeye",
+            "imposterWord": "Legolas"
+        },
+        {
+            "crewmateWord": "Nick Fury",
+            "imposterWord": "Phil Coulson"
+        },
+        {
+            "crewmateWord": "Maria Hill",
+            "imposterWord": "Black Widow"
+        },
+        {
+            "crewmateWord": "Star-Lord",
+            "imposterWord": "Captain Kirk"
+        },
+        {
+            "crewmateWord": "Gamora",
+            "imposterWord": "Nebula"
+        },
+        {
+            "crewmateWord": "Drax",
+            "imposterWord": "Hulk"
+        },
+        {
+            "crewmateWord": "Rocket",
+            "imposterWord": "Squirrel Girl"
+        },
+        {
+            "crewmateWord": "Groot",
+            "imposterWord": "Treebeard"
+        },
+        {
+            "crewmateWord": "Mantis",
+            "imposterWord": "Wasp"
+        },
+        {
+            "crewmateWord": "Nebula",
+            "imposterWord": "Cyborg"
+        },
+        {
+            "crewmateWord": "Yondu",
+            "imposterWord": "Hawkeye"
+        },
+        {
+            "crewmateWord": "Doctor Strange",
+            "imposterWord": "Harry Potter"
+        },
+        {
+            "crewmateWord": "Wong",
+            "imposterWord": "Alfred"
+        },
+        {
+            "crewmateWord": "Ancient One",
+            "imposterWord": "Yoda"
+        },
+        {
+            "crewmateWord": "Spider-Man",
+            "imposterWord": "Miles Morales"
+        },
+        {
+            "crewmateWord": "MJ",
+            "imposterWord": "Lois Lane"
+        },
+        {
+            "crewmateWord": "Ned",
+            "imposterWord": "Robin"
+        },
+        {
+            "crewmateWord": "Vulture",
+            "imposterWord": "Falcon"
+        },
+        {
+            "crewmateWord": "Mysterio",
+            "imposterWord": "Loki"
+        },
+        {
+            "crewmateWord": "Daredevil",
+            "imposterWord": "Batman"
+        },
+        {
+            "crewmateWord": "Jessica Jones",
+            "imposterWord": "Supergirl"
+        },
+        {
+            "crewmateWord": "Luke Cage",
+            "imposterWord": "Colossus"
+        },
+        {
+            "crewmateWord": "Iron Fist",
+            "imposterWord": "Shang-Chi"
+        },
+        {
+            "crewmateWord": "Punisher",
+            "imposterWord": "Deadpool"
+        },
+        {
+            "crewmateWord": "Kingpin",
+            "imposterWord": "Penguin"
+        },
+        {
+            "crewmateWord": "Bullseye",
+            "imposterWord": "Hawkeye"
+        },
+        {
+            "crewmateWord": "Elektra",
+            "imposterWord": "Catwoman"
+        },
+        {
+            "crewmateWord": "Ghost Rider",
+            "imposterWord": "Scorpion"
+        },
+        {
+            "crewmateWord": "Blade",
+            "imposterWord": "Buffy"
+        },
+        {
+            "crewmateWord": "Moon Knight",
+            "imposterWord": "Batman"
+        },
+        {
+            "crewmateWord": "She-Hulk",
+            "imposterWord": "Wonder Woman"
+        },
+        {
+            "crewmateWord": "Ms. Marvel",
+            "imposterWord": "Mr. Fantastic"
+        },
+        {
+            "crewmateWord": "Kate Bishop",
+            "imposterWord": "Hawkeye"
+        },
+        {
+            "crewmateWord": "Yelena Belova",
+            "imposterWord": "Black Widow"
+        },
+        {
+            "crewmateWord": "Red Guardian",
+            "imposterWord": "Captain America"
+        },
+        {
+            "crewmateWord": "Taskmaster",
+            "imposterWord": "Deathstroke"
+        },
+        {
+            "crewmateWord": "Agatha Harkness",
+            "imposterWord": "Scarlet Witch"
+        },
+        {
+            "crewmateWord": "Monica Rambeau",
+            "imposterWord": "Captain Marvel"
+        },
+        {
+            "crewmateWord": "Professor X",
+            "imposterWord": "Doctor Strange"
+        },
+        {
+            "crewmateWord": "Magneto",
+            "imposterWord": "Dr. Polaris"
+        },
+        {
+            "crewmateWord": "Mystique",
+            "imposterWord": "Black Widow"
+        },
+        {
+            "crewmateWord": "Beast",
+            "imposterWord": "Hulk"
+        },
+        {
+            "crewmateWord": "Storm",
+            "imposterWord": "Thor"
+        },
+        {
+            "crewmateWord": "Jean Grey",
+            "imposterWord": "Raven"
+        },
+        {
+            "crewmateWord": "Cyclops",
+            "imposterWord": "Superman"
+        },
+        {
+            "crewmateWord": "Wolverine",
+            "imposterWord": "Lobo"
+        },
+        {
+            "crewmateWord": "Rogue",
+            "imposterWord": "Captain Marvel"
+        },
+        {
+            "crewmateWord": "Gambit",
+            "imposterWord": "Joker"
+        },
+        {
+            "crewmateWord": "Jubilee",
+            "imposterWord": "Dazzler"
+        },
+        {
+            "crewmateWord": "Nightcrawler",
+            "imposterWord": "Spider-Man"
+        },
+        {
+            "crewmateWord": "Colossus",
+            "imposterWord": "The Thing"
+        },
+        {
+            "crewmateWord": "Kitty Pryde",
+            "imposterWord": "Vision"
+        },
+        {
+            "crewmateWord": "Iceman",
+            "imposterWord": "Frozone"
+        },
+        {
+            "crewmateWord": "Angel",
+            "imposterWord": "Hawkman"
+        },
+        {
+            "crewmateWord": "Deadpool",
+            "imposterWord": "Deathstroke"
+        },
+        {
+            "crewmateWord": "Cable",
+            "imposterWord": "Winter Soldier"
+        },
+        {
+            "crewmateWord": "Domino",
+            "imposterWord": "Black Cat"
+        },
+        {
+            "crewmateWord": "X-23",
+            "imposterWord": "Wolverine"
+        },
+        {
+            "crewmateWord": "Sabretooth",
+            "imposterWord": "Wolverine"
+        },
+        {
+            "crewmateWord": "Juggernaut",
+            "imposterWord": "Bane"
+        },
+        {
+            "crewmateWord": "Apocalypse",
+            "imposterWord": "Darkseid"
+        },
+        {
+            "crewmateWord": "Mr. Fantastic",
+            "imposterWord": "Plastic Man"
+        },
+        {
+            "crewmateWord": "Invisible Woman",
+            "imposterWord": "Violet Parr"
+        },
+        {
+            "crewmateWord": "Human Torch",
+            "imposterWord": "Sunfire"
+        },
+        {
+            "crewmateWord": "The Thing",
+            "imposterWord": "Korg"
+        },
+        {
+            "crewmateWord": "Doctor Doom",
+            "imposterWord": "Darth Vader"
+        },
+        {
+            "crewmateWord": "Silver Surfer",
+            "imposterWord": "Iceman"
+        },
+        {
+            "crewmateWord": "Galactus",
+            "imposterWord": "Unicron"
+        },
+        {
+            "crewmateWord": "Namor",
+            "imposterWord": "Aquaman"
+        },
+        {
+            "crewmateWord": "Batman",
+            "imposterWord": "Daredevil"
+        },
+        {
+            "crewmateWord": "Robin",
+            "imposterWord": "Bucky"
+        },
+        {
+            "crewmateWord": "Nightwing",
+            "imposterWord": "Daredevil"
+        },
+        {
+            "crewmateWord": "Batgirl",
+            "imposterWord": "Spider-Gwen"
+        },
+        {
+            "crewmateWord": "Red Hood",
+            "imposterWord": "Winter Soldier"
+        },
+        {
+            "crewmateWord": "Alfred Pennyworth",
+            "imposterWord": "Jarvis"
+        },
+        {
+            "crewmateWord": "Commissioner Gordon",
+            "imposterWord": "Nick Fury"
+        },
+        {
+            "crewmateWord": "Catwoman",
+            "imposterWord": "Black Cat"
+        },
+        {
+            "crewmateWord": "Joker",
+            "imposterWord": "Pennywise"
+        },
+        {
+            "crewmateWord": "Harley Quinn",
+            "imposterWord": "Deadpool"
+        },
+        {
+            "crewmateWord": "Penguin",
+            "imposterWord": "Kingpin"
+        },
+        {
+            "crewmateWord": "Riddler",
+            "imposterWord": "Jigsaw"
+        },
+        {
+            "crewmateWord": "Two-Face",
+            "imposterWord": "Jekyll & Hyde"
+        },
+        {
+            "crewmateWord": "Bane",
+            "imposterWord": "Venom"
+        },
+        {
+            "crewmateWord": "Scarecrow",
+            "imposterWord": "Freddy Krueger"
+        },
+        {
+            "crewmateWord": "Poison Ivy",
+            "imposterWord": "Groot"
+        },
+        {
+            "crewmateWord": "Mr. Freeze",
+            "imposterWord": "Captain Cold"
+        },
+        {
+            "crewmateWord": "Superman",
+            "imposterWord": "Homelander"
+        },
+        {
+            "crewmateWord": "Lois Lane",
+            "imposterWord": "Mary Jane"
+        },
+        {
+            "crewmateWord": "Lex Luthor",
+            "imposterWord": "Jeff Bezos"
+        },
+        {
+            "crewmateWord": "Doomsday",
+            "imposterWord": "Hulk"
+        },
+        {
+            "crewmateWord": "Wonder Woman",
+            "imposterWord": "Xena"
+        },
+        {
+            "crewmateWord": "Cheetah",
+            "imposterWord": "Catwoman"
+        },
+        {
+            "crewmateWord": "Flash",
+            "imposterWord": "Sonic"
+        },
+        {
+            "crewmateWord": "Reverse Flash",
+            "imposterWord": "Zoom"
+        },
+        {
+            "crewmateWord": "Green Lantern",
+            "imposterWord": "Nova"
+        },
+        {
+            "crewmateWord": "Sinestro",
+            "imposterWord": "Magneto"
+        },
+        {
+            "crewmateWord": "Aquaman",
+            "imposterWord": "Poseidon"
+        },
+        {
+            "crewmateWord": "Mera",
+            "imposterWord": "Ariel"
+        },
+        {
+            "crewmateWord": "Black Manta",
+            "imposterWord": "Darth Vader"
+        },
+        {
+            "crewmateWord": "Cyborg",
+            "imposterWord": "RoboCop"
+        },
+        {
+            "crewmateWord": "Martian Manhunter",
+            "imposterWord": "Vision"
+        },
+        {
+            "crewmateWord": "Green Arrow",
+            "imposterWord": "Robin Hood"
+        },
+        {
+            "crewmateWord": "Black Canary",
+            "imposterWord": "Black Widow"
+        },
+        {
+            "crewmateWord": "Shazam",
+            "imposterWord": "Thor"
+        },
+        {
+            "crewmateWord": "Black Adam",
+            "imposterWord": "Namor"
+        },
+        {
+            "crewmateWord": "Hawkman",
+            "imposterWord": "Falcon"
+        },
+        {
+            "crewmateWord": "Dr. Fate",
+            "imposterWord": "Doctor Strange"
+        },
+        {
+            "crewmateWord": "Constantine",
+            "imposterWord": "Doctor Strange"
+        },
+        {
+            "crewmateWord": "Zatanna",
+            "imposterWord": "Scarlet Witch"
+        },
+        {
+            "crewmateWord": "Swamp Thing",
+            "imposterWord": "Groot"
+        },
+        {
+            "crewmateWord": "Darkseid",
+            "imposterWord": "Thanos"
+        },
+        {
+            "crewmateWord": "Steppenwolf",
+            "imposterWord": "Hela"
+        },
+        {
+            "crewmateWord": "Teen Titans",
+            "imposterWord": "X-Men"
+        },
+        {
+            "crewmateWord": "Starfire",
+            "imposterWord": "Captain Marvel"
+        },
+        {
+            "crewmateWord": "Raven",
+            "imposterWord": "Scarlet Witch"
+        },
+        {
+            "crewmateWord": "Beast Boy",
+            "imposterWord": "Hulk"
+        },
+        {
+            "crewmateWord": "Deathstroke",
+            "imposterWord": "Deadpool"
+        },
+        {
+            "crewmateWord": "Watchmen",
+            "imposterWord": "Avengers"
+        },
+        {
+            "crewmateWord": "Dr. Manhattan",
+            "imposterWord": "Silver Surfer"
+        },
+        {
+            "crewmateWord": "Rorschach",
+            "imposterWord": "Batman"
+        },
+        {
+            "crewmateWord": "Nite Owl",
+            "imposterWord": "Batman"
+        },
+        {
+            "crewmateWord": "Silk Spectre",
+            "imposterWord": "Black Widow"
+        },
+        {
+            "crewmateWord": "Ozymandias",
+            "imposterWord": "Lex Luthor"
+        },
+        {
+            "crewmateWord": "The Boys",
+            "imposterWord": "Justice League"
+        },
+        {
+            "crewmateWord": "Homelander",
+            "imposterWord": "Superman"
+        },
+        {
+            "crewmateWord": "Billy Butcher",
+            "imposterWord": "Punisher"
+        },
+        {
+            "crewmateWord": "Starlight",
+            "imposterWord": "Supergirl"
+        },
+        {
+            "crewmateWord": "A-Train",
+            "imposterWord": "Flash"
+        },
+        {
+            "crewmateWord": "The Deep",
+            "imposterWord": "Aquaman"
+        },
+        {
+            "crewmateWord": "Queen Maeve",
+            "imposterWord": "Wonder Woman"
+        },
+        {
+            "crewmateWord": "Black Noir",
+            "imposterWord": "Snake Eyes"
+        },
+        {
+            "crewmateWord": "Stormfront",
+            "imposterWord": "Thor"
+        },
+        {
+            "crewmateWord": "Invincible",
+            "imposterWord": "Superboy"
+        },
+        {
+            "crewmateWord": "Omni-Man",
+            "imposterWord": "Superman"
+        },
+        {
+            "crewmateWord": "Atom Eve",
+            "imposterWord": "Green Lantern"
+        },
+        {
+            "crewmateWord": "Robot",
+            "imposterWord": "Iron Man"
+        },
+        {
+            "crewmateWord": "Hellboy",
+            "imposterWord": "Hulk"
+        },
+        {
+            "crewmateWord": "Spawn",
+            "imposterWord": "Venom"
+        },
+        {
+            "crewmateWord": "Kick-Ass",
+            "imposterWord": "Spider-Man"
+        },
+        {
+            "crewmateWord": "Hit-Girl",
+            "imposterWord": "Robin"
+        },
+        {
+            "crewmateWord": "Saitama",
+            "imposterWord": "Goku"
+        },
+        {
+            "crewmateWord": "Genos",
+            "imposterWord": "Iron Man"
+        },
+        {
+            "crewmateWord": "All Might",
+            "imposterWord": "Captain America"
+        },
+        {
+            "crewmateWord": "Deku",
+            "imposterWord": "Miles Morales"
+        },
+        {
+            "crewmateWord": "Bakugo",
+            "imposterWord": "Vegeta"
+        },
+        {
+            "crewmateWord": "Todoroki",
+            "imposterWord": "Zuko"
+        },
+        {
+            "crewmateWord": "Eraserhead",
+            "imposterWord": "Batman"
+        },
+        {
+            "crewmateWord": "Goku",
+            "imposterWord": "Superman"
+        },
+        {
+            "crewmateWord": "Vegeta",
+            "imposterWord": "Thor"
+        },
+        {
+            "crewmateWord": "Gohan",
+            "imposterWord": "Invincible"
+        },
+        {
+            "crewmateWord": "Piccolo",
+            "imposterWord": "Martian Manhunter"
+        },
+        {
+            "crewmateWord": "Frieza",
+            "imposterWord": "Thanos"
+        },
+        {
+            "crewmateWord": "Naruto",
+            "imposterWord": "Luffy"
+        },
+        {
+            "crewmateWord": "Sasuke",
+            "imposterWord": "Batman"
+        },
+        {
+            "crewmateWord": "Kakashi",
+            "imposterWord": "Obi-Wan Kenobi"
+        },
+        {
+            "crewmateWord": "Sakura",
+            "imposterWord": "Black Widow"
+        },
+        {
+            "crewmateWord": "Luffy",
+            "imposterWord": "Reed Richards"
+        },
+        {
+            "crewmateWord": "Zoro",
+            "imposterWord": "Wolverine"
+        },
+        {
+            "crewmateWord": "Sanji",
+            "imposterWord": "Gambit"
+        },
+        {
+            "crewmateWord": "Nami",
+            "imposterWord": "Catwoman"
+        },
+        {
+            "crewmateWord": "Tanjiro",
+            "imposterWord": "Captain America"
+        },
+        {
+            "crewmateWord": "Nezuko",
+            "imposterWord": "Raven"
+        },
+        {
+            "crewmateWord": "Zenitsu",
+            "imposterWord": "Flash"
+        },
+        {
+            "crewmateWord": "Inosuke",
+            "imposterWord": "Wolverine"
+        },
+        {
+            "crewmateWord": "Eren Jaeger",
+            "imposterWord": "Anakin Skywalker"
+        },
+        {
+            "crewmateWord": "Mikasa",
+            "imposterWord": "Black Widow"
+        },
+        {
+            "crewmateWord": "Levi",
+            "imposterWord": "Batman"
+        },
+        {
+            "crewmateWord": "Light Yagami",
+            "imposterWord": "Walter White"
+        },
+        {
+            "crewmateWord": "L",
+            "imposterWord": "Sherlock Holmes"
+        },
+        {
+            "crewmateWord": "Edward Elric",
+            "imposterWord": "Iron Man"
+        },
+        {
+            "crewmateWord": "Alphonse Elric",
+            "imposterWord": "Robot"
+        },
+        {
+            "crewmateWord": "Spike Spiegel",
+            "imposterWord": "Han Solo"
+        },
+        {
+            "crewmateWord": "Gojoy Satoru",
+            "imposterWord": "Doctor Strange"
+        },
+        {
+            "crewmateWord": "Itadori Yuji",
+            "imposterWord": "Naruto"
+        },
+        {
+            "crewmateWord": "Power Rangers",
+            "imposterWord": "Voltron"
+        },
+        {
+            "crewmateWord": "Red Ranger",
+            "imposterWord": "Leonardo (TMNT)"
+        },
+        {
+            "crewmateWord": "Green Ranger",
+            "imposterWord": "Raphael (TMNT)"
+        },
+        {
+            "crewmateWord": "Pink Ranger",
+            "imposterWord": "Black Widow"
+        },
+        {
+            "crewmateWord": "Blue Ranger",
+            "imposterWord": "Donatello (TMNT)"
+        },
+        {
+            "crewmateWord": "Yellow Ranger",
+            "imposterWord": "Michelangelo (TMNT)"
+        },
+        {
+            "crewmateWord": "Megazord",
+            "imposterWord": "Jaeger (Pacific Rim)"
+        },
+        {
+            "crewmateWord": "Optimus Prime",
+            "imposterWord": "Iron Man"
+        },
+        {
+            "crewmateWord": "Bumblebee",
+            "imposterWord": "Spider-Man"
+        },
+        {
+            "crewmateWord": "Megatron",
+            "imposterWord": "Thanos"
+        },
+        {
+            "crewmateWord": "Starscream",
+            "imposterWord": "Loki"
+        },
+        {
+            "crewmateWord": "Leonardo (TMNT)",
+            "imposterWord": "Captain America"
+        },
+        {
+            "crewmateWord": "Raphael (TMNT)",
+            "imposterWord": "Wolverine"
+        },
+        {
+            "crewmateWord": "Donatello (TMNT)",
+            "imposterWord": "Iron Man"
+        },
+        {
+            "crewmateWord": "Michelangelo (TMNT)",
+            "imposterWord": "Spider-Man"
+        },
+        {
+            "crewmateWord": "Splinter",
+            "imposterWord": "Yoda"
+        },
+        {
+            "crewmateWord": "Shredder",
+            "imposterWord": "Darth Vader"
+        },
+        {
+            "crewmateWord": "He-Man",
+            "imposterWord": "Thor"
+        },
+        {
+            "crewmateWord": "Skeletor",
+            "imposterWord": "Red Skull"
+        },
+        {
+            "crewmateWord": "Lion-O",
+            "imposterWord": "Black Panther"
+        },
+        {
+            "crewmateWord": "Godzilla",
+            "imposterWord": "Hulk"
+        },
+        {
+            "crewmateWord": "King Kong",
+            "imposterWord": "Bigfoot"
+        },
+        {
+            "crewmateWord": "Pennywise",
+            "imposterWord": "Joker"
+        },
+        {
+            "crewmateWord": "Voldemort",
+            "imposterWord": "Palpatine"
+        },
+        {
+            "crewmateWord": "Harry Potter",
+            "imposterWord": "Luke Skywalker"
+        },
+        {
+            "crewmateWord": "Gandalf",
+            "imposterWord": "Dumbledore"
+        },
+        {
+            "crewmateWord": "Frodo",
+            "imposterWord": "Harry Potter"
+        },
+        {
+            "crewmateWord": "Aragorn",
+            "imposterWord": "Jon Snow"
+        },
+        {
+            "crewmateWord": "Legolas",
+            "imposterWord": "Hawkeye"
+        },
+        {
+            "crewmateWord": "Gimli",
+            "imposterWord": "Wolverine"
+        },
+        {
+            "crewmateWord": "Sauron",
+            "imposterWord": "Thanos"
+        },
+        {
+            "crewmateWord": "Darth Vader",
+            "imposterWord": "Doctor Doom"
+        },
+        {
+            "crewmateWord": "Luke Skywalker",
+            "imposterWord": "Frodo"
+        },
+        {
+            "crewmateWord": "Han Solo",
+            "imposterWord": "Indiana Jones"
+        },
+        {
+            "crewmateWord": "Leia Organa",
+            "imposterWord": "Wonder Woman"
+        },
+        {
+            "crewmateWord": "Yoda",
+            "imposterWord": "Mr. Miyagi"
+        },
+        {
+            "crewmateWord": "Obi-Wan Kenobi",
+            "imposterWord": "Gandalf"
+        },
+        {
+            "crewmateWord": "Kylo Ren",
+            "imposterWord": "Zuko"
+        },
+        {
+            "crewmateWord": "Rey",
+            "imposterWord": "Korra"
+        },
+        {
+            "crewmateWord": "Mandalorian",
+            "imposterWord": "Boba Fett"
+        },
+        {
+            "crewmateWord": "Baby Yoda",
+            "imposterWord": "Groot"
+        },
+        {
+            "crewmateWord": "Terminator",
+            "imposterWord": "RoboCop"
+        },
+        {
+            "crewmateWord": "RoboCop",
+            "imposterWord": "Judge Dredd"
+        },
+        {
+            "crewmateWord": "Neo",
+            "imposterWord": "John Wick"
+        },
+        {
+            "crewmateWord": "John Wick",
+            "imposterWord": "Punisher"
+        },
+        {
+            "crewmateWord": "James Bond",
+            "imposterWord": "Ethan Hunt"
+        },
+        {
+            "crewmateWord": "Ethan Hunt",
+            "imposterWord": "Jason Bourne"
+        },
+        {
+            "crewmateWord": "Indiana Jones",
+            "imposterWord": "Nathan Drake"
+        },
+        {
+            "crewmateWord": "Lara Croft",
+            "imposterWord": "Black Widow"
+        },
+        {
+            "crewmateWord": "Jack Sparrow",
+            "imposterWord": "Hook"
+        },
+        {
+            "crewmateWord": "Sherlock Holmes",
+            "imposterWord": "Batman"
+        },
+        {
+            "crewmateWord": "Zorro",
+            "imposterWord": "Robin Hood"
+        },
+        {
+            "crewmateWord": "Tarzan",
+            "imposterWord": "Ka-Zar"
+        },
+        {
+            "crewmateWord": "Hercules",
+            "imposterWord": "Thor"
+        },
+        {
+            "crewmateWord": "Zeus",
+            "imposterWord": "Odin"
+        },
+        {
+            "crewmateWord": "Hades",
+            "imposterWord": "Loki"
+        },
+        {
+            "crewmateWord": "Medusa",
+            "imposterWord": "Poison Ivy"
+        },
+        {
+            "crewmateWord": "Achilles",
+            "imposterWord": "Captain America"
+        },
+        {
+            "crewmateWord": "Robin Hood",
+            "imposterWord": "Hawkeye"
+        },
+        {
+            "crewmateWord": "King Arthur",
+            "imposterWord": "Aragorn"
+        },
+        {
+            "crewmateWord": "Merlin",
+            "imposterWord": "Gandalf"
+        },
+        {
+            "crewmateWord": "Dracula",
+            "imposterWord": "Morbius"
+        },
+        {
+            "crewmateWord": "Frankenstein",
+            "imposterWord": "Hulk"
+        },
+        {
+            "crewmateWord": "Werewolf",
+            "imposterWord": "Wolverine"
+        },
+        {
+            "crewmateWord": "Mummy",
+            "imposterWord": "Zombie"
+        },
+        {
+            "crewmateWord": "Zombie",
+            "imposterWord": "Vampire"
+        },
+        {
+            "crewmateWord": "Alien",
+            "imposterWord": "Predator"
+        },
+        {
+            "crewmateWord": "Predator",
+            "imposterWord": "Terminator"
+        },
+        {
+            "crewmateWord": "Buzz Lightyear",
+            "imposterWord": "Iron Man"
+        },
+        {
+            "crewmateWord": "Woody",
+            "imposterWord": "Indiana Jones"
+        },
+        {
+            "crewmateWord": "Mr. Incredible",
+            "imposterWord": "Superman"
+        },
+        {
+            "crewmateWord": "Elastigirl",
+            "imposterWord": "Mr. Fantastic"
+        },
+        {
+            "crewmateWord": "Dash",
+            "imposterWord": "Flash"
+        },
+        {
+            "crewmateWord": "Mario",
+            "imposterWord": "Luigi"
+        },
+        {
+            "crewmateWord": "Link",
+            "imposterWord": "Peter Pan"
+        },
+        {
+            "crewmateWord": "Samus",
+            "imposterWord": "Iron Man"
+        },
+        {
+            "crewmateWord": "Master Chief",
+            "imposterWord": "Doom Slayer"
+        },
+        {
+            "crewmateWord": "Kratos",
+            "imposterWord": "Thor"
+        },
+        {
+            "crewmateWord": "Cloud Strife",
+            "imposterWord": "Trunks"
+        },
+        {
+            "crewmateWord": "Pikachu",
+            "imposterWord": "Thor"
+        },
+        {
+            "crewmateWord": "Charizard",
+            "imposterWord": "Dragon"
+        }
+    ]
+}
