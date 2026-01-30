@@ -8,28 +8,28 @@
             "imposterWord": "Pear"
         },
         {
-            "crewmateWord": "Orange",
-            "imposterWord": "Tangerine"
-        },
-        {
             "crewmateWord": "Banana",
             "imposterWord": "Plantain"
         },
         {
-            "crewmateWord": "Mango",
-            "imposterWord": "Peach"
+            "crewmateWord": "Orange",
+            "imposterWord": "Tangerine"
+        },
+        {
+            "crewmateWord": "Grape",
+            "imposterWord": "Blueberry"
         },
         {
             "crewmateWord": "Strawberry",
             "imposterWord": "Raspberry"
         },
         {
-            "crewmateWord": "Pineapple",
-            "imposterWord": "Jackfruit"
+            "crewmateWord": "Mango",
+            "imposterWord": "Peach"
         },
         {
-            "crewmateWord": "Grapes",
-            "imposterWord": "Blueberries"
+            "crewmateWord": "Pineapple",
+            "imposterWord": "Papaya"
         },
         {
             "crewmateWord": "Watermelon",
@@ -40,48 +40,108 @@
             "imposterWord": "Lime"
         },
         {
+            "crewmateWord": "Cherry",
+            "imposterWord": "Cranberry"
+        },
+        {
             "crewmateWord": "Kiwi",
             "imposterWord": "Dragon Fruit"
         },
         {
-            "crewmateWord": "Pear",
-            "imposterWord": "Apple"
+            "crewmateWord": "Pomegranate",
+            "imposterWord": "Guava"
         },
         {
-            "crewmateWord": "Tangerine",
-            "imposterWord": "Orange"
-        },
-        {
-            "crewmateWord": "Plantain",
-            "imposterWord": "Banana"
-        },
-        {
-            "crewmateWord": "Peach",
-            "imposterWord": "Mango"
-        },
-        {
-            "crewmateWord": "Raspberry",
-            "imposterWord": "Strawberry"
+            "crewmateWord": "Lychee",
+            "imposterWord": "Rambutan"
         },
         {
             "crewmateWord": "Jackfruit",
-            "imposterWord": "Pineapple"
+            "imposterWord": "Durian"
         },
         {
-            "crewmateWord": "Blueberries",
-            "imposterWord": "Grapes"
+            "crewmateWord": "Coconut",
+            "imposterWord": "Palm Fruit"
         },
         {
-            "crewmateWord": "Muskmelon",
-            "imposterWord": "Watermelon"
+            "crewmateWord": "Avocado",
+            "imposterWord": "Fig"
         },
         {
-            "crewmateWord": "Lime",
-            "imposterWord": "Lemon"
+            "crewmateWord": "Apricot",
+            "imposterWord": "Plum"
         },
         {
-            "crewmateWord": "Dragon Fruit",
-            "imposterWord": "Kiwi"
+            "crewmateWord": "Blackberry",
+            "imposterWord": "Mulberry"
+        },
+        {
+            "crewmateWord": "Date",
+            "imposterWord": "Raisin"
+        },
+        {
+            "crewmateWord": "Olive",
+            "imposterWord": "Grape"
+        },
+        {
+            "crewmateWord": "Tomato",
+            "imposterWord": "Tamarillo"
+        },
+        {
+            "crewmateWord": "Cucumber",
+            "imposterWord": "Zucchini"
+        },
+        {
+            "crewmateWord": "Pumpkin",
+            "imposterWord": "Squash"
+        },
+        {
+            "crewmateWord": "Carrot",
+            "imposterWord": "Radish"
+        },
+        {
+            "crewmateWord": "Potato",
+            "imposterWord": "Sweet Potato"
+        },
+        {
+            "crewmateWord": "Onion",
+            "imposterWord": "Shallot"
+        },
+        {
+            "crewmateWord": "Garlic",
+            "imposterWord": "Ginger"
+        },
+        {
+            "crewmateWord": "Spinach",
+            "imposterWord": "Kale"
+        },
+        {
+            "crewmateWord": "Broccoli",
+            "imposterWord": "Cauliflower"
+        },
+        {
+            "crewmateWord": "Corn",
+            "imposterWord": "Peas"
+        },
+        {
+            "crewmateWord": "Mushroom",
+            "imposterWord": "Truffle"
+        },
+        {
+            "crewmateWord": "Custard Apple",
+            "imposterWord": "Soursop"
+        },
+        {
+            "crewmateWord": "Passion Fruit",
+            "imposterWord": "Star Fruit"
+        },
+        {
+            "crewmateWord": "Gooseberry",
+            "imposterWord": "Amla"
+        },
+        {
+            "crewmateWord": "Jamun",
+            "imposterWord": "Grape"
         }
     ]
 }

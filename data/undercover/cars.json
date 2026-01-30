@@ -1,87 +1,207 @@
 {
     "id": "u-cars",
     "name": "Cars",
-    "icon": "car-outline",
+    "icon": "car-sport-outline",
     "pairs": [
         {
-            "crewmateWord": "Sedan",
-            "imposterWord": "Hatchback"
+            "crewmateWord": "Ferrari",
+            "imposterWord": "Lamborghini"
         },
         {
-            "crewmateWord": "SUV",
-            "imposterWord": "Mini Van"
+            "crewmateWord": "BMW",
+            "imposterWord": "Audi"
+        },
+        {
+            "crewmateWord": "Mercedes",
+            "imposterWord": "BMW"
+        },
+        {
+            "crewmateWord": "Toyota",
+            "imposterWord": "Honda"
+        },
+        {
+            "crewmateWord": "Ford",
+            "imposterWord": "Chevrolet"
         },
         {
             "crewmateWord": "Tesla",
-            "imposterWord": "BYD"
+            "imposterWord": "Rivian"
+        },
+        {
+            "crewmateWord": "Porsche",
+            "imposterWord": "Aston Martin"
+        },
+        {
+            "crewmateWord": "Bugatti",
+            "imposterWord": "Koenigsegg"
+        },
+        {
+            "crewmateWord": "Rolls-Royce",
+            "imposterWord": "Bentley"
+        },
+        {
+            "crewmateWord": "Jeep",
+            "imposterWord": "Land Rover"
+        },
+        {
+            "crewmateWord": "Hyundai",
+            "imposterWord": "Kia"
+        },
+        {
+            "crewmateWord": "Volkswagen",
+            "imposterWord": "Subaru"
+        },
+        {
+            "crewmateWord": "Mustang",
+            "imposterWord": "Camaro"
+        },
+        {
+            "crewmateWord": "Corvette",
+            "imposterWord": "Viper"
+        },
+        {
+            "crewmateWord": "Civic",
+            "imposterWord": "Corolla"
+        },
+        {
+            "crewmateWord": "Accord",
+            "imposterWord": "Camry"
+        },
+        {
+            "crewmateWord": "Model S",
+            "imposterWord": "Taycan"
+        },
+        {
+            "crewmateWord": "F-150",
+            "imposterWord": "Silverado"
+        },
+        {
+            "crewmateWord": "Wrangler",
+            "imposterWord": "Bronco"
+        },
+        {
+            "crewmateWord": "911",
+            "imposterWord": "R8"
+        },
+        {
+            "crewmateWord": "Huracan",
+            "imposterWord": "488 GTB"
+        },
+        {
+            "crewmateWord": "Chiron",
+            "imposterWord": "Agera"
+        },
+        {
+            "crewmateWord": "Phantom",
+            "imposterWord": "Mulsanne"
+        },
+        {
+            "crewmateWord": "Escalade",
+            "imposterWord": "Navigator"
+        },
+        {
+            "crewmateWord": "Swift",
+            "imposterWord": "i20"
+        },
+        {
+            "crewmateWord": "Innova",
+            "imposterWord": "Xylo"
+        },
+        {
+            "crewmateWord": "Scorpio",
+            "imposterWord": "Safari"
         },
         {
             "crewmateWord": "Fortuner",
             "imposterWord": "Endeavour"
         },
         {
-            "crewmateWord": "Thar",
-            "imposterWord": "Jimny"
-        },
-        {
             "crewmateWord": "Creta",
             "imposterWord": "Seltos"
+        },
+        {
+            "crewmateWord": "Brezza",
+            "imposterWord": "Nexon"
         },
         {
             "crewmateWord": "City",
             "imposterWord": "Verna"
         },
         {
-            "crewmateWord": "Range Rover",
-            "imposterWord": "Land Cruiser"
+            "crewmateWord": "Thar",
+            "imposterWord": "Gurkha"
+        },
+        {
+            "crewmateWord": "Alto",
+            "imposterWord": "Kwid"
+        },
+        {
+            "crewmateWord": "E-Class",
+            "imposterWord": "5 Series"
+        },
+        {
+            "crewmateWord": "C-Class",
+            "imposterWord": "3 Series"
+        },
+        {
+            "crewmateWord": "Defender",
+            "imposterWord": "G-Wagon"
         },
         {
             "crewmateWord": "Mini Cooper",
-            "imposterWord": "Volkswagen Beetle"
+            "imposterWord": "Beetle"
         },
         {
-            "crewmateWord": "Porsche 911",
-            "imposterWord": "Ferrari 488"
-        },
-        {
-            "crewmateWord": "Hatchback",
-            "imposterWord": "Sedan"
-        },
-        {
-            "crewmateWord": "Mini Van",
-            "imposterWord": "SUV"
-        },
-        {
-            "crewmateWord": "BYD",
-            "imposterWord": "Tesla"
-        },
-        {
-            "crewmateWord": "Endeavour",
-            "imposterWord": "Fortuner"
-        },
-        {
-            "crewmateWord": "Jimny",
-            "imposterWord": "Thar"
-        },
-        {
-            "crewmateWord": "Seltos",
-            "imposterWord": "Creta"
-        },
-        {
-            "crewmateWord": "Verna",
-            "imposterWord": "City"
-        },
-        {
-            "crewmateWord": "Land Cruiser",
-            "imposterWord": "Range Rover"
-        },
-        {
-            "crewmateWord": "Volkswagen Beetle",
+            "crewmateWord": "Fiat 500",
             "imposterWord": "Mini Cooper"
         },
         {
-            "crewmateWord": "Ferrari 488",
-            "imposterWord": "Porsche 911"
+            "crewmateWord": "Supra",
+            "imposterWord": "Skyline"
+        },
+        {
+            "crewmateWord": "RX-7",
+            "imposterWord": "NSX"
+        },
+        {
+            "crewmateWord": "Evo",
+            "imposterWord": "Impreza"
+        },
+        {
+            "crewmateWord": "GTO",
+            "imposterWord": "Charger"
+        },
+        {
+            "crewmateWord": "Challenger",
+            "imposterWord": "Mustang"
+        },
+        {
+            "crewmateWord": "Prius",
+            "imposterWord": "Insight"
+        },
+        {
+            "crewmateWord": "Leaf",
+            "imposterWord": "Bolt"
+        },
+        {
+            "crewmateWord": "Model X",
+            "imposterWord": "Model Y"
+        },
+        {
+            "crewmateWord": "Cybertruck",
+            "imposterWord": "Hummer EV"
+        },
+        {
+            "crewmateWord": "Nano",
+            "imposterWord": "Reva"
+        },
+        {
+            "crewmateWord": "Ambassador",
+            "imposterWord": "Padmini"
+        },
+        {
+            "crewmateWord": "Contessa",
+            "imposterWord": "118 NE"
         }
     ]
 }

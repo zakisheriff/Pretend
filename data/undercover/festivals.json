@@ -1,87 +1,151 @@
 {
     "id": "u-festivals",
     "name": "Festivals",
-    "icon": "calendar-outline",
+    "icon": "sparkles-outline",
     "pairs": [
         {
             "crewmateWord": "Diwali",
-            "imposterWord": "Holi"
+            "imposterWord": "Pongal"
         },
         {
             "crewmateWord": "Christmas",
-            "imposterWord": "Easter"
+            "imposterWord": "New Year"
         },
         {
             "crewmateWord": "Eid",
-            "imposterWord": "Ramadan"
+            "imposterWord": "Bakrid"
         },
         {
-            "crewmateWord": "Pongal",
-            "imposterWord": "Onam"
+            "crewmateWord": "Holi",
+            "imposterWord": "Navratri"
+        },
+        {
+            "crewmateWord": "Onam",
+            "imposterWord": "Vishu"
+        },
+        {
+            "crewmateWord": "Dussehra",
+            "imposterWord": "Diwali"
         },
         {
             "crewmateWord": "Halloween",
-            "imposterWord": "Day of the Dead"
+            "imposterWord": "Thanksgiving"
         },
         {
-            "crewmateWord": "New Year",
-            "imposterWord": "Lunar New Year"
+            "crewmateWord": "Easter",
+            "imposterWord": "Good Friday"
+        },
+        {
+            "crewmateWord": "Raksha Bandhan",
+            "imposterWord": "Bhai Dooj"
         },
         {
             "crewmateWord": "Ganesh Chaturthi",
-            "imposterWord": "Durga Puja"
+            "imposterWord": "Krishna Janmashtami"
         },
         {
-            "crewmateWord": "Thanksgiving",
-            "imposterWord": "Christmas"
+            "crewmateWord": "Makar Sankranti",
+            "imposterWord": "Lohri"
         },
         {
-            "crewmateWord": "Valentine's Day",
-            "imposterWord": "Mother's Day"
+            "crewmateWord": "Baisakhi",
+            "imposterWord": "Guru Nanak Jayanti"
+        },
+        {
+            "crewmateWord": "Karva Chauth",
+            "imposterWord": "Teej"
+        },
+        {
+            "crewmateWord": "Durga Puja",
+            "imposterWord": "Kali Puja"
+        },
+        {
+            "crewmateWord": "Ramadan",
+            "imposterWord": "Eid-ul-Fitr"
+        },
+        {
+            "crewmateWord": "Muharram",
+            "imposterWord": "Milad-un-Nabi"
+        },
+        {
+            "crewmateWord": "Hanukkah",
+            "imposterWord": "Passover"
+        },
+        {
+            "crewmateWord": "Chinese New Year",
+            "imposterWord": "Lantern Festival"
+        },
+        {
+            "crewmateWord": "Oktoberfest",
+            "imposterWord": "St. Patrick's Day"
         },
         {
             "crewmateWord": "Carnival",
             "imposterWord": "Mardi Gras"
         },
         {
-            "crewmateWord": "Holi",
-            "imposterWord": "Diwali"
-        },
-        {
-            "crewmateWord": "Easter",
-            "imposterWord": "Christmas"
-        },
-        {
-            "crewmateWord": "Ramadan",
-            "imposterWord": "Eid"
-        },
-        {
-            "crewmateWord": "Onam",
-            "imposterWord": "Pongal"
-        },
-        {
-            "crewmateWord": "Day of the Dead",
-            "imposterWord": "Halloween"
-        },
-        {
-            "crewmateWord": "Lunar New Year",
-            "imposterWord": "New Year"
-        },
-        {
-            "crewmateWord": "Durga Puja",
-            "imposterWord": "Ganesh Chaturthi"
-        },
-        {
-            "crewmateWord": "Christmas",
-            "imposterWord": "Thanksgiving"
+            "crewmateWord": "Valentine's Day",
+            "imposterWord": "Rose Day"
         },
         {
             "crewmateWord": "Mother's Day",
-            "imposterWord": "Valentine's Day"
+            "imposterWord": "Women's Day"
         },
         {
-            "crewmateWord": "Mardi Gras",
-            "imposterWord": "Carnival"
+            "crewmateWord": "Father's Day",
+            "imposterWord": "Children's Day"
+        },
+        {
+            "crewmateWord": "Independence Day",
+            "imposterWord": "Republic Day"
+        },
+        {
+            "crewmateWord": "Gandhi Jayanti",
+            "imposterWord": "Ambedkar Jayanti"
+        },
+        {
+            "crewmateWord": "Tamil New Year",
+            "imposterWord": "Ugadi"
+        },
+        {
+            "crewmateWord": "Chhath Puja",
+            "imposterWord": "Saraswati Puja"
+        },
+        {
+            "crewmateWord": "Kumbh Mela",
+            "imposterWord": "Pushkar Mela"
+        },
+        {
+            "crewmateWord": "Day of the Dead",
+            "imposterWord": "All Saints' Day"
+        },
+        {
+            "crewmateWord": "Songkran",
+            "imposterWord": "Water Festival"
+        },
+        {
+            "crewmateWord": "Tomorrowland",
+            "imposterWord": "Coachella"
+        },
+        {
+            "crewmateWord": "Sunburn",
+            "imposterWord": "Supersonic"
+        },
+        {
+            "crewmateWord": "Comic Con",
+            "imposterWord": "E3"
+        },
+        {
+            "crewmateWord": "Black Friday",
+            "imposterWord": "Cyber Monday"
+        },
+        {
+            "crewmateWord": "Earth Day",
+            "imposterWord": "Environment Day"
+        },
+        {
+            "crewmateWord": "Yoga Day",
+            "imposterWord": "Health Day"
         }
     ]
 }
