@@ -3,7 +3,7 @@ import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 const { width } = Dimensions.get('window');
 const MAX_MOBILE_WIDTH = 500;
@@ -42,9 +42,10 @@ interface ThemeCardProps {
     icon: string;
     isSelected: boolean;
     onSelect: () => void;
+    description?: string;
 }
 
-export const ThemeCard: React.FC<ThemeCardProps> = ({ id, name, icon, isSelected, onSelect }) => {
+export const ThemeCard: React.FC<ThemeCardProps> = ({ id, name, icon, isSelected, onSelect, description }) => {
     const scale = useSharedValue(1);
 
     const handlePress = () => {
@@ -59,36 +60,79 @@ export const ThemeCard: React.FC<ThemeCardProps> = ({ id, name, icon, isSelected
     const iconName = THEME_ICONS[iconId] || (icon ? (icon as keyof typeof Ionicons.glyphMap) : 'help-outline');
 
     return (
-        <TouchableOpacity onPress={handlePress} activeOpacity={0.9}>
-            <Animated.View style={[styles.card, isSelected && styles.cardSelected, animatedStyle]}>
-                <Ionicons name={iconName} size={28} color={isSelected ? Colors.victorianBlack : Colors.candlelight} />
-                <Text style={[styles.name, isSelected && styles.nameSelected]}>{name}</Text>
-                {isSelected && (
-                    <View style={styles.check}>
-                        <Ionicons name="checkmark" size={14} color={Colors.parchmentLight} />
-                    </View>
-                )}
-            </Animated.View>
+        <TouchableOpacity
+            style={[styles.card, isSelected && styles.selectedCard]}
+            onPress={() => {
+                haptics.selection();
+                onSelect();
+            }}
+            activeOpacity={0.7}
+        >
+            <View style={[styles.iconContainer, isSelected && styles.selectedIconContainer]}>
+                <Ionicons
+                    name={icon as any}
+                    size={28}
+                    color={isSelected ? Colors.victorianBlack : Colors.parchment}
+                />
+            </View>
+            <Text style={[styles.name, isSelected && styles.selectedName]}>{name}</Text>
+            {description && (
+                <Text style={[styles.description, isSelected && styles.selectedDescription]}>
+                    {description}
+                </Text>
+            )}
         </TouchableOpacity>
     );
 };
 
 const styles = StyleSheet.create({
     card: {
-        width: CARD_SIZE, height: CARD_SIZE * 0.7,
-        backgroundColor: Colors.grayDark, borderRadius: 25,
-        alignItems: 'center', justifyContent: 'center', gap: 10,
-        borderWidth: 1, borderColor: Colors.grayMedium,
+        width: '48%',
+        aspectRatio: 1.1,
+        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+        borderRadius: 16,
+        padding: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        gap: 8,
     },
-    cardSelected: {
-        borderColor: Colors.candlelight,
+    selectedCard: {
         backgroundColor: Colors.parchment,
+        borderColor: Colors.parchment,
     },
-    name: { fontSize: 13, fontWeight: '700', color: Colors.parchment, letterSpacing: 1 },
-    nameSelected: { color: Colors.victorianBlack },
-    check: {
-        position: 'absolute', top: 8, right: 8,
-        width: 22, height: 22, borderRadius: 11,
-        backgroundColor: Colors.detective, alignItems: 'center', justifyContent: 'center',
+    iconContainer: {
+        width: 48,
+        height: 48,
+        borderRadius: 24,
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 4,
+    },
+    selectedIconContainer: {
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    },
+    name: {
+        fontSize: 15,
+        fontFamily: 'Outfit-Medium',
+        color: Colors.parchment,
+        textAlign: 'center',
+    },
+    selectedName: {
+        color: Colors.victorianBlack,
+        fontWeight: 'bold',
+    },
+    description: {
+        fontSize: 11,
+        fontFamily: 'Outfit-Regular',
+        color: Colors.candlelight,
+        textAlign: 'center',
+        opacity: 0.8,
+    },
+    selectedDescription: {
+        color: Colors.victorianBlack,
+        opacity: 0.7,
     },
 });

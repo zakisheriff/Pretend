@@ -1,6 +1,6 @@
 import { CHARADES_WORDS } from '@/data/charades';
 import { directorsCut, getRandomMindSyncQuestion, mindSync } from '@/data/game-modes';
-import { getEffectiveTheme, getEffectiveUndercoverTheme, getThemeById, themes } from '@/data/themes';
+import { categories, getEffectiveTheme, getEffectiveUndercoverTheme, themes, undercoverCategories } from '@/data/themes';
 import thiefPoliceWords from '@/data/thief-police.json';
 import { getRandomSpectrum } from '@/data/wavelength';
 import { DEFAULT_SETTINGS, DirectorsCutMovie, GameData, GameMode, GameSettings, GameState, MindSyncQuestion, Player, ThreeActsData, ThreeActsTeam, Word } from '@/types/game';
@@ -45,7 +45,9 @@ interface GameStore extends GameState {
     nextRoundPlayerId: string | null;
 
     // Theme and word
-    selectTheme: (themeId: string) => void;
+    toggleTheme: (themeId: string) => void;
+    selectAllInCategory: (categoryId: string) => void;
+    deselectAll: () => void;
     addCustomWord: (word: string) => void;
     removeCustomWord: (word: string) => void;
 
@@ -118,7 +120,7 @@ const initialState: GameState = {
     phase: 'setup',
     players: [],
     currentRevealIndex: 0,
-    selectedThemeId: null,
+    selectedThemeIds: [],
     selectedWord: null,
     customWords: [],
     gameData: null,
@@ -269,8 +271,38 @@ export const useGameStore = create<GameStore>((set, get) => ({
     },
 
     // Theme and word
-    selectTheme: (themeId: string) => {
-        set({ selectedThemeId: themeId });
+    toggleTheme: (themeId: string) => {
+        set((state) => {
+            const current = state.selectedThemeIds;
+            if (current.includes(themeId)) {
+                return { selectedThemeIds: current.filter(id => id !== themeId) };
+            } else {
+                return { selectedThemeIds: [...current, themeId] };
+            }
+        });
+    },
+
+    selectAllInCategory: (categoryId: string) => {
+        const isUndercover = get().gameMode === 'classic-imposter';
+        let themesInCat: string[] = [];
+
+        if (isUndercover) {
+            const catObj = undercoverCategories.find(c => c.id === categoryId);
+            if (catObj) themesInCat = catObj.themes.map(t => t.id);
+        } else {
+            const catObj = categories.find(c => c.id === categoryId);
+            if (catObj) themesInCat = catObj.themes.map(t => t.id);
+        }
+
+        // Add all, avoiding duplicates
+        set((state) => {
+            const newSet = new Set([...state.selectedThemeIds, ...themesInCat]);
+            return { selectedThemeIds: Array.from(newSet) };
+        });
+    },
+
+    deselectAll: () => {
+        set({ selectedThemeIds: [] });
     },
 
     addCustomWord: (word: string) => {
@@ -304,7 +336,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         }
 
         const state = get();
-        const { players, gameMode, selectedThemeId, settings, customWords } = state;
+        const { players, gameMode, selectedThemeIds, settings, customWords } = state;
 
         // Minimum player checks
         if (gameMode === 'directors-cut' || gameMode === 'time-bomb' || gameMode === 'charades' || gameMode === 'wavelength') {
@@ -331,14 +363,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
         }
 
         // SMART SHUFFLE: Use weighted selection
-        // We know who was imposter last time from the players state before we update it
-        // Check for last game data is tricky since we don't store "lastImposterId" explicitly, 
-        // but we can infer it if we tracked it. For now, just using imposterCount history is a huge improvement.
-
-        // Ideally we'd pass the previous round's imposter indices, but since we re-roll,
-        // let's rely primarily on the persistent 'imposterCount' for fairness.
-        // If needed, we can add 'wasImposterLastRound' to Player later.
-
         let specialIndices = selectImposterIndices(players, imposterCount);
 
         // Update imposter counts for the chosen ones
@@ -354,82 +378,74 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
         switch (gameMode) {
             case 'undercover-word': {
-                // For undercover-word, we can use themes OR the new undercover words
-                if (selectedThemeId && selectedThemeId !== 'undercover') {
-                    if (selectedThemeId === 'custom') {
-                        if (customWords.length === 0) return;
-                        // Filter custom words
-                        const available = customWords.filter(w => !state.usedWords.includes(w));
-                        const pool = available.length > 0 ? available : customWords;
+                // Aggregate words from ALL selected themes
+                let allPossibleWords: { word: Word, source: string }[] = [];
 
-                        const randomCustomWord = pool[Math.floor(Math.random() * pool.length)];
+                // 1. Custom Words
+                if (selectedThemeIds.includes('custom')) {
+                    const available = customWords.filter(w => !state.usedWords.includes(w));
+                    // If no unused custom words, fallback to all custom words
+                    const pool = available.length > 0 ? available : customWords;
 
-                        // Add to used words
-                        set(s => ({ usedWords: [...s.usedWords, randomCustomWord] }));
-
-                        selectedWord = {
-                            word: randomCustomWord,
-                            hints: {
-                                low: 'A custom word',
-                                medium: 'A custom word from your list',
-                                high: 'A custom word you added',
+                    pool.forEach(w => {
+                        allPossibleWords.push({
+                            word: {
+                                word: w,
+                                hints: {
+                                    low: 'A custom word',
+                                    medium: 'A custom word from your list',
+                                    high: 'A custom word you added',
+                                }
                             },
-                        };
-                    } else {
-                        const theme = getEffectiveTheme(selectedThemeId);
-                        if (!theme) return;
+                            source: 'Custom'
+                        });
+                    });
+                }
 
-                        // Filter theme words
+                // 2. Predefined Themes
+                selectedThemeIds.filter(id => id !== 'custom').forEach(themeId => {
+                    const theme = getEffectiveTheme(themeId);
+                    if (theme) {
                         const available = theme.words.filter(w => !state.usedWords.includes(w.word));
                         const pool = available.length > 0 ? available : theme.words;
 
-                        selectedWord = pool[Math.floor(Math.random() * pool.length)];
-
-                        // Add to used words
-                        if (selectedWord) {
-                            set(s => ({ usedWords: [...s.usedWords, selectedWord!.word] }));
-                        }
+                        pool.forEach(w => {
+                            allPossibleWords.push({ word: w, source: theme.name });
+                        });
                     }
+                });
 
-                    if (selectedWord) {
-                        gameData = {
-                            type: 'undercover-word',
-                            data: {
-                                crewmateWord: selectedWord.word,
-                                imposterWord: 'IMPOSTER', // This is just a placeholder for Classic mode
-                                category: 'General',
-                                hints: selectedWord.hints
-                            }
-                        };
-                    }
-                } else {
-                    // Fallback to random theme
+                // If no themes selected or no words found, fallback to General
+                if (allPossibleWords.length === 0) {
                     const theme = getEffectiveTheme('general');
                     if (theme) {
-                        // Filter theme words
                         const available = theme.words.filter(w => !state.usedWords.includes(w.word));
                         const pool = available.length > 0 ? available : theme.words;
-
-                        selectedWord = pool[Math.floor(Math.random() * pool.length)];
-
-                        // Add to used words
-                        if (selectedWord) {
-                            set(s => ({ usedWords: [...s.usedWords, selectedWord!.word] }));
-                        }
-
-                        if (selectedWord) {
-                            gameData = {
-                                type: 'undercover-word',
-                                data: {
-                                    crewmateWord: selectedWord.word,
-                                    imposterWord: 'IMPOSTER',
-                                    category: theme.name,
-                                    hints: selectedWord.hints
-                                }
-                            };
-                        }
+                        pool.forEach(w => {
+                            allPossibleWords.push({ word: w, source: theme.name });
+                        });
                     }
                 }
+
+                // If STILL empty (should never happen unless code broken), return
+                if (allPossibleWords.length === 0) return;
+
+                // Pick ONE random word from the aggregated pool
+                const selection = allPossibleWords[Math.floor(Math.random() * allPossibleWords.length)];
+                selectedWord = selection.word;
+
+                // Add to used words
+                set(s => ({ usedWords: [...s.usedWords, selectedWord!.word] }));
+
+                gameData = {
+                    type: 'undercover-word',
+                    data: {
+                        crewmateWord: selectedWord.word,
+                        imposterWord: 'IMPOSTER',
+                        category: selection.source,
+                        hints: selectedWord.hints
+                    }
+                };
                 break;
             }
             case 'directors-cut': {
@@ -465,15 +481,30 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
             case 'classic-imposter': {
                 // UI: "Undercover" - Requires paired words
-                if (!selectedThemeId || selectedThemeId === 'custom') return;
-                const theme = getEffectiveUndercoverTheme(selectedThemeId);
-                if (!theme || theme.pairs.length === 0) return;
+                if (selectedThemeIds.length === 0) return;
 
-                // Pick a random pair from the undercover theme
-                const availablePairs = theme.pairs.filter(p => !state.usedWords.includes(p.crewmateWord));
-                const pool = availablePairs.length > 0 ? availablePairs : theme.pairs;
+                // Aggregate pairs from ALL selected themes
+                let allPossiblePairs: { pair: any, source: string, hints: any }[] = [];
 
-                const randomPair = pool[Math.floor(Math.random() * pool.length)];
+                // Filter out 'custom' if present, as it's not supported in classic-imposter (yet) or handled differently
+                // Assuming classic-imposter doesn't use custom words in this paired logic for now unless defined
+                selectedThemeIds.filter(id => id !== 'custom').forEach(themeId => {
+                    const theme = getEffectiveUndercoverTheme(themeId);
+                    if (theme) {
+                        const available = theme.pairs.filter(p => !state.usedWords.includes(p.crewmateWord));
+                        const pool = available.length > 0 ? available : theme.pairs;
+
+                        pool.forEach(p => {
+                            allPossiblePairs.push({ pair: p, source: theme.name, hints: { low: 'Related word', medium: 'Sibling word', high: 'Conceptually similar' } });
+                        });
+                    }
+                });
+
+                if (allPossiblePairs.length === 0) return;
+
+                // Pick ONE random pair
+                const selection = allPossiblePairs[Math.floor(Math.random() * allPossiblePairs.length)];
+                const randomPair = selection.pair;
 
                 // Add to used words
                 set(s => ({ usedWords: [...s.usedWords, randomPair.crewmateWord] }));
@@ -483,13 +514,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     data: {
                         crewmateWord: randomPair.crewmateWord,
                         imposterWord: randomPair.imposterWord,
-                        themeName: theme.name
+                        themeName: selection.source
                     },
                 };
 
                 selectedWord = {
                     word: randomPair.crewmateWord,
-                    hints: { low: 'Related word', medium: 'Sibling word', high: 'Conceptually similar' }
+                    hints: selection.hints
                 };
                 break;
             }
@@ -933,7 +964,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     continueRound: (newWord: boolean) => {
         const state = get();
-        const { players, gameMode, selectedThemeId, settings, customWords, gameData: currentData } = state;
+        const { players, gameMode, selectedThemeIds, settings, customWords, gameData: currentData } = state;
 
         let gameData = currentData;
         let selectedWord = state.selectedWord;
@@ -942,44 +973,49 @@ export const useGameStore = create<GameStore>((set, get) => ({
             // Re-roll the word/data but KEEP same roles
             switch (gameMode) {
                 case 'undercover-word': {
-                    if (selectedThemeId && selectedThemeId !== 'undercover') {
-                        if (selectedThemeId === 'custom') {
-                            if (customWords.length > 0) {
-                                const available = customWords.filter(w => !state.usedWords.includes(w));
-                                const pool = available.length > 0 ? available : customWords;
-                                const randomCustomWord = pool[Math.floor(Math.random() * pool.length)];
-                                set(s => ({ usedWords: [...s.usedWords, randomCustomWord] }));
+                    let allPossibleWords: { word: Word, source: string }[] = [];
 
-                                selectedWord = {
-                                    word: randomCustomWord,
+                    // 1. Custom Words
+                    if (selectedThemeIds.includes('custom')) {
+                        const available = customWords.filter(w => !state.usedWords.includes(w));
+                        const pool = available.length > 0 ? available : customWords;
+                        pool.forEach(w => {
+                            allPossibleWords.push({
+                                word: {
+                                    word: w,
                                     hints: { low: 'A custom word', medium: 'A custom word from your list', high: 'A custom word you added' },
-                                };
-                            }
-                        } else {
-                            const theme = getThemeById(selectedThemeId!);
-                            if (theme) {
-                                const available = theme.words.filter(w => !state.usedWords.includes(w.word));
-                                const pool = available.length > 0 ? available : theme.words;
-                                const word = pool[Math.floor(Math.random() * pool.length)];
+                                },
+                                source: 'Custom'
+                            });
+                        });
+                    }
 
-                                if (word) {
-                                    selectedWord = word;
-                                    set(s => ({ usedWords: [...s.usedWords, word.word] }));
-                                }
-                            }
+                    // 2. Predefined Themes
+                    selectedThemeIds.filter(id => id !== 'custom').forEach(themeId => {
+                        const theme = getEffectiveTheme(themeId);
+                        if (theme) {
+                            const available = theme.words.filter(w => !state.usedWords.includes(w.word));
+                            const pool = available.length > 0 ? available : theme.words;
+                            pool.forEach(w => {
+                                allPossibleWords.push({ word: w, source: theme.name });
+                            });
                         }
+                    });
 
-                        if (selectedWord) {
-                            gameData = {
-                                type: 'undercover-word',
-                                data: {
-                                    crewmateWord: selectedWord.word,
-                                    imposterWord: 'IMPOSTER',
-                                    category: 'General',
-                                    hints: selectedWord.hints
-                                }
-                            };
-                        }
+                    if (allPossibleWords.length > 0) {
+                        const selection = allPossibleWords[Math.floor(Math.random() * allPossibleWords.length)];
+                        selectedWord = selection.word;
+                        set(s => ({ usedWords: [...s.usedWords, selectedWord!.word] }));
+
+                        gameData = {
+                            type: 'undercover-word',
+                            data: {
+                                crewmateWord: selectedWord.word,
+                                imposterWord: 'IMPOSTER',
+                                category: selection.source,
+                                hints: selectedWord.hints
+                            }
+                        };
                     }
                     break;
                 }
@@ -989,24 +1025,36 @@ export const useGameStore = create<GameStore>((set, get) => ({
                     break;
                 }
                 case 'classic-imposter': {
-                    const themeId = selectedThemeId || 'classic'; // fallback
-                    const theme = getEffectiveUndercoverTheme(themeId);
-                    if (theme && theme.pairs.length > 0) {
-                        const availablePairs = theme.pairs.filter(p => !state.usedWords.includes(p.crewmateWord));
-                        const pool = availablePairs.length > 0 ? availablePairs : theme.pairs;
-                        const wordPair = pool[Math.floor(Math.random() * pool.length)];
-                        set(s => ({ usedWords: [...s.usedWords, wordPair.crewmateWord] }));
+                    let allPossiblePairs: { pair: any, source: string }[] = [];
+
+                    selectedThemeIds.filter(id => id !== 'custom').forEach(themeId => {
+                        const theme = getEffectiveUndercoverTheme(themeId);
+                        if (theme) {
+                            const available = theme.pairs.filter(p => !state.usedWords.includes(p.crewmateWord));
+                            const pool = available.length > 0 ? available : theme.pairs;
+                            pool.forEach(p => {
+                                allPossiblePairs.push({ pair: p, source: theme.name });
+                            });
+                        }
+                    });
+
+                    if (allPossiblePairs.length > 0) {
+                        const selection = allPossiblePairs[Math.floor(Math.random() * allPossiblePairs.length)];
+                        const randomPair = selection.pair;
+
+                        set(s => ({ usedWords: [...s.usedWords, randomPair.crewmateWord] }));
 
                         gameData = {
                             type: 'classic-imposter',
                             data: {
-                                crewmateWord: wordPair.crewmateWord,
-                                imposterWord: wordPair.imposterWord,
-                                themeName: theme.name
+                                crewmateWord: randomPair.crewmateWord,
+                                imposterWord: randomPair.imposterWord,
+                                themeName: selection.source
                             },
                         };
+
                         selectedWord = {
-                            word: wordPair.crewmateWord,
+                            word: randomPair.crewmateWord,
                             hints: { low: 'Related word', medium: 'Sibling word', high: 'Conceptually similar' }
                         };
                     }
@@ -1054,7 +1102,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     refreshTheme: () => {
         const state = get();
-        const { players, gameMode, selectedThemeId, settings, customWords, currentRevealIndex } = state;
+        const { players, gameMode, selectedThemeIds, settings, customWords, currentRevealIndex } = state;
 
         // Only allow refresh if:
         // 1. We're in reveal phase
@@ -1076,48 +1124,48 @@ export const useGameStore = create<GameStore>((set, get) => ({
         // Re-roll the game data with a NEW random selection
         switch (gameMode) {
             case 'undercover-word': {
-                if (selectedThemeId && selectedThemeId !== 'undercover') {
-                    if (selectedThemeId === 'custom') {
-                        if (customWords.length === 0) return;
-                        // Filter custom words
-                        const available = customWords.filter(w => !state.usedWords.includes(w));
-                        const pool = available.length > 0 ? available : customWords;
-                        const randomCustomWord = pool[Math.floor(Math.random() * pool.length)];
-                        set(s => ({ usedWords: [...s.usedWords, randomCustomWord] }));
+                let allPossibleWords: { word: Word, source: string }[] = [];
 
-                        selectedWord = {
-                            word: randomCustomWord,
-                            hints: {
-                                low: 'A custom word',
-                                medium: 'A custom word from your list',
-                                high: 'A custom word you added',
+                if (selectedThemeIds.includes('custom')) {
+                    const available = customWords.filter(w => !state.usedWords.includes(w));
+                    const pool = available.length > 0 ? available : customWords;
+                    pool.forEach(w => {
+                        allPossibleWords.push({
+                            word: {
+                                word: w,
+                                hints: { low: 'A custom word', medium: 'A custom word from your list', high: 'A custom word you added' },
                             },
-                        };
-                    } else {
-                        const theme = getThemeById(selectedThemeId);
-                        if (!theme) return;
+                            source: 'Custom'
+                        });
+                    });
+                }
 
-                        // Filter theme words
+                selectedThemeIds.filter(id => id !== 'custom').forEach(themeId => {
+                    const theme = getEffectiveTheme(themeId);
+                    if (theme) {
                         const available = theme.words.filter(w => !state.usedWords.includes(w.word));
                         const pool = available.length > 0 ? available : theme.words;
+                        pool.forEach(w => {
+                            allPossibleWords.push({ word: w, source: theme.name });
+                        });
+                    }
+                });
 
-                        selectedWord = pool[Math.floor(Math.random() * pool.length)];
-                        if (selectedWord) {
-                            set(s => ({ usedWords: [...s.usedWords, selectedWord!.word] }));
+                if (allPossibleWords.length > 0) {
+                    const selection = allPossibleWords[Math.floor(Math.random() * allPossibleWords.length)];
+                    selectedWord = selection.word;
+
+                    set(s => ({ usedWords: [...s.usedWords, selectedWord!.word] }));
+
+                    gameData = {
+                        type: 'undercover-word',
+                        data: {
+                            crewmateWord: selectedWord.word,
+                            imposterWord: 'IMPOSTER',
+                            category: selection.source,
+                            hints: selectedWord.hints
                         }
-                    }
-
-                    if (selectedWord) {
-                        gameData = {
-                            type: 'undercover-word',
-                            data: {
-                                crewmateWord: selectedWord.word,
-                                imposterWord: 'IMPOSTER',
-                                category: 'General',
-                                hints: selectedWord.hints
-                            }
-                        };
-                    }
+                    };
                 }
                 break;
             }
@@ -1128,28 +1176,39 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 break;
             }
             case 'classic-imposter': {
-                if (!selectedThemeId || selectedThemeId === 'custom') return;
-                const theme = getEffectiveUndercoverTheme(selectedThemeId);
-                if (!theme || theme.pairs.length === 0) return;
+                let allPossiblePairs: { pair: any, source: string }[] = [];
 
-                const availablePairs = theme.pairs.filter(p => !state.usedWords.includes(p.crewmateWord));
-                const pool = availablePairs.length > 0 ? availablePairs : theme.pairs;
-                const randomPair = pool[Math.floor(Math.random() * pool.length)];
-                set(s => ({ usedWords: [...s.usedWords, randomPair.crewmateWord] }));
+                selectedThemeIds.filter(id => id !== 'custom').forEach(themeId => {
+                    const theme = getEffectiveUndercoverTheme(themeId);
+                    if (theme) {
+                        const available = theme.pairs.filter(p => !state.usedWords.includes(p.crewmateWord));
+                        const pool = available.length > 0 ? available : theme.pairs;
+                        pool.forEach(p => {
+                            allPossiblePairs.push({ pair: p, source: theme.name });
+                        });
+                    }
+                });
 
-                gameData = {
-                    type: 'classic-imposter',
-                    data: {
-                        crewmateWord: randomPair.crewmateWord,
-                        imposterWord: randomPair.imposterWord,
-                        themeName: theme.name
-                    },
-                };
+                if (allPossiblePairs.length > 0) {
+                    const selection = allPossiblePairs[Math.floor(Math.random() * allPossiblePairs.length)];
+                    const randomPair = selection.pair;
 
-                selectedWord = {
-                    word: randomPair.crewmateWord,
-                    hints: { low: 'Related word', medium: 'Sibling word', high: 'Conceptually similar' }
-                };
+                    set(s => ({ usedWords: [...s.usedWords, randomPair.crewmateWord] }));
+
+                    gameData = {
+                        type: 'classic-imposter',
+                        data: {
+                            crewmateWord: randomPair.crewmateWord,
+                            imposterWord: randomPair.imposterWord,
+                            themeName: selection.source
+                        },
+                    };
+
+                    selectedWord = {
+                        word: randomPair.crewmateWord,
+                        hints: { low: 'Related word', medium: 'Sibling word', high: 'Conceptually similar' }
+                    };
+                }
                 break;
             }
         }

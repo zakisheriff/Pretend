@@ -77,6 +77,7 @@ export default function ThreeActsResults() {
                         router.replace('/select-mode');
                     }}
                     onHome={() => setShowHomeConfirm(true)}
+                    isHost={true}
                 />
             )}
 

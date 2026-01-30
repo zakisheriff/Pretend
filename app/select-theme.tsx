@@ -8,23 +8,45 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function SelectThemeScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
-    const gameMode = useGameStore((s) => s.gameMode);
-    const selectedThemeId = useGameStore((s) => s.selectedThemeId);
-    const selectTheme = useGameStore((s) => s.selectTheme);
+    const {
+        gameMode,
+        selectedThemeIds,
+        toggleTheme,
+        selectAllInCategory,
+        deselectAll,
+        customWords
+    } = useGameStore();
 
     const isUndercoverMode = gameMode === 'classic-imposter';
     const displayCategories = isUndercoverMode ? undercoverCategories : categories;
 
     const handleContinue = () => {
-        if (!selectedThemeId) { haptics.warning(); return; }
+        if (selectedThemeIds.length === 0) {
+            haptics.warning();
+            return;
+        }
         haptics.medium();
         router.push('/game-settings');
+    };
+
+    const handleBack = () => {
+        // Clear selection on back to avoid confusion if mode changes
+        deselectAll();
+        router.back();
+    };
+
+    // Helper to check if all themes in a category are selected
+    const isCategoryFullSelected = (categoryId: string) => {
+        const category = displayCategories.find((c) => c.id === categoryId);
+        if (!category) return false;
+        const themeIds = category.themes.map((t) => t.id);
+        return themeIds.every((id) => selectedThemeIds.includes(id));
     };
 
     return (
@@ -34,14 +56,14 @@ export default function SelectThemeScreen() {
                 locations={[0, 0.6, 1]}
                 style={[styles.headerBar, { paddingTop: insets.top + 10 }]}
             >
-                <BackButton />
+                <BackButton onPress={handleBack} />
                 <Button
                     title="Next"
                     onPress={handleContinue}
                     variant="primary"
                     size="small"
-                    disabled={!selectedThemeId}
-                    icon={<Ionicons name="arrow-forward" size={16} color={selectedThemeId ? Colors.victorianBlack : Colors.grayMedium} />}
+                    disabled={selectedThemeIds.length === 0}
+                    icon={<Ionicons name="arrow-forward" size={16} color={selectedThemeIds.length > 0 ? Colors.victorianBlack : Colors.grayMedium} />}
                     style={{ borderRadius: 25, height: 44, paddingHorizontal: 16 }}
                 />
             </LinearGradient>
@@ -56,39 +78,72 @@ export default function SelectThemeScreen() {
                         <Ionicons name="folder-open-outline" size={24} color={Colors.parchment} />
                         <Text style={styles.title}>Case Files</Text>
                     </View>
-                    <Text style={styles.subtitle}>Group your suspects by category</Text>
+                    <Text style={styles.subtitle}>Select one or more categories</Text>
                 </View>
 
-                {displayCategories.map((cat) => (
-                    <View key={cat.id} style={styles.section}>
+                {!isUndercoverMode && (
+                    <View style={styles.section}>
                         <View style={styles.sectionHeader}>
-                            <Ionicons name={cat.icon as any} size={20} color={Colors.candlelight} />
-                            <Text style={styles.sectionTitle}>{cat.name}</Text>
+                            <Ionicons name="create-outline" size={20} color={Colors.candlelight} />
+                            <Text style={styles.sectionTitle}>Custom</Text>
                         </View>
                         <View style={styles.grid}>
-                            {/* Category Randomizer Card */}
                             <ThemeCard
-                                id={cat.id}
-                                name={`Mix ${cat.name}`}
-                                icon={cat.icon}
-                                isSelected={selectedThemeId === cat.id}
-                                onSelect={() => selectTheme(cat.id)}
+                                id="custom"
+                                name="Your Words"
+                                icon="create-outline"
+                                isSelected={selectedThemeIds.includes('custom')}
+                                onSelect={() => toggleTheme('custom')}
+                                description={`${customWords.length} words`}
                             />
-
-                            {/* Sub-Themes */}
-                            {cat.themes.map((t) => (
-                                <ThemeCard
-                                    key={t.id}
-                                    id={t.id}
-                                    name={t.name}
-                                    icon={t.icon}
-                                    isSelected={selectedThemeId === t.id}
-                                    onSelect={() => selectTheme(t.id)}
-                                />
-                            ))}
                         </View>
                     </View>
-                ))}
+                )}
+
+                {displayCategories.map((cat) => {
+                    const isFullSelected = isCategoryFullSelected(cat.id);
+
+                    return (
+                        <View key={cat.id} style={styles.section}>
+                            <View style={styles.sectionHeader}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                                    <Ionicons name={cat.icon as any} size={20} color={Colors.candlelight} />
+                                    <Text style={styles.sectionTitle}>{cat.name}</Text>
+                                </View>
+
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        haptics.selection();
+                                        selectAllInCategory(cat.id);
+                                    }}
+                                    style={[styles.mixButton, isFullSelected && styles.mixButtonActive]}
+                                >
+                                    <Ionicons
+                                        name={isFullSelected ? "checkmark-circle" : "copy-outline"}
+                                        size={14}
+                                        color={isFullSelected ? Colors.victorianBlack : Colors.parchment}
+                                    />
+                                    <Text style={[styles.mixButtonText, isFullSelected && styles.mixButtonTextActive]}>
+                                        {isFullSelected ? "All" : "Select All"}
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            <View style={styles.grid}>
+                                {cat.themes.map((t) => (
+                                    <ThemeCard
+                                        key={t.id}
+                                        id={t.id}
+                                        name={t.name}
+                                        icon={t.icon}
+                                        isSelected={selectedThemeIds.includes(t.id)}
+                                        onSelect={() => toggleTheme(t.id)}
+                                    />
+                                ))}
+                            </View>
+                        </View>
+                    );
+                })}
 
                 <View style={{ height: 40 }} />
             </ScrollView>
@@ -110,18 +165,47 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 25, backgroundColor: Colors.grayDark, borderWidth: 1, borderColor: Colors.grayMedium },
-
     scroll: { flex: 1 },
     scrollContent: { flexGrow: 1, padding: 20, gap: 10, width: '100%', maxWidth: 500, alignSelf: 'center' },
     header: { alignItems: 'center', gap: 4, marginBottom: 20 },
     titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-    title: { fontSize: 22, fontWeight: '800', color: Colors.parchment, letterSpacing: 2 },
-    subtitle: { fontSize: 13, color: Colors.candlelight, fontStyle: 'italic' },
+    title: { fontSize: 22, fontWeight: '800', color: Colors.parchment, fontFamily: 'Outfit-Bold', letterSpacing: 2 },
+    subtitle: { fontSize: 13, color: Colors.candlelight, fontStyle: 'italic', fontFamily: 'Outfit-Regular' },
 
-    section: { marginBottom: 10 },
-    sectionHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 16, paddingHorizontal: 4 },
-    sectionTitle: { fontSize: 18, fontWeight: '700', color: Colors.parchment, letterSpacing: 1, opacity: 0.8 },
+    section: { marginBottom: 24 },
+    sectionHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 16,
+        paddingHorizontal: 4
+    },
+    sectionTitle: { fontSize: 18, fontWeight: '700', color: Colors.parchment, fontFamily: 'Outfit-Bold', letterSpacing: 1, opacity: 0.9 },
+
+    mixButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 16,
+        gap: 6,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.3)',
+    },
+    mixButtonActive: {
+        backgroundColor: Colors.parchment,
+        borderColor: Colors.parchment,
+    },
+    mixButtonText: {
+        fontSize: 12,
+        fontFamily: 'Outfit-Medium',
+        color: Colors.parchment,
+    },
+    mixButtonTextActive: {
+        color: Colors.victorianBlack,
+        fontWeight: 'bold',
+    },
 
     grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 14, paddingBottom: 10 },
 });

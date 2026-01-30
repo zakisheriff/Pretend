@@ -199,7 +199,7 @@ export interface GameState {
     currentRevealIndex: number;
 
     // Theme and word (for backward compatibility with undercover-word mode)
-    selectedThemeId: string | null;
+    selectedThemeIds: string[]; // Changed from single ID to array
     selectedWord: Word | null;
     customWords: string[];
 

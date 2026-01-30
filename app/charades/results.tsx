@@ -128,6 +128,7 @@ export default function CharadesResultsScreen() {
                         haptics.warning();
                         setShowConfirm(true);
                     }}
+                    isHost={true}
                 />
             )}
 
