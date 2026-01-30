@@ -745,19 +745,31 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     nextReveal: () => {
         const state = get();
-        let nextIndex = state.currentRevealIndex + 1;
 
-        // Skip eliminated players
-        while (nextIndex < state.players.length && state.players[nextIndex].isEliminated) {
-            nextIndex++;
-        }
+        // Check if all active players have revealed
+        const activePlayers = state.players.filter(p => !p.isEliminated);
+        const allRevealed = activePlayers.every(p => p.hasRevealed);
 
-        if (nextIndex >= state.players.length) {
+        if (allRevealed) {
             // All active players have revealed, move to discussion prep
             set({ phase: 'discussion' });
-        } else {
-            set({ currentRevealIndex: nextIndex });
+            return;
         }
+
+        // Find next unrevealed player, wrapping around
+        let nextIndex = (state.currentRevealIndex + 1) % state.players.length;
+        let loopCount = 0;
+
+        // Skip eliminated OR already revealed players
+        while (
+            (state.players[nextIndex].isEliminated || state.players[nextIndex].hasRevealed) &&
+            loopCount < state.players.length
+        ) {
+            nextIndex = (nextIndex + 1) % state.players.length;
+            loopCount++;
+        }
+
+        set({ currentRevealIndex: nextIndex });
     },
 
     startDiscussion: () => {
@@ -1090,8 +1102,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
         }
 
-        // Find first active player to start reveal
-        const firstActiveIndex = players.findIndex(p => !p.isEliminated);
+        // Find random active player to start reveal
+        const activeIndices = players.map((p, i) => !p.isEliminated ? i : -1).filter(i => i !== -1);
+        let startIndex = 0;
+
+        if (activeIndices.length > 0) {
+            startIndex = activeIndices[Math.floor(Math.random() * activeIndices.length)];
+        }
 
         set({
             phase: newWord ? 'reveal' : 'discussion',
@@ -1106,7 +1123,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
                 vote: undefined,
                 answer: undefined,
             })),
-            currentRevealIndex: firstActiveIndex === -1 ? 0 : firstActiveIndex,
+            currentRevealIndex: startIndex,
         });
     },
 
