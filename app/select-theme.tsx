@@ -81,7 +81,8 @@ export default function SelectThemeScreen() {
                     <Text style={styles.subtitle}>Select one or more categories</Text>
                 </View>
 
-                {!isUndercoverMode && (
+                {/* Custom Words Section Removed per user request */}
+                {/* {!isUndercoverMode && (
                     <View style={styles.section}>
                         <View style={styles.sectionHeader}>
                             <Ionicons name="create-outline" size={20} color={Colors.candlelight} />
@@ -98,7 +99,7 @@ export default function SelectThemeScreen() {
                             />
                         </View>
                     </View>
-                )}
+                )} */}
 
                 {displayCategories.map((cat) => {
                     const isFullSelected = isCategoryFullSelected(cat.id);

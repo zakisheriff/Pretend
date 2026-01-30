@@ -294,10 +294,20 @@ export const useGameStore = create<GameStore>((set, get) => ({
             if (catObj) themesInCat = catObj.themes.map(t => t.id);
         }
 
-        // Add all, avoiding duplicates
         set((state) => {
-            const newSet = new Set([...state.selectedThemeIds, ...themesInCat]);
-            return { selectedThemeIds: Array.from(newSet) };
+            const current = state.selectedThemeIds;
+            // Check if all themes in this category are already selected
+            const allSelected = themesInCat.every(id => current.includes(id));
+
+            if (allSelected) {
+                // Deselect all themes in this category
+                return { selectedThemeIds: current.filter(id => !themesInCat.includes(id)) };
+            } else {
+                // Select all themes in this category
+                // Use Set to avoid duplicates
+                const newSet = new Set([...current, ...themesInCat]);
+                return { selectedThemeIds: Array.from(newSet) };
+            }
         });
     },
 
