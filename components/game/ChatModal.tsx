@@ -121,15 +121,18 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
         if (replyTo) {
             // Instant focus for a snappy feel
             const focus = () => {
-                if (Platform.OS === 'web') {
-                    if (inputRef.current) (inputRef.current as any).focus();
-                } else {
-                    inputRef.current?.focus();
+                if (inputRef.current) {
+                    // On mobile web, multiple focus attempts can sometimes "force" the keyboard
+                    inputRef.current.focus();
+                    if (Platform.OS === 'web') {
+                        // Secondary attempt for mobile browsers that might block the first one
+                        setTimeout(() => inputRef.current?.focus(), 50);
+                    }
                 }
             };
 
-            // Minimal delay to ensure the reply context renders
-            requestAnimationFrame(focus);
+            // Immediate call is more likely to be accepted as part of user gesture on web
+            focus();
         }
     }, [replyTo]);
 

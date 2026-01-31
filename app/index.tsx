@@ -227,19 +227,24 @@ const styles = StyleSheet.create({
         lineHeight: 170,
         textAlign: 'center',
         marginVertical: -20,
-        // Glow Effect
-        textShadowColor: 'rgba(255, 255, 255, 0.65)',
-        textShadowOffset: { width: 0, height: 0 },
-        textShadowRadius: 20,
+        // Glow Effect Isolate by Platform
         ...Platform.select({
             ios: {
-                shadowColor: Colors.parchment,
+                shadowColor: '#FFFFFF',
                 shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 0.8,
-                shadowRadius: 15,
+                shadowOpacity: 0.45,
+                shadowRadius: 22,
             },
             android: {
-                elevation: 0, // Elevation doesn't do "glow" well, textShadow is better
+                textShadowColor: 'rgba(255, 255, 255, 0.65)',
+                textShadowOffset: { width: 0, height: 0 },
+                textShadowRadius: 20,
+                elevation: 0,
+            },
+            web: {
+                textShadowColor: 'rgba(255, 255, 255, 0.65)',
+                textShadowOffset: { width: 0, height: 0 },
+                textShadowRadius: 20,
             }
         })
     },
