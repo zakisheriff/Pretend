@@ -88,7 +88,7 @@ export const ThemeCard: React.FC<ThemeCardProps> = ({ id, name, icon, isSelected
 const styles = StyleSheet.create({
     card: {
         width: '48%',
-        aspectRatio: 1.1,
+        aspectRatio: 1,
         backgroundColor: 'rgba(255, 255, 255, 0.05)',
         borderRadius: 16,
         padding: 12,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderWidth: 1,
         borderColor: 'rgba(255, 255, 255, 0.1)',
-        gap: 8,
+        gap: 6,
     },
     selectedCard: {
         backgroundColor: Colors.parchment,
@@ -115,8 +115,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
     },
     name: {
-        fontSize: 15,
-        fontFamily: 'Outfit-Medium',
+        fontSize: 14,
+        fontWeight: 'bold',
         color: Colors.parchment,
         textAlign: 'center',
     },
@@ -126,7 +126,6 @@ const styles = StyleSheet.create({
     },
     description: {
         fontSize: 11,
-        fontFamily: 'Outfit-Regular',
         color: Colors.candlelight,
         textAlign: 'center',
         opacity: 0.8,

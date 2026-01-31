@@ -70,7 +70,7 @@ export default function SelectThemeScreen() {
 
             <ScrollView
                 style={styles.scroll}
-                contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 40 }]}
+                contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 60, paddingBottom: insets.bottom + 40 }]}
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.header}>
@@ -125,7 +125,7 @@ export default function SelectThemeScreen() {
                                         color={isFullSelected ? Colors.victorianBlack : Colors.parchment}
                                     />
                                     <Text style={[styles.mixButtonText, isFullSelected && styles.mixButtonTextActive]}>
-                                        {isFullSelected ? "All" : "Select All"}
+                                        {isFullSelected ? "Deselect All" : "Select All"}
                                     </Text>
                                 </TouchableOpacity>
                             </View>
@@ -167,13 +167,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     scroll: { flex: 1 },
-    scrollContent: { flexGrow: 1, padding: 20, gap: 10, width: '100%', maxWidth: 500, alignSelf: 'center' },
+    scrollContent: { flexGrow: 1, padding: 20, gap: 24, width: '100%', maxWidth: 500, alignSelf: 'center' },
     header: { alignItems: 'center', gap: 4, marginBottom: 20 },
     titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-    title: { fontSize: 22, fontWeight: '800', color: Colors.parchment, fontFamily: 'Outfit-Bold', letterSpacing: 2 },
-    subtitle: { fontSize: 13, color: Colors.candlelight, fontStyle: 'italic', fontFamily: 'Outfit-Regular' },
+    title: { fontSize: 22, fontWeight: '800', color: Colors.parchment, letterSpacing: 2 },
+    subtitle: { fontSize: 13, color: Colors.candlelight, fontStyle: 'italic' },
 
-    section: { marginBottom: 24 },
+    section: { marginBottom: 0 },
     sectionHeader: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         paddingHorizontal: 4
     },
-    sectionTitle: { fontSize: 18, fontWeight: '700', color: Colors.parchment, fontFamily: 'Outfit-Bold', letterSpacing: 1, opacity: 0.9 },
+    sectionTitle: { fontSize: 18, fontWeight: '800', color: Colors.parchment, letterSpacing: 1, opacity: 0.9 },
 
     mixButton: {
         flexDirection: 'row',
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     },
     mixButtonText: {
         fontSize: 12,
-        fontFamily: 'Outfit-Medium',
+        fontWeight: '700',
         color: Colors.parchment,
     },
     mixButtonTextActive: {
@@ -208,5 +208,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 
-    grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 14, paddingBottom: 10 },
+    grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, paddingBottom: 10, justifyContent: 'space-between' },
 });
