@@ -1,5 +1,6 @@
 import { Colors } from '@/constants/colors';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
+import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useRef, useState } from 'react';
@@ -118,14 +119,17 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
 
     useEffect(() => {
         if (replyTo) {
-            // Small delay to ensure the reply context renders first
-            setTimeout(() => {
+            // Instant focus for a snappy feel
+            const focus = () => {
                 if (Platform.OS === 'web') {
                     if (inputRef.current) (inputRef.current as any).focus();
                 } else {
                     inputRef.current?.focus();
                 }
-            }, 100);
+            };
+
+            // Minimal delay to ensure the reply context renders
+            requestAnimationFrame(focus);
         }
     }, [replyTo]);
 
@@ -308,22 +312,22 @@ const MessageRow = React.memo(({ item, myPlayerId, onReply, isSameSenderPrev, is
     const seenByOthers = (item.seenBy || []).filter(id => id !== myPlayerId);
     const showSeen = isMe && seenByOthers.length > 0 && !isSameSenderNext;
 
-    const renderLeftActions = (progress: any, dragX: any) => {
+    const renderRightActions = (progress: any, dragX: any) => {
         const scale = dragX.interpolate({
-            inputRange: [0, 50],
-            outputRange: [0, 1],
+            inputRange: [-50, 0],
+            outputRange: [1, 0],
             extrapolate: 'clamp',
         });
 
         const opacity = dragX.interpolate({
-            inputRange: [0, 30],
-            outputRange: [0, 1],
+            inputRange: [-30, 0],
+            outputRange: [1, 0],
             extrapolate: 'clamp',
         });
 
         return (
-            <View style={{ justifyContent: 'center', width: 60, height: '100%' }}>
-                <RNAnimated.View style={{ transform: [{ scale }], opacity, marginLeft: 10 }}>
+            <View style={{ justifyContent: 'center', alignItems: 'flex-end', width: 60, height: '100%' }}>
+                <RNAnimated.View style={{ transform: [{ scale }], opacity, marginRight: 15 }}>
                     <Ionicons name="arrow-undo-circle" size={32} color="#FFF" />
                 </RNAnimated.View>
             </View>
@@ -350,12 +354,15 @@ const MessageRow = React.memo(({ item, myPlayerId, onReply, isSameSenderPrev, is
     return (
         <Swipeable
             ref={swipeableRef}
-            friction={1.2}
-            overshootRight={false}
-            renderLeftActions={renderLeftActions}
+            friction={1}
+            overshootLeft={false}
+            rightThreshold={30}
+            renderRightActions={renderRightActions}
             onSwipeableOpen={() => {
+                haptics.medium();
                 onReply({ id: item.id, name: item.senderName, content: item.content });
-                swipeableRef.current?.close();
+                // Faster close for better performance
+                setTimeout(() => swipeableRef.current?.close(), 200);
             }}
         >
             <View style={[styles.messageRow, isMe ? styles.myRow : styles.otherRow, { marginBottom }]}>
