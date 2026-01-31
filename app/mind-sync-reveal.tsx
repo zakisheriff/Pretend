@@ -24,16 +24,17 @@ export default function MindSyncRevealScreen() {
         return () => backHandler.remove();
     }, []);
 
+    // Auto-reveal immediately for discussion phase
+    useEffect(() => {
+        setIsRevealed(true);
+    }, []);
+
     if (!gameData || gameData.type !== 'mind-sync') {
         return null;
     }
 
     const { mainQuestion, category } = gameData.data;
 
-    // Auto-reveal immediately for discussion phase
-    useEffect(() => {
-        setIsRevealed(true);
-    }, []);
 
     const handleStartDiscussion = () => {
         haptics.heavy();
