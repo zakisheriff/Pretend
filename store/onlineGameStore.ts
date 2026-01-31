@@ -247,10 +247,11 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                     if (newRoom.status === 'LOBBY' && !newRoom.curr_phase) {
                         // If we are back in LOBBY with NO phase, then it's a full reset (e.g. Play Again)
                         // But don't call resetGame() blindly as it might wipe SELECT_MODE
+                        // NOTE: We preserve messages intentionally to keep chat history across games
                         set(state => ({
                             players: state.players.map(p => ({ ...p, role: 'viewer', vote: undefined, secretWord: undefined })),
-                            messages: [],
-                            unreadMessageCount: 0,
+                            // messages: [], // Removed - preserve chat history
+                            // unreadMessageCount: 0, // Keep unread count too
                             directorWinnerId: null,
                             gameWinner: null,
                             impostersCaught: false,
@@ -391,13 +392,14 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
     },
 
     resetGame: () => {
+        // NOTE: We preserve messages intentionally to keep chat history across games
         set({
             gameStatus: 'LOBBY',
             gamePhase: null,
             gameMode: null,
             players: get().players.map(p => ({ ...p, role: 'viewer', vote: undefined, secretWord: undefined })),
-            messages: [],
-            unreadMessageCount: 0,
+            // messages: [], // Removed - preserve chat history
+            // unreadMessageCount: 0, // Keep unread count
             directorWinnerId: null,
             gameWinner: null,
             impostersCaught: false,
