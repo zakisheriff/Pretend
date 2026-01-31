@@ -325,33 +325,30 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                     const host = players.find(p => p.isHost);
                     if (host && !onlinePlayerIds.includes(String(host.id))) {
                         console.log('Host presence lost. Waiting to see if they reconnect...');
-                        // Wait 5 seconds to account for refreshes or brief disconnects
+                        // Relaxed timeout: 60 seconds to account for app switching, brief disconnects, etc.
                         setTimeout(() => {
-                            const { players: currentPlayers, isHost: amIHost, roomCode: currentRoom } = get();
+                            const { players: currentPlayers, isHost: amIHost, roomCode: currentRoom, gameStatus: currentStatus } = get();
                             if (amIHost || !currentRoom) return; // If I became host, stop tracking.
 
                             const currentHost = currentPlayers.find(p => p.isHost);
-                            // If no host exists in store, maybe still syncing or really gone. 
-                            // If currentHost is different from captured 'host', migration happened.
-
                             const latestPresence = channel.presenceState();
                             const latestOnlineIds = Object.values(latestPresence).flat().map((p: any) => String(p.id));
 
                             // Only delete if the CURRENT host is missing, and verify I'm still not the host
                             if (currentHost && !latestOnlineIds.includes(String(currentHost.id))) {
-                                console.log('Host confirmed offline. Terminating room.');
-
-                                if (gameStatus !== 'LOBBY') {
-                                    // Game in progress/finished -> delete room
+                                // DO NOT auto-terminate if game is in progress. 
+                                // Let players stay in the screen so host can reconnect.
+                                if (currentStatus === 'LOBBY') {
+                                    console.log('Host abandoned lobby. Terminating room.');
                                     GameAPI.deleteRoom(currentRoom).catch(e => console.error('Auto-delete room error', e));
                                     set({ roomDeleted: true });
                                 } else {
-                                    // Lobby -> delete room (host abandoned)
-                                    GameAPI.deleteRoom(currentRoom).catch(e => console.error('Auto-delete room error', e));
-                                    set({ roomDeleted: true });
+                                    console.log('Host is offline during active game. Waiting for them to return...');
+                                    // We don't delete the room here. The game continues or waits.
+                                    // If we want to support host migration mid-game, that's a larger feature.
                                 }
                             }
-                        }, 5000);
+                        }, 60000);
                     }
                 }
 
@@ -359,10 +356,17 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                 if (isHost) {
                     const ghosts = players.filter(p => !p.isHost && !onlinePlayerIds.includes(p.id));
                     if (ghosts.length > 0) {
-                        // Wait 5s to confirm they are gone (not just refreshing)
+                        // Relaxed timeout: 45s to confirm they are gone
                         setTimeout(async () => {
-                            const { players: currentPlayers, isHost: amIStillHost } = get();
+                            const { players: currentPlayers, isHost: amIStillHost, gameStatus: currentStatus } = get();
                             if (!amIStillHost) return;
+
+                            // CRITICAL: Protect active games. If game is PLAYING, don't auto-remove anyone.
+                            // It's better to stay in the game even if someone is offline/lagging.
+                            if (currentStatus !== 'LOBBY') {
+                                console.log('Host skipping ghost cleanup because game is in progress.');
+                                return;
+                            }
 
                             const latestPresence = channel.presenceState();
                             const latestOnlineIds = Object.values(latestPresence).flat().map((p: any) => String(p.id));
@@ -371,12 +375,10 @@ export const useOnlineGameStore = create<OnlineGameState>((set, get) => ({
                             const confirmedGhosts = currentPlayers.filter(p => !p.isHost && !latestOnlineIds.includes(p.id));
 
                             for (const ghost of confirmedGhosts) {
-                                console.log('Host removing ghost player:', ghost.name);
-                                // We use leaveRoom to remove them from DB. 
-                                // This will trigger 'DELETE' subscription for everyone else to update UI.
+                                console.log('Host removing ghost player from LOBBY:', ghost.name);
                                 await GameAPI.leaveRoom(ghost.id);
                             }
-                        }, 5000);
+                        }, 45000);
                     }
                 }
             })

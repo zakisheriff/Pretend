@@ -106,13 +106,14 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
     useEffect(() => {
         if (visible) {
             clearUnreadCount();
-            setTimeout(() => flatListRef.current?.scrollToEnd({ animated: false }), 100);
+            // scrollToEnd without animation for instant positioning on open
+            setTimeout(() => flatListRef.current?.scrollToEnd({ animated: false }), 0);
         }
     }, [visible]);
 
     useEffect(() => {
-        // Only auto-scroll if the user is NOT actively typing
-        if (visible && messages.length > 0 && !isInputFocused) {
+        // Auto-scroll on new messages regardless of typing state as per user request
+        if (visible && messages.length > 0) {
             flatListRef.current?.scrollToEnd({ animated: true });
         }
     }, [messages.length, visible]);
@@ -180,8 +181,7 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                             // Standard "WhatsApp-like" behavior is dismiss on drag or tap on empty space.
                         }}
                         onContentSizeChange={() => {
-                            // Only auto-scroll if not actively typing
-                            if (visible && !isInputFocused) flatListRef.current?.scrollToEnd({ animated: true });
+                            if (visible) flatListRef.current?.scrollToEnd({ animated: true });
                         }}
                         renderItem={({ item, index }) => {
                             const prev = messages[index - 1];
