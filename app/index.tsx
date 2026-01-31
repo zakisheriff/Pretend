@@ -223,10 +223,25 @@ const styles = StyleSheet.create({
         fontSize: 170,
         fontWeight: '900',
         color: Colors.parchment,
-        letterSpacing: -2, // Tighter spacing for that blocky look
+        letterSpacing: -2,
         lineHeight: 170,
         textAlign: 'center',
         marginVertical: -20,
+        // Glow Effect
+        textShadowColor: 'rgba(255, 255, 255, 0.65)',
+        textShadowOffset: { width: 0, height: 0 },
+        textShadowRadius: 20,
+        ...Platform.select({
+            ios: {
+                shadowColor: Colors.parchment,
+                shadowOffset: { width: 0, height: 0 },
+                shadowOpacity: 0.8,
+                shadowRadius: 15,
+            },
+            android: {
+                elevation: 0, // Elevation doesn't do "glow" well, textShadow is better
+            }
+        })
     },
     subtitle: {
         fontSize: 13,
