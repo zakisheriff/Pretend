@@ -1,22 +1,29 @@
-import { Button, NeumorphicCard } from '@/components/game';
+import { Button, CircularTimer, NeumorphicCard } from '@/components/game';
 import { Colors } from '@/constants/colors';
 import { useGameStore } from '@/store/gameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { useKeepAwake } from 'expo-keep-awake';
 import { useRouter } from 'expo-router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BackHandler, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function MindSyncRevealScreen() {
     const router = useRouter();
+    useKeepAwake();
     const insets = useSafeAreaInsets();
     const gameData = useGameStore((s) => s.gameData);
     const players = useGameStore((s) => s.players);
+    const settings = useGameStore((s) => s.settings);
     const startDiscussion = useGameStore((s) => s.startDiscussion);
+    const startVoting = useGameStore((s) => s.startVoting);
 
-    const [isRevealed, setIsRevealed] = React.useState(false);
+    const [isRevealed, setIsRevealed] = useState(false);
+    const [timerMode, setTimerMode] = useState<'idle' | 'running' | 'paused' | 'done'>('idle');
+    const [timeLeft, setTimeLeft] = useState(settings.discussionTime);
+    const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     // Block back navigation
     useEffect(() => {
@@ -36,10 +43,49 @@ export default function MindSyncRevealScreen() {
     const { mainQuestion, category } = gameData.data;
 
 
-    const handleStartDiscussion = () => {
+    // Timer Logic
+    useEffect(() => {
+        if (timerMode === 'running' && timeLeft > 0) {
+            intervalRef.current = setInterval(() => {
+                setTimeLeft((t) => {
+                    if (t <= 1) {
+                        setTimerMode('done');
+                        haptics.success();
+                        return 0;
+                    }
+                    if (t === 11 || t === 6) haptics.warning();
+                    else if (t <= 5) haptics.light();
+                    return t - 1;
+                });
+            }, 1000);
+        } else {
+            if (intervalRef.current) clearInterval(intervalRef.current);
+        }
+        return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+    }, [timerMode, timeLeft]);
+
+
+    const handleStartTimer = () => {
         haptics.heavy();
-        startDiscussion();
-        router.push('/discussion');
+        startDiscussion(); // Set phase in store (optional but good for consistency)
+        setTimerMode('running');
+    };
+
+    const handlePause = () => {
+        haptics.medium();
+        setTimerMode(prev => prev === 'running' ? 'paused' : 'running');
+    };
+
+    const handleSkip = () => {
+        haptics.medium();
+        setTimerMode('done');
+        setTimeLeft(0);
+    };
+
+    const handleGoToVoting = () => {
+        haptics.heavy();
+        startVoting();
+        router.push('/vote-mode');
     };
 
     return (
@@ -73,6 +119,24 @@ export default function MindSyncRevealScreen() {
                         </Animated.View>
                     ) : (
                         <Animated.View entering={FadeInUp.delay(200).duration(800)} style={styles.cardWrapper}>
+
+                            {/* Timer Section - Only visible when timer is active/done */}
+                            {timerMode !== 'idle' && (
+                                <Animated.View entering={FadeInDown} style={styles.timerSection}>
+                                    <CircularTimer
+                                        duration={settings.discussionTime}
+                                        timeRemaining={timeLeft}
+                                        size={180}
+                                        strokeWidth={8}
+                                    />
+                                    {timerMode === 'paused' && (
+                                        <View style={styles.pausedBadge}>
+                                            <Text style={styles.pausedText}>PAUSED</Text>
+                                        </View>
+                                    )}
+                                </Animated.View>
+                            )}
+
                             <Text style={styles.cardLabel}>THE QUESTION WAS:</Text>
                             <NeumorphicCard style={styles.mainCard}>
                                 <Text style={styles.questionText}>{mainQuestion}</Text>
@@ -112,17 +176,41 @@ export default function MindSyncRevealScreen() {
                         size="large"
                         icon={<Ionicons name="eye-outline" size={18} color={Colors.victorianBlack} />}
                     />
+                ) : timerMode === 'idle' ? (
+                    <Button
+                        title="Start Timer"
+                        onPress={handleStartTimer}
+                        variant="primary"
+                        size="large"
+                        icon={<Ionicons name="timer-outline" size={18} color={Colors.victorianBlack} />}
+                    />
+                ) : timerMode === 'done' ? (
+                    <Button
+                        title="Start Voting"
+                        onPress={handleGoToVoting}
+                        variant="primary"
+                        size="large"
+                        icon={<Ionicons name="finger-print" size={18} color={Colors.victorianBlack} />}
+                    />
                 ) : (
-                    <>
-
+                    <View style={styles.controlsRow}>
                         <Button
-                            title="Start Timer"
-                            onPress={handleStartDiscussion}
-                            variant="primary"
+                            title={timerMode === 'running' ? "Pause" : "Resume"}
+                            onPress={handlePause}
+                            variant="outline"
                             size="large"
-                            icon={<Ionicons name="timer-outline" size={18} color={Colors.victorianBlack} />}
+                            style={{ flex: 1 }}
+                            icon={<Ionicons name={timerMode === 'running' ? "pause" : "play"} size={18} color={Colors.candlelight} />}
                         />
-                    </>
+                        <Button
+                            title="Skip"
+                            onPress={handleSkip}
+                            variant="secondary"
+                            size="large"
+                            style={{ flex: 1 }}
+                            icon={<Ionicons name="play-forward" size={18} color={Colors.parchment} />}
+                        />
+                    </View>
                 )}
             </Animated.View>
         </View>
@@ -302,4 +390,31 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         lineHeight: 22,
     },
+    timerSection: {
+        alignItems: 'center',
+        paddingVertical: 10,
+        marginBottom: 10,
+    },
+    pausedBadge: {
+        position: 'absolute',
+        top: '40%',
+        backgroundColor: 'rgba(0,0,0,0.8)',
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: Colors.gaslightAmber,
+    },
+    pausedText: {
+        color: Colors.gaslightAmber,
+        fontWeight: '800',
+        letterSpacing: 2,
+        fontSize: 12,
+    },
+    controlsRow: {
+        flexDirection: 'row',
+        gap: 12,
+        width: '100%',
+    },
+
 });
