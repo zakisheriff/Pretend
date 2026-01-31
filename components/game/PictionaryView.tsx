@@ -27,9 +27,11 @@ export function PictionaryView() {
 
     // Derived State
     const myPlayer = players.find(p => p.id === myPlayerId);
-    const drawer = players.find(p => p.role === 'drawer');
     // Enhanced isDrawer check to handle race conditions where DB role update lags behind broadcast
-    const isDrawer = myPlayer?.role === 'drawer' || (gamePhase === 'PICTIONARY:SELECT_WORD' && selection?.type === 'PICTIONARY_OPTIONS' && selection?.id === myPlayerId);
+    const drawer = players.find(p => p.role === 'drawer');
+    const currentDrawerId = drawer?.id || (selection?.type === 'PICTIONARY_OPTIONS' ? selection.id : null);
+    const currentDrawerName = players.find(p => p.id === currentDrawerId)?.name || 'Someone';
+    const isDrawer = myPlayer?.id === currentDrawerId;
 
     // Local State
     const [displayRound, setDisplayRound] = useState(1);
@@ -123,16 +125,15 @@ export function PictionaryView() {
         let timer: any;
 
         if (gamePhase === 'PICTIONARY:SELECT_WORD') {
+            setSelectionTimeLeft(15);
             timer = setInterval(() => {
                 setSelectionTimeLeft(prev => prev > 0 ? prev - 1 : 0);
             }, 1000);
         } else if (gamePhase === 'PICTIONARY:DRAWING') {
+            setTimeLeft(60);
             timer = setInterval(() => {
                 setTimeLeft(prev => prev > 0 ? prev - 1 : 0);
             }, 1000);
-        } else {
-            // Reset timers when not in active phases?
-            // Actually reset is handled by event listeners usually
         }
 
         return () => clearInterval(timer);
@@ -151,7 +152,14 @@ export function PictionaryView() {
             if (selection.data.turnIndex !== undefined) {
                 turnIndexRef.current = selection.data.turnIndex;
             }
-            // Reset selection timer visually if needed (though local state handles it)
+            // Reset state if turn has changed
+            if (selection.data.reset) {
+                setRemotePaths([]);
+                setMyPaths([]);
+                setRedoStack([]);
+                setWordOptions(selection.data.options || []);
+            }
+            // Reset selection timer visually
             setSelectionTimeLeft(15);
         }
         if (selection?.type === 'PICTIONARY_TIMER') {
@@ -473,6 +481,10 @@ export function PictionaryView() {
 
         console.log(`🎮 nextTurn() called - Current: Round ${roundRef.current}, Turn ${turnIndexRef.current}`);
 
+        // 0. CLEAR STALE SELECTION IMMEDIATELY
+        // This prevents the next drawer/guesser from seeing the previous turn's results or options
+        await broadcastSelection(null);
+
         // Calculate next turn and round
         const sortedPlayers = getSortedPlayers();
         let nextIndex = turnIndexRef.current + 1;
@@ -505,6 +517,15 @@ export function PictionaryView() {
         }
 
         console.log(`✏️ Next drawer: ${nextDrawer.name} (Round ${nextRound}, Turn ${nextIndex})`);
+
+        // RESET LOCAL UI STATE (For Host)
+        setWordOptions([]);
+        setRemotePaths([]);
+        setMyPaths([]);
+        setRedoStack([]);
+        setSelectionTimeLeft(15);
+        setTimeLeft(60);
+        setSelectionLoading(false);
 
         // PERSIST STATE (Critical for Reloads)
         await GameAPI.updateGameData(roomCode, {
@@ -542,7 +563,8 @@ export function PictionaryView() {
             data: {
                 options: words,
                 round: nextRound,
-                turnIndex: nextIndex
+                turnIndex: nextIndex,
+                reset: true // Flag to tell clients to reset their local state
             }
         });
 
@@ -558,7 +580,10 @@ export function PictionaryView() {
         // 1. Move to Turn End Phase (Show results)
         await GameAPI.updateGamePhase(roomCode, 'PICTIONARY:TURN_END');
 
-        // 2. Wait 5s then Next Turn
+        // 2. Reset selections locally to ensure they don't leak into next turn
+        await broadcastSelection(null);
+
+        // 3. Wait 5s then Next Turn
         setTimeout(async () => {
             await nextTurn();
         }, 5000);
@@ -683,7 +708,7 @@ export function PictionaryView() {
                             )
                         ) : (
                             <View style={styles.waitingBox}>
-                                <Text style={styles.waitingText}>{drawer?.name} is picking a word...</Text>
+                                <Text style={styles.waitingText}>{currentDrawerName} is picking a word...</Text>
                             </View>
                         )}
                     </Animated.View>
@@ -714,7 +739,7 @@ export function PictionaryView() {
                                 externalPaths={[]} // Deprecated
                                 currentExternalPaths={remoteCurrentPaths}
                                 color={selectedColor}
-                                strokeWidth={selectedTool === 'eraser' ? 30 : strokeWidth}
+                                strokeWidth={selectedTool === 'eraser' ? 20 : strokeWidth}
                                 tool={selectedTool}
                                 backgroundColor="#1A1A1A"
                                 onModifyPath={handlePathModify}

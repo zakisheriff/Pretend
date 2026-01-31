@@ -173,7 +173,7 @@ export function CanvasView({
             if (currentPath.length > 0) {
                 const type = (tool === 'rect' || tool === 'circle') ? tool : 'path';
                 const effectiveColor = tool === 'eraser' ? backgroundColor : color;
-                const effectiveWidth = tool === 'eraser' ? (strokeWidth || 20) * 3 : strokeWidth; // Wider eraser
+                const effectiveWidth = tool === 'eraser' ? (strokeWidth || 20) * 1.5 : strokeWidth; // Slightly wider eraser
 
                 // Normalize for storage
                 const normalizedPath = currentPath.map(normalize);
@@ -281,7 +281,7 @@ export function CanvasView({
     // Determine current drawing preview props
     const currentPreviewType = (tool === 'rect' || tool === 'circle') ? tool : 'path';
     const currentPreviewColor = tool === 'eraser' ? backgroundColor : color;
-    const currentPreviewWidth = tool === 'eraser' ? 20 : strokeWidth;
+    const currentPreviewWidth = tool === 'eraser' ? (strokeWidth || 20) * 1.5 : strokeWidth;
 
     return (
         <View

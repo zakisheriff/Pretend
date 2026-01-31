@@ -5,6 +5,7 @@ import { useCustomAlert } from '@/hooks/useCustomAlert';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
+import * as Clipboard from 'expo-clipboard';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
@@ -17,6 +18,7 @@ export default function LobbyScreen() {
     const insets = useSafeAreaInsets();
     const { showAlert, AlertComponent } = useCustomAlert();
     const { roomCode, players, isHost, myPlayerId, leaveGame, gameStatus, gamePhase, removePlayer, kicked, roomDeleted } = useOnlineGameStore();
+    const [copied, setCopied] = React.useState(false);
 
     // Handle being kicked
     React.useEffect(() => {
@@ -80,6 +82,14 @@ export default function LobbyScreen() {
 
     const handleStartGame = () => {
         router.push('/multiplayer/select-mode');
+    };
+
+    const handleCopyCode = async () => {
+        if (!roomCode) return;
+        await Clipboard.setStringAsync(roomCode);
+        haptics.success();
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
     };
 
     const handleTransferHost = async (targetId: string, targetName: string) => {
@@ -188,10 +198,14 @@ export default function LobbyScreen() {
                             icon={<Ionicons name="close" size={24} color={Colors.parchment} />}
                             style={styles.backButton}
                         />
-                        <View style={styles.roomCodeContainer}>
-                            <Text style={styles.roomLabel}>ROOM CODE</Text>
-                            <Text style={styles.roomCode}>{roomCode}</Text>
-                        </View>
+                        <TouchableOpacity
+                            style={styles.roomCodeContainer}
+                            onPress={handleCopyCode}
+                            activeOpacity={0.7}
+                        >
+                            <Text style={styles.roomLabel}>{copied ? "COPIED!" : "ROOM CODE"}</Text>
+                            <Text style={[styles.roomCode, copied && { color: Colors.success }]}>{roomCode}</Text>
+                        </TouchableOpacity>
                         <View style={{ width: 44 }} />
                     </View>
 
