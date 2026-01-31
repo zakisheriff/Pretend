@@ -35,6 +35,7 @@ interface GameStore extends GameState {
     updatePlayerName: (id: string, name: string) => void;
     reorderPlayers: (players: Player[]) => void;
     updatePlayerScore: (id: string, pointsToAdd: number) => void;
+    setPlayerAnswer: (id: string, answer: string) => void;
     clearPlayers: () => void;
 
     // Game mode selection
@@ -733,6 +734,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
             impostersCaught: false,
             gameWinner: null,
         });
+    },
+
+    setPlayerAnswer: (id: string, answer: string) => {
+        set((state) => ({
+            players: state.players.map((p) =>
+                p.id === id ? { ...p, answer } : p
+            ),
+        }));
     },
 
     revealRole: (playerId: string) => {

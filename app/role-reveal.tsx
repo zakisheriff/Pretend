@@ -7,7 +7,8 @@ import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { BackHandler, StyleSheet, Text, View } from 'react-native';
+import { BackHandler, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useKeepAwake } from 'expo-keep-awake';
@@ -26,6 +27,7 @@ export default function RoleRevealScreen() {
     const revealRole = useGameStore((s) => s.revealRole);
     const nextReveal = useGameStore((s) => s.nextReveal);
     const refreshTheme = useGameStore((s) => s.refreshTheme);
+    const setPlayerAnswer = useGameStore((s) => s.setPlayerAnswer);
 
     // Online Store
     const {
@@ -40,6 +42,8 @@ export default function RoleRevealScreen() {
     } = useOnlineGameStore();
 
     const [hasRevealed, setHasRevealed] = useState(false);
+    const [answer, setAnswer] = useState('');
+    const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
     const isOnline = !!roomCode;
     const activeMode = isOnline ? onlineMode : gameMode;
@@ -86,6 +90,20 @@ export default function RoleRevealScreen() {
         return () => backHandler.remove();
     }, []);
 
+    // Keyboard listener
+    useEffect(() => {
+        const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
+        const hideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
+
+        const keyboardShowListener = Keyboard.addListener(showEvent, () => setKeyboardVisible(true));
+        const keyboardHideListener = Keyboard.addListener(hideEvent, () => setKeyboardVisible(false));
+
+        return () => {
+            keyboardHideListener.remove();
+            keyboardShowListener.remove();
+        };
+    }, []);
+
     const handleReveal = () => {
         if (isOnline) {
             setHasRevealed(true);
@@ -96,6 +114,18 @@ export default function RoleRevealScreen() {
     };
 
     const handleNext = async () => {
+        // Validation for Mind Sync
+        if (gameMode === 'mind-sync' && !isOnline) {
+            if (!answer.trim()) {
+                haptics.warning();
+                // Optionally show alert or feedback
+                return;
+            }
+            if (currentPlayer) {
+                setPlayerAnswer(currentPlayer.id, answer.trim());
+            }
+        }
+
         haptics.medium();
 
         if (isOnline) {
@@ -118,6 +148,7 @@ export default function RoleRevealScreen() {
             }
         } else {
             setHasRevealed(false);
+            setAnswer(''); // Reset answer for next player
             nextReveal();
         }
     };
@@ -163,67 +194,107 @@ export default function RoleRevealScreen() {
     }
 
     return (
-        <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + 16 }]}>
-            <View style={styles.progress}>
-                <Text style={styles.progressText}>
-                    {isOnline ? 'YOUR CASE FILE' : `Player ${activePlayerNumber} of ${activePlayers.length}`}
-                </Text>
-                <View style={styles.progressBar}>
-                    <View style={[styles.progressFill, { width: `${isOnline ? 100 : (activePlayerNumber / activePlayers.length) * 100}%` }]} />
-                </View>
-            </View>
-
-            <View style={styles.cardArea}>
-                <RoleRevealCard
-                    key={currentPlayer.id}
-                    playerName={currentPlayer.name}
-                    isImposter={playerRole.isImposter}
-                    word={playerRole.word}
-                    hint={playerRole.hint}
-                    hasRevealed={hasRevealed}
-                    onReveal={handleReveal}
-                    movie={playerRole.movie}
-                    genre={playerRole.genre}
-                    movieHint={playerRole.movieHint}
-                    isDirector={playerRole.isDirector}
-                    question={playerRole.question}
-                    isOutlier={playerRole.isOutlier}
-                    isPolice={playerRole.isPolice}
-                    isThief={playerRole.isThief}
-                    isFirstPlayer={isOnline ? false : (currentRevealIndex === players.findIndex((p: any) => !p.isEliminated))}
-                    onRefresh={handleRefresh}
-                />
-            </View>
-
-            {hasRevealed && (
-                <View style={styles.footer}>
-                    <View style={styles.passRow}>
-                        <Ionicons name="hand-left-outline" size={14} color={Colors.candlelight} style={styles.passIcon} />
-                        <Text style={styles.passText}>
-                            {isOnline
-                                ? (isHost ? 'Everyone viewing their files. Ready?' : 'Waiting for host to start...')
-                                : (isLast ? 'Ready to begin investigation!' : 'Pass the case file to next investigator')
-                            }
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+            <View style={[styles.container, { paddingTop: insets.top, paddingBottom: isKeyboardVisible ? 0 : insets.bottom + 16 }]}>
+                {!isKeyboardVisible && (
+                    <Animated.View
+                        entering={FadeIn.duration(300)}
+                        exiting={FadeOut.duration(200)}
+                        style={styles.progress}
+                    >
+                        <Text style={styles.progressText}>
+                            {isOnline ? 'YOUR CASE FILE' : `Player ${activePlayerNumber} of ${activePlayers.length}`}
                         </Text>
-                    </View>
-                    {(isHost || !isOnline) && (
-                        <Button
-                            title={isLast || isOnline ? "Begin Investigation" : "Next Investigator"}
-                            onPress={handleNext}
-                            variant="primary"
-                            size="large"
-                            icon={
-                                <Ionicons
-                                    name={isLast || isOnline ? "search" : "arrow-forward"}
-                                    size={18}
-                                    color={Colors.victorianBlack}
-                                />
-                            }
+                        <View style={styles.progressBar}>
+                            <View style={[styles.progressFill, { width: `${isOnline ? 100 : (activePlayerNumber / activePlayers.length) * 100}%` }]} />
+                        </View>
+                    </Animated.View>
+                )}
+
+                <ScrollView
+                    style={{ flex: 1, width: '100%' }}
+                    contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="handled"
+                    keyboardDismissMode="on-drag"
+                    scrollEnabled={hasRevealed} // Fix for conflict: Disable scrolling until revealed so PanResponder works
+                >
+                    <View style={styles.cardArea}>
+                        <RoleRevealCard
+                            key={currentPlayer.id}
+                            playerName={currentPlayer.name}
+                            isImposter={playerRole.isImposter}
+                            word={playerRole.word}
+                            hint={playerRole.hint}
+                            hasRevealed={hasRevealed}
+                            onReveal={handleReveal}
+                            movie={playerRole.movie}
+                            genre={playerRole.genre}
+                            movieHint={playerRole.movieHint}
+                            isDirector={playerRole.isDirector}
+                            question={playerRole.question}
+                            isOutlier={playerRole.isOutlier}
+                            isPolice={playerRole.isPolice}
+                            isThief={playerRole.isThief}
+                            isFirstPlayer={isOnline ? false : (currentRevealIndex === players.findIndex((p: any) => !p.isEliminated))}
+                            onRefresh={handleRefresh}
                         />
+                    </View>
+
+                    {hasRevealed && !isOnline && gameMode === 'mind-sync' && (
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.inputLabel}>TYPE YOUR ANSWER:</Text>
+                            <TextInput
+                                style={styles.input}
+                                value={answer}
+                                onChangeText={setAnswer}
+                                placeholder="Type answer here..."
+                                placeholderTextColor={Colors.grayLight}
+                                autoCapitalize="sentences"
+                                autoCorrect={false}
+                                maxLength={40}
+                            />
+                        </View>
                     )}
-                </View>
-            )}
-        </View>
+                </ScrollView>
+
+                {hasRevealed && !isKeyboardVisible && (
+                    <Animated.View
+                        entering={FadeIn.duration(300)}
+                        exiting={FadeOut.duration(200)}
+                        style={styles.footer}
+                    >
+                        <View style={styles.passRow}>
+                            <Ionicons name="hand-left-outline" size={14} color={Colors.candlelight} style={styles.passIcon} />
+                            <Text style={styles.passText}>
+                                {isOnline
+                                    ? (isHost ? 'Everyone viewing their files. Ready?' : 'Waiting for host to start...')
+                                    : (isLast ? 'Ready to begin investigation!' : 'Pass the case file to next investigator')
+                                }
+                            </Text>
+                        </View>
+                        {(isHost || !isOnline) && (
+                            <Button
+                                title={isLast || isOnline ? "Begin Investigation" : "Next Investigator"}
+                                onPress={handleNext}
+                                variant="primary"
+                                size="large"
+                                icon={
+                                    <Ionicons
+                                        name={isLast || isOnline ? "search" : "arrow-forward"}
+                                        size={18}
+                                        color={Colors.victorianBlack}
+                                    />
+                                }
+                            />
+                        )}
+                    </Animated.View>
+                )}
+            </View>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -238,4 +309,29 @@ const styles = StyleSheet.create({
     passRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 18 },
     passIcon: { marginRight: 10 },
     passText: { fontSize: 13, color: Colors.candlelight, fontStyle: 'italic' },
+    inputContainer: {
+        paddingHorizontal: 20,
+        marginBottom: 10,
+        width: '100%',
+        alignItems: 'center',
+    },
+    inputLabel: {
+        fontSize: 12,
+        fontWeight: '700',
+        color: Colors.candlelight,
+        marginBottom: 8,
+        letterSpacing: 2,
+    },
+    input: {
+        width: '100%',
+        backgroundColor: 'rgba(255,255,255,0.08)',
+        borderRadius: 35,
+        padding: 16,
+        color: Colors.parchment,
+        fontSize: 18,
+        fontWeight: '600',
+        borderWidth: 1,
+        borderColor: Colors.gray,
+        textAlign: 'center',
+    },
 });
