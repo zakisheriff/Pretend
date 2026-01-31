@@ -155,12 +155,26 @@ export function ImposterView({ players, myPlayerId, roomCode, gamePhase, isHost,
         };
 
         const handleEndVoting = async () => {
-            setLoading(true);
-            try {
-                await GameAPI.revealImposterResults(roomCode, 'undercover-word');
-            } finally {
-                setLoading(false);
-            }
+            showAlert(
+                "Reveal Results?",
+                "Are you sure you want to end voting and reveal the results?",
+                [
+                    { text: "Cancel", style: "cancel" },
+                    {
+                        text: "Reveal",
+                        style: "default",
+                        onPress: async () => {
+                            setLoading(true);
+                            try {
+                                await GameAPI.revealImposterResults(roomCode, 'undercover-word');
+                                haptics.success();
+                            } finally {
+                                setLoading(false);
+                            }
+                        }
+                    }
+                ]
+            );
         };
 
         return (
@@ -279,6 +293,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         alignItems: 'center',
+        justifyContent: 'center',
         paddingHorizontal: 20,
     },
     header: {

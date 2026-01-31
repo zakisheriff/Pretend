@@ -103,13 +103,26 @@ export function MindSyncView({ players, myPlayerId, roomCode, gamePhase, isHost,
     };
 
     const handleReveal = async () => {
-        setLoading(true);
-        haptics.success();
-        try {
-            await GameAPI.revealMindSyncAnswers(roomCode);
-        } finally {
-            setLoading(false);
-        }
+        showAlert(
+            "Reveal Answers?",
+            "Are you sure you want to reveal everyone's answers now?",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Reveal",
+                    style: "default",
+                    onPress: async () => {
+                        setLoading(true);
+                        haptics.success();
+                        try {
+                            await GameAPI.revealMindSyncAnswers(roomCode);
+                        } finally {
+                            setLoading(false);
+                        }
+                    }
+                }
+            ]
+        );
     };
 
     const handleStartDiscussion = async () => {
@@ -257,12 +270,26 @@ export function MindSyncView({ players, myPlayerId, roomCode, gamePhase, isHost,
         };
 
         const handleEndVoting = async () => {
-            setLoading(true);
-            try {
-                await GameAPI.revealMindSyncResults(roomCode);
-            } finally {
-                setLoading(false);
-            }
+            showAlert(
+                "Reveal Results?",
+                "Are you sure you want to end voting and reveal the results?",
+                [
+                    { text: "Cancel", style: "cancel" },
+                    {
+                        text: "Reveal",
+                        style: "default",
+                        onPress: async () => {
+                            setLoading(true);
+                            try {
+                                await GameAPI.revealMindSyncResults(roomCode);
+                                haptics.success();
+                            } finally {
+                                setLoading(false);
+                            }
+                        }
+                    }
+                ]
+            );
         };
 
         return (

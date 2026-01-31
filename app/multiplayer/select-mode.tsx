@@ -282,7 +282,7 @@ export default function SelectModeScreen() {
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 40 }]}
                 >
-                    <Animated.View entering={FadeInDown.delay(100)} style={styles.titleContainer}>
+                    <View style={styles.titleContainer}>
                         <View style={styles.titleIcon}>
                             <Ionicons name="folder-open-outline" size={32} color={Colors.parchment} />
                         </View>
@@ -307,7 +307,7 @@ export default function SelectModeScreen() {
                                 Host is selecting themes...
                             </Text>
                         )}
-                    </Animated.View>
+                    </View>
 
                     {/* Hint Level Selector - Only for undercover-word (Imposter mode) */}
                     {selectedMode === 'undercover-word' && (
@@ -377,7 +377,7 @@ export default function SelectModeScreen() {
                         keyExtractor={(p: any) => p.id}
                         contentContainerStyle={{ gap: 12, paddingTop: insets.top + 80, paddingBottom: 40, paddingHorizontal: 20 }}
                         ListHeaderComponent={
-                            <Animated.View entering={FadeInDown.delay(100)} style={styles.titleContainer}>
+                            <View style={styles.titleContainer}>
                                 <View style={styles.titleIcon}>
                                     <Ionicons name="person-outline" size={32} color={Colors.parchment} />
                                 </View>
@@ -387,7 +387,7 @@ export default function SelectModeScreen() {
                                 <Text style={styles.subtitle}>
                                     {selectedMode === 'directors-cut' ? "Who will choose the movie?" : "Who knows the wavelength?"}
                                 </Text>
-                            </Animated.View>
+                            </View>
                         }
                         renderItem={({ item }: { item: any }) => (
                             <TouchableOpacity
@@ -419,13 +419,13 @@ export default function SelectModeScreen() {
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 40 }]}
                 >
-                    <Animated.View entering={FadeInDown.delay(100)} style={styles.titleContainer}>
+                    <View style={styles.titleContainer}>
                         <View style={styles.titleIcon}>
                             <Ionicons name="game-controller-outline" size={32} color={Colors.parchment} />
                         </View>
                         <Text style={styles.title}>Select Mode</Text>
                         <Text style={styles.subtitle}>Choose Your Investigation Style</Text>
-                    </Animated.View>
+                    </View>
 
                     <View style={styles.sectionHeader}>
                         <Ionicons name="copy-outline" size={18} color={Colors.parchment} />
@@ -442,16 +442,16 @@ export default function SelectModeScreen() {
                     <View style={styles.sectionList}>
                         {modes3Plus.map((mode, i) => renderModeItem(mode, i))}
                     </View>
-
-                    {!isHost && (
-                        <View style={styles.spectatorBanner}>
-                            <Ionicons name="eye" size={16} color={Colors.candlelight} />
-                            <Text style={styles.spectatorBannerText}>
-                                YOU ARE A SPECTATOR • ONLY THE HOST CAN SELECT
-                            </Text>
-                        </View>
-                    )}
                 </ScrollView>
+            )}
+
+            {!isHost && (
+                <Animated.View entering={FadeInDown.delay(200)} style={[styles.spectatorBanner, { bottom: insets.bottom + 20 }]}>
+                    <Ionicons name="eye" size={16} color={Colors.candlelight} />
+                    <Text style={styles.spectatorBannerText}>
+                        YOU ARE A SPECTATOR • ONLY THE HOST CAN SELECT
+                    </Text>
+                </Animated.View>
             )}
 
             <AlertComponent />
@@ -605,26 +605,33 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     spectatorBanner: {
+        position: 'absolute',
+        bottom: 20,
+        left: 20,
+        right: 20,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 8,
-        backgroundColor: 'rgba(255, 215, 0, 0.1)',
-        paddingVertical: 12,
+        backgroundColor: 'rgba(20, 20, 20, 0.95)',
+        paddingVertical: 14,
         paddingHorizontal: 20,
-        borderRadius: 16,
-        marginTop: 20,
-        marginBottom: 40,
+        borderRadius: 20,
         borderWidth: 1,
-        borderColor: 'rgba(255, 215, 0, 0.2)',
+        borderColor: 'rgba(255, 215, 0, 0.3)',
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.4,
+        shadowRadius: 12,
+        elevation: 8,
+        zIndex: 100,
     },
     spectatorBannerText: {
         color: Colors.candlelight,
-        fontSize: 12,
+        fontSize: 11,
         fontWeight: '800',
-        letterSpacing: 1,
+        letterSpacing: 1.5,
         textAlign: 'center',
-        flexShrink: 1
     },
 
     // Theme selection styles

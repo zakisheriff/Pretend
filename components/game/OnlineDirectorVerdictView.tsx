@@ -1,6 +1,7 @@
 
 import { Button } from '@/components/game/Button';
 import { Colors } from '@/constants/colors';
+import { useCustomAlert } from '@/hooks/useCustomAlert';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
@@ -15,6 +16,7 @@ export function OnlineDirectorVerdictView() {
 
     const [selectedWinner, setSelectedWinner] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const { showAlert, AlertComponent } = useCustomAlert();
 
     const handleSelectWinner = (id: string) => {
         if (loading) return;
@@ -24,45 +26,70 @@ export function OnlineDirectorVerdictView() {
 
     const handleConfirmWinner = async () => {
         if (!selectedWinner || !roomCode || loading) return;
-        haptics.heavy();
-        setLoading(true);
 
-        const startTime = Date.now();
-        try {
-            // Call API
-            const { GameAPI } = require('@/api/game');
-            await GameAPI.setDirectorWinner(roomCode, selectedWinner);
+        const winnerName = guessers.find(p => p.id === selectedWinner)?.name;
 
-            // Ensure minimum 500ms loading
-            const elapsed = Date.now() - startTime;
-            if (elapsed < 500) {
-                await new Promise(resolve => setTimeout(resolve, 500 - elapsed));
-            }
-        } finally {
-            // We usually navigate away or modal closes, but safety:
-            setLoading(false);
-        }
+        showAlert(
+            "Confirm Winner",
+            `Are you sure you want to crown ${winnerName} as the winner?`,
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Crown Winner",
+                    style: "default",
+                    onPress: async () => {
+                        haptics.heavy();
+                        setLoading(true);
+
+                        const startTime = Date.now();
+                        try {
+                            const { GameAPI } = require('@/api/game');
+                            await GameAPI.setDirectorWinner(roomCode, selectedWinner);
+
+                            const elapsed = Date.now() - startTime;
+                            if (elapsed < 500) {
+                                await new Promise(resolve => setTimeout(resolve, 500 - elapsed));
+                            }
+                        } finally {
+                            setLoading(false);
+                        }
+                    }
+                }
+            ]
+        );
     };
 
     const handleDirectorWins = async () => {
         if (!roomCode || loading) return;
-        haptics.heavy();
-        setLoading(true);
 
-        const startTime = Date.now();
-        try {
-            // Call API with null winner
-            const { GameAPI } = require('@/api/game');
-            await GameAPI.setDirectorWinner(roomCode, null);
+        showAlert(
+            "Director Wins?",
+            "Are you sure you want to end the round with the Director as the winner?",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Director Wins",
+                    style: "default",
+                    onPress: async () => {
+                        haptics.heavy();
+                        setLoading(true);
 
-            // Ensure minimum 500ms loading
-            const elapsed = Date.now() - startTime;
-            if (elapsed < 500) {
-                await new Promise(resolve => setTimeout(resolve, 500 - elapsed));
-            }
-        } finally {
-            setLoading(false);
-        }
+                        const startTime = Date.now();
+                        try {
+                            const { GameAPI } = require('@/api/game');
+                            await GameAPI.setDirectorWinner(roomCode, null);
+
+                            const elapsed = Date.now() - startTime;
+                            if (elapsed < 500) {
+                                await new Promise(resolve => setTimeout(resolve, 500 - elapsed));
+                            }
+                        } finally {
+                            setLoading(false);
+                        }
+                    }
+                }
+            ]
+        );
     };
 
     return (
@@ -135,6 +162,7 @@ export function OnlineDirectorVerdictView() {
                     icon={<Ionicons name="videocam" size={20} color={Colors.parchment} />}
                 />
             </View>
+            <AlertComponent />
         </View>
     );
 }

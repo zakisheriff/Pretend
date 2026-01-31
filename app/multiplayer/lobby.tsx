@@ -232,12 +232,20 @@ export default function LobbyScreen() {
                                 icon={<Ionicons name="play" size={20} color={Colors.victorianBlack} />}
                                 style={styles.actionButton}
                             />
-                        ) : (
-                            <Text style={styles.waitingText}>Waiting for host to start...</Text>
-                        )}
+                        ) : null}
                     </View>
                 </View>
             </LinearGradient>
+
+            {!isHost && (
+                <Animated.View entering={FadeInDown.delay(300)} style={[styles.spectatorBanner, { bottom: insets.bottom + 20 }]}>
+                    <Ionicons name="time" size={16} color={Colors.candlelight} />
+                    <Text style={styles.spectatorBannerText}>
+                        WAITING FOR HOST TO START...
+                    </Text>
+                </Animated.View>
+            )}
+
             <AlertComponent />
         </View>
     );
@@ -388,11 +396,33 @@ const styles = StyleSheet.create({
         right: 20,
     },
     actionButton: { width: '100%' },
-    waitingText: {
+    spectatorBanner: {
+        position: 'absolute',
+        bottom: 20,
+        left: 20,
+        right: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        backgroundColor: 'rgba(20, 20, 20, 0.95)',
+        paddingVertical: 14,
+        paddingHorizontal: 20,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 215, 0, 0.3)',
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.4,
+        shadowRadius: 12,
+        elevation: 8,
+        zIndex: 100,
+    },
+    spectatorBannerText: {
+        color: Colors.candlelight,
+        fontSize: 11,
+        fontWeight: '800',
+        letterSpacing: 1.5,
         textAlign: 'center',
-        color: Colors.grayLight,
-        fontSize: 14,
-        letterSpacing: 1,
-        animationName: 'pulse', // Placeholder for animation
     },
 });

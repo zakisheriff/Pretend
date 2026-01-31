@@ -1,5 +1,6 @@
 import { GameAPI } from '@/api/game';
 import { Colors } from '@/constants/colors';
+import { useCustomAlert } from '@/hooks/useCustomAlert';
 import { Player } from '@/types/game';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
@@ -70,6 +71,7 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
     const [clueText, setClueText] = useState('');
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
+    const { showAlert, AlertComponent } = useCustomAlert();
 
     // Sync Dial with existing vote if present
     useEffect(() => {
@@ -181,13 +183,26 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
     };
 
     const handleReveal = async () => {
-        setLoading(true);
-        haptics.success();
-        try {
-            await GameAPI.revealWavelength(roomCode);
-        } finally {
-            setLoading(false);
-        }
+        showAlert(
+            "Reveal Wavelength?",
+            "Are you sure you want to reveal the target and results?",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Reveal",
+                    style: "default",
+                    onPress: async () => {
+                        setLoading(true);
+                        haptics.success();
+                        try {
+                            await GameAPI.revealWavelength(roomCode);
+                        } finally {
+                            setLoading(false);
+                        }
+                    }
+                }
+            ]
+        );
     };
 
     // Interpolations / Styles
@@ -413,17 +428,9 @@ export function WavelengthView({ players, myPlayerId, roomCode, gamePhase, isHos
                     {isPsychic && gamePhase === 'reveal' && (
                         <Text style={styles.instructions}>Target: {Math.round((target! - 50) * 2)}% on the spectrum</Text>
                     )}
-
-                    {myPlayer?.role === 'spectator' && (
-                        <View style={styles.spectatorBanner}>
-                            <Ionicons name="eye" size={16} color={Colors.candlelight} />
-                            <Text style={styles.spectatorBannerText}>
-                                YOU ARE A SPECTATOR • ENJOY THE SHOW
-                            </Text>
-                        </View>
-                    )}
                 </View>
             </View>
+            <AlertComponent />
         </View>
     );
 }

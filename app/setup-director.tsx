@@ -12,6 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useMemo, useRef, useState } from 'react';
 import { Keyboard, KeyboardAvoidingView, Modal, PanResponder, Platform, ScrollView, SectionList, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
@@ -303,14 +304,6 @@ export default function SetupDirectorScreen() {
                         else router.back();
                     }} />
                 </View>
-                {!!isReadOnly && (
-                    <View style={styles.spectatorBanner}>
-                        <Ionicons name="eye" size={16} color={Colors.candlelight} />
-                        <Text style={styles.spectatorBannerText}>
-                            YOU ARE A SPECTATOR • ONLY THE HOST CAN SELECT
-                        </Text>
-                    </View>
-                )}
             </LinearGradient>
 
             <ScrollView
@@ -433,6 +426,15 @@ export default function SetupDirectorScreen() {
                     </View>
                 )}
             </ScrollView>
+
+            {!!isReadOnly && (
+                <Animated.View entering={FadeInDown.delay(200)} style={[styles.spectatorBanner, { bottom: insets.bottom + 20 }]}>
+                    <Ionicons name="eye" size={16} color={Colors.candlelight} />
+                    <Text style={styles.spectatorBannerText}>
+                        YOU ARE A SPECTATOR • ONLY THE HOST CAN SELECT
+                    </Text>
+                </Animated.View>
+            )}
 
             <Modal visible={showBrowse} animationType="slide" presentationStyle="fullScreen">
                 <TouchableWithoutFeedback onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()}>
@@ -670,24 +672,32 @@ const styles = StyleSheet.create({
     sidebarLetterContainer: { paddingVertical: 2, paddingHorizontal: 4 },
     sidebarLetter: { fontSize: 11, fontWeight: '700', color: Colors.candlelight },
     spectatorBanner: {
+        position: 'absolute',
+        bottom: 20,
+        left: 20,
+        right: 20,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 8,
-        backgroundColor: 'rgba(255, 215, 0, 0.1)',
-        paddingVertical: 10,
+        backgroundColor: 'rgba(20, 20, 20, 0.95)',
+        paddingVertical: 14,
         paddingHorizontal: 20,
-        borderRadius: 12,
-        marginBottom: 40,
+        borderRadius: 20,
         borderWidth: 1,
-        borderColor: 'rgba(255, 215, 0, 0.2)',
+        borderColor: 'rgba(255, 215, 0, 0.3)',
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.4,
+        shadowRadius: 12,
+        elevation: 8,
+        zIndex: 100,
     },
     spectatorBannerText: {
         color: Colors.candlelight,
-        fontSize: 12,
+        fontSize: 11,
         fontWeight: '800',
-        letterSpacing: 1,
+        letterSpacing: 1.5,
         textAlign: 'center',
-        flexShrink: 1
     },
 });
