@@ -42,12 +42,25 @@ export default function SelectModeScreen() {
 
     const toggleTheme = (themeId: string) => {
         if (!isHost) return;
-        setSelectedThemeIds(prev =>
-            prev.includes(themeId)
-                ? prev.filter(id => id !== themeId)
-                : [...prev, themeId]
-        );
+
+        const newSelection = selectedThemeIds.includes(themeId)
+            ? selectedThemeIds.filter(id => id !== themeId)
+            : [...selectedThemeIds, themeId];
+
+        setSelectedThemeIds(newSelection);
         haptics.selection();
+        broadcastSelection({ type: 'themes', id: null, data: newSelection });
+    };
+
+    const toggleAllThemes = () => {
+        if (!isHost) return;
+        const allThemes = getThemeCategories().flatMap(c => c.themes.map(t => t.id));
+        const allSelected = allThemes.every(id => selectedThemeIds.includes(id));
+
+        const newSelection = allSelected ? [] : allThemes;
+        setSelectedThemeIds(newSelection);
+        haptics.selection();
+        broadcastSelection({ type: 'themes', id: null, data: newSelection });
     };
 
     // Sync state for spectators
@@ -55,14 +68,19 @@ export default function SelectModeScreen() {
         if (!isHost) {
             if (onlineMode) setSelectedMode(onlineMode);
 
-            // Sync showPlayerSelect via phase
+            // Sync Phase UI
             const isSelectingPlayer = onlinePhase === 'SELECT_DIRECTOR' || onlinePhase === 'SELECT_PSYCHIC' || onlinePhase === 'SETUP_DIRECTOR:PLAYER';
             setShowPlayerSelect(isSelectingPlayer);
+
+            const isSelectingTheme = onlinePhase === 'SELECT_THEME';
+            setShowThemeSelect(isSelectingTheme);
 
             // Sync selection via broadcast
             if (selection) {
                 if (selection.type === 'mode') setSelectedMode(selection.id);
                 if (selection.type === 'player') setSelectedDirectorId(selection.id);
+                if (selection.type === 'themes') setSelectedThemeIds(selection.data || []);
+                if (selection.type === 'hint_level') setHintLevel(selection.id as any);
             }
         }
     }, [isHost, onlineMode, onlinePhase, selection]);
@@ -270,6 +288,25 @@ export default function SelectModeScreen() {
                         </View>
                         <Text style={styles.title}>Select Themes</Text>
                         <Text style={styles.subtitle}>Choose one or more categories</Text>
+
+                        {isHost && (
+                            <TouchableOpacity
+                                onPress={toggleAllThemes}
+                                style={{ marginTop: 12, paddingVertical: 8, paddingHorizontal: 16, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 20 }}
+                            >
+                                <Text style={{ color: Colors.parchment, fontSize: 13, fontWeight: '600' }}>
+                                    {getThemeCategories().flatMap(c => c.themes.map(t => t.id)).every(id => selectedThemeIds.includes(id))
+                                        ? "Deselect All"
+                                        : "Select All"}
+                                </Text>
+                            </TouchableOpacity>
+                        )}
+
+                        {!isHost && (
+                            <Text style={{ marginTop: 8, color: Colors.candlelight, fontSize: 12, fontStyle: 'italic' }}>
+                                Host is selecting themes...
+                            </Text>
+                        )}
                     </Animated.View>
 
                     {/* Hint Level Selector - Only for undercover-word (Imposter mode) */}
@@ -288,6 +325,7 @@ export default function SelectModeScreen() {
                                             if (!isHost) return;
                                             setHintLevel(level);
                                             haptics.selection();
+                                            broadcastSelection({ type: 'hint_level', id: level });
                                         }}
                                         disabled={!isHost}
                                     >

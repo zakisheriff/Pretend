@@ -648,6 +648,83 @@ export const GameAPI = {
         return await supabase.from('rooms').update({ curr_phase: 'results', status: 'FINISHED' }).eq('code', roomCode);
     },
 
+    revealImposterResults: async (roomCode: string, gameMode: 'classic-imposter' | 'undercover-word') => {
+        // 1. Fetch players
+        const { data: players } = await supabase.from('players').select('*').eq('room_code', roomCode);
+        if (!players || players.length === 0) return;
+
+        // 2. Identify roles
+        let targetRole = '';
+        if (gameMode === 'classic-imposter') {
+            targetRole = 'undercover';
+        } else {
+            targetRole = 'imposter'; // undercover-word uses 'imposter' role name
+        }
+
+        const targetPlayer = players.find(p => p.role === targetRole);
+        if (!targetPlayer) return;
+
+        // 3. Count votes & Determine Winner
+        // Majority Rule: > 50% must vote for target to catch them.
+        const votesAgainstTarget = players.filter(p => p.vote === targetPlayer.id).length;
+        const caught = votesAgainstTarget > (players.length / 2);
+
+        // 4. Update Scores
+        const updatePromises = [];
+
+        if (caught) {
+            // Crew Wins -> 1 pt each (except target)
+            players.forEach(p => {
+                if (p.id !== targetPlayer.id) {
+                    updatePromises.push(
+                        supabase.from('players').update({ score: (p.score || 0) + 1 }).eq('id', p.id)
+                    );
+                }
+            });
+        } else {
+            // Imposter Wins -> 2 pts
+            updatePromises.push(
+                supabase.from('players').update({ score: (targetPlayer.score || 0) + 2 }).eq('id', targetPlayer.id)
+            );
+        }
+
+        await Promise.all(updatePromises);
+
+        // 5. Update Phase
+        return await supabase.from('rooms').update({ curr_phase: 'results', status: 'FINISHED' }).eq('code', roomCode);
+    },
+
+    revealMindSyncResults: async (roomCode: string) => {
+        const { data: players } = await supabase.from('players').select('*').eq('room_code', roomCode);
+        if (!players) return;
+
+        const outlier = players.find(p => p.role === 'outlier');
+        if (!outlier) return;
+
+        const votes = players.filter(p => p.vote === outlier.id).length;
+        const caught = votes > (players.length / 2);
+
+        const updatePromises = [];
+        if (caught) {
+            // Sync Team Wins -> 1 pt each
+            players.forEach(p => {
+                if (p.id !== outlier.id) {
+                    updatePromises.push(
+                        supabase.from('players').update({ score: (p.score || 0) + 1 }).eq('id', p.id)
+                    );
+                }
+            });
+        } else {
+            // Outlier Wins -> 2 pts
+            updatePromises.push(
+                supabase.from('players').update({ score: (outlier.score || 0) + 2 }).eq('id', outlier.id)
+            );
+        }
+
+        await Promise.all(updatePromises);
+        return await supabase.from('rooms').update({ curr_phase: 'results', status: 'FINISHED' }).eq('code', roomCode);
+    },
+
     setDirectorWinner: async (roomCode: string, winnerId: string | null) => {
         const updatePromises = [];
 

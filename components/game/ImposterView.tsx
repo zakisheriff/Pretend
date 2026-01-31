@@ -1,5 +1,6 @@
 import { GameAPI } from '@/api/game';
 import { Colors } from '@/constants/colors';
+import { useCustomAlert } from '@/hooks/useCustomAlert';
 import { Player } from '@/types/game';
 import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
@@ -21,6 +22,7 @@ export function ImposterView({ players, myPlayerId, roomCode, gamePhase, isHost,
     const myPlayer = players.find(p => p.id === myPlayerId);
     const [revealed, setRevealed] = useState(false);
     const [loading, setLoading] = useState(false);
+    const { showAlert, AlertComponent } = useCustomAlert();
 
     const isImposter = myPlayer?.role === 'imposter';
     const myWord = myPlayer?.secretWord || '???';
@@ -129,20 +131,33 @@ export function ImposterView({ players, myPlayerId, roomCode, gamePhase, isHost,
         const hasVoted = !!myPlayer?.vote;
         const votedCount = players.filter(p => p.vote).length;
 
-        const handleVote = async (targetId: string) => {
+        const handleVote = async (targetId: string, playerName: string) => {
             if (targetId === myPlayerId) {
                 haptics.warning();
                 return;
             }
+
             haptics.selection();
-            await GameAPI.castVote(myPlayerId, targetId);
+            showAlert(
+                "Confirm Vote",
+                `Are you sure you want to vote for ${playerName}?`,
+                [
+                    { text: "Cancel", style: "cancel", onPress: () => { } },
+                    {
+                        text: "Confirm",
+                        onPress: async () => {
+                            await GameAPI.castVote(myPlayerId, targetId);
+                            haptics.success();
+                        }
+                    }
+                ]
+            );
         };
 
         const handleEndVoting = async () => {
             setLoading(true);
             try {
-                // Calculate results could be done here or just move to results phase
-                await GameAPI.updateGamePhase(roomCode, 'results');
+                await GameAPI.revealImposterResults(roomCode, 'undercover-word');
             } finally {
                 setLoading(false);
             }
@@ -164,39 +179,31 @@ export function ImposterView({ players, myPlayerId, roomCode, gamePhase, isHost,
                 </View>
 
                 <View style={{ width: '100%', flexDirection: 'row', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginTop: 24 }}>
-                    {players.map((p) => {
-                        const isMe = p.id === myPlayerId;
+                    {players.filter(p => p.id !== myPlayerId).map((p) => {
                         const isSelected = myPlayer?.vote === p.id;
-                        const hasPlayerVoted = !!p.vote;
 
                         return (
                             <TouchableOpacity
                                 key={p.id}
-                                onPress={() => !hasVoted && handleVote(p.id)}
+                                onPress={() => !hasVoted && handleVote(p.id, p.name)}
                                 activeOpacity={hasVoted ? 1 : 0.7}
-                                disabled={hasVoted || isMe}
+                                disabled={hasVoted}
                                 style={[
                                     styles.playerVoteCard,
                                     isSelected && styles.playerVoteCardSelected,
-                                    isMe && { opacity: 0.5 }
                                 ]}
                             >
                                 <Ionicons
                                     name="person"
                                     size={24}
-                                    color={isSelected ? Colors.victorianBlack : (hasPlayerVoted ? Colors.candlelight : Colors.grayLight)}
+                                    color={isSelected ? Colors.victorianBlack : Colors.grayLight}
                                 />
                                 <Text style={[
                                     styles.playerVoteName,
                                     isSelected && styles.playerVoteNameSelected
                                 ]}>
-                                    {isMe ? `${p.name} (You)` : p.name}
+                                    {p.name}
                                 </Text>
-                                {hasPlayerVoted && !isSelected && (
-                                    <View style={styles.votedBadge}>
-                                        <Ionicons name="checkmark" size={12} color={Colors.victorianBlack} />
-                                    </View>
-                                )}
                             </TouchableOpacity>
                         );
                     })}
@@ -216,6 +223,7 @@ export function ImposterView({ players, myPlayerId, roomCode, gamePhase, isHost,
                         />
                     </View>
                 )}
+                <AlertComponent />
             </View>
         );
     }
