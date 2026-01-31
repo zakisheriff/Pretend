@@ -113,6 +113,16 @@ export function MindSyncView({ players, myPlayerId, roomCode, gamePhase, isHost,
         }
     };
 
+    const handleStartVoting = async () => {
+        setLoading(true);
+        haptics.success();
+        try {
+            await GameAPI.updateGamePhase(roomCode, 'voting');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // Count answered players
     const answeredCount = Object.keys(answers).length;
     const totalPlayers = players.length;
@@ -280,6 +290,18 @@ export function MindSyncView({ players, myPlayerId, roomCode, gamePhase, isHost,
                     );
                 })}
             </View>
+
+            {/* Host: Start Voting */}
+            {isHost && (
+                <Button
+                    title="Start Voting"
+                    onPress={handleStartVoting}
+                    variant="primary"
+                    loading={loading}
+                    icon={<Ionicons name="finger-print" size={20} color={Colors.victorianBlack} />}
+                    style={{ marginTop: 24 }}
+                />
+            )}
         </View>
     );
 }

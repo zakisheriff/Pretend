@@ -40,6 +40,16 @@ export function ImposterView({ players, myPlayerId, roomCode, gamePhase, isHost,
         }
     };
 
+    const handleStartVoting = async () => {
+        setLoading(true);
+        haptics.success();
+        try {
+            await GameAPI.updateGamePhase(roomCode, 'voting');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // Reveal Phase
     if (gamePhase === 'reveal') {
         return (
@@ -144,6 +154,18 @@ export function ImposterView({ players, myPlayerId, roomCode, gamePhase, isHost,
                         : "Describe the word without saying it. Find who doesn't know the actual word!"}
                 </Text>
             </View>
+
+            {/* Host: Start Voting */}
+            {isHost && (
+                <Button
+                    title="Start Voting"
+                    onPress={handleStartVoting}
+                    variant="primary"
+                    loading={loading}
+                    icon={<Ionicons name="finger-print" size={20} color={Colors.victorianBlack} />}
+                    style={{ marginTop: 24 }}
+                />
+            )}
         </View>
     );
 }

@@ -39,6 +39,9 @@ export function OnlineResultsView() {
         if (gameMode === 'directors-cut') return { special: 'Director', normal: 'Audience', icon: 'videocam' };
         if (gameMode === 'time-bomb') return { special: 'Bomber', normal: 'Survivor', icon: 'timer' };
         if (gameMode === 'wavelength') return { special: 'Psychic', normal: 'Guesser', icon: 'analytics' };
+        if (gameMode === 'mind-sync') return { special: 'Outlier', normal: 'Sync', icon: 'help-circle' };
+        if (gameMode === 'classic-imposter') return { special: 'Undercover', normal: 'Crewmate', icon: 'eye-off' };
+        if (gameMode === 'undercover-word') return { special: 'Imposter', normal: 'Crewmate', icon: 'skull' };
         // Default
         return { special: 'Imposter', normal: 'Crewmate', icon: 'eye-off' };
     };
@@ -156,6 +159,42 @@ export function OnlineResultsView() {
             if (bestDistance <= 12) return { title: 'Close Call!', subtitle: 'You were right on the edge!' };
             if (bestDistance <= 22) return { title: 'Nice Try!', subtitle: 'Partial points awarded.' };
             return { title: 'Round Complete', subtitle: 'Too far this time!' };
+        }
+
+        if (gameMode === 'mind-sync') {
+            // Check if outlier was caught
+            const outlier = players.find(p => p.role === 'outlier');
+            const votes = players.filter(p => p.vote === outlier?.id).length;
+            const majority = votes > players.length / 2;
+
+            if (majority) {
+                return { title: 'Outlier Found!', subtitle: `${outlier?.name} had the different question!` };
+            }
+            return { title: 'Outlier Wins!', subtitle: `${outlier?.name} blended in successfully!` };
+        }
+
+        if (gameMode === 'classic-imposter') {
+            // Undercover mode - check if undercover was caught
+            const undercover = players.find(p => p.role === 'undercover');
+            const votes = players.filter(p => p.vote === undercover?.id).length;
+            const majority = votes > players.length / 2;
+
+            if (majority) {
+                return { title: 'Undercover Caught!', subtitle: `${undercover?.name} had a different word!` };
+            }
+            return { title: 'Undercover Wins!', subtitle: `${undercover?.name} blended in!` };
+        }
+
+        if (gameMode === 'undercover-word') {
+            // Classic Imposter mode - check if imposter was caught
+            const imposter = players.find(p => p.role === 'imposter');
+            const votes = players.filter(p => p.vote === imposter?.id).length;
+            const majority = votes > players.length / 2;
+
+            if (majority) {
+                return { title: 'Imposter Caught!', subtitle: `${imposter?.name} only had a hint!` };
+            }
+            return { title: 'Imposter Wins!', subtitle: `${imposter?.name} fooled everyone!` };
         }
 
         // Standard Imposter / Time Bomb

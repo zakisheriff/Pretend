@@ -40,6 +40,16 @@ export function UndercoverView({ players, myPlayerId, roomCode, gamePhase, isHos
         }
     };
 
+    const handleStartVoting = async () => {
+        setLoading(true);
+        haptics.success();
+        try {
+            await GameAPI.updateGamePhase(roomCode, 'voting');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // Reveal Phase - Cards to tap
     if (gamePhase === 'reveal') {
         return (
@@ -131,6 +141,18 @@ export function UndercoverView({ players, myPlayerId, roomCode, gamePhase, isHos
                     <Text style={styles.themeLabel}>Theme:</Text>
                     <Text style={styles.themeText}>{gameData.data.themeName}</Text>
                 </View>
+            )}
+
+            {/* Host: Start Voting */}
+            {isHost && (
+                <Button
+                    title="Start Voting"
+                    onPress={handleStartVoting}
+                    variant="primary"
+                    loading={loading}
+                    icon={<Ionicons name="finger-print" size={20} color={Colors.victorianBlack} />}
+                    style={{ marginTop: 24 }}
+                />
             )}
         </View>
     );
