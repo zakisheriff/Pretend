@@ -294,13 +294,13 @@ export function CanvasView({
                         style={StyleSheet.absoluteFill}
                         viewBox={canvasLayout.width ? `0 0 ${canvasLayout.width} ${canvasLayout.height}` : undefined}
                     >
-                        {/* Completed Paths */}
-                        {paths.map((path) => renderShape(path, path.id))}
+                        {/* Completed Paths - Memoized */}
+                        {useMemo(() => paths.map((path) => renderShape(path, path.id)), [paths, canvasLayout.width, canvasLayout.height])}
 
-                        {/* Remote Current Paths (Real-time) */}
-                        {Object.entries(currentExternalPaths).map(([userId, data]) =>
+                        {/* Remote Current Paths (Real-time) - Memoized */}
+                        {useMemo(() => Object.entries(currentExternalPaths).map(([userId, data]) =>
                             renderShape({ ...data, type: data.type || 'path' }, `ghost-${userId}`)
-                        )}
+                        ), [currentExternalPaths, canvasLayout.width, canvasLayout.height])}
 
                         {/* Current Drawing Path */}
                         {currentPath.length > 0 && renderShape({

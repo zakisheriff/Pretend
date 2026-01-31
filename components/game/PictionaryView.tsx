@@ -640,7 +640,7 @@ export function PictionaryView() {
             {/* Header */}
             <View style={[styles.header, { paddingTop: insets.top + 10 }]}>
                 <View style={styles.roundBadge}>
-                    <Text style={styles.roundText}>ROUND {displayRound} / 3</Text>
+                    <Text style={styles.roundText}>LOOP {displayRound} / 3</Text>
                 </View>
                 {gamePhase === 'PICTIONARY:DRAWING' && (
                     <View style={styles.timerBadge}>
@@ -714,7 +714,7 @@ export function PictionaryView() {
                                 externalPaths={[]} // Deprecated
                                 currentExternalPaths={remoteCurrentPaths}
                                 color={selectedColor}
-                                strokeWidth={strokeWidth}
+                                strokeWidth={selectedTool === 'eraser' ? 30 : strokeWidth}
                                 tool={selectedTool}
                                 backgroundColor="#1A1A1A"
                                 onModifyPath={handlePathModify}
