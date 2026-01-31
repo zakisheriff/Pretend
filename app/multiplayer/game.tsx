@@ -1,9 +1,12 @@
 import { GameAPI } from '@/api/game';
 import { Button } from '@/components/game';
 import { DirectorSetup } from '@/components/game/DirectorSetup';
+import { ImposterView } from '@/components/game/ImposterView';
+import { MindSyncView } from '@/components/game/MindSyncView';
 import { OnlineDirectorVerdictView } from '@/components/game/OnlineDirectorVerdictView';
 import { OnlineResultsView } from '@/components/game/OnlineResultsView';
 import { PictionaryView } from '@/components/game/PictionaryView';
+import { UndercoverView } from '@/components/game/UndercoverView';
 import { WavelengthView } from '@/components/game/WavelengthView';
 import { Colors } from '@/constants/colors';
 import { useCustomAlert } from '@/hooks/useCustomAlert';
@@ -35,7 +38,7 @@ export default function OnlineGameScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const {
-        players, myPlayerId, isHost, gameMode, gamePhase, roomCode, gameStatus, kicked, roomDeleted, leaveGame
+        players, myPlayerId, isHost, gameMode, gamePhase, roomCode, gameStatus, kicked, roomDeleted, leaveGame, gameData
     } = useOnlineGameStore();
     const [revealed, setRevealed] = React.useState(false);
     const [selectedDirectorId, setSelectedDirectorId] = React.useState<string | null>(null);
@@ -149,6 +152,33 @@ export default function OnlineGameScreen() {
                                     />
                                 ) : gameMode === 'pictionary' ? (
                                     <PictionaryView />
+                                ) : gameMode === 'mind-sync' ? (
+                                    <MindSyncView
+                                        players={players}
+                                        myPlayerId={myPlayerId!}
+                                        roomCode={roomCode!}
+                                        gamePhase={gamePhase || 'MINDSYNC:ANSWERING'}
+                                        isHost={isHost}
+                                        gameData={gameData}
+                                    />
+                                ) : gameMode === 'classic-imposter' ? (
+                                    <UndercoverView
+                                        players={players}
+                                        myPlayerId={myPlayerId!}
+                                        roomCode={roomCode!}
+                                        gamePhase={gamePhase || 'reveal'}
+                                        isHost={isHost}
+                                        gameData={gameData}
+                                    />
+                                ) : gameMode === 'undercover-word' ? (
+                                    <ImposterView
+                                        players={players}
+                                        myPlayerId={myPlayerId!}
+                                        roomCode={roomCode!}
+                                        gamePhase={gamePhase || 'reveal'}
+                                        isHost={isHost}
+                                        gameData={gameData}
+                                    />
                                 ) : (gamePhase === 'setup' || gamePhase === 'SETUP_DIRECTOR:PLAYER' || gamePhase === 'SELECT_DIRECTOR' || gamePhase === 'SETUP_DIRECTOR:MOVIE' || gamePhase === 'SETUP_DIRECTOR:TIMER') ? (
                                     <DirectorSetup
                                         isReadOnly={myPlayer.role !== 'director'}

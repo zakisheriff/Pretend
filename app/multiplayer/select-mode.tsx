@@ -121,7 +121,7 @@ export default function SelectModeScreen() {
     };
 
     // Group modes
-    const ALLOWED_MODES = ['wavelength', 'directors-cut', 'pictionary'];
+    const ALLOWED_MODES = ['wavelength', 'directors-cut', 'pictionary', 'mind-sync', 'classic-imposter', 'undercover-word'];
     const modes2Plus = GAME_MODES.filter(m => m.minPlayers === 2 && ALLOWED_MODES.includes(m.id));
     const modes3Plus = GAME_MODES.filter(m => m.minPlayers >= 3 && ALLOWED_MODES.includes(m.id));
 

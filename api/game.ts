@@ -1,6 +1,8 @@
+import { mindSync } from '@/data/game-modes';
+import { undercoverThemes } from '@/data/themes';
 import { WAVELENGTH_SPECTRUMS } from '@/data/wavelength';
 import { supabase } from '@/lib/supabase';
-import { GameMode } from '@/types/game';
+import { GameMode, MindSyncQuestion, UndercoverTheme } from '@/types/game';
 
 // Helper to generate a 4-letter room code
 const generateRoomCode = () => {
@@ -259,24 +261,173 @@ export const GameAPI = {
                         .eq('id', psychicPlayer.id);
                     break;
 
+                case 'mind-sync':
+                    // Mind Sync Mode: Everyone answers a question, one player has a different (outlier) question
+                    if (players.length < 3) {
+                        return { error: 'Mind Sync requires at least 3 players' };
+                    }
+
+                    // Get random question pair
+                    const allQuestions = mindSync as MindSyncQuestion[];
+                    const question = allQuestions[Math.floor(Math.random() * allQuestions.length)];
+
+                    if (!question) {
+                        return { error: 'No questions available' };
+                    }
+
+                    // Select random outlier
+                    const outlierIndex = Math.floor(Math.random() * players.length);
+                    const outlierPlayer = players[outlierIndex];
+
+                    // Set up game data with timer settings
+                    await supabase
+                        .from('rooms')
+                        .update({
+                            game_data: {
+                                type: 'mind-sync',
+                                data: {
+                                    mainQuestion: question.mainQuestion,
+                                    outlierQuestion: question.outlierQuestion,
+                                    category: question.category,
+                                    timer: 20, // Default 20 seconds for answering
+                                    answers: {}, // playerId -> answer
+                                    phase: 'answering' // answering, reveal, discussion, voting
+                                }
+                            }
+                        })
+                        .eq('code', roomCode);
+
+                    // Assign questions to players
+                    // Outlier gets the outlier question
+                    await supabase
+                        .from('players')
+                        .update({
+                            role: 'outlier',
+                            secret_word: JSON.stringify({
+                                question: question.outlierQuestion,
+                                category: question.category,
+                                isOutlier: true
+                            }),
+                            vote: null
+                        })
+                        .eq('id', outlierPlayer.id);
+
+                    // Others get the main question
+                    const syncPlayerIds = players.filter(p => p.id !== outlierPlayer.id).map(p => p.id);
+                    if (syncPlayerIds.length > 0) {
+                        await supabase
+                            .from('players')
+                            .update({
+                                role: 'sync',
+                                secret_word: JSON.stringify({
+                                    question: question.mainQuestion,
+                                    category: question.category,
+                                    isOutlier: false
+                                }),
+                                vote: null
+                            })
+                            .in('id', syncPlayerIds);
+                    }
+                    break;
+
+                case 'classic-imposter':
+                    // Undercover Mode: Everyone gets a word, one player has a DIFFERENT word
+                    if (players.length < 3) {
+                        return { error: 'Undercover requires at least 3 players' };
+                    }
+
+                    // Get random word pair from undercover themes
+                    const allThemes = undercoverThemes as UndercoverTheme[];
+                    const randomTheme = allThemes[Math.floor(Math.random() * allThemes.length)];
+                    const randomPair = randomTheme.pairs[Math.floor(Math.random() * randomTheme.pairs.length)];
+
+                    // Select random undercover player
+                    const undercoverIndex = Math.floor(Math.random() * players.length);
+                    const undercoverPlayer = players[undercoverIndex];
+
+                    // Set up game data
+                    await supabase
+                        .from('rooms')
+                        .update({
+                            game_data: {
+                                type: 'classic-imposter',
+                                data: {
+                                    crewmateWord: randomPair.crewmateWord,
+                                    imposterWord: randomPair.imposterWord,
+                                    themeName: randomTheme.name
+                                }
+                            }
+                        })
+                        .eq('code', roomCode);
+
+                    // Assign words to players
+                    // Undercover player gets the different word
+                    await supabase
+                        .from('players')
+                        .update({
+                            role: 'undercover',
+                            secret_word: randomPair.imposterWord,
+                            vote: null
+                        })
+                        .eq('id', undercoverPlayer.id);
+
+                    // Others get the crewmate word
+                    const crewPlayerIds = players.filter(p => p.id !== undercoverPlayer.id).map(p => p.id);
+                    if (crewPlayerIds.length > 0) {
+                        await supabase
+                            .from('players')
+                            .update({
+                                role: 'crewmate',
+                                secret_word: randomPair.crewmateWord,
+                                vote: null
+                            })
+                            .in('id', crewPlayerIds);
+                    }
+                    break;
+
                 case 'undercover-word':
                 default:
+                    // Classic Imposter Mode: Crewmates see the word, Imposter only gets a hint
+                    if (players.length < 3) {
+                        return { error: 'Classic Imposter requires at least 3 players' };
+                    }
+
                     const WORD_PAIRS = [
-                        { crew: "Coffee", imposter: "Tea" },
-                        { crew: "Sun", imposter: "Moon" },
-                        { crew: "Apple", imposter: "Orange" },
-                        { crew: "Car", imposter: "Truck" },
-                        { crew: "Dog", imposter: "Cat" },
-                        { crew: "Pen", imposter: "Pencil" },
-                        { crew: "Beach", imposter: "Pool" },
-                        { crew: "Piano", imposter: "Guitar" },
-                        { crew: "Book", imposter: "Magazine" },
-                        { crew: "Train", imposter: "Bus" },
+                        { crew: "Coffee", imposter: "Hot beverage" },
+                        { crew: "Sun", imposter: "Bright celestial body" },
+                        { crew: "Apple", imposter: "Popular fruit" },
+                        { crew: "Car", imposter: "Vehicle with wheels" },
+                        { crew: "Dog", imposter: "Furry pet" },
+                        { crew: "Pen", imposter: "Writing tool" },
+                        { crew: "Beach", imposter: "Sandy vacation spot" },
+                        { crew: "Piano", imposter: "Musical instrument" },
+                        { crew: "Book", imposter: "Reading material" },
+                        { crew: "Train", imposter: "Public transport on rails" },
+                        { crew: "Pizza", imposter: "Italian food" },
+                        { crew: "Moon", imposter: "Night sky presence" },
+                        { crew: "Guitar", imposter: "String instrument" },
+                        { crew: "Mountain", imposter: "Tall landform" },
+                        { crew: "Phone", imposter: "Communication device" },
                     ];
 
                     const pair = WORD_PAIRS[Math.floor(Math.random() * WORD_PAIRS.length)];
                     const imposterIndex = Math.floor(Math.random() * players.length);
                     const imposterPlayer = players[imposterIndex];
+
+                    // Set up game data
+                    await supabase
+                        .from('rooms')
+                        .update({
+                            game_data: {
+                                type: 'undercover-word',
+                                data: {
+                                    crewmateWord: pair.crew,
+                                    imposterHint: pair.imposter,
+                                    category: 'General'
+                                }
+                            }
+                        })
+                        .eq('code', roomCode);
 
                     await supabase
                         .from('players')
@@ -294,7 +445,8 @@ export const GameAPI = {
             const initialPhase =
                 gameMode === 'directors-cut' ? 'SETUP_DIRECTOR:PLAYER' :
                     gameMode === 'pictionary' ? 'PICTIONARY:SELECT_WORD' :
-                        'reveal';
+                        gameMode === 'mind-sync' ? 'MINDSYNC:ANSWERING' :
+                            'reveal'; // classic-imposter, undercover-word, and others go to reveal
             const { error } = await supabase
                 .from('rooms')
                 .update({
@@ -670,5 +822,88 @@ export const GameAPI = {
 
         console.log(`❌ No match.`);
         return { status: 'WRONG', points: 0 };
+    },
+
+    /**
+     * Submit a Mind Sync answer
+     */
+    submitMindSyncAnswer: async (roomCode: string, playerId: string, answer: string) => {
+        try {
+            // 1. Get current game data
+            const { data: room, error: roomError } = await supabase
+                .from('rooms')
+                .select('game_data')
+                .eq('code', roomCode)
+                .single();
+
+            if (roomError || !room) {
+                return { error: 'Room not found' };
+            }
+
+            const gameData = room.game_data;
+            if (!gameData || gameData.type !== 'mind-sync') {
+                return { error: 'Invalid game state' };
+            }
+
+            // 2. Add answer to game data
+            const updatedAnswers = {
+                ...gameData.data.answers,
+                [playerId]: answer.trim()
+            };
+
+            await supabase
+                .from('rooms')
+                .update({
+                    game_data: {
+                        ...gameData,
+                        data: {
+                            ...gameData.data,
+                            answers: updatedAnswers
+                        }
+                    }
+                })
+                .eq('code', roomCode);
+
+            // 3. Check if all players have answered
+            const { data: players } = await supabase
+                .from('players')
+                .select('id')
+                .eq('room_code', roomCode);
+
+            const allAnswered = players?.every(p => p.id in updatedAnswers) ?? false;
+
+            return { error: null, allAnswered };
+        } catch (error: any) {
+            console.error('Error submitting Mind Sync answer:', error);
+            return { error: error.message };
+        }
+    },
+
+    /**
+     * Reveal Mind Sync answers (transition to reveal phase)
+     */
+    revealMindSyncAnswers: async (roomCode: string) => {
+        try {
+            // Update game phase to reveal
+            await supabase
+                .from('rooms')
+                .update({ curr_phase: 'MINDSYNC:REVEAL' })
+                .eq('code', roomCode);
+
+            return { error: null };
+        } catch (error: any) {
+            console.error('Error revealing Mind Sync answers:', error);
+            return { error: error.message };
+        }
+    },
+
+    /**
+     * Move Mind Sync to discussion phase
+     */
+    startMindSyncDiscussion: async (roomCode: string) => {
+        return await supabase
+            .from('rooms')
+            .update({ curr_phase: 'discussion' })
+            .eq('code', roomCode);
     }
 };

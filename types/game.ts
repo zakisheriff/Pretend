@@ -272,7 +272,7 @@ export const GAME_MODES: GameModeInfo[] = [
     },
     {
         id: 'undercover-word',
-        name: 'Classic Imposter',
+        name: 'Imposter',
         icon: 'people-outline',
         description: 'Imposter gets a clue, crewmates get the secret word',
         tagline: 'Find the imposter who only has a hint!',
