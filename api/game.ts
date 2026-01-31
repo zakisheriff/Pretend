@@ -72,7 +72,7 @@ export const GameAPI = {
                 return { error: 'Room not found' };
             }
 
-            if (room.status !== 'LOBBY') {
+            if (room.status === 'PLAYING') {
                 return { error: 'Game already started' };
             }
 

@@ -332,7 +332,7 @@ export function OnlineResultsView() {
                 {isHost ? (
                     <Animated.View entering={FadeInDown.delay(1000).springify()} style={styles.buttons}>
                         <Button
-                            title={loading ? "Restarting..." : "Play Again"}
+                            title={loading ? "Restarting..." : "Play Again (Back to Lobby)"}
                             onPress={() => handlePlayAgain(false)}
                             variant="primary"
                             disabled={loading}
@@ -366,7 +366,7 @@ export function OnlineResultsView() {
                 ) : (
                     <Animated.View entering={FadeInDown.delay(1000).springify()} style={styles.buttons}>
                         <Text style={{ textAlign: 'center', color: Colors.grayLight, marginBottom: 10 }}>
-                            Waiting for Host to restart...
+                            Waiting for Host to return to Lobby...
                         </Text>
                         <Button
                             title="Leave Room"
