@@ -75,6 +75,11 @@ export default function SelectModeScreen() {
             const isSelectingTheme = onlinePhase === 'SELECT_THEME';
             setShowThemeSelect(isSelectingTheme);
 
+            // Navigate back to lobby if host does
+            if (onlinePhase === 'LOBBY') {
+                router.back();
+            }
+
             // Sync selection via broadcast
             if (selection) {
                 if (selection.type === 'mode') setSelectedMode(selection.id);
@@ -121,6 +126,9 @@ export default function SelectModeScreen() {
             GameAPI.updateGamePhase(roomCode!, 'SELECT_MODE');
             return;
         }
+
+        // Host going back to Lobby: Reset phase so Lobby doesn't push us forward again
+        GameAPI.updateGamePhase(roomCode!, 'LOBBY');
         router.back();
     };
 
@@ -280,7 +288,7 @@ export default function SelectModeScreen() {
             {showThemeSelect ? (
                 <ScrollView
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 40 }]}
+                    contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 150 }]}
                 >
                     <View style={styles.titleContainer}>
                         <View style={styles.titleIcon}>
@@ -375,7 +383,7 @@ export default function SelectModeScreen() {
                     <FlatList
                         data={players}
                         keyExtractor={(p: any) => p.id}
-                        contentContainerStyle={{ gap: 12, paddingTop: insets.top + 80, paddingBottom: 40, paddingHorizontal: 20 }}
+                        contentContainerStyle={{ gap: 12, paddingTop: insets.top + 80, paddingBottom: insets.bottom + 150, paddingHorizontal: 20 }}
                         ListHeaderComponent={
                             <View style={styles.titleContainer}>
                                 <View style={styles.titleIcon}>
@@ -417,7 +425,7 @@ export default function SelectModeScreen() {
             ) : (
                 <ScrollView
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 40 }]}
+                    contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 150 }]}
                 >
                     <View style={styles.titleContainer}>
                         <View style={styles.titleIcon}>

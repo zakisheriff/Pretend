@@ -102,15 +102,28 @@ export function MindSyncView({ players, myPlayerId, roomCode, gamePhase, isHost,
         }
     };
 
-    const handleReveal = async () => {
+    const handleReveal = async (skipConfirmation = false) => {
+        const everyoneAnswered = answeredCount === totalPlayers;
+
+        if (skipConfirmation || everyoneAnswered) {
+            setLoading(true);
+            haptics.success();
+            try {
+                await GameAPI.revealMindSyncAnswers(roomCode);
+            } finally {
+                setLoading(false);
+            }
+            return;
+        }
+
         showAlert(
-            "Reveal Answers?",
-            "Are you sure you want to reveal everyone's answers now?",
+            "Force Reveal Answers?",
+            "Not everyone has answered yet. Are you sure you want to reveal the answers now?",
             [
                 { text: "Cancel", style: "cancel" },
                 {
-                    text: "Reveal",
-                    style: "default",
+                    text: "Force Reveal",
+                    style: "destructive",
                     onPress: async () => {
                         setLoading(true);
                         haptics.success();
@@ -152,7 +165,7 @@ export function MindSyncView({ players, myPlayerId, roomCode, gamePhase, isHost,
     // Auto-reveal for Host when everyone has answered
     useEffect(() => {
         if (isHost && answeredCount === totalPlayers && gamePhase === 'MINDSYNC:ANSWERING' && totalPlayers > 0) {
-            handleReveal();
+            handleReveal(true);
         }
     }, [isHost, answeredCount, totalPlayers, gamePhase]);
 
@@ -270,14 +283,27 @@ export function MindSyncView({ players, myPlayerId, roomCode, gamePhase, isHost,
         };
 
         const handleEndVoting = async () => {
+            const everyoneVoted = votedCount === players.length;
+
+            if (everyoneVoted) {
+                setLoading(true);
+                try {
+                    await GameAPI.revealMindSyncResults(roomCode);
+                    haptics.success();
+                } finally {
+                    setLoading(false);
+                }
+                return;
+            }
+
             showAlert(
-                "Reveal Results?",
-                "Are you sure you want to end voting and reveal the results?",
+                "Force Reveal Results?",
+                "Not everyone has voted yet. Are you sure you want to end voting and reveal the results?",
                 [
                     { text: "Cancel", style: "cancel" },
                     {
-                        text: "Reveal",
-                        style: "default",
+                        text: "Force Reveal",
+                        style: "destructive",
                         onPress: async () => {
                             setLoading(true);
                             try {

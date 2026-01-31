@@ -22,7 +22,7 @@ interface OnlineGameState {
     myPlayerId: string | null;
     players: Player[];
     gameStatus: 'LOBBY' | 'PLAYING' | 'FINISHED';
-    gamePhase: 'setup' | 'reveal' | 'discussion' | 'voting' | 'results' | 'SELECT_MODE' | 'SELECT_THEME' | 'SELECT_DIRECTOR' | 'SELECT_PSYCHIC' | 'SETUP_DIRECTOR:PLAYER' | 'SETUP_DIRECTOR:MOVIE' | 'SETUP_DIRECTOR:TIMER' | 'role-reveal' | 'judge' | 'PICTIONARY:SELECT_WORD' | 'PICTIONARY:DRAWING' | 'PICTIONARY:TURN_END' | 'PICTIONARY:ROUND_END' | null;
+    gamePhase: 'LOBBY' | 'setup' | 'reveal' | 'discussion' | 'voting' | 'results' | 'SELECT_MODE' | 'SELECT_THEME' | 'SELECT_DIRECTOR' | 'SELECT_PSYCHIC' | 'SETUP_DIRECTOR:PLAYER' | 'SETUP_DIRECTOR:MOVIE' | 'SETUP_DIRECTOR:TIMER' | 'role-reveal' | 'judge' | 'PICTIONARY:SELECT_WORD' | 'PICTIONARY:DRAWING' | 'PICTIONARY:TURN_END' | 'PICTIONARY:ROUND_END' | null;
     gameMode: string | null;
     messages: ChatMessage[];
     unreadMessageCount: number;

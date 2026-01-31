@@ -81,7 +81,8 @@ export default function LobbyScreen() {
     };
 
     const handleStartGame = () => {
-        router.push('/multiplayer/select-mode');
+        if (!roomCode) return;
+        GameAPI.updateGamePhase(roomCode, 'SELECT_MODE');
     };
 
     const handleCopyCode = async () => {
