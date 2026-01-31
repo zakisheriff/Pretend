@@ -85,11 +85,6 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
 
         await sendChatMessage(textToSend, replyTo || undefined);
 
-        // Scroll to end but DON'T auto-scroll if user is typing (handled by isInputFocused check)
-        setTimeout(() => {
-            flatListRef.current?.scrollToEnd({ animated: true });
-        }, 100);
-
         // Re-focus input AFTER all operations to ensure keyboard stays open
         setTimeout(() => {
             if (Platform.OS === 'web') {
@@ -102,19 +97,18 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
 
 
 
-    // Auto-scroll logic
+    // Auto-scroll logic removed in favor of `inverted` FlatList
     useEffect(() => {
         if (visible) {
             clearUnreadCount();
-            // scrollToEnd without animation for instant positioning on open
-            setTimeout(() => flatListRef.current?.scrollToEnd({ animated: false }), 0);
         }
     }, [visible]);
 
+    // Snap to bottom (Index 0) on new messages
     useEffect(() => {
-        // Auto-scroll on new messages regardless of typing state as per user request
         if (visible && messages.length > 0) {
-            flatListRef.current?.scrollToEnd({ animated: true });
+            // In an inverted list, offset 0 is the bottom (newest message)
+            flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
         }
     }, [messages.length, visible]);
 
@@ -131,8 +125,6 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                     }
                 }
             };
-
-            // Immediate call is more likely to be accepted as part of user gesture on web
             focus();
         }
     }, [replyTo]);
@@ -142,6 +134,9 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
             onClose();
         }
     };
+
+    // Grouping labels need to reverse because data is reversed for FlatList
+    const reversedMessages = [...messages].reverse();
 
     return (
         <Modal
@@ -170,24 +165,23 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                     {/* Messages */}
                     <FlatList
                         ref={flatListRef}
-                        data={messages}
+                        inverted
+                        data={reversedMessages}
                         keyExtractor={item => item.id}
                         contentContainerStyle={styles.listContent}
                         keyboardDismissMode="none"
                         keyboardShouldPersistTaps="handled"
-                        onTouchStart={() => {
-                            // Optional: Dismiss on touch if preferred, but on-drag is standard for chat
-                            // If user wants "touch anywhere", onTouchStart on list might work but interferes with scrolling?
-                            // Standard "WhatsApp-like" behavior is dismiss on drag or tap on empty space.
-                        }}
                         onContentSizeChange={() => {
-                            if (visible) flatListRef.current?.scrollToEnd({ animated: true });
+                            // Inverted lists handle this naturally
                         }}
                         renderItem={({ item, index }) => {
-                            const prev = messages[index - 1];
-                            const next = messages[index + 1];
-                            const isSameSenderPrev = prev?.senderId === item.senderId;
-                            const isSameSenderNext = next?.senderId === item.senderId;
+                            // With inverted list: 
+                            // older message is index + 1
+                            // newer message is index - 1
+                            const nextOlder = reversedMessages[index + 1];
+                            const nextNewer = reversedMessages[index - 1];
+                            const isSameSenderPrev = nextOlder?.senderId === item.senderId;
+                            const isSameSenderNext = nextNewer?.senderId === item.senderId;
 
                             return (
                                 <MessageRow
@@ -200,7 +194,7 @@ export const ChatModal = ({ visible, onClose }: ChatModalProps) => {
                                 />
                             );
                         }}
-                        ListFooterComponent={
+                        ListHeaderComponent={
                             typingPlayers.length > 0 ? (
                                 <Animated.View entering={FadeIn} style={styles.typingContainer}>
                                     <View style={styles.typingBubble}>
