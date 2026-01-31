@@ -257,6 +257,9 @@ const styles = StyleSheet.create({
         marginTop: 8,
     },
     actions: {
+        width: '100%',
+        maxWidth: 320,
+        alignSelf: 'center',
         gap: 12,
         paddingBottom: 16,
     },

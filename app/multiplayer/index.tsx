@@ -110,16 +110,6 @@ export default function MultiplayerScreen() {
                             </View>
 
                             <View style={styles.mainContent}>
-                                {!isJoining && (
-                                    <Animated.View entering={FadeInDown.delay(100).duration(500)} style={[styles.heroSection, isFocused && styles.heroSectionFocused]}>
-                                        <View style={[styles.iconContainer, isFocused && styles.iconContainerFocused]}>
-                                            <Ionicons name="globe-outline" size={isFocused ? 60 : 60} color={Colors.candlelight} />
-                                        </View>
-                                        <Text style={[styles.title, isFocused && styles.titleFocused]}>Play Remote</Text>
-                                        {<Text style={styles.subtitle}>Connect with friends across devices</Text>}
-                                    </Animated.View>
-                                )}
-
                                 <View style={styles.actions}>
                                     <Animated.View entering={FadeInDown.delay(100).duration(500)} style={styles.inputContainer}>
                                         <Text style={styles.inputLabel}>Your Name</Text>
@@ -136,32 +126,30 @@ export default function MultiplayerScreen() {
                                     </Animated.View>
 
                                     {!isJoining && (
-                                        <>
-                                            <Animated.View entering={FadeInDown.delay(200).duration(500)}>
+                                        <View style={styles.buttonRow}>
+                                            <Animated.View entering={FadeInDown.delay(200).duration(500)} style={{ flex: 1 }}>
                                                 <Button
                                                     title="Host Game"
                                                     onPress={handleHostGame}
                                                     variant="primary"
-                                                    size="large"
+                                                    size="medium"
                                                     disabled={!name.trim()}
                                                     loading={loading}
-                                                    icon={<Ionicons name="add-circle-outline" size={24} color={Colors.victorianBlack} />}
-                                                    style={styles.actionButton}
+                                                    icon={<Ionicons name="add-circle-outline" size={20} color={Colors.victorianBlack} />}
                                                 />
                                             </Animated.View>
 
-                                            <Animated.View entering={FadeInDown.delay(300).duration(500)}>
+                                            <Animated.View entering={FadeInDown.delay(300).duration(500)} style={{ flex: 1 }}>
                                                 <Button
                                                     title="Join Game"
                                                     onPress={handleJoinGame}
                                                     variant="outline"
-                                                    size="large"
+                                                    size="medium"
                                                     disabled={!name.trim()}
-                                                    icon={<Ionicons name="enter-outline" size={24} color={Colors.parchment} />}
-                                                    style={styles.actionButton}
+                                                    icon={<Ionicons name="enter-outline" size={20} color={Colors.parchment} />}
                                                 />
                                             </Animated.View>
-                                        </>
+                                        </View>
                                     )}
 
                                     {isJoining && (
@@ -175,22 +163,30 @@ export default function MultiplayerScreen() {
                                                 autoCapitalize="characters"
                                                 onChangeText={(text) => setRoomCode(text.toUpperCase())}
                                                 value={roomCode}
+                                                returnKeyType="go"
+                                                onSubmitEditing={submitJoin}
                                             />
-                                            <Button
-                                                title={loading ? "Joining..." : "Join Room"}
-                                                onPress={submitJoin}
-                                                variant="primary"
-                                                size="large"
-                                                disabled={loading}
-                                                style={{ width: '100%', marginTop: 20 }}
-                                            />
-                                            <Button
-                                                title="Cancel"
-                                                onPress={() => setIsJoining(false)}
-                                                variant="ghost"
-                                                size="small"
-                                                style={{ marginTop: 10 }}
-                                            />
+                                            <View style={[styles.buttonRow, { marginTop: 20 }]}>
+                                                <View style={{ flex: 1 }}>
+                                                    <Button
+                                                        title="Cancel"
+                                                        onPress={() => setIsJoining(false)}
+                                                        variant="ghost"
+                                                        size="medium"
+                                                        style={{ width: '100%' }}
+                                                    />
+                                                </View>
+                                                <View style={{ flex: 2 }}>
+                                                    <Button
+                                                        title={loading ? "Joining..." : "Join Room"}
+                                                        onPress={submitJoin}
+                                                        variant="primary"
+                                                        size="medium"
+                                                        disabled={loading}
+                                                        style={{ width: '100%' }}
+                                                    />
+                                                </View>
+                                            </View>
                                         </Animated.View>
                                     )}
                                 </View>
@@ -290,13 +286,20 @@ const styles = StyleSheet.create({
         maxWidth: '80%',
     },
     actions: {
+        width: '100%',
+        maxWidth: 320,
+        alignSelf: 'center',
         gap: 16,
     },
-    actionButton: {
+    buttonRow: {
+        flexDirection: 'row',
+        gap: 12,
         width: '100%',
     },
     joinContainer: {
         width: '100%',
+        maxWidth: 320,
+        alignSelf: 'center',
         alignItems: 'center',
     },
     inputLabel: {
@@ -308,6 +311,8 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: '100%',
+        maxWidth: 320,
+        alignSelf: 'center',
         marginBottom: 20,
     },
     input: {
@@ -322,6 +327,6 @@ const styles = StyleSheet.create({
         fontWeight: '800',
         textAlign: 'center',
         paddingHorizontal: 20,
-        letterSpacing: 4,
+        letterSpacing: 2,
     },
 });
