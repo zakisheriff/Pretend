@@ -3,7 +3,7 @@ import { useGameStore } from '@/store/gameStore';
 import { Stack, usePathname, useRootNavigationState, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { BackHandler, Platform, StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
@@ -12,6 +12,33 @@ export default function RootLayout() {
   const pathname = usePathname();
   const rootNavigationState = useRootNavigationState();
   const hasPlayers = useGameStore((state) => state.players.length > 0);
+
+  // Global BackHandler to prevent Android hardware back button everywhere
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+        // Return true to prevent default back behavior
+        return true;
+      });
+      return () => backHandler.remove();
+    }
+  }, []);
+
+  // Web-specific: Prevent browser back/forward navigation
+  useEffect(() => {
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      // Push a dummy state to prevent going back
+      window.history.pushState(null, '', window.location.href);
+
+      const handlePopState = () => {
+        // When user tries to go back, push state again to stay on current page
+        window.history.pushState(null, '', window.location.href);
+      };
+
+      window.addEventListener('popstate', handlePopState);
+      return () => window.removeEventListener('popstate', handlePopState);
+    }
+  }, []);
 
   useEffect(() => {
     // Wait for navigation to be ready
