@@ -506,6 +506,7 @@ const styles = StyleSheet.create({
         width: '100%',
         maxWidth: 500,
         alignSelf: 'center',
+        paddingHorizontal: 20,
         paddingBottom: 40,
         gap: 24,
     },
