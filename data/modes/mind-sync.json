@@ -425,11 +425,6 @@
         "category": "politics"
     },
     {
-        "mainQuestion": "What is a book that changed your perspective?",
-        "outlierQuestion": "What is a movie that changed your perspective?",
-        "category": "media"
-    },
-    {
         "mainQuestion": "If you could replace your hand with a tool, what would it be?",
         "outlierQuestion": "If you could handle any object with your mind, what would it be?",
         "category": "silly"

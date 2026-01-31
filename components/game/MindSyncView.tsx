@@ -24,7 +24,7 @@ export function MindSyncView({ players, myPlayerId, roomCode, gamePhase, isHost,
     const [loading, setLoading] = useState(false);
     const { showAlert, AlertComponent } = useCustomAlert();
     const [hasSubmitted, setHasSubmitted] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(gameData?.data?.timer || 20);
+    const [timeLeft, setTimeLeft] = useState(gameData?.data?.timer || 60);
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     // Parse question data from secretWord
@@ -37,20 +37,27 @@ export function MindSyncView({ players, myPlayerId, roomCode, gamePhase, isHost,
         }
     }, [myPlayer?.secretWord]);
 
-    // Get answers from game data
-    const answers = gameData?.data?.answers || {};
-    const allAnswers = Object.entries(answers).map(([playerId, answer]) => {
-        const player = players.find(p => p.id === playerId);
-        return { playerId, playerName: player?.name || 'Unknown', answer: answer as string };
-    });
+    // Get answers from players array (Synced via DB)
+    const allAnswers = useMemo(() => {
+        return players.map(p => {
+            let answer = '';
+            try {
+                // Robust check for secretWord (camelCase) vs secret_word (snake_case from DB)
+                const rawSecret = p.secretWord || (p as any).secret_word || '{}';
+                answer = JSON.parse(rawSecret).answer || '';
+            } catch (e) { }
+            return { playerId: p.id, playerName: p.name, answer };
+        }).filter(a => !!a.answer);
+    }, [players]);
 
-    // Check if already submitted
+    // Check if my player submitted (based on vote status or secretWord)
     useEffect(() => {
-        if (myPlayerId && answers[myPlayerId]) {
+        if (myPlayer?.vote === 'ANSWERED') {
             setHasSubmitted(true);
-            setAnswer(answers[myPlayerId]);
+            // Optionally restore local answer state from secretWord if needed
+            //But we use 'answer' state for input, so let's leave it.
         }
-    }, [answers, myPlayerId]);
+    }, [myPlayer?.vote]);
 
     // Timer for answering phase
     useEffect(() => {
@@ -119,15 +126,22 @@ export function MindSyncView({ players, myPlayerId, roomCode, gamePhase, isHost,
         setLoading(true);
         haptics.success();
         try {
-            await GameAPI.updateGamePhase(roomCode, 'voting');
+            await GameAPI.startMindSyncVoting(roomCode);
         } finally {
             setLoading(false);
         }
     };
 
-    // Count answered players
-    const answeredCount = Object.keys(answers).length;
+    // Count answered players (Use 'vote' column as flag)
+    const answeredCount = players.filter(p => !!p.vote).length;
     const totalPlayers = players.length;
+
+    // Auto-reveal for Host when everyone has answered
+    useEffect(() => {
+        if (isHost && answeredCount === totalPlayers && gamePhase === 'MINDSYNC:ANSWERING' && totalPlayers > 0) {
+            handleReveal();
+        }
+    }, [isHost, answeredCount, totalPlayers, gamePhase]);
 
     // Answering Phase
     if (gamePhase === 'MINDSYNC:ANSWERING') {
@@ -193,75 +207,26 @@ export function MindSyncView({ players, myPlayerId, roomCode, gamePhase, isHost,
                     </Animated.View>
                 )}
 
-                {/* Host Force Reveal */}
-                {isHost && hasSubmitted && answeredCount < totalPlayers && (
-                    <Button
-                        title="Force Reveal"
-                        onPress={handleReveal}
-                        variant="secondary"
-                        loading={loading}
-                        style={{ marginTop: 20 }}
-                    />
-                )}
-            </View>
-        );
-    }
-
-    // Reveal Phase
-    if (gamePhase === 'MINDSYNC:REVEAL') {
-        return (
-            <View style={styles.container}>
-                <Animated.View entering={FadeIn} style={styles.revealHeader}>
-                    <Ionicons name="bulb" size={24} color={Colors.candlelight} />
-                    <Text style={styles.revealTitle}>ANSWERS REVEALED</Text>
-                </Animated.View>
-
-                {/* All Answers */}
-                <View style={styles.answersGrid}>
-                    {allAnswers.map((item, index) => {
-                        const isMe = item.playerId === myPlayerId;
-                        const player = players.find(p => p.id === item.playerId);
-                        const isOutlier = player?.role === 'outlier';
-
-                        return (
-                            <Animated.View
-                                key={item.playerId}
-                                entering={FadeInDown.delay(index * 100)}
-                                style={[
-                                    styles.answerCard,
-                                    isMe && styles.answerCardMine
-                                    // Note: Don't highlight outlier - they don't know they're the outlier!
-                                ]}
-                            >
-                                <Text style={styles.answerPlayerName}>{item.playerName}</Text>
-                                <Text style={styles.answerText}>"{item.answer}"</Text>
-                            </Animated.View>
-                        );
-                    })}
-                </View>
-
-                {/* Hint */}
-                <View style={styles.hintCard}>
-                    <Ionicons name="eye" size={16} color={Colors.suspect} />
-                    <Text style={styles.hintText}>
-                        One person had a DIFFERENT question. Find the Outlier!
-                    </Text>
-                </View>
-
-                {/* Host: Start Discussion */}
+                {/* Host Control: Reveal / Force Reveal */}
                 {isHost && (
-                    <Button
-                        title="Start Discussion"
-                        onPress={handleStartDiscussion}
-                        variant="primary"
-                        loading={loading}
-                        icon={<Ionicons name="chatbubbles" size={20} color={Colors.victorianBlack} />}
-                        style={{ marginTop: 24 }}
-                    />
+                    <View style={{ marginTop: 20, width: '100%', alignItems: 'center' }}>
+                        <Text style={{ color: Colors.grayLight, marginBottom: 10 }}>
+                            {answeredCount}/{totalPlayers} players have answered
+                        </Text>
+                        <Button
+                            title={answeredCount === totalPlayers ? "Reveal Answers" : "Force Reveal"}
+                            onPress={handleReveal}
+                            variant={answeredCount === totalPlayers ? "primary" : "secondary"}
+                            loading={loading}
+                            icon={<Ionicons name="bulb" size={20} color={Colors.victorianBlack} />}
+                        />
+                    </View>
                 )}
             </View>
         );
     }
+
+
 
     // Voting Phase
     if (gamePhase === 'voting') {
@@ -373,24 +338,37 @@ export function MindSyncView({ players, myPlayerId, roomCode, gamePhase, isHost,
                 <Text style={styles.discussionTitle}>DISCUSSION TIME</Text>
             </View>
 
-            {/* Show your question */}
+            {/* Main Question (Crewmate Question) for shared context */}
             <View style={styles.yourQuestionCard}>
-                <Text style={styles.yourQuestionLabel}>Your Question Was:</Text>
-                <Text style={styles.yourQuestionText}>{questionData?.question}</Text>
+                <Text style={styles.yourQuestionLabel}>The Crewmate Question Was:</Text>
+                <Text style={styles.yourQuestionText}>
+                    {gameData?.data?.mainQuestion || questionData?.question || 'Loading...'}
+                </Text>
+                {myPlayer?.role === 'outlier' && (
+                    <Text style={{ marginTop: 8, color: Colors.suspect, fontStyle: 'italic', fontSize: 12 }}>
+                        (You had a different question: {questionData?.question})
+                    </Text>
+                )}
             </View>
 
-            {/* All Answers Reference */}
+            {/* All Answers Reference - Using the polished Card UI */}
             <View style={styles.answersGrid}>
-                {allAnswers.map((item) => {
+                {allAnswers.length === 0 && (
+                    <Text style={{ color: Colors.grayLight, fontStyle: 'italic', textAlign: 'center', marginVertical: 20 }}>
+                        No answers found...
+                    </Text>
+                )}
+                {allAnswers.map((item, index) => {
                     const isMe = item.playerId === myPlayerId;
                     return (
-                        <View
+                        <Animated.View
                             key={item.playerId}
-                            style={[styles.answerCardSmall, isMe && styles.answerCardMine]}
+                            entering={FadeInDown.delay(index * 100)}
+                            style={[styles.answerCard, isMe && styles.answerCardMine]}
                         >
-                            <Text style={styles.answerPlayerNameSmall}>{item.playerName}</Text>
-                            <Text style={styles.answerTextSmall}>"{item.answer}"</Text>
-                        </View>
+                            <Text style={styles.answerPlayerName}>{item.playerName}</Text>
+                            <Text style={styles.answerText}>"{item.answer}"</Text>
+                        </Animated.View>
                     );
                 })}
             </View>

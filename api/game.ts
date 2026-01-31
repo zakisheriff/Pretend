@@ -289,8 +289,8 @@ export const GameAPI = {
                                     mainQuestion: question.mainQuestion,
                                     outlierQuestion: question.outlierQuestion,
                                     category: question.category,
-                                    timer: 20, // Default 20 seconds for answering
-                                    answers: {}, // playerId -> answer
+                                    timer: 60, // 60 seconds for answering
+                                    answers: {}, // Unused now, but kept for schema compatibility
                                     phase: 'answering' // answering, reveal, discussion, voting
                                 }
                             }
@@ -914,48 +914,45 @@ export const GameAPI = {
      */
     submitMindSyncAnswer: async (roomCode: string, playerId: string, answer: string) => {
         try {
-            // 1. Get current game data
-            const { data: room, error: roomError } = await supabase
-                .from('rooms')
-                .select('game_data')
-                .eq('code', roomCode)
+            // 1. Fetch player to preserve existing secret_word data (question/role info)
+            const { data: player, error: fetchError } = await supabase
+                .from('players')
+                .select('secret_word, id')
+                .eq('id', playerId)
                 .single();
 
-            if (roomError || !room) {
-                return { error: 'Room not found' };
-            }
+            if (fetchError || !player) return { error: 'Player not found' };
 
-            const gameData = room.game_data;
-            if (!gameData || gameData.type !== 'mind-sync') {
-                return { error: 'Invalid game state' };
-            }
+            // 2. Merge answer into secret_word
+            let secretData = {};
+            try {
+                secretData = JSON.parse(player.secret_word || '{}');
+            } catch (e) { }
 
-            // 2. Add answer to game data
-            const updatedAnswers = {
-                ...gameData.data.answers,
-                [playerId]: answer.trim()
-            };
+            const updatedSecret = JSON.stringify({
+                ...secretData,
+                answer: answer.trim()
+            });
 
-            await supabase
-                .from('rooms')
-                .update({
-                    game_data: {
-                        ...gameData,
-                        data: {
-                            ...gameData.data,
-                            answers: updatedAnswers
-                        }
-                    }
-                })
-                .eq('code', roomCode);
-
-            // 3. Check if all players have answered
-            const { data: players } = await supabase
+            // 3. Update Player: Store answer in secret_word AND mark as 'ANSWERED' in vote col for easy counting
+            const { error: updateError } = await supabase
                 .from('players')
-                .select('id')
+                .update({
+                    secret_word: updatedSecret,
+                    vote: 'ANSWERED'
+                })
+                .eq('id', playerId);
+
+            if (updateError) throw updateError;
+
+            // 4. Check if all players have answered
+            const { data: allPlayers } = await supabase
+                .from('players')
+                .select('vote')
                 .eq('room_code', roomCode);
 
-            const allAnswered = players?.every(p => p.id in updatedAnswers) ?? false;
+            // Check if everyone has a vote status (meaning they answered)
+            const allAnswered = allPlayers?.every(p => !!p.vote) ?? false;
 
             return { error: null, allAnswered };
         } catch (error: any) {
@@ -969,10 +966,10 @@ export const GameAPI = {
      */
     revealMindSyncAnswers: async (roomCode: string) => {
         try {
-            // Update game phase to reveal
+            // Update game phase to discussion directly (Skipping separate reveal screen as per user request)
             await supabase
                 .from('rooms')
-                .update({ curr_phase: 'MINDSYNC:REVEAL' })
+                .update({ curr_phase: 'discussion' })
                 .eq('code', roomCode);
 
             return { error: null };
@@ -989,6 +986,20 @@ export const GameAPI = {
         return await supabase
             .from('rooms')
             .update({ curr_phase: 'discussion' })
+            .eq('code', roomCode);
+    },
+
+    startMindSyncVoting: async (roomCode: string) => {
+        // 1. Clear 'ANSWERED' status from vote column so voting can proceed fresh
+        await supabase
+            .from('players')
+            .update({ vote: null })
+            .eq('room_code', roomCode);
+
+        // 2. Set phase to voting
+        return await supabase
+            .from('rooms')
+            .update({ curr_phase: 'voting' })
             .eq('code', roomCode);
     }
 };
