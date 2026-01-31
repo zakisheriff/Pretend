@@ -1,9 +1,11 @@
 import { GameAPI } from '@/api/game';
-import { Button } from '@/components/game';
+import { Button, ThemeCard } from '@/components/game';
 import { Colors } from '@/constants/colors';
+import { categories, undercoverCategories } from '@/data/themes';
 import { useCustomAlert } from '@/hooks/useCustomAlert';
 import { useOnlineGameStore } from '@/store/onlineGameStore';
 import { GAME_MODES, GameModeInfo } from '@/types/game';
+import { haptics } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -25,6 +27,28 @@ export default function SelectModeScreen() {
     const [loading, setLoading] = React.useState(false);
     const [showPlayerSelect, setShowPlayerSelect] = React.useState(false);
     const [selectedDirectorId, setSelectedDirectorId] = React.useState<string | null>(null);
+
+    // Theme selection for classic-imposter and undercover-word modes
+    const [showThemeSelect, setShowThemeSelect] = React.useState(false);
+    const [selectedThemeIds, setSelectedThemeIds] = React.useState<string[]>([]);
+    const [hintLevel, setHintLevel] = React.useState<'none' | 'low' | 'medium'>('low');
+
+    // Get the appropriate categories based on mode
+    const getThemeCategories = () => {
+        if (selectedMode === 'classic-imposter') return undercoverCategories;
+        if (selectedMode === 'undercover-word') return categories;
+        return [];
+    };
+
+    const toggleTheme = (themeId: string) => {
+        if (!isHost) return;
+        setSelectedThemeIds(prev =>
+            prev.includes(themeId)
+                ? prev.filter(id => id !== themeId)
+                : [...prev, themeId]
+        );
+        haptics.selection();
+    };
 
     // Sync state for spectators
     React.useEffect(() => {
@@ -72,6 +96,13 @@ export default function SelectModeScreen() {
             broadcastSelection({ type: 'player', id: null });
             return;
         }
+        if (showThemeSelect) {
+            setShowThemeSelect(false);
+            setSelectedThemeIds([]);
+            setHintLevel('low');
+            GameAPI.updateGamePhase(roomCode!, 'SELECT_MODE');
+            return;
+        }
         router.back();
     };
 
@@ -87,12 +118,24 @@ export default function SelectModeScreen() {
             return;
         }
 
+        // Undercover/Imposter modes: Theme selection step
+        const themeSelectModes = ['classic-imposter', 'undercover-word'];
+        if (themeSelectModes.includes(selectedMode) && !showThemeSelect) {
+            setShowThemeSelect(true);
+            GameAPI.updateGamePhase(roomCode, 'SELECT_THEME');
+            return;
+        }
+
+        // Require at least one theme for these modes
+        if (themeSelectModes.includes(selectedMode) && selectedThemeIds.length === 0) {
+            haptics.warning();
+            showAlert('Select Themes', 'Please select at least one theme to continue.');
+            return;
+        }
+
         // Pictionary Mode: Starts immediately (Role assignment happens in API)
         if (selectedMode === 'pictionary') {
             setLoading(true);
-            // Verify player count? (Min 2 handled by UI filtering, but maybe strict check here?)
-            // if (players.length < 2) { ... }
-
             const { error } = await GameAPI.startGame(roomCode, selectedMode, {});
             if (error) {
                 showAlert('Error', 'Failed to start game: ' + error);
@@ -102,7 +145,6 @@ export default function SelectModeScreen() {
         }
 
         setLoading(true);
-        // ... general start case ...
         const options: any = {};
         if (selectedMode === 'directors-cut' && selectedDirectorId) {
             options.directorId = selectedDirectorId;
@@ -110,12 +152,17 @@ export default function SelectModeScreen() {
         if (selectedMode === 'wavelength' && selectedDirectorId) {
             options.psychicId = selectedDirectorId;
         }
+        // Pass theme and hint options for undercover/imposter modes
+        if (themeSelectModes.includes(selectedMode)) {
+            options.themeIds = selectedThemeIds;
+            if (selectedMode === 'undercover-word') {
+                options.hintLevel = hintLevel;
+            }
+        }
 
         const { error } = await GameAPI.startGame(roomCode, selectedMode, options);
         if (error) {
             showAlert('Error', 'Failed to start game: ' + error);
-        } else {
-            // Store updates handled by postgres subscription
         }
         setLoading(false);
     };
@@ -181,102 +228,182 @@ export default function SelectModeScreen() {
 
     return (
         <View style={styles.container}>
+            {/* Absolute Header with blur-like gradient */}
             <LinearGradient
-                colors={['#000000', '#0A0A0A', '#000000']}
-                style={styles.gradient}
+                colors={['#000000', 'rgba(0,0,0,0.8)', 'transparent']}
+                locations={[0, 0.6, 1]}
+                style={[styles.headerBar, { paddingTop: insets.top + 10 }]}
             >
-                <View style={[styles.content, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-                    {/* Header */}
-                    <View style={styles.header}>
-                        <Button
-                            title=""
-                            onPress={handleBack}
-                            variant="ghost"
-                            size="small"
-                            icon={<Ionicons name="arrow-back" size={24} color={Colors.parchment} />}
-                            style={styles.backButton}
-                        />
-                        <View style={{ flex: 1 }} />
-                        <Button
-                            title={showPlayerSelect ? "Start Game" : "Next"}
-                            onPress={handleStartGame}
-                            variant="primary"
-                            size="small"
-                            disabled={
-                                (!selectedMode) ||
-                                (showPlayerSelect && !selectedDirectorId) ||
-                                loading
-                            }
-                            style={{ width: 100, opacity: (selectedMode && (!showPlayerSelect || selectedDirectorId)) ? 1 : 0.5 }}
-                        />
-                    </View>
+                <Button
+                    title=""
+                    onPress={handleBack}
+                    variant="ghost"
+                    size="small"
+                    icon={<Ionicons name="arrow-back" size={24} color={Colors.parchment} />}
+                    style={styles.backButton}
+                />
 
-                    <Animated.View key={showPlayerSelect ? 'select-director' : 'select-mode'} entering={FadeInDown.delay(100)} style={styles.titleContainer}>
+                <Button
+                    title={(showPlayerSelect || showThemeSelect) ? "Start Game" : "Next"}
+                    onPress={handleStartGame}
+                    variant="primary"
+                    size="small"
+                    disabled={
+                        (!selectedMode) ||
+                        (showPlayerSelect && !selectedDirectorId) ||
+                        (showThemeSelect && selectedThemeIds.length === 0) ||
+                        loading
+                    }
+                    style={{ width: 110, opacity: (selectedMode && (!showPlayerSelect || selectedDirectorId) && (!showThemeSelect || selectedThemeIds.length > 0)) ? 1 : 0.5 }}
+                />
+            </LinearGradient>
+
+            {/* Main Content Area */}
+            {showThemeSelect ? (
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 40 }]}
+                >
+                    <Animated.View entering={FadeInDown.delay(100)} style={styles.titleContainer}>
                         <View style={styles.titleIcon}>
-                            <Ionicons name={showPlayerSelect ? "person-outline" : "game-controller-outline"} size={32} color={Colors.parchment} />
+                            <Ionicons name="folder-open-outline" size={32} color={Colors.parchment} />
                         </View>
-                        <Text style={styles.title}>
-                            {showPlayerSelect
-                                ? (selectedMode === 'directors-cut' ? "Assign Director" : "Assign Psychic")
-                                : "Select Mode"}
-                        </Text>
-                        <Text style={styles.subtitle}>
-                            {showPlayerSelect
-                                ? (selectedMode === 'directors-cut' ? "Who will choose the movie?" : "Who knows the wavelength?")
-                                : "Choose Your Investigation Style"}
-                        </Text>
+                        <Text style={styles.title}>Select Themes</Text>
+                        <Text style={styles.subtitle}>Choose one or more categories</Text>
                     </Animated.View>
 
-                    {showPlayerSelect ? (
-                        <View style={{ flex: 1 }}>
-                            <FlatList
-                                data={players}
-                                keyExtractor={(p: any) => p.id}
-                                contentContainerStyle={{ gap: 12, paddingBottom: 40 }}
-                                renderItem={({ item }: { item: any }) => (
+                    {/* Hint Level Selector - Only for undercover-word (Imposter mode) */}
+                    {selectedMode === 'undercover-word' && (
+                        <View style={styles.hintSection}>
+                            <Text style={styles.hintSectionTitle}>Hint Level for Imposter</Text>
+                            <View style={styles.hintOptions}>
+                                {(['none', 'low', 'medium'] as const).map((level) => (
                                     <TouchableOpacity
-                                        onPress={() => handlePlayerSelect(item.id)}
+                                        key={level}
                                         style={[
-                                            styles.playerCard,
-                                            selectedDirectorId === item.id && styles.playerCardSelected
+                                            styles.hintOption,
+                                            hintLevel === level && styles.hintOptionSelected
                                         ]}
+                                        onPress={() => {
+                                            if (!isHost) return;
+                                            setHintLevel(level);
+                                            haptics.selection();
+                                        }}
                                         disabled={!isHost}
-                                        activeOpacity={isHost ? 0.7 : 1}
                                     >
-                                        <View style={[styles.iconContainer,
-                                        selectedDirectorId === item.id && { backgroundColor: 'transparent' }
+                                        <Text style={[
+                                            styles.hintOptionText,
+                                            hintLevel === level && styles.hintOptionTextSelected
                                         ]}>
-                                            <Ionicons name="person" size={24} color={selectedDirectorId === item.id ? Colors.victorianBlack : Colors.parchment} />
-                                        </View>
-                                        <Text style={[styles.playerName, selectedDirectorId === item.id && styles.textSelected]}>
-                                            {item.name}
+                                            {level === 'none' ? 'None' : level === 'low' ? 'Low' : 'Medium'}
                                         </Text>
-                                        {selectedDirectorId === item.id && (
-                                            <Ionicons name="checkmark-circle" size={24} color={Colors.victorianBlack} />
-                                        )}
                                     </TouchableOpacity>
-                                )}
-                            />
+                                ))}
+                            </View>
+                            <Text style={styles.hintDescription}>
+                                {hintLevel === 'none'
+                                    ? "Imposter gets NO hint - hardest mode!"
+                                    : hintLevel === 'low'
+                                        ? "Imposter gets a vague hint"
+                                        : "Imposter gets a helpful hint"}
+                            </Text>
                         </View>
-                    ) : (
-                        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-                            <View style={styles.sectionHeader}>
-                                <Ionicons name="copy-outline" size={18} color={Colors.parchment} />
-                                <Text style={styles.sectionTitle}>2+ Players</Text>
-                            </View>
-                            <View style={styles.sectionList}>
-                                {modes2Plus.map((mode, i) => renderModeItem(mode, i))}
-                            </View>
-
-                            <View style={styles.sectionHeader}>
-                                <Ionicons name="layers-outline" size={18} color={Colors.parchment} />
-                                <Text style={styles.sectionTitle}>3+ Players</Text>
-                            </View>
-                            <View style={styles.sectionList}>
-                                {modes3Plus.map((mode, i) => renderModeItem(mode, i))}
-                            </View>
-                        </ScrollView>
                     )}
+
+                    {/* Theme Categories */}
+                    {getThemeCategories().map((cat) => (
+                        <View key={cat.id} style={styles.themeSection}>
+                            <View style={styles.sectionHeader}>
+                                <Ionicons name={cat.icon as any} size={18} color={Colors.candlelight} />
+                                <Text style={styles.sectionTitle}>{cat.name}</Text>
+                            </View>
+                            <View style={styles.themeGrid}>
+                                {cat.themes.map((theme) => (
+                                    <ThemeCard
+                                        key={theme.id}
+                                        id={theme.id}
+                                        name={theme.name}
+                                        icon={theme.icon}
+                                        isSelected={selectedThemeIds.includes(theme.id)}
+                                        onSelect={() => toggleTheme(theme.id)}
+                                    />
+                                ))}
+                            </View>
+                        </View>
+                    ))}
+                </ScrollView>
+            ) : showPlayerSelect ? (
+                <View style={{ flex: 1 }}>
+                    <FlatList
+                        data={players}
+                        keyExtractor={(p: any) => p.id}
+                        contentContainerStyle={{ gap: 12, paddingTop: insets.top + 80, paddingBottom: 40, paddingHorizontal: 20 }}
+                        ListHeaderComponent={
+                            <Animated.View entering={FadeInDown.delay(100)} style={styles.titleContainer}>
+                                <View style={styles.titleIcon}>
+                                    <Ionicons name="person-outline" size={32} color={Colors.parchment} />
+                                </View>
+                                <Text style={styles.title}>
+                                    {selectedMode === 'directors-cut' ? "Assign Director" : "Assign Psychic"}
+                                </Text>
+                                <Text style={styles.subtitle}>
+                                    {selectedMode === 'directors-cut' ? "Who will choose the movie?" : "Who knows the wavelength?"}
+                                </Text>
+                            </Animated.View>
+                        }
+                        renderItem={({ item }: { item: any }) => (
+                            <TouchableOpacity
+                                onPress={() => handlePlayerSelect(item.id)}
+                                style={[
+                                    styles.playerCard,
+                                    selectedDirectorId === item.id && styles.playerCardSelected
+                                ]}
+                                disabled={!isHost}
+                                activeOpacity={isHost ? 0.7 : 1}
+                            >
+                                <View style={[styles.iconContainer,
+                                selectedDirectorId === item.id && { backgroundColor: 'transparent' }
+                                ]}>
+                                    <Ionicons name="person" size={24} color={selectedDirectorId === item.id ? Colors.victorianBlack : Colors.parchment} />
+                                </View>
+                                <Text style={[styles.playerName, selectedDirectorId === item.id && styles.textSelected]}>
+                                    {item.name}
+                                </Text>
+                                {selectedDirectorId === item.id && (
+                                    <Ionicons name="checkmark-circle" size={24} color={Colors.victorianBlack} />
+                                )}
+                            </TouchableOpacity>
+                        )}
+                    />
+                </View>
+            ) : (
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 80, paddingBottom: insets.bottom + 40 }]}
+                >
+                    <Animated.View entering={FadeInDown.delay(100)} style={styles.titleContainer}>
+                        <View style={styles.titleIcon}>
+                            <Ionicons name="game-controller-outline" size={32} color={Colors.parchment} />
+                        </View>
+                        <Text style={styles.title}>Select Mode</Text>
+                        <Text style={styles.subtitle}>Choose Your Investigation Style</Text>
+                    </Animated.View>
+
+                    <View style={styles.sectionHeader}>
+                        <Ionicons name="copy-outline" size={18} color={Colors.parchment} />
+                        <Text style={styles.sectionTitle}>2+ Players</Text>
+                    </View>
+                    <View style={styles.sectionList}>
+                        {modes2Plus.map((mode, i) => renderModeItem(mode, i))}
+                    </View>
+
+                    <View style={styles.sectionHeader}>
+                        <Ionicons name="layers-outline" size={18} color={Colors.parchment} />
+                        <Text style={styles.sectionTitle}>3+ Players</Text>
+                    </View>
+                    <View style={styles.sectionList}>
+                        {modes3Plus.map((mode, i) => renderModeItem(mode, i))}
+                    </View>
 
                     {!isHost && (
                         <View style={styles.spectatorBanner}>
@@ -286,8 +413,9 @@ export default function SelectModeScreen() {
                             </Text>
                         </View>
                     )}
-                </View>
-            </LinearGradient>
+                </ScrollView>
+            )}
+
             <AlertComponent />
         </View>
     );
@@ -301,12 +429,19 @@ const styles = StyleSheet.create({
     gradient: { flex: 1 },
     content: { flex: 1, paddingHorizontal: 20 },
 
-    header: {
+    headerBar: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+        zIndex: 10,
         flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        paddingVertical: 10,
-        marginBottom: 20,
     },
+
     backButton: { width: 44, height: 44, borderRadius: 22, paddingHorizontal: 0 },
 
     titleContainer: {
@@ -330,6 +465,9 @@ const styles = StyleSheet.create({
     },
 
     scrollContent: {
+        width: '100%',
+        maxWidth: 500,
+        alignSelf: 'center',
         paddingBottom: 40,
         gap: 24,
     },
@@ -338,7 +476,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 8,
-        marginBottom: 12,
+        marginBottom: 16,
         paddingLeft: 4,
     },
     sectionTitle: {
@@ -448,5 +586,64 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
         textAlign: 'center',
         flexShrink: 1
+    },
+
+    // Theme selection styles
+    themeSection: {
+        marginBottom: 24,
+    },
+    themeGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 14,
+    },
+
+    // Hint level selection styles
+    hintSection: {
+        backgroundColor: 'rgba(255, 215, 0, 0.08)',
+        borderRadius: 16,
+        padding: 16,
+        marginBottom: 8,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 215, 0, 0.2)',
+    },
+    hintSectionTitle: {
+        fontSize: 14,
+        fontWeight: '700',
+        color: Colors.candlelight,
+        marginBottom: 12,
+        textAlign: 'center',
+    },
+    hintOptions: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 12,
+    },
+    hintOption: {
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.2)',
+    },
+    hintOptionSelected: {
+        backgroundColor: Colors.parchment,
+        borderColor: Colors.parchment,
+    },
+    hintOptionText: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: Colors.parchment,
+    },
+    hintOptionTextSelected: {
+        color: Colors.victorianBlack,
+    },
+    hintDescription: {
+        fontSize: 12,
+        color: Colors.grayLight,
+        textAlign: 'center',
+        marginTop: 12,
+        fontStyle: 'italic',
     },
 });

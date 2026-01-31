@@ -283,8 +283,9 @@ export function OnlineResultsView() {
                     </Animated.View>
                 )}
 
-                {/* Role Reveal Logic */}
-                {(gameMode !== 'directors-cut' && gameMode !== 'wavelength') && (
+                {/* Role Reveal Logic - Only show for modes where the special player KNOWS their role */}
+                {/* Hide for: directors-cut, wavelength, mind-sync (outlier doesn't know), classic-imposter (undercover doesn't know) */}
+                {(gameMode !== 'directors-cut' && gameMode !== 'wavelength' && gameMode !== 'mind-sync' && gameMode !== 'classic-imposter') && (
                     <Animated.View entering={FadeInUp.delay(400).springify()} style={styles.section}>
                         <Text style={styles.sectionLabel}>
                             The {specialRoleName}

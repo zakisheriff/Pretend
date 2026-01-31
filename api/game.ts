@@ -1,8 +1,8 @@
 import { mindSync } from '@/data/game-modes';
-import { undercoverThemes } from '@/data/themes';
+import { themes, undercoverThemes } from '@/data/themes';
 import { WAVELENGTH_SPECTRUMS } from '@/data/wavelength';
 import { supabase } from '@/lib/supabase';
-import { GameMode, MindSyncQuestion, UndercoverTheme } from '@/types/game';
+import { GameMode, MindSyncQuestion, Theme, UndercoverTheme } from '@/types/game';
 
 // Helper to generate a 4-letter room code
 const generateRoomCode = () => {
@@ -142,7 +142,7 @@ export const GameAPI = {
     /**
      * Start the game
      */
-    startGame: async (roomCode: string, gameMode: string = 'undercover-word', options: { directorId?: string, psychicId?: string } = {}) => {
+    startGame: async (roomCode: string, gameMode: string = 'undercover-word', options: { directorId?: string, psychicId?: string, themeIds?: string[], hintLevel?: 'none' | 'low' | 'medium' } = {}) => {
         try {
             // 1. Get players
             const { data: players, error: playersError } = await supabase
@@ -336,9 +336,15 @@ export const GameAPI = {
                         return { error: 'Undercover requires at least 3 players' };
                     }
 
-                    // Get random word pair from undercover themes
-                    const allThemes = undercoverThemes as UndercoverTheme[];
-                    const randomTheme = allThemes[Math.floor(Math.random() * allThemes.length)];
+                    // Get themes - filter by selected themeIds if provided
+                    let selectedUndercoverThemes = undercoverThemes as UndercoverTheme[];
+                    if (options.themeIds && options.themeIds.length > 0) {
+                        selectedUndercoverThemes = selectedUndercoverThemes.filter(t => options.themeIds!.includes(t.id));
+                    }
+                    if (selectedUndercoverThemes.length === 0) {
+                        selectedUndercoverThemes = undercoverThemes as UndercoverTheme[];
+                    }
+                    const randomTheme = selectedUndercoverThemes[Math.floor(Math.random() * selectedUndercoverThemes.length)];
                     const randomPair = randomTheme.pairs[Math.floor(Math.random() * randomTheme.pairs.length)];
 
                     // Select random undercover player
@@ -392,25 +398,26 @@ export const GameAPI = {
                         return { error: 'Classic Imposter requires at least 3 players' };
                     }
 
-                    const WORD_PAIRS = [
-                        { crew: "Coffee", imposter: "Hot beverage" },
-                        { crew: "Sun", imposter: "Bright celestial body" },
-                        { crew: "Apple", imposter: "Popular fruit" },
-                        { crew: "Car", imposter: "Vehicle with wheels" },
-                        { crew: "Dog", imposter: "Furry pet" },
-                        { crew: "Pen", imposter: "Writing tool" },
-                        { crew: "Beach", imposter: "Sandy vacation spot" },
-                        { crew: "Piano", imposter: "Musical instrument" },
-                        { crew: "Book", imposter: "Reading material" },
-                        { crew: "Train", imposter: "Public transport on rails" },
-                        { crew: "Pizza", imposter: "Italian food" },
-                        { crew: "Moon", imposter: "Night sky presence" },
-                        { crew: "Guitar", imposter: "String instrument" },
-                        { crew: "Mountain", imposter: "Tall landform" },
-                        { crew: "Phone", imposter: "Communication device" },
-                    ];
+                    // Get themes - filter by selected themeIds if provided
+                    let selectedImposterThemes = themes as Theme[];
+                    if (options.themeIds && options.themeIds.length > 0) {
+                        selectedImposterThemes = selectedImposterThemes.filter(t => options.themeIds!.includes(t.id));
+                    }
+                    if (selectedImposterThemes.length === 0) {
+                        selectedImposterThemes = themes as Theme[];
+                    }
 
-                    const pair = WORD_PAIRS[Math.floor(Math.random() * WORD_PAIRS.length)];
+                    // Pick random theme and word
+                    const imposterTheme = selectedImposterThemes[Math.floor(Math.random() * selectedImposterThemes.length)];
+                    const wordEntry = imposterTheme.words[Math.floor(Math.random() * imposterTheme.words.length)];
+
+                    // Determine hint based on hintLevel
+                    const hintLevel = options.hintLevel || 'low';
+                    let imposterHint = '';
+                    if (hintLevel !== 'none' && wordEntry.hints) {
+                        imposterHint = wordEntry.hints[hintLevel] || wordEntry.hints.low || '';
+                    }
+
                     const imposterIndex = Math.floor(Math.random() * players.length);
                     const imposterPlayer = players[imposterIndex];
 
@@ -421,9 +428,10 @@ export const GameAPI = {
                             game_data: {
                                 type: 'undercover-word',
                                 data: {
-                                    crewmateWord: pair.crew,
-                                    imposterHint: pair.imposter,
-                                    category: 'General'
+                                    crewmateWord: wordEntry.word,
+                                    imposterHint: imposterHint || 'No hint provided',
+                                    hintLevel: hintLevel,
+                                    category: imposterTheme.name
                                 }
                             }
                         })
@@ -431,12 +439,12 @@ export const GameAPI = {
 
                     await supabase
                         .from('players')
-                        .update({ role: 'crewmate', secret_word: pair.crew, vote: null })
+                        .update({ role: 'crewmate', secret_word: wordEntry.word, vote: null })
                         .eq('room_code', roomCode);
 
                     await supabase
                         .from('players')
-                        .update({ role: 'imposter', secret_word: pair.imposter })
+                        .update({ role: 'imposter', secret_word: imposterHint || 'You are the imposter!' })
                         .eq('id', imposterPlayer.id);
                     break;
             }

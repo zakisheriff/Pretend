@@ -331,21 +331,18 @@ export default function OnlineGameScreen() {
                                         </View>
                                     )}
 
-                                    {isHost && gameMode !== 'directors-cut' && gameMode !== 'wavelength' && (
+                                    {/* Only show this button for modes without their own voting button */}
+                                    {isHost && !['directors-cut', 'wavelength', 'mind-sync', 'classic-imposter', 'undercover-word', 'pictionary'].includes(gameMode || '') && (
                                         <View style={{ marginTop: 10, width: '100%', paddingHorizontal: 40 }}>
                                             <Button
-                                                title={gameMode === 'wavelength' ? "Reveal Target" : "Start Voting"}
+                                                title={"Start Voting"}
                                                 onPress={async () => {
                                                     if (roomCode) {
-                                                        if (gameMode === 'wavelength') {
-                                                            await GameAPI.revealWavelength(roomCode);
-                                                        } else {
-                                                            await GameAPI.updateGamePhase(roomCode, 'voting');
-                                                        }
+                                                        await GameAPI.updateGamePhase(roomCode, 'voting');
                                                     }
                                                 }}
                                                 variant="outline"
-                                                icon={<Ionicons name={gameMode === 'wavelength' ? "eye-outline" : "finger-print"} size={20} color={Colors.parchment} />}
+                                                icon={<Ionicons name="finger-print" size={20} color={Colors.parchment} />}
                                             />
                                         </View>
                                     )}

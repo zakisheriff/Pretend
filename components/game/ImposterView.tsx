@@ -124,6 +124,102 @@ export function ImposterView({ players, myPlayerId, roomCode, gamePhase, isHost,
         );
     }
 
+    // Voting Phase
+    if (gamePhase === 'voting') {
+        const hasVoted = !!myPlayer?.vote;
+        const votedCount = players.filter(p => p.vote).length;
+
+        const handleVote = async (targetId: string) => {
+            if (targetId === myPlayerId) {
+                haptics.warning();
+                return;
+            }
+            haptics.selection();
+            await GameAPI.castVote(myPlayerId, targetId);
+        };
+
+        const handleEndVoting = async () => {
+            setLoading(true);
+            try {
+                // Calculate results could be done here or just move to results phase
+                await GameAPI.updateGamePhase(roomCode, 'results');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        return (
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Ionicons name="finger-print" size={24} color={Colors.parchment} />
+                    <Text style={styles.headerTitle}>VOTE TO ELIMINATE</Text>
+                </View>
+
+                <View style={styles.instructionsCard}>
+                    <Text style={styles.instructionsText}>
+                        {hasVoted
+                            ? "Waiting for others to vote..."
+                            : "Tap on the player you suspect is the Imposter!"}
+                    </Text>
+                </View>
+
+                <View style={{ width: '100%', flexDirection: 'row', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginTop: 24 }}>
+                    {players.map((p) => {
+                        const isMe = p.id === myPlayerId;
+                        const isSelected = myPlayer?.vote === p.id;
+                        const hasPlayerVoted = !!p.vote;
+
+                        return (
+                            <TouchableOpacity
+                                key={p.id}
+                                onPress={() => !hasVoted && handleVote(p.id)}
+                                activeOpacity={hasVoted ? 1 : 0.7}
+                                disabled={hasVoted || isMe}
+                                style={[
+                                    styles.playerVoteCard,
+                                    isSelected && styles.playerVoteCardSelected,
+                                    isMe && { opacity: 0.5 }
+                                ]}
+                            >
+                                <Ionicons
+                                    name="person"
+                                    size={24}
+                                    color={isSelected ? Colors.victorianBlack : (hasPlayerVoted ? Colors.candlelight : Colors.grayLight)}
+                                />
+                                <Text style={[
+                                    styles.playerVoteName,
+                                    isSelected && styles.playerVoteNameSelected
+                                ]}>
+                                    {isMe ? `${p.name} (You)` : p.name}
+                                </Text>
+                                {hasPlayerVoted && !isSelected && (
+                                    <View style={styles.votedBadge}>
+                                        <Ionicons name="checkmark" size={12} color={Colors.victorianBlack} />
+                                    </View>
+                                )}
+                            </TouchableOpacity>
+                        );
+                    })}
+                </View>
+
+                {isHost && (
+                    <View style={{ marginTop: 'auto', marginBottom: 20, width: '100%', alignItems: 'center' }}>
+                        <Text style={{ color: Colors.grayLight, marginBottom: 10 }}>
+                            {votedCount}/{players.length} players have voted
+                        </Text>
+                        <Button
+                            title="Reveal Results"
+                            onPress={handleEndVoting}
+                            variant="primary"
+                            loading={loading}
+                            icon={<Ionicons name="trophy" size={20} color={Colors.victorianBlack} />}
+                        />
+                    </View>
+                )}
+            </View>
+        );
+    }
+
     // Discussion Phase
     return (
         <View style={styles.container}>
@@ -338,5 +434,43 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: Colors.parchment,
         lineHeight: 20,
+    },
+
+    // Voting Styles
+    playerVoteCard: {
+        width: '45%',
+        aspectRatio: 1,
+        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+        borderRadius: 16,
+        padding: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        gap: 8,
+    },
+    playerVoteCardSelected: {
+        backgroundColor: Colors.parchment,
+        borderColor: Colors.parchment,
+    },
+    playerVoteName: {
+        fontSize: 14,
+        color: Colors.parchment,
+        fontWeight: '600',
+        textAlign: 'center',
+    },
+    playerVoteNameSelected: {
+        color: Colors.victorianBlack,
+    },
+    votedBadge: {
+        position: 'absolute',
+        top: 8,
+        right: 8,
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        backgroundColor: Colors.parchment,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });
